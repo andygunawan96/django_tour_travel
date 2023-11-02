@@ -1989,32 +1989,32 @@ function event_issued_alert(val){
     else
         text = "Are you sure you want to Hold Booking this booking?";
     Swal.fire({
-      title: text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
+        title: text,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
     }).then((result) => {
-      if (result.value) {
-        $('.next-loading-booking').prop('disabled', true);
-        $('.next-loading-issued').addClass("running");
-        $('.next-loading-issued').prop('disabled', true);
-        $('.loader-rodextrip').fadeIn();
-        document.getElementById("passengers").value = JSON.stringify({'booker':booker});
-        document.getElementById("signature").value = signature;
-        document.getElementById("provider").value = 'event';
-        document.getElementById("type").value = 'event';
-        document.getElementById("voucher_code").value = voucher_code;
-        document.getElementById("discount").value = JSON.stringify(discount_voucher);
-        document.getElementById("session_time_input").value = time_limit;
-        if(val == 1)
-            document.getElementById('event_issued').submit();
-        else{
-            a = document.getElementById("session_time_input").value
-            event_create_booking(val,a);
+        if (result.value) {
+            $('.next-loading-booking').prop('disabled', true);
+            $('.next-loading-issued').addClass("running");
+            $('.next-loading-issued').prop('disabled', true);
+            $('.loader-rodextrip').fadeIn();
+            document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+            document.getElementById("signature").value = signature;
+            document.getElementById("provider").value = 'event';
+            document.getElementById("type").value = 'event';
+            document.getElementById("voucher_code").value = voucher_code;
+            document.getElementById("discount").value = JSON.stringify(discount_voucher);
+            document.getElementById("session_time_input").value = time_limit;
+            if(val == 1)
+                document.getElementById('event_issued').submit();
+            else{
+                a = document.getElementById("session_time_input").value
+                event_create_booking(val,a);
+            }
         }
-    }
     })
 }
 
@@ -2139,166 +2139,165 @@ function event_issued(data){
     if(typeof(event_get_detail) !== 'undefined')
         temp_data = JSON.stringify(event_get_detail)
     Swal.fire({
-      title: 'Are you sure want to Issued this booking?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
+        title: 'Are you sure want to Issued this booking?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
     }).then((result) => {
-      if (result.value) {
-        show_loading();
-        please_wait_transaction();
+        if (result.value) {
+            show_loading();
+            please_wait_transaction();
 
-        if(document.getElementById('event_payment_form'))
-        {
-            var formData = new FormData($('#event_payment_form').get(0));
-        }
-        else
-        {
-            var formData = new FormData($('#global_payment_form').get(0));
-        }
-        formData.append('order_number', data);
-        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
-        formData.append('member', payment_acq2[payment_method][selected].method);
-        default_payment_to_ho = ''
-        if(total_price_payment_acq == 0)
-            default_payment_to_ho = 'balance'
-        formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho);
-        formData.append('signature', signature);
-        formData.append('voucher_code', voucher_code);
-        formData.append('booking', temp_data);
+            if(document.getElementById('event_payment_form'))
+            {
+                var formData = new FormData($('#event_payment_form').get(0));
+            }
+            else
+            {
+                var formData = new FormData($('#global_payment_form').get(0));
+            }
+            formData.append('order_number', data);
+            formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+            formData.append('member', payment_acq2[payment_method][selected].method);
+            default_payment_to_ho = ''
+            if(total_price_payment_acq == 0)
+                default_payment_to_ho = 'balance'
+            formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho);
+            formData.append('signature', signature);
+            formData.append('voucher_code', voucher_code);
+            formData.append('booking', temp_data);
 
-        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
-        {
-            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
-        }
-
-        getToken();
-        $.ajax({
-           type: "POST",
-           url: "/webservice/event",
-           headers:{
-                'action': 'issued',
-           },
-           data: formData,
-           success: function(msg) {
-               if(google_analytics != '')
-                   gtag('event', 'event_issued', {});
-               if(msg.result.error_code == 0){
-                   if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/event/booking/' + btoa(data);
-                   }else{
-                       //update ticket
-                       price_arr_repricing = {};
-                       pax_type_repricing = [];
-                       hide_modal_waiting_transaction();
-                       document.getElementById('event_booking').innerHTML = '';
-                       document.getElementById('event_detail').innerHTML = '';
-                       document.getElementById('payment_acq').innerHTML = '';
-                       document.getElementById('show_loading_booking_airline').style.display = 'block';
-                       document.getElementById('show_loading_booking_airline').hidden = false;
-                       document.getElementById('payment_acq').hidden = true;
-                       document.getElementById("overlay-div-box").style.display = "none";
-                       $(".issued_booking_btn").remove();
-                       event_get_booking(data);
-                   }
-               }else if(msg.result.error_code == 1009){
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('event_booking').innerHTML = '';
-                   document.getElementById('event_detail').innerHTML = '';
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('show_loading_booking_airline').style.display = 'block';
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('payment_acq').hidden = true;
-                   document.getElementById("overlay-div-box").style.display = "none";
-                   $(".issued_booking_btn").hide();
-                   Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
-                    }).then((result) => {
-                      if (result.value) {
+            if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+            {
+                formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+            }
+            getToken();
+            $.ajax({
+                type: "POST",
+                url: "/webservice/event",
+                headers:{
+                    'action': 'issued',
+                },
+                data: formData,
+                success: function(msg) {
+                    if(google_analytics != '')
+                        gtag('event', 'event_issued', {});
+                    if(msg.result.error_code == 0){
+                        if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                            window.location.href = '/event/booking/' + btoa(data);
+                        }else{
+                            //update ticket
+                            price_arr_repricing = {};
+                            pax_type_repricing = [];
+                            hide_modal_waiting_transaction();
+                            document.getElementById('event_booking').innerHTML = '';
+                            document.getElementById('event_detail').innerHTML = '';
+                            document.getElementById('payment_acq').innerHTML = '';
+                            document.getElementById('show_loading_booking_airline').style.display = 'block';
+                            document.getElementById('show_loading_booking_airline').hidden = false;
+                            document.getElementById('payment_acq').hidden = true;
+                            document.getElementById("overlay-div-box").style.display = "none";
+                            $(".issued_booking_btn").remove();
+                            event_get_booking(data);
+                        }
+                    }else if(msg.result.error_code == 1009){
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
                         hide_modal_waiting_transaction();
-                      }
-                    })
-                    hide_modal_waiting_transaction();
-                    document.getElementById("overlay-div-box").style.display = "none";
-
-                    $('.hold-seat-booking-train').prop('disabled', false);
-                    $('.hold-seat-booking-train').removeClass("running");
-                    event_get_booking(data);
-               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                    auto_logout();
-               }else{
-                    if(msg.result.error_code != 1007){
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('event_booking').innerHTML = '';
+                        document.getElementById('event_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+                        document.getElementById("overlay-div-box").style.display = "none";
+                        $(".issued_booking_btn").hide();
                         Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
-                        })
-                    }else{
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Error event issued '+ msg.result.error_msg,
-                          showCancelButton: true,
-                          cancelButtonText: 'Ok',
-                          confirmButtonColor: color,
-                          cancelButtonColor: '#3085d6',
-                          confirmButtonText: 'Top Up'
+                            type: 'error',
+                            title: 'Oops!',
+                            html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
                         }).then((result) => {
                             if (result.value) {
-                                window.location.href = '/top_up';
-                            }else{
-                                if(window.location.href.includes('payment')){
-                                    window.location.href = '/event/booking/'+data;
-                                }
+                                hide_modal_waiting_transaction();
                             }
                         })
-                    }
+                        hide_modal_waiting_transaction();
+                        document.getElementById("overlay-div-box").style.display = "none";
 
+                        $('.hold-seat-booking-train').prop('disabled', false);
+                        $('.hold-seat-booking-train').removeClass("running");
+                        event_get_booking(data);
+                    }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                        auto_logout();
+                    }else{
+                        if(msg.result.error_code != 1007){
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops!',
+                                html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
+                            })
+                        }else{
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Error event issued '+ msg.result.error_msg,
+                                showCancelButton: true,
+                                cancelButtonText: 'Ok',
+                                confirmButtonColor: color,
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Top Up'
+                            }).then((result) => {
+                                if (result.value) {
+                                    window.location.href = '/top_up';
+                                }else{
+                                    if(window.location.href.includes('payment')){
+                                        window.location.href = '/event/booking/'+data;
+                                    }
+                                }
+                            })
+                        }
+
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('event_booking').innerHTML = '';
+                        document.getElementById('event_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+
+                        hide_modal_waiting_transaction();
+                        document.getElementById("overlay-div-box").style.display = "none";
+
+                        $('.hold-seat-booking-train').prop('disabled', false);
+                        $('.hold-seat-booking-train').removeClass("running");
+                        event_get_booking(data);
+                    }
+                },
+                contentType:false,
+                processData:false,
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error event issued');
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('event_booking').innerHTML = '';
-                    document.getElementById('event_detail').innerHTML = '';
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
-
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
-
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     event_get_booking(data);
-               }
-           },
-           contentType:false,
-           processData:false,
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error event issued');
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('airline_booking').innerHTML = '';
-                document.getElementById('airline_detail').innerHTML = '';
-                document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('show_loading_booking_airline').style.display = 'block';
-                document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('payment_acq').hidden = true;
-                hide_modal_waiting_transaction();
-                document.getElementById("overlay-div-box").style.display = "none";
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                event_get_booking(data);
-           },timeout: 300000
-        });
-      }
+                },timeout: 300000
+            });
+        }
     })
 }
 

@@ -2986,75 +2986,76 @@ function group_booking_issued_booking(){
     if(total_price_payment_acq == 0)
         default_payment_to_ho = 'balance'
     getToken();
+    data = {
+        'order_number': order_number,
+        'payment_method': payment_method_choice,
+        'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
+        'member': payment_acq2[payment_method][selected].method,
+        'agent_payment': document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho,
+        'signature': signature,
+        'voucher_code': voucher_code,
+    }
     $.ajax({
-       type: "POST",
-       url: "/webservice/group_booking",
-       headers:{
+        type: "POST",
+        url: "/webservice/group_booking",
+        headers:{
             'action': 'issued_booking',
-       },
-       data: {
-           'order_number': order_number,
-           'payment_method': payment_method_choice,
-           'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-           'member': payment_acq2[payment_method][selected].method,
-           'agent_payment': document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho,
-           'signature': signature,
-           'voucher_code': voucher_code,
-       },
-       success: function(msg) {
-           if(google_analytics != '')
-               gtag('event', 'groupbooking_issued', {});
-           if(msg.result.error_code == 0){
-               $("#issuedModal").modal('hide');
-               try{
-                   if(msg.result.response.state == 'issued')
+        },
+        data: data,
+        success: function(msg) {
+            if(google_analytics != '')
+                gtag('event', 'groupbooking_issued', {});
+            if(msg.result.error_code == 0){
+                $("#issuedModal").modal('hide');
+                try{
+                    if(msg.result.response.state == 'issued')
                         print_success_issued();
-                   else
+                    else
                         print_fail_issued();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
-               if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                     window.location.href = '/tour/booking/' + btoa(order_number);
-               }else{
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   group_booking_get_booking(order_number);
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('payment_acq').hidden = true;
-                   $("#issuedModal").modal('hide');
-                   hide_modal_waiting_transaction();
-                   document.getElementById("overlay-div-box").style.display = "none";
-               }
-           }else if(msg.result.error_code == 1009){
-               price_arr_repricing = {};
-               pax_type_repricing = [];
-               document.getElementById('payment_acq').innerHTML = '';
-               document.getElementById('payment_acq').hidden = true;
-               $("#issuedModal").modal('hide');
-               hide_modal_waiting_transaction();
-               document.getElementById("overlay-div-box").style.display = "none";
-               document.getElementById('tour_final_info').innerHTML = text;
-               document.getElementById('product_title').innerHTML = '';
-               document.getElementById('product_type_title').innerHTML = '';
-               document.getElementById('tour_detail_table').innerHTML = '';
-               group_booking_get_booking(order_number);
-           }else{
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    group_booking_get_booking(order_number);
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    $("#issuedModal").modal('hide');
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+                }
+            }else if(msg.result.error_code == 1009){
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('payment_acq').hidden = true;
+                $("#issuedModal").modal('hide');
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                document.getElementById('tour_final_info').innerHTML = text;
+                document.getElementById('product_title').innerHTML = '';
+                document.getElementById('product_type_title').innerHTML = '';
+                document.getElementById('tour_detail_table').innerHTML = '';
+                group_booking_get_booking(order_number);
+            }else{
                 if(msg.result.error_code != 1007){
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error group booking issued </span>' + msg.result.error_msg,
+                        type: 'error',
+                        title: 'Oops!',
+                        html: '<span style="color: #ff9900;">Error group booking issued </span>' + msg.result.error_msg,
                     })
                 }else{
                     Swal.fire({
-                      type: 'error',
-                      title: 'Error group booking issued '+ msg.result.error_msg,
-                      showCancelButton: true,
-                      cancelButtonText: 'Ok',
-                      confirmButtonColor: color,
-                      cancelButtonColor: '#3085d6',
-                      confirmButtonText: 'Top Up'
+                        type: 'error',
+                        title: 'Error group booking issued '+ msg.result.error_msg,
+                        showCancelButton: true,
+                        cancelButtonText: 'Ok',
+                        confirmButtonColor: color,
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Top Up'
                     }).then((result) => {
                         if (result.value) {
                             window.location.href = '/top_up';

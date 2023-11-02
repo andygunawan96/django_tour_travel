@@ -824,13 +824,13 @@ function visa_commit_booking(){
 
     getToken();
     $.ajax({
-       type: "POST",
-       url: "/webservice/visa",
-       headers:{
+        type: "POST",
+        url: "/webservice/visa",
+        headers:{
             'action': 'commit_booking',
-       },
-       data: formData,
-       success: function(msg) {
+        },
+        data: formData,
+        success: function(msg) {
             if(google_analytics != '')
                 gtag('event', 'visa_hold_booking', {});
             if(msg.result.error_code == 0){
@@ -851,13 +851,13 @@ function visa_commit_booking(){
                   html: '<span style="color: #ff9900;">Error visa commit booking </span>' + msg.result.error_msg,
                 })
             }
-       },
-       contentType:false,
-       processData:false,
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        contentType:false,
+        processData:false,
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa commit booking');
             hide_modal_waiting_transaction();
-       },timeout: 180000
+        },timeout: 180000
     });
 }
 

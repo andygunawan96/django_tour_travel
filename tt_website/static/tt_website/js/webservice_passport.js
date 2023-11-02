@@ -758,13 +758,13 @@ function passport_commit_booking(){
 
     getToken();
     $.ajax({
-       type: "POST",
-       url: "/webservice/passport",
-       headers:{
+        type: "POST",
+        url: "/webservice/passport",
+        headers:{
             'action': 'commit_booking',
-       },
-       data: formData,
-       success: function(msg) {
+        },
+        data: formData,
+        success: function(msg) {
             if(google_analytics != ''){
                 if(formData.get('member'))
                     gtag('event', 'passport_issued', {});
@@ -784,13 +784,13 @@ function passport_commit_booking(){
 //                close_div('payment_acq');
                 set_payment('Issued','passport');
             }
-       },
-       contentType:false,
-       processData:false,
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        contentType:false,
+        processData:false,
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa commit booking');
             hide_modal_waiting_transaction();
-       },timeout: 180000
+        },timeout: 180000
     });
 }
 

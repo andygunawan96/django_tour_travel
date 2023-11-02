@@ -173,6 +173,12 @@ def api_models(request):
             res = create_va_number(request)
         elif req_data['action'] == 'get_provider_type':
             res = get_provider_type(request)
+        elif req_data['action'] == 'turn_on_pin':
+            res = turn_on_pin(request)
+        elif req_data['action'] == 'turn_off_pin':
+            res = turn_off_pin(request)
+        elif req_data['action'] == 'change_pin':
+            res = change_pin(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1901,6 +1907,63 @@ def get_provider_type(request):
                 "sequence": file[provider_type]['sequence'],
                 "display": file[provider_type]['display'] if file[provider_type].get('display') else ("%s%s" % (provider_type[0].upper(), provider_type[1:]))
             })
+    return res
+
+def turn_on_pin(request):
+    try:
+        data = {
+            'pin': request.POST['pin'],
+            'confirm_pin': request.POST['confirm_pin']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "turn_on_pin_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    return res
+
+def turn_off_pin(request):
+    try:
+        data = {
+            'pin': request.POST['pin']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "turn_off_pin_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    return res
+
+def change_pin(request):
+    try:
+        data = {
+            'old_pin': request.POST['old_pin'],
+            'pin': request.POST['new_pin'],
+            'confirm_pin': request.POST['confirm_pin']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "change_pin_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
     return res
 
 #DEPRECATED
