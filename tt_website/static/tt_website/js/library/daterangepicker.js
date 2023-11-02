@@ -873,7 +873,7 @@ function get_public_holiday(start_date, end_date){
                     if(this.locale.disableDays != ''){
                         const d_myArrayDisableDays = this.locale.disableDays.split(",");
                         for (var idx_dis = 0; idx_dis < d_myArrayDisableDays.length; idx_dis++) {
-                            if((col+1) == parseInt(d_myArrayDisableDays[idx_dis])){
+                            if(col == parseInt(d_myArrayDisableDays[idx_dis])){
                                 classes.push('off', 'disabled');
                             }
                         }
