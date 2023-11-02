@@ -1174,7 +1174,7 @@ function activation_otp_user_api(){
             "unique_id": machine_id,
             "browser": web_vendor,
             "timezone": timezone,
-            'otp_type': document.getElementById('otp_type') ? document.getElementById('otp_type').value : false
+            'otp_type': document.getElementById('otp_user_type') ? document.getElementById('otp_user_type').value : false
        },
        success: function(msg) {
             console.log(msg);
