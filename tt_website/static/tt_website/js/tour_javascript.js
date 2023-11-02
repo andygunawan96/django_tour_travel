@@ -356,6 +356,7 @@ function select_tour_date(key_change_date){
             startDate: dr_picker_start,
             minDate: dr_picker_start,
             maxDate: line_data.arrival_date_str,
+            disableDays: line_data.restricted_days_idx.join(','),
             showDropdowns: true,
             opens: 'center',
             locale: {
