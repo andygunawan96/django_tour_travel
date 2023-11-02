@@ -169,7 +169,7 @@
                         if(temp_action != ''){
                             temp_action += ' ';
                         }
-                        temp_action += temp_mode[i].substr(0,1).toUpperCase() + temp_mode[i].substr(1, temp_mode.length).toLowerCase();
+                        temp_action += temp_mode[i].substr(0,1).toUpperCase() + temp_mode[i].substr(1, temp_mode[i].length).toLowerCase();
                     }
                     if(msg.result.error_code == 0){
                         Swal.fire({
