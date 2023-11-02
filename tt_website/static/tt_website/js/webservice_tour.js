@@ -966,7 +966,7 @@ function tour_get_details(tour_code){
                                 <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
                             </div>
                             <div class="col-xs-6" style="padding:0px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button>
+                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
                             </div>
                             <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
                                 <div class="row">`;
@@ -1417,7 +1417,7 @@ function tour_get_details_by_slug(tour_slug){
                                 <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
                             </div>
                             <div class="col-xs-6" style="padding:0px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button>
+                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
                             </div>
                             <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
                                 <div class="row">`;
