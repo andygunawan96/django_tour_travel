@@ -10,30 +10,6 @@ var tour_type_list = [
         value:'All',
         real_val: 'all',
         status: true
-    },{
-        value:'Series (With Tour Leader)',
-        real_val: 'series',
-        status: false
-    },{
-        value:'SIC (Without Tour Leader)',
-        real_val: 'sic',
-        status: false
-    },{
-        value:'Land Only',
-        real_val: 'land',
-        status: false
-    },{
-        value:'City Tour',
-        real_val: 'city',
-        status: false
-    },{
-        value:'Open Trip',
-        real_val: 'open',
-        status: false
-    },{
-        value:'Private Tour',
-        real_val: 'private',
-        status: false
     }
 ]
 
@@ -302,7 +278,7 @@ function select_tour_date(key_change_date){
     content_modal_special = '';
     footer_add = '';
     check_available_date = 0;
-    if (tour_data.tour_type == 'open')
+    if (tour_data.tour_type.is_open_date)
     {
         if (line_data.special_date_list.length != 0){
             for (dt in line_data.special_date_list){
@@ -357,7 +333,7 @@ function select_tour_date(key_change_date){
     document.getElementById('tour_line_code').value = line_data.tour_line_code;
     document.getElementById('tour_line_display').value = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
     selected_tour_date = line_data.departure_date_str + ' - ' + line_data.arrival_date_str;
-    if (tour_data.tour_type == 'open')
+    if (tour_data.tour_type.is_open_date)
     {
         var open_tour_elements = document.getElementsByClassName('open_tour_date');
         for (var i = 0; i < open_tour_elements.length; i ++) {
@@ -387,6 +363,7 @@ function select_tour_date(key_change_date){
                 productDate: 'tour',
                 styleDate: 'special_date_tour',
                 dataDate: special_date_data,
+                disableDays: line_data.restricted_days_idx.join(','),
                 footerAdd: footer_add,
             }
         },function(start, end, label) {
@@ -433,7 +410,21 @@ function select_tour_date(key_change_date){
             }
             room_amount = 0;
             document.getElementById("tour_room_input").innerHTML = "";
-            reset_tour_table_detail();
+            if (tour_data.tour_type.is_can_choose_hotel && tour_data.duration > 1)
+            {
+                reset_tour_table_detail();
+            }
+            else
+            {
+                if (tour_data.accommodations.length > 0)
+                {
+                    add_tour_room(0);
+                }
+                else
+                {
+                    document.getElementById('tour_room_input').innerHTML = '<span style="color: #ff9900;">No Available Accommodations</span>';
+                }
+            }
         });
     }
     else
@@ -444,7 +435,21 @@ function select_tour_date(key_change_date){
     $('#ChangeDateModal').modal('hide');
     room_amount = 0;
     document.getElementById("tour_room_input").innerHTML = "";
-    reset_tour_table_detail();
+    if (tour_data.tour_type.is_can_choose_hotel && tour_data.duration > 1)
+    {
+        reset_tour_table_detail();
+    }
+    else
+    {
+        if (tour_data.accommodations.length > 0)
+        {
+            add_tour_room(0);
+        }
+        else
+        {
+            document.getElementById('tour_room_input').innerHTML = '<span style="color: #ff9900;">No Available Accommodations</span>';
+        }
+    }
 }
 
 function set_tour_arrival_date(){
@@ -495,7 +500,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
                     <span id="room_choose_infant`+idx+`"></span>
                 </h6>`;
                 if (room_data.bed_type=="double"){
-                    template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>Not Request</span></span>`;
+                    template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>No Request</span></span>`;
                 }else{
                     template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span style="color:#f23548">Can't Request <i class="fas fa-times"></i></span></span>`;
                 }
@@ -705,7 +710,7 @@ function check_detail(){
     {
         error_check += 'Please select Tour Package!\n';
     }
-    if (tour_data.tour_type == 'open')
+    if (tour_data.tour_type.is_open_date)
     {
         if (document.getElementById('open_tour_departure_date').value == '')
         {
@@ -1644,7 +1649,7 @@ function filtering(type, exist_check){
            data.forEach((obj)=> {
                check = 0;
                tour_type_list.forEach((obj1)=> {
-                   if(obj.tour_type == obj1.real_val && obj1.status==true){
+                   if(obj.tour_type.seq_id == obj1.real_val && obj1.status==true){
                        check = 1;
                    }
                });
@@ -1778,7 +1783,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
                                                             <h6 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
-                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                if(!tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
@@ -1788,7 +1793,7 @@ function sort(tour_dat, exist_check){
                                                         text+=`
                                                             <div style="display:flex;">
                                                                 <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                                if(tour_dat[i].tour_type == 'open'){
+                                                                if(tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                                 }else{
                                                                     text+=tour_dat[i].tour_type_str;
@@ -1849,7 +1854,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
                                                             <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
-                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                if(!tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
@@ -1861,7 +1866,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
                                                             <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type == 'open'){
+                                                            if(tour_dat[i].tour_type.is_open_date){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
                                                                 text+=tour_dat[i].tour_type_str;
@@ -1899,7 +1904,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
                                                             <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
-                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                if(!tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
@@ -1911,7 +1916,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
                                                             <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type == 'open'){
+                                                            if(tour_dat[i].tour_type.is_open_date){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
                                                                 text+=tour_dat[i].tour_type_str;
@@ -1949,7 +1954,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
                                                             <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
-                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                if(!tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
@@ -1961,7 +1966,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
                                                             <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type == 'open'){
+                                                            if(tour_dat[i].tour_type.is_open_date){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
                                                                 text+=tour_dat[i].tour_type_str;
@@ -1998,7 +2003,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
                                                             <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
-                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                if(!tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
@@ -2010,7 +2015,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
                                                             <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type == 'open'){
+                                                            if(tour_dat[i].tour_type.is_open_date){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
                                                                 text+=tour_dat[i].tour_type_str;
@@ -2048,7 +2053,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2" style="text-align:left; height:170px;">
                                                             <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
-                                                                if(tour_dat[i].tour_type != 'open'){
+                                                                if(!tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
@@ -2060,7 +2065,7 @@ function sort(tour_dat, exist_check){
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
                                                             <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type == 'open'){
+                                                            if(tour_dat[i].tour_type.is_open_date){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
                                                                 text+=tour_dat[i].tour_type_str;
@@ -2118,24 +2123,7 @@ function sort(tour_dat, exist_check){
            content_pop_date = '';
            content_pop_question = '';
            title_pop_date = '';
-           if(tour_dat[i].tour_type == 'series'){
-                content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
-            }
-            else if(tour_dat[i].tour_type == 'sic'){
-                content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
-            }
-            else if(tour_dat[i].tour_type == 'land'){
-                content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
-            }
-            else if(tour_dat[i].tour_type == 'city'){
-                content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
-            }
-            else if(tour_dat[i].tour_type == 'open'){
-                content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
-            }
-            else if(tour_dat[i].tour_type == 'private'){
-                content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
-            }
+           content_pop_question+=`<b>`+tour_dat[i].tour_type.name+`: </b>`+tour_dat[i].tour_type.description;
 
             new jBox('Tooltip', {
                 attach: '#pop_question'+i,
@@ -2148,7 +2136,7 @@ function sort(tour_dat, exist_check){
             if(tour_dat[i].tour_line_amount != 0){
                 for (j in tour_dat[i].tour_lines){
                     sch_count = parseInt(j)+1;
-                    if(tour_dat[i].tour_type != 'open'){
+                    if(!tour_dat[i].tour_type.is_open_date){
                         content_pop_date += `<h6>Schedule - `+sch_count+`</h6>`;
                         title_pop_date += 'Available Date';
                     }else{
@@ -2273,7 +2261,7 @@ function tour_table_detail()
             'tour_code': tour_data.tour_code,
             'room_list': room_ids_list,
         };
-        if(tour_data.tour_type == 'open')
+        if(tour_data.tour_type.is_open_date)
         {
             request['tour_line_code'] = document.getElementById('tour_line_code').value;
             request['departure_date'] = document.getElementById('open_tour_departure_date').value;
@@ -2293,7 +2281,15 @@ function reset_tour_table_detail()
     }
     else
     {
-        $('#btnDeleteRooms').show();
+        if (tour_data.tour_type.is_can_choose_hotel && tour_data.duration > 1)
+        {
+            $('#btnDeleteRooms').show();
+        }
+        else
+        {
+            $('#btnShowRooms').hide();
+            $('#btnDeleteRooms').hide();
+        }
         $('#add_room_first').hide();
         document.getElementById('tour_detail_next_btn').innerHTML = `
         <center>
@@ -2471,7 +2467,7 @@ function room_chose_render(data_ren, id, type_ren){
        if(r_choose_input.value != ""){
             r_choose_special.innerHTML = `Special Request: <span style="color:#41b83b">Requested <i class="fas fa-check"></i></span>`;
        }else{
-            r_choose_special.innerHTML = `Special Request: <span>Not Request</span>`;
+            r_choose_special.innerHTML = `Special Request: <span>No Request</span>`;
        }
     }
 }

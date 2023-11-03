@@ -76,8 +76,10 @@ def tour(request):
             # tour
             try:
                 tour_countries = response['result']['response']['tour']['countries']
+                tour_types = response['result']['response']['tour']['tour_types']
             except Exception as e:
                 tour_countries = []
+                tour_types = []
                 _logger.error(str(e) + '\n' + traceback.format_exc())
             # tour
 
@@ -91,6 +93,7 @@ def tour(request):
                 'username': request.session['user_account'],
                 # 'co_uid': request.session['co_uid'],
                 'tour_countries': tour_countries,
+                'tour_types': tour_types,
                 'javascript_version': javascript_version,
                 'update_data': 'false',
                 'static_path_url_server': get_url_static_path(),
@@ -479,7 +482,7 @@ def passenger(request, signature=''):
                 file = read_cache_file(request, signature, 'tour_pick')
                 if file:
                     tour_pick = file
-                    if tour_pick['tour_type'] == 'open':
+                    if tour_pick['tour_type']['is_open_date']:
                         tour_dept_date = request.POST.get('open_tour_departure_date') and datetime.strptime(request.POST['open_tour_departure_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
                         tour_arr_date = request.POST.get('open_tour_arrival_date') and datetime.strptime(request.POST['open_tour_arrival_date'], '%d %b %Y').strftime('%Y-%m-%d') or ''
                     else:

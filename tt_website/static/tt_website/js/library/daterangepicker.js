@@ -103,6 +103,7 @@ function get_public_holiday(start_date, end_date){
             direction: 'ltr',
             format: moment.localeData().longDateFormat('L'),
             separator: ' - ',
+            disableDays: '',
             applyLabel: 'Apply',
             cancelLabel: 'Cancel',
             weekLabel: 'W',
@@ -167,6 +168,9 @@ function get_public_holiday(start_date, end_date){
 
             if (typeof options.locale.dataDate === 'object')
                 this.locale.dataDate = options.locale.dataDate.slice();
+
+            if (typeof options.locale.disableDays === 'string')
+                this.locale.disableDays = options.locale.disableDays;
 
             if (typeof options.locale.direction === 'string')
                 this.locale.direction = options.locale.direction;
@@ -862,6 +866,15 @@ function get_public_holiday(start_date, end_date){
                                     footer += '<div style="margin-bottom:10px;"><span style="font-size:12px; color:red; padding:3px; border:1px solid black; background:#f7f7f7;"> ' + tempDateRender2 + '</span> <span style="font-size:12px;"> '+ date_api.result.response[i].name +' </span></div>';
                                     classes.push('holiday');
                                 }
+                            }
+                        }
+                    }
+
+                    if(this.locale.disableDays != ''){
+                        const d_myArrayDisableDays = this.locale.disableDays.split(",");
+                        for (var idx_dis = 0; idx_dis < d_myArrayDisableDays.length; idx_dis++) {
+                            if(col == parseInt(d_myArrayDisableDays[idx_dis])){
+                                classes.push('off', 'disabled');
                             }
                         }
                     }

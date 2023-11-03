@@ -1147,11 +1147,11 @@
                                         </div>
                                         <br/>
                                         <div id="tour_room_input_show" style="display:none;">
-                                            <h4 class="mb-3">{% trans 'Room Settings' %}</h4>
+                                            <h4 class="mb-3">{% trans 'Accommodations' %}</h4>
                                             <input type="hidden" id="room_amount" name="room_amount"/>
                                             <div class="row mb-3">
                                                 <div class="col-lg-12">
-                                                    <button id="btnShowRooms" class="primary-btn-ticket space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add Room' %}</button>
+                                                    <button id="btnShowRooms" class="primary-btn-ticket space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                                                     <button id="btnDeleteRooms" class="primary-btn-ticket space" type="button" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
                                                 </div>
                                             </div>
@@ -1168,7 +1168,7 @@
                                             <br/><span id="product_date" style="font-size:13px; font-weight:500;"></span>
                                             <br/><br/>
                                             <center>
-                                                <h6 id="add_room_first">Please Choose Package, Select Departure Date and Add Room First</h6>
+                                                <h6 id="add_room_first">Please choose package, select departure date and adjust accommodation first</h6>
                                             </center>
                                             <div id="loading-price-tour" style="margin-bottom:20px; display:none;">
                                                 <div class="col-lg-12">
@@ -1212,7 +1212,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">{% trans 'Room Available' %}</h5>
+                            <h5 class="modal-title">{% trans 'Accommodation Options' %}</h5>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">

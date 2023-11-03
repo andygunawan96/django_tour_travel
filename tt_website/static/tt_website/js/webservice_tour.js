@@ -349,6 +349,18 @@ function get_tour_config(type, val){
             sub_category = {};
             var tour_search_template = msg.tour_search_template;
             var country_selection = document.getElementById('tour_countries');
+            tour_type_list = [{
+                value:'All',
+                real_val: 'all',
+                status: true
+            }]
+            for (rec_type in msg.tour_types){
+                tour_type_list.push({
+                    value: msg.tour_types[rec_type].name,
+                    real_val: msg.tour_types[rec_type].seq_id,
+                    status: false
+                })
+            }
 
             for(i in msg.tour_countries){
                 var city = [];
@@ -554,24 +566,7 @@ function tour_search(){
                    content_pop_date = '';
                    content_pop_question = '';
                    title_pop_date = '';
-                   if(tour_data[i].tour_type == 'series'){
-                        content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
-                    }
-                    else if(tour_data[i].tour_type == 'sic'){
-                        content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
-                    }
-                    else if(tour_data[i].tour_type == 'land'){
-                        content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
-                    }
-                    else if(tour_data[i].tour_type == 'city'){
-                        content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
-                    }
-                    else if(tour_data[i].tour_type == 'open'){
-                        content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
-                    }
-                    else if(tour_data[i].tour_type == 'private'){
-                        content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
-                    }
+                   content_pop_question+=`<b>`+tour_data[i].tour_type.name+`: </b>`+tour_data[i].tour_type.description;
 
                     new jBox('Tooltip', {
                         attach: '#pop_question'+i,
@@ -584,7 +579,7 @@ function tour_search(){
                     if(tour_data[i].tour_line_amount != 0){
                         for (j in tour_data[i].tour_lines){
                             sch_count = parseInt(j)+1;
-                            if(tour_data[i].tour_type != 'open'){
+                            if(!tour_data[i].tour_type.is_open_date){
                                 content_pop_date += `<h6>Schedule - `+sch_count+`</h6>`;
                                 title_pop_date += 'Available Date';
                             }else{
@@ -678,30 +673,13 @@ function tour_get_details(tour_code){
                 country_text += `
                 <div style="display:flex; margin-top:4px; margin-bottom:4px;">
                     <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
-                    if(tour_data.tour_type == 'open'){
+                    if(tour_data.tour_type.is_open_date){
                         country_text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_data.tour_type_str+`</span>`;
                     }else{
                         country_text+=tour_data.tour_type_str;
                     }
 
-               if(tour_data.tour_type == 'series'){
-                    content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'sic'){
-                    content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'land'){
-                    content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
-                }
-                else if(tour_data.tour_type == 'city'){
-                    content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
-                }
-                else if(tour_data.tour_type == 'open'){
-                    content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
-                }
-                else if(tour_data.tour_type == 'private'){
-                    content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
-                }
+                content_pop_question+=`<b>`+tour_data.tour_type.name+`: </b>`+tour_data.tour_type.description;
 
                 country_text+=`
                     </div>
@@ -740,7 +718,7 @@ function tour_get_details(tour_code){
                 }else{
                     country_text += ``;
                 }
-                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Hotel(s) :</span>`;
+                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Accommodation(s) :</span>`;
                 idx = 1
                 for (k in tour_data.hotel_names)
                 {
@@ -936,7 +914,7 @@ function tour_get_details(tour_code){
 
                 other_info_text += generate_other_info(tour_data.other_infos)
 
-                if (tour_data.tour_type == 'open')
+                if (tour_data.tour_type.is_open_date)
                 {
                     header_list_text = `
                     <th style="width:20%;">Available From</th>
@@ -988,7 +966,7 @@ function tour_get_details(tour_code){
                                 <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
                             </div>
                             <div class="col-xs-6" style="padding:0px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button>
+                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
                             </div>
                             <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
                                 <div class="row">`;
@@ -1147,30 +1125,12 @@ function tour_get_details_by_slug(tour_slug){
                 country_text += `
                 <div style="display:flex; margin-top:4px; margin-bottom:4px;">
                     <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
-                    if(tour_data.tour_type == 'open'){
+                    if(tour_data.tour_type.is_open_date){
                         country_text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_data.tour_type_str+`</span>`;
                     }else{
                         country_text+=tour_data.tour_type_str;
                     }
-
-               if(tour_data.tour_type == 'series'){
-                    content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'sic'){
-                    content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'land'){
-                    content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
-                }
-                else if(tour_data.tour_type == 'city'){
-                    content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
-                }
-                else if(tour_data.tour_type == 'open'){
-                    content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
-                }
-                else if(tour_data.tour_type == 'private'){
-                    content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
-                }
+                content_pop_question+=`<b>`+tour_data.tour_type.name+`: </b>`+tour_data.tour_type.description;
 
                 country_text+=`
                     </div>
@@ -1209,7 +1169,7 @@ function tour_get_details_by_slug(tour_slug){
                 }else{
                     country_text += ``;
                 }
-                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Hotel(s) :</span>`;
+                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Accommodation(s) :</span>`;
                 idx = 1
                 for (k in tour_data.hotel_names)
                 {
@@ -1405,7 +1365,7 @@ function tour_get_details_by_slug(tour_slug){
 
                 other_info_text += generate_other_info(tour_data.other_infos)
 
-                if (tour_data.tour_type == 'open')
+                if (tour_data.tour_type.is_open_date)
                 {
                     header_list_text = `
                     <th style="width:20%;">Available From</th>
@@ -1457,7 +1417,7 @@ function tour_get_details_by_slug(tour_slug){
                                 <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
                             </div>
                             <div class="col-xs-6" style="padding:0px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button>
+                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
                             </div>
                             <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
                                 <div class="row">`;
@@ -2615,7 +2575,7 @@ function tour_get_booking(order_number)
                             </div>
                     `;
 
-                   if (tour_package.tour_type == 'open')
+                   if (tour_package.tour_type.is_open_date)
                    {
                        text += `
                        <div class="row">
@@ -3364,7 +3324,7 @@ function get_price_itinerary(request,type) {
        'provider': tour_data.provider,
        'signature': signature
     }
-    if (tour_data.tour_type == 'open')
+    if (tour_data.tour_type.is_open_date)
     {
         get_price_req['tour_line_code'] = dict_req.tour_line_code;
         get_price_req['departure_date'] = dict_req.departure_date;
