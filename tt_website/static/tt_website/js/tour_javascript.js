@@ -1323,7 +1323,7 @@ function tour_hold_booking(val){
     else
     {
         $("#issuedModal").modal('hide');
-        document.getElementById('show_error_log').innerHTML = "Please assign a room to each passengers.";
+        document.getElementById('show_error_log').innerHTML = "Please assign an accommodation to each passengers.";
         $("#myModalErrorReview").modal('show');
     }
 }

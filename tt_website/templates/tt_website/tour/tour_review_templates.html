@@ -182,15 +182,15 @@
                                         <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
                                             <div class="form-select" id="default-select">
                                                 {%endif%}
-                                                <select {%if template == 4%} class="nice-select-default rounded" {%endif%} id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});" data-live-search="true">
-                                                    <option value="0">{% trans 'Please select a room!' %}</option>
+                                                <select {% if template == 4 %} class="nice-select-default rounded" {% endif %} id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});" data-live-search="true">
+                                                    <option value="0">{% trans 'Please select an accommodation!' %}</option>
                                                     {% for room in room_list %}
                                                     {% if pax.pax_type == 'ADT' and room.adult > 0 %}
-                                                    <option value="{{forloop.counter}}">{% trans 'Room' %} {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                    <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
                                                     {% elif pax.pax_type == 'CHD' and room.child > 0 %}
-                                                    <option value="{{forloop.counter}}">{% trans 'Room' %} {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                    <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
                                                     {% elif pax.pax_type == 'INF' and room.infant > 0 %}
-                                                    <option value="{{forloop.counter}}">{% trans 'Room' %} {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                    <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
                                                     {% endif %}
                                                     {% endfor %}
                                                 </select>
