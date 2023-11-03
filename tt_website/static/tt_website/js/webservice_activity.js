@@ -2694,6 +2694,8 @@ function activity_commit_booking(val){
         }
     }catch(err){
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
     getToken();
     $.ajax({
        type: "POST",
@@ -2801,6 +2803,8 @@ function activity_issued_booking(order_number)
     formData.append('signature', signature);
     formData.append('voucher_code', voucher_code);
     formData.append('booking', temp_data);
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
     if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
     {
         formData.append('payment_reference', document.getElementById('pay_ref_text').value);

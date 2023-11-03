@@ -713,6 +713,8 @@ function train_create_booking(val, type=''){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
     $.ajax({
         type: "POST",
         url: "/webservice/train",
@@ -2471,6 +2473,8 @@ function train_issued(data){
             {
                 formData.append('payment_reference', document.getElementById('pay_ref_text').value);
             }
+            if(document.getElementById('pin') && document.getElementById('pin').value)
+                formData.append('pin', document.getElementById('pin').value);
 
             $.ajax({
                 type: "POST",
@@ -2571,13 +2575,16 @@ function train_issued(data){
                         }
                         price_arr_repricing = {};
                         pax_type_repricing = [];
-                        document.getElementById('show_loading_booking_train').hidden = true;
-                        document.getElementById('train_booking').innerHTML = '';
-                        document.getElementById('train_detail').innerHTML = '';
-                        document.getElementById('payment_acq').innerHTML = '';
-                        document.getElementById('show_loading_booking_train').style.display = 'block';
-                        document.getElementById('show_loading_booking_train').hidden = false;
-                        document.getElementById('payment_acq').hidden = true;
+                        if(document.URL.split('/')[document.URL.split('/').length-1] != 'payment'){
+                            document.getElementById('show_loading_booking_train').hidden = true;
+                            document.getElementById('train_booking').innerHTML = '';
+                            document.getElementById('train_detail').innerHTML = '';
+                            document.getElementById('payment_acq').innerHTML = '';
+                            document.getElementById('show_loading_booking_train').style.display = 'block';
+                            document.getElementById('show_loading_booking_train').hidden = false;
+                            document.getElementById('payment_acq').hidden = true;
+                            train_get_booking(data);
+                        }
                         document.getElementById("overlay-div-box").style.display = "none";
                         try{
                             document.getElementById('voucher_discount').style.display = 'none';
@@ -2587,7 +2594,7 @@ function train_issued(data){
                         $('.hold-seat-booking-train').prop('disabled', false);
                         $('.hold-seat-booking-train').removeClass("running");
                         hide_modal_waiting_transaction();
-                        train_get_booking(data);
+
                     }
                 },
                 contentType:false,

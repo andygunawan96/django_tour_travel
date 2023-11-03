@@ -1744,6 +1744,8 @@ function commit_booking_tour(val)
         }
     }catch(err){
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
     getToken();
     $.ajax({
         type: "POST",
@@ -1914,6 +1916,8 @@ function tour_issued_booking(order_number)
     {
         formData.append('payment_reference', document.getElementById('pay_ref_text').value);
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
 
     getToken();
     $.ajax({

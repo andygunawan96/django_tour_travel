@@ -7168,6 +7168,8 @@ function airline_commit_booking(val){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -12072,7 +12074,8 @@ function airline_issued(data){
         {
             formData.append('payment_reference', document.getElementById('pay_ref_text').value);
         }
-
+        if(document.getElementById('pin') && document.getElementById('pin').value)
+            formData.append('pin', document.getElementById('pin').value);
         getToken();
         $.ajax({
            type: "POST",
@@ -12442,21 +12445,25 @@ function airline_issued(data){
                     }
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('airline_booking').innerHTML = '';
-                    document.getElementById('airline_detail').innerHTML = '';
-                    document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_airline').style.display = 'block';
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('payment_acq').hidden = true;
-                    document.getElementById('reissued').hidden = true;
-                    document.getElementById('cancel').hidden = true;
+                    if(document.URL.split('/')[document.URL.split('/').length-1] != 'payment'){
+                        // HALAMAN GET BOOKING AIRLINE
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('airline_booking').innerHTML = '';
+                        document.getElementById('airline_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('reissued').hidden = true;
+                        document.getElementById('cancel').hidden = true;
+                        document.getElementById("overlay-div-box").style.display = "none";
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+                        airline_get_booking(data);
+                    }
                     hide_modal_waiting_transaction();
-                    document.getElementById("overlay-div-box").style.display = "none";
+
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
@@ -18863,6 +18870,8 @@ function update_booking_after_sales_v2(input_pax_seat = false){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        data['pin'] = document.getElementById('pin').value;
     if(error_log == ''){
         getToken();
         show_loading();

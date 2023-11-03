@@ -445,6 +445,9 @@ def create_booking(request):
         except:
             _logger.error('use_point not found')
 
+        if request.POST.get('pin'):
+            data['pin'] = request.POST['pin']
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -525,6 +528,9 @@ def issued_booking(request):
             'voucher': {},
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         }
+
+        if request.POST.get('pin'):
+            data['pin'] = request.POST['pin']
 
         try:
             if request.POST['use_point'] == 'false':

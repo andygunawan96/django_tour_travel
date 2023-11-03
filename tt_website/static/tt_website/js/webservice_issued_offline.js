@@ -1002,6 +1002,9 @@ function commit_booking(){
 
     }catch(err){console.log(err)}
 
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        data['pin'] = document.getElementById('pin').value;
+
     getToken();
     $.ajax({
         type: "POST",

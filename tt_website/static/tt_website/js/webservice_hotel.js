@@ -2836,6 +2836,9 @@ function hotel_issued_booking(val){
         formData.append('signature', signature);
     }
 
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
+
     $.ajax({
         type: "POST",
         url: "/webservice/hotel",

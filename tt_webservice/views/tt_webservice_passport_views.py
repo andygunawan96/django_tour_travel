@@ -419,6 +419,10 @@ def commit_booking(request):
             'voucher': {},
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         })
+
+        if request.POST.get('pin'):
+            data['pin'] = request.POST['pin']
+
         try:
             if request.POST['use_point'] == 'false':
                 data['use_point'] = False

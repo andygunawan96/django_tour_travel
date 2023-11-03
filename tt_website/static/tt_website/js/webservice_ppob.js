@@ -2553,6 +2553,8 @@ function ppob_issued(data){
             {
                 formData.append('payment_reference', document.getElementById('pay_ref_text').value);
             }
+            if(document.getElementById('pin') && document.getElementById('pin').value)
+                formData.append('pin', document.getElementById('pin').value);
 
             getToken();
             $.ajax({

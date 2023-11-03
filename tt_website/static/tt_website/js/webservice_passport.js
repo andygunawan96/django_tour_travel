@@ -755,6 +755,8 @@ function passport_commit_booking(){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
 
     getToken();
     $.ajax({
