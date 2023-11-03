@@ -544,7 +544,7 @@ def commit_booking(request):
         except Exception as e:
             _logger.error('book, not force issued')
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
         if request.POST.get('voucher_code') != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'bus', []),
@@ -766,7 +766,7 @@ def issued(request):
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         }
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         try:
             if request.POST['use_point'] == 'false':

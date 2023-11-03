@@ -9,6 +9,8 @@ import uuid
 from ..static.tt_webservice.url import url
 from .tt_webservice_views import *
 _logger = logging.getLogger("website_logger")
+import hmac
+import hashlib
 
 def generate_signature():
     res = str(uuid.uuid4()).replace('-', '')
@@ -104,3 +106,6 @@ def get_url_gateway(path):
         return "%s/%s" % (data_path, path)
     else:
         return "%s%s" % (data_path, path)
+
+def encrypt_pin(pin):
+    return hmac.new(str.encode(pin), digestmod=hashlib.sha256).hexdigest()

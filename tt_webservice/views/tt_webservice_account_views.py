@@ -1912,8 +1912,8 @@ def get_provider_type(request):
 def turn_on_pin(request):
     try:
         data = {
-            'pin': request.POST['pin'],
-            'confirm_pin': request.POST['confirm_pin']
+            'pin': encrypt_pin(request.POST['pin']),
+            'confirm_pin': encrypt_pin(request.POST['confirm_pin'])
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1931,7 +1931,7 @@ def turn_on_pin(request):
 def turn_off_pin(request):
     try:
         data = {
-            'pin': request.POST['pin']
+            'pin': encrypt_pin(request.POST['pin'])
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1949,9 +1949,9 @@ def turn_off_pin(request):
 def change_pin(request):
     try:
         data = {
-            'old_pin': request.POST['old_pin'],
-            'pin': request.POST['new_pin'],
-            'confirm_pin': request.POST['confirm_pin']
+            'old_pin': encrypt_pin(request.POST['old_pin']),
+            'pin': encrypt_pin(request.POST['new_pin']),
+            'confirm_pin': encrypt_pin(request.POST['confirm_pin'])
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
