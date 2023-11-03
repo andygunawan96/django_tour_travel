@@ -515,7 +515,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
                     <span id="room_choose_child`+idx+`"></span>
                     <span id="room_choose_infant`+idx+`"></span>
                 </h6>`;
-                if (room_data.bed_type=="double"){
+                if (room_data.bed_type=="double" || room_data.bed_type=="none"){
                     template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>No Request</span></span>`;
                 }else{
                     template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span style="color:#f23548">Can't Request <i class="fas fa-times"></i></span></span>`;
@@ -642,7 +642,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
                 </div>
             </div>
         </div>`;
-        if (room_data.bed_type=="double")
+        if (room_data.bed_type=="double" || room_data.bed_type=="none")
         {
             template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
             template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" onkeyup="room_chose_render(this,'+idx+',4)" style="margin-bottom:5px; resize:none; height:unset;"></textarea>';
