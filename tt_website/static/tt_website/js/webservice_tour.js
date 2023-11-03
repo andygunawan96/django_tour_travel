@@ -2631,7 +2631,7 @@ function tour_get_booking(order_number)
                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                         <h4 class="mb-3">
                                             <img src="/static/tt_website/images/icon/product/b-hotel.png" alt="undefined" style="width:20px; height:20px;">
-                                            List of Room(s)
+                                            Accommodation(s)
                                         </h4>
                                     </div>
                                 </div>`;
@@ -2639,9 +2639,19 @@ function tour_get_booking(order_number)
                                     text+=`
                                     <h5 class="single_border_custom_left" style="padding-left:5px;">
                                         `+rooms[i].room_index+`. `+rooms[i].room_name+`
-                                    </h5>
-                                    <b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>
-                                    <b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>
+                                    </h5>`;
+                                    if(tour_package.duration > 1)
+                                    {
+                                        if(rooms[i].room_bed_type != 'none')
+                                        {
+                                            text+=`<b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>`;
+                                        }
+                                        if(rooms[i].room_hotel)
+                                        {
+                                            text+=`<b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>`;
+                                        }
+                                    }
+                                    text+=`
                                     <b>Description: </b><i>`+rooms[i].room_desc+`</i><br>
                                     <b>Notes: </b><i>`+rooms[i].room_notes+`</i><br>`;
                                     if(parseInt(i) != (rooms.length-1)){
@@ -3615,7 +3625,7 @@ function table_price_update(msg,type){
     </div>`;
     price_txt2 += `<div class="row">
     <div class="col-lg-12">
-        <center><h6 style="margin-top:10px; color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_down" onclick="show_hide_div('price_detail_tour');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="margin-top:10px; color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_down" onclick="show_hide_div('price_detail_tour_div');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>
     <div class="col-lg-12 mt-1" id="price_detail_tour_div" style="display:none;">`;
     for(var j=0; j<room_amount; j++)
@@ -3673,7 +3683,7 @@ function table_price_update(msg,type){
     }
     price_txt2+=`
     <div class="col-lg-12">
-        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_up" onclick="show_hide_div('price_detail_tour');">Show Less <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_up" onclick="show_hide_div('price_detail_tour_div');">Show Less <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
     price_txt2 += `</div></div>`;
     try{
