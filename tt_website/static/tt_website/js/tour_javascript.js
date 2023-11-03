@@ -660,10 +660,10 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             <span>Minimum: <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> and Maximum: <span style="font-size:12px;color:`+color+`;font-weight:500;">`+room_data.pax_limit+` Guest</span>.</span><br/>
             <ul style="list-style-type: disc; margin: 0 15px;">
                 <li style="list-style: unset;">
-                    If the selected room is adult and child, where the selected adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
+                    If the selected accommodation accepts adults and children, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
                 </li>
                 <li style="list-style: unset;">
-                    If there is a selected room for adults only, which does not reach the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected room will get an additional Single Supplement fee.
+                    If the selected accommodation accepts adults only, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected accommodation might get an additional Single Supplement fee.
                 </li>
             </ul>
         </div>`;
