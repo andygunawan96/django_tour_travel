@@ -95,10 +95,8 @@
                                 <h5 class="single_border_custom_left" style="padding-left:5px;">
                                     {{forloop.counter}}. {{room.name}}
                                 </h5>
-                                {% if tour_data.duration > 1 %}
-                                    {% if room.bed_type != 'none' %}<b>Type: </b><i>{{room.bed_type}}</i><br>{% endif %}
-                                    {% if room.hotel %}<b>Hotel: </b><i>{{room.hotel}}</i><br>{% endif %}
-                                {% endif %}
+                                {% if room.bed_type != 'none' %}<b>Type: </b><i>{{room.bed_type}}</i><br>{% endif %}
+                                {% if room.hotel %}<b>Hotel: </b><i>{{room.hotel}}</i><br>{% endif %}
                                 <b>Description: </b><i>{% if room.description %}{{room.description}}{% else %} - {% endif %}</i><br>
                                 <b>Notes: </b><i>{% if room.notes %}{{room.notes}}{% else %} - {% endif %}</i><br>
                                 {% if not forloop.last %}

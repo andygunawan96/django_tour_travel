@@ -2640,16 +2640,13 @@ function tour_get_booking(order_number)
                                     <h5 class="single_border_custom_left" style="padding-left:5px;">
                                         `+rooms[i].room_index+`. `+rooms[i].room_name+`
                                     </h5>`;
-                                    if(tour_package.duration > 1)
+                                    if(rooms[i].room_bed_type != 'none')
                                     {
-                                        if(rooms[i].room_bed_type != 'none')
-                                        {
-                                            text+=`<b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>`;
-                                        }
-                                        if(rooms[i].room_hotel)
-                                        {
-                                            text+=`<b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>`;
-                                        }
+                                        text+=`<b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>`;
+                                    }
+                                    if(rooms[i].room_hotel)
+                                    {
+                                        text+=`<b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>`;
                                     }
                                     text+=`
                                     <b>Description: </b><i>`+rooms[i].room_desc+`</i><br>
