@@ -474,21 +474,37 @@ function add_tour_room(key_accomodation){
 function render_room_tour_field(idx, room_data, key_accomodation) {
     var room_lib = {
         'double': 'Double/Twin',
-        'triple': 'Triple'
+        'triple': 'Triple',
+        'quad': 'Quad'
     }
     var template_txt = '';
         template_txt += '<div id="room_field_' + idx + '" style="margin-bottom:20px; padding:15px; border: 1px solid #cdcdcd;"><div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">';
         template_txt += '<input type="hidden" id="room_code_' + idx + '" name="room_code_' + idx + '" value="'+ room_data.room_code + '"/>';
-        template_txt += '<h6 style="margin: 0px; padding-bottom:5px;"><i class="fa fa-building" style="font-size:18px;"></i> ' + room_data.hotel;
-        if (room_data.star != 0){
-            template_txt +=` ( <i class="fas fa-star" style="color:#FFC44D;"></i>` + room_data.star + `)</h6>`;
-        }else{
-            template_txt +=` ( Unrated )</h6>`;
+        if (room_data.hotel)
+        {
+            template_txt += '<h6 style="margin: 0px; padding-bottom:5px;"><i class="fa fa-building" style="font-size:18px;"></i> ' + room_data.hotel;
+            if (room_data.star != 0){
+                template_txt +=` ( <i class="fas fa-star" style="color:#FFC44D;"></i>` + room_data.star + `)</h6>`;
+            }else{
+                template_txt +=` ( Unrated )</h6>`;
+            }
+            if(room_data.address != ''){
+                template_txt += `<span>`+room_data.address+`</span>`;
+            }
+            template_txt += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ' Star) - ' + room_data.address + '"><span style="color:'+color+';">Room';
+            if(tour_data.tour_type.is_can_choose_hotel){
+                template_txt += ' #' +  idx;
+            }
+            template_txt += ' </span> - ' + room_data.name;
+            if(room_data.bed_type != 'none'){
+                template_txt += ' (' + room_lib[room_data.bed_type] + ')';
+            }
+            template_txt += '</h6>';
         }
-        if(room_data.address != ''){
-            template_txt += `<span>`+room_data.address+`</span>`;
+        else
+        {
+            template_txt += '<h6><span style="color:'+color+';">' +  room_data.name +  '</span></h6>';
         }
-        template_txt += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '"><span style="color:'+color+';">Room #' +  idx +  ' </span> - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
         template_txt += '<span style="font-size:12px;">' + room_data.description +'</span><br/>';
 
         template_txt+=`
@@ -598,8 +614,8 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         template_txt +=`
         <div class="row" style="padding:15px;">
             <div class="col-xs-12">
-                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_up" onclick="show_hide_div('pricing_detail`+n+`');">See Price Detail <i class="fas fa-chevron-up"></i></span>
-                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_down" onclick="show_hide_div('pricing_detail`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
+                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_up" onclick="show_hide_div('pricing_detail`+n+`_div');">See Price Detail <i class="fas fa-chevron-up"></i></span>
+                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_down" onclick="show_hide_div('pricing_detail`+n+`_div');">See Price Detail <i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="col-lg-12" style="display:block;" id="pricing_detail`+n+`_div">
                 <div class="row" style="padding:0px 15px;">`;
@@ -630,7 +646,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         {
             template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
             template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" onkeyup="room_chose_render(this,'+idx+',4)" style="margin-bottom:5px; resize:none; height:unset;"></textarea>';
-            template_txt += '<small style="color: #787878; margin-left: 2px;">Ex: king size, twin, non smoking, etc.</small>';
+            template_txt += '<small style="color: #787878; margin-left: 2px;">Ex: king size bed, twin bed, non smoking room, etc.</small>';
             template_txt += '</div>';
         }
         else
