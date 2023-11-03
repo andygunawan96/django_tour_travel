@@ -108,4 +108,5 @@ def get_url_gateway(path):
         return "%s%s" % (data_path, path)
 
 def encrypt_pin(pin):
-    return hmac.new(str.encode(pin), digestmod=hashlib.sha256).hexdigest()
+    return hmac.new(str.encode(pin),str.encode('orbisway2022'), digestmod=hashlib.sha256).hexdigest()
+
