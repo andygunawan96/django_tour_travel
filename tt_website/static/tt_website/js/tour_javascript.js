@@ -515,7 +515,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
                     <span id="room_choose_child`+idx+`"></span>
                     <span id="room_choose_infant`+idx+`"></span>
                 </h6>`;
-                if (room_data.bed_type=="double"){
+                if (room_data.bed_type=="double" || room_data.bed_type=="none"){
                     template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>No Request</span></span>`;
                 }else{
                     template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span style="color:#f23548">Can't Request <i class="fas fa-times"></i></span></span>`;
@@ -642,7 +642,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
                 </div>
             </div>
         </div>`;
-        if (room_data.bed_type=="double")
+        if (room_data.bed_type=="double" || room_data.bed_type=="none")
         {
             template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
             template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" onkeyup="room_chose_render(this,'+idx+',4)" style="margin-bottom:5px; resize:none; height:unset;"></textarea>';
@@ -660,10 +660,10 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             <span>Minimum: <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> and Maximum: <span style="font-size:12px;color:`+color+`;font-weight:500;">`+room_data.pax_limit+` Guest</span>.</span><br/>
             <ul style="list-style-type: disc; margin: 0 15px;">
                 <li style="list-style: unset;">
-                    If the selected room is adult and child, where the selected adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
+                    If the selected accommodation accepts adults and children, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
                 </li>
                 <li style="list-style: unset;">
-                    If there is a selected room for adults only, which does not reach the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected room will get an additional Single Supplement fee.
+                    If the selected accommodation accepts adults only, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected accommodation might get an additional Single Supplement fee.
                 </li>
             </ul>
         </div>`;
@@ -1323,7 +1323,7 @@ function tour_hold_booking(val){
     else
     {
         $("#issuedModal").modal('hide');
-        document.getElementById('show_error_log').innerHTML = "Please assign a room to each passengers.";
+        document.getElementById('show_error_log').innerHTML = "Please assign an accommodation to each passengers.";
         $("#myModalErrorReview").modal('show');
     }
 }
