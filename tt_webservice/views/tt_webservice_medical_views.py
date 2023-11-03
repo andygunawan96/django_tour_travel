@@ -501,6 +501,9 @@ def commit_booking(request):
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
 
+        if request.POST.get('pin'):
+            data['pin'] = request.POST['pin']
+
         try:
             if request.POST['use_point'] == 'false':
                 data['use_point'] = False

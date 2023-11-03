@@ -2995,6 +2995,8 @@ function group_booking_issued_booking(){
         'signature': signature,
         'voucher_code': voucher_code,
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        data['pin'] =  document.getElementById('pin').value;
     $.ajax({
         type: "POST",
         url: "/webservice/group_booking",

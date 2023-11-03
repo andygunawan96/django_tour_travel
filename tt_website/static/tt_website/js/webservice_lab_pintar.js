@@ -745,6 +745,10 @@ function lab_pintar_commit_booking(val){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
+
     $.ajax({
         type: "POST",
         url: "/webservice/lab_pintar",
@@ -1959,6 +1963,8 @@ function lab_pintar_issued_booking(data){
             {
                 formData.append('payment_reference', document.getElementById('pay_ref_text').value);
             }
+            if(document.getElementById('pin') && document.getElementById('pin').value)
+                formData.append('pin', document.getElementById('pin').value);
 
             getToken();
             $.ajax({

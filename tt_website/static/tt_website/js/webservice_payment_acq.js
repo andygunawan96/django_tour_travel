@@ -81,7 +81,7 @@ function render_payment(){
 
             payment_counter = 1;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined' && total_price_payment_acq > 0 && type_render != 'top_up'){
+                if(typeof(payment_ho) !== 'undefined' && total_price_payment_acq > 0 && type_render != 'top_up' && payment_ho.length > 0){
                     text+=`
                         <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment to HO: </h6>`;
                         if(template == 1 || template == 5){
@@ -186,7 +186,7 @@ function render_payment(){
 
             $('#payment_via').niceSelect();
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined'){
+                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 0){
                     $('#payment_ho_id').niceSelect();
                 }
             }
@@ -1137,6 +1137,20 @@ function set_price(val, type, product_type){
                     text+=`</span>
                 </div>`;
         text+= `</div><br/>`;
+
+
+        if(user_login.hasOwnProperty('co_is_using_pin') && user_login.co_is_using_pin && !['payment_gateway', 'creditcard_topup'].includes(payment_method) && type != 'top_up'){
+            text+=`
+            <div class='row'>
+                <div class="col-sm-12" style='text-align:left;'>
+                <span style="font-size:13px;"> Pin: </span>
+
+                </div>
+                <div class="col-sm-12">
+                    <input class="form-control" placeholder="Pin" type='password' id="pin" maxLength="6"/>
+                </div>
+            </div>`;
+        }
     }
     try{
         if(type_payment != {}){

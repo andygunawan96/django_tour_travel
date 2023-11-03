@@ -2341,7 +2341,8 @@ def commit_booking(request):
                     'voucher': {},
                     'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
                 })
-
+            if request.POST.get('pin'):
+                data['pin'] = request.POST['pin']
             try:
                 if request.POST['use_point'] == 'false':
                     data['use_point'] = False
@@ -2979,6 +2980,8 @@ def issued(request):
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
             'voucher': {}
         }
+        if request.POST.get('pin'):
+            data['pin'] = request.POST['pin']
         if request.session.get('currency'):
             data.update({
                 "currency_code": request.session['currency']
@@ -4262,6 +4265,8 @@ def update_booking(request):
                 'acquirer_seq_id': request.POST['acquirer_seq_id'],
                 'agent_payment_method': request.POST.get('agent_payment') or False,## kalau tidak kirim default balance normal
             })
+            if request.POST.get('pin'):
+                data['pin'] = request.POST['pin']
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         headers = {
@@ -5102,6 +5107,8 @@ def update_booking_v2(request):
                 'acquirer_seq_id': request.POST['acquirer_seq_id'],
                 'agent_payment_method': request.POST.get('agent_payment') or False,## kalau tidak kirim default balance normal
             })
+            if request.POST.get('pin'):
+                data['pin'] = request.POST['pin']
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         headers = {
