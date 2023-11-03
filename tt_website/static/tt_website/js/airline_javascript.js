@@ -13327,8 +13327,7 @@ function get_default_ssr(pax, itinerary, page){
             document.getElementById('included_ssr'+id_co).innerHTML = default_ssr_text;
 
             if(page == 'booking'){
-                console.log(itinerary);
-                if(pax[co].fees_dict.length != 0){
+                if(pax[co].hasOwnProperty('fees_dict')){
                     for(j_ssr_seat in pax[co].fees_dict){
                         for(i in itinerary){
                             for(j in itinerary[i].journeys){
