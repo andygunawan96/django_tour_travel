@@ -614,10 +614,10 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         template_txt +=`
         <div class="row" style="padding:15px;">
             <div class="col-xs-12">
-                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_up" onclick="show_hide_div('pricing_detail`+n+`_div');">See Price Detail <i class="fas fa-chevron-up"></i></span>
-                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+n+`_down" onclick="show_hide_div('pricing_detail`+n+`_div');">See Price Detail <i class="fas fa-chevron-down"></i></span>
+                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+idx+`_up" onclick="show_hide_div('pricing_detail`+idx+`_div');">See Price Detail <i class="fas fa-chevron-up"></i></span>
+                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+idx+`_down" onclick="show_hide_div('pricing_detail`+idx+`_div');">See Price Detail <i class="fas fa-chevron-down"></i></span>
             </div>
-            <div class="col-lg-12" style="display:block;" id="pricing_detail`+n+`_div">
+            <div class="col-lg-12" style="display:block;" id="pricing_detail`+idx+`_div">
                 <div class="row" style="padding:0px 15px;">`;
                 for (pri in room_data.pricing){
                     template_txt += `
