@@ -197,12 +197,6 @@
                             <div id="reorder_div" style="display:inline-block;">
 
                             </div>
-                            <div class="mr-1" style="display:inline-block;" id="reissued" hidden>
-
-                            </div>
-                            <div style="display:inline-block;" id="split_booking" hidden>
-
-                            </div>
                             <div id="div_sync_status" class="mr-1" style="display:inline-block;" hidden>
                                 <button type="button" class="primary-btn-white" id="button-sync-status" onclick="please_wait_transaction();airline_get_booking('{{order_number}}',true)">
                                     <i class="fas fa-sync-alt"></i> Sync Status
@@ -290,17 +284,23 @@
                     <div id="total_refund_div" style="display:none;">
 
                     </div>
-                    <div id="airline_booking_print">
+                    <div id="airline_booking_print" style="margin-bottom:15px;">
 
                     </div>
-                    <div id="voucher_div" style="display:none;">
+                    <div id="voucher_div" style="display:none; margin-bottom:15px;">
                         {% include 'tt_website/voucher_code.html'  %}
                     </div>
-                    <div class="mt-3" id="cancel" hidden>
+                    <div id="split_booking" hidden>
+
+                    </div>
+                    <div id="reissued" hidden>
+
+                    </div>
+                    <div id="cancel" class="mb-3" hidden>
 
                     </div>
                     {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                    <button class="primary-btn issued_booking_btn mt-3 mb-3" id="issued_btn_airline" type="button" style="display:none; width:100%;" onclick="focus_box('payment_acq');">
+                    <button class="primary-btn issued_booking_btn mb-3" id="issued_btn_airline" type="button" style="display:none; width:100%;" onclick="focus_box('payment_acq');">
                         <i class="fas fa-check"></i> {% trans 'Issued Booking' %}
                     </button>
                     {% endif %}

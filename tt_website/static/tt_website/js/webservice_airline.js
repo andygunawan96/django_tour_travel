@@ -8524,14 +8524,14 @@ function airline_get_booking(data, sync=false){
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `
-                            <button class="primary-btn-white" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">
+                            <button class="primary-btn-white" id="reissued_btn_dsb" style="width:100%; margin-bottom:15px;" type="button" onclick="reissued_btn(); go_to_element('button-change-itinerary-div', 50);">
                                 <i class="fas fa-redo-alt"></i> Change Itinerary
                             </button>`;
                        }
                        if(check_split){
                             document.getElementById('split_booking').hidden = false;
                             document.getElementById('split_booking').innerHTML = `
-                            <button class="primary-btn-white" style="width:100%;" type="button" onclick="split_booking_btn();">
+                            <button class="primary-btn-white" style="width:100%; margin-bottom:15px;" type="button" onclick="split_booking_btn();">
                                 <i class="fas fa-columns"></i> Split Booking
                             </button>`;
                        }
@@ -8630,14 +8630,14 @@ function airline_get_booking(data, sync=false){
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `
-                            <button class="issued_booking_btn primary-btn-white" type="button" onclick="reissued_btn();">
+                            <button class="issued_booking_btn primary-btn-white" style="width:100%; margin-bottom:15px;" type="button" onclick="reissued_btn(); go_to_element('button-change-itinerary-div', 50);">
                                 <i class="fas fa-redo-alt"></i> Change Itinerary
                             </button>`;
                        }
                        if(check_split){
                             document.getElementById('split_booking').hidden = false;
                             document.getElementById('split_booking').innerHTML = `
-                            <button class="issued_booking_btn primary-btn-white mr-1" type="button" onclick="split_booking_btn();">
+                            <button class="issued_booking_btn primary-btn-white mr-1" style="width:100%; margin-bottom:15px;" type="button" onclick="split_booking_btn();">
                                 <i class="fas fa-columns"></i> Split Booking
                             </button>`;
                        }
@@ -9633,7 +9633,7 @@ function airline_get_booking(data, sync=false){
     //                $text += msg.result.response.state_description + '\n';
                     if(msg.result.response.reschedule_list.length>0){
                         text+=`
-                        <div class="div_box_default" style="margin-bottom:15px;">
+                        <div class="div_box_default">
                             <div class="row">
                                 <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
                                     <h4 class="mb-3">History</h4>
@@ -9701,8 +9701,8 @@ function airline_get_booking(data, sync=false){
                                         text_history = '';
                                         if(msg.result.response.reschedule_list[i].old_segments.length > 0){
                                             text_history+=`
-                                            <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: #f7f7f7;">
-                                                <h4 style="color:gray;">Before (Old)</h4>
+                                            <div style="padding:10px 15px; text-align:left; border:1px solid #cdcdcd; background: #f7f7f7;">
+                                                <h5 style="color:gray;">Before (Old)</h5>
                                             </div>
                                             <div style="border:1px solid #cdcdcd; padding:15px; background: #f7f7f7; overflow:auto; max-height:200px; color:gray;">
                                                 <div class="row">`;
@@ -9797,8 +9797,8 @@ function airline_get_booking(data, sync=false){
                                                 <h6>Change</h6>
                                                 <i class="fas fa-long-arrow-alt-down" style="font-size:30px; color:`+color+`;"></i>
                                             </div>
-                                            <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: `+color+`;">
-                                                <h4 style="color:white">After (New)</h4>
+                                            <div style="padding:10px 15px; text-align:left; border:1px solid #cdcdcd; background: `+color+`;">
+                                                <h5 style="color:white">After (New)</h5>
                                             </div>
                                             <div style="padding:15px; border:1px solid #cdcdcd; border-radius:5px; overflow:auto; max-height:250px;">
                                                 <div class="row">`;
@@ -9895,8 +9895,8 @@ function airline_get_booking(data, sync=false){
                                                 text_history += `
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: #f7f7f7;">
-                                                            <h4 style="color:gray;">Before (Old)</h4>
+                                                        <div style="padding:10px 15px; text-align:left; border:1px solid #cdcdcd; background: #f7f7f7;">
+                                                            <h5 style="color:gray;">Before (Old)</h5>
                                                         </div>
                                                         <div style="padding:15px; background: #f7f7f7; border:1px solid #cdcdcd; overflow:auto; max-height:200px;">
                                                             <span style="color:gray; font-weight:700;">`+msg.result.response.reschedule_list[i].old_fee_notes.replaceAll('\n','<br/>')+`</span>
@@ -9907,8 +9907,8 @@ function airline_get_booking(data, sync=false){
                                                         <i class="fas fa-long-arrow-alt-down" style="font-size:30px; color:`+color+`;"></i>
                                                     </div>
                                                     <div class="col-lg-12">
-                                                        <div style="padding:15px; text-align:left; border:1px solid #cdcdcd; background: `+color+`;">
-                                                            <h4 style="color:white">After (New)</h4>
+                                                        <div style="padding:10px 15px; text-align:left; border:1px solid #cdcdcd; background: `+color+`;">
+                                                            <h5 style="color:white">After (New)</h5>
                                                         </div>
                                                         <div style="padding:15px; background: white; border:1px solid #cdcdcd; overflow:auto; max-height:200px;">
                                                             <span style="font-weight:700;">`+msg.result.response.reschedule_list[i].new_fee_notes.replaceAll('\n','<br/>')+`</span>

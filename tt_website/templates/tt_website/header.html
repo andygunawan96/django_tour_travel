@@ -158,7 +158,7 @@
                             </li>
                             {% endif %}
                             <li>
-                                <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                                <button class="primary-btn" type="button" style="margin-bottom:15px;" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
                         {% else %}
                             <li class="pt5"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
@@ -432,11 +432,13 @@
                                         </ul>
                                     </li>
 
+                                    {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                                     <li class="pt12">
                                         <button class="primary-btn-white-bd" type="button" data-toggle="modal" data-target="#myModalb2c" style="width:100%;">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                                     </li>
+                                    {% endif %}
                                     <li>
-                                        <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static" style="width:100%;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                                        <button class="primary-btn" type="button" style="width:100%;" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static" style="width:100%;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                                     </li>
                                 {% else %}
                                     <li><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
@@ -684,7 +686,7 @@
                             </li>
                             {% endif %}
                             <li class="pt10">
-                                <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                                <button class="primary-btn" type="button" style="margin-bottom:15px;" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
                         {% else %}
                             <li class="pt5"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
@@ -926,9 +928,11 @@
                                         </li>
                                     </ul>
                                 </li>
+                                {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                                 <li class="pt10">
                                     <button class="primary-btn-white-bd mr5" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                                 </li>
+                                {% endif %}
                                 <li class="pt10">
                                     <button class="primary-btn" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                                 </li>
@@ -1163,9 +1167,11 @@
                                     </li>
                                 </ul>
                             </li>
+                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                             <li class="pt10 mr5">
                                 <button class="primary-btn-white-bd mr5" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                             </li>
+                            {% endif %}
                             <li class="pt10">
                                 <button class="primary-btn" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
@@ -1390,9 +1396,11 @@
                             </li>
                         </ul>
                     </li>
+                    {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                     <li class="pt10 mr5">
                         <button class="primary-btn-white-bd" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                     </li>
+                    {% endif %}
                     <li class="pt10">
                         <button class="primary-btn" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                     </li>
@@ -1604,9 +1612,11 @@
                                                     </li>
                                                 </ul>
                                             </li>
+                                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                                             <li class="pt5 mr5">
                                                 <button class="primary-btn-white-bd" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                                             </li>
+                                            {% endif %}
                                             <li class="pt5">
                                                 <button class="primary-btn" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                                             </li>
