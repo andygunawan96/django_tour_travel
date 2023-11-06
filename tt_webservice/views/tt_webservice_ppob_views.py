@@ -406,7 +406,7 @@ def commit_booking(request):
         })
 
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         try:
             if request.POST['use_point'] == 'false':
@@ -539,7 +539,7 @@ def issued(request):
         }
 
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         try:
             if request.POST['use_point'] == 'false':

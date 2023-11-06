@@ -446,7 +446,7 @@ def create_booking(request):
             _logger.error('use_point not found')
 
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -530,7 +530,7 @@ def issued_booking(request):
         }
 
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         try:
             if request.POST['use_point'] == 'false':

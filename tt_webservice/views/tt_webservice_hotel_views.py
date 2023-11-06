@@ -1139,7 +1139,7 @@ def create_booking(request):
         }
 
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         # payment
         if bool(int(request.POST['force_issued'])) == True:
@@ -1274,7 +1274,7 @@ def issued_b2c(request):
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         }
         if request.POST.get('pin'):
-            data['pin'] = request.POST['pin']
+            data['pin'] = encrypt_pin(request.POST['pin'])
         provider = []
         if request.POST['voucher_code'] != '':
             data.update({

@@ -2129,7 +2129,21 @@ Licence URI: http://www.os-templates.com/template-terms
 </script>
 
 <script>
-    unique_id = crypto.randomUUID();
+    function generate_random(){
+        return Math.floor(Math.random() * 10);
+    }
+    function randomUUID(){
+        var random_uuid = '';
+        for(var i=0;i<16;i++){
+            if(i%4 == 0 && i != 0){
+                random_uuid += '-';
+            }
+            random_uuid += generate_random();
+        }
+        return random_uuid;
+    }
+
+    unique_id = randomUUID();
     platform = 'default';
     if(typeof(localStorage.platform) === 'undefined'){
         const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
