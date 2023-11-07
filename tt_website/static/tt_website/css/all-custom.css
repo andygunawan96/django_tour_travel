@@ -3437,7 +3437,7 @@ for better animation effect */
     background: #f0e68c;
     display:none;
     position:relative;
-    z-index:9999999;
+    z-index:1002;
 }
 
 /* Add padding and border to inner content
