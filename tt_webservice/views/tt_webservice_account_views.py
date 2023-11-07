@@ -336,6 +336,19 @@ def auto_signin(request):
         # "co_password": password_default, #request.POST['password'],
         "co_uid": ""
     }
+
+    otp_params = {}
+    if request.POST.get('unique_id'):
+        otp_params['machine_code'] = request.POST['unique_id']
+    if request.POST.get('platform'):
+        otp_params['platform'] = request.POST['platform']
+    if request.POST.get('browser'):
+        otp_params['browser'] = request.POST['browser']
+    if request.POST.get('timezone'):
+        otp_params['timezone'] = request.POST['timezone']
+    if otp_params:
+        data['otp_params'] = otp_params
+
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
