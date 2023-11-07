@@ -2215,7 +2215,7 @@ def create_request_cor(request):
         data = json.loads(request.POST['data'])
         for rec_file_name in request.FILES:
             data['img_%s' % rec_file_name] = {
-                'file_name': replace_metacharacter_file_name(request.FILES[rec_file_name].name),
+                'file_name': replace_metacharacter_file_name(request.FILES[rec_file_name].name, request.POST.get(rec_file_name.split('_')[0]+'_name', '')),
                 'file': base64.b64encode(request.FILES[rec_file_name].file.read()).decode('utf-8'),
             }
         if data['account_web'] == 'true':
