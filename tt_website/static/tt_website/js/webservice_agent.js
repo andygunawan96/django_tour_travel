@@ -1396,6 +1396,18 @@ function copy_url(url){
 function reset_password(){
     username = $('#forget_password_username').val();
     if(username != ''){
+        if(typeof(platform) === 'undefined'){
+        platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        if(typeof(web_vendor) === 'undefined'){
+            web_vendor = '';
+        }
+        if(typeof(timezone) === 'undefined'){
+            timezone = '';
+        }
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -1404,6 +1416,10 @@ function reset_password(){
            },
            data: {
                 'email':username,
+                "platform": platform,
+                "unique_id": unique_id,
+                "browser": web_vendor,
+                "timezone": timezone
            },
            success: function(msg) {
                 if(msg.result.error_code == 0){
