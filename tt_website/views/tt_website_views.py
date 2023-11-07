@@ -2727,8 +2727,10 @@ def error_timeout(request):
     })
     return render(request, MODEL_NAME + '/error/408.html', values)
 
-def replace_metacharacter_file_name(file_name):
-    return re.sub('[^A-za-z0-9 .]', '-', file_name)
+def replace_metacharacter_file_name(file_name, default_name=''):
+    if not default_name:
+        default_name = file_name
+    return "%s.%s" % (re.sub('[^A-za-z0-9 .]', '', default_name), file_name.split('.')[-1])
 
 # @api_view(['GET'])
 # def testing(request):

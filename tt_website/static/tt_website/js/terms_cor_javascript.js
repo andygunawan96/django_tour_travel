@@ -119,7 +119,7 @@ function create_request_cor(){
     data_request = {};
     error_log = '';
     var formData = new FormData($('#form_identity_cor').get(0));
-   formData.append('signature', signature)
+    formData.append('signature', signature)
     // company
     if(document.getElementById('company_name').value == ''){
         error_log+= 'Please input Company Name!</br>\n';
@@ -167,12 +167,27 @@ function create_request_cor(){
         $("#company_phone_number").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
         });
+    }else if(check_number(document.getElementById('company_phone_number').value) == false){
+        error_log+= 'Invalid Company Phone Number!</br>\n';
+        document.getElementById('company_phone_number').style['border-color'] = 'red';
+        $("#company_phone_number").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
     }else{
-        data_request['company_phone_number'] = document.getElementById('company_phone_number').value;
+        data_request['company_phone'] = {
+            "calling_number": document.getElementById('company_phone_number').value,
+            "calling_code": document.getElementById('company_phone_code_id').value
+        }
         document.getElementById('company_phone_number').style['border-color'] = '';
     }
     if(document.getElementById('company_email').value == ''){
         error_log+= 'Please input Company Email!</br>\n';
+        document.getElementById('company_email').style['border-color'] = 'red';
+        $("#company_email").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
+    }else if(check_email(document.getElementById('company_email').value) == false){
+        error_log+= 'Invalid Company Email!</br>\n';
         document.getElementById('company_email').style['border-color'] = 'red';
         $("#company_email").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -305,12 +320,27 @@ function create_request_cor(){
         $("#owner_phone_number").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
         });
+    }else if(check_number(document.getElementById('owner_phone_number').value) == false){
+        error_log+= 'Invalid Owner Phone Number!</br>\n';
+        document.getElementById('owner_phone_number').style['border-color'] = 'red';
+        $("#owner_phone_number").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
     }else{
-        data_request['owner_phone_number'] = document.getElementById('owner_phone_number').value;
+        data_request['owner_phone'] = {
+            "calling_number": document.getElementById('owner_phone_number').value,
+            "calling_code": document.getElementById('owner_phone_code_id').value
+        }
         document.getElementById('owner_phone_number').style['border-color'] = '';
     }
     if(document.getElementById('owner_email').value == ''){
         error_log+= 'Please input Owner Email!</br>\n';
+        document.getElementById('owner_email').style['border-color'] = 'red';
+        $("#owner_email").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
+    }else if(check_email(document.getElementById('owner_email').value) == false){
+        error_log+= 'Invalid Owner Email!</br>\n';
         document.getElementById('owner_email').style['border-color'] = 'red';
         $("#owner_email").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -364,8 +394,17 @@ function create_request_cor(){
         $("#director_phone_number").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
         });
+    }else if(check_number(document.getElementById('director_phone_number').value) == false){
+        error_log+= 'Invalid Director Phone Number!</br>\n';
+        document.getElementById('director_phone_number').style['border-color'] = 'red';
+        $("#director_phone_number").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
     }else{
-        data_request['director_phone_number'] = document.getElementById('director_phone_number').value;
+        data_request['director_phone'] = {
+            "calling_number": document.getElementById('director_phone_number').value,
+            "calling_code": document.getElementById('director_phone_code_id').value
+        }
         document.getElementById('director_phone_number').style['border-color'] = '';
     }
     if(document.getElementById('director_email').value == ''){
@@ -416,8 +455,17 @@ function create_request_cor(){
         $("#accounting_phone_number").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
         });
+    }else if(check_number(document.getElementById('accounting_phone_number').value) == false){
+        error_log+= 'Invalid Accounting Phone Number!</br>\n';
+        document.getElementById('accounting_phone_number').style['border-color'] = 'red';
+        $("#accounting_phone_number").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
     }else{
-        data_request['accounting_phone_number'] = document.getElementById('accounting_phone_number').value;
+        data_request['accounting_phone'] = {
+            "calling_number": document.getElementById('accounting_phone_number').value,
+            "calling_code": document.getElementById('accounting_phone_code_id').value
+        }
         document.getElementById('accounting_phone_number').style['border-color'] = '';
     }
     if(document.getElementById('accounting_email').value == ''){
@@ -426,11 +474,17 @@ function create_request_cor(){
         $("#accounting_email").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
         });
+    }else if(check_email(document.getElementById('accounting_email').value) == false){
+        error_log+= 'Invalid Accounting Email!</br>\n';
+        document.getElementById('accounting_email').style['border-color'] = 'red';
+        $("#accounting_email").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
     }else{
         data_request['accounting_email'] = document.getElementById('accounting_email').value;
         document.getElementById('accounting_email').style['border-color'] = '';
     }
-    //ipang
+
     if( document.getElementById("accounting_ktp").files.length == 0 ){
         error_log+= 'Please upload Accounting KTP!</br>\n';
         document.getElementById('accounting_ktp').style['border-color'] = 'red';
@@ -495,12 +549,27 @@ function create_request_cor(){
         $("#pic_phone_number").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
         });
+    }else if(check_number(document.getElementById('pic_phone_number').value) == false){
+        error_log+= 'Invalid PIC Phone Number!</br>\n';
+        document.getElementById('pic_phone_number').style['border-color'] = 'red';
+        $("#pic_phone_number").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
     }else{
-        data_request['pic_phone_number'] = document.getElementById('pic_phone_number').value;
+        data_request['pic_phone'] = {
+            "calling_number": document.getElementById('pic_phone_number').value,
+            "calling_code": document.getElementById('pic_phone_code_id').value
+        }
         document.getElementById('pic_phone_number').style['border-color'] = '';
     }
     if(document.getElementById('pic_email').value == ''){
         error_log+= 'Please input PIC Email!</br>\n';
+        document.getElementById('pic_email').style['border-color'] = 'red';
+        $("#pic_email").each(function() {
+            $(this).parent().find('.nice-select').css('border', '1px solid red');
+        });
+    }else if(check_email(document.getElementById('pic_email').value) == false){
+        error_log+= 'Invalid PIC Email!</br>\n';
         document.getElementById('pic_email').style['border-color'] = 'red';
         $("#pic_email").each(function() {
             $(this).parent().find('.nice-select').css('border', '1px solid red');
