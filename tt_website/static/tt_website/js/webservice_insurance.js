@@ -3574,7 +3574,7 @@ function insurance_get_booking(data, sync=false){
                         print_text+=`
                             <div class="col-lg-6" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;margin-bottom:20px;margin-left:15px;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
+                                    <span class="span-search-ticket" style="color:black;">Force get new printout</span>
                                     <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
