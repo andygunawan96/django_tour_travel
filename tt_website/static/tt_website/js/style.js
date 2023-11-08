@@ -3170,7 +3170,7 @@ function close_div(id_string){
         change_top_up();
     }catch(err){}
     document.getElementById("overlay-div-box").style.display = "none";
-    //document.getElementById("payment_acq").hidden = true;
+    document.getElementById("payment_acq").hidden = true;
 }
 
 function please_wait_transaction(){

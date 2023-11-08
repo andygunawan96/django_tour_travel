@@ -2736,7 +2736,7 @@ function tour_get_booking(order_number)
                     text+=`
                             <div class="col-lg-6">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Force Get New Printout</span>
+                                    <span class="span-search-ticket" style="color:black;">Force get new printout</span>
                                     <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
