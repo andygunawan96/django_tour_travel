@@ -2938,7 +2938,7 @@ function sort(){
                                    </a>
                                </div>
 
-                               <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none; width:100%; background: #f7f7f7; margin:5px; padding-top:15px;">`;
+                               <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none; width:100%; background: #f7f7f7; margin:5px; padding-top:10px;">`;
                                    for(j in airline[i].segments){
                                         text+=`
                                         <div id="copy_segments_details`+i+``+j+`">
@@ -2976,6 +2976,12 @@ function sort(){
     //                                           </div>`;
     //                                           depart = 2;
     //                                       }
+                                           if(airline[i].segments.length > 1 && j == 0){
+                                                text += `
+                                           <div style="text-align:right;">
+                                                <i class="fas fa-unlink" style="font-weight:600; padding-right:15px; cursor:pointer;" id="journey`+i+`_link" onclick="unlink_fares(`+i+`)"></i>
+                                           </div>`;
+                                           }
                                            text+=`
                                            <div class="row" id="journey`+i+`segment`+j+`" style="padding:10px;">
                                                <div class="col-lg-3 mb-2">
@@ -4193,7 +4199,60 @@ function sort(){
                        }
                    }
                }
-           }
+            }
+            // OTOMATIS CHECK DEFAULT RECOM
+            ticket_count = 0;
+            for(i in airline){
+                if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline[i].destination == airline_request.destination[counter_search-1].split(' - ')[0] && airline_request.departure[counter_search-1] == airline[i].departure_date.split(', ')[1].split(' - ')[0]){
+                    if(airline_pick_list.length == 0 || airline_pick_list.length != 0 && airline_recommendations_list.length == 0 && airline[i].journey_ref_id == '' || airline_recommendations_dict.hasOwnProperty(airline[i].journey_ref_id)){
+                       ticket_count++;
+                       if(ticket_count >= first && ticket_count < last){
+                            change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code);
+                       }
+                    }
+                    if(airline[i].segments.length > 1 && airline[i].auto_link){
+                        try{
+                            new jBox('Tooltip', {
+                                attach: '#journey'+i+'_link',
+                                target: '#journey'+i+'_link',
+                                theme: 'TooltipBorder',
+                                adjustTracker: true,
+                                width: 200,
+                                closeOnClick: 'body',
+                                closeButton: 'box',
+                                animation: 'move',
+                                position: {
+                                  x: 'center',
+                                  y: 'bottom'
+                                },
+                                content: 'Click here to disable auto pick fare'
+                            });
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }else if(airline[i].segments.length > 1 && !airline[i].auto_link){
+                        try{
+                            new jBox('Tooltip', {
+                                attach: '#journey'+i+'_link',
+                                target: '#journey'+i+'_link',
+                                theme: 'TooltipBorder',
+                                adjustTracker: true,
+                                width: 200,
+                                closeOnClick: 'body',
+                                closeButton: 'box',
+                                animation: 'move',
+                                position: {
+                                  x: 'center',
+                                  y: 'bottom'
+                                },
+                                content: 'Click here to change into auto pick fare'
+                            });
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                }
+            }
        }
    }
    if(contain >= 9){
@@ -4253,6 +4312,28 @@ function sort(){
     $(".dropdown-close-seat").click(function() {
        $(".dropdown-close-seat").dropdown("toggle");
     });
+}
+
+function unlink_fares(journey){
+    airline_data_filter[journey].auto_link = !airline_data_filter[journey].auto_link;
+    if(airline_data_filter[journey].auto_link){
+        $('#journey'+journey+'_link').removeClass("fas fa-link");
+        $('#journey'+journey+'_link').addClass("fas fa-unlink");
+    }else{
+        $('#journey'+journey+'_link').removeClass("fas fa-unlink");
+        $('#journey'+journey+'_link').addClass("fas fa-link");
+    }
+}
+
+function unlink_pick_fares(journey){
+    airline_pick_list[journey].auto_link = !airline_pick_list[journey].auto_link;
+    if(airline_pick_list[journey].auto_link){
+        $('#journey_pick'+journey+'_link').removeClass("fas fa-link");
+        $('#journey_pick'+journey+'_link').addClass("fas fa-unlink");
+    }else{
+        $('#journey_pick'+journey+'_link').removeClass("fas fa-unlink");
+        $('#journey_pick'+journey+'_link').addClass("fas fa-link");
+    }
 }
 
 
@@ -4923,7 +5004,21 @@ function airline_pick_mc(type){
                     </a>
                 </div>
 
-                <div id="detail_departjourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none; width:100%; background: #f7f7f7; padding:15px 10px 10px 10px;">
+                <div id="detail_departjourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none; width:100%; background: #f7f7f7; padding:15px 10px 10px 10px;">`;
+
+                if(airline_pick_list[i].segments.length > 1 && airline_pick_list[i].auto_link){
+                    text += `
+                    <div style="text-align:right;">
+                        <i class="fas fa-unlink" style="font-weight:600; padding-right:15px; cursor:pointer;" id="journey_pick`+i+`_link" onclick="unlink_pick_fares(`+i+`)"></i>
+                    </div>`;
+                }else if(airline_pick_list[i].segments.length > 1 && !airline_pick_list[i].auto_link){
+                    text += `
+                    <div style="text-align:right;">
+                        <i class="fas fa-link" style="font-weight:600; padding-right:15px; cursor:pointer;" id="journey_pick`+i+`_link" onclick="unlink_pick_fares(`+i+`)"></i>
+                    </div>`;
+                }
+
+                text+=`
                     <div class="row">`;
                     for(j in airline_pick_list[i].segments){
                         if(airline_pick_list[i].segments[j].transit_duration != ''){
@@ -5125,7 +5220,7 @@ function airline_pick_mc(type){
                                    </div>
                                    <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;">
                                    <span id="choose_seat_span_pick`+i+``+j+`"></span><br/>
-                                   <span type="button" class="detail-link" onclick="open_cos_seat_class_pick('`+i+`','`+j+`')" style="font-weight:bold; font-size:14px; text-decoration:underline; cursor:pointer;">View RBD <i class="fas fa-eye"></i></span>
+                                   <span type="button" class="detail-link" onclick="open_cos_seat_class_pick('`+i+`','`+j+`')" style="font-weight:bold; font-size:14px; text-decoration:underline; cursor:pointer;">Change RBD <i class="fas fa-eye"></i></span>
                                 </div>
 
                                 <div class="col-lg-12" style="top:-40px; left:-15px;">
@@ -5159,7 +5254,7 @@ function airline_pick_mc(type){
                                                         if(k==airline_pick_list[i].segments[j].fare_pick){
                                                             text+=`
                                                             <label class="radio-label100">
-                                                                <input id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare" name="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                                <input id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare" name="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked" onclick="change_fare_airline_pick_list(`+i+`,`+j+`,`+k+`);">
                                                                 <div class="div_label100">`;
                                                         }
                                                         else{
@@ -5405,6 +5500,47 @@ function airline_pick_mc(type){
         }
     }
     for(i in airline_pick_list){
+        if(airline_pick_list[i].segments.length > 1 && airline_pick_list[i].auto_link){
+            try{
+                new jBox('Tooltip', {
+                    attach: '#journey_pick'+i+'_link',
+                    target: '#journey_pick'+i+'_link',
+                    theme: 'TooltipBorder',
+                    adjustTracker: true,
+                    width: 200,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'center',
+                      y: 'bottom'
+                    },
+                    content: 'Click here to disable auto pick fare'
+                });
+            }catch(err){
+                console.log(err);
+            }
+        }else if(airline_pick_list[i].segments.length > 1 && !airline_pick_list[i].auto_link){
+            try{
+                new jBox('Tooltip', {
+                    attach: '#journey_pick'+i+'_link',
+                    target: '#journey_pick'+i+'_link',
+                    theme: 'TooltipBorder',
+                    adjustTracker: true,
+                    width: 200,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'center',
+                      y: 'bottom'
+                    },
+                    content: 'Click here to change into auto pick fare'
+                });
+            }catch(err){
+                console.log(err);
+            }
+        }
         for(j in airline_pick_list[i].segments){
             for(k in airline_pick_list[i].segments[j].fares){
                 var temp_total_price_pick = 0;
@@ -5539,39 +5675,41 @@ function change_fare_airline_pick_list(journey_key, segment_key, fare_key){
     var fare_same_data_list = [];
     var same_data = 0;
     // AUTOPICK FARE OTHER SEGMENT
-    for(x in airline_pick_list[journey_key].segments){
-        if(x != segment_key){
-            fare_same_data_list = [];
-            for(y in airline_pick_list[journey_key].segments[x].fares){
-                same_data = 0;
-                if(airline_pick_list[journey_key].segments[x].fares[y].cabin_class == fare_data.cabin_class){
-                    same_data++;
+    if(airline_pick_list[journey_key].auto_link){
+        for(x in airline_pick_list[journey_key].segments){
+            if(x != segment_key){
+                fare_same_data_list = [];
+                for(y in airline_pick_list[journey_key].segments[x].fares){
+                    same_data = 0;
+                    if(airline_pick_list[journey_key].segments[x].fares[y].cabin_class == fare_data.cabin_class){
+                        same_data++;
+                    }
+                    if(airline_pick_list[journey_key].segments[x].fares[y].class_of_service == fare_data.class_of_service){
+                        same_data++;
+                    }
+                    if(airline_pick_list[journey_key].segments[x].fares[y].fare_basis_code == fare_data.fare_basis_code){
+                        same_data++;
+                    }
+                    if(airline_pick_list[journey_key].segments[x].fares[y].fare_name == fare_data.fare_name){
+                        same_data++;
+                    }
+                    fare_same_data_list.push(same_data);
                 }
-                if(airline_pick_list[journey_key].segments[x].fares[y].class_of_service == fare_data.class_of_service){
-                    same_data++;
-                }
-                if(airline_pick_list[journey_key].segments[x].fares[y].fare_basis_code == fare_data.fare_basis_code){
-                    same_data++;
-                }
-                if(airline_pick_list[journey_key].segments[x].fares[y].fare_name == fare_data.fare_name){
-                    same_data++;
-                }
-                fare_same_data_list.push(same_data);
-            }
-            most_pick = {
-                "fare_pick": "",
-                "same_data": 0
-            };
-            for(y in fare_same_data_list){
-                if(fare_same_data_list[y] > most_pick['same_data']){
-                    most_pick = {
-                        "fare_pick": y,
-                        "same_data": fare_same_data_list[y]
+                most_pick = {
+                    "fare_pick": "",
+                    "same_data": 0
+                };
+                for(y in fare_same_data_list){
+                    if(fare_same_data_list[y] > most_pick['same_data']){
+                        most_pick = {
+                            "fare_pick": y,
+                            "same_data": fare_same_data_list[y]
+                        }
                     }
                 }
+                if(most_pick['same_data'] != 0)
+                    airline_pick_list[journey_key].segments[x].fare_pick = most_pick['fare_pick'];
             }
-            if(most_pick['same_data'] != 0)
-                airline_pick_list[journey_key].segments[x].fare_pick = most_pick['fare_pick'];
         }
     }
 
