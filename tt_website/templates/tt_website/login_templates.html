@@ -118,6 +118,40 @@
 												</div>
 											</div>
 										</div>
+                                        <div class="col-lg-12">
+                                            <div class="alert alert-info" id="otp_information" hidden>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="input-container-search-ticket" id="otp_div" hidden>
+                                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="otp" placeholder="OTP" />
+                                                <button type="button" class="loading-button primary-btn-custom ld-ext-right" id="btn_otp_resend" onclick="signin(true)" style="margin:10px;margin-top:5px;margin-bottom:14px;">
+                                                    Resend
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3">
+                                            <div id="otp_type_div" hidden>
+                                                <span class="span-search-ticket" style="color:{{color}}"> {% trans 'OTP Type' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select" id="default-select">
+                                                        <select id="otp_type" name="otp_type" class="nice-select-default">
+                                                            <!--<option value="always">Always Ask OTP</option>-->
+                                                            <option value="1">Valid for 1 Days</option>
+                                                            <option value="3">Valid for 3 Days</option>
+                                                            <option value="7">Valid for 7 Days</option>
+                                                            <option value="never">Ask for this time only</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <div class="col-lg-12 mb-3">
+                                            <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd;" id="otp_time_limit" hidden>
+                                                <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> <span class="count_time" id="otp_session_time"> </span></span>
+                                            </div>
+                                        </div>
 										<div class="col-lg-12 mb-3">
 											<div class="input-container-login" style="margin-top:10px;">
 												<label class="check_box_custom" style="margin-bottom:0px; margin-right:15px;">
@@ -129,16 +163,20 @@
 										</div>
 										<div class="col-lg-12 mb-3" style="text-align:right;">
 											<input type="hidden" id="response" name="response">
-											<button id="login-form-home" class="primary-btn button-login ld-ext-right" style="line-height:40px; width:100%;">
+											<button type="button" onclick="get_captcha('g-recaptcha-response','signin_btb');" id="login-form-home" class="primary-btn button-login ld-ext-right" style="line-height:40px; width:100%;">
 												{% trans 'Login' %}
 												<div class="ld ld-ring ld-cycle"></div>
 											</button>
 										</div>
-										<div class="col-xs-6" style="text-align:left;">
-											<span class="forgot-pass-login"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="$('#myModalResetPassword').modal('show');"> {% trans 'Forget Password' %}</a></span>
-										</div>
-										<div class="col-xs-6" style="text-align:right;">
-											<span style="padding-left:10px; font-size:15px; font-weight:700;"> <i class="fas fa-user-plus"></i><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c"> {% trans 'Sign up' %}</a></span>
+										<div class="row">
+											<div class="col-xs-6" style="text-align:left;">
+												<span class="forgot-pass-login"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="$('#myModalResetPassword').modal('show');"> {% trans 'Forget Password' %}</a></span>
+											</div>
+											{% if is_register_agent == 'true' %}
+											<div class="col-xs-6" style="text-align:right;">
+												<span style="padding-left:10px; font-size:15px; font-weight:700;"> <i class="fas fa-user-plus"></i><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c"> {% trans 'Sign up' %}</a></span>
+											</div>
+											{% endif %}
 										</div>
 									</div>
 								</form>

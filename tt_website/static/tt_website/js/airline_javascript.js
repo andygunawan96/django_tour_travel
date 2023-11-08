@@ -2446,7 +2446,7 @@ function sort(){
         text = '';
         var first = sort_key * 10;
         var last = (sort_key+1) * 10;
-        if(sort_key == 0)
+        if(sort_key == 0){
             text += `
             <div class="div_box_default">
                 <span style="font-size:14px; font-weight:bold;">
@@ -2465,6 +2465,7 @@ function sort(){
                 </span>
                 `+airline_request.origin[counter_search-1].split(' - ')[1] + ` (`+airline_request.origin[counter_search-1].split(' - ')[0]+`) <i class="fas fa-arrow-right"></i> `+airline_request.destination[counter_search-1].split(' - ')[1]+` (`+airline_request.destination[counter_search-1].split(' - ')[0]+`) | `+airline_request.departure[counter_search-1]+`
             </div>`;
+        }
         get_airline_recommendations_list();
         total_price_pick = 0;
         for(i in airline_pick_list){
@@ -10578,7 +10579,7 @@ function get_airline_review(){
             <div class="div_box_default mb-3">
                 <div class="row">
                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                        <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                        <h4 class="mb-3"><i class="fas fa-address-book"></i> Contact Person</h4>
                     </div>
                 </div>
                 <div style="display:inline-flex;">`;
@@ -13240,7 +13241,7 @@ function go_back_page(){
 
 function get_default_ssr(pax, itinerary, page){
     if(page == 'ssr_page'){
-         document.getElementsByClassName("ssr_included_page").style.display = 'b';
+         document.getElementsByClassName("ssr_included_page").style.display = 'block';
     }
 
     for(co in pax){
@@ -13258,17 +13259,17 @@ function get_default_ssr(pax, itinerary, page){
                                 for(m in itinerary[i].journeys[j].segments[k].fare_details){
                                     default_ssr_text +=`
                                     <div class="row">
-                                       <div class="col-xs-12" style="margin-bottom:10px;">`;
+                                       <div class="col-xs-12">`;
                                        if(itinerary[i].journeys[j].segments[k].fare_details[m].detail_type.includes('BG')){
-                                            default_ssr_text +=`• <i class="fas fa-suitcase"></i><b style="background: white; padding: 5px; border:1px solid #cdcdcd;"> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
+                                            default_ssr_text +=`• <b style="background: white; padding: 5px; margin-right:5px;"> (Included)</b> <i class="fas fa-suitcase"></i> Baggage: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
                                        }
                                        else if(itinerary[i].journeys[j].segments[k].fare_details[m].detail_type == 'ML'){
-                                            default_ssr_text +=`• <i class="fas fa-utensils"></i><b style="background: white; padding: 5px; border:1px solid #cdcdcd;"> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
+                                            default_ssr_text +=`• <b style="background: white; padding: 5px; margin-right:5px;"> (Included)</b> <i class="fas fa-utensils"></i> Meal: </b> <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
                                        }
                                        else{
                                             default_ssr_text +=`• <i>`+itinerary[i].journeys[j].segments[k].fare_details[m].amount+` `+itinerary[i].journeys[j].segments[k].fare_details[m].unit+`</i><br/>`;
                                        }
-                                   default_ssr_text+=`
+                                       default_ssr_text+=`
                                        </div>
                                    </div>`;
                                 }
@@ -13276,6 +13277,13 @@ function get_default_ssr(pax, itinerary, page){
                             else{
                                 default_ssr_text += `• <i>No SSR</i><br/>`;
                             }
+
+                            default_ssr_text += `
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" id="div_request_ssr_seat`+id_co+``+i+``+j+``+k+`">
+
+                                </div>
+                            </div>`;
                         }
                         else{
                             for(l in itinerary[i].journeys[j].segments[k].fares){
@@ -13318,69 +13326,112 @@ function get_default_ssr(pax, itinerary, page){
             }
             document.getElementById('included_ssr'+id_co).innerHTML = default_ssr_text;
 
-            for(j_ssr in pax[co].ssr_list){
-                for(i in itinerary){
-                    for(j in itinerary[i].journeys){
-                        for(k in itinerary[i].journeys[j].segments){
-                            text_ssr_req = '';
-                            if(itinerary[i].journeys[j].journey_code == pax[co].ssr_list[j_ssr].journey_code || itinerary[i].journeys[j].segments[k].segment_code == pax[co].ssr_list[j_ssr].journey_code){
-                                fee_dict_temp = {};
-                                if(fee_dict_temp.hasOwnProperty(pax[co].ssr_list[j_ssr].journey_code) == false){
-                                    fee_dict_temp[pax[co].ssr_list[j_ssr].journey_code] = {
-                                        "fees": [],
-                                        "origin": pax[co].ssr_list[j_ssr].origin,
-                                        "destination": pax[co].ssr_list[j_ssr].destination,
-                                        "departure_date": pax[co].ssr_list[j_ssr].departure_date,
-                                    };
-                                }
-                                fee_dict_temp[pax[co].ssr_list[j_ssr].journey_code].fees.push({
-                                    "ssr_type": pax[co].ssr_list[j_ssr].ssr_type,
-                                    "name": pax[co].ssr_list[j_ssr].name
-                                })
-                                for(fee_co in fee_dict_temp){
-                                    for(fee_k in fee_dict_temp[fee_co].fees){
-                                        ssr_type_lower = fee_dict_temp[fee_co].fees[fee_k].ssr_type.toLowerCase();
-                                        text_ssr_req += `
-                                        <div class="row">
-                                            <div class="col-lg-12" style="margin-bottom:5px;">
-                                                • <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;"> (SSR Request)</span>`;
-                                                if(ssr_type_lower.includes('ml') || ssr_type_lower.includes('meal')){
-                                                    text_ssr_req+=` <i class="fas fa-utensils"></i> `;
-                                                }
-                                                else if(ssr_type_lower.includes('bg') || ssr_type_lower.includes('bag') || fee_dict_temp[fee_co].fees[fee_k].ssr_type.includes('bg')){
-                                                    text_ssr_req+=` <i class="fas fa-suitcase"></i> <i>Added</i> `;
-                                                }
-                                                else if(ssr_type_lower.includes('wc') || ssr_type_lower.includes('whcr') || ssr_type_lower.includes('wheelchair')){
-                                                    text_ssr_req+=` <i class="fas fa-wheelchair"></i>`;
-                                                }
-                                                text_ssr_req+= `<i>`+fee_dict_temp[fee_co].fees[fee_k].name+`</i>
-                                            </div>
-                                        </div>`;
+            if(page == 'booking'){
+                if(pax[co].hasOwnProperty('fees_dict')){
+                    for(j_ssr_seat in pax[co].fees_dict){
+                        for(i in itinerary){
+                            for(j in itinerary[i].journeys){
+                                for(k in itinerary[i].journeys[j].segments){
+                                    text_ssr_seat = '';
+                                    if(itinerary[i].journeys[j].journey_code == j_ssr_seat || itinerary[i].journeys[j].segments[k].segment_code == j_ssr_seat){
+                                        for(k_ssr_seat in pax[co].fees_dict[j_ssr_seat].fees){
+                                            if(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_category == 'meal'){
+                                                text_ssr_seat+=`• <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(SSR Request)</span> <i class="fas fa-utensils"></i> </span>`;
+                                            }
+                                            else if(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_category == 'baggage'){
+                                                text_ssr_seat+=`• <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(SSR Request)</span> <i class="fas fa-suitcase"></i> <i>Added</i> </span>`;
+                                            }
+                                            else if(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_category == 'equipment'){
+                                                text_ssr_seat+=`• <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(SSR Request)</span> <i class="fas fa-tools"></i> </span>`;
+                                            }
+                                            else if(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_category == 'wheelchair'){
+                                                text_ssr_seat+=`• <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(SSR Request)</span> <i class="fas fa-wheelchair"></i> </span>`;
+                                            }
+                                            else if(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_category == 'seat'){
+                                                text_ssr_seat+=`• <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(Seat Request)</span> <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:15px; width:auto;"/> </span>`;
+                                            }
+                                            if(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_name.toLowerCase().includes(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_category.toLowerCase()) == false)
+                                                text_ssr_seat += `<i>Seat `+pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_category+`</i>`;
+
+
+                                            text_ssr_seat += `<i>`+pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].fee_name
+                                            if(pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].ticket_number)
+                                                text_ssr_seat += ` - ` + pax[co].fees_dict[j_ssr_seat].fees[k_ssr_seat].ticket_number;
+                                            text_ssr_seat += `</i><br/>`;
+                                        }
                                     }
+                                    document.getElementById('div_request_ssr_seat'+id_co+i+j+k).innerHTML += text_ssr_seat;
                                 }
                             }
-                            document.getElementById('div_request_new_ssr'+id_co+i+j+k).innerHTML += text_ssr_req;
                         }
                     }
                 }
             }
-            for(j_seat in pax[co].seat_list){
-                for(i in itinerary){
-                    for(j in itinerary[i].journeys){
-                        for(k in itinerary[i].journeys[j].segments){
-                            text_seat_req = '';
-                            if(itinerary[i].journeys[j].journey_code == pax[co].seat_list[j_seat].segment_code_check || itinerary[i].journeys[j].segments[k].segment_code == pax[co].seat_list[j_seat].segment_code_check){
-                                if(pax[co].seat_list[j_seat].seat_pick != ''){
-                                    text_seat_req += `
-                                    <div class="row">
-                                        <div class="col-lg-12" style="margin-bottom:5px;">
-                                            • <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(Seat Request)</span> <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:15px; width:auto;"/> </span>
-                                            <i>`+pax[co].seat_list[j_seat].seat_pick+`</i>
-                                        </div>
-                                    </div>`;
+            else{
+                for(j_ssr in pax[co].ssr_list){
+                    for(i in itinerary){
+                        for(j in itinerary[i].journeys){
+                            for(k in itinerary[i].journeys[j].segments){
+                                text_ssr_req = '';
+                                if(itinerary[i].journeys[j].journey_code == pax[co].ssr_list[j_ssr].journey_code || itinerary[i].journeys[j].segments[k].segment_code == pax[co].ssr_list[j_ssr].journey_code){
+                                    fee_dict_temp = {};
+                                    if(fee_dict_temp.hasOwnProperty(pax[co].ssr_list[j_ssr].journey_code) == false){
+                                        fee_dict_temp[pax[co].ssr_list[j_ssr].journey_code] = {
+                                            "fees": [],
+                                            "origin": pax[co].ssr_list[j_ssr].origin,
+                                            "destination": pax[co].ssr_list[j_ssr].destination,
+                                            "departure_date": pax[co].ssr_list[j_ssr].departure_date,
+                                        };
+                                    }
+                                    fee_dict_temp[pax[co].ssr_list[j_ssr].journey_code].fees.push({
+                                        "ssr_type": pax[co].ssr_list[j_ssr].ssr_type,
+                                        "name": pax[co].ssr_list[j_ssr].name
+                                    })
+                                    for(fee_co in fee_dict_temp){
+                                        for(fee_k in fee_dict_temp[fee_co].fees){
+                                            ssr_type_lower = fee_dict_temp[fee_co].fees[fee_k].ssr_type.toLowerCase();
+                                            text_ssr_req += `
+                                            <div class="row">
+                                                <div class="col-lg-12" style="margin-bottom:5px;">
+                                                    • <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;"> (SSR Request)</span>`;
+                                                    if(ssr_type_lower.includes('ml') || ssr_type_lower.includes('meal')){
+                                                        text_ssr_req+=` <i class="fas fa-utensils"></i> `;
+                                                    }
+                                                    else if(ssr_type_lower.includes('bg') || ssr_type_lower.includes('bag') || fee_dict_temp[fee_co].fees[fee_k].ssr_type.includes('bg')){
+                                                        text_ssr_req+=` <i class="fas fa-suitcase"></i> <i>Added</i> `;
+                                                    }
+                                                    else if(ssr_type_lower.includes('wc') || ssr_type_lower.includes('whcr') || ssr_type_lower.includes('wheelchair')){
+                                                        text_ssr_req+=` <i class="fas fa-wheelchair"></i>`;
+                                                    }
+                                                    text_ssr_req+= `<i>`+fee_dict_temp[fee_co].fees[fee_k].name+`</i>
+                                                </div>
+                                            </div>`;
+                                        }
+                                    }
                                 }
+                                document.getElementById('div_request_new_ssr'+id_co+i+j+k).innerHTML += text_ssr_req;
                             }
-                            document.getElementById('div_request_new_seat'+id_co+i+j+k).innerHTML += text_seat_req;
+                        }
+                    }
+                }
+                for(j_seat in pax[co].seat_list){
+                    for(i in itinerary){
+                        for(j in itinerary[i].journeys){
+                            for(k in itinerary[i].journeys[j].segments){
+                                text_seat_req = '';
+                                if(itinerary[i].journeys[j].journey_code == pax[co].seat_list[j_seat].segment_code_check || itinerary[i].journeys[j].segments[k].segment_code == pax[co].seat_list[j_seat].segment_code_check){
+                                    if(pax[co].seat_list[j_seat].seat_pick != ''){
+                                        text_seat_req += `
+                                        <div class="row">
+                                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                                • <span style="color:`+color+`; font-weight:bold; padding: 5px; margin-right:5px;">(Seat Request)</span> <img src="/static/tt_website/images/icon/symbol/seat.png" style="height:15px; width:auto;"/> </span>
+                                                <i>Seat `+pax[co].seat_list[j_seat].seat_pick+`</i>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
+                                document.getElementById('div_request_new_seat'+id_co+i+j+k).innerHTML += text_seat_req;
+                            }
                         }
                     }
                 }

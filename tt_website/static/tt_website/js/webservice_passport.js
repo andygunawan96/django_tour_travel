@@ -94,11 +94,13 @@ function passport_signin(data){
                 }
             }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
+//                Swal.fire({
+//                    type: 'warning',
+//                    html: 'Input OTP'
+//                });
                 if(document.getElementById('otp_div')){
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     document.getElementById('username_div').hidden = true;
@@ -753,16 +755,18 @@ function passport_commit_booking(){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
 
     getToken();
     $.ajax({
-       type: "POST",
-       url: "/webservice/passport",
-       headers:{
+        type: "POST",
+        url: "/webservice/passport",
+        headers:{
             'action': 'commit_booking',
-       },
-       data: formData,
-       success: function(msg) {
+        },
+        data: formData,
+        success: function(msg) {
             if(google_analytics != ''){
                 if(formData.get('member'))
                     gtag('event', 'passport_issued', {});
@@ -782,13 +786,13 @@ function passport_commit_booking(){
 //                close_div('payment_acq');
                 set_payment('Issued','passport');
             }
-       },
-       contentType:false,
-       processData:false,
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        contentType:false,
+        processData:false,
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa commit booking');
             hide_modal_waiting_transaction();
-       },timeout: 180000
+        },timeout: 180000
     });
 }
 

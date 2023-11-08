@@ -116,7 +116,18 @@
                                             <input type="text" class="form-control" name="company_occupied" id="company_occupied" placeholder="Years " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Years '" autocomplete="off">
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                        <div class="form-select" style="margin-bottom:0px;">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Phone Code' %}</label>
+                                            <select class="form-control js-example-basic-single" name="company_phone_code_id" style="width:100%;" id="company_phone_code_id" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Phone Number' %}</label>
                                         <div class="input-container-search-ticket">
@@ -242,7 +253,18 @@
                                             <input type="text" class="form-control date-picker-birth" name="owner_birth_date" id="owner_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                        <div class="form-select" style="margin-bottom:0px;">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Phone Code' %}</label>
+                                            <select class="form-control js-example-basic-single" name="owner_phone_code_id" style="width:100%;" id="owner_phone_code_id" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Phone Number' %}</label>
                                         <div class="input-container-search-ticket">
@@ -295,7 +317,18 @@
                                             <input type="text" class="form-control date-picker-birth" name="director_birth_date" id="director_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                        <div class="form-select" style="margin-bottom:0px;">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Phone Code' %}</label>
+                                            <select class="form-control js-example-basic-single" name="director_phone_code_id" style="width:100%;" id="director_phone_code_id" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Phone Number' %}</label>
                                         <div class="input-container-search-ticket">
@@ -338,7 +371,18 @@
                                             <input type="text" class="form-control date-picker-birth" name="accounting_birth_date" id="accounting_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                        <div class="form-select" style="margin-bottom:0px;">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Phone Code' %}</label>
+                                            <select class="form-control js-example-basic-single" name="accounting_phone_code_id" style="width:100%;" id="accounting_phone_code_id" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Phone Number' %}</label>
                                         <div class="input-container-search-ticket">
@@ -412,7 +456,18 @@
                                             <input type="text" class="form-control date-picker-birth" name="pic_birth_date" id="pic_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                        <div class="form-select" style="margin-bottom:0px;">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Phone Code' %}</label>
+                                            <select class="form-control js-example-basic-single" name="pic_phone_code_id" style="width:100%;" id="pic_phone_code_id" class="nice-select-default">
+                                                {% for phone in phone_code %}
+                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8" style="margin-bottom:15px;">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Phone Number' %}</label>
                                         <div class="input-container-search-ticket">
@@ -519,7 +574,7 @@
                             <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
                                 <div class="row">
                                     <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label>{% trans 'Do you want to have and account in ' %}{{name}}</label>
+                                        <label>{% trans 'Do you want to have an account in ' %}{{name}}</label>
                                         <div class="input-container-search-ticket">
                                             <label class="radio-button-custom">
                                                 {% trans 'Yes' %}

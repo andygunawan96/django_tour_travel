@@ -81,6 +81,8 @@ def api_models(request):
             res = update_session(request)
         elif req_data['action'] == 'signup_user':
             res = signup_user(request)
+        elif req_data['action'] == 'delete_user':
+            res = delete_user(request)
         elif req_data['action'] == 'get_balance':
             res = get_balance(request)
         elif req_data['action'] == 'get_corpor_list':
@@ -171,6 +173,12 @@ def api_models(request):
             res = create_va_number(request)
         elif req_data['action'] == 'get_provider_type':
             res = get_provider_type(request)
+        elif req_data['action'] == 'turn_on_pin':
+            res = turn_on_pin(request)
+        elif req_data['action'] == 'turn_off_pin':
+            res = turn_off_pin(request)
+        elif req_data['action'] == 'change_pin':
+            res = change_pin(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -196,14 +204,17 @@ def signin(request):
         "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
+    otp_params = {}
     if request.POST.get('unique_id'):
-        data['machine_code'] = request.POST['unique_id']
+        otp_params['machine_code'] = request.POST['unique_id']
     if request.POST.get('platform'):
-        data['platform'] = request.POST['platform']
+        otp_params['platform'] = request.POST['platform']
     if request.POST.get('browser'):
-        data['browser'] = request.POST['browser']
+        otp_params['browser'] = request.POST['browser']
     if request.POST.get('timezone'):
-        data['timezone'] = request.POST['timezone']
+        otp_params['timezone'] = request.POST['timezone']
+    if otp_params:
+        data['otp_params'] = otp_params
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
@@ -282,6 +293,30 @@ def signup_user(request):
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
+def delete_user(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "delete_user_api",
+        "signature": request.POST['signature']
+    }
+
+    data = {}
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("DELETE USER SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.info(json.dumps(res))
+
+    except Exception as e:
+        _logger.error('ERROR DELETE USER\n' + str(e) + '\n' + traceback.format_exc())
+        # pass
+        # # logging.getLogger("error logger").error('testing')
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
 def auto_signin(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -301,6 +336,19 @@ def auto_signin(request):
         # "co_password": password_default, #request.POST['password'],
         "co_uid": ""
     }
+
+    otp_params = {}
+    if request.POST.get('unique_id'):
+        otp_params['machine_code'] = request.POST['unique_id']
+    if request.POST.get('platform'):
+        otp_params['platform'] = request.POST['platform']
+    if request.POST.get('browser'):
+        otp_params['browser'] = request.POST['browser']
+    if request.POST.get('timezone'):
+        otp_params['timezone'] = request.POST['timezone']
+    if otp_params:
+        data['otp_params'] = otp_params
+
     url_request = get_url_gateway('session')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
@@ -1872,6 +1920,63 @@ def get_provider_type(request):
                 "sequence": file[provider_type]['sequence'],
                 "display": file[provider_type]['display'] if file[provider_type].get('display') else ("%s%s" % (provider_type[0].upper(), provider_type[1:]))
             })
+    return res
+
+def turn_on_pin(request):
+    try:
+        data = {
+            'pin': encrypt_pin(request.POST['pin']),
+            'confirm_pin': encrypt_pin(request.POST['confirm_pin'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "turn_on_pin_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    return res
+
+def turn_off_pin(request):
+    try:
+        data = {
+            'pin': encrypt_pin(request.POST['pin'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "turn_off_pin_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    return res
+
+def change_pin(request):
+    try:
+        data = {
+            'old_pin': encrypt_pin(request.POST['old_pin']),
+            'pin': encrypt_pin(request.POST['new_pin']),
+            'confirm_pin': encrypt_pin(request.POST['confirm_pin'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "change_pin_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
     return res
 
 #DEPRECATED

@@ -109,14 +109,17 @@ def login(request):
         "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
+    otp_params = {}
     if request.POST.get('unique_id'):
-        data['machine_code'] = request.POST['unique_id']
+        otp_params['machine_code'] = request.POST['unique_id']
     if request.POST.get('platform'):
-        data['platform'] = request.POST['platform']
+        otp_params['platform'] = request.POST['platform']
     if request.POST.get('browser'):
-        data['browser'] = request.POST['browser']
+        otp_params['browser'] = request.POST['browser']
     if request.POST.get('timezone'):
-        data['timezone'] = request.POST['timezone']
+        otp_params['timezone'] = request.POST['timezone']
+    if otp_params:
+        data['otp_params'] = otp_params
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -232,9 +235,11 @@ def get_data(request):
     try:
         temp_data = get_cache_data(request)
         template_data = orbisway_views.get_data_template(request)
-
+        cur_ho_seq_id = request.session['user_account']['co_ho_seq_id']
+        tour_types_list = temp_data['result']['response']['tour']['tour_types']
         response = {
             'tour_countries': temp_data['result']['response']['tour']['countries'],
+            'tour_types': tour_types_list.get(cur_ho_seq_id) and tour_types_list[cur_ho_seq_id] or [],
             'tour_search_template': template_data['tour_search_template']
         }
 
@@ -243,6 +248,7 @@ def get_data(request):
     except Exception as e:
         response = {
             'tour_countries': [],
+            'tour_types': [],
             'tour_search_template': 'default_search'
         }
 
@@ -497,7 +503,7 @@ def sell_tour(request):
             "infant": tour_booking_data['infant'],
             'provider': tour_pick['provider'],
         }
-        if tour_pick['tour_type'] == 'open':
+        if tour_pick['tour_type']['is_open_date']:
             data.update({
                 'departure_date': tour_dept_return_data.get('departure') and tour_dept_return_data['departure'] or '',
             })
@@ -681,6 +687,9 @@ def commit_booking(request):
                 'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
             })
 
+            if request.POST.get('pin'):
+                data['pin'] = encrypt_pin(request.POST['pin'])
+
             try:
                 if request.POST['use_point'] == 'false':
                     data['use_point'] = False
@@ -798,6 +807,9 @@ def issued_booking(request):
             'voucher': {},
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         }
+
+        if request.POST.get('pin'):
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         try:
             if request.POST['use_point'] == 'false':

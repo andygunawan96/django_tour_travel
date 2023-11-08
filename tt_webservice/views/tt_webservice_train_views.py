@@ -108,14 +108,17 @@ def login(request):
             "co_password": request.session.get('password') or password_default,
             "co_uid": ""
         }
+        otp_params = {}
         if request.POST.get('unique_id'):
-            data['machine_code'] = request.POST['unique_id']
+            otp_params['machine_code'] = request.POST['unique_id']
         if request.POST.get('platform'):
-            data['platform'] = request.POST['platform']
+            otp_params['platform'] = request.POST['platform']
         if request.POST.get('browser'):
-            data['browser'] = request.POST['browser']
+            otp_params['browser'] = request.POST['browser']
         if request.POST.get('timezone'):
-            data['timezone'] = request.POST['timezone']
+            otp_params['timezone'] = request.POST['timezone']
+        if otp_params:
+            data['otp_params'] = otp_params
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -626,6 +629,10 @@ def commit_booking(request):
                 })
         except:
             _logger.error('book, not force issued')
+
+        if request.POST.get('pin'):
+            data['pin'] = encrypt_pin(request.POST['pin'])
+
         if request.POST.get('voucher_code') != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'train', []),
@@ -887,6 +894,9 @@ def issued(request):
             'voucher': {},
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         }
+
+        if request.POST.get('pin'):
+            data['pin'] = encrypt_pin(request.POST['pin'])
 
         try:
             if request.POST['use_point'] == 'false':

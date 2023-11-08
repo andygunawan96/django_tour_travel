@@ -1,0 +1,197 @@
+{% load i18n %}
+
+<div class="modal fade" id="myModal_pin" role="dialog">
+    <div class="overlay_modal_custom" data-dismiss="modal"></div>
+    <div class="modal-dialog modal_custom_fixed">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-xs-6 pb-3">
+                        <h4 class="modal-title">{% trans 'PIN' %}</h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+                <div class="col-lg-12 mb-3" id="pin_div">
+                    <label>{% trans 'PIN' %}</label>
+                    <div class="input-container-search-ticket">
+                        <input type="password" style="margin-bottom:0px;" class="form-control" name="pin" id="pin" placeholder="{% trans 'PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PIN '" maxLength="6">
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-3" id="pin_confirm_div">
+                    <label>{% trans 'CONFIRM PIN' %}</label>
+                    <div class="input-container-search-ticket">
+                        <input type="password" style="margin-bottom:0px;" class="form-control" name="confirm_pin" id="confirm_pin" placeholder="{% trans 'Confirm PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm PIN '" maxLength="6">
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3" id="change_pin_div">
+                    <label>{% trans 'OLD PIN' %}</label>
+                    <div class="input-container-search-ticket">
+                        <input type="password" style="margin-bottom:0px;" class="form-control" name="old_pin" id="old_pin" placeholder="{% trans 'OLD PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'OLD PIN '" maxLength="6">
+                    </div>
+                    <br/>
+                    <label>{% trans 'New PIN' %}</label>
+                    <div class="input-container-search-ticket">
+                        <input type="password" style="margin-bottom:0px;" class="form-control" name="new_pin" id="new_pin" placeholder="{% trans 'New PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'New PIN '" maxLength="6">
+                    </div>
+                    <br/>
+                    <label>{% trans 'Confirm New PIN' %}</label>
+                    <div class="input-container-search-ticket">
+                        <input type="password" style="margin-bottom:0px;" class="form-control" name="confirm_new_pin" id="confirm_new_pin" placeholder="{% trans 'Confirm New PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm New PIN '" maxLength="6">
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3" style="align-items:right;">
+                    <div class="input-container-search-ticket">
+                        <button id="btn_pin" type="button" onclick="pin_submit();" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px 0px;">
+                            Submit <i class="fas fa-sign-in-alt"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button><br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $( document ).ready(function() {
+        $('#otp_type_user').niceSelect();
+        $('#myModal_otp').on('hidden.bs.modal', function () {
+            clear_otp();
+        })
+    });
+    function open_modal_pin(type_open){
+        if(type_open == 'turn_on'){
+            document.getElementById('change_pin_div').hidden = true;
+            document.getElementById('pin_div').hidden = false;
+            document.getElementById('pin_confirm_div').hidden = false;
+            action_mode = 'turn_on';
+        }else if(type_open == 'turn_off'){
+            document.getElementById('change_pin_div').hidden = true;
+            document.getElementById('pin_div').hidden = false;
+            document.getElementById('pin_confirm_div').hidden = true;
+            action_mode = 'turn_off';
+        }else if(type_open == 'change'){
+            document.getElementById('change_pin_div').hidden = false;
+            document.getElementById('pin_div').hidden = true;
+            document.getElementById('pin_confirm_div').hidden = true;
+            action_mode = 'change';
+        }
+        $('#myModal_pin').modal('show');
+    }
+
+    function pin_submit(){
+        var error_msg = '';
+        var data = {
+            'signature': signature
+        }
+        if(action_mode == 'change'){
+            if(document.getElementById('new_pin').value == '' ||
+            document.getElementById('confirm_new_pin').value == '' ||
+            document.getElementById('old_pin').value == ''){
+                if(document.getElementById('old_pin').value == ''){
+                    error_msg += 'Please input old PIN!';
+                }
+                if(document.getElementById('new_pin').value == ''){
+                    if(error_msg != '')
+                        error_msg += '<br/>';
+                    error_msg += 'Please input new PIN!';
+                }
+                if(document.getElementById('confirm_new_pin').value == ''){
+                    if(error_msg != '')
+                        error_msg += '<br/>';
+                    error_msg += 'Please input confirm PIN!';
+                }
+            }
+            else if(document.getElementById('new_pin').value != document.getElementById('confirm_new_pin').value){
+                error_msg += 'New pin & Confirmation pin not same please check again!';
+            }else if(document.getElementById('new_pin').value.length != 6){
+                error_msg += 'Please input 6 digits for Pin!';
+            }else{
+                data['old_pin'] = document.getElementById('old_pin').value;
+                data['new_pin'] = document.getElementById('new_pin').value;
+                data['confirm_pin'] = document.getElementById('confirm_new_pin').value;
+            }
+        }else if(action_mode == 'turn_off'){
+            if(document.getElementById('pin').value == ''){
+                error_msg += 'Please input pin to turn off!';
+            }else{
+                data['pin'] = document.getElementById('pin').value;
+            }
+
+        }else if(action_mode == 'turn_on'){
+            if(document.getElementById('pin').value == '' || document.getElementById('confirm_pin').value == ''){
+                if(document.getElementById('pin').value == '')
+                    error_msg += 'Please input pin!';
+                if(document.getElementById('confirm_pin').value == ''){
+                    if(error_msg)
+                        error_msg += ', ';
+                    error_msg += 'Please input confirm pin!';
+                }
+            }
+            else if(document.getElementById('pin').value != document.getElementById('confirm_pin').value){
+                error_msg += 'Pin & Confirmation pin not same please check again!';
+            }else if(document.getElementById('pin').value.length != 6){
+                error_msg += 'Please input 6 digits for Pin!';
+            }else{
+                data['pin'] = document.getElementById('pin').value;
+                data['confirm_pin'] = document.getElementById('confirm_pin').value;
+            }
+        }
+        if(error_msg){
+            Swal.fire({
+                type: 'error',
+                title: 'Oops!',
+                html: error_msg,
+            })
+            setTimeout(function(){
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            }, 200);
+
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "/webservice/account",
+                headers:{
+                    'action': action_mode+'_pin',
+                },
+                data: data,
+                success: function(msg) {
+                    temp_action = '';
+                    temp_mode = action_mode.split('_');
+                    for(i in temp_mode){
+                        if(temp_action != ''){
+                            temp_action += ' ';
+                        }
+                        temp_action += temp_mode[i].substr(0,1).toUpperCase() + temp_mode[i].substr(1, temp_mode[i].length).toLowerCase();
+                    }
+                    if(msg.result.error_code == 0){
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Update!',
+                            html: temp_action + ' Pin',
+                        })
+                        relogin_user();
+                    }else{
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops!',
+                            html: '<span style="color: #ff9900;">'+temp_action+' Pin </span>' + msg.result.error_msg,
+                        })
+                    }
+                    $('.loading-button').prop('disabled', false);
+                    $('.loading-button').removeClass("running");
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log('Error '+action_mode+'_pin');
+                },timeout: 300000
+            });
+        }
+    }
+</script>

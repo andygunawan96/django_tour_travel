@@ -256,11 +256,13 @@ function hotel_signin(data, need_signin=false){
                 }
             }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
+//                Swal.fire({
+//                    type: 'warning',
+//                    html: 'Input OTP'
+//                });
                 if(document.getElementById('otp_div')){
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     document.getElementById('username_div').hidden = true;
@@ -2330,389 +2332,390 @@ function force_issued_hotel(val){
 
 function hotel_issued(data){
     Swal.fire({
-      title: 'Are you sure want to Issued this booking?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
+        title: 'Are you sure want to Issued this booking?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
     }).then((result) => {
-      if (result.value) {
-        show_loading();
-        please_wait_transaction();
+        if (result.value) {
+            show_loading();
+            please_wait_transaction();
 
-        if(document.getElementById('hotel_payment_form'))
-        {
-            var formData = new FormData($('#hotel_payment_form').get(0));
-        }
-        else
-        {
-            var formData = new FormData($('#global_payment_form').get(0));
-        }
-        formData.append('order_number', data);
-        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
-        formData.append('member', payment_acq2[payment_method][selected].method);
-        formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : '');
-        formData.append('signature', signature);
-        formData.append('voucher_code', voucher_code);
-        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
-        {
-            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
-        }
-
-        getToken();
-        $.ajax({
-           type: "POST",
-           url: "/webservice/hotel",
-           headers:{
-                'action': 'issued_b2c',
-           },
-           data: {
-               'order_number': data,
-               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-               'member': payment_acq2[payment_method][selected].method,
-               'voucher_code': voucher_code,
-               'signature': signature,
-           },
-           success: function(msg) {
-               if(google_analytics != '')
-                   gtag('event', 'hotel_issued', {});
-               if(msg.result.error_code == 0){
-                   try{
-                       if(msg.result.response.state == 'issued')
-                            print_success_issued();
-                       else
-                            print_fail_issued();
-                   }catch(err){
-                       console.log(err); // error kalau ada element yg tidak ada
-                   }
-                   if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                        window.location.href = '/hotel/booking/' + btoa(data);
-                   }else{
-                       //update ticket check lagi
-                       price_arr_repricing = {};
-                       pax_type_repricing = [];
-                       hotel_get_booking(data);
-                       document.getElementById('payment_acq').innerHTML = '';
-                       document.getElementById('payment_acq').hidden = true;
-                       document.getElementById("overlay-div-box").style.display = "none";
-                       hide_modal_waiting_transaction();
-                   }
-               }else if(msg.result.error_code == 1009){
-                   price_arr_repricing = {};
-                   pax_type_repricing = [];
-                   hide_modal_waiting_transaction();
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('hotel_booking').innerHTML = '';
-                   document.getElementById('hotel_detail').innerHTML = '';
-                   document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
-                   document.getElementById('show_loading_booking_airline').style.display = 'block';
-                   document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('payment_acq').hidden = true;
-                   document.getElementById("overlay-div-box").style.display = "none";
-                   $(".issued_booking_btn").hide();
-                   Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
-                    }).then((result) => {
-                      if (result.value) {
+            if(document.getElementById('hotel_payment_form'))
+            {
+                var formData = new FormData($('#hotel_payment_form').get(0));
+            }
+            else
+            {
+                var formData = new FormData($('#global_payment_form').get(0));
+            }
+            formData.append('order_number', data);
+            formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+            formData.append('member', payment_acq2[payment_method][selected].method);
+            formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : '');
+            formData.append('signature', signature);
+            formData.append('voucher_code', voucher_code);
+            if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+            {
+                formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+            }
+            if(document.getElementById('pin') && document.getElementById('pin').value)
+                formData.append('pin', document.getElementById('pin').value);
+            getToken();
+            $.ajax({
+                type: "POST",
+                url: "/webservice/hotel",
+                headers:{
+                    'action': 'issued_b2c',
+                },
+                data: {
+                    'order_number': data,
+                    'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
+                    'member': payment_acq2[payment_method][selected].method,
+                    'voucher_code': voucher_code,
+                    'signature': signature,
+                },
+                success: function(msg) {
+                    if(google_analytics != '')
+                        gtag('event', 'hotel_issued', {});
+                    if(msg.result.error_code == 0){
+                        try{
+                            if(msg.result.response.state == 'issued')
+                                print_success_issued();
+                            else
+                                print_fail_issued();
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
+                        if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                            window.location.href = '/hotel/booking/' + btoa(data);
+                        }else{
+                            //update ticket check lagi
+                            price_arr_repricing = {};
+                            pax_type_repricing = [];
+                            hotel_get_booking(data);
+                            document.getElementById('payment_acq').innerHTML = '';
+                            document.getElementById('payment_acq').hidden = true;
+                            document.getElementById("overlay-div-box").style.display = "none";
+                            hide_modal_waiting_transaction();
+                        }
+                    }else if(msg.result.error_code == 1009){
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
                         hide_modal_waiting_transaction();
-                      }
-                    })
-                    hide_modal_waiting_transaction();
-                    document.getElementById("overlay-div-box").style.display = "none";
-
-                    $('.hold-seat-booking-train').prop('disabled', false);
-                    $('.hold-seat-booking-train').removeClass("running");
-                    hotel_get_booking(data);
-               }else if(msg.result.error_code == 4006){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
-                    }).then((result) => {
-                      if (result.value) {
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('hotel_booking').innerHTML = '';
+                        document.getElementById('hotel_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('voucher_div').style.display = 'none';
+                        document.getElementById('ssr_request_after_sales').hidden = true;
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+                        document.getElementById("overlay-div-box").style.display = "none";
+                        $(".issued_booking_btn").hide();
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops!',
+                            html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
+                        }).then((result) => {
+                            if (result.value) {
+                                hide_modal_waiting_transaction();
+                            }
+                        })
                         hide_modal_waiting_transaction();
-                      }
-                    })
-                    hide_modal_waiting_transaction();
-                    $('.btn-next').removeClass('running');
-                    $('.btn-next').prop('disabled', false);
-                    document.getElementById("overlay-div-box").style.display = "none";
-                    //modal pop up
+                        document.getElementById("overlay-div-box").style.display = "none";
+                        $('.hold-seat-booking-train').prop('disabled', false);
+                        $('.hold-seat-booking-train').removeClass("running");
+                        hotel_get_booking(data);
+                    }else if(msg.result.error_code == 4006){
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops!',
+                            html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
+                        }).then((result) => {
+                            if (result.value) {
+                                hide_modal_waiting_transaction();
+                            }
+                        })
+                        hide_modal_waiting_transaction();
+                        $('.btn-next').removeClass('running');
+                        $('.btn-next').prop('disabled', false);
+                        document.getElementById("overlay-div-box").style.display = "none";
+                        //modal pop up
 
-//                    booking_price_detail(msg);
-                    tax = 0;
-                    fare = 0;
-                    total_price = 0;
-                    commission = 0;
-                    total_price_provider_show = [];
-                    price_provider_show = 0;
-                    service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
-                    text=`
+//                        booking_price_detail(msg);
+                        tax = 0;
+                        fare = 0;
+                        total_price = 0;
+                        commission = 0;
+                        total_price_provider_show = [];
+                        price_provider_show = 0;
+                        service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
+                        text=`
                         <div style="background-color:`+color+`; margin-top:20px;">
                             <center>
                                 <span style="color:`+text_color+`; font-size:16px;">Old Price Detail <i class="fas fa-money-bill-wave"></i></span>
                             </center>
                         </div>
                         <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
-                    for(i in hotel_get_detail.result.response.passengers[0].sale_service_charges){
-                        text+=`
-                        <div style="text-align:center">
-                            `+i+`
-                        </div>`;
-                        for(j in hotel_get_detail.result.response.passengers){
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                            csc = 0;
-                            for(k in hotel_get_detail.result.response.passengers[j].sale_service_charges[i]){
-                                price[k] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
-                                if(price['currency'] == '')
-                                    price['currency'] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
-                            }
-                            try{
-//                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                                csc += hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
-
-                            text+=`<div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Fare
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Tax
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
-                                </div>
+                        for(i in hotel_get_detail.result.response.passengers[0].sale_service_charges){
+                            text+=`
+                            <div style="text-align:center">
+                                `+i+`
                             </div>`;
-                            if(price.SSR != 0 || price.SEAT != 0)
-                                text+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Additional
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
-                                    </div>
-                                </div>`;
-                            if(price.DISC != 0)
-                                text+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` DISC
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
-                                    </div>
-                                </div>`;
-
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            commission += parseInt(price.RAC);
-                        }
-                        total_price_provider_show.push(price_provider_show);
-                        price_provider_show = 0;
-                    }
-                    total_price_show = total_price;
-
-                    text+=`
-                    <div>
-                        <hr/>
-                    </div>
-                    <div class="row" style="margin-bottom:10px;">
-                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-                        </div>
-                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+= print_commission(commission*-1,'show_commission_old', price.currency)
-                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
-                    text+=`</div>`;
-                    document.getElementById('old_price').innerHTML = text;
-
-                    hotel_get_detail = msg;
-                    total_price = 0;
-                    commission = 0;
-                    //new price
-                    text=`
-                        <div style="background-color:`+color+`; margin-top:20px;">
-                            <center>
-                                <span style="color:`+text_color+`; font-size:16px;">New Price Detail <i class="fas fa-money-bill-wave"></i></span>
-                            </center>
-                        </div>
-                        <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
-                    total_price_provider_show = [];
-                    price_provider_show = 0;
-                    for(i in msg.result.response.passengers[0].sale_service_charges){
-                        text+=`
-                        <div style="text-align:center">
-                            `+i+`
-                        </div>`;
-                        for(j in msg.result.response.passengers){
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                            csc = 0;
-                            for(k in msg.result.response.passengers[j].sale_service_charges[i]){
-                                price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
-                                price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
-                            }
-
-                            try{
-//                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                                csc += hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
-                            }
-
-                            text+=`<div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
-                                </div>
-                            </div>`;
-                            if(price.SSR != 0 || price.SEAT != 0)
-                                text+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Additional
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
-                                    </div>
-                                </div>`;
-                            if(price.DISC != 0)
-                                text+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` DISC
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
-                                    </div>
-                                </div>`;
-
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            commission += parseInt(price.RAC);
-                        }
-                        total_price_provider_show.push(price_provider_show)
-                        total_price_show = 0;
-                    }
-                    total_price_show = total_price;
-                    text+=`
-                    <div>
-                        <hr/>
-                    </div>
-                    <div class="row" style="margin-bottom:10px;">
-                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-                        </div>
-                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+= print_commission(commission*-1,'show_commission_new', price.currency)
-                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
-                    text+=`</div>`;
-                    document.getElementById('new_price').innerHTML = text;
-
-                   $("#myModal").modal();
-               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                    auto_logout();
-                    $(".issued_booking_btn").hide();
-               }else{
-                    if(msg.result.error_code != 1007){
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
-                        })
-                    }else{
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Error hotel issued '+ msg.result.error_msg,
-                          showCancelButton: true,
-                          cancelButtonText: 'Ok',
-                          confirmButtonColor: color,
-                          cancelButtonColor: '#3085d6',
-                          confirmButtonText: 'Top Up'
-                        }).then((result) => {
-                            if (result.value) {
-                                window.location.href = '/top_up';
-                            }else{
-                                if(window.location.href.includes('payment')){
-                                    window.location.href = '/hotel/booking/'+data;
+                            for(j in hotel_get_detail.result.response.passengers){
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                csc = 0;
+                                for(k in hotel_get_detail.result.response.passengers[j].sale_service_charges[i]){
+                                    price[k] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
+                                    if(price['currency'] == '')
+                                        price['currency'] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
                                 }
+                                try{
+    //                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                    csc += hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
+
+                                text+=`<div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Fare
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Tax
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
+                                    </div>
+                                </div>`;
+                                if(price.SSR != 0 || price.SEAT != 0)
+                                    text+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Additional
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                        </div>
+                                    </div>`;
+                                if(price.DISC != 0)
+                                    text+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` DISC
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        </div>
+                                    </div>`;
+
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                                price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                                commission += parseInt(price.RAC);
                             }
-                        })
+                            total_price_provider_show.push(price_provider_show);
+                            price_provider_show = 0;
+                        }
+                        total_price_show = total_price;
+
+                        text+=`
+                        <div>
+                            <hr/>
+                        </div>
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
+                            </div>
+                        </div>`;
+                        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            text+= print_commission(commission*-1,'show_commission_old', price.currency)
+                        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
+                        text+=`
+                    </div>`;
+                        document.getElementById('old_price').innerHTML = text;
+
+                        hotel_get_detail = msg;
+                        total_price = 0;
+                        commission = 0;
+                        //new price
+                        text=`
+                            <div style="background-color:`+color+`; margin-top:20px;">
+                                <center>
+                                    <span style="color:`+text_color+`; font-size:16px;">New Price Detail <i class="fas fa-money-bill-wave"></i></span>
+                                </center>
+                            </div>
+                            <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
+                        total_price_provider_show = [];
+                        price_provider_show = 0;
+                        for(i in msg.result.response.passengers[0].sale_service_charges){
+                            text+=`
+                            <div style="text-align:center">
+                                `+i+`
+                            </div>`;
+                            for(j in msg.result.response.passengers){
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                csc = 0;
+                                for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+                                    price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+                                    price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+                                }
+
+                                try{
+    //                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                    csc += hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
+
+                                text+=`<div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
+                                    </div>
+                                </div>`;
+                                if(price.SSR != 0 || price.SEAT != 0)
+                                    text+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Additional
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                        </div>
+                                    </div>`;
+                                if(price.DISC != 0)
+                                    text+=`
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                            <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` DISC
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        </div>
+                                    </div>`;
+
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                                price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                                commission += parseInt(price.RAC);
+                            }
+                            total_price_provider_show.push(price_provider_show)
+                            total_price_show = 0;
+                        }
+                        total_price_show = total_price;
+                        text+=`
+                        <div>
+                            <hr/>
+                        </div>
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
+                            </div>
+                        </div>`;
+                        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            text+= print_commission(commission*-1,'show_commission_new', price.currency)
+                        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+                        text+=`</div>`;
+                        document.getElementById('new_price').innerHTML = text;
+
+                       $("#myModal").modal();
+                    }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                        auto_logout();
+                        $(".issued_booking_btn").hide();
+                    }else{
+                        if(msg.result.error_code != 1007){
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops!',
+                                html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
+                            })
+                        }else{
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Error hotel issued '+ msg.result.error_msg,
+                                showCancelButton: true,
+                                cancelButtonText: 'Ok',
+                                confirmButtonColor: color,
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Top Up'
+                            }).then((result) => {
+                                if (result.value) {
+                                    window.location.href = '/top_up';
+                                }else{
+                                    if(window.location.href.includes('payment')){
+                                        window.location.href = '/hotel/booking/'+data;
+                                    }
+                                }
+                            })
+                        }
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('hotel_booking').innerHTML = '';
+                        document.getElementById('hotel_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+                        hide_modal_waiting_transaction();
+                        document.getElementById("overlay-div-box").style.display = "none";
+
+                        $('.hold-seat-booking-train').prop('disabled', false);
+                        $('.hold-seat-booking-train').removeClass("running");
+                        hotel_get_booking(data);
+                        $(".issued_booking_btn").hide();
                     }
+                },
+                contentType:false,
+                processData:false,
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel issued');
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('hotel_booking').innerHTML = '';
                     document.getElementById('hotel_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('voucher_div').style.display = 'none';
+                    document.getElementById('ssr_request_after_sales').hidden = true;
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
-
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    hotel_get_booking(data);
                     $(".issued_booking_btn").hide();
-               }
-           },
-           contentType:false,
-           processData:false,
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel issued');
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('hotel_booking').innerHTML = '';
-                document.getElementById('hotel_detail').innerHTML = '';
-                document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('ssr_request_after_sales').hidden = true;
-                document.getElementById('show_loading_booking_airline').style.display = 'block';
-                document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('payment_acq').hidden = true;
-                hide_modal_waiting_transaction();
-                document.getElementById("overlay-div-box").style.display = "none";
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $(".issued_booking_btn").hide();
-                hotel_get_booking(data);
-           },timeout: 300000
-        });
-      }
+                    hotel_get_booking(data);
+                },timeout: 300000
+            });
+        }
     })
 }
 
@@ -2833,14 +2836,17 @@ function hotel_issued_booking(val){
         formData.append('signature', signature);
     }
 
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
+
     $.ajax({
-       type: "POST",
-       url: "/webservice/hotel",
-       headers:{
+        type: "POST",
+        url: "/webservice/hotel",
+        headers:{
             'action': 'issued',
-       },
-       data: formData,
-       success: function(msg) {
+        },
+        data: formData,
+        success: function(msg) {
             if(google_analytics != ''){
                 if(formData.get('member'))
                     gtag('event', 'hotel_issued', {});
@@ -2854,13 +2860,13 @@ function hotel_issued_booking(val){
                         {
                             $('.loader-rodextrip').fadeOut();
                             Swal.fire({
-                              title: "Success, booking has been made. We'll sent you an email for your reservation",
-                              type: 'success',
-                              showCancelButton: true,
-                              confirmButtonColor: '#3085d6',
-                              cancelButtonColor: 'blue',
-                              cancelButtonText: 'View Booking',
-                              confirmButtonText: 'Payment'
+                                title: "Success, booking has been made. We'll sent you an email for your reservation",
+                                type: 'success',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: 'blue',
+                                cancelButtonText: 'View Booking',
+                                confirmButtonText: 'Payment'
                             }).then((result) => {
                                 if (result.value) {
                                     $('.hold-seat-booking-train').addClass("running");
@@ -2902,13 +2908,13 @@ function hotel_issued_booking(val){
                     }
                     hide_modal_waiting_transaction();
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error issued hotel </span>' + msg.result.error_msg,
+                        type: 'error',
+                        title: 'Oops!',
+                        html: '<span style="color: red;">Error issued hotel </span>' + msg.result.error_msg,
                     }).then((result) => {
-                      if (result.value) {
-                        hide_modal_waiting_transaction();
-                      }
+                        if (result.value) {
+                            hide_modal_waiting_transaction();
+                        }
                     })
                 }
             }catch(err){
@@ -2928,13 +2934,13 @@ function hotel_issued_booking(val){
                   }
                 })
             }
-       },
-       contentType:false,
-       processData:false,
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        contentType:false,
+        processData:false,
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel issued booking');
             hide_modal_waiting_transaction();
-       },timeout: 300000
+        },timeout: 300000
     });
 }
 

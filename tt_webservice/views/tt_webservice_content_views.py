@@ -147,8 +147,8 @@ def api_models(request):
             res = get_agent_currency_rate(request)
         elif req_data['action'] == 'update_estimate_price':
             res = update_estimate_price(request)
-        elif req_data['action'] == 'get_breakdown_price':
-            res = get_breakdown_price(request)
+        # elif req_data['action'] == 'get_breakdown_price':
+        #     res = get_breakdown_price(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1576,30 +1576,30 @@ def update_estimate_price(request):
         "is_show": is_show_estimate_price
     }
     write_cache(req, 'currency_rate_show', request)
-    if request.POST['is_show_breakdown_price'] == 'true':
-        req = True
-    else:
-        req = False
-    write_cache(req, 'show_breakdown_price', request)
+    # if request.POST['is_show_breakdown_price'] == 'true':
+    #     req = True
+    # else:
+    #     req = False
+    # write_cache(req, 'show_breakdown_price', request)
     return ERR.get_no_error_api()
 
-def get_breakdown_price(request):
-    file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
-    if file:
-        res = {
-            "result": {
-                "response": file,
-                "error_code": 0,
-                "error_msg": ''
-            }
-        }
-    else:
-        res = {
-            "result": {
-                "response": file,
-                "error_code": 500,
-                "error_msg": 'Error'
-            }
-        }
-    return res
+# def get_breakdown_price(request):
+#     file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
+#     if file:
+#         res = {
+#             "result": {
+#                 "response": file,
+#                 "error_code": 0,
+#                 "error_msg": ''
+#             }
+#         }
+#     else:
+#         res = {
+#             "result": {
+#                 "response": file,
+#                 "error_code": 500,
+#                 "error_msg": 'Error'
+#             }
+#         }
+#     return res
 

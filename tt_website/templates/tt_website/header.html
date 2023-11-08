@@ -152,11 +152,13 @@
                                     </li>
                                 </ul>
                             </li>
+                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                             <li>
                                 <button class="primary-btn-white-bd" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                             </li>
+                            {% endif %}
                             <li>
-                                <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                                <button class="primary-btn" type="button" style="margin-bottom:15px;" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
                         {% else %}
                             <li class="pt5"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
@@ -430,11 +432,13 @@
                                         </ul>
                                     </li>
 
+                                    {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                                     <li class="pt12">
                                         <button class="primary-btn-white-bd" type="button" data-toggle="modal" data-target="#myModalb2c" style="width:100%;">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                                     </li>
+                                    {% endif %}
                                     <li>
-                                        <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static" style="width:100%;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                                        <button class="primary-btn" type="button" style="width:100%;" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static" style="width:100%;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                                     </li>
                                 {% else %}
                                     <li><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
@@ -676,11 +680,13 @@
                                     </li>
                                 </ul>
                             </li>
+                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                             <li class="pt10">
                                 <button class="primary-btn-white-bd mr5" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                             </li>
+                            {% endif %}
                             <li class="pt10">
-                                <button class="primary-btn" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                                <button class="primary-btn" type="button" style="margin-bottom:15px;" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
                         {% else %}
                             <li class="pt5"><a href="{% url 'tt_website:index'%}">{% trans 'Home' %}</a></li>
@@ -922,9 +928,11 @@
                                         </li>
                                     </ul>
                                 </li>
+                                {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                                 <li class="pt10">
                                     <button class="primary-btn-white-bd mr5" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                                 </li>
+                                {% endif %}
                                 <li class="pt10">
                                     <button class="primary-btn" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                                 </li>
@@ -1159,9 +1167,11 @@
                                     </li>
                                 </ul>
                             </li>
+                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                             <li class="pt10 mr5">
                                 <button class="primary-btn-white-bd mr5" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                             </li>
+                            {% endif %}
                             <li class="pt10">
                                 <button class="primary-btn" style="width:100%; margin-bottom:0px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                             </li>
@@ -1386,9 +1396,11 @@
                             </li>
                         </ul>
                     </li>
+                    {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                     <li class="pt10 mr5">
                         <button class="primary-btn-white-bd" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                     </li>
+                    {% endif %}
                     <li class="pt10">
                         <button class="primary-btn" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                     </li>
@@ -1600,9 +1612,11 @@
                                                     </li>
                                                 </ul>
                                             </li>
+                                            {% if is_register_b2c == 'true' and website_mode == 'btc' %}
                                             <li class="pt5 mr5">
                                                 <button class="primary-btn-white-bd" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %} <i class="fas fa-user-plus"></i></button>
                                             </li>
+                                            {% endif %}
                                             <li class="pt5">
                                                 <button class="primary-btn" style="width:100%; margin-bottom:5px;" type="button" data-toggle="modal" data-target="#myModalSignIn" data-backdrop="static">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                                             </li>
@@ -1866,6 +1880,9 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
+                        <div class="alert alert-info" id="otp_information" hidden>
+
+                        </div>
                         <div class="input-container-search-ticket" hidden id="otp_div">
                             <i class="fa fa-key" style="font-size: 20px;padding-top: 12px;"></i>
                             <input type="text" class="form-control" style="border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="otp" placeholder="OTP" tabindex="3" />
@@ -1874,6 +1891,22 @@
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+
+                        <div id="otp_type_div" hidden>
+                            <span class="span-search-ticket" style="color:{{color}}"> {% trans 'OTP Type' %}</span>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select" id="default-select">
+                                    <select id="otp_type" name="otp_type" class="nice-select-default">
+                                        <!--<option value="always">Always Ask OTP</option>-->
+                                        <option value="1">Valid for 1 Days</option>
+                                        <option value="3">Valid for 3 Days</option>
+                                        <option value="7">Valid for 7 Days</option>
+                                        <option value="never">Ask for this time only</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd;" id="otp_time_limit" hidden>
                             <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> <span class="count_time" id="otp_session_time"> </span></span>
                         </div>
@@ -1952,4 +1985,7 @@
         console.log(err) //ada element yg tidak ada
     }
     {% endif %}
+    $( document ).ready(function() {
+        $('#otp_type').niceSelect();
+    });
 </script>

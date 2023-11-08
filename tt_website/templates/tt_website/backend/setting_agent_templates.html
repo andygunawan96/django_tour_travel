@@ -54,7 +54,7 @@
         margin: 1em 0; padding: 0;
     }
 </style>
-<title>{{name}} - Admin</title>
+<title>{{name}} - Setting</title>
 
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/header.html' %}
@@ -84,7 +84,13 @@
 
                     <li class="main_menu_link {% if "agent_setting_printout" not in username.co_agent_frontend_security %} current {% endif %}" id="tab-security-li" data-tab="tab-security">
                         <h5>
-                            <i class="fas fa-info-circle"></i> 2-Step Verification
+                            <i class="fas fa-info-circle"></i> Security
+                        </h5>
+                    </li>
+
+                    <li class="main_menu_link" id="tab-user-li" data-tab="tab-user">
+                        <h5>
+                            <i class="fas fa-user-slash"></i> Delete Account
                         </h5>
                     </li>
                 </ul>
@@ -106,30 +112,30 @@
                                     </div>
                                 </button>
                                 <div class="accordion-content">
-                            <div class="row">
-                                <div class="col-lg-12 mt-3 mb-3">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h6 style="margin-bottom:10px;">{% trans 'Name' %}</h6>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="printout_choose" style="width:100%;" id="printout_choose" placeholder="{% trans 'Printout' %}" onchange="change_printout();">
+                                        <div class="col-lg-12 mt-3 mb-3">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h6 style="margin-bottom:10px;">{% trans 'Name' %}</h6>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="printout_choose" style="width:100%;" id="printout_choose" placeholder="{% trans 'Printout' %}" onchange="change_printout();">
 
-                                                    </select>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                                    <h6 style="margin-bottom:10px;">{% trans 'Footer' %}</h6>
+                                                    <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" style="margin-bottom:15px;">
-                                            <h6 style="margin-bottom:10px;">{% trans 'Footer' %}</h6>
-                                            <textarea class="ckeditor" name="body_printout" id="body_printout"></textarea>
+                                        <div class="col-lg-12 mb-3">
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_list_report_footer();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
-                                </div>
-                            </div>
-                        </div>
                             </div>
                         </div>
                     </div>
@@ -138,7 +144,7 @@
                     <div id="tab-security" class="main_menu_content {% if "agent_setting_printout" not in username.co_agent_frontend_security %} current {% endif %}">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="accordion" data-tab="tab-information">
+                                <button type="button" class="accordion" data-tab="tab-otp">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-key" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -150,7 +156,7 @@
                                 <div class="accordion-content">
                                     <div class="row">
                                         <div class="col-lg-6 mt-3 mb-3">
-                                            {% if username.co_is_use_otp %}
+                                            {% if username.co_is_using_otp %}
                                             <button type="button" class="primary-btn" onclick="set_otp_user_api(false, true);">Turn off 2-Step Verification</button>
                                             {% else %}
                                             <button type="button" class="primary-btn" onclick="set_otp_user_api();">Turn on 2-Step Verification </button>
@@ -191,6 +197,52 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-12">
+                                <button type="button" class="accordion" data-tab="tab-pin">
+                                    <div style="display:inline-flex">
+                                        <i class="fas fa-user-shield" style="padding-top:5px;font-size:18px;"></i>
+                                        <h6 style="padding-left:10px;">
+                                            Pin<br/>
+                                            <span style="font-weight:500; font-size:12px;">Transaction Pin.</span>
+                                        </h6>
+                                    </div>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="row">
+                                        <div class="col-lg-6 mt-3 mb-3">
+                                            {% if username.co_is_using_pin %}
+                                            <button type="button" class="primary-btn" onclick="open_modal_pin('change');">Change Pin</button>
+                                            <button type="button" class="primary-btn" onclick="open_modal_pin('turn_off');">Turn off Pin</button>
+                                            {% else %}
+                                            <button type="button" class="primary-btn" onclick="open_modal_pin('turn_on');">Turn on Pin </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-user" class="main_menu_content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" class="accordion" data-tab="tab-information">
+                                    <div style="display:inline-flex">
+                                        <i class="fas fa-key" style="padding-top:5px;font-size:18px;"></i>
+                                        <h6 style="padding-left:10px;">
+                                            Delete Account<br/>
+                                            <span style="font-weight:500; font-size:12px;">Delete Account.</span>
+                                        </h6>
+                                    </div>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3 mb-3">
+                                            <button type="button" class="primary-btn" onclick="delete_user();">Delete Account</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -199,7 +251,8 @@
         </div>
     </div>
 </section>
-
+{% include 'tt_website/plugin_otp.html' %}
+{% include 'tt_website/plugin_pin.html' %}
 {% include 'tt_website/footer.html' %}
 
 <script>

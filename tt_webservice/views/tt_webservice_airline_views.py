@@ -263,14 +263,17 @@ def login(request):
             "co_uid": ""
         }
 
+        otp_params = {}
         if request.POST.get('unique_id'):
-            data['machine_code'] = request.POST['unique_id']
+            otp_params['machine_code'] = request.POST['unique_id']
         if request.POST.get('platform'):
-            data['platform'] = request.POST['platform']
+            otp_params['platform'] = request.POST['platform']
         if request.POST.get('browser'):
-            data['browser'] = request.POST['browser']
+            otp_params['browser'] = request.POST['browser']
         if request.POST.get('timezone'):
-            data['timezone'] = request.POST['timezone']
+            otp_params['timezone'] = request.POST['timezone']
+        if otp_params:
+            data['otp_params'] = otp_params
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -2338,7 +2341,8 @@ def commit_booking(request):
                     'voucher': {},
                     'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
                 })
-
+            if request.POST.get('pin'):
+                data['pin'] = encrypt_pin(request.POST['pin'])
             try:
                 if request.POST['use_point'] == 'false':
                     data['use_point'] = False
@@ -2976,6 +2980,8 @@ def issued(request):
             'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
             'voucher': {}
         }
+        if request.POST.get('pin'):
+            data['pin'] = encrypt_pin(request.POST['pin'])
         if request.session.get('currency'):
             data.update({
                 "currency_code": request.session['currency']
@@ -4259,6 +4265,8 @@ def update_booking(request):
                 'acquirer_seq_id': request.POST['acquirer_seq_id'],
                 'agent_payment_method': request.POST.get('agent_payment') or False,## kalau tidak kirim default balance normal
             })
+            if request.POST.get('pin'):
+                data['pin'] = encrypt_pin(request.POST['pin'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         headers = {
@@ -5099,6 +5107,8 @@ def update_booking_v2(request):
                 'acquirer_seq_id': request.POST['acquirer_seq_id'],
                 'agent_payment_method': request.POST.get('agent_payment') or False,## kalau tidak kirim default balance normal
             })
+            if request.POST.get('pin'):
+                data['pin'] = encrypt_pin(request.POST['pin'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         headers = {
@@ -6072,6 +6082,7 @@ def parser_schedule_mobile(request, res):
         res['result']['response'].pop('recommendation_maps')
     return res
 
+## BUAT MOBILE MUNGKIN SUDAH TIDAK BUTUH
 def get_breakdown_price(request):
     file = read_cache("show_breakdown_price", 'cache_web', request, 90911)
     if file:

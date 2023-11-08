@@ -185,11 +185,13 @@ function tour_login(data, type=''){
                 }
             }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
-                Swal.fire({
-                    type: 'warning',
-                    html: 'Input OTP'
-                });
+//                Swal.fire({
+//                    type: 'warning',
+//                    html: 'Input OTP'
+//                });
                 if(document.getElementById('otp_div')){
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     document.getElementById('username_div').hidden = true;
@@ -347,6 +349,18 @@ function get_tour_config(type, val){
             sub_category = {};
             var tour_search_template = msg.tour_search_template;
             var country_selection = document.getElementById('tour_countries');
+            tour_type_list = [{
+                value:'All',
+                real_val: 'all',
+                status: true
+            }]
+            for (rec_type in msg.tour_types){
+                tour_type_list.push({
+                    value: msg.tour_types[rec_type].name,
+                    real_val: msg.tour_types[rec_type].seq_id,
+                    status: false
+                })
+            }
 
             for(i in msg.tour_countries){
                 var city = [];
@@ -552,24 +566,7 @@ function tour_search(){
                    content_pop_date = '';
                    content_pop_question = '';
                    title_pop_date = '';
-                   if(tour_data[i].tour_type == 'series'){
-                        content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
-                    }
-                    else if(tour_data[i].tour_type == 'sic'){
-                        content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
-                    }
-                    else if(tour_data[i].tour_type == 'land'){
-                        content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
-                    }
-                    else if(tour_data[i].tour_type == 'city'){
-                        content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
-                    }
-                    else if(tour_data[i].tour_type == 'open'){
-                        content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
-                    }
-                    else if(tour_data[i].tour_type == 'private'){
-                        content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
-                    }
+                   content_pop_question+=`<b>`+tour_data[i].tour_type.name+`: </b>`+tour_data[i].tour_type.description;
 
                     new jBox('Tooltip', {
                         attach: '#pop_question'+i,
@@ -582,7 +579,7 @@ function tour_search(){
                     if(tour_data[i].tour_line_amount != 0){
                         for (j in tour_data[i].tour_lines){
                             sch_count = parseInt(j)+1;
-                            if(tour_data[i].tour_type != 'open'){
+                            if(!tour_data[i].tour_type.is_open_date){
                                 content_pop_date += `<h6>Schedule - `+sch_count+`</h6>`;
                                 title_pop_date += 'Available Date';
                             }else{
@@ -676,30 +673,13 @@ function tour_get_details(tour_code){
                 country_text += `
                 <div style="display:flex; margin-top:4px; margin-bottom:4px;">
                     <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
-                    if(tour_data.tour_type == 'open'){
+                    if(tour_data.tour_type.is_open_date){
                         country_text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_data.tour_type_str+`</span>`;
                     }else{
                         country_text+=tour_data.tour_type_str;
                     }
 
-               if(tour_data.tour_type == 'series'){
-                    content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'sic'){
-                    content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'land'){
-                    content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
-                }
-                else if(tour_data.tour_type == 'city'){
-                    content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
-                }
-                else if(tour_data.tour_type == 'open'){
-                    content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
-                }
-                else if(tour_data.tour_type == 'private'){
-                    content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
-                }
+                content_pop_question+=`<b>`+tour_data.tour_type.name+`: </b>`+tour_data.tour_type.description;
 
                 country_text+=`
                     </div>
@@ -738,7 +718,7 @@ function tour_get_details(tour_code){
                 }else{
                     country_text += ``;
                 }
-                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Hotel(s) :</span>`;
+                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Accommodation(s) :</span>`;
                 idx = 1
                 for (k in tour_data.hotel_names)
                 {
@@ -934,7 +914,7 @@ function tour_get_details(tour_code){
 
                 other_info_text += generate_other_info(tour_data.other_infos)
 
-                if (tour_data.tour_type == 'open')
+                if (tour_data.tour_type.is_open_date)
                 {
                     header_list_text = `
                     <th style="width:20%;">Available From</th>
@@ -986,7 +966,7 @@ function tour_get_details(tour_code){
                                 <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
                             </div>
                             <div class="col-xs-6" style="padding:0px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button>
+                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
                             </div>
                             <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
                                 <div class="row">`;
@@ -1145,30 +1125,12 @@ function tour_get_details_by_slug(tour_slug){
                 country_text += `
                 <div style="display:flex; margin-top:4px; margin-bottom:4px;">
                     <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
-                    if(tour_data.tour_type == 'open'){
+                    if(tour_data.tour_type.is_open_date){
                         country_text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_data.tour_type_str+`</span>`;
                     }else{
                         country_text+=tour_data.tour_type_str;
                     }
-
-               if(tour_data.tour_type == 'series'){
-                    content_pop_question+=`<b>Series: </b>Organized Public Tour with Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'sic'){
-                    content_pop_question+=`<b>SIC: </b>Organized Public Tour without Tour Leader.`;
-                }
-                else if(tour_data.tour_type == 'land'){
-                    content_pop_question+=`<b>Land Only: </b>Organized Tour with its price not including accommodation nor transportation.`;
-                }
-                else if(tour_data.tour_type == 'city'){
-                    content_pop_question+=`<b>City Tour: </b>Tour visiting various favorite destinations of a certain city.`;
-                }
-                else if(tour_data.tour_type == 'open'){
-                    content_pop_question+=`<b>Open Trip: </b>Unorganized Tour where tour participants can choose their own Departure Date within certain period.`;
-                }
-                else if(tour_data.tour_type == 'private'){
-                    content_pop_question+=`<b>Private Tour: </b>Private Tour organized according to the participant's request.`;
-                }
+                content_pop_question+=`<b>`+tour_data.tour_type.name+`: </b>`+tour_data.tour_type.description;
 
                 country_text+=`
                     </div>
@@ -1207,7 +1169,7 @@ function tour_get_details_by_slug(tour_slug){
                 }else{
                     country_text += ``;
                 }
-                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Hotel(s) :</span>`;
+                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Accommodation(s) :</span>`;
                 idx = 1
                 for (k in tour_data.hotel_names)
                 {
@@ -1403,7 +1365,7 @@ function tour_get_details_by_slug(tour_slug){
 
                 other_info_text += generate_other_info(tour_data.other_infos)
 
-                if (tour_data.tour_type == 'open')
+                if (tour_data.tour_type.is_open_date)
                 {
                     header_list_text = `
                     <th style="width:20%;">Available From</th>
@@ -1455,7 +1417,7 @@ function tour_get_details_by_slug(tour_slug){
                                 <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
                             </div>
                             <div class="col-xs-6" style="padding:0px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button>
+                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
                             </div>
                             <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
                                 <div class="row">`;
@@ -1782,42 +1744,44 @@ function commit_booking_tour(val)
         }
     }catch(err){
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
     getToken();
     $.ajax({
-       type: "POST",
-       url: "/webservice/tour",
-       headers:{
+        type: "POST",
+        url: "/webservice/tour",
+        headers:{
             'action': 'commit_booking',
-       },
-       data: formData,
-       success: function(msg) {
-           if(google_analytics != ''){
-               if(formData.get('member'))
-                   gtag('event', 'tour_issued', {});
-               else
-                   gtag('event', 'tour_hold_booking', {});
-           }
-           if(msg.result.error_code == 0){
-               var booking_num = msg.result.response.order_number;
-               if(val == 1){
+        },
+        data: formData,
+        success: function(msg) {
+            if(google_analytics != ''){
+                if(formData.get('member'))
+                    gtag('event', 'tour_issued', {});
+                else
+                    gtag('event', 'tour_hold_booking', {});
+            }
+            if(msg.result.error_code == 0){
+                var booking_num = msg.result.response.order_number;
+                if(val == 1){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                         send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
                     document.getElementById('order_number').value = msg.result.response.order_number;
                     document.getElementById('issued').action = '/tour/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('issued').submit();
-               }else{
+                }else{
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
 //                        send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
 //                        document.getElementById('order_number').value = msg.result.response.order_number;
 //                        document.getElementById('tour_issued').submit();
                         Swal.fire({
-                          title: "Success, booking has been made. We'll sent you an email for your reservation",
-                          type: 'success',
-                          showCancelButton: true,
-                          confirmButtonColor: '#3085d6',
-                          cancelButtonColor: 'blue',
-                          confirmButtonText: 'Payment',
-                          cancelButtonText: 'View Booking'
+                            title: "Success, booking has been made. We'll sent you an email for your reservation",
+                            type: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: 'blue',
+                            confirmButtonText: 'Payment',
+                            cancelButtonText: 'View Booking'
                         }).then((result) => {
                             if (result.value) {
                                 $('.hold-seat-booking-train').addClass("running");
@@ -1841,21 +1805,21 @@ function commit_booking_tour(val)
 //                        document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
 //                        document.getElementById('tour_booking').submit();
                     }
-               }
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error tour commit booking </span>' + msg.result.error_msg,
+                }
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: '<span style="color: #ff9900;">Error tour commit booking </span>' + msg.result.error_msg,
                 }).then((result) => {
-                  if (result.value) {
-                    hide_modal_waiting_transaction();
-                  }
+                    if (result.value) {
+                        hide_modal_waiting_transaction();
+                    }
                 })
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 hide_modal_waiting_transaction();
-           }
+            }
        },
        contentType:false,
        processData:false,
@@ -1952,76 +1916,78 @@ function tour_issued_booking(order_number)
     {
         formData.append('payment_reference', document.getElementById('pay_ref_text').value);
     }
+    if(document.getElementById('pin') && document.getElementById('pin').value)
+        formData.append('pin', document.getElementById('pin').value);
 
     getToken();
     $.ajax({
-       type: "POST",
-       url: "/webservice/tour",
-       headers:{
+        type: "POST",
+        url: "/webservice/tour",
+        headers:{
             'action': 'issued_booking',
-       },
-       data: formData,
-       success: function(msg) {
-           if(google_analytics != '')
-               gtag('event', 'tour_issued', {});
-           if(msg.result.error_code == 0){
-               try{
-                   if(msg.result.response.state == 'issued')
+        },
+        data: formData,
+        success: function(msg) {
+            if(google_analytics != '')
+                gtag('event', 'tour_issued', {});
+            if(msg.result.error_code == 0){
+                try{
+                    if(msg.result.response.state == 'issued')
                         print_success_issued();
-                   else
+                    else
                         print_fail_issued();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
-               if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                     window.location.href = '/tour/booking/' + btoa(order_number);
-               }else{
-                   var booking_num = msg.result.response.order_number;
-                   if (booking_num)
-                   {
-                       price_arr_repricing = {};
-                       pax_type_repricing = [];
-                       tour_get_booking(order_number);
-                       document.getElementById('payment_acq').innerHTML = '';
-                       document.getElementById('payment_acq').hidden = true;
-                       $("#issuedModal").modal('hide');
-                       hide_modal_waiting_transaction();
-                       document.getElementById("overlay-div-box").style.display = "none";
-                   }
-               }
-           }else if(msg.result.error_code == 1009){
-               price_arr_repricing = {};
-               pax_type_repricing = [];
-               document.getElementById('payment_acq').innerHTML = '';
-               document.getElementById('payment_acq').hidden = true;
-               $("#issuedModal").modal('hide');
-               hide_modal_waiting_transaction();
-               document.getElementById("overlay-div-box").style.display = "none";
-               document.getElementById('tour_final_info').innerHTML = text;
-               document.getElementById('product_title').innerHTML = '';
-               document.getElementById('product_type_title').innerHTML = '';
-               document.getElementById('tour_detail_table').innerHTML = '';
-               tour_get_booking(order_number);
-           }else{
+                }else{
+                    var booking_num = msg.result.response.order_number;
+                    if (booking_num)
+                    {
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        tour_get_booking(order_number);
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('payment_acq').hidden = true;
+                        $("#issuedModal").modal('hide');
+                        hide_modal_waiting_transaction();
+                        document.getElementById("overlay-div-box").style.display = "none";
+                    }
+                }
+            }else if(msg.result.error_code == 1009){
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('payment_acq').hidden = true;
+                $("#issuedModal").modal('hide');
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                document.getElementById('tour_final_info').innerHTML = text;
+                document.getElementById('product_title').innerHTML = '';
+                document.getElementById('product_type_title').innerHTML = '';
+                document.getElementById('tour_detail_table').innerHTML = '';
+                tour_get_booking(order_number);
+            }else{
                 if(msg.result.error_code != 1007){
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error tour issued booking </span>' + msg.result.error_msg,
+                        type: 'error',
+                        title: 'Oops!',
+                        html: '<span style="color: red;">Error tour issued booking </span>' + msg.result.error_msg,
                     }).then((result) => {
-                      if (result.value) {
-                        hide_modal_waiting_transaction();
-                      }
+                        if (result.value) {
+                            hide_modal_waiting_transaction();
+                        }
                     })
                 }else{
                     Swal.fire({
-                      type: 'error',
-                      title: 'Error tour issued '+ msg.result.error_msg,
-                      showCancelButton: true,
-                      cancelButtonText: 'Ok',
-                      confirmButtonColor: color,
-                      cancelButtonColor: '#3085d6',
-                      confirmButtonText: 'Top Up'
+                        type: 'error',
+                        title: 'Error tour issued '+ msg.result.error_msg,
+                        showCancelButton: true,
+                        cancelButtonText: 'Ok',
+                        confirmButtonColor: color,
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Top Up'
                     }).then((result) => {
                         if (result.value) {
                             window.location.href = '/top_up';
@@ -2048,11 +2014,11 @@ function tour_issued_booking(order_number)
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 hide_modal_waiting_transaction();
-           }
-       },
-       contentType:false,
-       processData:false,
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            }
+        },
+        contentType:false,
+        processData:false,
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour issued booking');
             hide_modal_waiting_transaction();
             price_arr_repricing = {};
@@ -2068,7 +2034,7 @@ function tour_issued_booking(order_number)
             tour_get_booking(order_number);
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-       },timeout: 60000
+        },timeout: 60000
     });
 }
 
@@ -2613,7 +2579,7 @@ function tour_get_booking(order_number)
                             </div>
                     `;
 
-                   if (tour_package.tour_type == 'open')
+                   if (tour_package.tour_type.is_open_date)
                    {
                        text += `
                        <div class="row">
@@ -2669,7 +2635,7 @@ function tour_get_booking(order_number)
                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                         <h4 class="mb-3">
                                             <img src="/static/tt_website/images/icon/product/b-hotel.png" alt="undefined" style="width:20px; height:20px;">
-                                            List of Room(s)
+                                            Accommodation(s)
                                         </h4>
                                     </div>
                                 </div>`;
@@ -2677,9 +2643,16 @@ function tour_get_booking(order_number)
                                     text+=`
                                     <h5 class="single_border_custom_left" style="padding-left:5px;">
                                         `+rooms[i].room_index+`. `+rooms[i].room_name+`
-                                    </h5>
-                                    <b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>
-                                    <b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>
+                                    </h5>`;
+                                    if(rooms[i].room_bed_type != 'none')
+                                    {
+                                        text+=`<b>Type: </b><i>`+rooms[i].room_bed_type+`</i><br>`;
+                                    }
+                                    if(rooms[i].room_hotel)
+                                    {
+                                        text+=`<b>Hotel: </b><i>`+rooms[i].room_hotel+`</i><br>`;
+                                    }
+                                    text+=`
                                     <b>Description: </b><i>`+rooms[i].room_desc+`</i><br>
                                     <b>Notes: </b><i>`+rooms[i].room_notes+`</i><br>`;
                                     if(parseInt(i) != (rooms.length-1)){
@@ -3362,7 +3335,7 @@ function get_price_itinerary(request,type) {
        'provider': tour_data.provider,
        'signature': signature
     }
-    if (tour_data.tour_type == 'open')
+    if (tour_data.tour_type.is_open_date)
     {
         get_price_req['tour_line_code'] = dict_req.tour_line_code;
         get_price_req['departure_date'] = dict_req.departure_date;
@@ -3653,7 +3626,7 @@ function table_price_update(msg,type){
     </div>`;
     price_txt2 += `<div class="row">
     <div class="col-lg-12">
-        <center><h6 style="margin-top:10px; color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_down" onclick="show_hide_div('price_detail_tour');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="margin-top:10px; color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_down" onclick="show_hide_div('price_detail_tour_div');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>
     <div class="col-lg-12 mt-1" id="price_detail_tour_div" style="display:none;">`;
     for(var j=0; j<room_amount; j++)
@@ -3711,7 +3684,7 @@ function table_price_update(msg,type){
     }
     price_txt2+=`
     <div class="col-lg-12">
-        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_up" onclick="show_hide_div('price_detail_tour');">Show Less <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_up" onclick="show_hide_div('price_detail_tour_div');">Show Less <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
     price_txt2 += `</div></div>`;
     try{
