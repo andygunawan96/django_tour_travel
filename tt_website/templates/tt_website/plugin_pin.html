@@ -30,9 +30,11 @@
                 </div>
 
                 <div class="col-lg-12 mb-3" id="change_pin_div">
-                    <label>{% trans 'OLD PIN' %}</label>
-                    <div class="input-container-search-ticket">
-                        <input type="password" style="margin-bottom:0px;" class="form-control" name="old_pin" id="old_pin" placeholder="{% trans 'OLD PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'OLD PIN '" maxLength="6">
+                    <div id="old_pin_div">
+                        <label>{% trans 'OLD PIN' %}</label>
+                        <div class="input-container-search-ticket">
+                            <input type="password" style="margin-bottom:0px;" class="form-control" name="old_pin" id="old_pin" placeholder="{% trans 'OLD PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'OLD PIN '" maxLength="6">
+                        </div>
                     </div>
                     <br/>
                     <label>{% trans 'New PIN' %}</label>
@@ -43,6 +45,19 @@
                     <label>{% trans 'Confirm New PIN' %}</label>
                     <div class="input-container-search-ticket">
                         <input type="password" style="margin-bottom:0px;" class="form-control" name="confirm_new_pin" id="confirm_new_pin" placeholder="{% trans 'Confirm New PIN' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm New PIN '" maxLength="6">
+                    </div>
+                    <div id="otp_pin_div">
+                        <label>{% trans 'OTP' %}</label>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="otp_pin" placeholder="OTP" />
+                            <button id="btn_otp_resend" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px;margin-top:5px;margin-bottom:14px;" onclick="get_pin_otp(true)">
+                                Resend
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd;" id="otp_pin_time_limit">
+                            <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> <span class="count_time" id="otp_pin_session_time"> </span></span>
+                        </div>
                     </div>
                 </div>
 
@@ -67,22 +82,105 @@
     });
     function open_modal_pin(type_open){
         if(type_open == 'turn_on'){
+            document.getElementById('otp_pin_div').hidden = true;
             document.getElementById('change_pin_div').hidden = true;
             document.getElementById('pin_div').hidden = false;
             document.getElementById('pin_confirm_div').hidden = false;
             action_mode = 'turn_on';
+        }else if(type_open == 'change_by_otp'){
+            document.getElementById('otp_pin_div').hidden = false;
+            document.getElementById('change_pin_div').hidden = false;
+            document.getElementById('old_pin_div').hidden = true;
+            document.getElementById('pin_div').hidden = true;
+            document.getElementById('pin_confirm_div').hidden = true;
+            action_mode = 'change_by_otp';
         }else if(type_open == 'turn_off'){
+            document.getElementById('otp_pin_div').hidden = true;
             document.getElementById('change_pin_div').hidden = true;
             document.getElementById('pin_div').hidden = false;
             document.getElementById('pin_confirm_div').hidden = true;
             action_mode = 'turn_off';
         }else if(type_open == 'change'){
+            document.getElementById('otp_pin_div').hidden = true;
             document.getElementById('change_pin_div').hidden = false;
+            document.getElementById('old_pin_div').hidden = false;
             document.getElementById('pin_div').hidden = true;
             document.getElementById('pin_confirm_div').hidden = true;
             action_mode = 'change';
         }
         $('#myModal_pin').modal('show');
+    }
+
+    function get_pin_otp(is_resend=false){
+        if(typeof(platform) === 'undefined'){
+            platform = '';
+        }
+        if(typeof(unique_id) === 'undefined'){
+            unique_id = '';
+        }
+        if(typeof(web_vendor) === 'undefined'){
+            web_vendor = '';
+        }
+        if(typeof(timezone) === 'undefined'){
+            timezone = '';
+        }
+        if(typeof(timezone) === 'undefined'){
+            timezone = '';
+        }
+        data = {
+            'signature':signature,
+            "platform": platform,
+            "unique_id": unique_id,
+            "browser": web_vendor,
+            "timezone": timezone,
+            "is_resend": is_resend
+        }
+        if(is_resend){
+            data['resend'] = true;
+        }
+        try{
+            clearInterval(timeLimitOTPPINInterval);
+        }catch(err){console.log(err);}
+
+        $.ajax({
+            type: "POST",
+            url: "/webservice/account",
+            headers:{
+                'action': 'change_pin_otp_api',
+            },
+            data: data,
+            success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 1040){
+                    open_modal_pin('change_by_otp');
+                    now = new Date().getTime();
+                    time_limit_otp_pin = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp_pin).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit_otp_pin)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp_pin = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp_pin = parseInt((new Date(time_limit_otp_pin).getTime() - now) / 1000);
+                    session_otp_pin_time_limit();
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    });
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log('Error '+action_mode+'_pin');
+            },timeout: 300000
+        });
+
     }
 
     function pin_submit(){
@@ -142,6 +240,54 @@
                 data['pin'] = document.getElementById('pin').value;
                 data['confirm_pin'] = document.getElementById('confirm_pin').value;
             }
+        }else if(action_mode == 'change_by_otp'){
+            if(document.getElementById('new_pin').value == '' ||
+            document.getElementById('confirm_new_pin').value == '' ||
+            document.getElementById('otp_pin').value == ''){
+                if(document.getElementById('otp_pin').value == ''){
+                    error_msg += 'Please input OTP!';
+                }
+                if(document.getElementById('new_pin').value == ''){
+                    if(error_msg != '')
+                        error_msg += '<br/>';
+                    error_msg += 'Please input new PIN!';
+                }
+                if(document.getElementById('confirm_new_pin').value == ''){
+                    if(error_msg != '')
+                        error_msg += '<br/>';
+                    error_msg += 'Please input confirm PIN!';
+                }
+            }
+            else if(document.getElementById('new_pin').value != document.getElementById('confirm_new_pin').value){
+                error_msg += 'New pin & Confirmation pin not same please check again!';
+            }else if(document.getElementById('new_pin').value.length != 6){
+                error_msg += 'Please input 6 digits for Pin!';
+            }else{
+                if(typeof(platform) === 'undefined'){
+                    platform = '';
+                }
+                if(typeof(unique_id) === 'undefined'){
+                    unique_id = '';
+                }
+                if(typeof(web_vendor) === 'undefined'){
+                    web_vendor = '';
+                }
+                if(typeof(timezone) === 'undefined'){
+                    timezone = '';
+                }
+                if(typeof(timezone) === 'undefined'){
+                    timezone = '';
+                }
+                data['otp'] = document.getElementById('otp_pin').value;
+                data['new_pin'] = document.getElementById('new_pin').value;
+                data['confirm_pin'] = document.getElementById('confirm_new_pin').value;
+                data['signature'] = signature;
+                data["platform"] = platform;
+                data["unique_id"] = unique_id;
+                data["browser"] = web_vendor;
+                data["timezone"] = timezone;
+            }
+            action_mode = 'change';
         }
         if(error_msg){
             Swal.fire({

@@ -1336,7 +1336,7 @@ def search2(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
-            for journey_list in res['result']['response']['schedules']:
+            for index_schedule, journey_list in enumerate(res['result']['response']['schedules']):
                 for journey in journey_list['journeys']:
                     journey['is_combo_price'] = False
                     journey.update({
@@ -1368,7 +1368,7 @@ def search2(request):
                                 'destination_country': destination['country'],
                             })
                             break
-                    for segment in journey['segments']:
+                    for index_segment, segment in enumerate(journey['segments']):
                         segment.update({
                             'departure_date': parse_date_time_front_end_with_day(string_to_datetime(segment['departure_date'])),
                             'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(segment['arrival_date']))
@@ -1414,6 +1414,28 @@ def search2(request):
                                         'destination_country': destination['country'],
                                     })
                                     break
+
+                        if index_segment == 0 and index_schedule == 0 and res['result']['response'].get('recommendations') and len(res['result']['response']['recommendations']) != 0:
+                            is_need_sort = False
+                            for fare in segment['fares']:
+                                if fare['fare_ref_id']:
+                                    is_need_sort = True
+                                    fare['total_recommendation_price'] = 0
+                                    for recommendation in res['result']['response']['recommendations']:
+                                        if recommendation['journey_flight_refs'][0]['journey_ref_id'] == journey['journey_ref_id'] and recommendation['journey_flight_refs'][0]['fare_flight_refs'][0]['fare_ref_id'] == fare['fare_ref_id']:
+                                            for svc_summary in recommendation['service_charge_summary']:
+                                                if fare['total_recommendation_price'] == 0 or fare['total_recommendation_price'] > svc_summary['total_price'] and svc_summary['pax_type'] not in ['CHD', 'INF']:
+                                                    fare['total_recommendation_price'] = svc_summary['total_price']
+                                                    break
+                            if is_need_sort:
+                                for x in range(0, len(segment['fares'])-1):
+                                    for y in range(x+1, len(segment['fares'])):
+                                        if segment['fares'][x]['total_recommendation_price'] > segment['fares'][y]['total_recommendation_price'] or segment['fares'][x]['total_recommendation_price'] == 0 and segment['fares'][y]['total_recommendation_price'] != 0:
+                                            temp_fare = segment['fares'][x]
+                                            segment['fares'][x] = segment['fares'][y]
+                                            segment['fares'][y] = temp_fare
+
+
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

@@ -119,6 +119,33 @@ function session_otp_time_limit(){
     }, 1000);
 }
 
+function clear_otp_pin(){
+    // clear & close
+    try{
+        clearInterval(timeLimitOTPPINInterval);
+    }catch(err){console.log(err);}
+    $('#myModal_pin').modal('hide');
+}
+
+function session_otp_pin_time_limit(){
+    timeLimitOTPPINInterval = setInterval(function() {
+        if(time_limit_otp_pin>0){
+            time_limit_otp_pin--;
+            var time_limit_otp_pin_show = '';
+            if(time_limit_otp_pin > 3600)
+                time_limit_otp_pin_show += parseInt(time_limit_otp_pin_show/3600) % 24 +`h:`;
+            time_limit_otp_pin_show += parseInt(time_limit_otp_pin/60) % 60 +`m:`;
+            time_limit_otp_pin_show += parseInt(time_limit_otp_pin%60) +`s`;
+            document.getElementById('otp_pin_session_time').innerHTML = time_limit_otp_pin_show;
+        }else{
+            document.getElementById('otp_pin_div').hidden = true;
+            document.getElementById('otp_pin_time_limit').hidden = true;
+            clearInterval(timeLimitOTPPINInterval);
+
+        }
+    }, 1000);
+}
+
 function session_otp_user_time_limit(){
     timeLimitOTPuserInterval = setInterval(function() {
         if(time_limit_otp_user>0){

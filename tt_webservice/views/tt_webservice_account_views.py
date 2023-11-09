@@ -179,6 +179,8 @@ def api_models(request):
             res = turn_off_pin(request)
         elif req_data['action'] == 'change_pin':
             res = change_pin(request)
+        elif req_data['action'] == 'change_pin_otp_api':
+            res = change_pin_otp_api(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1962,14 +1964,61 @@ def turn_off_pin(request):
 def change_pin(request):
     try:
         data = {
-            'old_pin': encrypt_pin(request.POST['old_pin']),
             'pin': encrypt_pin(request.POST['new_pin']),
             'confirm_pin': encrypt_pin(request.POST['confirm_pin'])
         }
+        if request.POST.get('old_pin'):
+            data['old_pin'] = encrypt_pin(request.POST['old_pin'])
+        otp_params = {}
+        if request.POST.get('unique_id'):
+            otp_params['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            otp_params['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            otp_params['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            otp_params['timezone'] = request.POST['timezone']
+        if request.POST.get('otp'):
+            otp_params["otp"] = request.POST['otp']
+        if otp_params:
+            data['otp_params'] = otp_params
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "change_pin_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = get_url_gateway('account')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    return res
+
+def change_pin_otp_api(request):
+    try:
+        data = {}
+
+        otp_params = {}
+        if request.POST.get('unique_id'):
+            otp_params['machine_code'] = request.POST['unique_id']
+        if request.POST.get('platform'):
+            otp_params['platform'] = request.POST['platform']
+        if request.POST.get('browser'):
+            otp_params['browser'] = request.POST['browser']
+        if request.POST.get('timezone'):
+            otp_params['timezone'] = request.POST['timezone']
+        if request.POST.get('otp'):
+            otp_params['otp'] = request.POST['otp']
+        if request.POST.get('is_resend'):
+            if request.POST['is_resend'] == 'true':
+                otp_params['is_resend_otp'] = True
+        if otp_params:
+            data['otp_params'] = otp_params
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "change_pin_otp_api",
             "signature": request.POST['signature'],
         }
     except Exception as e:

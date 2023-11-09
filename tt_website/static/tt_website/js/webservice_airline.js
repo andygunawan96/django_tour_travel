@@ -3617,37 +3617,6 @@ function datasearch2(airline){
                         can_book = false;
                    }
                }
-               // SORT BY TOTAL PRICE RECOM UNTUK FLIGHT 1 SEGMENT KE 1 CHECK LAGI
-               if(airline.schedules[i].journeys[j].airline_pick_sequence == 1 && i == 0 && k == 0){
-                   for(l in airline.schedules[i].journeys[j].segments[k].fares){
-                        if(airline.schedules[i].journeys[j].segments[k].fares[l].fare_ref_id){
-                            airline.schedules[i].journeys[j].segments[k].fares[l].total_recommendation_price = 0;
-                            for(m in recommendations_airline){
-                                if(recommendations_airline[m].journey_flight_refs[0].journey_ref_id == airline.schedules[i].journeys[j].journey_ref_id){
-                                    if(recommendations_airline[m].journey_flight_refs[0].fare_flight_refs[0].fare_ref_id == airline.schedules[i].journeys[j].segments[k].fares[l].fare_ref_id){
-                                        if(airline.schedules[i].journeys[j].segments[k].fares[l].total_recommendation_price == 0 || recommendations_airline[m].service_charge_summary[0].total_price < airline.schedules[i].journeys[j].segments[k].fares[l].total_recommendation_price)
-                                            airline.schedules[i].journeys[j].segments[k].fares[l].total_recommendation_price = recommendations_airline[m].service_charge_summary[0].total_price;
-                                    }
-                                }
-                            }
-                        }
-                   }
-                   // SORT FARE LIST
-                   is_swab = false;
-                   for(var x = 0; x < airline.schedules[i].journeys[j].segments[k].fares.length-1; x++){
-                        for(var y = x+1; y < airline.schedules[i].journeys[j].segments[k].fares.length; y++){
-                            if(airline.schedules[i].journeys[j].segments[k].fares[x].total_recommendation_price > airline.schedules[i].journeys[j].segments[k].fares[y].total_recommendation_price || airline.schedules[i].journeys[j].segments[k].fares[x].total_recommendation_price == 0 && airline.schedules[i].journeys[j].segments[k].fares[y].total_recommendation_price != 0){
-                                console.log('i='+j+' x='+x+' y='+y);
-                                temp_fare = airline.schedules[i].journeys[j].segments[k].fares[x];
-                                airline.schedules[i].journeys[j].segments[k].fares[x] = airline.schedules[i].journeys[j].segments[k].fares[y];
-                                airline.schedules[i].journeys[j].segments[k].fares[y] = temp_fare;
-                                is_swab = true;
-                            }
-                        }
-                   }
-                   if(is_swab)
-                        console.log(airline.schedules[i].journeys[j]);
-               }
                if(can_book_schedule)
                     can_book_schedule = can_book;
 
@@ -3912,7 +3881,6 @@ function change_fare(journey, segment, fares, fare_code){
                     }
                 }
             }
-            console.log(recommendation_temporary)
             if(recommendation_temporary){
                 is_recom = true;
                 for(j in airline_data_filter[journey].segments){
