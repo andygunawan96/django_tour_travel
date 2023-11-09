@@ -10823,7 +10823,7 @@ function airline_get_booking(data, sync=false){
                                          </div>
                                          <div class="row" style="margin-bottom:5px;">
                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                                <span style="font-size:12px;">Refund Amount</span></div>
+                                                <span style="font-size:12px;">Estimated Refund Amount</span></div>
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                                 <span style="font-size:13px;">`+price.currency+` `+getrupiah(msg.result.response.refund_list[i].refund_amount)+`</span>
                                             </div>
