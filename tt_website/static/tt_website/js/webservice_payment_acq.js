@@ -1139,7 +1139,9 @@ function set_price(val, type, product_type){
         text+= `</div><br/>`;
 
 
-        if(user_login.hasOwnProperty('co_is_using_pin') && user_login.co_is_using_pin && !['payment_gateway', 'creditcard_topup'].includes(payment_method) && type != 'top_up'){
+        if(user_login.hasOwnProperty('co_is_using_pin') && user_login.co_is_using_pin &&
+           !['payment_gateway', 'creditcard_topup'].includes(payment_method) && type != 'top_up' &&
+           !['issued_offline', 'visa'].includes(type)){
             text+=`
             <div class='row'>
                 <div class="col-sm-12" style='text-align:left;'>
