@@ -619,47 +619,67 @@
     function goto_detail_reservation(key){
         document.getElementById('gotobooking'+key).innerHTML += `{% csrf_token %}`;
         document.getElementById('gotobooking'+key).innerHTML += `<input type=hidden name="order_number" value="`+data_search[key].order_number+`" />`;
-
+        new_url = '';
         if(data_search[key].provider_type == 'airline'){
             document.getElementById('gotobooking'+key).action = '/airline/booking/' + btoa(data_search[key].order_number);
+            new_url = '/airline/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'train'){
             document.getElementById('gotobooking'+key).action = '/train/booking/' + btoa(data_search[key].order_number);
+            new_url = '/train/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'activity'){
             document.getElementById('gotobooking'+key).action = '/activity/booking/' + btoa(data_search[key].order_number);
+            new_url = '/activity/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'hotel'){
             document.getElementById('gotobooking'+key).action = '/hotel/booking/' + btoa(data_search[key].order_number);
+            new_url = '/hotel/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'visa'){
             document.getElementById('gotobooking'+key).action = '/visa/booking/' + btoa(data_search[key].order_number);
+            new_url = '/visa/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'tour'){
             document.getElementById('gotobooking'+key).action = '/tour/booking/' + btoa(data_search[key].order_number);
+            new_url = '/tour/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'offline'){
             document.getElementById('gotobooking'+key).action = '/issued_offline/booking/' + btoa(data_search[key].order_number);
+            new_url = '/issued_offline/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'passport'){
             document.getElementById('gotobooking'+key).action = '/passport/booking/' + btoa(data_search[key].order_number);
+            new_url = '/passport/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'ppob'){
             document.getElementById('gotobooking'+key).action = '/ppob/booking/' + btoa(data_search[key].order_number);
+            new_url = '/ppob/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'event'){
             document.getElementById('gotobooking'+key).action = '/event/booking/' + btoa(data_search[key].order_number);
+            new_url = '/event/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'periksain' || data_search[key].provider_type == 'phc'){
             document.getElementById('gotobooking'+key).action = '/medical/booking/' + btoa(data_search[key].order_number);
+            new_url = '/medical/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'medical'){
             document.getElementById('gotobooking'+key).action = '/medical_global/booking/' + btoa(data_search[key].order_number);
+            new_url = '/medical_global/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'bus'){
             document.getElementById('gotobooking'+key).action = '/bus/booking/' + btoa(data_search[key].order_number);
+            new_url = '/bus/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'swabexpress'){
             document.getElementById('gotobooking'+key).action = '/swab_express/booking/' + btoa(data_search[key].order_number);
+            new_url = '/swab_express/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'labpintar'){
             document.getElementById('gotobooking'+key).action = '/lab_pintar/booking/' + btoa(data_search[key].order_number);
+            new_url = '/lab_pintar/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'insurance'){
             document.getElementById('gotobooking'+key).action = '/insurance/booking/' + btoa(data_search[key].order_number);
+            new_url = '/insurance/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'mitrakeluarga'){
             document.getElementById('gotobooking'+key).action = '/mitrakeluarga/booking/' + btoa(data_search[key].order_number);
+            new_url = '/mitrakeluarga/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'sentramedika'){
             document.getElementById('gotobooking'+key).action = '/sentra_medika/booking/' + btoa(data_search[key].order_number);
+            new_url = '/sentra_medika/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'groupbooking'){
             document.getElementById('gotobooking'+key).action = '/group_booking/booking/' + btoa(data_search[key].order_number);
+            new_url = '/group_booking/booking/' + btoa(data_search[key].order_number);
         }
-        document.getElementById('gotobooking'+key).submit();
+        openInNewTab(new_url);
+        // document.getElementById('gotobooking'+key).submit();
     }
     function load_more_reservation(){
         if(load_more == true){
