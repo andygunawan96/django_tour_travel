@@ -88,11 +88,13 @@
                         </h5>
                     </li>
 
+                    {% if "b2c_limitation" in username.co_agent_frontend_security %}
                     <li class="main_menu_link" id="tab-user-li" data-tab="tab-user">
                         <h5>
                             <i class="fas fa-user-slash"></i> Delete Account
                         </h5>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="col-lg-9">
@@ -212,6 +214,7 @@
                                         <div class="col-lg-6 mt-3 mb-3">
                                             {% if username.co_is_using_pin %}
                                             <button type="button" class="primary-btn" onclick="open_modal_pin('change');">Change Pin</button>
+                                            <button type="button" class="primary-btn" onclick="get_pin_otp();">Forget Pin</button>
                                             <button type="button" class="primary-btn" onclick="open_modal_pin('turn_off');">Turn off Pin</button>
                                             {% else %}
                                             <button type="button" class="primary-btn" onclick="open_modal_pin('turn_on');">Turn on Pin </button>
@@ -223,6 +226,7 @@
                         </div>
                     </div>
 
+                    {% if "b2c_limitation" in username.co_agent_frontend_security %}
                     <div id="tab-user" class="main_menu_content">
                         <div class="row">
                             <div class="col-lg-12">
@@ -245,6 +249,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
 
                 </form>
             </div>
