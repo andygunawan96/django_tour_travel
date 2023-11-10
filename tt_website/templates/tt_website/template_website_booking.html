@@ -2173,8 +2173,7 @@ Licence URI: http://www.os-templates.com/template-terms
     }
 
     unique_id = randomUUID();
-    platform = 'default';
-    if(typeof(localStorage.platform) === 'undefined' || typeof(localStorage.unique) === 'undefined' || localStorage.platform === ''){
+    if(typeof(localStorage.unique) !== 'undefined' || localStorage.unique == '' || typeof(localStorage.platform) === 'undefined' || typeof(localStorage.web_vendor) !== 'undefined' || typeof(localStorage.timezone) !== 'undefined'){
         const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
         // Get the visitor identifier when you need it.
         fpPromise.then(fp => fp.get()).then(result => {
@@ -2192,10 +2191,27 @@ Licence URI: http://www.os-templates.com/template-terms
             localStorage.web_vendor = web_vendor;
             localStorage.timezone = timezone;
         })
-        web_vendor = '';
-        timezone = '';
-        localStorage.platform = platform;
-        localStorage.unique_id = unique_id;
+
+        if(localStorage.hasOwnProperty('platform'))
+            platform = localStorage.platform;
+        else
+            platform = '';
+
+        if(localStorage.hasOwnProperty('web_vendor'))
+            web_vendor = localStorage.web_vendor;
+        else
+            web_vendor = '';
+
+        if(localStorage.hasOwnProperty('timezone'))
+            timezone = localStorage.timezone;
+        else
+            timezone = '';
+
+        if(localStorage.hasOwnProperty('unique_id'))
+            unique_id = localStorage.unique_id;
+        else{
+            localStorage.unique_id = unique_id;
+        }
     }else{
         if(localStorage.hasOwnProperty('platform'))
             platform = localStorage.platform;
