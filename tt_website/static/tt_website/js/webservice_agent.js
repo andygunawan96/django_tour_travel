@@ -1120,7 +1120,7 @@ function set_turn_off_notif_user_api(is_resend=false, id='', is_turn_off_other_m
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">set_otp_user_api!' ,
+                  html: '<span style="color: #ff9900;">'+msg.result.error_msg+'!' ,
                 })
             }
        },
