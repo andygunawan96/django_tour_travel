@@ -4205,10 +4205,11 @@ function sort(){
             for(i in airline){
                 if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline[i].destination == airline_request.destination[counter_search-1].split(' - ')[0] && airline_request.departure[counter_search-1] == airline[i].departure_date.split(', ')[1].split(' - ')[0]){
                     if(airline_pick_list.length == 0 || airline_pick_list.length != 0 && airline_recommendations_list.length == 0 && airline[i].journey_ref_id == '' || airline_recommendations_dict.hasOwnProperty(airline[i].journey_ref_id)){
-                       ticket_count++;
-                       if(ticket_count >= first && ticket_count < last){
-                            change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code);
-                       }
+                        ticket_count++;
+                        if(ticket_count >= first && ticket_count < last){
+                            if(airline[i].segments.length > 1 && airline[i].segments[0].fares.length > 0)
+                                change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code);
+                        }
                     }
                     if(airline[i].segments.length > 1 && airline[i].auto_link){
                         try{
