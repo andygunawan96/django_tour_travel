@@ -2099,7 +2099,8 @@ Licence URI: http://www.os-templates.com/template-terms
                                     showCancelButton: true,
                                     confirmButtonColor: '#3085d6',
                                     cancelButtonColor: '#d33',
-                                    confirmButtonText: 'Setup'
+                                    confirmButtonText: 'Setup',
+                                    cancelButtonText: 'Remind me later',
                                 }).then((result) => {
                                     if (result.value) {
                                         window.location.href = '/page_setting';
@@ -2173,7 +2174,7 @@ Licence URI: http://www.os-templates.com/template-terms
 
     unique_id = randomUUID();
     platform = 'default';
-    if(typeof(localStorage.platform) === 'undefined'){
+    if(typeof(localStorage.platform) === 'undefined' || typeof(localStorage.unique) === 'undefined' || localStorage.platform === ''){
         const fpPromise = import('{{ static_path }}/js/library/fingerprint.js').then(FingerprintJS => FingerprintJS.load())
         // Get the visitor identifier when you need it.
         fpPromise.then(fp => fp.get()).then(result => {
