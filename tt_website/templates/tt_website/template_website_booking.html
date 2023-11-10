@@ -2083,11 +2083,11 @@ Licence URI: http://www.os-templates.com/template-terms
                 }
                 error_log = '';
                 if(user_login.co_user_login != '{{default_user}}'){
-                    if(document.URL.split('/')[document.URL.split('/').length-1] == '' && user_login.co_ho_is_using_otp != user_login.co_is_using_otp && user_login.co_ho_is_using_pin != user_login.co_is_using_pin){
+                    if(document.URL.split('/')[document.URL.split('/').length-1] == '' && user_login.co_ho_is_using_otp && !user_login.co_is_using_otp && user_login.co_ho_is_using_pin && !user_login.co_is_using_pin){
                         error_log = 'Please Activate your PIN & OTP';
-                    }else if(document.URL.split('/')[document.URL.split('/').length-1] == '' && user_login.co_ho_is_using_pin != user_login.co_is_using_pin){
+                    }else if(document.URL.split('/')[document.URL.split('/').length-1] == '' && user_login.co_ho_is_using_pin && !user_login.co_is_using_pin){
                         error_log = 'Please Activate your PIN';
-                    }else if(document.URL.split('/')[document.URL.split('/').length-1] == '' && user_login.co_ho_is_using_otp != user_login.co_is_using_otp){
+                    }else if(document.URL.split('/')[document.URL.split('/').length-1] == '' && user_login.co_ho_is_using_otp && !user_login.co_is_using_otp){
                         error_log = 'Please Activate your OTP';
                     }
                     if(error_log){
