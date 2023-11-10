@@ -3881,7 +3881,7 @@ function change_fare(journey, segment, fares, fare_code){
                     }
                 }
             }
-            if(recommendation_temporary){
+            if(recommendation_temporary.length > 0){
                 is_recom = true;
                 for(j in airline_data_filter[journey].segments){
                     for(k in airline_data_filter[journey].segments[j].fares){
