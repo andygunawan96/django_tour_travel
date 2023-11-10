@@ -1057,7 +1057,7 @@ function set_otp_user_api(is_resend=false, turn_off_otp=false){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">set_otp_user_api!' ,
+                      html: '<span style="color: #ff9900;">'+msg.result.error_msg+'!' ,
                     })
                 }
            },
