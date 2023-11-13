@@ -284,7 +284,7 @@ function signin(){
                     timezone = timezone.split('')
                     timezone = timezone.filter(item => item !== '0')
                     time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
                     session_otp_time_limit();
                 }
                 $('.button-login').prop('disabled', false);
@@ -457,7 +457,7 @@ function signin_booking(){
                     timezone = timezone.split('')
                     timezone = timezone.filter(item => item !== '0')
                     time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
                     session_otp_time_limit();
                 }
                 $('.loading-button').prop('disabled', false);
@@ -856,7 +856,7 @@ function signin_btc(is_resend=false){
                         timezone = timezone.split('')
                         timezone = timezone.filter(item => item !== '0')
                         time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                        time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                        time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
                         session_otp_time_limit();
                     }
                     $('.loading-button').prop('disabled', false);
@@ -979,7 +979,7 @@ function signin_product_otp(is_resend=false){
                     timezone = timezone.split('')
                     timezone = timezone.filter(item => item !== '0')
                     time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
                     session_otp_time_limit();
                 }
                 $('.loading-button').prop('disabled', false);
@@ -1154,7 +1154,7 @@ function open_modal_otp(msg, string_action){
         timezone = timezone.split('')
         timezone = timezone.filter(item => item !== '0')
         time_limit_otp_user = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-        time_limit_otp_user = parseInt((new Date(time_limit_otp_user).getTime() - now) / 1000);
+        time_limit_otp_user = parseInt((new Date(time_limit_otp_user.replace(/-/g, "/")).getTime() - now) / 1000);
         session_otp_user_time_limit();
         $('.loading-button').prop('disabled', false);
         $('.loading-button').removeClass("running");

@@ -164,7 +164,7 @@
                     timezone = timezone.split('')
                     timezone = timezone.filter(item => item !== '0')
                     time_limit_otp_pin = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp_pin = parseInt((new Date(time_limit_otp_pin).getTime() - now) / 1000);
+                    time_limit_otp_pin = parseInt((new Date(time_limit_otp_pin.replace(/-/g, "/")).getTime() - now) / 1000);
                     session_otp_pin_time_limit();
                 }else{
                     Swal.fire({
