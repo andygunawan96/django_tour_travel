@@ -2173,27 +2173,59 @@ function event_issued(data){
             {
                 formData.append('payment_reference', document.getElementById('pay_ref_text').value);
             }
-            if(document.getElementById('pin') && document.getElementById('pin').value)
-                formData.append('pin', document.getElementById('pin').value);
-            getToken();
-            $.ajax({
-                type: "POST",
-                url: "/webservice/event",
-                headers:{
-                    'action': 'issued',
-                },
-                data: formData,
-                success: function(msg) {
-                    if(google_analytics != '')
-                        gtag('event', 'event_issued', {});
-                    if(msg.result.error_code == 0){
-                        if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                            window.location.href = '/event/booking/' + btoa(data);
-                        }else{
-                            //update ticket
+            var error_log = '';
+            if(document.getElementById('pin')){
+                if(document.getElementById('pin').value)
+                    formData.append('pin', document.getElementById('pin').value);
+                else
+                    error_log = 'Please input PIN!';
+            }
+            if(error_log){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: error_log,
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                setTimeout(function(){
+                    hide_modal_waiting_transaction();
+                }, 500);
+            }else{
+                getToken();
+                $.ajax({
+                    type: "POST",
+                    url: "/webservice/event",
+                    headers:{
+                        'action': 'issued',
+                    },
+                    data: formData,
+                    success: function(msg) {
+                        if(google_analytics != '')
+                            gtag('event', 'event_issued', {});
+                        if(msg.result.error_code == 0){
+                            if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                                window.location.href = '/event/booking/' + btoa(data);
+                            }else{
+                                //update ticket
+                                price_arr_repricing = {};
+                                pax_type_repricing = [];
+                                hide_modal_waiting_transaction();
+                                document.getElementById('event_booking').innerHTML = '';
+                                document.getElementById('event_detail').innerHTML = '';
+                                document.getElementById('payment_acq').innerHTML = '';
+                                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                                document.getElementById('show_loading_booking_airline').hidden = false;
+                                document.getElementById('payment_acq').hidden = true;
+                                document.getElementById("overlay-div-box").style.display = "none";
+                                $(".issued_booking_btn").remove();
+                                event_get_booking(data);
+                            }
+                        }else if(msg.result.error_code == 1009){
                             price_arr_repricing = {};
                             pax_type_repricing = [];
                             hide_modal_waiting_transaction();
+                            document.getElementById('show_loading_booking_airline').hidden = false;
                             document.getElementById('event_booking').innerHTML = '';
                             document.getElementById('event_detail').innerHTML = '';
                             document.getElementById('payment_acq').innerHTML = '';
@@ -2201,104 +2233,90 @@ function event_issued(data){
                             document.getElementById('show_loading_booking_airline').hidden = false;
                             document.getElementById('payment_acq').hidden = true;
                             document.getElementById("overlay-div-box").style.display = "none";
-                            $(".issued_booking_btn").remove();
-                            event_get_booking(data);
-                        }
-                    }else if(msg.result.error_code == 1009){
-                        price_arr_repricing = {};
-                        pax_type_repricing = [];
-                        hide_modal_waiting_transaction();
-                        document.getElementById('show_loading_booking_airline').hidden = false;
-                        document.getElementById('event_booking').innerHTML = '';
-                        document.getElementById('event_detail').innerHTML = '';
-                        document.getElementById('payment_acq').innerHTML = '';
-                        document.getElementById('show_loading_booking_airline').style.display = 'block';
-                        document.getElementById('show_loading_booking_airline').hidden = false;
-                        document.getElementById('payment_acq').hidden = true;
-                        document.getElementById("overlay-div-box").style.display = "none";
-                        $(".issued_booking_btn").hide();
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops!',
-                            html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
-                        }).then((result) => {
-                            if (result.value) {
-                                hide_modal_waiting_transaction();
-                            }
-                        })
-                        hide_modal_waiting_transaction();
-                        document.getElementById("overlay-div-box").style.display = "none";
-
-                        $('.hold-seat-booking-train').prop('disabled', false);
-                        $('.hold-seat-booking-train').removeClass("running");
-                        event_get_booking(data);
-                    }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                        auto_logout();
-                    }else{
-                        if(msg.result.error_code != 1007){
+                            $(".issued_booking_btn").hide();
                             Swal.fire({
                                 type: 'error',
                                 title: 'Oops!',
                                 html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
-                            })
-                        }else{
-                            Swal.fire({
-                                type: 'error',
-                                title: 'Error event issued '+ msg.result.error_msg,
-                                showCancelButton: true,
-                                cancelButtonText: 'Ok',
-                                confirmButtonColor: color,
-                                cancelButtonColor: '#3085d6',
-                                confirmButtonText: 'Top Up'
                             }).then((result) => {
                                 if (result.value) {
-                                    window.location.href = '/top_up';
-                                }else{
-                                    if(window.location.href.includes('payment')){
-                                        window.location.href = '/event/booking/'+data;
-                                    }
+                                    hide_modal_waiting_transaction();
                                 }
                             })
-                        }
+                            hide_modal_waiting_transaction();
+                            document.getElementById("overlay-div-box").style.display = "none";
 
+                            $('.hold-seat-booking-train').prop('disabled', false);
+                            $('.hold-seat-booking-train').removeClass("running");
+                            event_get_booking(data);
+                        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                            auto_logout();
+                        }else{
+                            if(msg.result.error_code != 1007){
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Oops!',
+                                    html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
+                                })
+                            }else{
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Error event issued '+ msg.result.error_msg,
+                                    showCancelButton: true,
+                                    cancelButtonText: 'Ok',
+                                    confirmButtonColor: color,
+                                    cancelButtonColor: '#3085d6',
+                                    confirmButtonText: 'Top Up'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location.href = '/top_up';
+                                    }else{
+                                        if(window.location.href.includes('payment')){
+                                            window.location.href = '/event/booking/'+data;
+                                        }
+                                    }
+                                })
+                            }
+
+                            price_arr_repricing = {};
+                            pax_type_repricing = [];
+                            document.getElementById('show_loading_booking_airline').hidden = false;
+                            document.getElementById('event_booking').innerHTML = '';
+                            document.getElementById('event_detail').innerHTML = '';
+                            document.getElementById('payment_acq').innerHTML = '';
+                            document.getElementById('show_loading_booking_airline').style.display = 'block';
+                            document.getElementById('show_loading_booking_airline').hidden = false;
+                            document.getElementById('payment_acq').hidden = true;
+
+                            hide_modal_waiting_transaction();
+                            document.getElementById("overlay-div-box").style.display = "none";
+
+                            $('.hold-seat-booking-train').prop('disabled', false);
+                            $('.hold-seat-booking-train').removeClass("running");
+                            event_get_booking(data);
+                        }
+                    },
+                    contentType:false,
+                    processData:false,
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error event issued');
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                         document.getElementById('show_loading_booking_airline').hidden = false;
-                        document.getElementById('event_booking').innerHTML = '';
-                        document.getElementById('event_detail').innerHTML = '';
+                        document.getElementById('airline_booking').innerHTML = '';
+                        document.getElementById('airline_detail').innerHTML = '';
                         document.getElementById('payment_acq').innerHTML = '';
                         document.getElementById('show_loading_booking_airline').style.display = 'block';
                         document.getElementById('show_loading_booking_airline').hidden = false;
                         document.getElementById('payment_acq').hidden = true;
-
                         hide_modal_waiting_transaction();
                         document.getElementById("overlay-div-box").style.display = "none";
-
                         $('.hold-seat-booking-train').prop('disabled', false);
                         $('.hold-seat-booking-train').removeClass("running");
                         event_get_booking(data);
-                    }
-                },
-                contentType:false,
-                processData:false,
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error event issued');
-                    price_arr_repricing = {};
-                    pax_type_repricing = [];
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('airline_booking').innerHTML = '';
-                    document.getElementById('airline_detail').innerHTML = '';
-                    document.getElementById('payment_acq').innerHTML = '';
-                    document.getElementById('show_loading_booking_airline').style.display = 'block';
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('payment_acq').hidden = true;
-                    hide_modal_waiting_transaction();
-                    document.getElementById("overlay-div-box").style.display = "none";
-                    $('.hold-seat-booking-train').prop('disabled', false);
-                    $('.hold-seat-booking-train').removeClass("running");
-                    event_get_booking(data);
-                },timeout: 300000
-            });
+                    },timeout: 300000
+                });
+            }
         }
     })
 }

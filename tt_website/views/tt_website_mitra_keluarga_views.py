@@ -210,8 +210,8 @@ def review(request, signature=''):
                     pass
             adult = data['passenger']
 
-            adult['first_name'] = re.sub(r'\s', ' ', adult['first_name']).replace(':', '').strip()
-            adult['last_name'] = re.sub(r'\s', ' ', adult.get('last_name', '')).replace(':', '').strip()
+            adult[0]['first_name'] = re.sub(r'\s', ' ', adult[0]['first_name']).replace(':', '').strip()
+            adult[0]['last_name'] = re.sub(r'\s', ' ', adult[0].get('last_name', '')).replace(':', '').strip()
 
             booker = data['booker']
 
@@ -222,10 +222,10 @@ def review(request, signature=''):
 
             contact = data['contact_person']
 
-            contact['first_name'] = re.sub(r'\s', ' ', contact['first_name']).replace(':', '').strip()
-            contact['last_name'] = re.sub(r'\s', ' ', contact.get('last_name','')).replace(':', '').strip()
-            contact['email'] = re.sub(r'\s', ' ', contact['email']).replace(':', '').strip()
-            contact['mobile'] = re.sub(r'\s', ' ', contact['mobile']).replace(':', '').strip()
+            contact[0]['first_name'] = re.sub(r'\s', ' ', contact[0]['first_name']).replace(':', '').strip()
+            contact[0]['last_name'] = re.sub(r'\s', ' ', contact[0].get('last_name','')).replace(':', '').strip()
+            contact[0]['email'] = re.sub(r'\s', ' ', contact[0]['email']).replace(':', '').strip()
+            contact[0]['mobile'] = re.sub(r'\s', ' ', contact[0]['mobile']).replace(':', '').strip()
 
             data = data['data']
             passenger_booker['booker'] = {
@@ -343,6 +343,10 @@ def review(request, signature=''):
             file = read_cache_file(request, request.POST['signature'], 'test_type')
             if file:
                 test_type = file
+
+            file = read_cache_file(request, signature, 'time_limit')
+            if file:
+                time_limit = file
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
