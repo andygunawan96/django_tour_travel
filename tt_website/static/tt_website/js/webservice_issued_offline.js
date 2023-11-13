@@ -1002,75 +1002,93 @@ function commit_booking(){
 
     }catch(err){console.log(err)}
 
-    if(document.getElementById('pin') && document.getElementById('pin').value)
-        data['pin'] = document.getElementById('pin').value;
+    var error_log = '';
+    if(document.getElementById('pin')){
+        if(document.getElementById('pin').value)
+            data['pin'] = document.getElementById('pin').value;
+        else
+            error_log = 'Please input PIN!';
+    }
 
-    getToken();
-    $.ajax({
-        type: "POST",
-        url: "/webservice/issued_offline",
-        headers:{
-            'action': 'commit_booking',
-        },
-        data: data,
-        success: function(msg) {
-            if(msg.result.error_code == 0){
-                Swal.fire({
-                    type: 'success',
-                    title: 'Booking!',
-                    html: 'Issued Offline number booking: ' + msg.result.response.order_number,
-                })
-
-                document.getElementById('transaction_type').value = '';
-                document.getElementById('sector').value = '';
-                document.getElementById('description').value = '';
-                document.getElementById('social_media').value = '';
-                document.getElementById('total_sale_price').value = '';
-                document.getElementById('contact_person').value = '';
-                document.getElementById('timelimit').value = '';
-
-               //booker
-//               document.getElementsByName('radio-booker-type')[0].checked = true;
-                document.getElementById('booker_title').value = 'MR';
-                document.getElementById('booker_first_name').value = '';
-                document.getElementById('booker_last_name').value = '';
-                document.getElementById('booker_email').value = '';
-                document.getElementById('booker_phone').value = '';
-                document.getElementById('table_of_passenger').innerHTML = `
-                <tbody><tr>
-                        <th style="width:40%;">Name</th>
-                        <th style="width:35%;">Birth Date</th>
-                        <th style="width:20%;"></th>
-                    </tr>
-                </tbody>`;
-
-
-                document.getElementsByName('myRadios')[1].checked = true;
-                document.getElementById('show_line').hidden = true;
-                document.getElementById('show_line').innerHTML = '';
-                counter_passenger = 0; //reset counter pax
-//               document.getElementById('payment_acq').hidden = true;
-                close_div('payment_acq');
-                $('#transaction_type').niceSelect('update');
-                $('#sector').niceSelect('update');
-                $('#social_media').niceSelect('update');
-                document.getElementById('sector_div').hidden = true;
-            }else{
-                Swal.fire({
-                    type: 'error',
-                    title: 'Oops!',
-                    html: '<span style="color: red;">Error issued offline commit booking </span>' + msg.result.error_msg,
-                })
-                close_div('payment_acq');
-            }
+    if(error_log){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: error_log,
+        })
+        $('.payment_acq_btn').prop('disabled', false);
+        $('.hold-seat-booking-train').removeClass("running");
+        setTimeout(function(){
             hide_modal_waiting_transaction();
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error issued offline commit booking');
-            $('.payment_acq_btn').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-        },timeout: 180000
-    });
+        }, 500);
+    }else{
+        getToken();
+        $.ajax({
+            type: "POST",
+            url: "/webservice/issued_offline",
+            headers:{
+                'action': 'commit_booking',
+            },
+            data: data,
+            success: function(msg) {
+                if(msg.result.error_code == 0){
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Booking!',
+                        html: 'Issued Offline number booking: ' + msg.result.response.order_number,
+                    })
+
+                    document.getElementById('transaction_type').value = '';
+                    document.getElementById('sector').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('social_media').value = '';
+                    document.getElementById('total_sale_price').value = '';
+                    document.getElementById('contact_person').value = '';
+                    document.getElementById('timelimit').value = '';
+
+                   //booker
+    //               document.getElementsByName('radio-booker-type')[0].checked = true;
+                    document.getElementById('booker_title').value = 'MR';
+                    document.getElementById('booker_first_name').value = '';
+                    document.getElementById('booker_last_name').value = '';
+                    document.getElementById('booker_email').value = '';
+                    document.getElementById('booker_phone').value = '';
+                    document.getElementById('table_of_passenger').innerHTML = `
+                    <tbody><tr>
+                            <th style="width:40%;">Name</th>
+                            <th style="width:35%;">Birth Date</th>
+                            <th style="width:20%;"></th>
+                        </tr>
+                    </tbody>`;
+
+
+                    document.getElementsByName('myRadios')[1].checked = true;
+                    document.getElementById('show_line').hidden = true;
+                    document.getElementById('show_line').innerHTML = '';
+                    counter_passenger = 0; //reset counter pax
+    //               document.getElementById('payment_acq').hidden = true;
+                    close_div('payment_acq');
+                    $('#transaction_type').niceSelect('update');
+                    $('#sector').niceSelect('update');
+                    $('#social_media').niceSelect('update');
+                    document.getElementById('sector_div').hidden = true;
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: '<span style="color: red;">Error issued offline commit booking </span>' + msg.result.error_msg,
+                    })
+                    close_div('payment_acq');
+                }
+                hide_modal_waiting_transaction();
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error issued offline commit booking');
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+            },timeout: 180000
+        });
+    }
 }
 
 function get_booking_offline(data){

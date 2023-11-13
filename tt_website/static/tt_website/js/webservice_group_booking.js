@@ -2995,101 +2995,119 @@ function group_booking_issued_booking(){
         'signature': signature,
         'voucher_code': voucher_code,
     }
-    if(document.getElementById('pin') && document.getElementById('pin').value)
-        data['pin'] =  document.getElementById('pin').value;
-    $.ajax({
-        type: "POST",
-        url: "/webservice/group_booking",
-        headers:{
-            'action': 'issued_booking',
-        },
-        data: data,
-        success: function(msg) {
-            if(google_analytics != '')
-                gtag('event', 'groupbooking_issued', {});
-            if(msg.result.error_code == 0){
-                $("#issuedModal").modal('hide');
-                try{
-                    if(msg.result.response.state == 'issued')
-                        print_success_issued();
-                    else
-                        print_fail_issued();
-                }catch(err){
-                    console.log(err); // error kalau ada element yg tidak ada
-                }
-                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                    window.location.href = '/tour/booking/' + btoa(order_number);
-                }else{
+    var error_log = '';
+    if(document.getElementById('pin')){
+        if(document.getElementById('pin').value)
+            data['pin'] =  document.getElementById('pin').value;
+        else
+            error_log = 'Please input PIN!';
+    }
+    if(error_log){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: error_log,
+        })
+        $('.hold-seat-booking-train').prop('disabled', false);
+        $('.hold-seat-booking-train').removeClass("running");
+        setTimeout(function(){
+            hide_modal_waiting_transaction();
+        }, 500);
+    }else{
+        $.ajax({
+            type: "POST",
+            url: "/webservice/group_booking",
+            headers:{
+                'action': 'issued_booking',
+            },
+            data: data,
+            success: function(msg) {
+                if(google_analytics != '')
+                    gtag('event', 'groupbooking_issued', {});
+                if(msg.result.error_code == 0){
+                    $("#issuedModal").modal('hide');
+                    try{
+                        if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                        else
+                            print_fail_issued();
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
+                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                        window.location.href = '/tour/booking/' + btoa(order_number);
+                    }else{
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        group_booking_get_booking(order_number);
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('payment_acq').hidden = true;
+                        $("#issuedModal").modal('hide');
+                        hide_modal_waiting_transaction();
+                        document.getElementById("overlay-div-box").style.display = "none";
+                    }
+                }else if(msg.result.error_code == 1009){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    group_booking_get_booking(order_number);
                     document.getElementById('payment_acq').innerHTML = '';
                     document.getElementById('payment_acq').hidden = true;
                     $("#issuedModal").modal('hide');
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
-                }
-            }else if(msg.result.error_code == 1009){
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('payment_acq').hidden = true;
-                $("#issuedModal").modal('hide');
-                hide_modal_waiting_transaction();
-                document.getElementById("overlay-div-box").style.display = "none";
-                document.getElementById('tour_final_info').innerHTML = text;
-                document.getElementById('product_title').innerHTML = '';
-                document.getElementById('product_type_title').innerHTML = '';
-                document.getElementById('tour_detail_table').innerHTML = '';
-                group_booking_get_booking(order_number);
-            }else{
-                if(msg.result.error_code != 1007){
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops!',
-                        html: '<span style="color: #ff9900;">Error group booking issued </span>' + msg.result.error_msg,
-                    })
+                    document.getElementById('tour_final_info').innerHTML = text;
+                    document.getElementById('product_title').innerHTML = '';
+                    document.getElementById('product_type_title').innerHTML = '';
+                    document.getElementById('tour_detail_table').innerHTML = '';
+                    group_booking_get_booking(order_number);
                 }else{
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Error group booking issued '+ msg.result.error_msg,
-                        showCancelButton: true,
-                        cancelButtonText: 'Ok',
-                        confirmButtonColor: color,
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Top Up'
-                    }).then((result) => {
-                        if (result.value) {
-                            window.location.href = '/top_up';
-                        }else{
-                            if(window.location.href.includes('payment')){
-                                window.location.href = '/group_booking/booking/'+order_number;
+                    if(msg.result.error_code != 1007){
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops!',
+                            html: '<span style="color: #ff9900;">Error group booking issued </span>' + msg.result.error_msg,
+                        })
+                    }else{
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Error group booking issued '+ msg.result.error_msg,
+                            showCancelButton: true,
+                            cancelButtonText: 'Ok',
+                            confirmButtonColor: color,
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Top Up'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location.href = '/top_up';
+                            }else{
+                                if(window.location.href.includes('payment')){
+                                    window.location.href = '/group_booking/booking/'+order_number;
+                                }
                             }
-                        }
-                    })
-                }
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('payment_acq').hidden = true;
-                $("#issuedModal").modal('hide');
-                hide_modal_waiting_transaction();
-                document.getElementById("overlay-div-box").style.display = "none";
-                document.getElementById('tour_final_info').innerHTML = text;
-                document.getElementById('product_title').innerHTML = '';
-                document.getElementById('product_type_title').innerHTML = '';
-                document.getElementById('tour_detail_table').innerHTML = '';
-                group_booking_get_booking(order_number);
-                $("#issuedModal").modal('hide');
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                hide_modal_waiting_transaction();
-           }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error group booking issued booking');
-       },timeout: 60000
-    });
+                        })
+                    }
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    $("#issuedModal").modal('hide');
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    document.getElementById('tour_final_info').innerHTML = text;
+                    document.getElementById('product_title').innerHTML = '';
+                    document.getElementById('product_type_title').innerHTML = '';
+                    document.getElementById('tour_detail_table').innerHTML = '';
+                    group_booking_get_booking(order_number);
+                    $("#issuedModal").modal('hide');
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    hide_modal_waiting_transaction();
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error group booking issued booking');
+           },timeout: 60000
+        });
+    }
 }
 
 function choose_fare(val, fare_val){

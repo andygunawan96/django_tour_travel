@@ -755,45 +755,61 @@ function passport_commit_booking(){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
-    if(document.getElementById('pin') && document.getElementById('pin').value)
-        formData.append('pin', document.getElementById('pin').value);
+    var error_log = '';
+    if(document.getElementById('pin')){
+        if(document.getElementById('pin').value)
+            formData.append('pin', document.getElementById('pin').value);
+        else
+            error_log = 'Please input PIN!';
+    }
 
-    getToken();
-    $.ajax({
-        type: "POST",
-        url: "/webservice/passport",
-        headers:{
-            'action': 'commit_booking',
-        },
-        data: formData,
-        success: function(msg) {
-            if(google_analytics != ''){
-                if(formData.get('member'))
-                    gtag('event', 'passport_issued', {});
-                else
-                    gtag('event', 'passport_hold_booking', {});
-            }
-            if(msg.result.error_code == 0){
-//                document.getElementById('order_number').value = msg.result.response.journey.name;
-//                document.getElementById('visa_booking').submit();
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
-                    send_url_booking('passport', btoa(msg.result.response.journey.name), msg.result.response.journey.name);
-                document.getElementById('order_number').value = msg.result.response.journey.name;
-                document.getElementById('passport_issued').action = '/passport/booking/' + btoa(msg.result.response.journey.name);
-                document.getElementById('passport_issued').submit();
-            }else{
-                hide_modal_waiting_transaction();
-//                close_div('payment_acq');
-                set_payment('Issued','passport');
-            }
-        },
-        contentType:false,
-        processData:false,
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa commit booking');
+    if(error_log){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: error_log,
+        })
+        setTimeout(function(){
             hide_modal_waiting_transaction();
-        },timeout: 180000
-    });
+        }, 500);
+    }else{
+        getToken();
+        $.ajax({
+            type: "POST",
+            url: "/webservice/passport",
+            headers:{
+                'action': 'commit_booking',
+            },
+            data: formData,
+            success: function(msg) {
+                if(google_analytics != ''){
+                    if(formData.get('member'))
+                        gtag('event', 'passport_issued', {});
+                    else
+                        gtag('event', 'passport_hold_booking', {});
+                }
+                if(msg.result.error_code == 0){
+    //                document.getElementById('order_number').value = msg.result.response.journey.name;
+    //                document.getElementById('visa_booking').submit();
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        send_url_booking('passport', btoa(msg.result.response.journey.name), msg.result.response.journey.name);
+                    document.getElementById('order_number').value = msg.result.response.journey.name;
+                    document.getElementById('passport_issued').action = '/passport/booking/' + btoa(msg.result.response.journey.name);
+                    document.getElementById('passport_issued').submit();
+                }else{
+                    hide_modal_waiting_transaction();
+    //                close_div('payment_acq');
+                    set_payment('Issued','passport');
+                }
+            },
+            contentType:false,
+            processData:false,
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa commit booking');
+                hide_modal_waiting_transaction();
+            },timeout: 180000
+        });
+    }
 }
 
 function passport_get_data(data){
