@@ -282,7 +282,7 @@ function hotel_signin(data, need_signin=false){
                     timezone = timezone.split('')
                     timezone = timezone.filter(item => item !== '0')
                     time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp = parseInt((new Date(time_limit_otp).getTime() - now) / 1000);
+                    time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
                     session_otp_time_limit();
                 }
                 $('.loading-button').prop('disabled', false);
