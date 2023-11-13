@@ -1149,7 +1149,7 @@ function set_price(val, type, product_type){
 
                 </div>
                 <div class="col-sm-12">
-                    <input class="form-control" placeholder="Pin" type='password' id="pin" maxLength="6"/>
+                    <input class="form-control" placeholder="Pin" type='text' id="pin" maxLength="6" style="text-security:disc; -webkit-text-security:disc;" />
                 </div>
             </div>`;
         }
