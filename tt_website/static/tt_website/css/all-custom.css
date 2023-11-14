@@ -7680,3 +7680,81 @@ body {
 .destinations-area{
     background: #f7f7f7;
 }
+
+
+/* OTP input styles */
+.pin-container, .email-otp-container, .pin-otp-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.otp-input, .email-otp-input, .pin-otp-input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.otp-input:focus, .email-otp-input, .pin-otp-input:focus {
+    border-color: #007bff;
+}
+
+.otp-input, .email-otp-input-user {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.otp-input:focus, .email-otp-input-user:focus {
+    border-color: #007bff;
+}
+
+.pin-input, .pin-num-input {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 18px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 28px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.pin-input:focus, .pin-num-input:focus {
+    border-color: #007bff;
+}
+
+
+#verificationCode,
+#emailverificationCode {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#verificationCode:focus,
+#emailverificationCode:focus {
+    border-color: #007bff;
+}
+.email-otp {
+    margin-top: 25px;
+}
+

@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div class="modal fade" id="myModalSignin" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sign">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -9,59 +9,100 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="username" placeholder="Username" tabindex="1" />
-                </div>
-                <div class="input-container-search-ticket">
-                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="password" placeholder="Password" tabindex="2" />
-                </div>
-                <div class="input-container-search-ticket" hidden id="otp_div">
-                    <div class="alert alert-info" id="otp_information">
-
-                    </div>
-                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="otp" placeholder="OTP" tabindex="3" />
-                    <button class="loading-button primary-btn-custom ld-ext-right" id="btn_otp_resend" onclick="signin_btc(true)" style="margin:10px;margin-top:5px;margin-bottom:14px;">
-                        Resend
-                        <div class="ld ld-ring ld-cycle"></div>
-                    </button>
-                </div>
-
-                <div id="otp_type_div" hidden>
-                    <span class="span-search-ticket" style="color:{{color}}"> {% trans 'OTP Type' %}</span>
-                    <div class="input-container-search-ticket">
-                        <div class="form-select" id="default-select">
-                            <select id="otp_type" name="otp_type" class="nice-select-default">
-                                <!--<option value="always">Always Ask OTP</option>-->
-                                <option value="1">Input OTP Every 1 Day</option>
-                                <option value="3">Input OTP Every 3 Day</option>
-                                <option value="7">Input OTP Every 7 Day</option>
-                                <option value="never">Never ask again for this browser</option>
-                            </select>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="user_pass_div">
+                            <div class="row">
+                                <div class="col-lg-12" id="username_div">
+                                    <div class="input-container-search-ticket">
+                                        <i class="fa fa-user" style="font-size: 20px;padding-top: 12px;"></i>
+                                        <input type="text" class="form-control" style="border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username" tabindex="1" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" id="password_div">
+                                    <div class="input-container-search-ticket">
+                                        <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i>
+                                        <input type="password" class="form-control" style="border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password" tabindex="2" />
+                                        <div style="margin-top:15px;width:50px;" onclick="change_password_type();">
+                                            <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd;" id="otp_time_limit" hidden>
-                    <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> <span class="count_time" id="otp_session_time"> </span></span>
-                </div>
-                <div class="input-container-search-ticket">
-                    <label class="check_box_custom" style="margin:10px 0px;">
-                        <span style="font-size:13px;">{% trans 'Keep Me Sign in' %}</span>
-                        <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked" tabindex="3">
-                        <span class="check_box_span_custom"></span>
-                    </label>
-                </div>
-                <div class="input-container-search-ticket">
-                    <input type="hidden" name="g-recaptcha-response" id='g-recaptcha-response' value="">
-                    <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin:10px 0px;">
-                        Sign in <i class="fas fa-sign-in-alt"></i>
-                        <div class="ld ld-ring ld-cycle"></div>
-                    </button><br/>
-                </div>
-                <form id="reload_page" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
+                    <div class="col-lg-12">
+                        <div class="alert alert-info" id="otp_information" hidden>
 
-                    {% csrf_token %}
-                </form>
+                        </div>
+                        <div id="otp_type_div" hidden>
+                            <label> {% trans 'OTP Type' %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select" id="default-select">
+                                    <select id="otp_type" name="otp_type" class="nice-select-default" onchange="next_input_otp('email_otp_input1')">
+                                        <!--<option value="always">Always Ask OTP</option>-->
+                                        <option value="1">Input OTP every 1 day</option>
+                                        <option value="3">Input OTP every 3 day</option>
+                                        <option value="7">Input OTP every 7 day</option>
+                                        <option value="never">Never ask again for this browser</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="otp_div" hidden>
+                            <label> {% trans 'OTP Code' %}</label>
+                            <div class="email-otp-container">
+                                <input type="text" id="email_otp_input1" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                                <input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                                <input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                                <input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                                <input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                                <input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                            </div>
+
+                            <input type="text" class="form-control" style="display:none; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="otp" placeholder="OTP" tabindex="3" />
+                            <div style="display:inline-block; margin-bottom:10px;">
+                            <span style="display:inline-block;">
+                                Didn't receive the OTP code?
+                            </span>
+                                <button id="btn_otp_resend" class="loading-button primary-btn-custom ld-ext-right ml-1" onclick="signin_btc(true)" style="display:inline-block; height:30px; line-height:28px;">
+                                    <i class="fas fa-envelope"></i> Resend
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="otp_time_limit" class="mb-3" hidden>
+                            <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> OTP code expired within: <span class="count_time" id="otp_session_time"> </span></span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12" id="keep_me_sign_in_div">
+                        <div class="input-container-search-ticket">
+                            <label class="check_box_custom" style="margin-top:5px; margin-right:5px;">
+                                <span style="font-size:13px;">{% trans 'Keep Me Sign in' %}</span>
+                                <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked" tabindex="3">
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <input type="hidden" name="g-recaptcha-response" id='g-recaptcha-response' value="">
+                        <button id="signin_btn" onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px; width:100%; border: 1px solid {{text_color_login}};">
+                            Sign in <i class="fas fa-sign-in-alt"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button><br/>
+                        <div id="back_to_login_up" style="text-align:center;">
+
+                        </div>
+                        <label id="forget_password_label" style="cursor:pointer; margin-left:5px; margin-right:5px; font-size: 13px;" onclick="switch_modal('myModalSignIn', 'myModalResetPassword');"><i class="fa fa-lock" style="font-size: 15px; padding-top: 7px; padding-right:3px;"></i> Forget Password</label>
+                    </div>
+                    <form id="reload_page" class="form-wrap" action="" method="POST" style="padding:0; text-align:unset;">
+                        {% csrf_token %}
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -179,6 +220,101 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var emailOtpInputs = document.querySelectorAll(".email-otp-input");
+
+    function setupOtpInputListeners(inputs) {
+        inputs.forEach(function (input, index) {
+            input.addEventListener("paste", function (ev) {
+                var clip = ev.clipboardData.getData('text').trim();
+                if (!/^\d{6}$/.test(clip)) {
+                    ev.preventDefault();
+                    return;
+                }
+
+                var characters = clip.split("");
+                    inputs.forEach(function (otpInput, i) {
+                    otpInput.value = characters[i] || "";
+                });
+
+                enableNextBox(inputs[0], 0);
+                inputs[5].removeAttribute("disabled");
+                inputs[5].select();
+                updateOTPValue(inputs);
+            });
+
+            input.addEventListener("input", function () {
+                var currentIndex = Array.from(inputs).indexOf(this);
+                var inputValue = this.value.trim();
+
+                if (!/^\d$/.test(inputValue)) {
+                    this.value = "";
+                    return;
+                }
+
+                if (inputValue && currentIndex < 5) {
+                    inputs[currentIndex + 1].removeAttribute("disabled");
+                    inputs[currentIndex + 1].select();
+                }
+
+                if (currentIndex === 4 && inputValue) {
+                    inputs[5].removeAttribute("disabled");
+                    inputs[5].select();
+                }
+
+                updateOTPValue(inputs);
+            });
+
+            input.addEventListener("keydown", function (ev) {
+                var currentIndex = Array.from(inputs).indexOf(this);
+                if (!this.value && ev.key === "Backspace" && currentIndex > 0) {
+                    inputs[currentIndex - 1].select();
+                }
+            });
+        });
+    }
+
+    function enableNextBox(input, currentIndex) {
+        var inputValue = input.value;
+
+        if (inputValue === "") {
+            return;
+        }
+
+        var nextIndex = currentIndex + 1;
+        var nextBox = emailOtpInputs[nextIndex];
+
+        if (nextBox) {
+            nextBox.removeAttribute("disabled");
+        }
+    }
+
+    function updateOTPValue(inputs) {
+        var otpValue = "";
+        inputs.forEach(function (input) {
+            otpValue += input.value;
+        });
+
+        if(inputs === emailOtpInputs) {
+            document.getElementById("otp").value = otpValue;
+            var check_length_otp = document.getElementById("otp").value;
+            if(check_length_otp.length == 6){
+                $("#signin_btn").click();
+                var input_otp_ds = document.querySelectorAll('.email-otp-input');
+                for (i = 0; i < input_otp_ds.length; ++i) {
+                    input_otp_ds[i].setAttribute("disabled", "");
+                }
+                input_otp_ds[0].select();
+            }
+        }
+    }
+
+    setupOtpInputListeners(emailOtpInputs);
+});
+</script>
+
+
 <script>
     $( document ).ready(function() {
         $('#otp_type').niceSelect();
