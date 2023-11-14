@@ -198,7 +198,7 @@ function get_social(type){
                     }else if(msg[i][0] == "Youtube"){
                         text+=`<img style="margin-right:5px; height:30px; width:auto;" src="/static/tt_website/images/logo/apps/youtube.png" alt="Youtube"/>`;
                     }else if(msg[i][0] == "TikTok"){
-                        text+=`<img style="margin-right:5px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website/images/logo/apps/tiktok.png" alt="TikTok"/>`;
+                        text+=`<img style="margin-right:5px; height:30px; width:auto;" src="/static/tt_website/images/logo/apps/tiktok.png" alt="TikTok"/>`;
                     }else if(msg[i][0] == "Other"){
                         text+=`<img style="margin-right:5px; height:30px; width:auto;" src="/static/tt_website/images/logo/apps/link.png" alt="Other"/>`;
                     }
@@ -210,12 +210,12 @@ function get_social(type){
                     //}
                 }
 
-                if(check_available_dynamic == 0){
-                    document.getElementById("scroll_dn_btn").style.display = "none";
-                    document.getElementById("go_more").style.display = "none";
-                }else{
-                    document.getElementById("scroll_up_btn").style.display = "block";
-                }
+//                if(check_available_dynamic == 0){
+//                    document.getElementById("scroll_dn_btn").style.display = "none";
+//                    document.getElementById("go_more").style.display = "none";
+//                }else{
+//                    document.getElementById("scroll_up_btn").style.display = "block";
+//                }
                 document.getElementById('social_login_div').innerHTML = text;
             }
        },

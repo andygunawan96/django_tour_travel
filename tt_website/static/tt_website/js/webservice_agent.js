@@ -107,11 +107,38 @@ function session_otp_time_limit(){
             if(document.getElementById('otp')){
                 document.getElementById('otp').value = '';
             }
+            document.getElementById('otp_information').innerHTML = '';
+            document.getElementById('otp_information').hidden = true;
+            try{
+                document.getElementById('otp_type_div').hidden = true;
+            }catch(err){}
+            try{
+                document.getElementById('user_pass_div').hidden = false;
+            }catch(err){}
+            try{
+                document.getElementById('back_to_login_up').innerHTML = '';
+            }catch(err){}
+            try{
+                document.getElementById('keep_me_sign_in_div').hidden = false;
+            }catch(err){}
+            try{
+                document.getElementById('forget_password_label').hidden = false;
+            }catch(err){}
+            try{
+                var input_otp_email = document.querySelectorAll('.email-otp-input');
+                for (i = 0; i < input_otp_email.length; ++i) {
+                    input_otp_email[i].value = "";
+                    input_otp_email[i].removeAttribute("disabled");
+                }
+                document.getElementById('email_otp_input1').select();
+            }catch(err){}
+
             clearInterval(timeLimitOTPInterval);
             try{
                 //HOME
                 if(document.URL.split('/')[document.URL.split('/').length-1] != ''){
                     $('#myModalSignIn').modal('hide');
+                    $('#myModal_otp').modal('hide');
                     window.location.href = '/';
                 }
             }catch(err){}
@@ -159,7 +186,6 @@ function session_otp_user_time_limit(){
         }else{
             clearInterval(timeLimitOTPuserInterval);
             $('#myModal_otp').modal('hide');
-
         }
     }, 1000);
 }
@@ -176,9 +202,13 @@ function signin(){
         check = 1;
         $('.button-login').addClass("running");
         $('.button-login').prop('disabled', true);
+        $('.loading-button').prop('disabled', true);
+        $('.loading-button').addClass("running");
     }else{
         $('.button-login').prop('disabled', false);
         $('.button-login').removeClass("running");
+        $('.loading-button').prop('disabled', false);
+        $('.loading-button').removeClass("running");
         Swal.fire({
           type: 'error',
           title: 'Oops!',
@@ -264,11 +294,16 @@ function signin(){
 //                    title: 'Input OTP',
 //                    html: 'Please check your email!'
 //                });
+                //otp login b2b
                 if(document.getElementById('otp_div')){
                     document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
                     document.getElementById('otp_information').hidden = false;
+                    document.getElementById('otp_type_div').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
+                    try{
+                        document.getElementById('user_pass_div').hidden = true;
+                    }catch(err){}
                     try{
                         document.getElementById('otp_type_div').hidden = false;
                     }catch(err){}
@@ -281,8 +316,8 @@ function signin(){
                     data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
                     gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
                     timezone = data_gmt.replace (/[^\d.]/g, '');
-                    timezone = timezone.split('')
-                    timezone = timezone.filter(item => item !== '0')
+                    timezone = timezone.split('');
+                    timezone = timezone.filter(item => item !== '0');
                     time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
                     time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
                     session_otp_time_limit();
@@ -291,13 +326,34 @@ function signin(){
                 $('.button-login').removeClass("running");
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
+                $('#myModal_otp').modal('show');
+                try{
+                    setTimeout(() => {
+                      document.getElementById('email_otp_input1').select();
+                    }, 500);
+                }catch(err){}
             }else if(msg.result.error_code == 1041){
+                //invalid otp login b2b
                 Swal.fire({
                     type: 'warning',
                     html: msg.result.error_msg
+                }).then((result) => {
+                    try{
+                        var input_otp_email2 = document.querySelectorAll('.email-otp-input');
+                        for (i = 0; i < input_otp_email2.length; ++i) {
+                          input_otp_email2[i].value = "";
+                          input_otp_email2[i].removeAttribute("disabled");
+                        }
+                        document.getElementById('email_otp_input1').select();
+                    }catch(err){}
                 });
+                if(document.getElementById('otp')){
+                    document.getElementById('otp').value = '';
+                };
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
             }else if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == false){
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
@@ -440,11 +496,26 @@ function signin_booking(){
 //                    type: 'warning',
 //                    html: 'Input OTP'
 //                });
+                //otp
                 if(document.getElementById('otp_div')){
                     document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
                     document.getElementById('otp_information').hidden = false;
+                    document.getElementById('otp_type_div').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
+                    try{
+                        document.getElementById('user_pass_div').hidden = true;
+                    }catch(err){}
+                    try{
+                        document.getElementById('back_to_login_up').innerHTML = `<label style="cursor:pointer; margin-left:5px; margin-right:5px; font-size: 13px;" onclick="otp_back_to_signin();"><i class="fa fa-user" style="font-size: 15px; padding-top: 7px; padding-right:3px;"></i> Change Account</label>`;
+                    }catch(err){}
+                    try{
+                        document.getElementById('keep_me_sign_in_div').hidden = true;
+                    }catch(err){}
+                    try{
+                        document.getElementById('forget_password_label').hidden = true;
+                    }catch(err){}
+
                     now = new Date().getTime();
 
                     time_limit_otp = msg.result.error_msg.split(', ')[1];
@@ -463,10 +534,23 @@ function signin_booking(){
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
             }else if(msg.result.error_code == 1041){
+                //invalid otp
                 Swal.fire({
                     type: 'warning',
                     html: msg.result.error_msg
+                }).then((result) => {
+                    try{
+                        var input_otp_email2 = document.querySelectorAll('.email-otp-input');
+                        for (i = 0; i < input_otp_email2.length; ++i) {
+                          input_otp_email2[i].value = "";
+                          input_otp_email2[i].removeAttribute("disabled");
+                        }
+                        document.getElementById('email_otp_input1').select();
+                    }catch(err){}
                 });
+                if(document.getElementById('otp')){
+                    document.getElementById('otp').value = '';
+                };
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
             }else if(msg.result.error_code == 0){
@@ -833,39 +917,73 @@ function signin_btc(is_resend=false){
                     $('.loading-button').removeClass("running");
                 }
             }else if(msg.result.error_code == 1040){
-//                    Swal.fire({
-//                        type: 'warning',
-//                        html: 'Input OTP'
-//                    });
-                    clear_otp_signin();
-                    if(document.getElementById('otp_div')){
-                        document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
-                        document.getElementById('otp_information').hidden = false;
-                        document.getElementById('otp_type_div').hidden = false;
-                        document.getElementById('otp_div').hidden = false;
-                        document.getElementById('otp_time_limit').hidden = false;
-                        now = new Date().getTime();
+//                Swal.fire({
+//                    type: 'warning',
+//                    html: 'Input OTP'
+//                });
+                clear_otp_signin();
+                //otp login b2c
+                if(document.getElementById('otp_div')){
+                    //next login
+                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                    document.getElementById('otp_information').hidden = false;
+                    document.getElementById('otp_type_div').hidden = false;
+                    document.getElementById('otp_div').hidden = false;
+                    document.getElementById('otp_time_limit').hidden = false;
+                    try{
+                        document.getElementById('user_pass_div').hidden = true;
+                    }catch(err){}
 
-                        time_limit_otp = msg.result.error_msg.split(', ')[1];
-                        tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
-                        localTime  = moment.utc(tes).toDate();
+                    try{
+                        document.getElementById('back_to_login_up').innerHTML = `<label style="cursor:pointer; margin-left:5px; margin-right:5px; font-size: 13px;" onclick="otp_back_to_signin();"><i class="fa fa-user" style="font-size: 15px; padding-top: 7px; padding-right:3px;"></i> Change Account</label>`;
+                    }catch(err){}
+                    try{
+                        document.getElementById('keep_me_sign_in_div').hidden = true;
+                    }catch(err){}
+                    try{
+                        document.getElementById('forget_password_label').hidden = true;
+                    }catch(err){}
+                    try{
+                        setTimeout(() => {
+                          document.getElementById('email_otp_input1').select();
+                        }, 500);
+                    }catch(err){}
 
-                        data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
-                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                        timezone = data_gmt.replace (/[^\d.]/g, '');
-                        timezone = timezone.split('')
-                        timezone = timezone.filter(item => item !== '0')
-                        time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                        time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
-                        session_otp_time_limit();
-                    }
-                    $('.loading-button').prop('disabled', false);
-                    $('.loading-button').removeClass("running");
+                    now = new Date().getTime();
+
+                    time_limit_otp = msg.result.error_msg.split(', ')[1];
+                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                    localTime  = moment.utc(tes).toDate();
+
+                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('')
+                    timezone = timezone.filter(item => item !== '0')
+                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                    time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
+                    session_otp_time_limit();
+                }
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
             }else if(msg.result.error_code == 1041){
+                //invalid otp login b2c
                 Swal.fire({
                     type: 'warning',
                     html: msg.result.error_msg
+                }).then((result) => {
+                    try{
+                        var input_otp_email2 = document.querySelectorAll('.email-otp-input');
+                        for (i = 0; i < input_otp_email2.length; ++i) {
+                          input_otp_email2[i].value = "";
+                          input_otp_email2[i].removeAttribute("disabled");
+                        }
+                        document.getElementById('email_otp_input1').select();
+                    }catch(err){}
                 });
+                if(document.getElementById('otp')){
+                    document.getElementById('otp').value = '';
+                }
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
             }else{
@@ -893,7 +1011,6 @@ function signin_btc(is_resend=false){
 }
 
 function signin_product_otp(is_resend=false){
-
     if(typeof(platform) === 'undefined'){
         platform = '';
     }
@@ -957,38 +1074,53 @@ function signin_product_otp(is_resend=false){
               }
             })
         }else if(msg.result.error_code == 1040){
-//                Swal.fire({
-//                    type: 'warning',
-//                    html: 'Input OTP'
-//                });
-                clear_otp_signin();
-                if(document.getElementById('otp_div')){
-                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
-                    document.getElementById('otp_information').hidden = false;
-                    document.getElementById('otp_div').hidden = false;
-                    document.getElementById('otp_time_limit').hidden = false;
-                    now = new Date().getTime();
+//            Swal.fire({
+//                type: 'warning',
+//                html: 'Input OTP'
+//            });
+            //otp product search
+            clear_otp_signin();
+            if(document.getElementById('otp_div')){
+                document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                document.getElementById('otp_information').hidden = false;
+                document.getElementById('otp_type_div').hidden = false;
+                document.getElementById('otp_div').hidden = false;
+                document.getElementById('otp_time_limit').hidden = false;
+                now = new Date().getTime();
 
-                    time_limit_otp = msg.result.error_msg.split(', ')[1];
-                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
-                    localTime  = moment.utc(tes).toDate();
+                time_limit_otp = msg.result.error_msg.split(', ')[1];
+                tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                localTime  = moment.utc(tes).toDate();
 
-                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
-                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                    timezone = data_gmt.replace (/[^\d.]/g, '');
-                    timezone = timezone.split('')
-                    timezone = timezone.filter(item => item !== '0')
-                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
-                    session_otp_time_limit();
-                }
-                $('.loading-button').prop('disabled', false);
-                $('.loading-button').removeClass("running");
+                data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
+                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                timezone = data_gmt.replace (/[^\d.]/g, '');
+                timezone = timezone.split('')
+                timezone = timezone.filter(item => item !== '0')
+                time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
+                session_otp_time_limit();
+            }
+            $('.loading-button').prop('disabled', false);
+            $('.loading-button').removeClass("running");
         }else{
+            //invalid otp product search
             Swal.fire({
                 type: 'warning',
                 html: msg.result.error_msg
+            }).then((result) => {
+                try{
+                    var input_otp_email2 = document.querySelectorAll('.email-otp-input');
+                    for (i = 0; i < input_otp_email2.length; ++i) {
+                      input_otp_email2[i].value = "";
+                      input_otp_email2[i].removeAttribute("disabled");
+                    }
+                    document.getElementById('email_otp_input1').select();
+                }catch(err){}
             });
+            if(document.getElementById('otp')){
+                document.getElementById('otp').value = '';
+            }
             $('.loading-button').prop('disabled', false);
             $('.loading-button').removeClass("running");
         }
@@ -1159,6 +1291,11 @@ function open_modal_otp(msg, string_action){
         $('.loading-button').prop('disabled', false);
         $('.loading-button').removeClass("running");
         $('#myModal_otp').modal('show');
+        try{
+            setTimeout(() => {
+              document.getElementById('email_otp_input_user1').select();
+            }, 500);
+        }catch(err){}
     }
 }
 
@@ -1210,11 +1347,24 @@ function activation_otp_user_api(){
             }
             else{
                 //signature expired untuk passenger
+                //error otp setting
                 Swal.fire({
                     type: 'error',
                     title: 'Oops!',
                     html: '<span style="color: #ff9900;">'+msg.result.error_msg+'!' ,
-                })
+                }).then((result) => {
+                    try{
+                        var input_otp_user = document.querySelectorAll('.email-otp-input-user');
+                        for (i = 0; i < input_otp_user.length; ++i) {
+                          input_otp_user[i].value = "";
+                          input_otp_user[i].removeAttribute("disabled");
+                        }
+                        document.getElementById('email_otp_input_user1').select();
+                    }catch(err){}
+                    if(document.getElementById('otp_user')){
+                        document.getElementById('otp_user').value = '';
+                    }
+                });
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
             }
@@ -1311,6 +1461,47 @@ function clear_otp_signin(){
     try{
         clearInterval(timeLimitOTPInterval);
     }catch(err){console.log(err);}
+}
+
+function otp_back_to_signin(){
+    //change account
+    //otp input
+    document.getElementById('otp_div').hidden = true;
+    if(document.getElementById('otp')){
+        document.getElementById('otp').value = '';
+    }
+    //otp timelimit
+    document.getElementById('otp_time_limit').hidden = true;
+    //otp alert
+    document.getElementById('otp_information').innerHTML = '';
+    document.getElementById('otp_information').hidden = true;
+    //otp type
+    try{
+        document.getElementById('otp_type_div').hidden = true;
+    }catch(err){}
+    //user pass
+    try{
+        document.getElementById('user_pass_div').hidden = false;
+    }catch(err){}
+    //change login
+    try{
+        document.getElementById('back_to_login_up').innerHTML = '';
+    }catch(err){}
+    try{
+        document.getElementById('keep_me_sign_in_div').hidden = false;
+    }catch(err){}
+    try{
+        document.getElementById('forget_password_label').hidden = false;
+    }catch(err){}
+    try{
+        var input_otp_email = document.querySelectorAll('.email-otp-input');
+        for (i = 0; i < input_otp_email.length; ++i) {
+          input_otp_email[i].value = "";
+          input_otp_email[i].removeAttribute("disabled");
+        }
+    }catch(err){}
+
+    clear_otp_signin();
 }
 
 function check_session(){

@@ -3615,3 +3615,10 @@ function show_hide_div(id){
         div_show.style.display = "none";
     }
 }
+
+function next_input_otp(elem){
+    setTimeout(() => {
+      document.getElementById(elem).focus();
+    }, 0);
+}
+

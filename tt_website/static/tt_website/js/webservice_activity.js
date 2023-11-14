@@ -347,6 +347,17 @@ function activity_login(data, type=''){
                }
            }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
+                try{
+                    document.getElementById('keep_me_sign_in_div').hidden = true;
+                }catch(err){}
+                try{
+                    document.getElementById('forget_password_label').hidden = true;
+                }catch(err){}
+                try{
+                    setTimeout(() => {
+                      document.getElementById('email_otp_input1').select();
+                    }, 500);
+                }catch(err){}
 //                Swal.fire({
 //                    type: 'warning',
 //                    html: 'Input OTP'
@@ -354,6 +365,7 @@ function activity_login(data, type=''){
                 if(document.getElementById('otp_div')){
                     document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
                     document.getElementById('otp_information').hidden = false;
+                    document.getElementById('otp_type_div').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     document.getElementById('username_div').hidden = true;
