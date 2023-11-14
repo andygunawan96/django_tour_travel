@@ -101,6 +101,10 @@
             document.getElementById('old_pin_div').hidden = true;
             document.getElementById('pin_div').hidden = true;
             document.getElementById('pin_confirm_div').hidden = true;
+            document.getElementById('pin_modal_title').innerHTML = 'Forgot PIN';
+            document.getElementById('pin_confirm_span').innerHTML = '<i class="fas fa-check"></i> Reset';
+            $('#btn_pin').removeClass("primary-btn-cancel");
+            $('#btn_pin').addClass("primary-btn-custom");
             action_mode = 'change_by_otp';
         }else if(type_open == 'turn_off'){
             document.getElementById('otp_pin_div').hidden = true;

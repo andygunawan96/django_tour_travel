@@ -221,6 +221,26 @@
 <!--    </div>-->
 <!--</div>-->
 <script>
+try{
+    document.getElementById("password").addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+            event.preventDefault();
+            get_captcha('g-recaptcha-response','signin_btc');
+      }
+    });
+    document.getElementById("username").addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+            event.preventDefault();
+            get_captcha('g-recaptcha-response','signin_btc');
+      }
+    });
+}catch(err){
+    console.log(err) //ada element yg tidak ada
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
     var emailOtpInputs = document.querySelectorAll(".email-otp-input");
 
