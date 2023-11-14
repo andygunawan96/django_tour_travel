@@ -7831,6 +7831,24 @@ function check_passenger(adult, child, infant, type=''){
         }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
         }
+        if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+           if(document.getElementById('adult_first_name'+i).value == '')
+               error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+               error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+        }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+        }
+        if(is_need_last_name == 'true' && document.getElementById('adult_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('adult_last_name'+i).value) == false){
+           if(document.getElementById('adult_last_name'+i).value == '')
+               error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('adult_last_name'+i).value) == false)
+               error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+        }else{
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+        }
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
 //       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
@@ -8172,6 +8190,17 @@ function check_passenger(adult, child, infant, type=''){
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }
+
+       if(is_need_last_name == 'true' && document.getElementById('child_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('child_last_name'+i).value) == false){
+           if(document.getElementById('child_last_name'+i).value == '')
+               error_log+= 'Please input last name of child passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('child_last_name'+i).value) == false)
+               error_log+= 'Please use alpha characters last name of child passenger '+i+'!</br>\n';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+        }else{
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+        }
+
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
 //       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
@@ -8495,6 +8524,17 @@ function check_passenger(adult, child, infant, type=''){
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }
+
+       if(is_need_last_name == 'true' && document.getElementById('infant_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('infant_last_name'+i).value) == false){
+           if(document.getElementById('infant_last_name'+i).value == '')
+               error_log+= 'Please input last name of infant passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('infant_last_name'+i).value) == false)
+               error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+        }else{
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+        }
+
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
 //       if(check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value) != ''){
@@ -8771,6 +8811,17 @@ function check_passenger(adult, child, infant, type=''){
            }else{
                document.getElementById('student_first_name'+i).style['border-color'] = '#EFEFEF';
            }
+
+           if(is_need_last_name == 'true' && document.getElementById('student_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('student_last_name'+i).value) == false){
+               if(document.getElementById('student_last_name'+i).value == '')
+                   error_log+= 'Please input last name of student passenger '+i+'!</br>\n';
+               else if(check_word(document.getElementById('student_last_name'+i).value) == false)
+                   error_log+= 'Please use alpha characters last name of student passenger '+i+'!</br>\n';
+               document.getElementById('student_last_name'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('student_last_name'+i).style['border-color'] = '#EFEFEF';
+            }
+
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
     //       if(check_name_airline(document.getElementById('student_first_name'+i).value, document.getElementById('student_last_name'+i).value) != ''){
@@ -9098,6 +9149,17 @@ function check_passenger(adult, child, infant, type=''){
            }else{
                document.getElementById('seaman_first_name'+i).style['border-color'] = '#EFEFEF';
            }
+
+           if(is_need_last_name == 'true' && document.getElementById('seaman_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('seaman_last_name'+i).value) == false){
+               if(document.getElementById('seaman_last_name'+i).value == '')
+                   error_log+= 'Please input last name of seaman passenger '+i+'!</br>\n';
+               else if(check_word(document.getElementById('seaman_last_name'+i).value) == false)
+                   error_log+= 'Please use alpha characters last name of seaman passenger '+i+'!</br>\n';
+               document.getElementById('seaman_last_name'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('seaman_last_name'+i).style['border-color'] = '#EFEFEF';
+            }
+
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
     //       if(check_name_airline(document.getElementById('seaman_first_name'+i).value, document.getElementById('seaman_last_name'+i).value) != ''){
@@ -9425,6 +9487,17 @@ function check_passenger(adult, child, infant, type=''){
            }else{
                document.getElementById('labour_first_name'+i).style['border-color'] = '#EFEFEF';
            }
+
+           if(is_need_last_name == 'true' && document.getElementById('labour_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('labour_last_name'+i).value) == false){
+               if(document.getElementById('labour_last_name'+i).value == '')
+                   error_log+= 'Please input last name of labour passenger '+i+'!</br>\n';
+               else if(check_word(document.getElementById('labour_last_name'+i).value) == false)
+                   error_log+= 'Please use alpha characters last name of labour passenger '+i+'!</br>\n';
+               document.getElementById('labour_last_name'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('labour_last_name'+i).style['border-color'] = '#EFEFEF';
+            }
+
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
     //       if(check_name_airline(document.getElementById('labour_first_name'+i).value, document.getElementById('labour_last_name'+i).value) != ''){
