@@ -635,7 +635,8 @@ def passenger(request, signature):
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
-        is_need_valid_identity = False ## FOR US COUNTRY
+        is_need_valid_identity = False ## FOR COUNTRY US
+        is_need_last_name = False ## FOR CITY DUBAI
         file = read_cache_file(request, signature, 'airline_sell_journey')
         if file:
             airline_price_provider_temp = file['sell_journey_provider']
@@ -665,17 +666,33 @@ def passenger(request, signature):
 
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
+                if journey['origin_country'] == 'United States' or journey['destination_country'] == 'United States':
+                    is_need_valid_identity = True
+                if journey['origin_city'] == 'Dubai' or journey['destination_city'] == 'Dubai':
+                    is_need_last_name = True
+                if is_need_valid_identity and is_need_last_name:
+                    break
                 for segment in journey['segments']:
+                    if segment['origin_country'] == 'United States' or segment['destination_country'] == 'United States':
+                        is_need_valid_identity = True
+                    if segment['origin_city'] == 'Dubai' or segment['destination_city'] == 'Dubai':
+                        is_need_last_name = True
+                    if is_need_valid_identity and is_need_last_name:
+                        break
                     for leg in segment['legs']:
                         if leg['origin_country'] == 'United States' or leg['destination_country'] == 'United States':
                             is_need_valid_identity = True
+                        if leg['origin_city'] == 'Dubai' or leg['destination_city'] == 'Dubai':
+                            is_need_last_name = True
+                        if is_need_valid_identity and is_need_last_name:
                             break
-                    if is_need_valid_identity:
+                    if is_need_valid_identity and is_need_last_name:
                         break
-                if is_need_valid_identity:
+                if is_need_valid_identity and is_need_last_name:
                     break
-            if is_need_valid_identity:
+            if is_need_valid_identity and is_need_last_name:
                 break
+
         try:
             file = read_cache_file(request, signature, 'airline_get_ff_availability')
             if file:
@@ -705,6 +722,7 @@ def passenger(request, signature):
                 'is_international': is_international,
                 'birth_date_required': is_birthdate_required,
                 'is_need_valid_identity': is_need_valid_identity,
+                'is_need_last_name': is_need_last_name,
                 'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,

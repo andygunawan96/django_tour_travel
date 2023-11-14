@@ -54,6 +54,9 @@
     is_need_valid_identity = `{{is_need_valid_identity}}`;
     is_need_valid_identity = is_need_valid_identity.replace(/False/g, 'false');
     is_need_valid_identity = is_need_valid_identity.replace(/True/g, 'true');
+    is_need_last_name = `{{is_need_last_name}}`;
+    is_need_last_name = is_need_last_name.replace(/False/g, 'false');
+    is_need_last_name = is_need_last_name.replace(/True/g, 'true');
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -518,6 +521,9 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <br/>
+                                                    {% if is_need_last_name == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
                                                     <label>{% trans 'Last Name' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
@@ -889,6 +895,9 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <br/>
+                                                    {% if is_need_last_name == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
                                                     <label>{% trans 'Last Name' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
@@ -1222,6 +1231,9 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <br/>
+                                                    {% if is_need_last_name == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
                                                     <label>{% trans 'Last Name' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
@@ -1527,6 +1539,9 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <br/>
+                                                    {% if is_need_last_name == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
                                                     <label>{% trans 'Last Name' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('student_last_name{{forloop.counter}}');" class="form-control" name="student_last_name{{forloop.counter}}" id="student_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
@@ -1860,6 +1875,9 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <br/>
+                                                    {% if is_need_last_name == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
                                                     <label>{% trans 'Last Name' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('labour_last_name{{forloop.counter}}');" class="form-control" name="labour_last_name{{forloop.counter}}" id="labour_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
@@ -2194,6 +2212,9 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <br/>
+                                                    {% if is_need_last_name == True %}
+                                                    <label style="color:red">*</label>
+                                                    {% endif %}
                                                     <label>{% trans 'Last Name' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('seaman_last_name{{forloop.counter}}');" class="form-control" name="seaman_last_name{{forloop.counter}}" id="seaman_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
