@@ -197,7 +197,6 @@ function tour_login(data, type=''){
                     }, 500);
                 }catch(err){}
 //                Swal.fire({
-
 //                    type: 'warning',
 //                    html: 'Input OTP'
 //                });

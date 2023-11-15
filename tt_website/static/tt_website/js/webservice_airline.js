@@ -10830,6 +10830,7 @@ function airline_get_booking(data, sync=false){
                     });
                 }
 
+                //refund
                 if(msg.result.response.state == 'refund'){
                     total_refund = 0;
                     if(msg.result.response.refund_list.length > 0){
