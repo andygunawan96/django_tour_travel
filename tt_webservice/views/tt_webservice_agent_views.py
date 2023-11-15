@@ -668,8 +668,9 @@ def signin(request):
             request.session.create()
             request.session.set_expiry(3 * 60 * 60)  # jam menit detik
             set_session(request, 'signature', res['result']['response']['signature'])
-            set_session(request, 'username', request.POST.get('username') or user_default)
-            set_session(request, 'password', request.POST.get('password') or password_default)
+            set_session(request, 'master_signature', res['result']['response']['signature'])
+            # set_session(request, 'username', request.POST.get('username') or user_default)
+            # set_session(request, 'password', request.POST.get('password') or password_default)
             set_session(request, 'signin_date', datetime.now().timestamp())
 
             if request.POST.get('keep_me_signin') == 'true':
@@ -831,9 +832,10 @@ def signin_btc(request):
         if res['result']['error_code'] == 0:
             request.session.create()
             request.session.set_expiry(3 * 60 * 60)  # jam detik menit
+            set_session(request, 'master_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
-            set_session(request, 'username', request.POST.get('username') or user_default)
-            set_session(request, 'password', request.POST.get('password') or password_default)
+            # set_session(request, 'username', request.POST.get('username') or user_default)
+            # set_session(request, 'password', request.POST.get('password') or password_default)
             set_session(request, 'signin_date', datetime.now().timestamp())
             if request.POST.get('keep_me_signin') == 'true':
                 set_session(request, 'keep_me_signin', True)
@@ -965,6 +967,7 @@ def signin_product_otp(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     try:
         if res['result']['error_code'] == 0:
+            set_session(request, 'master_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'signin_date', datetime.now().timestamp())
             data = {}
