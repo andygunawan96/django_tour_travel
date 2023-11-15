@@ -3806,7 +3806,7 @@ function choose_recommendation_ticket(journey_code, fare_code, total_price){
     $("#myModalRecommendation").modal('hide');
 }
 
-function change_fare(journey, segment, fares, fare_code){
+function change_fare(journey, segment, fares, fare_code, print_breakdown=false){
     price = 0;
     price_discount = 0;
     seat_left = 100;
@@ -4098,7 +4098,7 @@ function change_fare(journey, segment, fares, fare_code){
                 }
             }
         }
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && print_breakdown){
             var price_breakdown = {};
             for(j in airline_data_filter[journey].segments){
                 for(k in airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].service_charge_summary){
