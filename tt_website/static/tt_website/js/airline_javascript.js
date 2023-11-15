@@ -6486,8 +6486,8 @@ function airline_detail(type){
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                     <span style="font-size:13px; font-weight:bold;">Subtotal</span>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;cursor:pointer;" id="sub_total_price`+price_counter+`">
-                                                    <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(sub_total_count)+`</span><i class="fas fa-caret-down"></i>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                    <span id="sub_total_price`+price_counter+`" style="font-size:13px; font-weight:bold;cursor:pointer;">`+currency+` `+getrupiah(sub_total_count)+`<i class="fas fa-caret-down"></i></span>
                                                 </div>
                                                 <div class="col-lg-12 pt-2" style="border-bottom:1px solid #cdcdcd;"></div>
                                             </div>`;

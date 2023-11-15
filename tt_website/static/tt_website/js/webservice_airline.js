@@ -6091,8 +6091,8 @@ function render_price_in_get_price(text, $text, $text_share){
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                     <span style="font-size:13px; font-weight:bold;">Subtotal</span>
                 </div>
-                <div id="sub_total_price_`+subtotal_div+`" class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;cursor:pointer;">
-                    <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(sub_total_count)+`</span><i class="fas fa-caret-down"></i>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                    <span id="sub_total_price_`+subtotal_div+`" style="font-size:13px; font-weight:bold;cursor:pointer;">`+currency+` `+getrupiah(sub_total_count)+`<i class="fas fa-caret-down"></i></span>
                 </div>
             </div>
         </div>
