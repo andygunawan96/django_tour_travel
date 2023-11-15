@@ -1305,7 +1305,6 @@ function onchange_use_point(value){
 
 function button_payment(type, page){
     temp_text = '';
-
     if(type == 'visa'){
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="freeze_session_time_limit();visa_pre_create_booking(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'passport'){

@@ -205,6 +205,7 @@
 
     function pin_submit(){
         var error_msg = '';
+        is_move_back_action_mode = false;
         var data = {
             'signature': signature
         }
@@ -317,6 +318,7 @@
                 data["browser"] = web_vendor;
                 data["timezone"] = timezone;
             }
+            is_move_back_action_mode = true;
             action_mode = 'change';
         }
         if(error_msg){
@@ -361,6 +363,8 @@
                             html: '<span style="color: #ff9900;">'+temp_action+' Pin </span>' + msg.result.error_msg,
                         })
                     }
+                    if(is_move_back_action_mode)
+                        action_mode = 'change_by_otp';
                     $('.loading-button').prop('disabled', false);
                     $('.loading-button').removeClass("running");
                 },

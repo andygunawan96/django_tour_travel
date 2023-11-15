@@ -472,7 +472,9 @@ function airline_goto_search(){
                         })
                     }catch(err){console.log(err)}
                 }
-                request_airline['promo_code_counter_list'] = JSON.stringify(request_airline['promo_code_counter_list'])
+                request_airline['promo_code_counter_list'] = JSON.stringify(request_airline['promo_code_counter_list']);
+            }else{
+                request_airline['promo_code_counter_list'] = JSON.stringify([]);
             }
             document.getElementById('promo_code_counter_list').value = JSON.stringify(list_promo_code);
         }
