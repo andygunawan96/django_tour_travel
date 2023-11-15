@@ -88,29 +88,30 @@ def signin(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "signin",
-            "signature": '',
+            "action": "refresh_session",
+            "signature": request.session['master_signature'],
         }
-        user_global, password_global, api_key = get_credential(request)
-        user_default, password_default = get_credential_user_default(request)
-        data = {
-            "user": user_global,
-            "password": password_global,
-            "api_key": api_key,
-            # "co_user": request.session['username'],
-            # "co_password": request.session['password'],
-            "co_user": request.session.get('username') or user_default,
-            "co_password": request.session.get('password') or password_default,
-            "co_uid": ""
-        }
-        if request.POST.get('unique_id'):
-            data['machine_code'] = request.POST['unique_id']
-        if request.POST.get('platform'):
-            data['platform'] = request.POST['platform']
-        if request.POST.get('browser'):
-            data['browser'] = request.POST['browser']
-        if request.POST.get('timezone'):
-            data['timezone'] = request.POST['timezone']
+        # user_global, password_global, api_key = get_credential(request)
+        # user_default, password_default = get_credential_user_default(request)
+        # data = {
+        #     "user": user_global,
+        #     "password": password_global,
+        #     "api_key": api_key,
+        #     # "co_user": request.session['username'],
+        #     # "co_password": request.session['password'],
+        #     "co_user": request.session.get('username') or user_default,
+        #     "co_password": request.session.get('password') or password_default,
+        #     "co_uid": ""
+        # }
+        # if request.POST.get('unique_id'):
+        #     data['machine_code'] = request.POST['unique_id']
+        # if request.POST.get('platform'):
+        #     data['platform'] = request.POST['platform']
+        # if request.POST.get('browser'):
+        #     data['browser'] = request.POST['browser']
+        # if request.POST.get('timezone'):
+        #     data['timezone'] = request.POST['timezone']
+        data = {}
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session')
