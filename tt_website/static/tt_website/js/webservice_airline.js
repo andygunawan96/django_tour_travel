@@ -4973,7 +4973,7 @@ function draw_get_price_itinerary(){
                     for(m in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary){
                         price_type = {
                             'fare': get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_fare,
-                            'tax':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_tax,
+                            'tax':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax,
                             'rac':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_commission_airline,
                             'roc':  0,
                             'disc':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_discount,
@@ -5539,7 +5539,7 @@ function draw_get_price_itinerary(){
                 if(currency)
                     break;
             }
-            text_detail_next+=`"><b>`+currency+` `+getrupiah(Math.ceil(total_price+total_discount))+`</b>`;
+            text_detail_next+=`"><b>`+currency+` `+getrupiah(total_price+total_discount)+`</b>`;
             if(is_show_breakdown_price){
                  text_detail_next+=`<i class="fas fa-caret-down"></i>`;
             }
@@ -5555,7 +5555,7 @@ function draw_get_price_itinerary(){
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                         try{
                             if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
-                                price_convert = (Math.ceil(total_price+total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                price_convert = ((total_price+total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
                                 text_detail_next+=`<span style="font-size:14px; font-weight: bold;"><b>Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>`;
@@ -5576,8 +5576,8 @@ function draw_get_price_itinerary(){
     <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>
     <div style="padding:7px 0px 15px 0px; display:inline-block;">`;
     if(total_discount != 0)
-        $text += '‣ Discount: '+currency+' '+ getrupiah(Math.ceil(total_discount*-1)) + '\n';
-    $text += '‣ Grand Total: '+currency+' '+ getrupiah(Math.ceil(total_price+total_discount)) + '\nPrices and availability may change at any time';
+        $text += '‣ Discount: '+currency+' '+ getrupiah(total_discount*-1) + '\n';
+    $text += '‣ Grand Total: '+currency+' '+ getrupiah(total_price+total_discount) + '\nPrices and availability may change at any time';
     share_data();
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
@@ -5666,6 +5666,7 @@ function draw_get_price_itinerary(){
         var price_breakdown = {};
         var currency_breakdown = '';
         for(i in get_price_airline_response.result.response.price_itinerary_provider){
+            price_breakdown = {};
             for(j in get_price_airline_response.result.response.price_itinerary_provider[i].journeys){
                 for(k in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments){
                     for(l in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
@@ -5692,17 +5693,98 @@ function draw_get_price_itinerary(){
                                 price_breakdown['NTA AGENT'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                 price_breakdown['COMMISSION HO'] = 0;
-                            price_breakdown['FARE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_fare_ori;
-                            price_breakdown['TAX'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_tax_ori;
+                            price_breakdown['FARE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
+                            price_breakdown['TAX'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
-                            price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_commission_airline * -1);
-                            price_breakdown['NTA AIRLINE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_nta_airline;
-                            price_breakdown['SERVICE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_fee_ho;
-                            price_breakdown['VAT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_vat_ho;
-                            price_breakdown['OTT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_price_ori;
-                            price_breakdown['TOTAL PRICE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_price;
-                            price_breakdown['NTA AGENT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_nta;
-                            price_breakdown['COMMISSION HO'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_commission_ho * -1;
+                            price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_airline * -1);
+                            price_breakdown['NTA AIRLINE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_airline;
+                            price_breakdown['SERVICE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
+                            price_breakdown['VAT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;
+                            price_breakdown['OTT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price_ori;
+                            price_breakdown['TOTAL PRICE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price;
+                            price_breakdown['NTA AGENT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta;
+                            price_breakdown['COMMISSION HO'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_ho * -1;
+
+
+                            if(currency_breakdown == ''){
+                                for(n in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
+                                    currency_breakdown = get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            var breakdown_text = '';
+            for(j in price_breakdown){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                breakdown_text += '<b>'+j+'</b> ';
+                if(j != 'BREAKDOWN')
+                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }
+            new jBox('Tooltip', {
+                attach: '#sub_total_price_'+i,
+                target: '#sub_total_price_'+i,
+                theme: 'TooltipBorder',
+                trigger: 'click',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'top'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: breakdown_text
+            });
+        }
+
+        price_breakdown = {};
+        for(i in get_price_airline_response.result.response.price_itinerary_provider){
+            for(j in get_price_airline_response.result.response.price_itinerary_provider[i].journeys){
+                for(k in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments){
+                    for(l in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
+                        for(m in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                            if(!price_breakdown.hasOwnProperty('FARE'))
+                                price_breakdown['FARE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TAX'))
+                                price_breakdown['TAX'] = 0;
+                            if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                price_breakdown['COMMISSION'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
+                                price_breakdown['NTA AIRLINE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                price_breakdown['SERVICE FEE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('VAT'))
+                                price_breakdown['VAT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('OTT'))
+                                price_breakdown['OTT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                price_breakdown['TOTAL PRICE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                price_breakdown['NTA AGENT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                price_breakdown['COMMISSION HO'] = 0;
+                            price_breakdown['FARE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
+                            price_breakdown['TAX'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
+                            price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_airline * -1);
+                            price_breakdown['NTA AIRLINE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_airline;
+                            price_breakdown['SERVICE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
+                            price_breakdown['VAT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;
+                            price_breakdown['OTT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price_ori;
+                            price_breakdown['TOTAL PRICE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price;
+                            price_breakdown['NTA AGENT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta;
+                            price_breakdown['COMMISSION HO'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_ho * -1;
 
 
                             if(currency_breakdown == ''){
@@ -5952,25 +6034,25 @@ function render_price_in_get_price(text, $text, $text_share){
                         <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white;">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;"><b>`+pax_count+`x</b> `+pax_type_name+` Fare @ `+airline_price[price_counter][pax_type].currency +' '+getrupiah(Math.ceil(airline_price[price_counter][pax_type].fare))+`</span><br/>
+                                    <span style="font-size:13px; font-weight:500;"><b>`+pax_count+`x</b> `+pax_type_name+` Fare @ `+airline_price[price_counter][pax_type].currency +' '+getrupiah(airline_price[price_counter][pax_type].fare)+`</span><br/>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(Math.ceil(airline_price[price_counter][pax_type].fare * pax_count))+`</span>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(airline_price[price_counter][pax_type].fare * pax_count)+`</span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                     <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(price)+`</span>
                                 </div>
                             </div>
                         </div>
                     </div>`;
-                    sub_total_count += Math.ceil((airline_price[price_counter][pax_type].fare * pax_count) + price);
+                    sub_total_count += (airline_price[price_counter][pax_type].fare * pax_count) + price;
 
                     $text_price+= 'Price\n';
-                    $text_price += pax_count + ' '+pax_type_name+' @'+ airline_price[price_counter][pax_type].currency +' '+getrupiah(Math.ceil(airline_price[price_counter][pax_type].fare) + Math.ceil(price/pax_count))+'\n';
-        //            $text_price += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                    $text_price += pax_count + ' '+pax_type_name+' @'+ airline_price[price_counter][pax_type].currency +' '+getrupiah((airline_price[price_counter][pax_type].fare) + (price/pax_count))+'\n';
+        //            $text_price += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(price)+'\n';
                     price = 0;
                 }catch(err){
 
@@ -5985,18 +6067,18 @@ function render_price_in_get_price(text, $text, $text_share){
                                 <span style="font-size:13px; font-weight:500;">Discount</span>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px; color:#e04022; font-weight:500;">`+currency+` `+getrupiah(Math.ceil(discount))+`</span>
+                                <span style="font-size:13px; color:#e04022; font-weight:500;">`+currency+` `+getrupiah(discount)+`</span>
                             </div>
                         </div>
                     </div>
                 </div>`;
-                $text_price += 'Discount ' + getrupiah(Math.ceil(discount)) + '\n';
+                $text_price += 'Discount ' + getrupiah(discount) + '\n';
             }
 
     text+=`</div>
     </div>`;
 
-    sub_total_count += Math.ceil(discount);
+    sub_total_count += discount;
 
     text += `
     <div class="col-lg-12 mb-3" id="sub_total_div`+subtotal_div+`">
@@ -6009,8 +6091,8 @@ function render_price_in_get_price(text, $text, $text_share){
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                     <span style="font-size:13px; font-weight:bold;">Subtotal</span>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(Math.ceil(sub_total_count))+`</span>
+                <div id="sub_total_price_`+subtotal_div+`" class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;cursor:pointer;">
+                    <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(sub_total_count)+`</span><i class="fas fa-caret-down"></i>
                 </div>
             </div>
         </div>
@@ -10804,17 +10886,17 @@ function airline_get_booking(data, sync=false){
                             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                 price_breakdown['COMMISSION HO'] = 0;
 
-                            price_breakdown['FARE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                            price_breakdown['TAX'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['FARE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fare_ori;
+                            price_breakdown['TAX'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
-                            price_breakdown['COMMISSION'] = (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_airline * -1);
-                            price_breakdown['NTA AIRLINE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_airline;
-                            price_breakdown['SERVICE FEE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
-                            price_breakdown['VAT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                            price_breakdown['OTT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
-                            price_breakdown['TOTAL PRICE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
-                            price_breakdown['NTA AGENT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
-                            price_breakdown['COMMISSION HO'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            price_breakdown['COMMISSION'] = (airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_airline * -1);
+                            price_breakdown['NTA AIRLINE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta_airline;
+                            price_breakdown['SERVICE FEE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fee_ho;
+                            price_breakdown['VAT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_vat_ho;
+                            price_breakdown['OTT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price_ori;
+                            price_breakdown['TOTAL PRICE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price;
+                            price_breakdown['NTA AGENT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta;
+                            price_breakdown['COMMISSION HO'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_ho * -1;
 
                             var breakdown_text = '';
                             for(k in price_breakdown){
@@ -10876,17 +10958,17 @@ function airline_get_booking(data, sync=false){
                             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                 price_breakdown['COMMISSION HO'] = 0;
 
-                            price_breakdown['FARE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                            price_breakdown['TAX'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['FARE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fare_ori;
+                            price_breakdown['TAX'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
-                            price_breakdown['COMMISSION'] += (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_airline * -1);
-                            price_breakdown['NTA AIRLINE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_airline;
-                            price_breakdown['SERVICE FEE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
-                            price_breakdown['VAT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                            price_breakdown['OTT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
-                            price_breakdown['TOTAL PRICE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
-                            price_breakdown['NTA AGENT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
-                            price_breakdown['COMMISSION HO'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            price_breakdown['COMMISSION'] += (airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_airline * -1);
+                            price_breakdown['NTA AIRLINE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta_airline;
+                            price_breakdown['SERVICE FEE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fee_ho;
+                            price_breakdown['VAT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_vat_ho;
+                            price_breakdown['OTT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price_ori;
+                            price_breakdown['TOTAL PRICE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price;
+                            price_breakdown['NTA AGENT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta;
+                            price_breakdown['COMMISSION HO'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_ho * -1;
                         }
                     }
                     var breakdown_text = '';
@@ -15217,13 +15299,17 @@ function render_ticket_reissue(){
                                 if(airline[i].segments[j].hasOwnProperty('fare_pick')){
                                     for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
                                         if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].pax_type)){
-                                            for(l in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
-                                                if(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                                                    if(!price_breakdown.hasOwnProperty(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
-                                                        price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                                                    price_breakdown[airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].amount;
-                                                }
-                                            }
+                                            price_breakdown['FARE'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
+                                            price_breakdown['TAX'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
+                                            price_breakdown['BREAKDOWN'] = 0;
+                                            price_breakdown['COMMISSION'] = (airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_airline * -1);
+                                            price_breakdown['NTA AIRLINE'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta_airline;
+                                            price_breakdown['SERVICE FEE'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
+                                            price_breakdown['VAT'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_vat_ho;
+                                            price_breakdown['OTT'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_price_ori;
+                                            price_breakdown['TOTAL PRICE'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_price;
+                                            price_breakdown['NTA AGENT'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta;
+                                            price_breakdown['COMMISSION HO'] = airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_ho * -1;
                                             break;
                                         }
                                     }
@@ -15233,11 +15319,9 @@ function render_ticket_reissue(){
                             for(j in price_breakdown){
                                 if(breakdown_text)
                                     breakdown_text += '<br/>';
-                                if(j != 'ROC')
-                                    breakdown_text += '<b>'+j+'</b> ';
-                                else
-                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                                breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                                breakdown_text += '<b>'+j+'</b> ';
+                                if(j != 'BREAKDOWN')
+                                    breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
                             }
                             new jBox('Tooltip', {
                                 attach: '#more_fare'+i,
@@ -15867,7 +15951,7 @@ function get_chosen_ticket(type='all'){
                                         for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                                             try{
                                                 if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
-                                                    price_convert = (Math.ceil(price-total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                                    price_convert = ((price-total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                                     if(price_convert%1 == 0)
                                                         price_convert = parseInt(price_convert);
                                                     if(check_k == 0){
@@ -16306,7 +16390,7 @@ function get_chosen_ticket(type='all'){
                     for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                         try{
                             if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
-                                price_convert = (Math.ceil(price-total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                price_convert = ((price-total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                 if(price_convert%1 == 0)
                                     price_convert = parseInt(price_convert);
                                 content_estimated_seat2+=`<h6 class="mb-1">`+k+` `+getrupiah(price_convert)+`</h6>`;
@@ -16403,14 +16487,18 @@ function get_chosen_ticket(type='all'){
             for(j in airline_pick_list[i].segments){
                 for(k in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary){
                     if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].pax_type)){
-                        for(l in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
-                            if(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                                if(!price_breakdown.hasOwnProperty(airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type))
-                                    price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                                price_breakdown[airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].charge_type] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges[l].amount;
-                            }
-                        }
-                        break
+                        price_breakdown['FARE'] = airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
+                        price_breakdown['TAX'] = airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
+                        price_breakdown['BREAKDOWN'] = 0;
+                        price_breakdown['COMMISSION'] = (airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_commission_airline * -1);
+                        price_breakdown['NTA AIRLINE'] = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_nta_airline;
+                        price_breakdown['SERVICE FEE'] = airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
+                        price_breakdown['VAT'] = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_vat_ho;
+                        price_breakdown['OTT'] = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_price_ori;
+                        price_breakdown['TOTAL PRICE'] = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_price;
+                        price_breakdown['NTA AGENT'] = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_nta;
+                        price_breakdown['COMMISSION HO'] = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_commission_ho * -1;
+                        break;
                     }
                 }
             }
@@ -16418,11 +16506,9 @@ function get_chosen_ticket(type='all'){
             for(j in price_breakdown){
                 if(breakdown_text)
                     breakdown_text += '<br/>';
-                if(j != 'ROC')
-                    breakdown_text += '<b>'+j+'</b> ';
-                else
-                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                breakdown_text += airline_pick_list[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                breakdown_text += '<b>'+j+'</b> ';
+                if(j != 'BREAKDOWN')
+                    breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
             }
             new jBox('Tooltip', {
                 attach: '#fare_detail_pick'+airline_pick_list[i].airline_pick_sequence,
@@ -16712,11 +16798,11 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                                         <span style="font-size:13px; font-weight:500;">`+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` @`+currency+` `+getrupiah(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count)+`</span><br/>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price))+`</span><br/>
+                                        <span style="font-size:13px; font-weight:500;">`+currency +' '+getrupiah(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price)+`</span><br/>
                                     </div>
                                 </div>
                             </div>`;
-                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price '+ currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
+                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price '+ currency +' '+getrupiah((airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
                             charge_tax = 0;
                             if(typeof(is_process_repricing) !== 'undefined')
                             {
@@ -16736,12 +16822,12 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                                         <span style="font-size:13px; font-weight:500;">`+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` Tax & Charges</span><br/><br/>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+currency+' '+getrupiah(Math.ceil(charge_tax))+`</span><br/><br/>
+                                        <span style="font-size:13px; font-weight:500;">`+currency+' '+getrupiah(charge_tax)+`</span><br/><br/>
                                     </div>
                                 </div>
                             </div>
                             `;
-                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` Tax & Charges `+ currency + ` ` + getrupiah(Math.ceil(charge_tax)) + `\n`;
+                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` Tax & Charges `+ currency + ` ` + getrupiah(charge_tax) + `\n`;
                             total_price += charge_tax;
                         }
                     }
@@ -16781,7 +16867,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                             <span style="font-size:13px; font-weight:500;">- `+msg[i].passengers[j].fees[k].fee_type+` </span><br/>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px; font-weight:500;">`+currency +' '+getrupiah(Math.ceil(msg[i].passengers[j].fees[k].base_price))+`</span><br/>
+                            <span style="font-size:13px; font-weight:500;">`+currency +' '+getrupiah(msg[i].passengers[j].fees[k].base_price)+`</span><br/>
                         </div>
                     </div>
                 </div>`;
@@ -16827,11 +16913,11 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                 <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:14px; font-weight: bold;" id="total_price_rs"><b>`+currency+` `+getrupiah(Math.ceil(total_price))+`</b></span>
+                <span style="font-size:14px; font-weight: bold;" id="total_price_rs"><b>`+currency+` `+getrupiah(total_price)+`</b></span>
             </div>
         </div>
     </div>`;
-        $text += '‣ Grand Total: '+currency+' '+ getrupiah(Math.ceil(total_price)) + '\nPrices and availability may change at any time';
+        $text += '‣ Grand Total: '+currency+' '+ getrupiah(total_price) + '\nPrices and availability may change at any time';
         final_total_fee = total_price;
     }else{
         text+=`
@@ -16842,7 +16928,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                 <span style="font-size:14px; font-weight: bold;"><b>Admin Fee</b></span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(Math.ceil(total_admin_fee))+`</b></span>
+                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(total_admin_fee)+`</b></span>
             </div>
         </div>
         <div class="row">
@@ -16850,12 +16936,12 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                 <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee))+`</b></span>
+                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(total_price + total_admin_fee)+`</b></span>
             </div>
         </div>
     </div>`;
-        $text += '‣ Admin Fee: '+currency+' '+ getrupiah(Math.ceil(total_admin_fee)) + '\n';
-        $text += '‣ Grand Total: '+currency+' '+ getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee)) + '\nPrices and availability may change at any time';
+        $text += '‣ Admin Fee: '+currency+' '+ getrupiah(total_admin_fee) + '\n';
+        $text += '‣ Grand Total: '+currency+' '+ getrupiah(total_price + total_admin_fee) + '\nPrices and availability may change at any time';
         final_total_fee = total_price + total_admin_fee;
     }
     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && final_total_fee){
