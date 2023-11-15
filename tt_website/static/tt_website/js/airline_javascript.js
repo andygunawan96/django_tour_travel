@@ -3962,11 +3962,11 @@ function sort(){
                                         document.getElementById('fare_fd'+i).innerHTML = 'Choose to view price';
                                     }catch(err){}
                                 }
-//                                if(is_show_breakdown_price){
-//                                    document.getElementById('more_fare'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
-//                                    try{
-//                                        document.getElementById('more_fare_fd'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
-//                                    }catch(err){}
+                                if(is_show_breakdown_price){
+                                    document.getElementById('more_fare'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
+                                    try{
+                                        document.getElementById('more_fare_fd'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
+                                    }catch(err){}
 //                                    var price_breakdown = {};
 //                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
 //                                        if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type)){
@@ -4058,7 +4058,7 @@ function sort(){
 //                                            content: breakdown_text
 //                                        });
 //                                    }catch(err){}
-//                                }
+                                }
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                         for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
@@ -4104,11 +4104,11 @@ function sort(){
                                     try{
                                         document.getElementById('fare_fd'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
                                     }catch(err){}
-//                                    if(is_show_breakdown_price){
-//                                        document.getElementById('more_fare'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
-//                                        try{
-//                                            document.getElementById('more_fare_fd'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
-//                                        }catch(err){}
+                                    if(is_show_breakdown_price){
+                                        document.getElementById('more_fare'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
+                                        try{
+                                            document.getElementById('more_fare_fd'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
+                                        }catch(err){}
 //                                        var price_breakdown = {};
 //                                        for(j in airline[i].segments){
 //                                            for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
@@ -4200,7 +4200,7 @@ function sort(){
 //                                                content: breakdown_text
 //                                            });
 //                                        }catch(err){}
-//                                    }
+                                    }
                                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
                                         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
