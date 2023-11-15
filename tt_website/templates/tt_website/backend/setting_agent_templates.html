@@ -159,7 +159,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 mt-3">
                                             {% if username.co_otp_list_machine|length > 0 %}
-                                            <button type="button" class="primary-btn mb-3" onclick="relogin_user();"><i class="fas fa-sync-alt"></i> Update Data Machine </button>
+                                            <button type="button" class="primary-btn mb-3" onclick="update_context_machine_otp_pin_api();"><i class="fas fa-sync-alt"></i> Update Data Machine </button>
                                             {% endif %}
                                             {% if username.co_is_using_otp %}
                                             <button type="button" class="primary-btn-white-cancel" style="float:right; margin-right:0px;" onclick="set_otp_user_api(false, true);"><i class="fas fa-power-off"></i> Turn off 2-Step Verification</button>

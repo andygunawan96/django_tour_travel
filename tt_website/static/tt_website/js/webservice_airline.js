@@ -4124,11 +4124,11 @@ function change_fare(journey, segment, fares, fare_code){
                     breakdown_text += '<br/>';
                 breakdown_text += '<b>'+j+'</b> ';
                 if(j != 'BREAKDOWN')
-                    breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                    breakdown_text += airline_data_filter[journey].currency + ' ' + getrupiah(price_breakdown[j]);
             }
             new jBox('Tooltip', {
-                attach: '#fare'+journey,
-                target: '#fare'+journey,
+                attach: '#more_fare'+journey,
+                target: '#more_fare'+journey,
                 theme: 'TooltipBorder',
                 trigger: 'click',
                 adjustTracker: true,
