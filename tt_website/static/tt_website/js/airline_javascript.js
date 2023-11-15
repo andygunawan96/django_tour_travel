@@ -3967,97 +3967,97 @@ function sort(){
                                     try{
                                         document.getElementById('more_fare_fd'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
                                     }catch(err){}
-//                                    var price_breakdown = {};
-//                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
-//                                        if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type)){
-//                                            price_breakdown['FARE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_fare_ori;
-//                                            price_breakdown['TAX'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_tax_ori;
-//                                            price_breakdown['BREAKDOWN'] = 0;
-//                                            price_breakdown['COMMISSION'] = (airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_commission_airline * -1);
-//                                            price_breakdown['NTA AIRLINE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_nta_airline;
-//                                            price_breakdown['SERVICE FEE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_fee_ho;
-//                                            price_breakdown['VAT'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_vat_ho;
-//                                            price_breakdown['OTT'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_price_ori;
-//                                            price_breakdown['TOTAL PRICE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_price;
-//                                            price_breakdown['NTA AGENT'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_nta;
-//                                            price_breakdown['COMMISSION HO'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_commission_ho * -1;
-//                                            break;
-//                                        }
-//                                    }
-//                                    for(index_airline in airline_pick_list){
-//                                        for(index_segment in airline_pick_list[index_airline].segments){
-//                                            for(index_fare in airline_pick_list[index_airline].segments[index_segment].fares){
-//                                                if(parseInt(index_fare) == airline_pick_list[index_airline].segments[index_segment].fare_pick){
-//                                                    for(index_svc_summary in airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary)
-//                                                        if(!['CHD', 'INF'].includes(airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].pax_type)){
-//                                                            price_breakdown['FARE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_fare_ori;
-//                                                            price_breakdown['TAX'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_tax_ori;
-//                                                            price_breakdown['BREAKDOWN'] = 0;
-//                                                            price_breakdown['COMMISSION'] -= (airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_commission_airline * -1);
-//                                                            price_breakdown['NTA AIRLINE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_nta_airline;
-//                                                            price_breakdown['SERVICE FEE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_fee_ho;
-//                                                            price_breakdown['VAT'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_vat_ho;
-//                                                            price_breakdown['OTT'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_price_ori;
-//                                                            price_breakdown['TOTAL PRICE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_price;
-//                                                            price_breakdown['NTA AGENT'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_nta;
-//                                                            price_breakdown['COMMISSION HO'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_commission_ho * -1;
-//                                                            break;
-//                                                        }
-//                                                    break;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    var breakdown_text = '';
-//                                    for(j in price_breakdown){
-//                                        if(breakdown_text)
-//                                            breakdown_text += '<br/>';
-//                                        breakdown_text += '<b>'+j+'</b> ';
-//                                        if(j != 'BREAKDOWN')
-//                                            breakdown_text += airline_pick_list[0].currency + ' ' + getrupiah(price_breakdown[j]);
-//                                    }
-//                                    new jBox('Tooltip', {
-//                                        attach: '#more_fare'+i,
-//                                        target: '#more_fare'+i,
-//                                        theme: 'TooltipBorder',
-//                                        trigger: 'click',
-//                                        adjustTracker: true,
-//                                        closeOnClick: 'body',
-//                                        closeButton: 'box',
-//                                        animation: 'move',
-//                                        position: {
-//                                          x: 'left',
-//                                          y: 'top'
-//                                        },
-//                                        outside: 'y',
-//                                        pointer: 'left:20',
-//                                        offset: {
-//                                          x: 25
-//                                        },
-//                                        content: breakdown_text
-//                                    });
-//                                    try{
-//                                        new jBox('Tooltip', {
-//                                            attach: '#more_fare_fd'+i,
-//                                            target: '#more_fare_fd'+i,
-//                                            theme: 'TooltipBorder',
-//                                            trigger: 'click',
-//                                            adjustTracker: true,
-//                                            closeOnClick: 'body',
-//                                            closeButton: 'box',
-//                                            animation: 'move',
-//                                            position: {
-//                                              x: 'left',
-//                                              y: 'top'
-//                                            },
-//                                            outside: 'y',
-//                                            pointer: 'left:20',
-//                                            offset: {
-//                                              x: 25
-//                                            },
-//                                            content: breakdown_text
-//                                        });
-//                                    }catch(err){}
+                                    var price_breakdown = {};
+                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
+                                        if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].pax_type)){
+                                            price_breakdown['FARE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_fare_ori;
+                                            price_breakdown['TAX'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_tax_ori;
+                                            price_breakdown['BREAKDOWN'] = 0;
+                                            price_breakdown['COMMISSION'] = (airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_commission_airline * -1);
+                                            price_breakdown['NTA AIRLINE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_nta_airline;
+                                            price_breakdown['SERVICE FEE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_fee_ho;
+                                            price_breakdown['VAT'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_vat_ho;
+                                            price_breakdown['OTT'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_price_ori;
+                                            price_breakdown['TOTAL PRICE'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_price;
+                                            price_breakdown['NTA AGENT'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_nta;
+                                            price_breakdown['COMMISSION HO'] = airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary[l].base_commission_ho * -1;
+                                            break;
+                                        }
+                                    }
+                                    for(index_airline in airline_pick_list){
+                                        for(index_segment in airline_pick_list[index_airline].segments){
+                                            for(index_fare in airline_pick_list[index_airline].segments[index_segment].fares){
+                                                if(parseInt(index_fare) == airline_pick_list[index_airline].segments[index_segment].fare_pick){
+                                                    for(index_svc_summary in airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary)
+                                                        if(!['CHD', 'INF'].includes(airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].pax_type)){
+                                                            price_breakdown['FARE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_fare_ori;
+                                                            price_breakdown['TAX'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_tax_ori;
+                                                            price_breakdown['BREAKDOWN'] = 0;
+                                                            price_breakdown['COMMISSION'] -= (airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_commission_airline * -1);
+                                                            price_breakdown['NTA AIRLINE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_nta_airline;
+                                                            price_breakdown['SERVICE FEE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_fee_ho;
+                                                            price_breakdown['VAT'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_vat_ho;
+                                                            price_breakdown['OTT'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_price_ori;
+                                                            price_breakdown['TOTAL PRICE'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_price;
+                                                            price_breakdown['NTA AGENT'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_nta;
+                                                            price_breakdown['COMMISSION HO'] -= airline_pick_list[index_airline].segments[index_segment].fares[index_fare].service_charge_summary[index_svc_summary].base_commission_ho * -1;
+                                                            break;
+                                                        }
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    var breakdown_text = '';
+                                    for(j in price_breakdown){
+                                        if(breakdown_text)
+                                            breakdown_text += '<br/>';
+                                        breakdown_text += '<b>'+j+'</b> ';
+                                        if(j != 'BREAKDOWN')
+                                            breakdown_text += airline_pick_list[0].currency + ' ' + getrupiah(price_breakdown[j]);
+                                    }
+                                    new jBox('Tooltip', {
+                                        attach: '#more_fare'+i,
+                                        target: '#more_fare'+i,
+                                        theme: 'TooltipBorder',
+                                        trigger: 'click',
+                                        adjustTracker: true,
+                                        closeOnClick: 'body',
+                                        closeButton: 'box',
+                                        animation: 'move',
+                                        position: {
+                                          x: 'left',
+                                          y: 'top'
+                                        },
+                                        outside: 'y',
+                                        pointer: 'left:20',
+                                        offset: {
+                                          x: 25
+                                        },
+                                        content: breakdown_text
+                                    });
+                                    try{
+                                        new jBox('Tooltip', {
+                                            attach: '#more_fare_fd'+i,
+                                            target: '#more_fare_fd'+i,
+                                            theme: 'TooltipBorder',
+                                            trigger: 'click',
+                                            adjustTracker: true,
+                                            closeOnClick: 'body',
+                                            closeButton: 'box',
+                                            animation: 'move',
+                                            position: {
+                                              x: 'left',
+                                              y: 'top'
+                                            },
+                                            outside: 'y',
+                                            pointer: 'left:20',
+                                            offset: {
+                                              x: 25
+                                            },
+                                            content: breakdown_text
+                                        });
+                                    }catch(err){}
                                 }
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
@@ -4109,97 +4109,97 @@ function sort(){
                                         try{
                                             document.getElementById('more_fare_fd'+i).innerHTML+= ` <i class="fas fa-chevron-down price_template"></i>`;
                                         }catch(err){}
-//                                        var price_breakdown = {};
-//                                        for(j in airline[i].segments){
-//                                            for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
-//                                                if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].pax_type)){
-//                                                    if(!price_breakdown.hasOwnProperty('FARE'))
-//                                                        price_breakdown['FARE'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('TAX'))
-//                                                        price_breakdown['TAX'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
-//                                                        price_breakdown['BREAKDOWN'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('COMMISSION'))
-//                                                        price_breakdown['COMMISSION'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-//                                                        price_breakdown['NTA AIRLINE'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
-//                                                        price_breakdown['SERVICE FEE'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('VAT'))
-//                                                        price_breakdown['VAT'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('OTT'))
-//                                                        price_breakdown['OTT'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
-//                                                        price_breakdown['TOTAL PRICE'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('NTA AGENT'))
-//                                                        price_breakdown['NTA AGENT'] = 0;
-//                                                    if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
-//                                                        price_breakdown['COMMISSION HO'] = 0;
-//                                                    price_breakdown['FARE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
-//                                                    price_breakdown['TAX'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
-//                                                    price_breakdown['BREAKDOWN'] = 0;
-//                                                    price_breakdown['COMMISSION'] += (airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_airline * -1);
-//                                                    price_breakdown['NTA AIRLINE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta_airline;
-//                                                    price_breakdown['SERVICE FEE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
-//                                                    price_breakdown['VAT'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_vat_ho;
-//                                                    price_breakdown['OTT'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_price_ori;
-//                                                    price_breakdown['TOTAL PRICE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_price;
-//                                                    price_breakdown['NTA AGENT'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta;
-//                                                    price_breakdown['COMMISSION HO'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_ho * -1;
-//                                                    break;
-//                                                }
-//                                            }
-//                                        }
-//                                        var breakdown_text = '';
-//                                        for(j in price_breakdown){
-//                                            if(breakdown_text)
-//                                                breakdown_text += '<br/>';
-//                                            breakdown_text += '<b>'+j+'</b> ';
-//                                            if(j != 'BREAKDOWN')
-//                                                breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
-//                                        }
-//                                        new jBox('Tooltip', {
-//                                            attach: '#more_fare'+i,
-//                                            target: '#more_fare'+i,
-//                                            theme: 'TooltipBorder',
-//                                            trigger: 'click',
-//                                            adjustTracker: true,
-//                                            closeOnClick: 'body',
-//                                            closeButton: 'box',
-//                                            animation: 'move',
-//                                            position: {
-//                                              x: 'left',
-//                                              y: 'top'
-//                                            },
-//                                            outside: 'y',
-//                                            pointer: 'left:20',
-//                                            offset: {
-//                                              x: 25
-//                                            },
-//                                            content: breakdown_text
-//                                        });
-//                                        try{
-//                                            new jBox('Tooltip', {
-//                                                attach: '#more_fare_fd'+i,
-//                                                target: '#more_fare_fd'+i,
-//                                                theme: 'TooltipBorder',
-//                                                trigger: 'click',
-//                                                adjustTracker: true,
-//                                                closeOnClick: 'body',
-//                                                closeButton: 'box',
-//                                                animation: 'move',
-//                                                position: {
-//                                                  x: 'left',
-//                                                  y: 'top'
-//                                                },
-//                                                outside: 'y',
-//                                                pointer: 'left:20',
-//                                                offset: {
-//                                                  x: 25
-//                                                },
-//                                                content: breakdown_text
-//                                            });
-//                                        }catch(err){}
+                                        var price_breakdown = {};
+                                        for(j in airline[i].segments){
+                                            for(k in airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary){
+                                                if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].pax_type)){
+                                                    if(!price_breakdown.hasOwnProperty('FARE'))
+                                                        price_breakdown['FARE'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('TAX'))
+                                                        price_breakdown['TAX'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                                        price_breakdown['BREAKDOWN'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                                        price_breakdown['COMMISSION'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
+                                                        price_breakdown['NTA AIRLINE'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                                        price_breakdown['SERVICE FEE'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('VAT'))
+                                                        price_breakdown['VAT'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('OTT'))
+                                                        price_breakdown['OTT'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                                        price_breakdown['TOTAL PRICE'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                                        price_breakdown['NTA AGENT'] = 0;
+                                                    if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                                        price_breakdown['COMMISSION HO'] = 0;
+                                                    price_breakdown['FARE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
+                                                    price_breakdown['TAX'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
+                                                    price_breakdown['BREAKDOWN'] = 0;
+                                                    price_breakdown['COMMISSION'] += (airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_airline * -1);
+                                                    price_breakdown['NTA AIRLINE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta_airline;
+                                                    price_breakdown['SERVICE FEE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
+                                                    price_breakdown['VAT'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_vat_ho;
+                                                    price_breakdown['OTT'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_price_ori;
+                                                    price_breakdown['TOTAL PRICE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_price;
+                                                    price_breakdown['NTA AGENT'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta;
+                                                    price_breakdown['COMMISSION HO'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_ho * -1;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        var breakdown_text = '';
+                                        for(j in price_breakdown){
+                                            if(breakdown_text)
+                                                breakdown_text += '<br/>';
+                                            breakdown_text += '<b>'+j+'</b> ';
+                                            if(j != 'BREAKDOWN')
+                                                breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                                        }
+                                        new jBox('Tooltip', {
+                                            attach: '#more_fare'+i,
+                                            target: '#more_fare'+i,
+                                            theme: 'TooltipBorder',
+                                            trigger: 'click',
+                                            adjustTracker: true,
+                                            closeOnClick: 'body',
+                                            closeButton: 'box',
+                                            animation: 'move',
+                                            position: {
+                                              x: 'left',
+                                              y: 'top'
+                                            },
+                                            outside: 'y',
+                                            pointer: 'left:20',
+                                            offset: {
+                                              x: 25
+                                            },
+                                            content: breakdown_text
+                                        });
+                                        try{
+                                            new jBox('Tooltip', {
+                                                attach: '#more_fare_fd'+i,
+                                                target: '#more_fare_fd'+i,
+                                                theme: 'TooltipBorder',
+                                                trigger: 'click',
+                                                adjustTracker: true,
+                                                closeOnClick: 'body',
+                                                closeButton: 'box',
+                                                animation: 'move',
+                                                position: {
+                                                  x: 'left',
+                                                  y: 'top'
+                                                },
+                                                outside: 'y',
+                                                pointer: 'left:20',
+                                                offset: {
+                                                  x: 25
+                                                },
+                                                content: breakdown_text
+                                            });
+                                        }catch(err){}
                                     }
                                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
                                         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
@@ -4245,7 +4245,7 @@ function sort(){
                         ticket_count++;
                         if(ticket_count >= first && ticket_count < last){
                             if(airline[i].segments.length > 1 && airline[i].segments[0].fares.length > 0)
-                                change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code);
+                                change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code,true);
                         }
                     }
                     if(airline[i].segments.length > 1 && airline[i].auto_link){
