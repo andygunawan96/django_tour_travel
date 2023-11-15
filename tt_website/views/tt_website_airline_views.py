@@ -474,7 +474,7 @@ def search(request):
                 activate_corporate_mode(request, signature)
             ## PROMO CODE
             promo_codes = []
-            use_osi_code_backend = True
+            use_osi_code_backend = False
 
             ##POST
             try:
@@ -485,8 +485,8 @@ def search(request):
                         'promo_code': promo_code_data_input['promo_code']
                     })
 
-                if request.GET.get('checkbox_osi_code_backend_airline') == 'on' or request.GET.get('checkbox_add_promotion_code_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'search':
-                    use_osi_code_backend = False
+                if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.POST.get('checkbox_add_promotion_code_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'search':
+                    use_osi_code_backend = True
             except Exception as e:
                 _logger.error('Data POST for promo code not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -499,11 +499,14 @@ def search(request):
                         'carrier_code': promo_code_data_input['carrier_code'],
                         'promo_code': promo_code_data_input['promo_code']
                     })
-
-                if request.POST.get('checkbox_osi_code_backend_airline') == None or request.POST.get('checkbox_add_promotion_code_airline') == None or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
-                    use_osi_code_backend = False
             except Exception as e:
                 _logger.error('Data POST for promo code not found use cache')
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
+            try:
+                if request.GET.get('checkbox_osi_code_backend_airline') == 'false' and request.session['user_account'].get('co_customer_parent_name') or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'search':
+                    use_osi_code_backend = True
+            except Exception as e:
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
             values.update({

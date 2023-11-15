@@ -1142,14 +1142,20 @@ function set_price(val, type, product_type){
         if(user_login.hasOwnProperty('co_is_using_pin') && user_login.co_is_using_pin &&
            !['payment_gateway', 'creditcard_topup'].includes(payment_method) && type != 'top_up' &&
            !['issued_offline', 'visa'].includes(type)){
-            text+=`
+            text +=`
             <div class='row'>
-                <div class="col-sm-12" style='text-align:left;'>
-                <span style="font-size:13px;"> Pin: </span>
+                <div class="col-sm-12 mb-3" style="text-align:left;">
+                    <h6 style="padding-bottom:10px;">4. Input your PIN</h6>
+                    <div class="pin-container" style="margin-bottom:0px; justify-content: unset;">
+                        <input type="text" id="pin_otp_input1" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
+                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
+                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
+                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
+                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
+                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
+                    </div>
 
-                </div>
-                <div class="col-sm-12">
-                    <input class="form-control" placeholder="Pin" type='text' id="pin" maxLength="6" style="text-security:disc; -webkit-text-security:disc;" />
+                    <input class="form-control" placeholder="Pin" type='text' id="pin" maxLength="6" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; display:none;"/>
                 </div>
             </div>`;
         }
@@ -1164,23 +1170,106 @@ function set_price(val, type, product_type){
         console.log(err) //ada element yg tidak ada
     }
 
-    if(type == 'top_up' && payment_method != 'va')
+    if(type == 'top_up' && payment_method != 'va'){
         text += `<button type="button" id="submit_top_up" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="commit_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
-    else if(payment_method == 'payment_gateway')
-        if(free_reservation == false)
+    }
+    else if(payment_method == 'payment_gateway'){
+        if(free_reservation == false){
             text += `<button type="button" id="payment_gtw" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="get_payment_order_number('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
-        else if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+        }else if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
             text += button_payment(type,'payment');
         }else{
             text += button_payment(type,'reservation');
         }
-    else
+    }
+    else{
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
             text += button_payment(type,'payment');
         }else{
             text += button_payment(type,'reservation');
         }
+    }
     document.getElementById('set_price').innerHTML = text;
+
+    var inputOtpInputs = document.querySelectorAll(".pin-num-input");
+    setupOtpInputListeners(inputOtpInputs);
+}
+
+function setupOtpInputListeners(inputs) {
+    inputs.forEach(function (input, index) {
+        input.addEventListener("paste", function (ev) {
+            var clip = ev.clipboardData.getData('text').trim();
+            if (!/^\d{6}$/.test(clip)) {
+                ev.preventDefault();
+                return;
+            }
+
+            var characters = clip.split("");
+                inputs.forEach(function (otpInput, i) {
+                otpInput.value = characters[i] || "";
+            });
+
+            enableNextBox(inputs[0], 0);
+            inputs[5].removeAttribute("disabled");
+            inputs[5].select();
+            updatePINValue(inputs);
+        });
+
+        input.addEventListener("input", function () {
+            var currentIndex = Array.from(inputs).indexOf(this);
+            var inputValue = this.value.trim();
+
+            if (!/^\d$/.test(inputValue)) {
+                this.value = "";
+                return;
+            }
+
+            if (inputValue && currentIndex < 5) {
+                inputs[currentIndex + 1].removeAttribute("disabled");
+                inputs[currentIndex + 1].select();
+            }
+
+            if (currentIndex === 4 && inputValue) {
+                inputs[5].removeAttribute("disabled");
+                inputs[5].select();
+            }
+
+            updatePINValue(inputs);
+        });
+
+        input.addEventListener("keydown", function (ev) {
+            var currentIndex = Array.from(inputs).indexOf(this);
+            if (!this.value && ev.key === "Backspace" && currentIndex > 0) {
+                inputs[currentIndex - 1].select();
+            }
+        });
+    });
+}
+function enableNextBox(input, currentIndex) {
+    var inputValue = input.value;
+
+    if (inputValue === "") {
+        return;
+    }
+
+    var inputOtpInputs = document.querySelectorAll(".pin-num-input");
+
+    var nextIndex = currentIndex + 1;
+    var nextBox = inputOtpInputs[nextIndex];
+
+    if (nextBox) {
+        nextBox.removeAttribute("disabled");
+    }
+}
+function updatePINValue(inputs) {
+    var otpValue = "";
+    inputs.forEach(function (input) {
+        otpValue += input.value;
+    });
+
+    var inputOtpInputs = document.querySelectorAll(".pin-num-input");
+
+    document.getElementById("pin").value = otpValue;
 }
 
 function onchange_use_point(value){

@@ -148,51 +148,73 @@
                             <div class="col-lg-12">
                                 <button type="button" class="accordion" data-tab="tab-otp">
                                     <div style="display:inline-flex">
-                                        <i class="fas fa-key" style="padding-top:5px;font-size:18px;"></i>
+                                        <i class="fas fa-envelope" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
-                                            Verification<br/>
+                                            Email Verification<br/>
                                             <span style="font-weight:500; font-size:12px;">2-Step Verification.</span>
                                         </h6>
                                     </div>
                                 </button>
                                 <div class="accordion-content">
                                     <div class="row">
-                                        <div class="col-lg-6 mt-3 mb-3">
-                                            {% if username.co_is_using_otp %}
-                                            <button type="button" class="primary-btn" onclick="set_otp_user_api(false, true);">Turn off 2-Step Verification</button>
-                                            {% else %}
-                                            <button type="button" class="primary-btn" onclick="set_otp_user_api();">Turn on 2-Step Verification </button>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col-lg-6 mt-3 mb-3" style="text-align:right;">
+                                        <div class="col-lg-12 mt-3">
                                             {% if username.co_otp_list_machine|length > 0 %}
-                                            <button type="button" class="primary-btn" onclick="relogin_user();">Update Data Machine </button>
+                                            <button type="button" class="primary-btn mb-3" onclick="relogin_user();"><i class="fas fa-sync-alt"></i> Update Data Machine </button>
+                                            {% endif %}
+                                            {% if username.co_is_using_otp %}
+                                            <button type="button" class="primary-btn-white-cancel" style="float:right; margin-right:0px;" onclick="set_otp_user_api(false, true);"><i class="fas fa-power-off"></i> Turn off 2-Step Verification</button>
+                                            {% else %}
+                                            <button type="button" class="primary-btn mb-3" style="float:left;" onclick="set_otp_user_api();">Turn on 2-Step Verification </button>
                                             {% endif %}
                                         </div>
                                         {% if username.co_otp_list_machine|length > 0 %}
-                                        <div class="col-lg-12 mt-3 mb-3">
+                                        <div class="col-lg-12" style="overflow:auto;">
                                             <table class="table list-of-reservation" style="border: 1px solid; width:100%;">
                                                 <tr>
-                                                    <th>Machine ID</th>
-                                                    <th>Flatform</th>
-                                                    <th>Browser</th>
-                                                    <th>Timezone</th>
-                                                    <th>Logout</th>
+                                                    <th style="text-align:center;">No</th>
+                                                    <th>Machine</th>
+                                                    <th style="text-align:center;">Logout</th>
                                                 </tr>
                                                 {% for machine_obj in username.co_otp_list_machine %}
                                                 <tr id="machine{{forloop.counter0}}">
-                                                    <td>{{machine_obj.machine_id}}</td>
-                                                    <td>{{machine_obj.platform}}</td>
-                                                    <td>{{machine_obj.browser}}</td>
-                                                    <td>{{machine_obj.timezone}}</td>
-                                                    <td id="button_machine{{forloop.counter0}}"><button type="button" class="primary-btn" onclick="set_turn_off_notif_user_api(false,'{{machine_obj.machine_id}}');">Remove</button></td>
+                                                    <td style="text-align:center;">
+                                                        {{forloop.counter}}
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-weight:bold">Machine ID:</span> {{machine_obj.machine_id}}<br/>
+                                                        <span style="font-weight:bold">Platform:</span> {{machine_obj.platform}}<br/>
+                                                        <span style="font-weight:bold">Browser:</span> {{machine_obj.browser}}<br/>
+                                                        <span style="font-weight:bold">Timezone:</span> {{machine_obj.timezone}}<br/>
+                                                        <span style="font-weight:bold">Connected date:</span>
+                                                        <span id="connect_date_span{{forloop.counter}}"></span><br/>
+                                                        <script>
+                                                            date_connect_temp = '{{machine_obj.connect_date}}';
+                                                            connect_tes = moment.utc(date_connect_temp).format('YYYY-MM-DD HH:mm:ss');
+                                                            connect_localTime  = moment.utc(connect_tes).toDate();
+                                                            connect_time_limit_otp = moment(connect_localTime).format('YYYY-MM-DD HH:mm:ss');
+                                                            date_connect_display = moment.utc(connect_time_limit_otp).format('ddd DD MMM YYYY HH:mm:ss');
+                                                            document.getElementById('connect_date_span'+{{forloop.counter}}).innerHTML += date_connect_display;
+                                                        </script>
+
+                                                        <span style="font-weight:bold">Valid until:</span> <span id="valid_date_span{{forloop.counter}}"></span>
+                                                        {% if machine_obj.valid_date != 'Never ask again for this browser' %}
+                                                            <script>
+                                                                date_valid_temp = '{{machine_obj.valid_date_utc}}';
+                                                                date_valid_display = moment(date_valid_temp).format('ddd DD MMM YYYY HH:mm:ss');
+                                                                document.getElementById('valid_date_span'+{{forloop.counter}}).innerHTML += date_valid_display;
+                                                            </script>
+                                                        {% else %}
+                                                            {{machine_obj.valid_date}}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td style="text-align:center;" id="button_machine{{forloop.counter0}}"><button type="button" class="primary-btn-cancel" onclick="set_turn_off_notif_user_api(false,'{{machine_obj.machine_id}}');"><i class="fas fa-sign-out-alt"></i></button></td>
                                                 </tr>
                                                 {% endfor %}
                                             </table>
                                         </div>
                                         {% if username.co_otp_list_machine|length > 1 %}
-                                        <div class="col-lg-12 mt-3 mb-3">
-                                            <center><button type="button" class="primary-btn" id="button_other_machine">Remove Other Machine </button></center>
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <button type="button" class="primary-btn-white-cancel" id="button_other_machine" style="margin-right:0px;"><i class="fas fa-sign-out-alt"></i> Remove All Other Machine </button>
                                         </div>
                                         {% endif %}
                                         {% endif %}
@@ -202,22 +224,22 @@
                             <div class="col-lg-12">
                                 <button type="button" class="accordion" data-tab="tab-pin">
                                     <div style="display:inline-flex">
-                                        <i class="fas fa-user-shield" style="padding-top:5px;font-size:18px;"></i>
+                                        <i class="fas fa-key" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
-                                            Pin<br/>
+                                            PIN<br/>
                                             <span style="font-weight:500; font-size:12px;">Transaction Pin.</span>
                                         </h6>
                                     </div>
                                 </button>
                                 <div class="accordion-content">
                                     <div class="row">
-                                        <div class="col-lg-6 mt-3 mb-3">
+                                        <div class="col-lg-12 mt-3 mb-3">
                                             {% if username.co_is_using_pin %}
-                                            <button type="button" class="primary-btn" onclick="open_modal_pin('change');">Change Pin</button>
-                                            <button type="button" class="primary-btn" onclick="get_pin_otp();">Forgot Pin</button>
-                                            <button type="button" class="primary-btn" onclick="open_modal_pin('turn_off');">Turn off Pin</button>
+                                            <button type="button" class="primary-btn" onclick="open_modal_pin('change');" style="margin-right:15px;"><i class="fas fa-sync-alt"></i> Change Pin</button>
+                                            <button type="button" class="primary-btn" onclick="get_pin_otp();" style="margin-right:15px;"><i class="fas fa-question-circle"></i> Forgot Pin</button>
+                                            <button type="button" class="primary-btn-white-cancel" onclick="open_modal_pin('turn_off');"><i class="fas fa-power-off"></i> Turn off Pin</button>
                                             {% else %}
-                                            <button type="button" class="primary-btn" onclick="open_modal_pin('turn_on');">Turn on Pin </button>
+                                            <button type="button" class="primary-btn" onclick="open_modal_pin('turn_on');">Turn on Pin <i class="fas fa-key"></i></button>
                                             {% endif %}
                                         </div>
                                     </div>

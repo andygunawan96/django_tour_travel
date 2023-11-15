@@ -1709,6 +1709,17 @@ function airline_signin(data,type=''){
                 }
            }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
+                try{
+                    document.getElementById('keep_me_sign_in_div').hidden = true;
+                }catch(err){}
+                try{
+                    document.getElementById('forget_password_label').hidden = true;
+                }catch(err){}
+                try{
+                    setTimeout(() => {
+                      document.getElementById('email_otp_input1').select();
+                    }, 500);
+                }catch(err){}
 //                Swal.fire({
 //                    type: 'warning',
 //                    html: 'Input OTP'
@@ -1716,6 +1727,7 @@ function airline_signin(data,type=''){
                 if(document.getElementById('otp_div')){
                     document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
                     document.getElementById('otp_information').hidden = false;
+                    document.getElementById('otp_type_div').hidden = false;
                     document.getElementById('otp_div').hidden = false;
                     document.getElementById('otp_time_limit').hidden = false;
                     document.getElementById('username_div').hidden = true;
@@ -10676,7 +10688,6 @@ function airline_get_booking(data, sync=false){
                             </div>
                         </div>`;
                     }
-                    text_detail+=`<center>`;
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
                     <div class="row">
@@ -10819,6 +10830,7 @@ function airline_get_booking(data, sync=false){
                     });
                 }
 
+                //refund
                 if(msg.result.response.state == 'refund'){
                     total_refund = 0;
                     if(msg.result.response.refund_list.length > 0){
@@ -11083,6 +11095,17 @@ function airline_get_booking(data, sync=false){
                     hide_modal_waiting_transaction();
                     document.getElementById('show_loading_booking_airline').hidden = true;
                     $('#myModalSignin').modal('show');
+                    try{
+                        document.getElementById('keep_me_sign_in_div').hidden = true;
+                    }catch(err){}
+                    try{
+                        document.getElementById('forget_password_label').hidden = true;
+                    }catch(err){}
+                    try{
+                        setTimeout(() => {
+                          document.getElementById('email_otp_input1').select();
+                        }, 500);
+                    }catch(err){}
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',
