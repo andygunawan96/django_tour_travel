@@ -10938,18 +10938,28 @@ function airline_get_booking(data, sync=false){
                             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                 price_breakdown['COMMISSION HO'] = 0;
 
-                            price_breakdown['FARE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fare_ori;
-                            price_breakdown['TAX'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_tax_ori;
+                            price_breakdown['FARE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                            price_breakdown['TAX'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
-                            price_breakdown['COMMISSION'] = (airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_airline * -1);
-                            price_breakdown['NTA AIRLINE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta_airline;
-                            price_breakdown['SERVICE FEE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fee_ho;
-                            price_breakdown['VAT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_vat_ho;
-                            price_breakdown['OTT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price_ori;
-                            price_breakdown['TOTAL PRICE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price;
-                            price_breakdown['NTA AGENT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta;
-                            price_breakdown['COMMISSION HO'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_ho * -1;
-
+                            price_breakdown['COMMISSION'] = (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_airline * -1);
+                            price_breakdown['NTA AIRLINE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_airline;
+                            price_breakdown['SERVICE FEE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                            price_breakdown['VAT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                            price_breakdown['OTT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['TOTAL PRICE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                            price_breakdown['NTA AGENT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                            price_breakdown['COMMISSION HO'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            for(k in airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                if(k == 'ROC'){
+                                    for(l in airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                        if(airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                            price_breakdown['CHANNEL UPSELL'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
                             var breakdown_text = '';
                             for(k in price_breakdown){
                                 if(breakdown_text)
@@ -11009,27 +11019,45 @@ function airline_get_booking(data, sync=false){
                                 price_breakdown['NTA AGENT'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                 price_breakdown['COMMISSION HO'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                                price_breakdown['CHANNEL UPSELL'] = 0;
 
-                            price_breakdown['FARE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fare_ori;
-                            price_breakdown['TAX'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_tax_ori;
+                            price_breakdown['FARE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                            price_breakdown['TAX'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
-                            price_breakdown['COMMISSION'] += (airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_airline * -1);
-                            price_breakdown['NTA AIRLINE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta_airline;
-                            price_breakdown['SERVICE FEE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_fee_ho;
-                            price_breakdown['VAT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_vat_ho;
-                            price_breakdown['OTT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price_ori;
-                            price_breakdown['TOTAL PRICE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_price;
-                            price_breakdown['NTA AGENT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_nta;
-                            price_breakdown['COMMISSION HO'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_ho * -1;
+                            price_breakdown['COMMISSION'] += (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_airline * -1);
+                            price_breakdown['NTA AIRLINE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_airline;
+                            price_breakdown['SERVICE FEE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                            price_breakdown['VAT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                            price_breakdown['OTT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['TOTAL PRICE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                            price_breakdown['NTA AGENT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                            price_breakdown['COMMISSION HO'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            for(k in airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                if(k == 'ROC'){
+                                    for(l in airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                        if(airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                            price_breakdown['CHANNEL UPSELL'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
                         }
                     }
                     var breakdown_text = '';
                     for(j in price_breakdown){
-                        if(breakdown_text)
-                            breakdown_text += '<br/>';
-                        breakdown_text += '<b>'+j+'</b> ';
-                        if(j != 'BREAKDOWN')
-                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        add_breakdown = true
+                        if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
+                            add_breakdown = false;
+                        if(add_breakdown){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            breakdown_text += '<b>'+j+'</b> ';
+                            if(j != 'BREAKDOWN')
+                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }
                     }
                     new jBox('Tooltip', {
                         attach: '#total_price',
