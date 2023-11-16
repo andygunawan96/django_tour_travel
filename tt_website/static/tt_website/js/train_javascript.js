@@ -2427,10 +2427,10 @@ function sort(value){
                                 response += `<span class="copy_price" id="train_price_`+i+`" style="font-size:16px; font-weight: bold; color:`+color+`;`;
                                 if(is_show_breakdown_price)
                                     response+='cursor:pointer;';
-                                response += `">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price);
+                                response += `">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price)+`</span>`;
                                 if(is_show_breakdown_price)
                                     response+=`<i class="fas fa-caret-down price_template"></i>`;
-                                response+=`</span><br/>`;
+                                response+=`<br/>`;
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                         for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
