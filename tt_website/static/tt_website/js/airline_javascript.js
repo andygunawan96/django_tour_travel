@@ -145,6 +145,8 @@ var sorting_list2 = [
     }
 ]
 
+var breakdown_price_list_jbox = [];
+
 //autocomplete
 
 function set_airline_search_value_to_false(){
@@ -3885,6 +3887,8 @@ function sort(){
                                     </div>
                                </div>`;
                            }
+                           if(airline[i].segments.length > 1 && airline[i].segments[0].fares.length > 0)
+                               change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code,false);
                            new jBox('Tooltip', {
                                attach: '#airlines_info_temp'+i,
                                target: '#airlines_info_temp'+i,
@@ -3918,14 +3922,14 @@ function sort(){
 //                           }
 
 
-                           if(airline[i].hasOwnProperty('search_banner')){
-                               for(banner_counter in airline[i].search_banner){
-                                   var max_banner_date = moment().subtract(parseInt(-1*airline[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                                   var selected_banner_date = moment(airline[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
+                            if(airline[i].hasOwnProperty('search_banner')){
+                                for(banner_counter in airline[i].search_banner){
+                                    var max_banner_date = moment().subtract(parseInt(-1*airline[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                                    var selected_banner_date = moment(airline[i].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
 
-                                   if(selected_banner_date >= max_banner_date){
-                                       if(airline[i].search_banner[banner_counter].active == true && airline[i].search_banner[banner_counter].description != ''){
-                                           new jBox('Tooltip', {
+                                    if(selected_banner_date >= max_banner_date){
+                                        if(airline[i].search_banner[banner_counter].active == true && airline[i].search_banner[banner_counter].description != ''){
+                                            new jBox('Tooltip', {
                                                 attach: '#pop_search_banner'+i+banner_counter,
                                                 theme: 'TooltipBorder',
                                                 width: 280,
@@ -3936,11 +3940,11 @@ function sort(){
                                                 closeOnMouseleave: true,
                                                 animation: 'zoomIn',
                                                 content: airline[i].search_banner[banner_counter].description
-                                           });
-                                       }
-                                   }
-                               }
-                           }
+                                            });
+                                        }
+                                    }
+                                }
+                            }
 
                             text = '';
                             // LAST PRICE HARGA RECOM
@@ -4016,7 +4020,16 @@ function sort(){
                                         if(j != 'BREAKDOWN')
                                             breakdown_text += airline_pick_list[0].currency + ' ' + getrupiah(price_breakdown[j]);
                                     }
-                                    new jBox('Tooltip', {
+
+                                    if(breakdown_price_list_jbox.length > i){
+                                        try{
+                                            breakdown_price_list_jbox[i][0].destroy();
+                                            breakdown_price_list_jbox[i][1].destroy();
+                                        }catch(err){console.log(err);}
+                                    }
+                                    if(breakdown_price_list_jbox.length == i)
+                                        breakdown_price_list_jbox[i] = [];
+                                    breakdown_price_list_jbox[i][0] = new jBox('Tooltip', {
                                         attach: '#more_fare'+i,
                                         target: '#more_fare'+i,
                                         theme: 'TooltipBorder',
@@ -4037,7 +4050,7 @@ function sort(){
                                         content: breakdown_text
                                     });
                                     try{
-                                        new jBox('Tooltip', {
+                                        breakdown_price_list_jbox[i][1] = new jBox('Tooltip', {
                                             attach: '#more_fare_fd'+i,
                                             target: '#more_fare_fd'+i,
                                             theme: 'TooltipBorder',
@@ -4158,7 +4171,18 @@ function sort(){
                                             if(j != 'BREAKDOWN')
                                                 breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
                                         }
-                                        new jBox('Tooltip', {
+
+                                        if(breakdown_price_list_jbox.length > i){
+                                            try{
+                                                breakdown_price_list_jbox[i][0].destroy();
+                                                breakdown_price_list_jbox[i][1].destroy();
+                                            }catch(err){console.log(err);}
+                                        }
+                                        if(breakdown_price_list_jbox.length == i)
+                                            breakdown_price_list_jbox[i] = [];
+
+
+                                        breakdown_price_list_jbox[i][0] = new jBox('Tooltip', {
                                             attach: '#more_fare'+i,
                                             target: '#more_fare'+i,
                                             theme: 'TooltipBorder',
@@ -4179,7 +4203,7 @@ function sort(){
                                             content: breakdown_text
                                         });
                                         try{
-                                            new jBox('Tooltip', {
+                                            breakdown_price_list_jbox[i][1] = new jBox('Tooltip', {
                                                 attach: '#more_fare_fd'+i,
                                                 target: '#more_fare_fd'+i,
                                                 theme: 'TooltipBorder',
@@ -4244,49 +4268,49 @@ function sort(){
                     if(airline_pick_list.length == 0 || airline_pick_list.length != 0 && airline_recommendations_list.length == 0 && airline[i].journey_ref_id == '' || airline_recommendations_dict.hasOwnProperty(airline[i].journey_ref_id)){
                         ticket_count++;
                         if(ticket_count >= first && ticket_count < last){
-                            if(airline[i].segments.length > 1 && airline[i].segments[0].fares.length > 0)
-                                change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code,true);
-                        }
-                    }
-                    if(airline[i].segments.length > 1 && airline[i].auto_link){
-                        try{
-                            new jBox('Tooltip', {
-                                attach: '#journey'+i+'_link',
-                                target: '#journey'+i+'_link',
-                                theme: 'TooltipBorder',
-                                adjustTracker: true,
-                                width: 200,
-                                closeOnClick: 'body',
-                                closeButton: 'box',
-                                animation: 'move',
-                                position: {
-                                  x: 'center',
-                                  y: 'bottom'
-                                },
-                                content: 'Click here to disable auto pick fare'
-                            });
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }else if(airline[i].segments.length > 1 && !airline[i].auto_link){
-                        try{
-                            new jBox('Tooltip', {
-                                attach: '#journey'+i+'_link',
-                                target: '#journey'+i+'_link',
-                                theme: 'TooltipBorder',
-                                adjustTracker: true,
-                                width: 200,
-                                closeOnClick: 'body',
-                                closeButton: 'box',
-                                animation: 'move',
-                                position: {
-                                  x: 'center',
-                                  y: 'bottom'
-                                },
-                                content: 'Click here to change into auto pick fare'
-                            });
-                        }catch(err){
-                            console.log(err);
+//                            if(airline[i].segments.length > 1 && airline[i].segments[0].fares.length > 0)
+//                                change_fare(i,0,0,airline[i].segments[0].fares[0].fare_code,false);
+                            if(airline[i].segments.length > 1 && airline[i].auto_link){
+                                try{
+                                    new jBox('Tooltip', {
+                                        attach: '#journey'+i+'_link',
+                                        target: '#journey'+i+'_link',
+                                        theme: 'TooltipBorder',
+                                        adjustTracker: true,
+                                        width: 200,
+                                        closeOnClick: 'body',
+                                        closeButton: 'box',
+                                        animation: 'move',
+                                        position: {
+                                          x: 'center',
+                                          y: 'bottom'
+                                        },
+                                        content: 'Click here to disable auto pick fare'
+                                    });
+                                }catch(err){
+                                    console.log(err);
+                                }
+                            }else if(airline[i].segments.length > 1 && !airline[i].auto_link){
+                                try{
+                                    new jBox('Tooltip', {
+                                        attach: '#journey'+i+'_link',
+                                        target: '#journey'+i+'_link',
+                                        theme: 'TooltipBorder',
+                                        adjustTracker: true,
+                                        width: 200,
+                                        closeOnClick: 'body',
+                                        closeButton: 'box',
+                                        animation: 'move',
+                                        position: {
+                                          x: 'center',
+                                          y: 'bottom'
+                                        },
+                                        content: 'Click here to change into auto pick fare'
+                                    });
+                                }catch(err){
+                                    console.log(err);
+                                }
+                            }
                         }
                     }
                 }
