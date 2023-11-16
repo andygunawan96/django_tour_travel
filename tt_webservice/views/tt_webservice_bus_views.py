@@ -95,35 +95,36 @@ def api_models(request):
 
 def login(request):
     try:
-        user_global, password_global, api_key = get_credential(request)
-        user_default, password_default = get_credential_user_default(request)
-        data = {
-            "user": user_global,
-            "password": password_global,
-            "api_key": api_key,
-            # "co_user": request.session['username'],
-            # "co_password": request.session['password'],
-            "co_user": request.session.get('username') or user_default,
-            "co_password": request.session.get('password') or password_default,
-            "co_uid": ""
-        }
-        otp_params = {}
-        if request.POST.get('unique_id'):
-            otp_params['machine_code'] = request.POST['unique_id']
-        if request.POST.get('platform'):
-            otp_params['platform'] = request.POST['platform']
-        if request.POST.get('browser'):
-            otp_params['browser'] = request.POST['browser']
-        if request.POST.get('timezone'):
-            otp_params['timezone'] = request.POST['timezone']
-        if otp_params:
-            data['otp_params'] = otp_params
+        # user_global, password_global, api_key = get_credential(request)
+        # user_default, password_default = get_credential_user_default(request)
+        # data = {
+        #     "user": user_global,
+        #     "password": password_global,
+        #     "api_key": api_key,
+        #     # "co_user": request.session['username'],
+        #     # "co_password": request.session['password'],
+        #     "co_user": request.session.get('username') or user_default,
+        #     "co_password": request.session.get('password') or password_default,
+        #     "co_uid": ""
+        # }
+        # otp_params = {}
+        # if request.POST.get('unique_id'):
+        #     otp_params['machine_code'] = request.POST['unique_id']
+        # if request.POST.get('platform'):
+        #     otp_params['platform'] = request.POST['platform']
+        # if request.POST.get('browser'):
+        #     otp_params['browser'] = request.POST['browser']
+        # if request.POST.get('timezone'):
+        #     otp_params['timezone'] = request.POST['timezone']
+        # if otp_params:
+        #     data['otp_params'] = otp_params
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "signin",
-            "signature": '',
+            "action": "refresh_session",
+            "signature": request.session['master_signature'],
         }
+        data = {}
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('session')

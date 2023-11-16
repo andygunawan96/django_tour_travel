@@ -1326,12 +1326,12 @@ function activation_otp_user_api(){
         timezone = '';
     }
     $.ajax({
-       type: "POST",
-       url: "/webservice/agent",
-       headers:{
+        type: "POST",
+        url: "/webservice/agent",
+        headers:{
             'action': action
-       },
-       data: {
+        },
+        data: {
             'signature':signature,
             'otp': document.getElementById('otp_user').value,
             "platform": platform,
@@ -1339,11 +1339,11 @@ function activation_otp_user_api(){
             "browser": web_vendor,
             "timezone": timezone,
             'otp_type': document.getElementById('otp_user_type') ? document.getElementById('otp_user_type').value : false
-       },
-       success: function(msg) {
+        },
+        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                relogin_user();
+                update_context_machine_otp_pin_api();
             }
             else{
                 //signature expired untuk passenger
@@ -1368,40 +1368,24 @@ function activation_otp_user_api(){
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
             }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error '+action);
-       },timeout: 60000
+        },timeout: 60000
     });
 }
 
-function relogin_user(){
-    if(typeof(platform) === 'undefined'){
-        platform = '';
-    }
-    if(typeof(unique_id) === 'undefined'){
-        unique_id = '';
-    }
-    if(typeof(web_vendor) === 'undefined'){
-        web_vendor = '';
-    }
-    if(typeof(timezone) === 'undefined'){
-        timezone = '';
-    }
+function update_context_machine_otp_pin_api(){
     $.ajax({
-       type: "POST",
-       url: "/webservice/agent",
-       headers:{
-            'action': 'relogin'
-       },
-       data: {
-            'signature':signature,
-            "platform": platform,
-            "unique_id": unique_id,
-            "browser": web_vendor,
-            "timezone": timezone
-       },
-       success: function(msg) {
+        type: "POST",
+        url: "/webservice/agent",
+        headers:{
+            'action': 'update_context_machine_otp_pin_api'
+        },
+        data: {
+
+        },
+        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
                 try{
@@ -1440,10 +1424,10 @@ function relogin_user(){
             }
             $('.loading-button').prop('disabled', false);
             $('.loading-button').removeClass("running");
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activation_otp_user_api');
-       },timeout: 60000
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update_context_machine_otp_pin_api');
+        },timeout: 60000
     });
 }
 
