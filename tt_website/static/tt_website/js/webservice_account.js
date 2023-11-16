@@ -2479,7 +2479,11 @@ function render_notification(){
 
 function go_back_to_reservation(){
     if(document.referrer.includes('reservation'))
-        history.back();
+        if(history.back() != undefined){
+            history.back();
+        }else{
+            window.location = '/reservation';
+        }
     else
         window.location = '/reservation';
 }
