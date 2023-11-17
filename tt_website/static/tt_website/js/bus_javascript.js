@@ -596,11 +596,11 @@ function sort(value){
                                 response+= color+';';
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                 response+= '#505050;'
-                            if(is_show_breakdown_price)
-                                response+='cursor:pointer;';
+//                            if(is_show_breakdown_price)
+//                                response+='cursor:pointer;';
                             response+=`">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price);
-                            if(is_show_breakdown_price)
-                                response+=`<i class="fas fa-caret-down price_template"></i>`;
+//                            if(is_show_breakdown_price)
+//                                response+=`<i class="fas fa-caret-down price_template"></i>`;
                             response+=`</span><br/>`;
                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
                                 if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
@@ -662,63 +662,63 @@ function sort(value){
     document.getElementById('loading-search-bus').hidden = true;
 
     for(i in data_filter){
-        if(is_show_breakdown_price){
-            if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
-                var price_breakdown = {};
-                var currency_breakdown = '';
-                for(j in data_filter[i].fares){
-                    for(k in data_filter[i].fares[j].service_charge_summary){
-                        for(l in data_filter[i].fares[j].service_charge_summary[k].service_charges){
-                            if(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                                if(!price_breakdown.hasOwnProperty(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
-                                    price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                                price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += data_filter[i].fares[j].service_charge_summary[k].service_charges[l].total;
-                            }
-                            if(currency_breakdown == '')
-                                currency_breakdown = data_filter[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                        }
-                    }
-                }
-                // upsell
-                if(typeof upsell_price_dict !== 'undefined'){
-                    for(i in upsell_price_dict){
-                        if(!price_breakdown.hasOwnProperty('ROC'))
-                            price_breakdown['ROC'] = 0;
-                        price_breakdown['ROC'] += upsell_price_dict[i];
-                    }
-                }
-                var breakdown_text = '';
-                for(j in price_breakdown){
-                    if(breakdown_text)
-                        breakdown_text += '<br/>';
-                    if(j != 'ROC')
-                        breakdown_text += '<b>'+j+'</b> ';
-                    else
-                        breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                }
-                new jBox('Tooltip', {
-                    attach: '#bus_price_'+ i,
-                    target: '#bus_price_'+ i,
-                    theme: 'TooltipBorder',
-                    trigger: 'click',
-                    adjustTracker: true,
-                    closeOnClick: 'body',
-                    closeButton: 'box',
-                    animation: 'move',
-                    position: {
-                      x: 'left',
-                      y: 'top'
-                    },
-                    outside: 'y',
-                    pointer: 'left:20',
-                    offset: {
-                      x: 25
-                    },
-                    content: breakdown_text
-                });
-            }
-        }
+//        if(is_show_breakdown_price){
+//            if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
+//                var price_breakdown = {};
+//                var currency_breakdown = '';
+//                for(j in data_filter[i].fares){
+//                    for(k in data_filter[i].fares[j].service_charge_summary){
+//                        for(l in data_filter[i].fares[j].service_charge_summary[k].service_charges){
+//                            if(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+//                                if(!price_breakdown.hasOwnProperty(data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+//                                    price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+//                                price_breakdown[data_filter[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += data_filter[i].fares[j].service_charge_summary[k].service_charges[l].total;
+//                            }
+//                            if(currency_breakdown == '')
+//                                currency_breakdown = data_filter[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+//                        }
+//                    }
+//                }
+//                // upsell
+//                if(typeof upsell_price_dict !== 'undefined'){
+//                    for(i in upsell_price_dict){
+//                        if(!price_breakdown.hasOwnProperty('ROC'))
+//                            price_breakdown['ROC'] = 0;
+//                        price_breakdown['ROC'] += upsell_price_dict[i];
+//                    }
+//                }
+//                var breakdown_text = '';
+//                for(j in price_breakdown){
+//                    if(breakdown_text)
+//                        breakdown_text += '<br/>';
+//                    if(j != 'ROC')
+//                        breakdown_text += '<b>'+j+'</b> ';
+//                    else
+//                        breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//                }
+//                new jBox('Tooltip', {
+//                    attach: '#bus_price_'+ i,
+//                    target: '#bus_price_'+ i,
+//                    theme: 'TooltipBorder',
+//                    trigger: 'click',
+//                    adjustTracker: true,
+//                    closeOnClick: 'body',
+//                    closeButton: 'box',
+//                    animation: 'move',
+//                    position: {
+//                      x: 'left',
+//                      y: 'top'
+//                    },
+//                    outside: 'y',
+//                    pointer: 'left:20',
+//                    offset: {
+//                      x: 25
+//                    },
+//                    content: breakdown_text
+//                });
+//            }
+//        }
     }
 }
 
@@ -845,11 +845,11 @@ function bus_ticket_pick(){
                     check = 0;
                     response+=`
                         <span id="train_pick_price_`+i+` style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;`;
-                        if(is_show_breakdown_price)
-                            response+='cursor:pointer;';
+//                        if(is_show_breakdown_price)
+//                            response+='cursor:pointer;';
                         response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
-                        if(is_show_breakdown_price)
-                            response+=`<i class="fas fa-caret-down price_template"></i>`;
+//                        if(is_show_breakdown_price)
+//                            response+=`<i class="fas fa-caret-down price_template"></i>`;
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
@@ -883,61 +883,61 @@ function bus_ticket_pick(){
     document.getElementById('bus_pick_ticket').innerHTML = response;
 
     for(i in journeys){
-        if(is_show_breakdown_price){
-            var price_breakdown = {};
-            var currency_breakdown = '';
-            for(j in journeys[i].fares){
-                for(k in journeys[i].fares[j].service_charge_summary){
-                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
-                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
-                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
-                        }
-                        if(currency_breakdown == '')
-                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                    }
-                }
-            }
-            // upsell
-            if(typeof upsell_price_dict !== 'undefined'){
-                for(i in upsell_price_dict){
-                    if(!price_breakdown.hasOwnProperty('ROC'))
-                        price_breakdown['ROC'] = 0;
-                    price_breakdown['ROC'] += upsell_price_dict[i];
-                }
-            }
-            var breakdown_text = '';
-            for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                if(j != 'ROC')
-                    breakdown_text += '<b>'+j+'</b> ';
-                else
-                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-            }
-            new jBox('Tooltip', {
-                attach: '#train_pick_price_'+ i,
-                target: '#train_pick_price_'+ i,
-                theme: 'TooltipBorder',
-                trigger: 'click',
-                adjustTracker: true,
-                closeOnClick: 'body',
-                closeButton: 'box',
-                animation: 'move',
-                position: {
-                  x: 'left',
-                  y: 'top'
-                },
-                outside: 'y',
-                pointer: 'left:20',
-                offset: {
-                  x: 25
-                },
-                content: breakdown_text
-            });
-        }
+//        if(is_show_breakdown_price){
+//            var price_breakdown = {};
+//            var currency_breakdown = '';
+//            for(j in journeys[i].fares){
+//                for(k in journeys[i].fares[j].service_charge_summary){
+//                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
+//                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+//                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+//                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+//                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
+//                        }
+//                        if(currency_breakdown == '')
+//                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+//                    }
+//                }
+//            }
+//            // upsell
+//            if(typeof upsell_price_dict !== 'undefined'){
+//                for(i in upsell_price_dict){
+//                    if(!price_breakdown.hasOwnProperty('ROC'))
+//                        price_breakdown['ROC'] = 0;
+//                    price_breakdown['ROC'] += upsell_price_dict[i];
+//                }
+//            }
+//            var breakdown_text = '';
+//            for(j in price_breakdown){
+//                if(breakdown_text)
+//                    breakdown_text += '<br/>';
+//                if(j != 'ROC')
+//                    breakdown_text += '<b>'+j+'</b> ';
+//                else
+//                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//            }
+//            new jBox('Tooltip', {
+//                attach: '#train_pick_price_'+ i,
+//                target: '#train_pick_price_'+ i,
+//                theme: 'TooltipBorder',
+//                trigger: 'click',
+//                adjustTracker: true,
+//                closeOnClick: 'body',
+//                closeButton: 'box',
+//                animation: 'move',
+//                position: {
+//                  x: 'left',
+//                  y: 'top'
+//                },
+//                outside: 'y',
+//                pointer: 'left:20',
+//                offset: {
+//                  x: 25
+//                },
+//                content: breakdown_text
+//            });
+//        }
     }
 }
 
@@ -1152,13 +1152,13 @@ function bus_get_detail(){
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                 <span id="total_price" style="font-size:13px;font-weight:bold;`;
-            if(is_show_breakdown_price){
-                bus_detail_text+= "cursor:pointer;";
-            }
+//            if(is_show_breakdown_price){
+//                bus_detail_text+= "cursor:pointer;";
+//            }
             bus_detail_text +=`"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b>`;
-            if(is_show_breakdown_price){
-                bus_detail_text+= ` <i class="fas fa-caret-down"></i>`;
-            }
+//            if(is_show_breakdown_price){
+//                bus_detail_text+= ` <i class="fas fa-caret-down"></i>`;
+//            }
             bus_detail_text+=`</span><br>
             </div>
 
@@ -1212,53 +1212,53 @@ function bus_get_detail(){
     document.getElementById('bus_detail').innerHTML = bus_detail_text;
 
     for(i in journeys){
-        if(is_show_breakdown_price){
-            var price_breakdown = {};
-            var currency_breakdown = '';
-            for(j in journeys[i].fares){
-                for(k in journeys[i].fares[j].service_charge_summary){
-                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
-                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
-                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
-                        }
-                        if(currency_breakdown == '')
-                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                    }
-                }
-            }
-            var breakdown_text = '';
-            for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                if(j != 'ROC')
-                    breakdown_text += '<b>'+j+'</b> ';
-                else
-                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-            }
-            new jBox('Tooltip', {
-                attach: '#total_price',
-                target: '#total_price',
-                theme: 'TooltipBorder',
-                trigger: 'click',
-                adjustTracker: true,
-                closeOnClick: 'body',
-                closeButton: 'box',
-                animation: 'move',
-                position: {
-                  x: 'left',
-                  y: 'top'
-                },
-                outside: 'y',
-                pointer: 'left:20',
-                offset: {
-                  x: 25
-                },
-                content: breakdown_text
-            });
-        }
+//        if(is_show_breakdown_price){
+//            var price_breakdown = {};
+//            var currency_breakdown = '';
+//            for(j in journeys[i].fares){
+//                for(k in journeys[i].fares[j].service_charge_summary){
+//                    for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
+//                        if(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+//                            if(!price_breakdown.hasOwnProperty(journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+//                                price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+//                            price_breakdown[journeys[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += journeys[i].fares[j].service_charge_summary[k].service_charges[l].total;
+//                        }
+//                        if(currency_breakdown == '')
+//                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+//                    }
+//                }
+//            }
+//            var breakdown_text = '';
+//            for(j in price_breakdown){
+//                if(breakdown_text)
+//                    breakdown_text += '<br/>';
+//                if(j != 'ROC')
+//                    breakdown_text += '<b>'+j+'</b> ';
+//                else
+//                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//            }
+//            new jBox('Tooltip', {
+//                attach: '#total_price',
+//                target: '#total_price',
+//                theme: 'TooltipBorder',
+//                trigger: 'click',
+//                adjustTracker: true,
+//                closeOnClick: 'body',
+//                closeButton: 'box',
+//                animation: 'move',
+//                position: {
+//                  x: 'left',
+//                  y: 'top'
+//                },
+//                outside: 'y',
+//                pointer: 'left:20',
+//                offset: {
+//                  x: 25
+//                },
+//                content: breakdown_text
+//            });
+//        }
     }
 
     $('#loading-search-bus-choose').hide();
@@ -1593,13 +1593,13 @@ function bus_detail(){
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
             <span id="total_price" style="font-size:13px;`;
-    if(is_show_breakdown_price){
-        text+= "cursor:pointer;";
-    }
+//    if(is_show_breakdown_price){
+//        text+= "cursor:pointer;";
+//    }
     text+=`"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b>`;
-    if(is_show_breakdown_price){
-        text+= ` <i class="fas fa-caret-down"></i>`;
-    }
+//    if(is_show_breakdown_price){
+//        text+= ` <i class="fas fa-caret-down"></i>`;
+//    }
     text+=`</span><br>
         </div>
     </div>`;
@@ -1675,60 +1675,60 @@ function bus_detail(){
     document.getElementById('bus_detail').innerHTML = text;
 
     for(i in bus_data){
-        if(is_show_breakdown_price){
-            var price_breakdown = {};
-            var currency_breakdown = '';
-            for(j in bus_data[i].fares){
-                for(k in bus_data[i].fares[j].service_charge_summary){
-                    for(l in bus_data[i].fares[j].service_charge_summary[k].service_charges){
-                        if(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
-                            if(!price_breakdown.hasOwnProperty(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
-                                price_breakdown[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
-                            price_breakdown[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
-                        }
-                        if(currency_breakdown == '')
-                            currency_breakdown = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                    }
-                }
-            }
-            if(typeof upsell_price_dict !== 'undefined'){
-                for(i in upsell_price_dict){
-                    if(!price_breakdown.hasOwnProperty('ROC'))
-                        price_breakdown['ROC'] = 0;
-                    price_breakdown['ROC'] += upsell_price_dict[i];
-                }
-            }
-            var breakdown_text = '';
-            for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                if(j != 'ROC')
-                    breakdown_text += '<b>'+j+'</b> ';
-                else
-                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-            }
-            new jBox('Tooltip', {
-                attach: '#total_price',
-                target: '#total_price',
-                theme: 'TooltipBorder',
-                trigger: 'click',
-                adjustTracker: true,
-                closeOnClick: 'body',
-                closeButton: 'box',
-                animation: 'move',
-                position: {
-                  x: 'left',
-                  y: 'top'
-                },
-                outside: 'y',
-                pointer: 'left:20',
-                offset: {
-                  x: 25
-                },
-                content: breakdown_text
-            });
-        }
+//        if(is_show_breakdown_price){
+//            var price_breakdown = {};
+//            var currency_breakdown = '';
+//            for(j in bus_data[i].fares){
+//                for(k in bus_data[i].fares[j].service_charge_summary){
+//                    for(l in bus_data[i].fares[j].service_charge_summary[k].service_charges){
+//                        if(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type != 'RAC'){
+//                            if(!price_breakdown.hasOwnProperty(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+//                                price_breakdown[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] = 0;
+//                            price_breakdown[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+//                        }
+//                        if(currency_breakdown == '')
+//                            currency_breakdown = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+//                    }
+//                }
+//            }
+//            if(typeof upsell_price_dict !== 'undefined'){
+//                for(i in upsell_price_dict){
+//                    if(!price_breakdown.hasOwnProperty('ROC'))
+//                        price_breakdown['ROC'] = 0;
+//                    price_breakdown['ROC'] += upsell_price_dict[i];
+//                }
+//            }
+//            var breakdown_text = '';
+//            for(j in price_breakdown){
+//                if(breakdown_text)
+//                    breakdown_text += '<br/>';
+//                if(j != 'ROC')
+//                    breakdown_text += '<b>'+j+'</b> ';
+//                else
+//                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//            }
+//            new jBox('Tooltip', {
+//                attach: '#total_price',
+//                target: '#total_price',
+//                theme: 'TooltipBorder',
+//                trigger: 'click',
+//                adjustTracker: true,
+//                closeOnClick: 'body',
+//                closeButton: 'box',
+//                animation: 'move',
+//                position: {
+//                  x: 'left',
+//                  y: 'top'
+//                },
+//                outside: 'y',
+//                pointer: 'left:20',
+//                offset: {
+//                  x: 25
+//                },
+//                content: breakdown_text
+//            });
+//        }
     }
 }
 
