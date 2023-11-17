@@ -244,8 +244,9 @@ def index(request):
                         'destination': file['destination'][0],
                         'departure': file['departure'][0],
                     }
-                if cache['airline']['departure'] == 'Invalid date':
-                    cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                    if cache['airline']['departure'] == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now())[:10]) > cache['airline']['departure']:
+                        cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+
                 # if request.session['airline_request']['origin'][0].split('-')[1] != ' ':
                 #     cache['airline'] = {
                 #         'origin': request.session['airline_request']['origin'][0],
@@ -266,34 +267,33 @@ def index(request):
                         'destination': file['destination'][0],
                         'departure': file['departure'][0],
                     }
+
+                    if cache['train']['departure'] == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now())[:10]) > cache['train']['departure']:
+                        cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                 # if request.session['train_request']['origin'][0].split('-')[1] != ' ':
                 #     cache['train'] = {
                 #         'origin': request.session['train_request']['origin'][0],
                 #         'destination': request.session['train_request']['destination'][0],
                 #         'departure': request.session['train_request']['departure'][0],
                 #     }
-                if cache['train']['departure'] == 'Invalid date':
-                    cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
                 pass
 
             try:
                 file = read_cache_file(request, '', 'hotel_request')
                 if file:
-                    cache['airline'] = {
+                    cache['hotel'] = {
                         'checkin': file['checkin_date'],
                         'checkout': file['checkou_date']
                     }
-
+                    if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=1))[:10]) > cache['hotel']['checkin']:
+                        cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=1))[:10])
+                        cache['hotel']['checkout'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=2))[:10])
                 # cache['hotel'] = {
                 #     'checkin': request.session['hotel_request']['checkin_date'],
                 #     'checkout': request.session['hotel_request']['checkout_date']
                 # }
-                if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date':
-                    cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(
-                        str(datetime.now() + relativedelta(days=1))[:10])
-                    cache['hotel']['checkout'] = convert_string_to_date_to_string_front_end(
-                        str(datetime.now() + relativedelta(days=2))[:10])
+
             except:
                 pass
 
@@ -330,13 +330,14 @@ def index(request):
                         'destination': file['destination'],
                         'consulate': file['consulate']
                     }
+                    if cache['visa']['departure_date'] == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now())[:10]) > cache['visa']['departure_date']:
+                        cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                 # cache['visa'] = {
                 #     'destination': request.session['visa_request']['destination'],
                 #     'departure_date': request.session['visa_request']['departure_date'],
                 #     'consulate': request.session['visa_request']['consulate']
                 # }
-                if cache['visa']['departure_date'] == 'Invalid date':
-                    cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+
             except:
                 pass
 
