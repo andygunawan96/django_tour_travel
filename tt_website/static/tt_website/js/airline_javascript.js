@@ -4175,13 +4175,13 @@ function sort(){
                                                 breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
                                         }
 
-                                        if(breakdown_price_list_jbox.length > i){
-                                            try{
-                                                breakdown_price_list_jbox[i][0].destroy();
-                                                breakdown_price_list_jbox[i][1].destroy();
-                                            }catch(err){console.log(err);}
-                                        }
-                                        if(breakdown_price_list_jbox.length == i)
+//                                        if(breakdown_price_list_jbox.length > i){
+//                                            try{
+//                                                breakdown_price_list_jbox[i][0].destroy();
+//                                                breakdown_price_list_jbox[i][1].destroy();
+//                                            }catch(err){console.log(err);}
+//                                        }
+                                        if(breakdown_price_list_jbox[i] == undefined)
                                             breakdown_price_list_jbox[i] = [];
 
 

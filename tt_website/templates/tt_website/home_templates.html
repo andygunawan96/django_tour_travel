@@ -1214,8 +1214,8 @@
                     // default
                     try{
                         {% if cache.airline.origin %}
-                            document.getElementById('origin_id_flight').value = '{{cache.airline.origin.0}}';
-                            airline_origin = '{{cache.airline.origin.0}}';
+                            document.getElementById('origin_id_flight').value = '{{cache.airline.origin}}';
+                            airline_origin = '{{cache.airline.origin}}';
                         {% else %}
                             document.getElementById('origin_id_flight').value = '{{airline_origin}}';
                             airline_origin = '{{airline_origin}}';
@@ -1226,8 +1226,8 @@
 
                     try{
                         {% if cache.airline.origin %}
-                            document.getElementById('destination_id_flight').value = '{{cache.airline.destination.0}}';
-                            airline_destination = '{{cache.airline.destination.0}}';
+                            document.getElementById('destination_id_flight').value = '{{cache.airline.destination}}';
+                            airline_destination = '{{cache.airline.destination}}';
                         {% else %}
                             document.getElementById('destination_id_flight').value = '{{airline_destination}}';
                             airline_destination = '{{airline_destination}}';
@@ -1320,7 +1320,7 @@
             {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security %}
                 try{
                     {% if cache.bus.origin %}
-                        document.getElementById('bus_origin').value = '{{cache.bus.origin.0}}';
+                        document.getElementById('bus_origin').value = '{{cache.bus.origin}}';
                     {% else %}
                         document.getElementById('bus_origin').value = '{{bus_origin}}';
                     {% endif %}
@@ -1330,7 +1330,7 @@
 
                 try{
                     {% if cache.bus.destination %}
-                        document.getElementById('bus_destination').value = '{{cache.bus.destination.0}}';
+                        document.getElementById('bus_destination').value = '{{cache.bus.destination}}';
                     {% else %}
                         document.getElementById('bus_destination').value = '{{bus_destination}}';
                     {% endif %}
