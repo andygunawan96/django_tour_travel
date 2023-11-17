@@ -1040,11 +1040,11 @@ function search_ppob(){
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
                             <div style="padding-bottom:15px;"><span id="total_price_ppob" style="font-size:15px;`;
-                    if(is_show_breakdown_price)
-                        text_ppob+='cursor:pointer;';
+//                    if(is_show_breakdown_price)
+//                        text_ppob+='cursor:pointer;';
                     text_ppob += `">`+currency+` `+getrupiah(total_price);
-                    if(is_show_breakdown_price)
-                        text_ppob+=`<i class="fas fa-caret-down"></i>`;
+//                    if(is_show_breakdown_price)
+//                        text_ppob+=`<i class="fas fa-caret-down"></i>`;
                     text_ppob +=`</span></div>
                         </div>`;
                     document.getElementById('bills_response').innerHTML += text_ppob
@@ -1070,54 +1070,54 @@ function search_ppob(){
                             }
                         }
                     }
-                    if(is_show_breakdown_price){
-                        var price_breakdown = {};
-                        var currency_breakdown = '';
-                        for(i in bill_response.result.response.passengers){
-                            for(j in bill_response.result.response.passengers[i].sale_service_charges){
-                                for(k in bill_response.result.response.passengers[i].sale_service_charges[j]){
-                                    if(k != 'RAC'){
-                                        if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
-                                            price_breakdown[k.toUpperCase()] = 0;
-                                        price_breakdown[k.toUpperCase()] += bill_response.result.response.passengers[i].sale_service_charges[j][k].amount;
-                                        if(currency_breakdown == '')
-                                            currency_breakdown = bill_response.result.response.passengers[i].sale_service_charges[j][k].currency;
-                                    }
-                                }
-                            }
-
-                            var breakdown_text = '';
-                            for(j in price_breakdown){
-                                if(breakdown_text)
-                                    breakdown_text += '<br/>';
-                                if(j != 'ROC')
-                                    breakdown_text += '<b>'+j+'</b> ';
-                                else
-                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                            }
-                            new jBox('Tooltip', {
-                                attach: '#total_price_ppob',
-                                target: '#total_price_ppob',
-                                theme: 'TooltipBorder',
-                                trigger: 'click',
-                                adjustTracker: true,
-                                closeOnClick: 'body',
-                                closeButton: 'box',
-                                animation: 'move',
-                                position: {
-                                  x: 'left',
-                                  y: 'top'
-                                },
-                                outside: 'y',
-                                pointer: 'left:20',
-                                offset: {
-                                  x: 25
-                                },
-                                content: breakdown_text
-                            });
-                        }
-                    }
+//                    if(is_show_breakdown_price){
+//                        var price_breakdown = {};
+//                        var currency_breakdown = '';
+//                        for(i in bill_response.result.response.passengers){
+//                            for(j in bill_response.result.response.passengers[i].sale_service_charges){
+//                                for(k in bill_response.result.response.passengers[i].sale_service_charges[j]){
+//                                    if(k != 'RAC'){
+//                                        if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
+//                                            price_breakdown[k.toUpperCase()] = 0;
+//                                        price_breakdown[k.toUpperCase()] += bill_response.result.response.passengers[i].sale_service_charges[j][k].amount;
+//                                        if(currency_breakdown == '')
+//                                            currency_breakdown = bill_response.result.response.passengers[i].sale_service_charges[j][k].currency;
+//                                    }
+//                                }
+//                            }
+//
+//                            var breakdown_text = '';
+//                            for(j in price_breakdown){
+//                                if(breakdown_text)
+//                                    breakdown_text += '<br/>';
+//                                if(j != 'ROC')
+//                                    breakdown_text += '<b>'+j+'</b> ';
+//                                else
+//                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//                            }
+//                            new jBox('Tooltip', {
+//                                attach: '#total_price_ppob',
+//                                target: '#total_price_ppob',
+//                                theme: 'TooltipBorder',
+//                                trigger: 'click',
+//                                adjustTracker: true,
+//                                closeOnClick: 'body',
+//                                closeButton: 'box',
+//                                animation: 'move',
+//                                position: {
+//                                  x: 'left',
+//                                  y: 'top'
+//                                },
+//                                outside: 'y',
+//                                pointer: 'left:20',
+//                                offset: {
+//                                  x: 25
+//                                },
+//                                content: breakdown_text
+//                            });
+//                        }
+//                    }
                     $('#myModalBills').modal('show');
                 }else{
                     Swal.fire({
@@ -2033,16 +2033,16 @@ function ppob_get_booking(data){
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                            if(is_show_breakdown_price)
-                                text_detail+='cursor:pointer;';
+//                            if(is_show_breakdown_price)
+//                                text_detail+='cursor:pointer;';
                             text_detail+=`">`;
                             try{
                                 text_detail+= price.currency+` `+getrupiah(total_price);
                             }catch(err){
 
                             }
-                            if(is_show_breakdown_price)
-                                text_detail+=`<i class="fas fa-caret-down"></i>`;
+//                            if(is_show_breakdown_price)
+//                                text_detail+=`<i class="fas fa-caret-down"></i>`;
                             text_detail+= `</span>
                         </div>
                     </div>`;
@@ -2195,53 +2195,53 @@ function ppob_get_booking(data){
                 document.getElementById('bills_detail').innerHTML = text_detail;
                 $("#show_loading_booking_bills").hide();
 
-                if(is_show_breakdown_price){
-                    var price_breakdown = {};
-                    var currency_breakdown = '';
-                    for(i in bills_get_detail.result.response.passengers){
-                        for(j in bills_get_detail.result.response.passengers[i].sale_service_charges){
-                            for(k in bills_get_detail.result.response.passengers[i].sale_service_charges[j]){
-                                if(k != 'RAC'){
-                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
-                                        price_breakdown[k.toUpperCase()] = 0;
-                                    price_breakdown[k.toUpperCase()] += bills_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-                                    if(currency_breakdown == '')
-                                        currency_breakdown = bills_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-                                }
-                            }
-                        }
-                    }
-                    var breakdown_text = '';
-                    for(j in price_breakdown){
-                        if(breakdown_text)
-                            breakdown_text += '<br/>';
-                        if(j != 'ROC')
-                            breakdown_text += '<b>'+j+'</b> ';
-                        else
-                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                    }
-                    new jBox('Tooltip', {
-                        attach: '#total_price',
-                        target: '#total_price',
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'top'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: breakdown_text
-                    });
-                }
+//                if(is_show_breakdown_price){
+//                    var price_breakdown = {};
+//                    var currency_breakdown = '';
+//                    for(i in bills_get_detail.result.response.passengers){
+//                        for(j in bills_get_detail.result.response.passengers[i].sale_service_charges){
+//                            for(k in bills_get_detail.result.response.passengers[i].sale_service_charges[j]){
+//                                if(k != 'RAC'){
+//                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
+//                                        price_breakdown[k.toUpperCase()] = 0;
+//                                    price_breakdown[k.toUpperCase()] += bills_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+//                                    if(currency_breakdown == '')
+//                                        currency_breakdown = bills_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    var breakdown_text = '';
+//                    for(j in price_breakdown){
+//                        if(breakdown_text)
+//                            breakdown_text += '<br/>';
+//                        if(j != 'ROC')
+//                            breakdown_text += '<b>'+j+'</b> ';
+//                        else
+//                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//                    }
+//                    new jBox('Tooltip', {
+//                        attach: '#total_price',
+//                        target: '#total_price',
+//                        theme: 'TooltipBorder',
+//                        trigger: 'click',
+//                        adjustTracker: true,
+//                        closeOnClick: 'body',
+//                        closeButton: 'box',
+//                        animation: 'move',
+//                        position: {
+//                          x: 'left',
+//                          y: 'top'
+//                        },
+//                        outside: 'y',
+//                        pointer: 'left:20',
+//                        offset: {
+//                          x: 25
+//                        },
+//                        content: breakdown_text
+//                    });
+//                }
 
                 //
                 text = `

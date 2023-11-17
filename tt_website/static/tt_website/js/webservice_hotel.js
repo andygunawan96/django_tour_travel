@@ -3849,9 +3849,9 @@ function hotel_get_booking(data){
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                        if(is_show_breakdown_price){
-                            text_detail+=`cursor:pointer;`;
-                        }
+//                        if(is_show_breakdown_price){
+//                            text_detail+=`cursor:pointer;`;
+//                        }
                         text_detail+=`">`;
                                 try{
                                     text_detail+= currency+` `+getrupiah(total_price);
@@ -3859,9 +3859,9 @@ function hotel_get_booking(data){
 
                                 }
                                 text_detail+= `</span>`;
-                        if(is_show_breakdown_price){
-                             text_detail+=`<i class="fas fa-caret-down"></i>`;
-                        }
+//                        if(is_show_breakdown_price){
+//                             text_detail+=`<i class="fas fa-caret-down"></i>`;
+//                        }
                         text_detail+=`
                             </div>
                         </div>`;
@@ -3997,53 +3997,53 @@ function hotel_get_booking(data){
                     </div>`;
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;
-                if(is_show_breakdown_price){
-                    var price_breakdown = {};
-                    var currency_breakdown = '';
-                    for(i in hotel_get_detail.result.response.passengers){
-                        for(j in hotel_get_detail.result.response.passengers[i].sale_service_charges){
-                            for(k in hotel_get_detail.result.response.passengers[i].sale_service_charges[j]){
-                                if(k != 'RAC'){
-                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
-                                        price_breakdown[k.toUpperCase()] = 0;
-                                    price_breakdown[k.toUpperCase()] += hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-                                    if(currency_breakdown == '')
-                                        currency_breakdown = hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-                                }
-                            }
-                        }
-                    }
-                    var breakdown_text = '';
-                    for(j in price_breakdown){
-                        if(breakdown_text)
-                            breakdown_text += '<br/>';
-                        if(j != 'ROC')
-                            breakdown_text += '<b>'+j+'</b> ';
-                        else
-                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                    }
-                    new jBox('Tooltip', {
-                        attach: '#total_price',
-                        target: '#total_price',
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'top'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: breakdown_text
-                    });
-                }
+//                if(is_show_breakdown_price){
+//                    var price_breakdown = {};
+//                    var currency_breakdown = '';
+//                    for(i in hotel_get_detail.result.response.passengers){
+//                        for(j in hotel_get_detail.result.response.passengers[i].sale_service_charges){
+//                            for(k in hotel_get_detail.result.response.passengers[i].sale_service_charges[j]){
+//                                if(k != 'RAC'){
+//                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
+//                                        price_breakdown[k.toUpperCase()] = 0;
+//                                    price_breakdown[k.toUpperCase()] += hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
+//                                    if(currency_breakdown == '')
+//                                        currency_breakdown = hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    var breakdown_text = '';
+//                    for(j in price_breakdown){
+//                        if(breakdown_text)
+//                            breakdown_text += '<br/>';
+//                        if(j != 'ROC')
+//                            breakdown_text += '<b>'+j+'</b> ';
+//                        else
+//                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//                    }
+//                    new jBox('Tooltip', {
+//                        attach: '#total_price',
+//                        target: '#total_price',
+//                        theme: 'TooltipBorder',
+//                        trigger: 'click',
+//                        adjustTracker: true,
+//                        closeOnClick: 'body',
+//                        closeButton: 'box',
+//                        animation: 'move',
+//                        position: {
+//                          x: 'left',
+//                          y: 'top'
+//                        },
+//                        outside: 'y',
+//                        pointer: 'left:20',
+//                        offset: {
+//                          x: 25
+//                        },
+//                        content: breakdown_text
+//                    });
+//                }
                 text_cancellation_policy = `
                     <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
                         <div class="row">

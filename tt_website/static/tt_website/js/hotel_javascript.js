@@ -1620,11 +1620,11 @@ function hotel_room_pick(key, key2){
             </div>
             <div class="col-lg-6" style="text-align:right;">
                 <span style="font-weight:bold;font-size:15px;`;
-                if(is_show_breakdown_price)
-                    text_pick_footer+='cursor:pointer;';
+//                if(is_show_breakdown_price)
+//                    text_pick_footer+='cursor:pointer;';
                 text_pick_footer += `" id="total_price">`+hotel_room.currency+` `+ getrupiah(total_price_hotel+discount_hotel);
-                if(is_show_breakdown_price)
-                    text_pick_footer+=`<i class="fas fa-caret-down"></i>`;
+//                if(is_show_breakdown_price)
+//                    text_pick_footer+=`<i class="fas fa-caret-down"></i>`;
                 text_pick_footer += `
                 </span><br/>
                 <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
@@ -1717,55 +1717,55 @@ function hotel_room_pick(key, key2){
         </div>
     </div>`;
 
-    if(is_show_breakdown_price){
-        var price_breakdown = {};
-        var currency_breakdown = '';
-        for(j in hotel_room.rooms){
-            for(k in hotel_room.rooms[j].nightly_prices){
-                for(l in hotel_room.rooms[j].nightly_prices[k].service_charges){
-                    if(hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
-                        if(!price_breakdown.hasOwnProperty(hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type))
-                            price_breakdown[hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
-                        price_breakdown[hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type] += hotel_room.rooms[j].nightly_prices[k].service_charges[l].total;
-                        if(currency_breakdown == '')
-                            currency_breakdown = hotel_room.rooms[j].nightly_prices[k].service_charges[l].currency;
-                    }
-                }
-            }
-        }
-        var breakdown_text = '';
-        for(j in price_breakdown){
-            if(breakdown_text)
-                breakdown_text += '<br/>';
-            if(j != 'ROC')
-                breakdown_text += '<b>'+j+'</b> ';
-            else
-                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-        }
-        setTimeout(function() {
-            new jBox('Tooltip', {
-                attach: '#total_price',
-                target: '#total_price',
-                theme: 'TooltipBorder',
-                trigger: 'click',
-                adjustTracker: true,
-                closeOnClick: 'body',
-                closeButton: 'box',
-                animation: 'move',
-                position: {
-                  x: 'left',
-                  y: 'top'
-                },
-                outside: 'y',
-                pointer: 'left:20',
-                offset: {
-                  x: 25
-                },
-                content: breakdown_text
-            });
-        }, 3000);
-    }
+//    if(is_show_breakdown_price){
+//        var price_breakdown = {};
+//        var currency_breakdown = '';
+//        for(j in hotel_room.rooms){
+//            for(k in hotel_room.rooms[j].nightly_prices){
+//                for(l in hotel_room.rooms[j].nightly_prices[k].service_charges){
+//                    if(hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
+//                        if(!price_breakdown.hasOwnProperty(hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type))
+//                            price_breakdown[hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
+//                        price_breakdown[hotel_room.rooms[j].nightly_prices[k].service_charges[l].charge_type] += hotel_room.rooms[j].nightly_prices[k].service_charges[l].total;
+//                        if(currency_breakdown == '')
+//                            currency_breakdown = hotel_room.rooms[j].nightly_prices[k].service_charges[l].currency;
+//                    }
+//                }
+//            }
+//        }
+//        var breakdown_text = '';
+//        for(j in price_breakdown){
+//            if(breakdown_text)
+//                breakdown_text += '<br/>';
+//            if(j != 'ROC')
+//                breakdown_text += '<b>'+j+'</b> ';
+//            else
+//                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//        }
+//        setTimeout(function() {
+//            new jBox('Tooltip', {
+//                attach: '#total_price',
+//                target: '#total_price',
+//                theme: 'TooltipBorder',
+//                trigger: 'click',
+//                adjustTracker: true,
+//                closeOnClick: 'body',
+//                closeButton: 'box',
+//                animation: 'move',
+//                position: {
+//                  x: 'left',
+//                  y: 'top'
+//                },
+//                outside: 'y',
+//                pointer: 'left:20',
+//                offset: {
+//                  x: 25
+//                },
+//                content: breakdown_text
+//            });
+//        }, 3000);
+//    }
 }
 
 function hotel_room_pick_button(){
@@ -2402,11 +2402,11 @@ function hotel_detail(old_cancellation_policy){
             </div>
             <div class="col-lg-6" style="text-align:right;">
                 <span style="font-weight:bold;font-size:15px;`;
-            if(is_show_breakdown_price)
-                text+='cursor:pointer;';
+//            if(is_show_breakdown_price)
+//                text+='cursor:pointer;';
             text+=`" id="total_price">`+hotel_price.currency+` `+ getrupiah(total_price_hotel + discount_hotel);
-            if(is_show_breakdown_price)
-                text+=`<i class="fas fa-caret-down"></i>`;
+//            if(is_show_breakdown_price)
+//                text+=`<i class="fas fa-caret-down"></i>`;
             text+=`</span>
                 </div>
             </div>`;
@@ -2485,60 +2485,60 @@ function hotel_detail(old_cancellation_policy){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
-    if(is_show_breakdown_price){
-        var price_breakdown = {};
-        var currency_breakdown = '';
-        for(j in hotel_price.rooms){
-            for(k in hotel_price.rooms[j].nightly_prices){
-                for(l in hotel_price.rooms[j].nightly_prices[k].service_charges){
-                    if(hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
-                        if(!price_breakdown.hasOwnProperty(hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type))
-                            price_breakdown[hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
-                        price_breakdown[hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type] += hotel_price.rooms[j].nightly_prices[k].service_charges[l].total;
-                        if(currency_breakdown == '')
-                            currency_breakdown = hotel_price.rooms[j].nightly_prices[k].service_charges[l].currency;
-                    }
-                }
-            }
-        }
-        if(typeof upsell_price !== 'undefined'){
-            if(upsell_price != 0){
-                if(!price_breakdown.hasOwnProperty('ROC'))
-                    price_breakdown['ROC'] = 0;
-                price_breakdown['ROC'] += upsell_price;
-            }
-        }
-        var breakdown_text = '';
-        for(j in price_breakdown){
-            if(breakdown_text)
-                breakdown_text += '<br/>';
-            if(j != 'ROC')
-                breakdown_text += '<b>'+j+'</b> ';
-            else
-                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-        }
-        new jBox('Tooltip', {
-            attach: '#total_price',
-            target: '#total_price',
-            theme: 'TooltipBorder',
-            trigger: 'click',
-            adjustTracker: true,
-            closeOnClick: 'body',
-            closeButton: 'box',
-            animation: 'move',
-            position: {
-              x: 'left',
-              y: 'top'
-            },
-            outside: 'y',
-            pointer: 'left:20',
-            offset: {
-              x: 25
-            },
-            content: breakdown_text
-        });
-    }
+//    if(is_show_breakdown_price){
+//        var price_breakdown = {};
+//        var currency_breakdown = '';
+//        for(j in hotel_price.rooms){
+//            for(k in hotel_price.rooms[j].nightly_prices){
+//                for(l in hotel_price.rooms[j].nightly_prices[k].service_charges){
+//                    if(hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
+//                        if(!price_breakdown.hasOwnProperty(hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type))
+//                            price_breakdown[hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
+//                        price_breakdown[hotel_price.rooms[j].nightly_prices[k].service_charges[l].charge_type] += hotel_price.rooms[j].nightly_prices[k].service_charges[l].total;
+//                        if(currency_breakdown == '')
+//                            currency_breakdown = hotel_price.rooms[j].nightly_prices[k].service_charges[l].currency;
+//                    }
+//                }
+//            }
+//        }
+//        if(typeof upsell_price !== 'undefined'){
+//            if(upsell_price != 0){
+//                if(!price_breakdown.hasOwnProperty('ROC'))
+//                    price_breakdown['ROC'] = 0;
+//                price_breakdown['ROC'] += upsell_price;
+//            }
+//        }
+//        var breakdown_text = '';
+//        for(j in price_breakdown){
+//            if(breakdown_text)
+//                breakdown_text += '<br/>';
+//            if(j != 'ROC')
+//                breakdown_text += '<b>'+j+'</b> ';
+//            else
+//                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//        }
+//        new jBox('Tooltip', {
+//            attach: '#total_price',
+//            target: '#total_price',
+//            theme: 'TooltipBorder',
+//            trigger: 'click',
+//            adjustTracker: true,
+//            closeOnClick: 'body',
+//            closeButton: 'box',
+//            animation: 'move',
+//            position: {
+//              x: 'left',
+//              y: 'top'
+//            },
+//            outside: 'y',
+//            pointer: 'left:20',
+//            offset: {
+//              x: 25
+//            },
+//            content: breakdown_text
+//        });
+//    }
 }
 
 // DEPRECATED
@@ -3084,55 +3084,55 @@ function change_image_hotel_detail(numb){
                         document.getElementById(node.id).innerHTML = node.innerHTML;
                     document.getElementById(node.id).style.display = 'block';
 
-                    if(is_show_breakdown_price){
-                        var price_breakdown = {};
-                        var currency_breakdown = '';
-                        for(i in hotel_price){
-                            for(j in hotel_price[i].rooms){
-                                for(k in hotel_price[i].rooms[j].nightly_prices){
-                                    for(l in hotel_price[i].rooms[j].nightly_prices[k].service_charges){
-                                        if(hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
-                                            if(!price_breakdown.hasOwnProperty(hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type))
-                                                price_breakdown[hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
-                                            price_breakdown[hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] += hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].total;
-                                            if(currency_breakdown == '')
-                                                currency_breakdown = hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].currency;
-                                        }
-                                    }
-                                }
-                            }
-                            var breakdown_text = '';
-                            for(j in price_breakdown){
-                                if(breakdown_text)
-                                    breakdown_text += '<br/>';
-                                if(j != 'ROC')
-                                    breakdown_text += '<b>'+j+'</b> ';
-                                else
-                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                            }
-                            new jBox('Tooltip', {
-                                attach: '#hotel_room_span_'+i,
-                                target: '#hotel_room_span_'+i,
-                                theme: 'TooltipBorder',
-                                trigger: 'click',
-                                adjustTracker: true,
-                                closeOnClick: 'body',
-                                closeButton: 'box',
-                                animation: 'move',
-                                position: {
-                                  x: 'left',
-                                  y: 'top'
-                                },
-                                outside: 'y',
-                                pointer: 'left:20',
-                                offset: {
-                                  x: 25
-                                },
-                                content: breakdown_text
-                            });
-                        }
-                    }
+//                    if(is_show_breakdown_price){
+//                        var price_breakdown = {};
+//                        var currency_breakdown = '';
+//                        for(i in hotel_price){
+//                            for(j in hotel_price[i].rooms){
+//                                for(k in hotel_price[i].rooms[j].nightly_prices){
+//                                    for(l in hotel_price[i].rooms[j].nightly_prices[k].service_charges){
+//                                        if(hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
+//                                            if(!price_breakdown.hasOwnProperty(hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type))
+//                                                price_breakdown[hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
+//                                            price_breakdown[hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] += hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].total;
+//                                            if(currency_breakdown == '')
+//                                                currency_breakdown = hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].currency;
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            var breakdown_text = '';
+//                            for(j in price_breakdown){
+//                                if(breakdown_text)
+//                                    breakdown_text += '<br/>';
+//                                if(j != 'ROC')
+//                                    breakdown_text += '<b>'+j+'</b> ';
+//                                else
+//                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//                            }
+//                            new jBox('Tooltip', {
+//                                attach: '#hotel_room_span_'+i,
+//                                target: '#hotel_room_span_'+i,
+//                                theme: 'TooltipBorder',
+//                                trigger: 'click',
+//                                adjustTracker: true,
+//                                closeOnClick: 'body',
+//                                closeButton: 'box',
+//                                animation: 'move',
+//                                position: {
+//                                  x: 'left',
+//                                  y: 'top'
+//                                },
+//                                outside: 'y',
+//                                pointer: 'left:20',
+//                                offset: {
+//                                  x: 25
+//                                },
+//                                content: breakdown_text
+//                            });
+//                        }
+//                    }
                     counter_hotel++;
                }else{
                     document.getElementById('hotel'+i+'_div').style.display = 'none';
@@ -3387,55 +3387,55 @@ function render_room_hotel(data_room_hotel_list){
             node.innerHTML = text;
             document.getElementById("detail_room_pick").appendChild(node);
 
-            if(is_show_breakdown_price){
-                var price_breakdown = {};
-                var currency_breakdown = '';
-                for(i in data_room_hotel_list){
-                    for(j in data_room_hotel_list[i].rooms){
-                        for(k in data_room_hotel_list[i].rooms[j].nightly_prices){
-                            for(l in data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges){
-                                if(data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
-                                    if(!price_breakdown.hasOwnProperty(data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type))
-                                        price_breakdown[data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
-                                    price_breakdown[data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] += data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].total;
-                                    if(currency_breakdown == '')
-                                        currency_breakdown = data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].currency;
-                                }
-                            }
-                        }
-                    }
-                    var breakdown_text = '';
-                    for(j in price_breakdown){
-                        if(breakdown_text)
-                            breakdown_text += '<br/>';
-                        if(j != 'ROC')
-                            breakdown_text += '<b>'+j+'</b> ';
-                        else
-                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                    }
-                    new jBox('Tooltip', {
-                        attach: '#hotel_room_span_'+i,
-                        target: '#hotel_room_span_'+i,
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'top'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: breakdown_text
-                    });
-                }
-            }
+//            if(is_show_breakdown_price){
+//                var price_breakdown = {};
+//                var currency_breakdown = '';
+//                for(i in data_room_hotel_list){
+//                    for(j in data_room_hotel_list[i].rooms){
+//                        for(k in data_room_hotel_list[i].rooms[j].nightly_prices){
+//                            for(l in data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges){
+//                                if(data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
+//                                    if(!price_breakdown.hasOwnProperty(data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type))
+//                                        price_breakdown[data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] = 0;
+//                                    price_breakdown[data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].charge_type] += data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].total;
+//                                    if(currency_breakdown == '')
+//                                        currency_breakdown = data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charges[l].currency;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    var breakdown_text = '';
+//                    for(j in price_breakdown){
+//                        if(breakdown_text)
+//                            breakdown_text += '<br/>';
+//                        if(j != 'ROC')
+//                            breakdown_text += '<b>'+j+'</b> ';
+//                        else
+//                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
+//                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+//                    }
+//                    new jBox('Tooltip', {
+//                        attach: '#hotel_room_span_'+i,
+//                        target: '#hotel_room_span_'+i,
+//                        theme: 'TooltipBorder',
+//                        trigger: 'click',
+//                        adjustTracker: true,
+//                        closeOnClick: 'body',
+//                        closeButton: 'box',
+//                        animation: 'move',
+//                        position: {
+//                          x: 'left',
+//                          y: 'top'
+//                        },
+//                        outside: 'y',
+//                        pointer: 'left:20',
+//                        offset: {
+//                          x: 25
+//                        },
+//                        content: breakdown_text
+//                    });
+//                }
+//            }
 
             node = document.createElement("div");
             hotel_print++;
@@ -3676,25 +3676,25 @@ function render_hotel_search_detail(data_room_hotel_list, i){
                     if(data_room_hotel_list.total != data_room_hotel_list.total_without_discount)
                         text+= '<span style="text-decoration: line-through;color:#cdcdcd;">' + data_room_hotel_list.currency + ' ' + data_room_hotel_list.total_without_discount +'</span><br/>';
                     text+= '<span id="hotel_room_span_'+i+'" class="price_room" style="font-weight: bold; font-size:14px;';
-                    if(is_show_breakdown_price){
-                        text+= "cursor:pointer;";
-                    }
+//                    if(is_show_breakdown_price){
+//                        text+= "cursor:pointer;";
+//                    }
                     text+= '">' + data_room_hotel_list.currency + ' ' + data_room_hotel_list.total;
-                    if(is_show_breakdown_price){
-                        text+= ` <i class="fas fa-caret-down"></i>`;
-                    }
+//                    if(is_show_breakdown_price){
+//                        text+= ` <i class="fas fa-caret-down"></i>`;
+//                    }
                     text+='</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                 }else{
                     if(data_room_hotel_list.total != data_room_hotel_list.total_without_discount)
                         text+= '<span style="text-decoration: line-through;color:#cdcdcd;">' + data_room_hotel_list.currency + ' ' + getrupiah(data_room_hotel_list.total_without_discount) +'</span><br/>';
                     text+= '<span id="hotel_room_span_'+i+'" class="price_room" style="font-weight: bold; font-size:14px;';
-                    if(is_show_breakdown_price){
-                        text+= "cursor:pointer;";
-                    }
+//                    if(is_show_breakdown_price){
+//                        text+= "cursor:pointer;";
+//                    }
                     text+= '">' +  data_room_hotel_list.currency + ' ' + getrupiah(data_room_hotel_list.total);
-                    if(is_show_breakdown_price){
-                        text+= ` <i class="fas fa-caret-down"></i>`;
-                    }
+//                    if(is_show_breakdown_price){
+//                        text+= ` <i class="fas fa-caret-down"></i>`;
+//                    }
                     text+='</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                 }
 
