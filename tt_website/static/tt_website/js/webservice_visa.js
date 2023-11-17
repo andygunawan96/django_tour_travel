@@ -401,11 +401,14 @@ function search_visa(){
                                 text+=`<br/>`;
                                     price = 0;
                                     currency = '';
-                                    for(j in msg.result.response.list_of_visa[i].service_charges)
-                                        if(msg.result.response.list_of_visa[i].service_charges[j].charge_type != 'RAC')
-                                            price += msg.result.response.list_of_visa[i].service_charges[j].amount;
-                                        if(currency == '')
-                                            currency = msg.result.response.list_of_visa[i].service_charges[j].currency;
+                                    for(j in msg.result.response.list_of_visa[i].service_charge_summary){
+                                        for(k in msg.result.response.list_of_visa[i].service_charge_summary[j].service_charges){
+                                            if(msg.result.response.list_of_visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                                                price += msg.result.response.list_of_visa[i].service_charge_summary[j].service_charges[k].amount;
+                                            if(currency == '')
+                                                currency = msg.result.response.list_of_visa[i].service_charge_summary[j].service_charges[k].currency;
+                                        }
+                                    }
                                     text+=`
                                     <div style="text-align:right;">
                                         <span id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+currency+` `+getrupiah(price)+`</span>
@@ -1694,9 +1697,12 @@ function update_service_charge(type){
         upsell_price = 0;
         upsell = []
         counter_pax = 0;
-        for(j in visa.list_of_visa[0].service_charges){
-            currency = visa.list_of_visa[0].service_charges[j].currency;
-            break
+        for(j in visa.list_of_visa[0].service_charge_summary){
+            for(k in visa.list_of_visa[0].service_charge_summary[j].service_charges){
+                currency = visa.list_of_visa[0].service_charge_summary[j].service_charges[k].currency;
+                break;
+            }
+            break;
         }
         for(i in passenger){
             list_price = []

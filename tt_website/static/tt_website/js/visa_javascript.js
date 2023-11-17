@@ -56,11 +56,13 @@ function set_price_visa(val){
     price = 0;
     qty = document.getElementById('qty_pax_'+val).value;
     currency = '';
-    for(i in visa[val].service_charges){
-        if(!currency)
-            price += visa[val].service_charges[i].currency
-        if(visa[val].service_charges[i].charge_type != 'RAC')
-            price += parseInt(qty) * visa[val].service_charges[i].amount;
+    for(i in visa[val].service_charge_summary){
+        for(j in visa[val].service_charge_summary[i].service_charges){
+            if(!currency)
+                price += visa[val].service_charge_summary[i].service_charges[j].currency
+            if(visa[val].service_charge_summary[i].service_charges[j].charge_type != 'RAC')
+                price += parseInt(qty) * visa[val].service_charge_summary[i].service_charges[j].amount;
+        }
     }
     document.getElementById('fare'+val).innerHTML = currency + ' '+ getrupiah(price.toString());
 }
@@ -69,9 +71,12 @@ function set_total_price_visa(){
     price = 0;
     for(i in visa){
         qty = document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value;
-        for(j in visa[i].service_charges)
-            if(visa[i].service_charges[j].charge_type != 'RAC')
-                price += parseInt(qty) * visa[i].service_charges[j].amount;
+        for(j in visa[i].service_charge_summary){
+            for(k in visa[i].service_charge_summary[j].service_charges){
+                if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                    price += parseInt(qty) * visa[i].service_charge_summary[j].service_charges[k].amount;
+            }
+        }
     }
     //tinggal set html
 }
@@ -80,9 +85,12 @@ function set_commission_price_visa(){
     price = 0;
     for(i in visa){
         qty = document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value;
-        for(j in visa[i].service_charges)
-            if(visa[i].service_charges[j].charge_type == 'RAC')
-                price += parseInt(qty) * visa[i].service_charges[j].amount;
+        for(j in visa[i].service_charge_summary){
+            for(k in visa[i].service_charge_summary[j].service_charges){
+                if(visa[i].service_charge_summary[j].service_charges.charge_type == 'RAC')
+                    price += parseInt(qty) * visa[i].service_charge_summary[j].service_charges[k].amount;
+            }
+        }
     }
     //tinggal set html
 }
@@ -112,11 +120,13 @@ function update_table_new(type){
 
             currency = '';
             price_perpax = 0;
-            for(j in visa[i].service_charges){
-                if(visa[i].service_charges[j].charge_type != 'RAC')
-                    price_perpax += visa[i].service_charges[j].amount;
-                if(currency == '')
-                    currency = visa[i].service_charges[j].currency;
+            for(j in visa[i].service_charge_summary){
+                for(k in visa[i].service_charge_summary[j].service_charges){
+                    if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                        price_perpax += visa[i].service_charge_summary[j].service_charges[k].amount;
+                    if(currency == '')
+                        currency = visa[i].service_charge_summary[j].service_charges[k].currency;
+                }
             }
 
             if(pax_count != 0){
@@ -158,11 +168,13 @@ function update_table_new(type){
                 count_price_detail[i] = 0;
             }
             try{
-                for(j in visa[i].service_charges){
-                    if(visa[i].service_charges[j].charge_type == 'RAC')
-                        commission += pax_count * (visa[i].service_charges[j].amount * -1);
-                    else
-                        price += pax_count * visa[i].service_charges[j].amount;
+                for(j in visa[i].service_charge_summary){
+                    for(k in visa[i].service_charge_summary[j].service_charges){
+                        if(visa[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            commission += pax_count * (visa[i].service_charge_summary[j].service_charges[k].amount * -1);
+                        else
+                            price += pax_count * visa[i].service_charge_summary[j].service_charges[k].amount;
+                    }
                 }
             }catch(err){
 
@@ -195,11 +207,13 @@ function update_table_new(type){
                 }
                 price_perpax = 0;
                 currency = '';
-                for(j in visa[i].service_charges){
-                    if(currency == '')
-                        currency = visa[i].service_charges[j].currency
-                    if(visa[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += visa[i].service_charges[j].amount;
+                for(j in visa[i].service_charge_summary){
+                    for(k in visa[i].service_charge_summary[j].service_charges){
+                        if(currency == '')
+                            currency = visa[i].service_charge_summary[j].service_charges[k].currency
+                        if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += visa[i].service_charge_summary[j].service_charges[k].amount;
+                    }
                 }
                 if(pax_count != 0){
                     $text += pax_count + ' ' + visa[i].pax_type[1] + ' ' + visa[i].visa_type[1] + ',' + visa[i].entry_type[1];
@@ -215,13 +229,13 @@ function update_table_new(type){
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <h6 id="total_price"`;
-//                if(is_show_breakdown_price){
-//                    text+= `style="cursor:pointer;"`;
-//                }
+                if(is_show_breakdown_price){
+                    text+= `style="cursor:pointer;"`;
+                }
                 text+= `>`+currency+` `+getrupiah(price);
-//                if(is_show_breakdown_price){
-//                    text += `<i class="fas fa-caret-down"></i>`;
-//                }
+                if(is_show_breakdown_price){
+                    text += `<i class="fas fa-caret-down"></i>`;
+                }
                 text+=`</h6>
                     </div>
                 </div>`;
@@ -325,11 +339,13 @@ function update_table_new(type){
             if(sell_visa.search_data[i].pax != 0){
                 currency = '';
                 price_perpax = 0;
-                for(j in sell_visa.search_data[i].service_charges){
-                    if(sell_visa.search_data[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += sell_visa.search_data[i].service_charges[j].total / sell_visa.search_data[i].pax;
-                    if(currency == '')
-                        currency = sell_visa.search_data[i].service_charges[j].currency;
+                for(j in sell_visa.provider_bookings[i].service_charge_summary){
+                    for(k in sell_visa.provider_bookings[i].service_charge_summary[j].service_charges){
+                        if(sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].total / sell_visa.search_data[i].pax;
+                        if(currency == '')
+                            currency = sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].currency;
+                    }
                 }
                 count_price_detail[i] = 1;
                 text+=`
@@ -378,9 +394,12 @@ function update_table_new(type){
             }
             try{
                 price += sell_visa.search_data[i].pax * price_perpax;
-                for(j in sell_visa.search_data[i].service_charges)
-                    if(sell_visa.search_data[i].service_charges[j].charge_type == 'RAC')
-                        commission += sell_visa.search_data[i].service_charges[j].total;
+                for(j in sell_visa.provider_bookings[i].service_charge_summary){
+                    for(k in sell_visa.provider_bookings[i].service_charge_summary[j].service_charges){
+                        if(sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            commission += sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].total;
+                    }
+                }
             }catch(err){
 
             }
@@ -399,13 +418,13 @@ function update_table_new(type){
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                     <h6 id="total_price"`;
-//                    if(is_show_breakdown_price){
-//                        text+= `style="cursor:pointer;"`;
-//                    }
+                    if(is_show_breakdown_price){
+                        text+= `style="cursor:pointer;"`;
+                    }
                     text+= `>`+currency+` `+getrupiah(price);
-//                    if(is_show_breakdown_price){
-//                        text += `<i class="fas fa-caret-down"></i>`;
-//                    }
+                    if(is_show_breakdown_price){
+                        text += `<i class="fas fa-caret-down"></i>`;
+                    }
                     text+=`
                     </h6>
                 </div>
@@ -542,11 +561,13 @@ function update_table_new(type){
                 count_price_detail[i] = 1;
                 currency = '';
                 price_perpax = 0;
-                for(j in sell_visa.search_data[i].service_charges){
-                    if(sell_visa.search_data[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += sell_visa.search_data[i].service_charges[j].total / sell_visa.search_data[i].pax;
-                    if(currency == '')
-                        currency = sell_visa.search_data[i].service_charges[j].currency;
+                for(j in sell_visa.search_data[i].service_charge_summary){
+                    for(k in sell_visa.search_data[i].service_charge_summary[j].service_charges){
+                        if(sell_visa.search_data[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += sell_visa.search_data[i].service_charge_summary[j].service_charges[k].total / sell_visa.search_data[i].pax;
+                        if(currency == '')
+                            currency = sell_visa.search_data[i].service_charge_summary[j].service_charges[k].currency;
+                    }
                 }
                 text+=`
                 <div class="row">`;
@@ -607,9 +628,12 @@ function update_table_new(type){
             }
             try{
                 price += price_perpax * sell_visa.search_data[i].pax_count;
-                for(j in sell_visa.search_data[i].service_charges)
-                    if(sell_visa.search_data[i].service_charges[j].charge_type == 'RAC')
-                        commission += (sell_visa.search_data[i].service_charges[j].total * -1);
+                for(j in sell_visa.search_data[i].service_charge_summary){
+                    for(k in sell_visa.search_data[i].service_charge_summary[j].service_charges){
+                        if(sell_visa.search_data[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            commission += (sell_visa.search_data[i].service_charge_summary[j].service_charges[k].total * -1);
+                    }
+                }
             }catch(err){
 
             }
@@ -638,11 +662,13 @@ function update_table_new(type){
             if(sell_visa.search_data[i].pax_count != 0){
                 currency = '';
                 price_perpax = 0;
-                for(j in sell_visa.search_data[i].service_charges){
-                    if(sell_visa.search_data[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += sell_visa.search_data[i].service_charges[j].amount;
-                    if(currency == '')
-                        currency = sell_visa.search_data[i].service_charges[j].currency;
+                for(j in sell_visa.search_data[i].service_charge_summary){
+                    for(k in sell_visa.search_data[i].service_charge_summary[j].service_charges){
+                        if(sell_visa.search_data[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += sell_visa.search_data[i].service_charge_summary[j].service_charges[k].amount;
+                        if(currency == '')
+                            currency = sell_visa.search_data[i].service_charge_summary[j].service_charges[k].currency;
+                    }
                 }
                 if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(sell_visa.search_data[i].pax_type)){ //with upsell
                     $text += sell_visa.search_data[i].pax_count + ' ' + sell_visa.search_data[i].pax_type;
@@ -687,13 +713,13 @@ function update_table_new(type){
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                 <h6 id="total_price"`;
-//            if(is_show_breakdown_price){
-//                text+= `style="cursor:pointer;"`;
-//            }
+            if(is_show_breakdown_price){
+                text+= `style="cursor:pointer;"`;
+            }
             text+= `>`+currency+` `+getrupiah(grand_total_price);
-//            if(is_show_breakdown_price){
-//                text += `<i class="fas fa-caret-down"></i>`;
-//            }
+            if(is_show_breakdown_price){
+                text += `<i class="fas fa-caret-down"></i>`;
+            }
         text+=`</h6>
             </div>
         </div>`;
@@ -877,19 +903,19 @@ function update_table_new(type){
                         text_detail+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                             <span style="font-size:13px;`;
-//                            if(is_show_breakdown_price){
-//                                text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
-//                            }else{
+                            if(is_show_breakdown_price){
+                                text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
+                            }else{
                                 text_detail+=`"`;
-//                            }
+                            }
                         if(counter_service_charge == 0)
                             text_detail+=`
                             >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC));
                         else
                             text_detail+=`
                             >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
-//                        if(is_show_breakdown_price)
-//                            text_detail+=`<i class="fas fa-caret-down"></i>`;
+                        if(is_show_breakdown_price)
+                            text_detail+=`<i class="fas fa-caret-down"></i>`;
                         text_detail += `</span>`;
                         text_detail+=`
                         </div>
@@ -951,16 +977,16 @@ function update_table_new(type){
                 </div>
                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
                     <span id="total_price" style="font-size:13px; font-weight: bold;`;
-//                    if(is_show_breakdown_price)
-//                        text_detail+='cursor:pointer;';
+                    if(is_show_breakdown_price)
+                        text_detail+='cursor:pointer;';
                     text_detail +=`">`;
                     try{
                         text_detail+= price.currency+` `+getrupiah(total_price);
                     }catch(err){
 
                     }
-//                    if(is_show_breakdown_price)
-//                        text_detail+=`<i class="fas fa-caret-down"></i>`;
+                    if(is_show_breakdown_price)
+                        text_detail+=`<i class="fas fa-caret-down"></i>`;
                     text_detail+= `</span>
                 </div>
             </div>`;
@@ -1084,136 +1110,354 @@ function update_table_new(type){
     }
     document.getElementById('detail').innerHTML = text;
 
-//    if(is_show_breakdown_price){
-//        var price_breakdown = {};
-//        var currency_breakdown = '';
-//        if(type == 'search'){
-//            for(i in visa){
-//                pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
-//                for(j in visa[i].service_charges){
-//                    if(visa[i].service_charges[j].charge_type != 'RAC'){
-//                        if(!price_breakdown.hasOwnProperty(visa[i].service_charges[j].charge_type))
-//                            price_breakdown[visa[i].service_charges[j].charge_type] = 0;
-//                        price_breakdown[visa[i].service_charges[j].charge_type] += visa[i].service_charges[j].amount * pax_count;
-//                    }
-//                    if(currency_breakdown == '')
-//                        currency_breakdown = visa[i].service_charges[j].currency;
-//                }
-//            }
-//        }else if(['passenger','review'].includes(type)){
-//            for(i in sell_visa.search_data){
-//                if(sell_visa.search_data[i].pax != 0){
-//                    for(j in sell_visa.search_data[i].service_charges){
-//                        if(sell_visa.search_data[i].service_charges[j].charge_type != 'RAC'){
-//                            if(!price_breakdown.hasOwnProperty(sell_visa.search_data[i].service_charges[j].charge_type))
-//                                price_breakdown[sell_visa.search_data[i].service_charges[j].charge_type] = 0;
-//                            price_breakdown[sell_visa.search_data[i].service_charges[j].charge_type] += sell_visa.search_data[i].service_charges[j].total
-//                        }
-//                        if(currency_breakdown == '')
-//                            currency_breakdown = sell_visa.search_data[i].service_charges[j].currency;
-//                    }
-//                }
-//            }
-//        }else if(type == 'booking'){
-//            for(i in visa_get_detail.result.response.passengers){
-//                for(j in visa_get_detail.result.response.passengers[i].sale_service_charges){
-//                    for(k in visa_get_detail.result.response.passengers[i].sale_service_charges[j]){
-//                        if(k != 'RAC'){
-//                            if(!price_breakdown.hasOwnProperty(k))
-//                                price_breakdown[k.toUpperCase()] = 0;
-//                            price_breakdown[k.toUpperCase()] += visa_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                            if(currency_breakdown == '')
-//                                currency_breakdown = visa_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                        }
-//                    }
-//                }
-//                var breakdown_text = '';
-//                for(j in price_breakdown){
-//                    if(breakdown_text)
-//                        breakdown_text += '<br/>';
-//                    if(j != 'ROC')
-//                        breakdown_text += '<b>'+j+'</b> ';
-//                    else
-//                        breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                }
-//                new jBox('Tooltip', {
-//                    attach: '#passenger_breakdown'+i,
-//                    target: '#passenger_breakdown'+i,
-//                    theme: 'TooltipBorder',
-//                    trigger: 'click',
-//                    adjustTracker: true,
-//                    closeOnClick: 'body',
-//                    closeButton: 'box',
-//                    animation: 'move',
-//                    position: {
-//                      x: 'left',
-//                      y: 'top'
-//                    },
-//                    outside: 'y',
-//                    pointer: 'left:20',
-//                    offset: {
-//                      x: 25
-//                    },
-//                    content: breakdown_text
-//                });
-//                price_breakdown = {};
-//                breakdown_text = '';
-//                currency_breakdown = '';
-//            }
-//            for(i in visa_get_detail.result.response.passengers){
-//                for(j in visa_get_detail.result.response.passengers[i].sale_service_charges){
-//                    for(k in visa_get_detail.result.response.passengers[i].sale_service_charges[j]){
-//                        if(k != 'RAC'){
-//                            if(!price_breakdown.hasOwnProperty(k))
-//                                price_breakdown[k.toUpperCase()] = 0;
-//                            price_breakdown[k.toUpperCase()] += visa_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                            if(currency_breakdown == '')
-//                                currency_breakdown = visa_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        if(typeof upsell_price_dict !== 'undefined'){
-//            for(i in upsell_price_dict){
-//                if(!price_breakdown.hasOwnProperty('ROC'))
-//                    price_breakdown['ROC'] = 0;
-//                price_breakdown['ROC'] += upsell_price_dict[i];
-//            }
-//        }
-//
-//        var breakdown_text = '';
-//        for(j in price_breakdown){
-//            if(breakdown_text)
-//                breakdown_text += '<br/>';
-//            if(j != 'ROC')
-//                breakdown_text += '<b>'+j+'</b> ';
-//            else
-//                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//        }
-//        new jBox('Tooltip', {
-//            attach: '#total_price',
-//            target: '#total_price',
-//            theme: 'TooltipBorder',
-//            trigger: 'click',
-//            adjustTracker: true,
-//            closeOnClick: 'body',
-//            closeButton: 'box',
-//            animation: 'move',
-//            position: {
-//              x: 'left',
-//              y: 'top'
-//            },
-//            outside: 'y',
-//            pointer: 'left:20',
-//            offset: {
-//              x: 25
-//            },
-//            content: breakdown_text
-//        });
-//    }
+    if(is_show_breakdown_price){
+        var price_breakdown = {};
+        var currency_breakdown = '';
+        if(type == 'search'){
+            for(i in visa){
+                pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
+                for(j in visa[i].service_charge_summary){
+                    if(!price_breakdown.hasOwnProperty('FARE'))
+                        price_breakdown['FARE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('TAX'))
+                        price_breakdown['TAX'] = 0;
+                    price_breakdown['FARE'] += visa[i].service_charge_summary[j].base_fare_ori * pax_count;
+                    price_breakdown['TAX'] += visa[i].service_charge_summary[j].base_tax_ori * pax_count;
+                    if(currency_breakdown == ''){
+                        for(k in visa[i].service_charge_summary[j].service_charges){
+                            currency_breakdown = visa[i].service_charge_summary[j].service_charges[k].currency;
+                        }
+                    }
+                }
+            }
+        }else if(['passenger','review'].includes(type)){
+            for(i in sell_visa.search_data){
+                if(sell_visa.search_data[i].pax != 0){
+                    for(j in sell_visa.search_data[i].service_charge_summary){
+                        if(!price_breakdown.hasOwnProperty('FARE'))
+                            price_breakdown['FARE'] = 0;
+                        if(!price_breakdown.hasOwnProperty('TAX'))
+                            price_breakdown['TAX'] = 0;
+                        if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                            price_breakdown['BREAKDOWN'] = 0;
+                        if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                            price_breakdown['COMMISSION'] = 0;
+                        if(!price_breakdown.hasOwnProperty('NTA VISA'))
+                            price_breakdown['NTA VISA'] = 0;
+                        if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                            price_breakdown['SERVICE FEE'] = 0;
+                        if(!price_breakdown.hasOwnProperty('VAT'))
+                            price_breakdown['VAT'] = 0;
+                        if(!price_breakdown.hasOwnProperty('OTT'))
+                            price_breakdown['OTT'] = 0;
+                        if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                            price_breakdown['TOTAL PRICE'] = 0;
+                        if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                            price_breakdown['NTA AGENT'] = 0;
+                        if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
+                            price_breakdown['COMMISSION HO'] = 0;
+                        price_breakdown['FARE'] += sell_visa.search_data[i].service_charge_summary[j].base_fare_ori;
+                        price_breakdown['TAX'] += sell_visa.search_data[i].service_charge_summary[j].base_tax_ori;
+                        price_breakdown['BREAKDOWN'] = 0;
+                        price_breakdown['COMMISSION'] += (sell_visa.search_data[i].service_charge_summary[j].base_commission_vendor * -1);
+                        price_breakdown['NTA VISA'] += sell_visa.search_data[i].service_charge_summary[j].base_nta_vendor;
+                        price_breakdown['SERVICE FEE'] += sell_visa.search_data[i].service_charge_summary[j].base_fee_ho;
+                        price_breakdown['VAT'] += sell_visa.search_data[i].service_charge_summary[j].base_vat_ho;
+                        price_breakdown['OTT'] += sell_visa.search_data[i].service_charge_summary[j].base_price_ori;
+                        price_breakdown['TOTAL PRICE'] += sell_visa.search_data[i].service_charge_summary[j].base_price;
+                        price_breakdown['NTA AGENT'] += sell_visa.search_data[i].service_charge_summary[j].base_nta;
+                        price_breakdown['COMMISSION HO'] += sell_visa.search_data[i].service_charge_summary[j].base_commission_ho * -1;
+                        if(currency_breakdown == ''){
+                            for(k in sell_visa.search_data[i].service_charge_summary[j].service_charges){
+                                currency_breakdown = sell_visa.search_data[i].service_charge_summary[j].service_charges[k].currency;
+                            }
+                        }
+                    }
+                }
+            }
+        }else if(type == 'booking'){
+            for(i in visa_get_detail.result.response.passengers){
+                var price_breakdown = {};
+                for(j in visa_get_detail.result.response.passengers[i].service_charge_details){
+                    if(!price_breakdown.hasOwnProperty('FARE'))
+                        price_breakdown['FARE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('TAX'))
+                        price_breakdown['TAX'] = 0;
+                    if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                        price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                        price_breakdown['COMMISSION'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
+                        price_breakdown['NTA AIRLINE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                        price_breakdown['SERVICE FEE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('VAT'))
+                        price_breakdown['VAT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('OTT'))
+                        price_breakdown['OTT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                        price_breakdown['TOTAL PRICE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                        price_breakdown['NTA AGENT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                        price_breakdown['COMMISSION HO'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                        price_breakdown['CHANNEL UPSELL'] = 0;
+
+                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                    price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                    price_breakdown['NTA AIRLINE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                    price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                    price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                    price_breakdown['TOTAL PRICE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                    price_breakdown['NTA AGENT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                    price_breakdown['COMMISSION HO'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                    for(k in visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                        if(k == 'ROC'){
+                            for(l in visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                if(visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                    price_breakdown['CHANNEL UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                var breakdown_text = '';
+                for(j in price_breakdown){
+                    add_breakdown = true
+                    if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
+                        add_breakdown = false;
+                    if(add_breakdown){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
+                        if(j != 'BREAKDOWN')
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }
+                }
+                new jBox('Tooltip', {
+                    attach: '#passenger_breakdown'+i,
+                    target: '#passenger_breakdown'+i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: breakdown_text
+                });
+                price_breakdown = {};
+                breakdown_text = '';
+                currency_breakdown = '';
+            }
+            for(i in visa_get_detail.result.response.passengers){
+                var price_breakdown = {};
+                for(j in visa_get_detail.result.response.passengers[i].service_charge_details){
+                    if(!price_breakdown.hasOwnProperty('FARE'))
+                        price_breakdown['FARE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('TAX'))
+                        price_breakdown['TAX'] = 0;
+                    if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                        price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                        price_breakdown['COMMISSION'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
+                        price_breakdown['NTA AIRLINE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                        price_breakdown['SERVICE FEE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('VAT'))
+                        price_breakdown['VAT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('OTT'))
+                        price_breakdown['OTT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                        price_breakdown['TOTAL PRICE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                        price_breakdown['NTA AGENT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                        price_breakdown['COMMISSION HO'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                        price_breakdown['CHANNEL UPSELL'] = 0;
+
+                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                    price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                    price_breakdown['NTA AIRLINE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                    price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                    price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                    price_breakdown['TOTAL PRICE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                    price_breakdown['NTA AGENT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                    price_breakdown['COMMISSION HO'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                    for(k in visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                        if(k == 'ROC'){
+                            for(l in visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                if(visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                    price_breakdown['CHANNEL UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                var breakdown_text = '';
+                for(j in price_breakdown){
+                    add_breakdown = true
+                    if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
+                        add_breakdown = false;
+                    if(add_breakdown){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
+                        if(j != 'BREAKDOWN')
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }
+                }
+                new jBox('Tooltip', {
+                    attach: '#passenger_breakdown'+i,
+                    target: '#passenger_breakdown'+i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: breakdown_text
+                });
+                price_breakdown = {};
+                breakdown_text = '';
+                currency_breakdown = '';
+            }
+
+            for(i in visa_get_detail.result.response.passengers){
+                for(j in visa_get_detail.result.response.passengers[i].service_charge_details){
+                    if(!price_breakdown.hasOwnProperty('FARE'))
+                        price_breakdown['FARE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('TAX'))
+                        price_breakdown['TAX'] = 0;
+                    if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                        price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                        price_breakdown['COMMISSION'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
+                        price_breakdown['NTA AIRLINE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                        price_breakdown['SERVICE FEE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('VAT'))
+                        price_breakdown['VAT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('OTT'))
+                        price_breakdown['OTT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                        price_breakdown['TOTAL PRICE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                        price_breakdown['NTA AGENT'] = 0;
+                    if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                        price_breakdown['COMMISSION HO'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                        price_breakdown['CHANNEL UPSELL'] = 0;
+
+                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                    price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                    price_breakdown['NTA AIRLINE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                    price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                    price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                    price_breakdown['TOTAL PRICE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                    price_breakdown['NTA AGENT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                    price_breakdown['COMMISSION HO'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                    for(k in visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                        if(k == 'ROC'){
+                            for(l in visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                if(visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                    price_breakdown['CHANNEL UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                var breakdown_text = '';
+                for(j in price_breakdown){
+                    add_breakdown = true
+                    if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
+                        add_breakdown = false;
+                    if(add_breakdown){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
+                        if(j != 'BREAKDOWN')
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }
+                }
+            }
+
+        }
+        if(typeof upsell_price_dict !== 'undefined'){
+            for(i in upsell_price_dict){
+                if(!price_breakdown.hasOwnProperty('ROC'))
+                    price_breakdown['ROC'] = 0;
+                price_breakdown['ROC'] += upsell_price_dict[i];
+            }
+        }
+
+        var breakdown_text = '';
+        for(j in price_breakdown){
+            if(breakdown_text)
+                breakdown_text += '<br/>';
+            if(j != 'ROC')
+                breakdown_text += '<b>'+j+'</b> ';
+            else
+                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+        }
+        new jBox('Tooltip', {
+            attach: '#total_price',
+            target: '#total_price',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            position: {
+              x: 'left',
+              y: 'top'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: breakdown_text
+        });
+    }
     $("#select_visa_first").hide();
 }
 
@@ -1242,11 +1486,13 @@ function update_table(type){
 
             currency = '';
             price_perpax = 0;
-            for(j in visa[i].service_charges){
-                if(visa[i].service_charges[j].charge_type != 'RAC')
-                    price_perpax += visa[i].service_charges[j].amount;
-                if(currency == '')
-                    currency = visa[i].service_charges[j].currency;
+            for(j in visa[i].service_charge_summary){
+                for(k in visa[i].service_charge_summary[j].service_charges){
+                    if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                        price_perpax += visa[i].service_charge_summary[j].service_charges[k].amount;
+                    if(currency == '')
+                        currency = visa[i].service_charge_summary[j].service_charges[k].currency;
+                }
             }
 
             if(pax_count != 0){
@@ -1288,11 +1534,13 @@ function update_table(type){
                 count_price_detail[i] = 0;
             }
             try{
-                for(j in visa[i].service_charges){
-                    if(visa[i].service_charges[j].charge_type == 'RAC')
-                        commission += pax_count * (visa[i].service_charges[j].amount * -1);
-                    else
-                        price += pax_count * visa[i].service_charges[j].amount;
+                for(j in visa[i].service_charge_summary){
+                    for(k in visa[i].service_charge_summary[j].service_charges){
+                        if(visa[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            commission += pax_count * (visa[i].service_charge_summary[j].service_charges[k].amount * -1);
+                        else
+                            price += pax_count * visa[i].service_charge_summary[j].service_charges[k].amount;
+                    }
                 }
             }catch(err){
 
@@ -1325,11 +1573,13 @@ function update_table(type){
                 }
                 price_perpax = 0;
                 currency = '';
-                for(j in visa[i].service_charges){
-                    if(currency == '')
-                        currency = visa[i].service_charges[j].currency
-                    if(visa[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += visa[i].service_charges[j].amount;
+                for(j in visa[i].service_charge_summary){
+                    for(k in visa[i].service_charge_summary[j].service_charges){
+                        if(currency == '')
+                            currency = visa[i].service_charge_summary[j].service_charges[k].currency
+                        if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += visa[i].service_charge_summary[j].service_charges[k].amount;
+                    }
                 }
                 if(pax_count != 0){
                     $text += pax_count + ' ' + visa[i].pax_type[1] + ' ' + visa[i].visa_type[1] + ',' + visa[i].entry_type[1];
@@ -1445,11 +1695,13 @@ function update_table(type){
             if(visa.list_of_visa[i].total_pax != 0){
                 currency = '';
                 price_perpax = 0;
-                for(j in visa.list_of_visa[i].service_charges){
-                    if(visa.list_of_visa[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
-                    if(currency == '')
-                        currency = visa.list_of_visa[i].service_charges[j].currency;
+                for(j in visa.list_of_visa[i].service_charge_summary){
+                    for(k in visa.list_of_visa[i].service_charge_summary[j].service_charges){
+                        if(visa.list_of_visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += visa.list_of_visa[i].service_charge_summary[j].service_charges[k].amount;
+                        if(currency == '')
+                            currency = visa.list_of_visa[i].service_charge_summary[j].service_charges[k].currency;
+                    }
                 }
                 count_price_detail[i] = 1;
                 text+=`
@@ -1489,9 +1741,12 @@ function update_table(type){
             }
             try{
                 price += visa.list_of_visa[i].total_pax * price_perpax;
-                for(j in visa.list_of_visa[i].service_charges)
-                    if(visa.list_of_visa[i].service_charges[j].charge_type == 'RAC')
-                        commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].service_charges[j].amount * -1);
+                for(j in visa.list_of_visa[i].service_charge_summary){
+                    for(k in visa.list_of_visa[i].service_charge_summary[j].service_charges){
+                        if(visa.list_of_visa[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].service_charge_summary[j].service_charges[k].amount * -1);
+                    }
+                }
             }catch(err){
 
             }
@@ -1641,11 +1896,13 @@ function update_table(type){
                 count_price_detail[i] = 1;
                 currency = '';
                 price_perpax = 0;
-                for(j in visa.list_of_visa[i].service_charges){
-                    if(visa.list_of_visa[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
-                    if(currency == '')
-                        currency = visa.list_of_visa[i].service_charges[j].currency;
+                for(j in visa.list_of_visa[i].service_charge_summary){
+                    for(k in visa.list_of_visa[i].service_charge_summary[j].service_charges){
+                        if(visa.list_of_visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += visa.list_of_visa[i].service_charge_summary[j].service_charges[k].amount;
+                        if(currency == '')
+                            currency = visa.list_of_visa[i].service_charge_summary[j].service_charges[k].currency;
+                    }
                 }
                 text+=`
                 <div class="row">`;
@@ -1705,9 +1962,12 @@ function update_table(type){
             }
             try{
                 price += visa.list_of_visa[i].pax_count * price_perpax;
-                for(j in visa.list_of_visa[i].service_charges)
-                    if(visa.list_of_visa[i].service_charges[j].charge_type == 'RAC')
-                        commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].service_charges[j].amount * -1);
+                for(j in visa.list_of_visa[i].service_charge_summary){
+                    for(k in visa.list_of_visa[i].service_charge_summary[j].service_charges){
+                        if(visa.list_of_visa[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].service_charge_summary[j].service_charges[k].amount * -1);
+                    }
+                }
             }catch(err){
 
             }
@@ -1736,11 +1996,13 @@ function update_table(type){
             if(visa.list_of_visa[i].pax_count != 0){
                 currency = '';
                 price_perpax = 0;
-                for(j in visa.list_of_visa[i].service_charges){
-                    if(visa.list_of_visa[i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
-                    if(currency == '')
-                        currency = visa.list_of_visa[i].service_charges[j].currency;
+                for(j in visa.list_of_visa[i].service_charge_summary){
+                    for(k in visa.list_of_visa[i].service_charge_summary[j].service_charges){
+                        if(visa.list_of_visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += visa.list_of_visa[i].service_charge_summary[j].service_charges[k].amount;
+                        if(currency == '')
+                            currency = visa.list_of_visa[i].service_charge_summary[j].service_charges[k].currency;
+                    }
                 }
                 $text += visa.list_of_visa[i].pax_count + ' ' + visa.list_of_visa[i].pax_type[1];
                 $text += ' @'+ currency+ ' ' +getrupiah(price_perpax) + '\n';
@@ -2924,11 +3186,13 @@ function check_on_off_radio(pax_type,number,value){
                 sell_visa['search_data'][i].pax_count != 0){
                 currency = '';
                 price_perpax = 0;
-                for(j in sell_visa['search_data'][i].service_charges){
-                    if(sell_visa['search_data'][i].service_charges[j].charge_type != 'RAC')
-                        price_perpax += sell_visa['search_data'][i].service_charges[j].amount;
-                    if(currency == '')
-                        currency = sell_visa['search_data'][i].service_charges[j].currency;
+                for(j in sell_visa['search_data'][i].service_charge_summary){
+                    for(k in sell_visa['search_data'][i].service_charge_summary[j].service_charges){
+                        if(sell_visa['search_data'][i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += sell_visa['search_data'][i].service_charge_summary[j].service_charges[k].amount;
+                        if(currency == '')
+                            currency = sell_visa['search_data'][i].service_charge_summary[j].service_charges[k].currency;
+                    }
                 }
                 pax_price.innerHTML = currency + ' ' + getrupiah(price_perpax.toString());
 
@@ -3062,9 +3326,11 @@ function check_on_off_radio(pax_type,number,value){
                         check = 1;
                 }
                 commission = 0;
-                for(j in sell_visa['search_data'][i].service_charges){
-                    if(sell_visa['search_data'][i].service_charges[j].charge_type == 'RAC')
-                        price_perpax += sell_visa['search_data'][i].service_charges[j].amount;
+                for(j in sell_visa['search_data'][i].service_charge_summary){
+                    for(k in sell_visa['search_data'][i].service_charge_summary[j].service_charges){
+                        if(sell_visa['search_data'][i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            price_perpax += sell_visa['search_data'][i].service_charge_summary[j].service_charges[k].amount;
+                    }
                 }
                 if(check == 0)
                     list_passenger.push({
