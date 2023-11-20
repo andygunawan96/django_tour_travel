@@ -695,10 +695,12 @@ function sort(data){
     for(i in insurance_data_filter){
         for(j in insurance_data_filter[i]){
             currency = '';
-            for(k in insurance_data_filter[i][j].service_charges){
-                if(currency)
+            for(k in insurance_data_filter[i][j].service_charge_summary){
+                for(l in insurance_data_filter[i][j].service_charge_summary[k].service_charges){
+                    currency = insurance_data_filter[i][j].service_charge_summary[k].service_charges[l].currency;
                     break;
-                currency = insurance_data_filter[i][j].service_charges[k].currency;
+                }
+                break
             }
             text+=`
                <div class="col-lg-4 col-md-4 activity_box" style="min-height:unset;">`;
@@ -1770,17 +1772,19 @@ function insurance_commit_booking(){
 
 function price_detail(){
     price = {'fare':0,'tax':0,'rac':0,'roc':0,'currency':'','pax_count': parseInt(insurance_request['adult'])};
-    for(i in insurance_pick.service_charges){
-        if(!price.currency)
-            price.currency = insurance_pick.service_charges[i].currency;
-        if(insurance_pick.service_charges[i].charge_type == 'FARE'){
-            price['fare'] += insurance_pick.service_charges[i].amount;
-        }else if(insurance_pick.service_charges[i].charge_type == 'TAX'){
-            price['tax'] += insurance_pick.service_charges[i].total;
-        }else if(insurance_pick.service_charges[i].charge_type == 'RAC'){
-            price['rac'] += insurance_pick.service_charges[i].total;
-        }else if(insurance_pick.service_charges[i].charge_type == 'ROC'){
-            price['roc'] += insurance_pick.service_charges[i].total;
+    for(i in insurance_pick.service_charge_summary){
+        for(j in insurance_pick.service_charge_summary[i].service_charges){
+            if(!price.currency)
+                price.currency = insurance_pick.service_charge_summary[i].service_charges[j].currency;
+            if(insurance_pick.service_charge_summary[i].service_charges[j].charge_type == 'FARE'){
+                price['fare'] += insurance_pick.service_charge_summary[i].service_charges[j].amount;
+            }else if(insurance_pick.service_charge_summary[i].service_charges[j].charge_type == 'TAX'){
+                price['tax'] += insurance_pick.service_charge_summary[i].service_charges[j].total;
+            }else if(insurance_pick.service_charge_summary[i].service_charges[j].charge_type == 'RAC'){
+                price['rac'] += insurance_pick.service_charge_summary[i].service_charges[j].total;
+            }else if(insurance_pick.service_charge_summary[i].service_charges[j].charge_type == 'ROC'){
+                price['roc'] += insurance_pick.service_charge_summary[i].service_charges[j].total;
+            }
         }
     }
     grandtotal = 0;
@@ -1834,13 +1838,13 @@ function price_detail(){
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                 <span id="total_price" style="font-size:13px; font-weight:500;`;
-//            if(is_show_breakdown_price){
-//                text+= "cursor:pointer;";
-//            }
+            if(is_show_breakdown_price){
+                text+= "cursor:pointer;";
+            }
             text+=`">`+price.currency+` `+getrupiah(grandtotal+additional_price);
-//            if(is_show_breakdown_price){
-//                text+= ` <i class="fas fa-caret-down"></i>`;
-//            }
+            if(is_show_breakdown_price){
+                text+= ` <i class="fas fa-caret-down"></i>`;
+            }
             text+=`</span><br/>
                 </div>
             </div>`;
@@ -1873,58 +1877,87 @@ function price_detail(){
         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"/></div>`;
     document.getElementById('insurance_detail_table').innerHTML = text;
 
-//    if(is_show_breakdown_price){
-//        var price_breakdown = {};
-//        var currency_breakdown = '';
-//        for(i in insurance_pick.service_charges){
-//            if(insurance_pick.service_charges[i].charge_type != 'RAC'){
-//                if(!price_breakdown.hasOwnProperty(insurance_pick.service_charges[i].charge_type))
-//                    price_breakdown[insurance_pick.service_charges[i].charge_type] = 0;
-//                price_breakdown[insurance_pick.service_charges[i].charge_type] += insurance_pick.service_charges[i].total;
-//            }
-//            if(currency_breakdown == '')
-//                currency_breakdown = insurance_pick.service_charges[i].currency;
-//        }
-//        if(typeof upsell_price_dict !== 'undefined'){
-//            for(i in upsell_price_dict){
-//                if(!price_breakdown.hasOwnProperty('ROC'))
-//                    price_breakdown['ROC'] = 0;
-//                price_breakdown['ROC'] += upsell_price_dict[i];
-//            }
-//        }
-//        if(additional_price)
-//            price_breakdown['ADDITIONAL PRICE'] = additional_price;
-//        var breakdown_text = '';
-//        for(j in price_breakdown){
-//            if(breakdown_text)
-//                breakdown_text += '<br/>';
-//            if(j != 'ROC')
-//                breakdown_text += '<b>'+j+'</b> ';
-//            else
-//                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//        }
-//        new jBox('Tooltip', {
-//            attach: '#total_price',
-//            target: '#total_price',
-//            theme: 'TooltipBorder',
-//            trigger: 'click',
-//            adjustTracker: true,
-//            closeOnClick: 'body',
-//            closeButton: 'box',
-//            animation: 'move',
-//            position: {
-//              x: 'left',
-//              y: 'top'
-//            },
-//            outside: 'y',
-//            pointer: 'left:20',
-//            offset: {
-//              x: 25
-//            },
-//            content: breakdown_text
-//        });
-//    }
+    if(is_show_breakdown_price){
+        var price_breakdown = {};
+        var currency_breakdown = '';
+        for(i in insurance_pick.service_charge_summary){
+            if(!price_breakdown.hasOwnProperty('FARE'))
+                price_breakdown['FARE'] = 0;
+            if(!price_breakdown.hasOwnProperty('TAX'))
+                price_breakdown['TAX'] = 0;
+            if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                price_breakdown['BREAKDOWN'] = 0;
+            if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                price_breakdown['COMMISSION'] = 0;
+            if(!price_breakdown.hasOwnProperty('NTA INSURANCE'))
+                price_breakdown['NTA AIRLINE'] = 0;
+            if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                price_breakdown['SERVICE FEE'] = 0;
+            if(!price_breakdown.hasOwnProperty('VAT'))
+                price_breakdown['VAT'] = 0;
+            if(!price_breakdown.hasOwnProperty('OTT'))
+                price_breakdown['OTT'] = 0;
+            if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                price_breakdown['TOTAL PRICE'] = 0;
+            if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                price_breakdown['NTA AGENT'] = 0;
+            if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                price_breakdown['COMMISSION HO'] = 0;
+            price_breakdown['FARE'] += insurance_pick.service_charge_summary[i].total_fare_ori;
+            price_breakdown['TAX'] += insurance_pick.service_charge_summary[i].total_tax_ori;
+            price_breakdown['BREAKDOWN'] = 0;
+            price_breakdown['COMMISSION'] += (insurance_pick.service_charge_summary[i].total_commission_vendor * -1);
+            price_breakdown['NTA INSURANCE'] += insurance_pick.service_charge_summary[i].total_nta_vendor;
+            price_breakdown['SERVICE FEE'] += insurance_pick.service_charge_summary[i].total_fee_ho;
+            price_breakdown['VAT'] += insurance_pick.service_charge_summary[i].total_vat_ho;
+            price_breakdown['OTT'] += insurance_pick.service_charge_summary[i].total_price_ori;
+            price_breakdown['TOTAL PRICE'] += insurance_pick.service_charge_summary[i].total_price;
+            price_breakdown['NTA AGENT'] += insurance_pick.service_charge_summary[i].total_nta;
+            price_breakdown['COMMISSION HO'] += insurance_pick.service_charge_summary[i].total_commission_ho * -1;
+            if(currency_breakdown == ''){
+                for(j in insurance_pick.service_charge_summary[i].service_charges){
+                    currency_breakdown = insurance_pick.service_charge_summary[i].service_charges[j].currency;
+                }
+            }
+        }
+        if(typeof upsell_price_dict !== 'undefined'){
+            for(i in upsell_price_dict){
+                if(!price_breakdown.hasOwnProperty('ROC'))
+                    price_breakdown['ROC'] = 0;
+                price_breakdown['ROC'] += upsell_price_dict[i];
+            }
+        }
+        if(additional_price)
+            price_breakdown['ADDITIONAL PRICE'] = additional_price;
+        var breakdown_text = '';
+        for(j in price_breakdown){
+            if(breakdown_text)
+                breakdown_text += '<br/>';
+            breakdown_text += '<b>'+j+'</b> ';
+            if(j != 'BREAKDOWN')
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+        }
+        new jBox('Tooltip', {
+            attach: '#total_price',
+            target: '#total_price',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            position: {
+              x: 'left',
+              y: 'top'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: breakdown_text
+        });
+    }
 }
 
 function check_passenger(){
@@ -3224,19 +3257,19 @@ function insurance_get_booking(data, sync=false){
                                     text_detail+=`</div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;`;
-//                                            if(is_show_breakdown_price){
-//                                                text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
-//                                            }else{
+                                            if(is_show_breakdown_price){
+                                                text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
+                                            }else{
                                                 text_detail+=`"`;
-//                                            }
+                                            }
                                     if(i == 0) //upsel hanya masuk di pnr pertama
                                         text_detail+=`
                                         >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC));
                                     else
                                         text_detail+=`
                                         >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
-//                                    if(is_show_breakdown_price)
-//                                        text_detail+=`<i class="fas fa-caret-down"></i>`;
+                                    if(is_show_breakdown_price)
+                                        text_detail+=`<i class="fas fa-caret-down"></i>`;
                                     text_detail += `</span>`;
                                     text_detail+=`
                                     </div>
@@ -3316,8 +3349,8 @@ function insurance_get_booking(data, sync=false){
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span id="total_price" style="font-size:13px; font-weight: bold;`;
-//                                if(is_show_breakdown_price)
-//                                    text_detail+='cursor:pointer;';
+                                if(is_show_breakdown_price)
+                                    text_detail+='cursor:pointer;';
                                 text_detail +=`">`;
                                 try{
                                     text_detail+= price.currency+` `+getrupiah(total_price);
@@ -3325,8 +3358,8 @@ function insurance_get_booking(data, sync=false){
                                 }catch(err){
 
                                 }
-//                                if(is_show_breakdown_price)
-//                                    text_detail+=`<i class="fas fa-caret-down"></i>`;
+                                if(is_show_breakdown_price)
+                                    text_detail+=`<i class="fas fa-caret-down"></i>`;
                                 text_detail+= `
                                 </span>
                             </div>`;
@@ -3480,99 +3513,175 @@ function insurance_get_booking(data, sync=false){
                     document.getElementById('insurance_detail').innerHTML = text_detail;
                     document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
 
-//                    if(is_show_breakdown_price){
-//                        var price_breakdown = {};
-//                        var currency_breakdown = '';
-//                        for(i in insurance_get_detail.result.response.passengers){
-//                            for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
-//                                for(k in insurance_get_detail.result.response.passengers[i].sale_service_charges[j]){
-//                                    if(k != 'RAC'){
-//                                        if(!price_breakdown.hasOwnProperty(k))
-//                                            price_breakdown[k.toUpperCase()] = 0;
-//                                        price_breakdown[k.toUpperCase()] += insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                                        if(currency_breakdown == '')
-//                                            currency_breakdown = insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                                    }
-//                                }
-//                            }
-//                            var breakdown_text = '';
-//                            for(j in price_breakdown){
-//                                if(breakdown_text)
-//                                    breakdown_text += '<br/>';
-//                                if(j != 'ROC')
-//                                    breakdown_text += '<b>'+j+'</b> ';
-//                                else
-//                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                            }
-//                            new jBox('Tooltip', {
-//                                attach: '#passenger_breakdown'+i,
-//                                target: '#passenger_breakdown'+i,
-//                                theme: 'TooltipBorder',
-//                                trigger: 'click',
-//                                adjustTracker: true,
-//                                closeOnClick: 'body',
-//                                closeButton: 'box',
-//                                animation: 'move',
-//                                position: {
-//                                  x: 'left',
-//                                  y: 'top'
-//                                },
-//                                outside: 'y',
-//                                pointer: 'left:20',
-//                                offset: {
-//                                  x: 25
-//                                },
-//                                content: breakdown_text
-//                            });
-//                            price_breakdown = {};
-//                            breakdown_text = '';
-//                            currency_breakdown = '';
-//                        }
-//                        for(i in insurance_get_detail.result.response.passengers){
-//                            for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
-//                                for(k in insurance_get_detail.result.response.passengers[i].sale_service_charges[j]){
-//                                    if(k != 'RAC'){
-//                                        if(!price_breakdown.hasOwnProperty(k))
-//                                            price_breakdown[k.toUpperCase()] = 0;
-//                                        price_breakdown[k.toUpperCase()] += insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                                        if(currency_breakdown == '')
-//                                            currency_breakdown = insurance_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        var breakdown_text = '';
-//                        for(j in price_breakdown){
-//                            if(breakdown_text)
-//                                breakdown_text += '<br/>';
-//                            if(j != 'ROC')
-//                                breakdown_text += '<b>'+j+'</b> ';
-//                            else
-//                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                        }
-//                        new jBox('Tooltip', {
-//                            attach: '#total_price',
-//                            target: '#total_price',
-//                            theme: 'TooltipBorder',
-//                            trigger: 'click',
-//                            adjustTracker: true,
-//                            closeOnClick: 'body',
-//                            closeButton: 'box',
-//                            animation: 'move',
-//                            position: {
-//                              x: 'left',
-//                              y: 'top'
-//                            },
-//                            outside: 'y',
-//                            pointer: 'left:20',
-//                            offset: {
-//                              x: 25
-//                            },
-//                            content: breakdown_text
-//                        });
-//                    }
+                    if(is_show_breakdown_price){
+                        var price_breakdown = {};
+                        var currency_breakdown = '';
+                        for(i in insurance_get_detail.result.response.passengers){
+                            for(j in insurance_get_detail.result.response.passengers[i].service_charge_details){
+                                if(!price_breakdown.hasOwnProperty('FARE'))
+                                    price_breakdown['FARE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TAX'))
+                                    price_breakdown['TAX'] = 0;
+                                if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                    price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                    price_breakdown['COMMISSION'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA INSURANCE'))
+                                    price_breakdown['NTA AIRLINE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                    price_breakdown['SERVICE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('VAT'))
+                                    price_breakdown['VAT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('OTT'))
+                                    price_breakdown['OTT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                    price_breakdown['TOTAL PRICE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                    price_breakdown['NTA AGENT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                    price_breakdown['COMMISSION HO'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                                    price_breakdown['CHANNEL UPSELL'] = 0;
+
+                                price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                                price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                                price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                                price_breakdown['VAT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                                price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['TOTAL PRICE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                                price_breakdown['NTA AGENT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                                price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                for(k in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                    if(k == 'ROC'){
+                                        for(l in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                            if(insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                                price_breakdown['CHANNEL UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            var breakdown_text = '';
+                            for(j in price_breakdown){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                if(j != 'ROC')
+                                    breakdown_text += '<b>'+j+'</b> ';
+                                else
+                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            }
+                            new jBox('Tooltip', {
+                                attach: '#passenger_breakdown'+i,
+                                target: '#passenger_breakdown'+i,
+                                theme: 'TooltipBorder',
+                                trigger: 'click',
+                                adjustTracker: true,
+                                closeOnClick: 'body',
+                                closeButton: 'box',
+                                animation: 'move',
+                                position: {
+                                  x: 'left',
+                                  y: 'top'
+                                },
+                                outside: 'y',
+                                pointer: 'left:20',
+                                offset: {
+                                  x: 25
+                                },
+                                content: breakdown_text
+                            });
+                            price_breakdown = {};
+                            breakdown_text = '';
+                            currency_breakdown = '';
+                        }
+                        for(i in insurance_get_detail.result.response.passengers){
+                            for(j in insurance_get_detail.result.response.passengers[i].service_charge_details){
+                                if(!price_breakdown.hasOwnProperty('FARE'))
+                                    price_breakdown['FARE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TAX'))
+                                    price_breakdown['TAX'] = 0;
+                                if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                    price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                    price_breakdown['COMMISSION'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA INSURANCE'))
+                                    price_breakdown['NTA AIRLINE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                    price_breakdown['SERVICE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('VAT'))
+                                    price_breakdown['VAT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('OTT'))
+                                    price_breakdown['OTT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                    price_breakdown['TOTAL PRICE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                    price_breakdown['NTA AGENT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                    price_breakdown['COMMISSION HO'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                                    price_breakdown['CHANNEL UPSELL'] = 0;
+
+                                price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                                price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                                price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                                price_breakdown['VAT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                                price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['TOTAL PRICE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                                price_breakdown['NTA AGENT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                                price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                for(k in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                    if(k == 'ROC'){
+                                        for(l in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                            if(insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                                price_breakdown['CHANNEL UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        var breakdown_text = '';
+                        for(j in price_breakdown){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            if(j != 'ROC')
+                                breakdown_text += '<b>'+j+'</b> ';
+                            else
+                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }
+                        new jBox('Tooltip', {
+                            attach: '#total_price',
+                            target: '#total_price',
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'top'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: breakdown_text
+                        });
+                    }
 
 
                     //======================= Option =========================
