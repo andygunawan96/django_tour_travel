@@ -8,12 +8,17 @@
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/xlsx/xlsx.full.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/xlsx/jszip.js?version={{javascript_version}}"></script>
 
 <script>
     global_provider_type = 'insurance';
     static_path_url_server = '{{static_path_url_server}}'
     adult = {{adults_count}};
 
+    total_pax = {{total_pax}};
+    total_adult = {{total_adult}};
+    total_child = {{total_child}};
     //check years old
     function check_years_old(sequence, type){
         var birth_date = '';
@@ -305,6 +310,20 @@
                                         <li>{% trans '1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM' %}</li>
                                         <li>{% trans "2. Guest data can't be changed after the passing of this page" %}</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding:15px; background: white; border:1px solid #cdcdcd; margin-bottom:20px; text-align:left;">
+                            <input class="form-control" style="padding: 7px 15px;" id="fileUpload" type="file" accept=".xlsx">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <span class="span_link" style="color:{{color}};" onclick="get_default_excel_template();">
+                                        <i class="fas fa-file-download"></i> Download Format File here
+                                    </span>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right;">
+                                    <button class="primary-btn-custom" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
                                 </div>
                             </div>
                         </div>
@@ -1608,6 +1627,20 @@
                                 </div>
                             </div>
 
+                            <div style="padding:15px; background: white; border:1px solid #cdcdcd; margin-bottom:20px; text-align:left;">
+                                <input class="form-control" style="padding: 7px 15px;" id="fileUpload" type="file" accept=".xlsx">
+                                <div class="row">
+                                    <div class="col-lg-6" style="text-align:left;">
+                                        <span class="span_link" style="color:{{color}};" onclick="get_default_excel_template();">
+                                            <i class="fas fa-file-download"></i> Download Format File here
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-6" style="text-align:right;">
+                                        <button class="primary-btn-custom" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
+                                    </div>
+                                </div>
+                            </div>
+
                             {% for adult in adults%}
                             {% with forloop.counter as counter%}
                             <div class="row" id="adult{{forloop.counter}}">
@@ -2898,6 +2931,20 @@
                                         <li>{% trans '1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM' %}</li>
                                         <li>{% trans "2. Guest data can't be changed after the passing of this page" %}</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding:15px; background: white; border:1px solid #cdcdcd; margin-bottom:20px; text-align:left;">
+                            <input class="form-control" style="padding: 7px 15px;" id="fileUpload" type="file" accept=".xlsx">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <span class="span_link" style="color:{{color}};" onclick="get_default_excel_template();">
+                                        <i class="fas fa-file-download"></i> Download Format File here
+                                    </span>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right;">
+                                    <button class="primary-btn-custom" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
                                 </div>
                             </div>
                         </div>
@@ -4195,6 +4242,20 @@
                         </div>
                     </div>
 
+                    <div style="padding:15px; background: white; border:1px solid #cdcdcd; margin-bottom:20px; text-align:left;">
+                        <input class="form-control" style="padding: 7px 15px;" id="fileUpload" type="file" accept=".xlsx">
+                        <div class="row">
+                            <div class="col-lg-6" style="text-align:left;">
+                                <span class="span_link" style="color:{{color}};" onclick="get_default_excel_template();">
+                                    <i class="fas fa-file-download"></i> Download Format File here
+                                </span>
+                            </div>
+                            <div class="col-lg-6" style="text-align:right;">
+                                <button class="primary-btn-custom" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
+                            </div>
+                        </div>
+                    </div>
+
                     {% for adult in adults%}
                     {% with forloop.counter as counter%}
                     <div class="row" id="adult{{forloop.counter}}">
@@ -5480,6 +5541,20 @@
                                         <li>{% trans '1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM' %}</li>
                                         <li>{% trans "2. Guest data can't be changed after the passing of this page" %}</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding:15px; background: white; border:1px solid #cdcdcd; margin-bottom:20px; text-align:left;">
+                            <input class="form-control" style="padding: 7px 15px;" id="fileUpload" type="file" accept=".xlsx">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <span class="span_link" style="color:{{color}};" onclick="get_default_excel_template();">
+                                        <i class="fas fa-file-download"></i> Download Format File here
+                                    </span>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right;">
+                                    <button class="primary-btn-custom" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
                                 </div>
                             </div>
                         </div>
@@ -6770,6 +6845,20 @@
                                         <li>{% trans '1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM' %}</li>
                                         <li>{% trans "2. Guest data can't be changed after the passing of this page" %}</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding:15px; background: white; border:1px solid #cdcdcd; margin-bottom:20px; text-align:left;">
+                            <input class="form-control" style="padding: 7px 15px;" id="fileUpload" type="file" accept=".xlsx">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <span class="span_link" style="color:{{color}};" onclick="get_default_excel_template();">
+                                        <i class="fas fa-file-download"></i> Download Format File here
+                                    </span>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right;">
+                                    <button class="primary-btn-custom" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
                                 </div>
                             </div>
                         </div>
