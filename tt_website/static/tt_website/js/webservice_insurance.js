@@ -5198,163 +5198,158 @@ function ProcessExcel(data) {
     now_pax_type = 'ADT';
     id_input = '';
     for (var i = 0; i < excelRows.length; i++) {
-        if(i != excelRows.length){
-            //Add the data row.
-            passengers_excel.push([])
-            for(j in excelRows[i]){
-                if(j == 'Title (MR/MRS/MS) for ADT & (MSTR/MISS) for CHD & INF'){
-                    id_input = 'adult_title'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_title'+i;
-                        }else{
-                            id_input = 'Child_relation1_title'+i;
-                        }
+        //Add the data row.
+        passengers_excel.push([])
+        for(j in excelRows[i]){
+            if(j == 'Title (MR/MRS/MS) for ADT & (MSTR/MISS) for CHD & INF'){
+                id_input = 'adult_title'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_title'+i;
+                    }else{
+                        id_input = 'Child_relation1_title'+i;
                     }
-                    document.getElementById(id_input).value = excelRows[i][j].toUpperCase();
-                    $('#'+id_input).niceSelect('update');
-                    id_input = '';
-
-                }else if(j == 'First Name'){
-                    id_input = 'adult_first_name'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_first_name'+i;
-                        }else{
-                            id_input = 'Child_relation1_first_name'+i;
-                        }
-                    }
-                }else if(j == 'Last Name'){
-                    id_input = 'adult_last_name'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_last_name'+i;
-                        }else{
-                            id_input = 'Child_relation1_last_name'+i;
-                        }
-                    }
-                }else if(j == 'Nationality (use Country Code ex ID)'){
-                    id_input = 'adult_nationality'+parseInt(i+1)+'_id';
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT')
-                            $('#Adult_relation1_nationality'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
-                        else
-                            $('#Child_relation1_nationality'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
-                    }else
-                        $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
-                    id_input = '';
-                }else if(j == 'Place Of Birth'){
-                    id_input = 'adult_place_of_birth'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_place_of_birth'+i;
-                        }else{
-                            id_input = 'Child_relation1_place_of_birth'+i;
-                        }
-                    }
-                }else if(j == 'Birth Date (format: DD-MM-YYYY)'){
-                    id_input = 'adult_birth_date'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_birth_date'+i;
-                        }else{
-                            id_input = 'Child_relation1_birth_date'+i;
-                        }
-                    }
-                    try{
-                        document.getElementById(id_input).value = moment(excelRows[i][j]).format('DD MMM YYYY').toString();
-                    }catch(err){console.lg(err);}
-                    id_input = '';
-                }else if(j == 'ID Type (ktp/passport)'){
-                    id_input = 'adult_id_type'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_id_type'+i;
-                        }else{
-                            id_input = 'Child_relation1_id_type'+i;
-                        }
-                    }
-                    document.getElementById(id_input).value = excelRows[i][j];
-                    $('#'+id_input).niceSelect('update');
-                    id_input = '';
-                }else if(j == 'Identity Number'){
-                    id_input = 'adult_passport_number'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_passport_number'+i;
-                        }else{
-                            id_input = 'Child_relation1_passport_number'+i;
-                        }
-                    }
-                }else if(j == 'Identity Expired Date (Required for passport format: DD-MM-YYYY)'){
-                    id_input = 'adult_passport_expired_date'+parseInt(i+1);
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT'){
-                            id_input = 'Adult_relation1_passport_expired_date'+i;
-                        }else{
-                            id_input = 'Child_relation1_passport_expired_date'+i;
-                        }
-                    }
-                    try{
-                        document.getElementById(id_input).value = moment(excelRows[i][j]).format('DD MMM YYYY').toString();
-                    }catch(err){console.lg(err);}
-                    id_input = '';
-                }else if(j == 'Country of Issued (use Country Code ex ID)'){
-                    id_input = 'adult_passport_passport_country_of_issued'+parseInt(i+1)+'_id';
-                    if(!document.getElementById(id_input)){
-                        if(now_pax_type == 'ADT')
-                            $('#Adult_relation1_country_of_issued'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
-                        else
-                            $('#Child_relation1_country_of_issued'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
-                    }else
-                        $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
-                    id_input = '';
-                }else if(j == 'Address'){
-                    id_input = 'adult_address'+parseInt(i+1);
-                    if(!document.getElementById(id_input))
-                        id_input = '';
-                }else if(j == 'Postal Code'){
-                    id_input = 'adult_postal_code'+parseInt(i+1);
-                    if(!document.getElementById(id_input))
-                        id_input = '';
-                }else if(j == 'City'){
-                    id_input = 'adult_city'+parseInt(i+1);
-                    if(!document.getElementById(id_input))
-                        id_input = '';
-                }else if(j == 'Contact Email Address'){
-                    id_input = 'adult_email'+parseInt(i+1);
-                    if(!document.getElementById(id_input))
-                        id_input = '';
-                }else if(j == 'Phone Code'){
-                    id_input = 'adult_phone_code'+parseInt(i+1)+'_id';
-                    if(!document.getElementById(id_input)){
-                        id_input = '';
-                    }else
-                        $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
-                    $('#'+id_input).niceSelect('update');
-                    id_input = '';
-                }else if(j == 'Phone Number'){
-                    id_input = 'adult_phone'+parseInt(i+1);
-                    if(!document.getElementById(id_input))
-                        id_input = '';
                 }
-                if(id_input)
-                    document.getElementById(id_input).value = excelRows[i][j].toUpperCase();
-                passengers_excel[passengers_excel.length-1].push(excelRows[i][j])
-            }
+                document.getElementById(id_input).value = excelRows[i][j].toUpperCase();
+                $('#'+id_input).niceSelect('update');
+                id_input = '';
 
-            if(now_pax_type == 'ADT')
-                counter_adult++;
-            else
-                counter_child++;
-            if(counter_adult == total_adult){
-                now_pax_type = 'CHD'
+            }else if(j == 'First Name'){
+                id_input = 'adult_first_name'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_first_name'+i;
+                    }else{
+                        id_input = 'Child_relation1_first_name'+i;
+                    }
+                }
+            }else if(j == 'Last Name'){
+                id_input = 'adult_last_name'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_last_name'+i;
+                    }else{
+                        id_input = 'Child_relation1_last_name'+i;
+                    }
+                }
+            }else if(j == 'Nationality (use Country Code ex ID)'){
+                id_input = 'adult_nationality'+parseInt(i+1)+'_id';
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT')
+                        $('#Adult_relation1_nationality'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                    else
+                        $('#Child_relation1_nationality'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                }else
+                    $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
+                id_input = '';
+            }else if(j == 'Place Of Birth'){
+                id_input = 'adult_place_of_birth'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_place_of_birth'+i;
+                    }else{
+                        id_input = 'Child_relation1_place_of_birth'+i;
+                    }
+                }
+            }else if(j == 'Birth Date (format: DD-MM-YYYY)'){
+                id_input = 'adult_birth_date'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_birth_date'+i;
+                    }else{
+                        id_input = 'Child_relation1_birth_date'+i;
+                    }
+                }
+                try{
+                    document.getElementById(id_input).value = moment(excelRows[i][j]).format('DD MMM YYYY').toString();
+                }catch(err){console.lg(err);}
+                id_input = '';
+            }else if(j == 'ID Type (ktp/passport)'){
+                id_input = 'adult_id_type'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_id_type'+i;
+                    }else{
+                        id_input = 'Child_relation1_id_type'+i;
+                    }
+                }
+                document.getElementById(id_input).value = excelRows[i][j];
+                $('#'+id_input).niceSelect('update');
+                id_input = '';
+            }else if(j == 'Identity Number'){
+                id_input = 'adult_passport_number'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_passport_number'+i;
+                    }else{
+                        id_input = 'Child_relation1_passport_number'+i;
+                    }
+                }
+            }else if(j == 'Identity Expired Date (Required for passport format: DD-MM-YYYY)'){
+                id_input = 'adult_passport_expired_date'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_passport_expired_date'+i;
+                    }else{
+                        id_input = 'Child_relation1_passport_expired_date'+i;
+                    }
+                }
+                try{
+                    document.getElementById(id_input).value = moment(excelRows[i][j]).format('DD MMM YYYY').toString();
+                }catch(err){console.lg(err);}
+                id_input = '';
+            }else if(j == 'Country of Issued (use Country Code ex ID)'){
+                id_input = 'adult_passport_passport_country_of_issued'+parseInt(i+1)+'_id';
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT')
+                        $('#Adult_relation1_country_of_issued'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                    else
+                        $('#Child_relation1_country_of_issued'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                }else
+                    $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
+                id_input = '';
+            }else if(j == 'Address'){
+                id_input = 'adult_address'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'Postal Code'){
+                id_input = 'adult_postal_code'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'City'){
+                id_input = 'adult_city'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'Contact Email Address'){
+                id_input = 'adult_email'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'Phone Code'){
+                id_input = 'adult_phone_code'+parseInt(i+1)+'_id';
+                if(!document.getElementById(id_input)){
+                    id_input = '';
+                }else
+                    $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
+                $('#'+id_input).niceSelect('update');
+                id_input = '';
+            }else if(j == 'Phone Number'){
+                id_input = 'adult_phone'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
             }
+            if(id_input)
+                document.getElementById(id_input).value = excelRows[i][j].toUpperCase();
+            passengers_excel[passengers_excel.length-1].push(excelRows[i][j])
+        }
+
+        if(now_pax_type == 'ADT')
+            counter_adult++;
+        else
+            counter_child++;
+        if(counter_adult == total_adult){
+            now_pax_type = 'CHD'
         }
     }
-    notes = '';
-    counter_pax = 0;
-    console.log(passengers_excel);
 //    for(i in list_test){
 //        for(j in list_test[i].pax){
 //            add_table_of_passenger('');
@@ -5400,5 +5395,4 @@ function ProcessExcel(data) {
 //
 //
 //    }
-    document.getElementById('description').innerHTML = notes;
 };
