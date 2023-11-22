@@ -2731,7 +2731,10 @@ def error_timeout(request):
 def replace_metacharacter_file_name(file_name, default_name=''):
     if not default_name:
         default_name = file_name
-    return "%s.%s" % (re.sub('[^A-za-z0-9 .]', '', default_name), file_name.split('.')[-1])
+    new_name = "%s" % (re.sub('[^A-za-z0-9 .]', '', default_name)).strip()
+    if not '.' in new_name:
+        new_name = '%s.%s' % (new_name, file_name.split('.')[-1])
+    return new_name
 
 # @api_view(['GET'])
 # def testing(request):
