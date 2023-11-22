@@ -16,6 +16,7 @@ from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 import time
 import copy
+import xlsxwriter
 _logger = logging.getLogger("website_logger")
 
 month = {
@@ -88,6 +89,8 @@ def api_models(request):
             res = update_service_charge(request)
         elif req_data['action'] == 'booker_insentif_booking':
             res = booker_insentif_booking(request)
+        elif req_data['action'] == 'get_default_excel_template':
+            res = get_default_excel_template(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -814,3 +817,82 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
+
+def _check_folder_exists(folder_path):
+    if not os.path.exists(folder_path):
+        try:
+            os.mkdir(folder_path)
+        except Exception as e:
+            _logger.error("Can't create folder %s, %s" % (str(e), traceback.format_exc()))
+            raise e
+
+def encode_file(excel_file):
+    return base64.b64encode(excel_file)
+
+def get_default_excel_template(request):
+    folder_path = var_log_path(request, 'cache_session')
+    _check_folder_exists(folder_path)
+    folder_path = var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login'])
+    _check_folder_exists(folder_path)
+    temp_name = '%s/insurance_excel_%s.xlsx' % (folder_path, ("%s" % (request.POST['signature'])))
+
+    workbook = xlsxwriter.Workbook(temp_name)
+
+    # The workbook object is then used to add new
+    # worksheet via the add_worksheet() method.
+    worksheet = workbook.add_worksheet()
+
+    # Use the worksheet object to write
+    # data via the write() method.
+    worksheet.write('A1', 'No')
+    worksheet.write('B1', 'Pax Type')
+    worksheet.write('C1', 'Title (MR/MRS/MS) for ADT & (MSTR/MISS) for CHD & INF')
+    worksheet.write('D1', 'First Name')
+    worksheet.write('E1', 'Last Name')
+    worksheet.write('F1', 'Nationality (use Country Code ex ID)')
+    worksheet.write('G1', 'Place Of Birth')
+    worksheet.write('H1', 'Birth Date (format: DD-MM-YYYY)')
+    worksheet.write('I1', 'ID Type (ktp/passport)')
+    worksheet.write('J1', 'Identity Number')
+    worksheet.write('K1', 'Identity Expired Date (Required for passport format: DD-MM-YYYY)')
+    worksheet.write('L1', 'Country of Issued (use Country Code ex ID)')
+    worksheet.write('M1', 'Address')
+    worksheet.write('N1', 'Postal Code')
+    worksheet.write('O1', 'City')
+    worksheet.write('P1', 'Contact Email Address')
+    worksheet.write('Q1', 'Phone Code')
+    worksheet.write('R1', 'Phone Number')
+
+    total_adult = 0
+    total_child = 0
+    pax_type = 'ADT'
+    last_column = 2
+    for i in range(0, int(request.POST['total_pax'])):
+        worksheet.write('A%s' % str(last_column), '%s' % str(i+1))
+        if pax_type == 'ADT':
+            total_adult += 1
+        else:
+            total_child += 1
+        worksheet.write('B%s' % str(last_column), pax_type)
+        last_column += 1
+        if total_adult == int(request.POST['total_adult']):
+            pax_type = 'CHD'
+    last_column += 1
+    worksheet.write('A%s' % str(last_column), '*Address, postal code, city, contact email, phone code, phone number required for no 1')
+    # Finally, close the Excel file
+    # via the close() method.
+    workbook.close()
+    response = {
+        "result": {
+            "error_code": 0,
+            "response": '',
+            "error_msg": ''
+        }
+    }
+    with open(temp_name, "rb") as excel_file:
+        file = excel_file.read()
+        response['result']['response'] = encode_file(file)
+
+    os.remove(temp_name)
+
+    return response
