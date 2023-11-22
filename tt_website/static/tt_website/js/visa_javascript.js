@@ -339,12 +339,12 @@ function update_table_new(type){
             if(sell_visa.search_data[i].pax != 0){
                 currency = '';
                 price_perpax = 0;
-                for(j in sell_visa.provider_bookings[i].service_charge_summary){
-                    for(k in sell_visa.provider_bookings[i].service_charge_summary[j].service_charges){
-                        if(sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
-                            price_perpax += sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].total / sell_visa.search_data[i].pax;
+                for(j in sell_visa.search_data[i].service_charge_summary){
+                    for(k in sell_visa.search_data[i].service_charge_summary[j].service_charges){
+                        if(sell_visa.search_data[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                            price_perpax += sell_visa.search_data[i].service_charge_summary[j].service_charges[k].total / sell_visa.search_data[i].pax;
                         if(currency == '')
-                            currency = sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].currency;
+                            currency = sell_visa.search_data[i].service_charge_summary[j].service_charges[k].currency;
                     }
                 }
                 count_price_detail[i] = 1;
@@ -394,10 +394,10 @@ function update_table_new(type){
             }
             try{
                 price += sell_visa.search_data[i].pax * price_perpax;
-                for(j in sell_visa.provider_bookings[i].service_charge_summary){
-                    for(k in sell_visa.provider_bookings[i].service_charge_summary[j].service_charges){
-                        if(sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
-                            commission += sell_visa.provider_bookings[i].service_charge_summary[j].service_charges[k].total;
+                for(j in sell_visa.search_data[i].service_charge_summary){
+                    for(k in sell_visa.search_data[i].service_charge_summary[j].service_charges){
+                        if(sell_visa.search_data[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                            commission += sell_visa.search_data[i].service_charge_summary[j].service_charges[k].total;
                     }
                 }
             }catch(err){
@@ -1187,8 +1187,8 @@ function update_table_new(type){
                         price_breakdown['BREAKDOWN'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
-                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-                        price_breakdown['NTA AIRLINE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA VISA'))
+                        price_breakdown['NTA VISA'] = 0;
                     if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
                         price_breakdown['SERVICE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('VAT'))
@@ -1208,7 +1208,7 @@ function update_table_new(type){
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
-                    price_breakdown['NTA AIRLINE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                    price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
                     price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
@@ -1275,8 +1275,8 @@ function update_table_new(type){
                         price_breakdown['BREAKDOWN'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
-                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-                        price_breakdown['NTA AIRLINE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA VISA'))
+                        price_breakdown['NTA VISA'] = 0;
                     if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
                         price_breakdown['SERVICE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('VAT'))
@@ -1296,7 +1296,7 @@ function update_table_new(type){
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
-                    price_breakdown['NTA AIRLINE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                    price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
                     price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
@@ -1363,8 +1363,8 @@ function update_table_new(type){
                         price_breakdown['BREAKDOWN'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
-                    if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-                        price_breakdown['NTA AIRLINE'] = 0;
+                    if(!price_breakdown.hasOwnProperty('NTA VISA'))
+                        price_breakdown['NTA VISA'] = 0;
                     if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
                         price_breakdown['SERVICE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('VAT'))
@@ -1384,7 +1384,7 @@ function update_table_new(type){
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
-                    price_breakdown['NTA AIRLINE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                    price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
                     price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
@@ -1431,11 +1431,9 @@ function update_table_new(type){
         for(j in price_breakdown){
             if(breakdown_text)
                 breakdown_text += '<br/>';
-            if(j != 'ROC')
-                breakdown_text += '<b>'+j+'</b> ';
-            else
-                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            breakdown_text += '<b>'+j+'</b> ';
+            if(j != 'BREAKDOWN')
+                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
         }
         new jBox('Tooltip', {
             attach: '#total_price',
