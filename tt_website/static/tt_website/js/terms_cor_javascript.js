@@ -513,13 +513,7 @@ function create_request_cor(){
         data_request['pic_first_name'] = document.getElementById('pic_first_name').value;
         document.getElementById('pic_first_name').style['border-color'] = '';
     }
-    if(document.getElementById('pic_last_name').value == ''){
-        error_log+= 'Please input PIC Last Name!</br>\n';
-        document.getElementById('pic_last_name').style['border-color'] = 'red';
-        $("#pic_last_name").each(function() {
-            $(this).parent().find('.nice-select').css('border', '1px solid red');
-        });
-    }else{
+    if(document.getElementById('pic_last_name').value != ''){
         data_request['pic_last_name'] = document.getElementById('pic_last_name').value;
         document.getElementById('pic_last_name').style['border-color'] = '';
     }
