@@ -249,6 +249,16 @@ function insurance_get_config(page=false, provider_allowed=[]){
                         }
                         document.getElementById('insurance_destination_area').innerHTML = choice;
                         $('#insurance_destination_area').niceSelect('update');
+                        choice = '';
+                        for(i in insurance_config['zurich']['product_type']){
+                            if(insurance_request.plan_trip == i){
+                                choice +=`<option value="`+i+`" selected>`+insurance_config['zurich']['product_type'][i]+`</option>`;
+                            }else{
+                                choice +=`<option value="`+i+`">`+insurance_config['zurich']['product_type'][i]+`</option>`;
+                            }
+                        }
+                        document.getElementById('insurance_trip').innerHTML = choice;
+                        $('#insurance_trip').niceSelect('update');
                     }else if(insurance_request.provider == 'bcainsurance'){
                         setTimeout(function(){
                             try{
@@ -4633,7 +4643,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <span class="span-search-ticket">Destination Area</span>
                 <div class="input-container-search-ticket btn-group">
                     <i class="fas fa-train" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
@@ -4647,7 +4657,7 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                 <div class="col-lg-12" style="padding-left:0px;" hidden>
                     <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> From</span>
@@ -4659,17 +4669,21 @@ function onchange_provider_insurance(){
                     <span class="span-search-ticket">Destination</span>
                     <div class="input-container-search-ticket">
                         <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','plantrip')">
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4" hidden>
+            <div class="col-lg-3">
                 <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>
-                <select id="insurance_trip" name="insurance_trip" class="form-control" onchange="next_focus_element('insurance','plantrip')">
-                    <option value="LAINNYA" selected>LAINNYA</option>
+                <select id="insurance_trip" name="insurance_trip" class="form-control" onchange="next_focus_element('insurance','date')">`;
+                    for(i in insurance_config['zurich']['product_type']){
+                        text += `<option value="`+i+`">`+insurance_config['zurich']['product_type'][i]+`</option>`
+                    }
+            text+=`
+
                 </select>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-3" id="insurance_date_search">
                 <span class="span-search-ticket">Date</span>
                 <div class="input-container-search-ticket">
                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
@@ -4693,7 +4707,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>`;
                     if(template == 7){
                         text+=`
@@ -4714,7 +4728,7 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" hidden>
@@ -4726,22 +4740,25 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','plantrip')">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4" hidden>
+            <div class="col-lg-3">
                 <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>
                 <div class="input-container-search-ticket btn-group">
                     <div class="form-select" id="default-select">
-                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
-                            <option value="LAINNYA" selected>LAINNYA</option>
+                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','date')">`;
+                        for(i in insurance_config['zurich']['product_type']){
+                            text += `<option value="`+i+`">`+insurance_config['zurich']['product_type'][i]+`</option>`
+                        }
+                    text+=`
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-3" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -5107,5 +5124,275 @@ function update_insentif_booker(type){
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
-
 }
+
+function Upload() {
+    //Reference the FileUpload element.
+    var fileUpload = document.getElementById("fileUpload");
+
+    //Validate whether File is valid Excel file.
+    if(fileUpload.value.toLowerCase().endsWith(".xlsx")){
+        if (typeof (FileReader) != "undefined") {
+            var reader = new FileReader();
+
+            //For Browsers other than IE.
+            if (reader.readAsBinaryString) {
+                reader.onload = function (e) {
+                    ProcessExcel(e.target.result);
+                };
+                reader.readAsBinaryString(fileUpload.files[0]);
+            } else {
+                //For IE Browser.
+                reader.onload = function (e) {
+                    var data = "";
+                    var bytes = new Uint8Array(e.target.result);
+                    for (var i = 0; i < bytes.byteLength; i++) {
+                        data += String.fromCharCode(bytes[i]);
+                    }
+                    ProcessExcel(data);
+                };
+                reader.readAsArrayBuffer(fileUpload.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    } else {
+        alert("Please upload a valid Excel file.");
+    }
+};
+function ProcessExcel(data) {
+    //Read the Excel File data.
+    var workbook = XLSX.read(data, {
+        type: 'binary'
+    });
+    //Fetch the name of First Sheet.
+    var firstSheet = workbook.SheetNames[0];
+
+    //Read all rows from First Sheet into an JSON array.
+    var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+    //Create a HTML Table element.
+    var table = document.createElement("table");
+    table.border = "1";
+
+    //Add the header row.
+    var row = table.insertRow(-1);
+
+    //Add the header cells.
+    var headerCell = document.createElement("TH");
+    headerCell.innerHTML = "Id";
+    row.appendChild(headerCell);
+
+    headerCell = document.createElement("TH");
+    headerCell.innerHTML = "Name";
+    row.appendChild(headerCell);
+
+    headerCell = document.createElement("TH");
+    headerCell.innerHTML = "Country";
+    row.appendChild(headerCell);
+
+    //Add the data rows from Excel file.
+    passengers_excel = []
+    counter_adult = 0;
+    counter_child = 0;
+    counter_pax = 0;
+    now_pax_type = 'ADT';
+    id_input = '';
+    for (var i = 0; i < excelRows.length; i++) {
+        //Add the data row.
+        passengers_excel.push([])
+        for(j in excelRows[i]){
+            if(j == 'Title (MR/MRS/MS) for ADT & (MSTR/MISS) for CHD & INF'){
+                id_input = 'adult_title'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_title'+i;
+                    }else{
+                        id_input = 'Child_relation1_title'+i;
+                    }
+                }
+                document.getElementById(id_input).value = excelRows[i][j].toUpperCase();
+                $('#'+id_input).niceSelect('update');
+                id_input = '';
+
+            }else if(j == 'First Name'){
+                id_input = 'adult_first_name'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_first_name'+i;
+                    }else{
+                        id_input = 'Child_relation1_first_name'+i;
+                    }
+                }
+            }else if(j == 'Last Name'){
+                id_input = 'adult_last_name'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_last_name'+i;
+                    }else{
+                        id_input = 'Child_relation1_last_name'+i;
+                    }
+                }
+            }else if(j == 'Nationality (use Country Code ex ID)'){
+                id_input = 'adult_nationality'+parseInt(i+1)+'_id';
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT')
+                        $('#Adult_relation1_nationality'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                    else
+                        $('#Child_relation1_nationality'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                }else
+                    $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
+                id_input = '';
+            }else if(j == 'Place Of Birth'){
+                id_input = 'adult_place_of_birth'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_place_of_birth'+i;
+                    }else{
+                        id_input = 'Child_relation1_place_of_birth'+i;
+                    }
+                }
+            }else if(j == 'Birth Date (format: DD-MM-YYYY)'){
+                id_input = 'adult_birth_date'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_birth_date'+i;
+                    }else{
+                        id_input = 'Child_relation1_birth_date'+i;
+                    }
+                }
+                try{
+                    document.getElementById(id_input).value = moment(excelRows[i][j]).format('DD MMM YYYY').toString();
+                }catch(err){console.lg(err);}
+                id_input = '';
+            }else if(j == 'ID Type (ktp/passport)'){
+                id_input = 'adult_id_type'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_id_type'+i;
+                    }else{
+                        id_input = 'Child_relation1_id_type'+i;
+                    }
+                }
+                document.getElementById(id_input).value = excelRows[i][j];
+                $('#'+id_input).niceSelect('update');
+                id_input = '';
+            }else if(j == 'Identity Number'){
+                id_input = 'adult_passport_number'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_passport_number'+i;
+                    }else{
+                        id_input = 'Child_relation1_passport_number'+i;
+                    }
+                }
+            }else if(j == 'Identity Expired Date (Required for passport format: DD-MM-YYYY)'){
+                id_input = 'adult_passport_expired_date'+parseInt(i+1);
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT'){
+                        id_input = 'Adult_relation1_passport_expired_date'+i;
+                    }else{
+                        id_input = 'Child_relation1_passport_expired_date'+i;
+                    }
+                }
+                try{
+                    document.getElementById(id_input).value = moment(excelRows[i][j]).format('DD MMM YYYY').toString();
+                }catch(err){console.lg(err);}
+                id_input = '';
+            }else if(j == 'Country of Issued (use Country Code ex ID)'){
+                id_input = 'adult_passport_passport_country_of_issued'+parseInt(i+1)+'_id';
+                if(!document.getElementById(id_input)){
+                    if(now_pax_type == 'ADT')
+                        $('#Adult_relation1_country_of_issued'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                    else
+                        $('#Child_relation1_country_of_issued'+i+'_id').val(excelRows[i][j].toUpperCase()).trigger('change');
+                }else
+                    $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
+                id_input = '';
+            }else if(j == 'Address'){
+                id_input = 'adult_address'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'Postal Code'){
+                id_input = 'adult_postal_code'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'City'){
+                id_input = 'adult_city'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'Contact Email Address'){
+                id_input = 'adult_email'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }else if(j == 'Phone Code'){
+                id_input = 'adult_phone_code'+parseInt(i+1)+'_id';
+                if(!document.getElementById(id_input)){
+                    id_input = '';
+                }else
+                    $(id_input).val(excelRows[i][j].toUpperCase()).trigger('change');
+                $('#'+id_input).niceSelect('update');
+                id_input = '';
+            }else if(j == 'Phone Number'){
+                id_input = 'adult_phone'+parseInt(i+1);
+                if(!document.getElementById(id_input))
+                    id_input = '';
+            }
+            if(id_input)
+                document.getElementById(id_input).value = excelRows[i][j].toUpperCase();
+            passengers_excel[passengers_excel.length-1].push(excelRows[i][j])
+        }
+
+        if(now_pax_type == 'ADT')
+            counter_adult++;
+        else
+            counter_child++;
+        if(counter_adult == total_adult){
+            now_pax_type = 'CHD'
+        }
+    }
+//    for(i in list_test){
+//        for(j in list_test[i].pax){
+//            add_table_of_passenger('');
+//            document.getElementById('adult_title'+counter_passenger).value = list_test[i].pax[j][0].toUpperCase();
+//            document.getElementById('adult_first_name'+counter_passenger).value = list_test[i].pax[j][1].split(' ')[0];
+//            try{
+//                last_name = list_test[i].pax[j][1].split(' ');
+//                last_name.splice(0, 1)
+//                document.getElementById('adult_last_name'+counter_passenger).value = last_name.join(' ');
+//            }catch(err){
+//                console.log(err) //ada element yg tidak ada
+//            }
+//            document.getElementById('adult_birth_date'+counter_passenger).value = moment(list_test[i].pax[j][6]).format('DD MMM YYYY').toString();
+//            document.getElementById('adult_identity_type'+counter_passenger).value = list_test[i].pax[j][3].toLowerCase();
+//            document.getElementById('adult_identity_number'+counter_passenger).value = list_test[i].pax[j][4];
+//            $('#adult_country_of_issued'+counter_passenger+'_id').val('ID').trigger('change');
+//
+////            document.getElementById('adult_country_of_issued'+counter_passenger+'_id').value = 'ID';
+////            document.getElementById('adult_country_of_issued'+counter_passenger).value = 'ID';
+////            document.getElementById('select2-adult_country_of_issued'+counter_passenger+'_id-container').innerHTML = 'Indonesia';
+//            notes += parseInt(parseInt(counter_pax)+1) + ' Pax: ' + list_test[i].pax[j][0] + ' ' + list_test[i].pax[j][1] + '\n';
+//            if(list_test[i].pax[j][2] != undefined)
+//                notes += 'Phone number: ' + list_test[i].pax[j][2] + '\n';
+////            if(list_test[i].pax[j][3] != undefined && list_test[i].pax[j][4] != undefined)
+////                notes += list_test[i].pax[j][3] + ': ' + list_test[i].pax[j][4] + '\n';
+////            if(list_test[i].pax[j][6] != undefined)
+////                notes += 'Alamat: ' + list_test[i].pax[j][5] + '\n';
+//            if(list_test[i].pax[j][11] != undefined)
+//                notes += 'Email: ' + list_test[i].pax[j][11] + '\n';
+//            if(list_test[i].pax[j][12] != undefined)
+//                notes += 'Notes: ' + list_test[i].pax[j][12] + '\n';
+//            update_contact('passenger', counter_passenger);
+//            $('#adult_title'+counter_passenger).niceSelect('update');
+//            $('#adult_id_type'+counter_passenger).niceSelect('update');
+//            counter_pax++;
+//            $('#adult_title'+parseInt(counter_passenger)).niceSelect('update');
+//            $('#adult_identity_type'+parseInt(counter_passenger)).niceSelect('update');
+//        }
+//        if(list_test[i].jenis_test != undefined){
+//            notes += 'Test: ' + list_test[i].jenis_test + '\n';
+//            notes += list_test[i].address + ' ' + moment(list_test[i].date).format('DD MMM YYYY').toString()+ ' ' + list_test[i].hour + '\n';
+//        }
+//
+//
+//    }
+};

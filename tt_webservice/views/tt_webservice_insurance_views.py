@@ -814,3 +814,15 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
+
+def _check_folder_exists(folder_path):
+    if not os.path.exists(folder_path):
+        try:
+            os.mkdir(folder_path)
+        except Exception as e:
+            _logger.error("Can't create folder %s, %s" % (str(e), traceback.format_exc()))
+            raise e
+
+def encode_file(excel_file):
+    return base64.b64encode(excel_file)
+

@@ -254,14 +254,21 @@ def passenger(request, signature=''):
             file = read_cache_file(request, signature, 'insurance_request_with_passenger')
             if file:
                 insurance_request_with_passenger = file
+            total_pax = 0
+            total_adult = 0
+            total_child = 0
             for i in range(int(insurance_request_with_passenger['adult'])):
                 adult.append('')
+                total_pax += 1
+                total_adult += 1
             for i in range(int(insurance_request_with_passenger['family']['adult'])):
                 family.append({
                     "sequence": sequence,
                     "pax_type": 'Adult'
                 })
                 sequence += 1
+                total_pax += 1
+                total_adult += 1
             sequence = 1
             for i in range(int(insurance_request_with_passenger['family']['child'])):
                 family.append({
@@ -269,6 +276,8 @@ def passenger(request, signature=''):
                     "pax_type": 'Child'
                 })
                 sequence += 1
+                total_pax += 1
+                total_child += 1
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -295,6 +304,9 @@ def passenger(request, signature=''):
                 'response': insurance_pick,
                 'username': request.session['user_account'],
                 'signature': signature,
+                'total_pax': total_pax,
+                'total_adult': total_adult,
+                'total_child': total_child,
                 # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
