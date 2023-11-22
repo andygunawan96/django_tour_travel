@@ -250,6 +250,24 @@ def read_cache_file(request, signature, session_key, get_full_data=False):
     except Exception as e:
         return False
 
+def read_cache_file_by_signature(request, signature, session_key):
+    try:
+        folder_path = var_log_path(request, 'cache_session')
+        now = float(datetime.now().strftime("%s"))
+        for user_account in os.listdir(folder_path):
+            if user_account != '.DS_Store': ## FOLDER OTOMATIS DI MAC BYPASS
+                if "%s_%s.txt" % (signature, session_key) in os.listdir("%s/%s" % (folder_path, user_account)):
+                    read_file = open("%s/%s/%s_%s.txt" % (folder_path, user_account, signature, session_key), "r")
+                    data = read_file.read()
+                    read_file.close()
+                    if data:
+                        res = json.loads(data)
+                        return res['data']
+        return False
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+    return False
+
 def get_list_file_name(request, session_key):
     res_file = []
     for file in os.listdir(var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login'])):

@@ -696,6 +696,7 @@ def signin(request):
             # })
             if 'login' in res_user['result']['response']['co_agent_frontend_security']:
                 set_session(request, 'user_account', res_user['result']['response'])
+                write_cache_file(request, res['result']['response']['signature'], 'user_account', res_user['result']['response'])
                 try:
                     if res['result']['error_code'] == 0:
                         data = {}
@@ -863,6 +864,7 @@ def signin_btc(request):
             res_user['result']['response']['signature'] = res['result']['response']['signature']
             if "login" in res_user['result']['response']['co_agent_frontend_security']:
                 set_session(request, 'user_account', res_user['result']['response'])
+                write_cache_file(request, res['result']['response']['signature'], 'user_account', res_user['result']['response'])
             try:
                 if res['result']['error_code'] == 0:
                     data = {}
@@ -990,6 +992,7 @@ def signin_product_otp(request):
             res_user['result']['response']['signature'] = res['result']['response']['signature']
             if "login" in res_user['result']['response']['co_agent_frontend_security']:
                 set_session(request, 'user_account', res_user['result']['response'])
+                write_cache_file(request, res['result']['response']['signature'], 'user_account', res_user['result']['response'])
         else:
             _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
     except Exception as e:

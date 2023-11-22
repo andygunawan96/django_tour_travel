@@ -1063,8 +1063,13 @@ def get_allowed_config_search(request):
 def get_all_carrier_airline(request):
     file = read_cache("get_airline_active_carriers", 'cache_web', request, 90911)
     if file:
-        if request.session['user_account']['co_ho_seq_id'] in file:
+        if request.session.get('user_account') and request.session['user_account']['co_ho_seq_id'] in file:
             file = file[request.session['user_account']['co_ho_seq_id']]
+        else:
+            ##### CARI USER ACCOUNT DARI SIGNATURE
+            user_account = read_cache_file_by_signature(request, request.POST['signature'], 'user_account')
+            if user_account['co_ho_seq_id'] in file:
+                file = file[user_account['co_ho_seq_id']]
     return file
 
 def get_provider_list_backend(request, signature=''):
