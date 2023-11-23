@@ -11052,16 +11052,11 @@ function airline_get_booking(data, sync=false){
                     }
                     var breakdown_text = '';
                     for(j in price_breakdown){
-                        add_breakdown = true
-                        if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
-                            add_breakdown = false;
-                        if(add_breakdown){
-                            if(breakdown_text)
-                                breakdown_text += '<br/>';
-                            breakdown_text += '<b>'+j+'</b> ';
-                            if(j != 'BREAKDOWN')
-                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                        }
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
+                        if(j != 'BREAKDOWN')
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
                     }
                     new jBox('Tooltip', {
                         attach: '#total_price',
