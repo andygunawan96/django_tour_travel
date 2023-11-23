@@ -3527,7 +3527,7 @@ function onlyUnique(value, index, array) {
   return array.indexOf(value) === index;
 }
 
-function search_setting_page(){
+function search_setting_page(default_li, default_tab){
 	var tab_setting_arr = [];
     var settingSearchField = $("#input_search_setting");
 	var settingBtn = $(".accordion")
@@ -3570,8 +3570,8 @@ function search_setting_page(){
             $("#"+unique_setting[i]).addClass('current');
         }
     }else{
-        $("#tab-website-li").addClass('current');
-        $("#tab-website").addClass('current');
+        $("#"+default_li).addClass('current');
+        $("#"+default_tab).addClass('current');
     }
 }
 
@@ -3622,3 +3622,10 @@ function next_input_otp(elem){
     }, 0);
 }
 
+function next_input_pin(){
+    try{
+        setTimeout(() => {
+            document.getElementById('pin_otp_input1').select();
+        }, 0);
+    }catch(err){}
+}

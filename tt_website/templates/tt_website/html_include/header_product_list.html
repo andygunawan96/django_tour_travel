@@ -1,0 +1,40 @@
+{% load i18n %}
+
+<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd; background:white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pt-2 pb-2">
+                {% if username.co_user_login != default_user %}
+                <span class="span_link" style="color:black; padding-right:5px;" onclick="location='{% url 'tt_website:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
+                {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
+                <span class="span_link" style="border-left:2px solid #cdcdcd; padding-left:10px; padding-right:5px; color:black;" onclick="location='{% url 'tt_website:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
+                {% endif %}
+                {% endif %}
+
+                {% for provider_type in provider_types %}
+                    {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' and provider_type != 'offline' and provider_type != 'issued_offline' %}
+                        {% for rec in provider_types_sequence %}
+                            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" and rec.code == provider_type %}
+                            <a class="span_link" href="/airline" style="border-left:2px solid #cdcdcd; padding-left:10px; padding-right:5px; {% if product_hd == 'airline' %} color: {{color}} !important; {% endif %};">
+                                <img style="width:auto; height:14px" src="{{static_path}}images/icon/product/b-airline.png" alt="Airline Icon"/> {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                            </a>
+                            {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" and rec.code == provider_type %}
+                            <a class="span_link" href="/hotel" style="border-left:2px solid #cdcdcd; padding-left:10px; padding-right:5px; {% if product_hd == 'hotel' %} color: {{color}} !important; {% endif %};" onclick="">
+                                <img style="width:auto; height:14px" src="{{static_path}}images/icon/product/b-hotel.png" alt="Airline Icon"/> {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                            </a>
+                            {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.code == "train" and rec.code == provider_type %}
+                            <a class="span_link" href="/train" style="border-left:2px solid #cdcdcd; padding-left:10px; padding-right:5px; {% if product_hd == 'train' %} color: {{color}} !important; {% endif %};" onclick="">
+                                <img style="width:auto; height:14px" src="{{static_path}}images/icon/product/b-train.png" alt="Airline Icon"/> {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                            </a>
+                            {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" and rec.code == provider_type %}
+                            <a class="span_link" href="/tour" style="border-left:2px solid #cdcdcd; padding-left:10px; padding-right:5px; {% if product_hd == 'tour' %} color: {{color}} !important; {% endif %};" onclick="">
+                                <img style="width:auto; height:14px" src="{{static_path}}images/icon/product/b-tour.png" alt="Airline Icon"/> {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

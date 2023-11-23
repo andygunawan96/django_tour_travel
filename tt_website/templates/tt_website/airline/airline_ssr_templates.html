@@ -71,19 +71,7 @@
 {% endif %}
 {% include 'tt_website/html_include/header_breadcrumb.html' %}
 
-{%if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-{% elif template == 2 %}
-<section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 3 %}
-<section class="relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 4 %}
-<section style="padding:40px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 5 %}
-<section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 6 %}
-<section class="destinations-area" style="background: #f7f7f7; padding-top:30px; padding-bottom:40px;">
-{%endif%}
     <div class="container">
         <form method="POST" id="airline_booking" action="{% if after_sales == 0 %}/airline/review/{{signature}}{% else %}/airline/review_after_sales/{{signature}}{%endif%}">
             {% csrf_token %}
@@ -92,6 +80,7 @@
                     <h3>{% trans 'Special Service Request' %}</h3>
                 </div>
                 <div class="col-lg-12" id="airline_reissue_info_div" style="display:none; top:0px; z-index:99;">
+
                 </div>
                 <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
@@ -99,202 +88,156 @@
                             <div id="airline_review">
                                 {% for pax in passengers%}
                                     {% with forloop.counter as counter_pax %}
-                                        <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
-                                            <h5><i class="fas fa-user"></i> {{pax.title}} {{pax.first_name}} {{pax.last_name}}</h5>
-                                            {% if 'behaviors' in pax  and pax.behaviors|length > 0%}
-                                                {% for key, provider_type in pax.behaviors.items %}
-                                                    {% if key == 'airline'%}
-                                                    <h6 class="mt-3" style="color:{{color}};">Behaviors History</h6>
-                                                    <b>{{key}}</b><br/>
-                                                    <textarea class="form-control" style="resize: none; height:200px;" name="passenger{{counter_pax}}" cols="50" rows="6" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;">{{provider_type}}</textarea>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            {% endif %}
-                                        </div>
-                                        <div style="background-color:white; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">
-                                            {% for ssr_provider in airline_ssrs.ssr_availability_provider %}
-                                                {% with forloop.counter as counter_provider %}
-                                                {% for img in ssr_provider.airline_list %}
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <img data-toggle="tooltip" style="width:50px; height:50px;" src="{{static_path_url_server}}/public/airline_logo/{{img}}.png" alt="Airline Logo">
+                                    <div class="div_box_default mb-3" style="padding-top:0px;">
+                                        <div class="row">
+                                            <div class="col-lg-12" style="background: aliceblue;">
+                                                <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                                    <div>
+                                                        {% if pax.title == 'MR' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MRS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MSTR' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MISS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MR" class="picture_passenger_small">
+                                                        {% endif %}
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <!--<h5 id="provider_info{{counter_provider}}_{{counter_pax}}" style="text-align:right;"></h5>-->
-                                                    </div>
-                                                </div>
-                                                {% endfor %}
-                                                <div id="ssr_included_page" style="display:none;">
-                                                    <b>SSR already included:</b><br/>
-                                                    <div style="padding:15px; border:1px solid #cdcdcd;" id="included_ssr{{counter_pax}}">
-
-                                                    </div>
-                                                </div>
-                                                <br/>
-                                                <b>SSR Request:</b><br/>
-                                                <div style="margin-bottom:20px; padding:15px; border:1px solid #cdcdcd;">
-                                                {% for key, ssr_values in ssr_provider.ssr_availability.items %}
-                                                    {% for values in ssr_values %}
-                                                        {% with forloop.counter as counter_ssr %}
-                                                            <div class="row mt-1">
-                                                                <div class="col-lg-4">
-                                                                    <span style="text-transform: capitalize; font-size:14px; font-weight:600;">
-                                                                        {%if key == 'baggage'%}
-                                                                        <i class="fas fa-suitcase"></i>
-                                                                        {%elif key == 'equipment'%}
-                                                                        <i class="fas fa-tools"></i>
-                                                                        {%elif key == 'wheelchair'%}
-                                                                        <i class="fas fa-wheelchair"></i>
-                                                                        {%elif key == 'meal'%}
-                                                                        <i class="fas fa-utensils"></i>
-                                                                        {%endif%}
-
-                                                                        {{key}}
-                                                                        <br/>
-                                                                        {{values.origin}} - {{values.destination}}
-                                                                        {% for segment_values in values.segments %}
-                                                                        {% if forloop.counter == 1 %}
-                                                                        (
-                                                                        <script>
-                                                                        document.write(moment('{{segment_values.departure_date}}').format('DD MMM YYYY'));
-                                                                        </script>
-                                                                        )
-                                                                        <br/>
-                                                                        {% endif %}
-                                                                        {% endfor %}
-                                                                    </span>
-                                                                </div>
-                                                                <div class="col-lg-8">
-                                                                {%if key == 'baggage'%}
-                                                                <h5 id="provider_info{{counter_provider}}_{{counter_pax}}"></h5>
+                                                    <div style="margin-left:10px;">
+                                                        <h5>
+                                                            {{pax.title}} {{pax.first_name}} {{pax.last_name}}
+                                                            <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">
+                                                                {% if pax.pax_type == 'ADT' %}
+                                                                Adult
+                                                                {% elif pax.pax_type == 'CHD' %}
+                                                                Child
+                                                                {% elif pax.pax_type == 'INF' %}
+                                                                Infant
+                                                                {% elif pax.pax_type == 'LBR' %}
+                                                                Labour
+                                                                {% elif pax.pax_type == 'SEA' %}
+                                                                Seaman
+                                                                {% elif pax.pax_type == 'STU' %}
+                                                                Student
                                                                 {% endif %}
-
-                                                                {%if template == 1%}
-                                                                    <div class="input-container-search-ticket btn-group">
-                                                                        <div class="form-select" id="default-select">
-                                                                            <select id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" data-live-search="true" size="4" onchange="on_change_ssr()">
-                                                                                <option value=""></option>
-                                                                                {% for ssr in values.ssrs %}
-                                                                                <option value="{{ssr.ssr_code}}_{{ssr.currency}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}"
-                                                                                        {% for ssr_list_pax in pax.ssr_list %}
-                                                                                            {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.ssr_code == ssr_list_pax.fee_code %}
-                                                                                                selected
-                                                                                            {% endif %}
-                                                                                        {% endfor %}
-                                                                                >
-                                                                                    {{ssr.name}} - {{ssr.currency}}
-                                                                                </option>
-                                                                                <script>
-                                                                                    print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
-                                                                                </script>
-                                                                                {% endfor %}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                {% elif template == 2 %}
-                                                                    <div class="input-container-search-ticket btn-group">
-                                                                        <select id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" data-live-search="true" size="4" onchange="on_change_ssr()">
-                                                                            <option value=""></option>
-                                                                            {% for ssr in values.ssrs %}
-                                                                            <option value="{{ssr.ssr_code}}_{{ssr.currency}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
-                                                                                    {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
-                                                                                        selected {% endif %} {% endfor %}
-                                                                            >
-                                                                                {{ssr.name}} - {{ssr.currency}}
-                                                                            </option>
-                                                                            <script>
-                                                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
-                                                                            </script>
-                                                                            {% endfor %}
-                                                                        </select>
-                                                                    </div>
-                                                                {% elif template == 3 %}
-                                                                    <div class="form-group">
-                                                                        <div class="default-select" id="default-select">
-                                                                            <select id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" data-live-search="true" size="4" onchange="on_change_ssr()">
-                                                                                <option value=""></option>
-                                                                                {% for ssr in values.ssrs %}
-                                                                                <option value="{{ssr.ssr_code}}_{{ssr.currency}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
-                                                                                        {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
-                                                                                            selected {% endif %} {% endfor %}
-                                                                                >
-                                                                                    {{ssr.name}} - {{ssr.currency}}
-                                                                                </option>
-                                                                                <script>
-                                                                                    print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
-                                                                                </script>
-                                                                                {% endfor %}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                {% elif template == 4 %}
-                                                                    <div class="input-container-search-ticket btn-group">
-                                                                        <div class="form-select" id="default-select">
-                                                                            <select class="nice-select-default rounded" id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" onchange="on_change_ssr()">
-                                                                                <option value=""></option>
-                                                                                {% for ssr in values.ssrs %}
-                                                                                <option value="{{ssr.ssr_code}}_{{ssr.currency}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
-                                                                                        {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
-                                                                                            selected {% endif %} {% endfor %}
-                                                                                >
-                                                                                    {{ssr.name}} - {{ssr.currency}}
-                                                                                </option>
-                                                                                <script>
-                                                                                    print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
-                                                                                </script>
-                                                                                {% endfor %}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                {% elif template == 5 %}
-                                                                    <div class="input-container-search-ticket" style="display:inline-block !important;">
-                                                                        <div id="default-select">
-                                                                            <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" onchange="on_change_ssr()">
-                                                                                <option value=""></option>
-                                                                                {% for ssr in values.ssrs %}
-                                                                                <option value="{{ssr.ssr_code}}_{{ssr.currency}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
-                                                                                        {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
-                                                                                            selected {% endif %} {% endfor %}
-                                                                                >
-                                                                                    {{ssr.name}} - {{ssr.currency}}
-                                                                                </option>
-                                                                                <script>
-                                                                                    print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
-                                                                                </script>
-                                                                                {% endfor %}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                {% elif template == 6 %}
-                                                                    <div class="input-container-search-ticket" style="display:inline-block !important;">
-                                                                        <div id="default-select">
-                                                                            <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" onchange="on_change_ssr()">
-                                                                                <option value=""></option>
-                                                                                {% for ssr in values.ssrs %}
-                                                                                <option value="{{ssr.ssr_code}}_{{ssr.currency}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}" {% for ssr_list_pax in pax.ssr_list %}
-                                                                                        {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name %}
-                                                                                            selected {% endif %} {% endfor %}
-                                                                                >
-                                                                                    {{ssr.name}} - {{ssr.currency}}
-                                                                                </option>
-                                                                                <script>
-                                                                                    print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
-                                                                                </script>
-                                                                                {% endfor %}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                {%endif%}
-                                                                </div>
-                                                                <div class="col-lg-12 mb-3"></div>
-                                                            </div>
-                                                        {% endwith %}
-                                                    {% endfor %}
-                                                {% endfor %}
+                                                            </b>
+                                                        </h5>
+                                                        <b>Birth Date:</b> <i>{{pax.birth_date}}</i><br>
+                                                    </div>
                                                 </div>
-                                            {% endwith %}
-                                        {% endfor %}
+
+                                                {% if 'behaviors' in pax  and pax.behaviors|length > 0%}
+                                                {% for key, provider_type in pax.behaviors.items %}
+                                                {% if key == 'airline'%}
+                                                <h6 style="margin-top:5px;"><i class="fas fa-history"></i> Behaviors history {{key}}</h6>
+                                                <textarea class="form-control" style="resize: none; height:120px;" name="passenger{{counter_pax}}" cols="50" rows="6" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;">{{provider_type}}</textarea>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-lg-12">
+                                                {% for ssr_provider in airline_ssrs.ssr_availability_provider %}
+                                                {% with forloop.counter as counter_provider %}
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3" style="display:inline-flex;">
+                                                        <div style="display:inline-block; text-align:left;">
+                                                            <h5><i class="fas fa-plane"></i> #{{forloop.counter}}</h5>
+                                                            {% for img in ssr_provider.airline_list %}
+                                                            <img data-toggle="tooltip" class="airlines_provider_img mb-3" alt="Airline Logo" title="Airlines" src="{{static_path_url_server}}/public/airline_logo/{{img}}.png">
+                                                            <!--<h5 id="provider_info{{counter_provider}}_{{counter_pax}}" style="text-align:right;"></h5>-->
+                                                            {% endfor %}
+                                                        </div>
+
+                                                        <div style="display:inline-block; width:100%;">
+                                                            <div id="ssr_included_page" style="display:none;">
+                                                                <b>SSR already included:</b><br/>
+                                                                <div style="padding:15px; border:1px solid #cdcdcd;" id="included_ssr{{counter_pax}}">
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div style="margin-bottom:15px; padding:15px 15px 0px 15px; border:1px solid #cdcdcd; border-radius:5px;">
+                                                                <h5 class="mb-3">SSR Request:</h5>
+                                                                {% for key, ssr_values in ssr_provider.ssr_availability.items %}
+                                                                {% for values in ssr_values %}
+                                                                {% with forloop.counter as counter_ssr %}
+
+                                                                <div class="row">
+                                                                    <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px;border-top:1px solid #cdcdcd;">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-5">
+                                                                                <h6>
+                                                                                    {{values.origin}}
+                                                                                    <i class="fas fa-arrow-right"></i>
+                                                                                    {{values.destination}}
+
+                                                                                    {% for segment_values in values.segments %}
+                                                                                    {% if forloop.counter == 1 %}
+                                                                                    (
+                                                                                    <script>
+                                                                                    document.write(moment('{{segment_values.departure_date}}').format('DD MMM YYYY'));
+                                                                                    </script>
+                                                                                    )
+                                                                                    <br/>
+                                                                                    {% endif %}
+                                                                                    {% endfor %}
+                                                                                </h6>
+                                                                                <span style="text-transform: capitalize; font-size:14px; font-weight:600;">
+                                                                                    {%if key == 'baggage'%}
+                                                                                    <i class="fas fa-suitcase"></i>
+                                                                                    {%elif key == 'equipment'%}
+                                                                                    <i class="fas fa-tools"></i>
+                                                                                    {%elif key == 'wheelchair'%}
+                                                                                    <i class="fas fa-wheelchair"></i>
+                                                                                    {%elif key == 'meal'%}
+                                                                                    <i class="fas fa-utensils"></i>
+                                                                                    {%endif%}
+                                                                                    {{key}}
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="col-lg-7">
+                                                                                {%if key == 'baggage'%}
+                                                                                <h6 id="provider_info{{counter_provider}}_{{counter_pax}}"></h6>
+                                                                                {% endif %}
+                                                                                <div class="input-container-search-ticket">
+                                                                                    <div class="form-select-2" id="default-select">
+                                                                                        <select class="nice-select-default" id="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" name="{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}" data-live-search="true" size="4" onchange="on_change_ssr()">
+                                                                                            <option value=""></option>
+                                                                                            {% for ssr in values.ssrs %}
+                                                                                            <option value="{{ssr.ssr_code}}_{{ssr.currency}}_{{ssr.total_price}}" id="ssr_option_{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{forloop.counter}}"
+                                                                                                    {% for ssr_list_pax in pax.ssr_list %}
+                                                                                                    {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.ssr_code == ssr_list_pax.fee_code %}
+                                                                                                    selected
+                                                                                                    {% endif %}
+                                                                                                    {% endfor %}
+                                                                                            >
+                                                                                                {{ssr.name}} - {{ssr.currency}}
+                                                                                            </option>
+                                                                                            <script>
+                                                                                                print_nominal_ssr("{{key}}_{{counter_provider}}_{{counter_pax}}_{{counter_ssr}}_{{ forloop.counter }}", {{ssr.total_price}});
+                                                                                            </script>
+                                                                                            {% endfor %}
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% endwith %}
+                                                                {% endfor %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endwith %}
+                                                {% endfor %}
+                                            </div>
                                         </div>
+                                    </div>
                                     {% endwith %}
                                 {% endfor %}
                             </div>
@@ -314,7 +257,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;" >
-                    <div style="background-color:white; padding:15px; border:1px solid #cdcdcd; top:10px;" id="airline_detail">
+                    <div class="div_box_default" id="airline_detail">
 
                     </div>
                 </div>

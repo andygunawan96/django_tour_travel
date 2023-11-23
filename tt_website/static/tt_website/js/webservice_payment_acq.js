@@ -176,8 +176,8 @@ function render_payment(){
 
             text+=`
             <div id="payment_description" style="text-align:left;"></div>`;
-            text+=`
-                </div>`;
+        text+=`
+        </div>`;
 
             document.getElementById('payment_acq').innerHTML = text;
             $('.payment_acq_btn').prop('disabled', false);
@@ -317,7 +317,7 @@ function set_payment(val, type){
                 }
 
                 text+=`
-                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
+                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`'); next_input_pin();">
                     <span class="checkmark-radio"></span>
                 </label>
                 <br/>`;
@@ -1104,12 +1104,12 @@ function set_price(val, type, product_type){
                     <div class='row' style="justify-content:right;">
                         <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                             <span style="font-size:13px; color:`+color+`;">No</span>
-                            <input type="radio" checked="checked" name="use_point" value="false" onclick="onchange_use_point(false);"/>
+                            <input type="radio" checked="checked" name="use_point" value="false" onclick="onchange_use_point(false); next_input_pin();"/>
                             <span class="checkmark-radio"></span>
                         </label>
                         <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
                             <span style="font-size:13px; color:`+color+`;">Yes</span>
-                            <input type="radio" name="use_point" value="true" onclick="onchange_use_point(true);"/>
+                            <input type="radio" name="use_point" value="true" onclick="onchange_use_point(true); next_input_pin();"/>
                             <span class="checkmark-radio"></span>
                         </label>
                     </div>
@@ -1146,7 +1146,7 @@ function set_price(val, type, product_type){
             <div class='row'>
                 <div class="col-sm-12 mb-3" style="text-align:left;">
                     <h6 style="padding-bottom:10px;">4. Input your PIN</h6>
-                    <div class="pin-container" style="margin-bottom:0px; justify-content: unset;">
+                    <div class="pin-container" style="margin-bottom:0px; justify-content: unset;" onclick="next_input_pin();">
                         <input type="text" id="pin_otp_input1" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
                         <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
                         <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
@@ -1305,6 +1305,7 @@ function onchange_use_point(value){
 
 function button_payment(type, page){
     temp_text = '';
+
     if(type == 'visa'){
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="freeze_session_time_limit();visa_pre_create_booking(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'passport'){
