@@ -2390,7 +2390,7 @@ def get_data_template(request, type='home', provider_type = []):
             ''' % website_name
     if request.session.get('user_account') and request.session['user_account'].get('co_user_login'):
         if request.path.split('/')[-1] != 'page_admin':
-            greeting_login = greeting_login.replace('[%user%]', request.session['user_account']['co_user_login'])
+            greeting_login = greeting_login.replace('[%user%]', request.session['user_account']['co_user_name'])
     if '[%website_name%]' in greeting_login:
         if request.path.split('/')[-1] != 'page_admin':
             greeting_login = {
