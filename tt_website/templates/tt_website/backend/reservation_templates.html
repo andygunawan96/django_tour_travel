@@ -44,491 +44,117 @@
 {% include 'tt_website/header.html' %}
 {% include 'tt_website/booking_from_vendor_airline.html' %}
 {% include 'tt_website/notification_box.html' %}
-{% if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-{% elif template == 2%}
-<section style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
-{% elif template == 3%}
-<section class="relative" style="padding:50px 0px 50px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 4%}
-<section style="padding:50px 0px 50px 0px; background:#f7f7f7;">
-{% elif template == 5%}
-<section style="padding:50px 0px 50px 0px; background:white; border-bottom:2px solid #cdcdcd; background:#f7f7f7;">
-{% elif template == 6%}
-<section style="padding:50px 0px 50px 0px; background:white; border-bottom:2px solid #cdcdcd; background:#f7f7f7;">
-{% endif %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="form-wrap" style="margin-bottom:30px; background:white; border:1px solid #cdcdcd; border-radius:14px;">
-                    <div class="row banner-right" style="margin-top:15px;">
-                        <div class="col-lg-12">
-                            <h4 style="padding:0px 15px 0px 15px;">{% trans 'Reservation Type' %}</h4>
-                            <div id="type" style="padding:10px;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-wrap" style="margin-bottom:30px; background:white; border:1px solid #cdcdcd; border-radius:14px;">
+                            <div class="row banner-right" style="margin-top:15px;">
+                                <div class="col-lg-12">
+                                    <h4 style="padding:0px 15px 0px 15px;">{% trans 'Reservation Type' %}</h4>
+                                    <div id="type" style="padding:10px;">
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-wrap" style="margin-bottom:25px; padding:15px; border:1px solid #cdcdcd; border-radius:14px; background:white;">
-                    <h4>{% trans 'Search by' %}</h4>
-                    {%if template == 1%}
-                    <div class="row banner-right">
-                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;display:none;" id="search">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off" onchange="capitalizeInput('pnr');"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
                                     </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span>{% trans 'State' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="state" class="nice-select-default">
-                                                <option value="all">All</option>
-                                                <option value="is_need_update_identity">Need Update Identity</option>
-                                                <option value="draft">Draft</option>
-                                                <option value="booked">Booked</option>
-                                                <option value="issued">Issued</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="done">Done</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="refund">Refund</option>
-                                                <option value="cancel">Cancelled</option>
-                                                <option value="cancel2">Expired</option>
-                                                <option value="fail_booked">Failed (Book)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
-                                    <span>{% trans 'Provider' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="provider" class="nice-select-default">
-                                                <option value="">All</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="booked_by" class="form-control enter_reservation" placeholder="{% trans 'Booked By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booked By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="issued_by" class="form-control enter_reservation" placeholder="{% trans 'Issued By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Issued By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% elif template == 2 %}
-                    <div class="row hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">
-                        <div class="col-lg-12 hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;display:none;" id="search">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off" onchange="capitalizeInput('pnr');" />
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span>{% trans 'State' %}</span>
-                                    <div class="form-select" id="default-select">
-                                        <select id="state">
-                                            <option value="all">All</option>
-                                            <option value="is_need_update_identity">Need Update Identity</option>
-                                            <option value="draft">Draft</option>
-                                            <option value="booked">Booked</option>
-                                            <option value="issued">Issued</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="done">Done</option>
-                                            <option value="rejected">Rejected</option>
-                                            <option value="cancel">Cancelled</option>
-                                            <option value="cancel2">Expired</option>
-                                            <option value="fail_booked">Failed (Book)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
-                                    <span>{% trans 'Provider' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="provider" class="nice-select-default">
-                                                <option value="">All</option>
-                                            </select>
+                    <div class="col-lg-12">
+                        <div class="form-wrap" style="margin-bottom:25px; padding:15px; border:1px solid #cdcdcd; border-radius:14px; background:white;">
+                            <h4>{% trans 'Search by' %}</h4>
+                            <div class="row banner-right">
+                                <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;display:none;" id="search">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6">
+                                            <span><i class="fas fa-scroll"></i> {% trans 'PNR or Order Number' %}</span><br/>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off" onchange="capitalizeInput('pnr');"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6">
+                                            <span>{% trans 'State' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select-2" id="default-select">
+                                                    <select id="state" class="nice-select-default">
+                                                        <option value="all">All</option>
+                                                        <option value="is_need_update_identity">Need Update Identity</option>
+                                                        <option value="draft">Draft</option>
+                                                        <option value="booked">Booked</option>
+                                                        <option value="issued">Issued</option>
+                                                        <option value="pending">Pending</option>
+                                                        <option value="done">Done</option>
+                                                        <option value="rejected">Rejected</option>
+                                                        <option value="refund">Refund</option>
+                                                        <option value="cancel">Cancelled</option>
+                                                        <option value="cancel2">Expired</option>
+                                                        <option value="fail_booked">Failed (Book)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6">
+                                            <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control b-white" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6">
+                                            <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control b-white" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6">
+                                            <span><i class="fas fa-user"></i> {% trans 'Booker name' %}</span><br/>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6">
+                                            <span><i class="fas fa-user"></i> {% trans 'Passenger name' %}</span><br/>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6" style="display:none;" id="provider_div">
+                                            <span>{% trans 'Provider' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select-2" id="default-select">
+                                                    <select id="provider" class="nice-select-default">
+                                                        <option value="">All</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6">
+                                            <span><i class="fas fa-user"></i> {% trans 'Booked by' %}</span><br/>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <input type="text" id="booked_by" class="form-control enter_reservation" placeholder="{% trans 'Booked By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booked By'" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6">
+                                            <span><i class="fas fa-user"></i> {% trans 'Issued by' %}</span><br/>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <input type="text" id="issued_by" class="form-control enter_reservation" placeholder="{% trans 'Issued By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Issued By'" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
+                                        </div>
+
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
+                                        </div>
+
+                                        <div class="col-lg-12" style="text-align:center;">
+                                            <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="booked_by" class="form-control enter_reservation" placeholder="{% trans 'Booked By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booked By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="issued_by" class="form-control enter_reservation" placeholder="{% trans 'Issued By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Issued By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% elif template == 3 %}
-                    <div class="row fullscreen d-flex" style="bottom:0px; padding-left:15px; padding-right:15px;">
-                        <div class="col-lg-12 header-right" style="background-color:unset; padding:unset; box-shadow:unset; border:unset;display:none;" id="search">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off" onchange="capitalizeInput('pnr');" />
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span>{% trans 'State' %}</span>
-                                    <div class="form-group">
-                                        <div class="default-select" id="default-select">
-                                            <select id="state">
-                                                <option value="all">All</option>
-                                                <option value="is_need_update_identity">Need Update Identity</option>
-                                                <option value="draft">Draft</option>
-                                                <option value="booked">Booked</option>
-                                                <option value="issued">Issued</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="done">Done</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="cancel">Cancelled</option>
-                                                <option value="cancel2">Expired</option>
-                                                <option value="fail_booked">Failed (Book)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
-                                    <span>{% trans 'Provider' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="provider" class="nice-select-default">
-                                                <option value="">All</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="booked_by" class="form-control enter_reservation" placeholder="{% trans 'Booked By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booked By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="issued_by" class="form-control enter_reservation" placeholder="{% trans 'Issued By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Issued By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% elif template == 4 %}
-                    <div class="row align-items-end justify-content-center">
-                        <div class="banner-content col-xl-12 search-field" style="display:none;" id="search">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off" onchange="capitalizeInput('pnr');" />
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span>{% trans 'State' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select class="nice-select-default" id="state">
-                                                <option value="all">All</option>
-                                                <option value="is_need_update_identity">Need Update Identity</option>
-                                                <option value="draft">Draft</option>
-                                                <option value="booked">Booked</option>
-                                                <option value="issued">Issued</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="done">Done</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="cancel">Cancelled</option>
-                                                <option value="cancel2">Expired</option>
-                                                <option value="fail_booked">Failed (Book)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
-                                    <span>{% trans 'Provider' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="provider" class="nice-select-default">
-                                                <option value="">All</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="booked_by" class="form-control enter_reservation" placeholder="{% trans 'Booked By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booked By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="issued_by" class="form-control enter_reservation" placeholder="{% trans 'Issued By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Issued By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline; color:#205B95;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% elif template == 5 %}
-                    <div class="row banner-right">
-                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;display:none;" id="search">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR or Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR or Order Number'" autocomplete="off" onchange="capitalizeInput('pnr');" />
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span>{% trans 'State' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select" id="default-select">
-                                            <select id="state">
-                                                <option value="all">All</option>
-                                                <option value="is_need_update_identity">Need Update Identity</option>
-                                                <option value="draft">Draft</option>
-                                                <option value="booked">Booked</option>
-                                                <option value="issued">Issued</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="done">Done</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="cancel">Cancelled</option>
-                                                <option value="cancel2">Expired</option>
-                                                <option value="fail_booked">Failed (Book)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
-                                    <span>{% trans 'Provider' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="provider" class="nice-select-default">
-                                                <option value="">All</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="booked_by" class="form-control enter_reservation" placeholder="{% trans 'Booked By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booked By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="issued_by" class="form-control enter_reservation" placeholder="{% trans 'Issued By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Issued By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button" disabled/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% elif template == 6 %}
-                    <div class="row banner-right">
-                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR'" autocomplete="off" onchange="capitalizeInput('pnr');"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="{% trans 'Booker name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="{% trans 'Passenger name' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Book Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Book Date' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <span>{% trans 'State' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select" id="default-select">
-                                            <select id="state">
-                                                <option value="all">All</option>
-                                                <option value="is_need_update_identity">Need Update Identity</option>
-                                                <option value="draft">Draft</option>
-                                                <option value="booked">Booked</option>
-                                                <option value="issued">Issued</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="done">Done</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="cancel">Cancelled</option>
-                                                <option value="cancel2">Expired</option>
-                                                <option value="fail_booked">Failed (Book)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="provider_div">
-                                    <span>{% trans 'Provider' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <div class="form-select" id="default-select">
-                                            <select id="provider" class="nice-select-default">
-                                                <option value="">All</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="booked_by" class="form-control enter_reservation" placeholder="{% trans 'Booked By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booked By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6">
-                                    <br/>
-                                    <input type="text" id="issued_by" class="form-control enter_reservation" placeholder="{% trans 'Issued By' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Issued By'" autocomplete="off"/>
-                                </div>
-                                <div class="col-lg-4 col-md-6" style="display:none;" id="empty_div">
-                                </div>
-
-
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
-                                </div>
-
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
                 </div>
 
                 <div class="col-lg-12">
@@ -698,7 +324,7 @@
             for(i in provider_types_sequence){
                 add_product = false;
                 if(provider_types_sequence[i].name != 'health_care'){//health_care provider buatan dari frontend tidak ada di backend
-                    text_product=`<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">`;
+                    text_product=`<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">`;
                         text_product += `<label class="radio-button-custom">`;
                         if(provider_types_sequence[i].code == 'airline' && user_login.co_agent_frontend_security.includes('ticketing_airline') || provider_types_sequence[i].code == 'airline' &&  user_login.co_agent_frontend_security.includes('process_channel_booking')){
                             text_product+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/product/b-airline.png" alt="Airline Icon"/>`;
@@ -776,12 +402,12 @@
             }
             if(user_login.co_agent_frontend_security.includes('ticketing_offline') || user_login.co_agent_frontend_security.includes('process_channel_booking'))
                 text += `
-                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
                     <label class="radio-button-custom">
                         <img style="width:auto; height:15px" src="{{static_path}}images/icon/product/b-offline.png" alt="Offline Icon"/>
-                        <span>Offline</span>
                         <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
                         <span class="checkmark-radio"></span>
+                        <span>Offline</span>
                     </label>
                 </div>`;
             text+=`</div>`;

@@ -69,7 +69,11 @@
             <div class="col-sm-6 mb-3">
                 <div class="input-container-search-ticket" style="width:auto; float:right;">
                     <i class="fas fa-search" style="font-size:20px; margin-top:10px; margin-right:10px;"></i>
-                    <input class="form-control" id="input_search_setting" onkeyup="search_setting_page();" placeholder="Search Setting"/>
+                    {% if "agent_setting_printout" in username.co_agent_frontend_security %}
+                    <input class="form-control" id="input_search_setting" onkeyup="search_setting_page('tab-printout-li', 'tab-printout');" placeholder="Search Setting"/>
+                    {% else %}
+                    <input class="form-control" id="input_search_setting" onkeyup="search_setting_page('tab-security-li', 'tab-security');" placeholder="Search Setting"/>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-3 mb-3">
@@ -104,7 +108,7 @@
                     <div id="tab-printout" class="main_menu_content current">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="accordion" data-tab="tab-website">
+                                <button type="button" class="accordion" data-tab="tab-printout">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-print" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -146,7 +150,7 @@
                     <div id="tab-security" class="main_menu_content {% if "agent_setting_printout" not in username.co_agent_frontend_security %} current {% endif %}">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="accordion" data-tab="tab-otp">
+                                <button type="button" class="accordion" data-tab="tab-security">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-envelope" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -222,7 +226,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <button type="button" class="accordion" data-tab="tab-pin">
+                                <button type="button" class="accordion" data-tab="tab-security">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-key" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
@@ -252,7 +256,7 @@
                     <div id="tab-user" class="main_menu_content">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="accordion" data-tab="tab-information">
+                                <button type="button" class="accordion" data-tab="tab-user">
                                     <div style="display:inline-flex">
                                         <i class="fas fa-key" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">

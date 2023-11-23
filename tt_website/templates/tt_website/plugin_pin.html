@@ -40,7 +40,7 @@
                         </div>
                         <div id="otp_pin_div">
                             <label> {% trans 'OTP Code' %}</label>
-                            <div class="pin-otp-container" style="justify-content: unset;">
+                            <div class="pin-otp-container" style="justify-content: unset;" onclick="next_input_otp('pin_otp_input1');">
                                 <input type="text" id="pin_otp_input1" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
                                 <input type="text" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
                                 <input type="text" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
@@ -116,6 +116,7 @@
             $('#btn_pin').removeClass("primary-btn-custom");
             $('#btn_pin').addClass("primary-btn-cancel");
             action_mode = 'turn_off';
+            $('#myModal_pin').modal('hide');
         }else if(type_open == 'change'){
             document.getElementById('otp_pin_div').hidden = true;
             document.getElementById('change_pin_div').hidden = false;
@@ -129,6 +130,9 @@
             action_mode = 'change';
         }
         $('#myModal_pin').modal('show');
+        try{
+            document.getElementById('otp_pin_time_limit').hidden = false;
+        }catch(err){}
     }
 
     function get_pin_otp(is_resend=false){
@@ -321,12 +325,25 @@
             is_move_back_action_mode = true;
             action_mode = 'change';
         }
+
         if(error_msg){
             Swal.fire({
                 type: 'error',
                 title: 'Oops!',
                 html: error_msg,
+            }).then((result) => {
+                try{
+                    var pin_otp_us = document.querySelectorAll('.pin-otp-input');
+                    for (i = 0; i < pin_otp_us.length; ++i) {
+                      pin_otp_us[i].value = "";
+                      pin_otp_us[i].removeAttribute("disabled");
+                    }
+                    setTimeout(() => {
+                      document.getElementById('pin_otp_input1').select();
+                    }, 500);
+                }catch(err){}
             })
+
             setTimeout(function(){
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");

@@ -66,6 +66,7 @@
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
 {% include 'tt_website/header.html' %}
+{% include 'tt_website/html_include/header_product_list.html' %}
 {% include 'tt_website/logout.html' %}
 {% include 'tt_website/loading_screen.html' %}
 {% include 'tt_website/plugin_passenger.html' %}
@@ -80,7 +81,7 @@
 
 
 {%if template == 1%}
-<section class="destinations-area change_search_area">
+<section class="change_search_area">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
