@@ -79,6 +79,8 @@ def api_models(request):
             res = check_session(request)
         elif req_data['action'] == 'update_session':
             res = update_session(request)
+        elif req_data['action'] == 'refresh_session':
+            res = refresh_session(request)
         elif req_data['action'] == 'signup_user':
             res = signup_user(request)
         elif req_data['action'] == 'delete_user':
@@ -254,6 +256,21 @@ def update_session(request):
         "Content-Type": "application/json",
         "action": "update_session",
         "signature": request.POST['signature']
+    }
+    try:
+        data = {}
+    except Exception as e:
+        _logger.error('ERROR update session\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('session')
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+    return res
+
+def refresh_session(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "refresh_session",
+        "signature": request.session['master_signature']
     }
     try:
         data = {}

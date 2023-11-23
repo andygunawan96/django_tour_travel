@@ -1522,7 +1522,7 @@ function generate_url_create(type){
        type: "POST",
        url: "/webservice/account",
        headers:{
-            'action': 'update_session',
+            'action': 'refresh_session',
        },
        data: {
             'signature':signature,
@@ -1538,11 +1538,11 @@ function generate_url_create(type){
                     else
                         url_create_passenger.pop();
                 if(type == 'passenger')
-                    copy_url(url_create_passenger.join('/') + '/create_passenger/' + signature);
+                    copy_url(url_create_passenger.join('/') + '/create_passenger/' + msg.result.response.signature);
                 else if(type == 'cor')
-                    copy_url(url_create_passenger.join('/') + '/create_cor/' + signature);
+                    copy_url(url_create_passenger.join('/') + '/create_cor/' + msg.result.response.signature);
                 else if(type == 'agent')
-                    copy_url(url_create_passenger.join('/') + '/registration/' + signature);
+                    copy_url(url_create_passenger.join('/') + '/registration/' + msg.result.response.signature);
             }else{
                 //signature expired waktu mau generate
                 Swal.fire({
