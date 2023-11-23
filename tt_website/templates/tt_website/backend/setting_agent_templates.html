@@ -188,7 +188,7 @@
                                                         <span style="font-weight:bold">Connected date:</span>
                                                         <span id="connect_date_span{{forloop.counter}}"></span><br/>
                                                         <script>
-                                                            date_connect_temp = '{{machine_obj.connect_date}}';
+                                                            date_connect_temp = '{{machine_obj.connect_date_utc}}';
                                                             connect_tes = moment.utc(date_connect_temp).format('YYYY-MM-DD HH:mm:ss');
                                                             connect_localTime  = moment.utc(connect_tes).toDate();
                                                             connect_time_limit_otp = moment(connect_localTime).format('YYYY-MM-DD HH:mm:ss');
@@ -199,7 +199,7 @@
                                                         <span style="font-weight:bold">Valid until:</span> <span id="valid_date_span{{forloop.counter}}"></span>
                                                         {% if machine_obj.valid_date != 'Never ask again for this browser' %}
                                                             <script>
-                                                                date_valid_temp = '{{machine_obj.valid_date_utc}}';
+                                                                date_valid_temp = '{{machine_obj.valid_date}}';
                                                                 date_valid_display = moment(date_valid_temp).format('ddd DD MMM YYYY HH:mm:ss');
                                                                 document.getElementById('valid_date_span'+{{forloop.counter}}).innerHTML += date_valid_display;
                                                             </script>
