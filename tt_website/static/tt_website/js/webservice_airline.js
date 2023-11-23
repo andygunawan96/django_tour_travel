@@ -10977,7 +10977,7 @@ function airline_get_booking(data, sync=false){
                                 if(breakdown_text)
                                     breakdown_text += '<br/>';
                                 breakdown_text += '<b>'+k+'</b> ';
-                                if(j != 'BREAKDOWN')
+                                if(k != 'BREAKDOWN')
                                     breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
                             }
                             new jBox('Tooltip', {

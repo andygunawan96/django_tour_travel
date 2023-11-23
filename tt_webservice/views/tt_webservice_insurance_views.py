@@ -212,7 +212,8 @@ def get_availability(request, signature=''):
             "destination_area": destination_area,
             "type": insurance_request['type'],
             "plan_trip": insurance_request['plan_trip'],
-            "provider": insurance_request['provider']
+            "provider": insurance_request['provider'],
+            "product_type": insurance_request.get('product_type', '')
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
