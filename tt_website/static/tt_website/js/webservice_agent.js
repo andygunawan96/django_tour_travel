@@ -346,11 +346,11 @@ function signin(){
                     try{
                         var input_otp_email2 = document.querySelectorAll('.email-otp-input');
                         for (i = 0; i < input_otp_email2.length; ++i) {
-                          input_otp_email2[i].value = "";
-                          input_otp_email2[i].removeAttribute("disabled");
+                            input_otp_email2[i].value = "";
+                            input_otp_email2[i].removeAttribute("disabled");
                         }
                         setTimeout(() => {
-                          document.getElementById('email_otp_input1').select();
+                            document.getElementById('email_otp_input1').select();
                         }, 500);
                     }catch(err){}
                 });
@@ -553,7 +553,7 @@ function signin_booking(){
                           input_otp_email2[i].removeAttribute("disabled");
                         }
                         setTimeout(() => {
-                          document.getElementById('email_otp_input1').select();
+                            document.getElementById('email_otp_input1').select();
                         }, 500);
                     }catch(err){}
                 });
@@ -988,7 +988,7 @@ function signin_btc(is_resend=false){
                           input_otp_email2[i].removeAttribute("disabled");
                         }
                         setTimeout(() => {
-                          document.getElementById('email_otp_input1').select();
+                            document.getElementById('email_otp_input1').select();
                         }, 500);
                     }catch(err){}
                 });
@@ -1127,7 +1127,7 @@ function signin_product_otp(is_resend=false){
                       input_otp_email2[i].removeAttribute("disabled");
                     }
                     setTimeout(() => {
-                      document.getElementById('email_otp_input1').select();
+                        document.getElementById('email_otp_input1').select();
                     }, 500);
                 }catch(err){}
             });
@@ -1373,7 +1373,7 @@ function activation_otp_user_api(){
                           input_otp_user[i].removeAttribute("disabled");
                         }
                         setTimeout(() => {
-                          document.getElementById('email_otp_input_user1').select();
+                            document.getElementById('email_otp_input_user1').select();
                         }, 500);
                     }catch(err){}
                     if(document.getElementById('otp_user')){
