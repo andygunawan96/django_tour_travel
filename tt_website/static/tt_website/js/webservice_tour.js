@@ -118,7 +118,9 @@ function tour_redirect_signup(type){
 //                        $('#myModalSignin').modal('hide');
 //                        location.reload();
 //                    }
-               }
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }
            }catch(err){
                console.log(err)
             }
@@ -183,6 +185,8 @@ function tour_login(data, type=''){
                 }else if(type == 'get_details_by_slug'){
                     tour_get_details_by_slug(data);
                 }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
             }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
                 try{

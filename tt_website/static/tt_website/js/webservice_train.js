@@ -85,6 +85,8 @@ function train_redirect_signin(type){
                     $('#myModalSignin').modal('hide');
                     window.location.href = '/';
 //                    location.reload();
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
                 }else if(msg.result.error_code == 1040){
                     $('#myModalSignIn').modal('show');
                     try{
@@ -341,18 +343,20 @@ function train_signin(data, type=''){
                     search_reorder(data);
                 else if(data != '')
                     train_get_booking(data);
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
             }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-                hide_modal_waiting_transaction();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
-           }
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+                try{
+                    hide_modal_waiting_transaction();
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train singin');

@@ -101,6 +101,8 @@ function visa_signin(data){
                 }else if(data != ''){
                     visa_get_data(data);
                 }
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
             }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
                 try{

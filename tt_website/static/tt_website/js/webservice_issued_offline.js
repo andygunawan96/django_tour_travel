@@ -512,6 +512,8 @@ function issued_offline_signin(data){
                     set_data_issued_offline();
                 else
                     get_booking_offline(data);
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
             }else if(msg.result.error_code == 1040){
                 $('#myModalSignIn').modal('show');
                 try{
@@ -565,6 +567,16 @@ function issued_offline_signin(data){
                 });
                 $('.loading-button').prop('disabled', false);
                 $('.loading-button').removeClass("running");
+            }else{
+                Swal.fire({
+                    type: 'warning',
+                    html: msg.result.error_msg
+                });
+                document.getElementById('payment_acq').innerHTML = '';
+                close_div('payment_acq');
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.payment_acq_btn').removeClass("running");
+                $("#loading_payment_acq").hide();
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1045,12 +1057,6 @@ function commit_booking(){
             data: data,
             success: function(msg) {
                 if(msg.result.error_code == 0){
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Booking!',
-                        html: 'Issued Offline number booking: ' + msg.result.response.order_number,
-                    })
-
                     Swal.fire({
                         title: 'Booking!',
                         type: 'success',
