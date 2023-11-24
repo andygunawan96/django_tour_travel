@@ -572,7 +572,7 @@ def api_models(request):
         elif req_data['action'] == 'turn_off_other_machine_otp_user_api':
             res = turn_off_other_machine_otp_user_api(request)
         elif req_data['action'] == 'update_context_machine_otp_pin_api':
-            res = update_context_machine_otp_pin_api(request)
+            res = update_context_machine_otp_pin_api(request, is_need_to_save_session=True)
         elif req_data['action'] == 'check_credential':
             res = check_credential(request)
         elif req_data['action'] == 'check_credential_b2c':
@@ -999,21 +999,27 @@ def signin_product_otp(request):
         _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
-def update_context_machine_otp_pin_api(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "update_context_machine_otp_pin_api",
-        "signature": request.session['master_signature']
-    }
+def update_context_machine_otp_pin_api(request, signature='', is_need_to_save_session=False, is_need_to_create_new_session=False):
     try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_context_machine_otp_pin_api",
+            "signature": signature if signature else request.session.get('master_signature', '')
+        }
         data = {}
     except Exception as e:
         _logger.error('ERROR get user or password for update context_machine_otp_pin\n' + str(e) + '\n' + traceback.format_exc())
     url_request = get_url_gateway('account')
     res = send_request_api(request, url_request, headers, data, 'POST', 10)
     if "login" in res['result']['response']['co_agent_frontend_security']:
-        set_session(request, 'user_account', res['result']['response'])
+        if is_need_to_create_new_session:
+            request.session.create()
+            request.session.set_expiry(3 * 60 * 60)  # jam menit detik
+            set_session(request, 'signature', res['result']['response']['signature'])
+            set_session(request, 'master_signature', res['result']['response']['signature'])
+        if is_need_to_save_session:
+            set_session(request, 'user_account', res['result']['response'])
 
     return res
 
