@@ -239,6 +239,7 @@
                 </div>
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+            <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
         </form>
         <form method="POST" id="insurance_issued" action="{% url 'tt_website:payment'%}">
             {% csrf_token %}

@@ -130,7 +130,9 @@ function session_otp_time_limit(){
                     input_otp_email[i].value = "";
                     input_otp_email[i].removeAttribute("disabled");
                 }
-                document.getElementById('email_otp_input1').select();
+                setTimeout(() => {
+                  document.getElementById('email_otp_input1').select();
+                }, 500);
             }catch(err){}
 
             clearInterval(timeLimitOTPInterval);
@@ -169,6 +171,9 @@ function session_otp_pin_time_limit(){
             document.getElementById('otp_pin_time_limit').hidden = true;
             clearInterval(timeLimitOTPPINInterval);
 
+            try{
+                $('#myModal_pin').modal('hide');
+            }catch(err){}
         }
     }, 1000);
 }
@@ -344,7 +349,9 @@ function signin(){
                           input_otp_email2[i].value = "";
                           input_otp_email2[i].removeAttribute("disabled");
                         }
-                        document.getElementById('email_otp_input1').select();
+                        setTimeout(() => {
+                          document.getElementById('email_otp_input1').select();
+                        }, 500);
                     }catch(err){}
                 });
                 if(document.getElementById('otp')){
@@ -545,7 +552,9 @@ function signin_booking(){
                           input_otp_email2[i].value = "";
                           input_otp_email2[i].removeAttribute("disabled");
                         }
-                        document.getElementById('email_otp_input1').select();
+                        setTimeout(() => {
+                          document.getElementById('email_otp_input1').select();
+                        }, 500);
                     }catch(err){}
                 });
                 if(document.getElementById('otp')){
@@ -978,7 +987,9 @@ function signin_btc(is_resend=false){
                           input_otp_email2[i].value = "";
                           input_otp_email2[i].removeAttribute("disabled");
                         }
-                        document.getElementById('email_otp_input1').select();
+                        setTimeout(() => {
+                          document.getElementById('email_otp_input1').select();
+                        }, 500);
                     }catch(err){}
                 });
                 if(document.getElementById('otp')){
@@ -1115,7 +1126,9 @@ function signin_product_otp(is_resend=false){
                       input_otp_email2[i].value = "";
                       input_otp_email2[i].removeAttribute("disabled");
                     }
-                    document.getElementById('email_otp_input1').select();
+                    setTimeout(() => {
+                      document.getElementById('email_otp_input1').select();
+                    }, 500);
                 }catch(err){}
             });
             if(document.getElementById('otp')){
@@ -1359,7 +1372,9 @@ function activation_otp_user_api(){
                           input_otp_user[i].value = "";
                           input_otp_user[i].removeAttribute("disabled");
                         }
-                        document.getElementById('email_otp_input_user1').select();
+                        setTimeout(() => {
+                          document.getElementById('email_otp_input_user1').select();
+                        }, 500);
                     }catch(err){}
                     if(document.getElementById('otp_user')){
                         document.getElementById('otp_user').value = '';
@@ -1522,7 +1537,7 @@ function generate_url_create(type){
        type: "POST",
        url: "/webservice/account",
        headers:{
-            'action': 'update_session',
+            'action': 'refresh_session',
        },
        data: {
             'signature':signature,
@@ -1538,11 +1553,11 @@ function generate_url_create(type){
                     else
                         url_create_passenger.pop();
                 if(type == 'passenger')
-                    copy_url(url_create_passenger.join('/') + '/create_passenger/' + signature);
+                    copy_url(url_create_passenger.join('/') + '/create_passenger/' + msg.result.response.signature);
                 else if(type == 'cor')
-                    copy_url(url_create_passenger.join('/') + '/create_cor/' + signature);
+                    copy_url(url_create_passenger.join('/') + '/create_cor/' + msg.result.response.signature);
                 else if(type == 'agent')
-                    copy_url(url_create_passenger.join('/') + '/registration/' + signature);
+                    copy_url(url_create_passenger.join('/') + '/registration/' + msg.result.response.signature);
             }else{
                 //signature expired waktu mau generate
                 Swal.fire({
@@ -2789,53 +2804,22 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                                     }
 
                                     if(msg.result.response[i].phones.length != 0){
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-mobile-alt"></i> <b>Mobile:</b>
+                                        response+=`
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <i class="fas fa-mobile-alt"></i> <b>Mobile:</b>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-select-2" id="default-select">`;
+                                                    response+=`<select class="phone_chosen_cls_search nice-select-default mb-1" id="phone_chosen`+i+`" style="width:100%;">`;
+                                                    for(j in msg.result.response[i].phones){
+                                                        response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
+                                                    }
+                                                    response+=`
+                                                    </select>
                                                 </div>
-                                                <div class="col-lg-12">`;
-                                        }
-                                        else if(template == 2){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Mobile:</b>
-                                                </div>
-                                                <div class="col-lg-12">`;
-                                        }
-                                        else if(template == 3){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Mobile:</b>
-                                                        <div class="default-select">`;
-                                        }
-                                        else if(template == 4){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Mobile:</b>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-select">`;
-                                        }
-                                        response+=`<select class="phone_chosen_cls_search nice-select-default mb-1" id="phone_chosen`+i+`" style="width:100%;">`;
-                                        for(j in msg.result.response[i].phones){
-                                            response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
-                                        }
-                                        response+=`</select>`;
-
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`</div></div>`;
-                                        }else if(template == 2){
-                                            response+=`</div></div>`;
-                                        }else if(template == 3){
-                                            response+=`</div></div></div>`;
-                                        }else if(template == 4){
-                                            response+=`</div></div></div>`;
-                                        }
+                                            </div>
+                                        </div>`;
                                     }
                                     else{
                                         response+=`<br/><i class="fas fa-mobile-alt"></i> <b>Mobile:</b> <i>not filled in</i>`;
@@ -2846,94 +2830,59 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                                 <div class="col-lg-12" style="border-top:1px solid #cdcdcd; padding-top:15px;">`;
                                     //default passport, kalau ada selection passport, ktp, sim print
                                     if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport') || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp') || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim') || product == 'cache' && Object.keys(msg.result.response[i].identities).length > 0){
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card"></i> <b>Identity:</b>
-                                                </div>
-                                                <div class="col-lg-12 mb-1">`;
-                                        }
-                                        else if(template == 2){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Identity:</b>
-                                                </div>
-                                                <div class="col-lg-12">`;
-                                        }
-                                        else if(template == 3){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Identity:</b>
-                                                        <div class="default-select">`;
-                                        }
-                                        else if(template == 4){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Identity:</b>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-select">`;
-                                        }
-
-                                        if(product == 'cache'){
-                                            response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
-                                            response += `<option value="all_identity">All Identity</option>`;
-                                            //print semua yg ada cache
-                                            for(j in msg.result.response[i].identities){
-                                                if(j=='passport' || found_selection == 0 || found_selection.includes(j))
-                                                    response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
-                                            }
-                                        }
-                                        else{
-                                            //print sesuai yg ada pada pilihan
-                                            is_first_identity_found = false;
-                                            if(found_selection.length > 0 || msg.result.response[i].identities.hasOwnProperty('passport')){
-                                                response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
-                                                if(found_selection.length > 0){
-                                                    for(x in found_selection){
-                                                        identity_is_found = false;
+                                        response+=`
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <i class="fas fa-id-card"></i> <b>Identity:</b>
+                                            </div>
+                                            <div class="col-lg-12 mb-1">
+                                                <div class="form-select-2" id="default-select">`;
+                                                    if(product == 'cache'){
+                                                        response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
+                                                        response += `<option value="all_identity">All Identity</option>`;
+                                                        //print semua yg ada cache
                                                         for(j in msg.result.response[i].identities){
-                                                            if(found_selection[x] == j){
-                                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" `;
-                                                                if(!is_first_identity_found)
-                                                                    response += 'selected';
-                                                                response += `>`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
-                                                                identity_is_found = true;
-                                                                is_first_identity_found = true;
-                                                            }
-                                                        }
-                                                        if(!identity_is_found){
-                                                            response += `<option value="`+found_selection[x]+` - ">`+found_selection[x].charAt(0).toUpperCase()+found_selection[x].slice(1)+` - Input new data</option>`;
+                                                            if(j=='passport' || found_selection == 0 || found_selection.includes(j))
+                                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
                                                         }
                                                     }
-                                                }else if(msg.result.response[i].identities.hasOwnProperty('passport')){
-                                                    response += `<option selected value="passport - `+msg.result.response[i].identities['passport'].identity_number+`">Passport - `+msg.result.response[i].identities['passport'].identity_number+`</option>`;
-                                                }
-                                            }
-                                        }
-
-            //                                                if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport'))
-            //                                                    response += `<option value="passport - `+msg.result.response[i].identities.passport.identity_number+`">Passport - `+msg.result.response[i].identities.passport.identity_number+`</option>`;
-            //                                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp'))
-            //                                                    response += `<option value="ktp - `+msg.result.response[i].identities.ktp.identity_number+`">KTP - `+msg.result.response[i].identities.ktp.identity_number+`</option>`;
-            //                                                if(msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim'))
-            //                                                    response += `<option value="sim - `+msg.result.response[i].identities.sim.identity_number+`">SIM - `+msg.result.response[i].identities.sim.identity_number+`</option>`;
-
-                                        response+=`</select>`;
-
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`</div></div>`;
-                                        }else if(template == 2){
-                                            response+=`</div></div>`;
-                                        }else if(template == 3){
-                                            response+=`</div></div></div>`;
-                                        }else if(template == 4){
-                                            response+=`</div></div></div>`;
-                                        }
+                                                    else{
+                                                        //print sesuai yg ada pada pilihan
+                                                        is_first_identity_found = false;
+                                                        if(found_selection.length > 0 || msg.result.response[i].identities.hasOwnProperty('passport')){
+                                                            response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
+                                                            if(found_selection.length > 0){
+                                                                for(x in found_selection){
+                                                                    identity_is_found = false;
+                                                                    for(j in msg.result.response[i].identities){
+                                                                        if(found_selection[x] == j){
+                                                                            response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" `;
+                                                                            if(!is_first_identity_found)
+                                                                                response += 'selected';
+                                                                            response += `>`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                                            identity_is_found = true;
+                                                                            is_first_identity_found = true;
+                                                                        }
+                                                                    }
+                                                                    if(!identity_is_found){
+                                                                        response += `<option value="`+found_selection[x]+` - ">`+found_selection[x].charAt(0).toUpperCase()+found_selection[x].slice(1)+` - Input new data</option>`;
+                                                                    }
+                                                                }
+                                                            }else if(msg.result.response[i].identities.hasOwnProperty('passport')){
+                                                                response += `<option selected value="passport - `+msg.result.response[i].identities['passport'].identity_number+`">Passport - `+msg.result.response[i].identities['passport'].identity_number+`</option>`;
+                                                            }
+                                                        }
+                                                    }
+                                                    //if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport'))
+                                                    //    response += `<option value="passport - `+msg.result.response[i].identities.passport.identity_number+`">Passport - `+msg.result.response[i].identities.passport.identity_number+`</option>`;
+                                                    //if(msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp'))
+                                                    //    response += `<option value="ktp - `+msg.result.response[i].identities.ktp.identity_number+`">KTP - `+msg.result.response[i].identities.ktp.identity_number+`</option>`;
+                                                    //if(msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim'))
+                                                    //    response += `<option value="sim - `+msg.result.response[i].identities.sim.identity_number+`">SIM - `+msg.result.response[i].identities.sim.identity_number+`</option>`;
+                                                response+=`</select>
+                                                </div>
+                                            </div>
+                                        </div>`;
 
                                         //identity cenius waktu search di passenger database done
                                         if(product == 'cache'){
@@ -8650,54 +8599,21 @@ function get_passenger_cache(type,update_cache=false){
                                         }
 
                                         if(msg.result.response[i].phones.length != 0){
-                                            if(template == 1 || template == 5 || template == 6){
-                                                response+=`
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <i class="fas fa-mobile-alt"></i> <b>Mobile:</b>
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-mobile-alt"></i> <b>Mobile:</b>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-select-2" id="default-select">`;
+                                                        response+=`<select class="phone_chosen_cls nice-select-default" id="phone_chosen`+i+`" style="width:100%;">`;
+                                                        for(j in msg.result.response[i].phones){
+                                                            response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
+                                                        }
+                                                        response+=`</select>
                                                     </div>
-                                                    <div class="col-lg-12">`;
-                                            }
-                                            else if(template == 2){
-                                                response+=`
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Mobile:</b>
-                                                    </div>
-                                                    <div class="col-lg-12">`;
-                                            }
-                                            else if(template == 3){
-                                                response+=`
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Mobile:</b>
-                                                            <div class="default-select">`;
-                                            }
-                                            else if(template == 4){
-                                                response+=`
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Mobile:</b>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="form-select">`;
-                                            }
-
-                                            response+=`<select class="phone_chosen_cls nice-select-default" id="phone_chosen`+i+`" style="width:100%;">`;
-                                            for(j in msg.result.response[i].phones){
-                                                response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
-                                            }
-                                            response+=`</select>`;
-
-                                            if(template == 1 || template == 5 || template == 6){
-                                                response+=`</div></div>`;
-                                            }else if(template == 2){
-                                                response+=`</div></div>`;
-                                            }else if(template == 3){
-                                                response+=`</div></div></div>`;
-                                            }else if(template == 4){
-                                                response+=`</div></div></div>`;
-                                            }
+                                                </div>
+                                            </div>`;
                                         }
                                         else{
                                             response+=`<br/><i class="fas fa-mobile-alt"></i> <b>Mobile:</b> <i>not filled in</i>`;
@@ -8715,57 +8631,28 @@ function get_passenger_cache(type,update_cache=false){
                                 <div class="col-lg-12" style="border-top:1px solid #cdcdcd; padding-top:15px;">`;
                                     //default passport, kalau ada selection passport, ktp, sim print
                                     if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport') || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp') || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim')){
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card"></i> <b>Identity:</b>
-                                                </div>
-                                                <div class="col-lg-12">`;
-                                        }else if(template == 2){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Identity:</b>
-                                                </div>
-                                                <div class="col-lg-12">`;
-                                        }else if(template == 3){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Identity:</b>
-                                                        <div class="default-select">`;
-                                        }else if(template == 4){
-                                            response+=`
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <b>Identity:</b>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-select">`;
-                                        }
+                                        response+=`
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <i class="fas fa-id-card"></i> <b>Identity:</b>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-select-2" id="default-select">`;
+                                                if(msg.result.response[i].identities.length != 0){
+                                                    response+=`
+                                                    <select class="phone_chosen_cls nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity_chosen', 'chosen')" style="width:100%;">
+                                                        <option value="all_identity">All Identity</option>`;
 
-                                        if(msg.result.response[i].identities.length != 0){
-                                            response+=`
-                                            <select class="phone_chosen_cls nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity_chosen', 'chosen')" style="width:100%;">
-                                                <option value="all_identity">All Identity</option>`;
-
-                                            for(j in msg.result.response[i].identities){
+                                                    for(j in msg.result.response[i].identities){
+                                                        response+=`
+                                                        <option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" style="text-transform: capitalize;">`+j+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                    }
+                                                    response+=`</select>`;
+                                                }
                                                 response+=`
-                                                <option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" style="text-transform: capitalize;">`+j+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
-                                            }
-                                            response+=`</select>`;
-                                        }
-
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`</div></div>`;
-                                        }else if(template == 2){
-                                            response+=`</div></div>`;
-                                        }else if(template == 3){
-                                            response+=`</div></div></div>`;
-                                        }else if(template == 4){
-                                            response+=`</div></div></div>`;
-                                        }
+                                                </div>
+                                            </div>
+                                        </div>`;
 
                                         //identity cenius chosen passenger done
                                         if(msg.result.response[i].identities.length != 0){
@@ -9687,6 +9574,8 @@ function add_phone_passenger_cache(){
     node.innerHTML = text;
     document.getElementById('passenger_phone_table').appendChild(node);
     $('#passenger_phone_code'+passenger_data_phone+'_id').val(62).trigger('change');
+
+    $('.js-example-basic-single').select2();
 }
 
 function add_frequent_flyer_edit_cache(){

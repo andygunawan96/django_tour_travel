@@ -2076,7 +2076,7 @@ function hotel_provision(price_code, provider){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Oops, Room Not Available. </span> Please try again!' ,
                 }).then((result) => {
-                  window.location.href = '/hotel/detail/'+hotel.id;
+                  window.location.href = '/hotel/detail/'+hotel.id+'/'+signature;
                 })
 
 //                Swal.fire({

@@ -251,14 +251,14 @@ function insurance_get_config(page=false, provider_allowed=[]){
                         $('#insurance_destination_area').niceSelect('update');
                         choice = '';
                         for(i in insurance_config['zurich']['product_type']){
-                            if(insurance_request.plan_trip == i){
+                            if(insurance_request.product_type == i){
                                 choice +=`<option value="`+i+`" selected>`+insurance_config['zurich']['product_type'][i]+`</option>`;
                             }else{
                                 choice +=`<option value="`+i+`">`+insurance_config['zurich']['product_type'][i]+`</option>`;
                             }
                         }
-                        document.getElementById('insurance_trip').innerHTML = choice;
-                        $('#insurance_trip').niceSelect('update');
+                        document.getElementById('insurance_product_type').innerHTML = choice;
+                        $('#insurance_product_type').niceSelect('update');
                     }else if(insurance_request.provider == 'bcainsurance'){
                         setTimeout(function(){
                             try{
@@ -1773,6 +1773,10 @@ function insurance_commit_booking(){
                contentType:false,
                processData:false,
                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    hide_modal_waiting_transaction();
+                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance commit booking');
 
                },timeout: 60000
             });
@@ -1822,6 +1826,56 @@ function price_detail(){
     text += `
         <div class="row" style="padding:5px;" id="additionalprice_div">`;
 
+    $text = '';
+    $text += insurance_pick.carrier_name + '\n';
+    $text += insurance_request.date_start + ' - ' + insurance_request.date_end + '\n';
+    $text += 'Area Coverage: ' + insurance_request.destination_area + '\n';
+    $text += 'Destination: ' + insurance_request.destination.split(' - ')[0] + '\n';
+    $text += 'Area Coverage: ' + insurance_request.destination_area + '\n';
+    $text += 'Total Pax: ' + insurance_pick.pax_count + '\n';
+    currency = insurance_pick.service_charge_summary[0].service_charges[0].currency;
+    data_addons = '';
+    if(document.URL.split('/')[document.URL.split('/').length-2] != 'review'){
+        for(var i=0;i<parseInt(insurance_request.adult);i++){
+            pax_counter = i + 1;
+            for(j in insurance_pick.additional_benefit){
+                index = parseInt(parseInt(j) + 1);
+                if(document.getElementById('checkbox_add_benefit'+pax_counter+'_'+index).checked){
+                    if(!data_addons)
+                        data_addons += 'Addons:\n';
+                    data_addons += insurance_pick.additional_benefit[j].text[insurance_pick.additional_benefit[j].text.length-1] + '\n';
+                }
+            }
+        }
+        if(data_addons)
+            $text += data_addons;
+    }else{
+        data_passenger = '';
+        for(i in insurance_passenger.adult){
+            if(!data_passenger)
+                data_passenger += '\nPassenger:\n';
+            data_passenger += insurance_passenger.adult[i].title + ' ' + insurance_passenger.adult[i].first_name + ' ' + insurance_passenger.adult[i].last_name + '\n';
+
+            if(insurance_passenger.adult[i].hasOwnProperty('data_insurance')){
+                if(insurance_passenger.adult[i].data_insurance.hasOwnProperty('relation') && insurance_passenger.adult[i].data_insurance.relation.length > 0){
+                    data_passenger += 'Relation:\n';
+                    for(j in insurance_passenger.adult[i].data_insurance.relation){
+                        data_passenger += insurance_passenger.adult[i].data_insurance.relation[j].title + ' ' + insurance_passenger.adult[i].data_insurance.relation[j].first_name + ' ' + insurance_passenger.adult[i].data_insurance.relation[j].last_name + '\n';
+                    }
+                }
+                if(insurance_passenger.adult[i].data_insurance.hasOwnProperty('addons') && insurance_passenger.adult[i].data_insurance.addons.length > 0){
+                    data_passenger += 'Addons:\n';
+                    for(j in insurance_passenger.adult[i].data_insurance.addons){
+                        data_passenger += insurance_passenger.adult[i].data_insurance.addons[j].text[insurance_passenger.adult[i].data_insurance.addons[j].text.length-1] + '\n';
+                    }
+                }
+            }
+        }
+        if(data_passenger)
+            $text += data_passenger;
+    }
+
+
     if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
         additional_price = 0;
         for(i in insurance_passenger.adult){
@@ -1842,6 +1896,9 @@ function price_detail(){
                 </div>`;
         }
     }
+
+    $text += '\nGrand Total: ' + currency + ' ' + getrupiah(grandtotal+additional_price);
+
     text+=`
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
                 <span style="font-size:13px; font-weight:500;">Grand Total</span><br/>
@@ -1885,6 +1942,9 @@ function price_detail(){
     }
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"/></div>`;
+
+    text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy"/></div>`;
+
     document.getElementById('insurance_detail_table').innerHTML = text;
 
     if(is_show_breakdown_price){
@@ -2831,7 +2891,7 @@ function insurance_get_booking(data, sync=false){
                             <h5>Your booking has been Refund!</h5>
                         </div>`;
                     }
-                    $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n\nTest\n';
+                    $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n\n';
 
                     text = `
                     <div style="padding:15px; background:white; border:1px solid #cdcdcd;">
@@ -3190,6 +3250,7 @@ function insurance_get_booking(data, sync=false){
                                 <div style="text-align:left">
                                     <span style="font-weight:500; font-size:14px;">Order Number: `+msg.result.response.order_number+` </span>
                                 </div>`;
+                    $text += '\n\nPassengers:\n'
                     for(i in msg.result.response.provider_bookings){
                         ADMIN_FEE_insurance = 0;
                         try{
@@ -3319,6 +3380,20 @@ function insurance_get_booking(data, sync=false){
                                     'provider': msg.result.response.provider_bookings[i].provider,
                                     'price': JSON.parse(JSON.stringify(price))
                                 });
+                                if(msg.result.response.passengers[j].hasOwnProperty('insurance_data')){
+                                    if(msg.result.response.passengers[j].insurance_data.hasOwnProperty('relation') && msg.result.response.passengers[j].insurance_data.relation.length > 0){
+                                        $text += 'Relation:\n';
+                                        for(k in msg.result.response.passengers[j].insurance_data.relation){
+                                            $text += msg.result.response.passengers[j].insurance_data.relation[k].title + ' '+ msg.result.response.passengers[j].insurance_data.relation[k].first_name + ' '+ msg.result.response.passengers[j].insurance_data.relation[k].last_name + '\n';
+                                        }
+                                    }
+                                    if(msg.result.response.passengers[j].insurance_data.hasOwnProperty('addons') && msg.result.response.passengers[j].insurance_data.addons.length > 0){
+                                        $text += 'Addons:\n'
+                                        for(k in msg.result.response.passengers[j].insurance_data.addons){
+                                            $text += msg.result.response.passengers[j].insurance_data.addons[k].text[msg.result.response.passengers[j].insurance_data.addons[k].text.length-1];
+                                        }
+                                    }
+                                }
                             }
                             // digabung ke pax
     //                        if(csc != 0){
@@ -3716,9 +3791,28 @@ function insurance_get_booking(data, sync=false){
 
                     }
 
+                    // === Button Optional Zurich ===
+                    var print_quotation = false;
+                    var provider = '';
+                    for(i in msg.result.response.provider_bookings){
+                        for(j in msg.result.response.provider_bookings[i].tickets){
+                            if(msg.result.response.provider_bookings[i].tickets[j].hasOwnProperty('printout_quotation') && msg.result.response.provider_bookings[i].tickets[j].printout_quotation.length > 0)
+                                print_quotation = true;
+                        }
+                        provider = msg.result.response.provider_bookings[i].provider;
+                    }
+                    if(provider == 'zurich' && print_quotation && ['issued', 'booked'].includes(msg.result.response.state)){
+                        print_text += `
+                        <div class="col-lg-6" style="padding-bottom:10px;">
+                            <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_print_quotation_insurance();" style="width:100%;">
+                                Print Quotation
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>`;
+                    }
                     // === Button 1 ===
                     print_text += '<div class="col-lg-6" style="padding-bottom:10px;">';
-                    if (msg.result.response.state  == 'issued'){
+                    if(msg.result.response.state  == 'issued'){
                         print_text+=`
                         <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="openInNewTab('`+static_path+`/pdf/Ketentuan Zurich Travel Insurance.pdf');" style="width:100%;">
                             Print Policy Terms
@@ -4669,13 +4763,19 @@ function onchange_provider_insurance(){
                     <span class="span-search-ticket">Destination</span>
                     <div class="input-container-search-ticket">
                         <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','plantrip')">
+                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','product_type')">
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3" hidden>
                 <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>
-                <select id="insurance_trip" name="insurance_trip" class="form-control" onchange="next_focus_element('insurance','date')">`;
+                <select id="insurance_trip" name="insurance_trip" class="form-control" onchange="next_focus_element('insurance','date')">
+                    <option value="LAINNYA" selected>LAINNYA</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Product Type</span>
+                <select id="insurance_product_type" name="insurance_product_type" class="form-control" onchange="next_focus_element('insurance','date')">`;
                     for(i in insurance_config['zurich']['product_type']){
                         text += `<option value="`+i+`">`+insurance_config['zurich']['product_type'][i]+`</option>`
                     }
@@ -4740,19 +4840,26 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','plantrip')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','product_type')">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3" hidden>
                 <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>
+
+                <select id="insurance_trip" name="insurance_trip" class="form-control" onchange="next_focus_element('insurance','date')">
+                    <option value="LAINNYA" selected>LAINNYA</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Product Type</span>
                 <div class="input-container-search-ticket btn-group">
-                    <div class="form-select" id="default-select">
-                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','date')">`;
-                        for(i in insurance_config['zurich']['product_type']){
-                            text += `<option value="`+i+`">`+insurance_config['zurich']['product_type'][i]+`</option>`
-                        }
+                    <div class="form-select default-select" id="default-select">
+                        <select id="insurance_product_type" name="insurance_product_type" class="nice-select-default"  onchange="next_focus_element('insurance','date')">`;
+                            for(i in insurance_config['zurich']['product_type']){
+                                text += `<option value="`+i+`">`+insurance_config['zurich']['product_type'][i]+`</option>`
+                            }
                     text+=`
                         </select>
                     </div>
@@ -4813,6 +4920,7 @@ function onchange_provider_insurance(){
             });
         }
         $('#insurance_trip').niceSelect();
+        $('#insurance_product_type').niceSelect();
     }
 
     var quantity_adult_insurance = parseInt($('#insurance_adult').val());
@@ -5396,3 +5504,15 @@ function ProcessExcel(data) {
 //
 //    }
 };
+
+function get_print_quotation_insurance(){
+    for(i in insurance_get_detail.result.response.provider_bookings){
+        for(j in insurance_get_detail.result.response.provider_bookings[i].tickets){
+            if(insurance_get_detail.result.response.provider_bookings[i].tickets[j].hasOwnProperty('printout_quotation')){
+                for(k in insurance_get_detail.result.response.provider_bookings[i].tickets[j].printout_quotation){
+                    openInNewTab(insurance_get_detail.result.response.provider_bookings[i].tickets[j].printout_quotation[k]);
+                }
+            }
+        }
+    }
+}

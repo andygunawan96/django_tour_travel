@@ -2870,10 +2870,11 @@ function airline_get_provider_list(type, data=''){
                         if(provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('ssr_description_info')){
                             if(provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_info']){
                                 text+=`
-                            <div class="row">
-                                <div class="col-lg-12" id="alert-state">
-                                    <div class="alert alert-warning" role="alert">
-                                        <h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_info']+`</h4>
+                                <div class="row">
+                                    <div class="col-lg-12" id="alert-state">
+                                        <div class="alert alert-warning" role="alert">
+                                            <h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_info']+`</h4>
+                                        </div>
                                     </div>
                                 </div>`;
                                 if(description_info){
@@ -2887,16 +2888,17 @@ function airline_get_provider_list(type, data=''){
                             if(airline_get_detail.state == 'booked' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked'] ||
                                airline_get_detail.state == 'issued' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued']){
                                 text+=`
+                                <div class="row">
                                     <div class="col-lg-12" id="alert-state">
                                         <div class="alert alert-warning" role="alert">`;
-                                if(airline_get_detail.state == 'booked'){
-                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked']+`</h4>`;
-                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked'];
-                                }else{
-                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued']+`</h4>`;
-                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued'];
-                                }
-                                text+=`
+                                        if(airline_get_detail.state == 'booked'){
+                                            text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked']+`</h4>`;
+                                            description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_booked'];
+                                        }else{
+                                            text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued']+`</h4>`;
+                                            description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['ssr_description_issued'];
+                                        }
+                                        text+=`
                                         </div>
                                     </div>
                                 </div>`;
@@ -2908,10 +2910,11 @@ function airline_get_provider_list(type, data=''){
                         if(provider_list_data.hasOwnProperty(airline_pick[i].provider) && provider_list_data[airline_pick[i].provider].hasOwnProperty('ssr_description_info')){
                             if(provider_list_data[airline_pick[i].provider]['ssr_description_info']){
                                 text+=`
-                            <div class="row">
-                                <div class="col-lg-12" id="alert-state">
-                                    <div class="alert alert-warning" role="alert">
-                                        <h4>`+provider_list_data[airline_pick[i].provider]['ssr_description_info']+`</h4>
+                                <div class="row">
+                                    <div class="col-lg-12" id="alert-state">
+                                        <div class="alert alert-warning" role="alert">
+                                            <h4>`+provider_list_data[airline_pick[i].provider]['ssr_description_info']+`</h4>
+                                        </div>
                                     </div>
                                 </div>`;
                                 if(description_info){
@@ -2946,10 +2949,11 @@ function airline_get_provider_list(type, data=''){
                         if(provider_list_data.hasOwnProperty(airline_get_detail.provider_bookings[i].provider) && provider_list_data[airline_get_detail.provider_bookings[i].provider].hasOwnProperty('seat_description_info')){
                             if(provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_info']){
                                 text+=`
-                            <div class="row">
-                                <div class="col-lg-12" id="alert-state">
-                                    <div class="alert alert-warning" role="alert">
-                                        <h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_info']+`</h4>
+                                <div class="row">
+                                    <div class="col-lg-12" id="alert-state">
+                                        <div class="alert alert-warning" role="alert">
+                                            <h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_info']+`</h4>
+                                        </div>
                                     </div>
                                 </div>`;
                                 if(description_info){
@@ -2963,16 +2967,17 @@ function airline_get_provider_list(type, data=''){
                             if(airline_get_detail.state == 'booked' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked'] ||
                                airline_get_detail.state == 'issued' && provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued']){
                                 text+=`
+                                <div class="row">
                                     <div class="col-lg-12" id="alert-state">
                                         <div class="alert alert-warning" role="alert">`;
-                                if(airline_get_detail.state == 'booked'){
-                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked']+`</h4>`;
-                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked'];
-                                }else{
-                                    text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued']+`</h4>`;
-                                    description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued'];
-                                }
-                                text+=`
+                                        if(airline_get_detail.state == 'booked'){
+                                            text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked']+`</h4>`;
+                                            description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_booked'];
+                                        }else{
+                                            text+=`<h4>`+provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued']+`</h4>`;
+                                            description_info += '<br/>' + provider_list_data[airline_get_detail.provider_bookings[i].provider]['seat_description_issued'];
+                                        }
+                                        text+=`
                                         </div>
                                     </div>
                                 </div>`;
@@ -2984,10 +2989,11 @@ function airline_get_provider_list(type, data=''){
                         if(provider_list_data.hasOwnProperty(airline_pick[i].provider) && provider_list_data[airline_pick[i].provider].hasOwnProperty('seat_description_info')){
                             if(provider_list_data[airline_pick[i].provider]['seat_description_info']){
                                 text+=`
-                            <div class="row">
-                                <div class="col-lg-12" id="alert-state">
-                                    <div class="alert alert-warning" role="alert">
-                                        <h4>`+provider_list_data[airline_pick[i].provider]['seat_description_info']+`</h4>
+                                <div class="row">
+                                    <div class="col-lg-12" id="alert-state">
+                                        <div class="alert alert-warning" role="alert">
+                                            <h4>`+provider_list_data[airline_pick[i].provider]['seat_description_info']+`</h4>
+                                        </div>
                                     </div>
                                 </div>`;
                                 if(description_info){
@@ -6497,6 +6503,7 @@ function get_seat_map_response(){
 
             text+=`
             <div class="pad_route_map" style="display:flex; overflow:auto;">`;
+                ch_seat_map = 0;
                 for(i in seat_map.seat_availability_provider){
                     if(seat_map.seat_availability_provider[i].hasOwnProperty('segments')){
                         percent += seat_map.seat_availability_provider[i].segments.length;
@@ -6526,22 +6533,23 @@ function get_seat_map_response(){
                                                 <span style="font-weight:700">`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`, `+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
                                             </div>
                                             <div style="display:grid;">
-                                                <span id="seat_pax_choose`+j+`" style="font-weight:bold;"></span>
+                                                <span id="seat_pax_choose`+ch_seat_map+`" style="font-weight:bold;"></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="border-top:1px solid #cdcdcd; padding-top:5px;">
                                         <div class="row">
                                             <div class="col-xs-6" style="text-align:left;">
-                                                <span id="price_pax_choose`+j+`" style="font-size:14px; font-weight:bold;"></span>
+                                                <span id="price_pax_choose`+ch_seat_map+`" style="font-size:14px; font-weight:bold;"></span>
                                             </div>
-                                            <div class="col-xs-6" id="cancel_pax_choose`+j+`">
+                                            <div class="col-xs-6" id="cancel_pax_choose`+ch_seat_map+`">
                                                 <span style="font-size:13px; font-weight:bold;">No seat selected</span>
                                             </div>
                                         </div>
                                     </div>
                                 </button>
                             </div>`;
+                            ch_seat_map += 1;
                         }
                     }
                 }
@@ -10969,7 +10977,7 @@ function airline_get_booking(data, sync=false){
                                 if(breakdown_text)
                                     breakdown_text += '<br/>';
                                 breakdown_text += '<b>'+k+'</b> ';
-                                if(j != 'BREAKDOWN')
+                                if(k != 'BREAKDOWN')
                                     breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
                             }
                             new jBox('Tooltip', {
@@ -11052,16 +11060,11 @@ function airline_get_booking(data, sync=false){
                     }
                     var breakdown_text = '';
                     for(j in price_breakdown){
-                        add_breakdown = true
-                        if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
-                            add_breakdown = false;
-                        if(add_breakdown){
-                            if(breakdown_text)
-                                breakdown_text += '<br/>';
-                            breakdown_text += '<b>'+j+'</b> ';
-                            if(j != 'BREAKDOWN')
-                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-                        }
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
+                        if(j != 'BREAKDOWN')
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
                     }
                     new jBox('Tooltip', {
                         attach: '#total_price',
@@ -14174,10 +14177,11 @@ function render_ticket_reissue(){
             if(provider_list_data.hasOwnProperty(provider_pick) && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_info')){
                 if(provider_list_data[provider_pick]['reschedule_description_info']){
                     text+=`
-                <div class="row">
-                    <div class="col-lg-12" id="alert-state">
-                        <div class="alert alert-warning" role="alert">
-                            <h4>`+provider_list_data[provider_pick]['reschedule_description_info']+`</h4>
+                    <div class="row">
+                        <div class="col-lg-12" id="alert-state">
+                            <div class="alert alert-warning" role="alert">
+                                <h4>`+provider_list_data[provider_pick]['reschedule_description_info']+`</h4>
+                            </div>
                         </div>
                     </div>`;
                     description_info += provider_list_data[provider_pick]['reschedule_description_info'];
@@ -14188,16 +14192,17 @@ function render_ticket_reissue(){
                 if(airline_get_detail.result.response.state == 'booked' && provider_list_data[provider_pick]['reschedule_description_booked'] ||
                    airline_get_detail.result.response.state == 'issued' && provider_list_data[provider_pick]['reschedule_description_issued']){
                     text+=`
+                    <div class="row">
                         <div class="col-lg-12" id="alert-state">
                             <div class="alert alert-warning" role="alert">`;
-                    if(airline_get_detail.result.response.state == 'booked'){
-                        text+=`<h4>`+provider_list_data[provider_pick]['reschedule_description_booked']+`</h4>`;
-                        description_info += '<br/>' + provider_list_data[provider_pick]['reschedule_description_booked'];
-                    }else{
-                        text+=`<h4>`+provider_list_data[provider_pick]['reschedule_description_issued']+`</h4>`;
-                        description_info += '<br/>' + provider_list_data[provider_pick]['reschedule_description_issued'];
-                    }
-                    text+=`
+                            if(airline_get_detail.result.response.state == 'booked'){
+                                text+=`<h4>`+provider_list_data[provider_pick]['reschedule_description_booked']+`</h4>`;
+                                description_info += '<br/>' + provider_list_data[provider_pick]['reschedule_description_booked'];
+                            }else{
+                                text+=`<h4>`+provider_list_data[provider_pick]['reschedule_description_issued']+`</h4>`;
+                                description_info += '<br/>' + provider_list_data[provider_pick]['reschedule_description_issued'];
+                            }
+                            text+=`
                             </div>
                         </div>
                     </div>`;

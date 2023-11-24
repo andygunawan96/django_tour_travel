@@ -139,6 +139,7 @@ def search(request):
                     'plan_trip': request.POST['insurance_trip'],
                     'provider': request.POST['insurance_provider'],
                     'is_senior': True if request.POST.get('insurance_is_senior') else False,
+                    'product_type': request.POST.get('insurance_product_type', ''),
                 }
 
                 write_cache_file(request, frontend_signature, 'insurance_request', insurance_request)
