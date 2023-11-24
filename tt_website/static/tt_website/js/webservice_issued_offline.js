@@ -1051,40 +1051,55 @@ function commit_booking(){
                         html: 'Issued Offline number booking: ' + msg.result.response.order_number,
                     })
 
-                    document.getElementById('transaction_type').value = '';
-                    document.getElementById('sector').value = '';
-                    document.getElementById('description').value = '';
-                    document.getElementById('social_media').value = '';
-                    document.getElementById('total_sale_price').value = '';
-                    document.getElementById('contact_person').value = '';
-                    document.getElementById('timelimit').value = '';
+                    Swal.fire({
+                        title: 'Booking!',
+                        type: 'success',
+                        html: 'Issued Offline number booking: ' + msg.result.response.order_number + '<br/>Do you want to create another transaction?',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No',
+                    }).then((result) => {
+                        if (result.value) {
+                            document.getElementById('transaction_type').value = '';
+                            document.getElementById('sector').value = '';
+                            document.getElementById('description').value = '';
+                            document.getElementById('social_media').value = '';
+                            document.getElementById('total_sale_price').value = '';
+                            document.getElementById('contact_person').value = '';
+                            document.getElementById('timelimit').value = '';
 
-                   //booker
-    //               document.getElementsByName('radio-booker-type')[0].checked = true;
-                    document.getElementById('booker_title').value = 'MR';
-                    document.getElementById('booker_first_name').value = '';
-                    document.getElementById('booker_last_name').value = '';
-                    document.getElementById('booker_email').value = '';
-                    document.getElementById('booker_phone').value = '';
-                    document.getElementById('table_of_passenger').innerHTML = `
-                    <tbody><tr>
-                            <th style="width:40%;">Name</th>
-                            <th style="width:35%;">Birth Date</th>
-                            <th style="width:20%;"></th>
-                        </tr>
-                    </tbody>`;
+                           //booker
+            //               document.getElementsByName('radio-booker-type')[0].checked = true;
+                            document.getElementById('booker_title').value = 'MR';
+                            document.getElementById('booker_first_name').value = '';
+                            document.getElementById('booker_last_name').value = '';
+                            document.getElementById('booker_email').value = '';
+                            document.getElementById('booker_phone').value = '';
+                            document.getElementById('table_of_passenger').innerHTML = `
+                            <tbody><tr>
+                                    <th style="width:40%;">Name</th>
+                                    <th style="width:35%;">Birth Date</th>
+                                    <th style="width:20%;"></th>
+                                </tr>
+                            </tbody>`;
 
 
-                    document.getElementsByName('myRadios')[1].checked = true;
-                    document.getElementById('show_line').hidden = true;
-                    document.getElementById('show_line').innerHTML = '';
-                    counter_passenger = 0; //reset counter pax
-    //               document.getElementById('payment_acq').hidden = true;
-                    close_div('payment_acq');
-                    $('#transaction_type').niceSelect('update');
-                    $('#sector').niceSelect('update');
-                    $('#social_media').niceSelect('update');
-                    document.getElementById('sector_div').hidden = true;
+                            document.getElementsByName('myRadios')[1].checked = true;
+                            document.getElementById('show_line').hidden = true;
+                            document.getElementById('show_line').innerHTML = '';
+                            counter_passenger = 0; //reset counter pax
+            //               document.getElementById('payment_acq').hidden = true;
+                            close_div('payment_acq');
+                            $('#transaction_type').niceSelect('update');
+                            $('#sector').niceSelect('update');
+                            $('#social_media').niceSelect('update');
+                            document.getElementById('sector_div').hidden = true;
+                        }else{
+                            window.location.href = '/issued_offline/booking/' + btoa(msg.result.response.order_number);
+                        }
+                    })
                 }else{
                     Swal.fire({
                         type: 'error',

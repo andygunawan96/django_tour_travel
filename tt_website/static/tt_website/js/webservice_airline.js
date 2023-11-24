@@ -5034,9 +5034,9 @@ function draw_get_price_itinerary(){
                         price_type = {
                             'fare': get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_fare,
                             'tax':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax,
-                            'rac':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_commission,
+                            'rac':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission,
                             'roc':  0,
-                            'disc':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].base_discount,
+                            'disc':  get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_discount,
                         }
 
                         for(n in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
