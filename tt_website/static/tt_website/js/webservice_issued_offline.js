@@ -1086,16 +1086,20 @@ function commit_booking(){
                             </tbody>`;
 
 
-                    document.getElementsByName('myRadios')[1].checked = true;
-                    document.getElementById('show_line').hidden = true;
-                    document.getElementById('show_line').innerHTML = '';
-                    counter_passenger = 0; //reset counter pax
-    //               document.getElementById('payment_acq').hidden = true;
-                    close_div('payment_acq');
-                    $('#transaction_type').niceSelect('update');
-                    $('#sector').niceSelect('update');
-                    $('#social_media').niceSelect('update');
-                    document.getElementById('sector_div').hidden = true;
+                            document.getElementsByName('myRadios')[1].checked = true;
+                            document.getElementById('show_line').hidden = true;
+                            document.getElementById('show_line').innerHTML = '';
+                            counter_passenger = 0; //reset counter pax
+            //               document.getElementById('payment_acq').hidden = true;
+                            close_div('payment_acq');
+                            $('#transaction_type').niceSelect('update');
+                            $('#sector').niceSelect('update');
+                            $('#social_media').niceSelect('update');
+                            document.getElementById('sector_div').hidden = true;
+                        }else{
+                            window.location.href = '/issued_offline/booking/' + btoa(msg.result.response.order_number);
+                        }
+                    })
                 }else{
                     Swal.fire({
                         type: 'error',
