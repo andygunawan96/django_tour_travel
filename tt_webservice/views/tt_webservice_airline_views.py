@@ -1067,9 +1067,9 @@ def get_all_carrier_airline(request):
             file = file[request.session['user_account']['co_ho_seq_id']]
         else:
             ##### CARI USER ACCOUNT DARI SIGNATURE
-            user_account = read_cache_file_by_signature(request, request.POST['signature'], 'user_account')
-            if user_account['co_ho_seq_id'] in file:
-                file = file[user_account['co_ho_seq_id']]
+            res = webservice_agent.update_context_machine_otp_pin_api(request,request.POST['signature'])
+            if res['result']['response']['co_ho_seq_id'] in file:
+                file = file[res['result']['response']['co_ho_seq_id']]
     return file
 
 def get_provider_list_backend(request, signature=''):
