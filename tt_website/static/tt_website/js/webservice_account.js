@@ -31,6 +31,14 @@ function signin_orbisway(type){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
             }
             if(type == 'reservation'){
                 get_transactions('reset');
