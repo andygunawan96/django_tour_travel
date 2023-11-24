@@ -1583,6 +1583,14 @@ def create_cor_request(request, signature):
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/create_cor_agent_templates.html', values)
 
+def login_by_signature(request, signature):
+    try:
+        update_context_machine_otp_pin_api(request, signature, True, True)
+        language = request.session['_language']
+    except:
+        language = ''
+    return redirect(language + '/')
+
 def get_reservation_request(request, request_number):
     try:
         javascript_version = get_javascript_version(request)
