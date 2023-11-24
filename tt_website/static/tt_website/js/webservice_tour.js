@@ -3340,7 +3340,7 @@ function tour_get_booking(order_number)
                                         document.getElementById('final_issued_btn').innerHTML = "Request Issued Booking";
                                     }
                                }
-                               check_payment_payment_method(order_number, 'Issued', book_obj.booker.seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
+                               check_payment_payment_method(order_number, 'Issued', book_obj.booker.seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number, msg);
             //                   get_payment_acq('Issued', book_obj.booker.seq_id, order_number, 'billing',signature,'tour');
                                document.getElementById("final_issued_btn").style.display = "block";
                            }

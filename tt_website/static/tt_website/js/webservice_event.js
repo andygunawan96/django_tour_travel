@@ -384,7 +384,7 @@ function event_get_booking(data){
                     document.getElementById('event_booking').innerHTML = text;
                     //======================= Button Issued ==================
                     if(msg.result.response.state == 'booked'){
-                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, msg.result.response.payment_acquirer_number);
+                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'event', signature, msg.result.response.payment_acquirer_number, msg);
                         $(".issued_booking_btn").show();
                         $text += 'Status: Booked\n';
                         document.getElementById('alert-state').innerHTML = `
