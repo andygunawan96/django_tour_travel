@@ -1,6 +1,5 @@
 from .tt_website_header_urls import *
 from ..views import tt_website_views as view
-from ..views import tt_website_activity_views as viewActivity
 
 urlpatterns.append(path(r'page/<slug:data>', view.page, name="dynamic_page"))
 urlpatterns.append(path(r'page_mobile/<str:data>', view.page_mobile, name="dynamic_page_mobile"))
@@ -13,7 +12,6 @@ urlpatterns.append(path('assign_analyst/<str:vendor>', view.assign_analyst, name
 urlpatterns.append(path('reservation_request/<str:request_number>', view.get_reservation_request, name="get_reservation_request"))
 urlpatterns.append(path('create_passenger/<str:signature>', view.create_passenger_request, name="create_reservation_request"))
 urlpatterns.append(path('create_cor/<str:signature>', view.create_cor_request, name="create_cor_request"))
-urlpatterns.append(path('signature/<str:signature>', view.login_by_signature, name="login_by_signature"))
 urlpatterns.append(re_path('history_transaction', view.history_transaction_ledger, name="history_transaction"))
 urlpatterns.append(re_path('setting_footer_printout', view.setting_footer_printout, name="setting_footer_printout"))
 urlpatterns.append(re_path('reservation_request', view.reservation_request, name="reservation_request"))

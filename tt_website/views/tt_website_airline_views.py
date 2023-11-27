@@ -458,7 +458,7 @@ def search(request):
                     "co_customer_seq_id": request.POST['airline_corbooker_select_post']
                 })
                 set_session(request, 'user_account', cur_session)
-                activate_corporate_mode(request, signature)
+                activate_corporate_mode(request, request.session['master_signature'])
 
             if request.GET.get('checkbox_corpor_mode_airline') and request.GET.get('airline_corpor_select') and request.GET.get('airline_corbooker_select'):
                 updated_request = request.GET.copy()
@@ -471,7 +471,7 @@ def search(request):
                     "co_customer_seq_id": request.GET['airline_corbooker_select']
                 })
                 set_session(request, 'user_account', cur_session)
-                activate_corporate_mode(request, signature)
+                activate_corporate_mode(request, request.session['master_signature'])
             ## PROMO CODE
             promo_codes = []
             use_osi_code_backend = False

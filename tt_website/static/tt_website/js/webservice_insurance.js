@@ -1081,44 +1081,96 @@ function modal_policy(provider,sequence){
 }
 
 function insurance_sell(provider, sequence){
-    if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
-        document.getElementById("total_pax").disabled = true;
-        document.getElementById("total_adult").value = '1'
-        document.getElementById("total_child").value = '0'
-        document.getElementById("insurance_buy_btn").disabled = true;
-        $('#insurance_buy_btn').addClass("running");
+    error_log = '';
+    if(parseInt(document.getElementById("total_adult").value) > insurance_data[provider][sequence]['maxAdult']){
+        error_log += 'Max adult '+insurance_data[provider][sequence]['maxAdult']+'!<br/>\n';
+    }else if(parseInt(document.getElementById("total_adult").value) < insurance_data[provider][sequence]['minAdult']){
+        error_log += 'Min adult '+insurance_data[provider][sequence]['minAdult']+'!<br/>\n';
     }
-    else{
-        document.getElementById("total_adult").disabled = true;
-        document.getElementById("total_child").disabled = true;
-        document.getElementById("insurance_buy_btn").disabled = true;
-        $('#insurance_buy_btn').addClass("running");
+    // check child
+    if(document.getElementById("total_child") && document.getElementById("total_child").value){
+        if(parseInt(document.getElementById("total_child").value) > insurance_data[provider][sequence]['maxChild']){
+            error_log += 'Max child '+insurance_data[provider][sequence]['maxChild']+'!<br/>\n';
+        }else if(parseInt(document.getElementById("total_child").value) < insurance_data[provider][sequence]['minChild']){
+            error_log += 'Min child '+insurance_data[provider][sequence]['minChild']+'!<br/>\n';
+        }
     }
 
-    $.ajax({
-       type: "POST",
-       url: "/webservice/insurance",
-       headers:{
-            'action': 'sell_insurance',
-       },
-       data: {
-            'signature': signature,
-            'total_pax': parseInt(document.getElementById('total_adult').value) + parseInt(document.getElementById('total_child').value),
-            'total_package': document.getElementById('total_pax').value,
-            'insurance_pick': JSON.stringify(insurance_data[provider][sequence])
-       },
-       success: function(msg) {
-       try{
-            console.log(msg);
-           if(msg.result.error_code == 0){
-                msg.result.response['minAdult'] = minAdult;
-                msg.result.response['maxAdult'] = maxAdult;
-                msg.result.response['minChild'] = minChild;
-                msg.result.response['maxChild'] = maxChild;
-                go_to_detail(msg.result.response)
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-           }else{
+    // check total pax
+    if(document.getElementById("total_child") && document.getElementById("total_child").value){
+        if(parseInt(document.getElementById("total_adult").value) + parseInt(document.getElementById("total_child").value) > insurance_data[provider][sequence]['maxPax']){
+            error_log += 'Max pax '+insurance_data[provider][sequence]['maxPax']+'!<br/>\n';
+        }else if(parseInt(document.getElementById("total_adult").value) + parseInt(document.getElementById("total_child").value) < insurance_data[provider][sequence]['minPax']){
+            error_log += 'Min pax '+insurance_data[provider][sequence]['minPax']+'!<br/>\n';
+        }
+    }else{
+        if(parseInt(document.getElementById("total_adult").value) > insurance_data[provider][sequence]['maxPax']){
+            error_log += 'Max pax '+insurance_data[provider][sequence]['maxPax']+'!<br/>\n';
+        }else if(parseInt(document.getElementById("total_adult").value) < insurance_data[provider][sequence]['minPax']){
+            error_log += 'Min pax '+insurance_data[provider][sequence]['minPax']+'!<br/>\n';
+        }
+    }
+    if(error_log == ''){
+        if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+            document.getElementById("total_pax").disabled = true;
+            document.getElementById("total_adult").value = '1'
+            document.getElementById("total_child").value = '0'
+            document.getElementById("insurance_buy_btn").disabled = true;
+            $('#insurance_buy_btn').addClass("running");
+        }
+        else{
+            document.getElementById("total_adult").disabled = true;
+            document.getElementById("total_child").disabled = true;
+            document.getElementById("insurance_buy_btn").disabled = true;
+            $('#insurance_buy_btn').addClass("running");
+        }
+        $.ajax({
+           type: "POST",
+           url: "/webservice/insurance",
+           headers:{
+                'action': 'sell_insurance',
+           },
+           data: {
+                'signature': signature,
+                'total_pax': parseInt(document.getElementById('total_adult').value) + parseInt(document.getElementById('total_child').value),
+                'total_package': document.getElementById('total_pax').value,
+                'insurance_pick': JSON.stringify(insurance_data[provider][sequence])
+           },
+           success: function(msg) {
+           try{
+                console.log(msg);
+               if(msg.result.error_code == 0){
+                    msg.result.response['minAdult'] = minAdult;
+                    msg.result.response['maxAdult'] = maxAdult;
+                    msg.result.response['minChild'] = minChild;
+                    msg.result.response['maxChild'] = maxChild;
+                    go_to_detail(msg.result.response)
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+                        document.getElementById("total_pax").disabled = false;
+                        document.getElementById("insurance_buy_btn").disabled = false;
+                    }
+                    else{
+                        document.getElementById("total_adult").disabled = false;
+                        document.getElementById("total_child").disabled = false;
+                        document.getElementById("insurance_buy_btn").disabled = false;
+                    }
+
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                   })
+                   try{
+                    $("#show_loading_booking_insurance").hide();
+                   }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                   }
+               }
+           }catch(err){
+                console.log(err);
                 if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
                     document.getElementById("total_pax").disabled = false;
                     document.getElementById("insurance_buy_btn").disabled = false;
@@ -1130,58 +1182,42 @@ function insurance_sell(provider, sequence){
                 }
 
                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
+                   type: 'error',
+                   title: 'Oops...',
+                   text: 'Something went wrong, please try again or check your internet connection',
                })
+               $('.loader-rodextrip').fadeOut();
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+              error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance sell');
+                if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+                    document.getElementById("total_pax").disabled = false;
+                    document.getElementById("insurance_buy_btn").disabled = false;
+                }
+                else{
+                    document.getElementById("total_adult").disabled = false;
+                    document.getElementById("total_child").disabled = false;
+                    document.getElementById("insurance_buy_btn").disabled = false;
+                }
+
+               $("#barFlightSearch").hide();
+               $("#waitFlightSearch").hide();
+               $('.loader-rodextrip').fadeOut();
                try{
-                $("#show_loading_booking_insurance").hide();
+                 $("#show_loading_booking_insurance").hide();
                }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
+                 console.log(err); // error kalau ada element yg tidak ada
                }
-           }
-       }catch(err){
-            console.log(err);
-            if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
-                document.getElementById("total_pax").disabled = false;
-                document.getElementById("insurance_buy_btn").disabled = false;
-            }
-            else{
-                document.getElementById("total_adult").disabled = false;
-                document.getElementById("total_child").disabled = false;
-                document.getElementById("insurance_buy_btn").disabled = false;
-            }
-
-           Swal.fire({
-               type: 'error',
-               title: 'Oops...',
-               text: 'Something went wrong, please try again or check your internet connection',
-           })
-           $('.loader-rodextrip').fadeOut();
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance sell');
-            if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
-                document.getElementById("total_pax").disabled = false;
-                document.getElementById("insurance_buy_btn").disabled = false;
-            }
-            else{
-                document.getElementById("total_adult").disabled = false;
-                document.getElementById("total_child").disabled = false;
-                document.getElementById("insurance_buy_btn").disabled = false;
-            }
-
-           $("#barFlightSearch").hide();
-           $("#waitFlightSearch").hide();
-           $('.loader-rodextrip').fadeOut();
-           try{
-             $("#show_loading_booking_insurance").hide();
-           }catch(err){
-             console.log(err); // error kalau ada element yg tidak ada
-           }
-       },timeout: 60000
-    });
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: error_log,
+        })
+    }
 }
 
 function insurance_get_token(){
@@ -1831,7 +1867,6 @@ function price_detail(){
     $text += insurance_request.date_start + ' - ' + insurance_request.date_end + '\n';
     $text += 'Area Coverage: ' + insurance_request.destination_area + '\n';
     $text += 'Destination: ' + insurance_request.destination.split(' - ')[0] + '\n';
-    $text += 'Area Coverage: ' + insurance_request.destination_area + '\n';
     $text += 'Total Pax: ' + insurance_pick.pax_count + '\n';
     currency = insurance_pick.service_charge_summary[0].service_charges[0].currency;
     data_addons = '';
@@ -2770,7 +2805,7 @@ function insurance_get_booking(data, sync=false){
 
                     //======================= Button Issued ==================
                     if(msg.result.response.state == 'booked'){
-                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'insurance', signature, msg.result.response.payment_acquirer_number);
+                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'insurance', signature, msg.result.response.payment_acquirer_number, msg);
                        $(".issued_booking_btn").show();
                        $text += 'Status: Booked\n';
                        document.getElementById('div_sync_status').hidden = false;

@@ -4051,22 +4051,24 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
                 }
             }
         }
-        //hitung ulang price
-        for(j in airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary){
-            if(seat_left > airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].available_count)
-                seat_left = airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].available_count;
-            if(!['CHD', 'INF'].includes(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].pax_type)){
-                for(k in airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges){
-                    if(!currency)
-                        currency = airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].currency;
-                    if(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'RAC'){
-                        if(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'DISC'){
-                            price += airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
+        //hitung ulang price & jika ada fare yg sudah terpilih
+        if(airline_data_filter[journey].segments[i].hasOwnProperty('fare_pick')){
+            for(j in airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary){
+                if(seat_left > airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].available_count)
+                    seat_left = airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].available_count;
+                if(!['CHD', 'INF'].includes(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].pax_type)){
+                    for(k in airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges){
+                        if(!currency)
+                            currency = airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].currency;
+                        if(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'RAC'){
+                            if(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'DISC'){
+                                price += airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
+                            }
+                            price_discount += airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
                         }
-                        price_discount += airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
                     }
+                    break
                 }
-                break
             }
         }
     }
@@ -4244,7 +4246,7 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
         fare_details = [];
         has_fare_details = true;
         for(j in airline_data_filter[journey].segments){
-            if(airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].hasOwnProperty('fare_details')){
+            if(airline_data_filter[journey].segments[j].hasOwnProperty('fare_pick') && airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].hasOwnProperty('fare_details')){
                 for(k in airline_data_filter[journey].segments[j].fares[airline_data_filter[journey].segments[j].fare_pick].fare_details){
                     if(has_fare_details && airline_data_filter[journey].segments[j].fares[k].fare_details.length > 0){
                         if(fare_details.length > 0){
@@ -8657,7 +8659,7 @@ function airline_get_booking(data, sync=false){
                 }else if(['booked', 'halt_booked'].includes(msg.result.response.state)){
                    try{
                        if(can_issued)
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number, msg);
                        get_payment = true;
     //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                        //document.getElementById('issued-breadcrumb').classList.remove("active");
@@ -8996,7 +8998,7 @@ function airline_get_booking(data, sync=false){
                                         for(i in msg.result.response.provider_bookings){
                                             if(['booked', 'halt_booked'].includes(msg.result.response.provider_bookings[i].state) && printed_hold_date == false){
                                                 if(get_payment == false){
-                                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number, msg);
                                                    get_payment = true;
                                                 }
                     //                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
@@ -17989,7 +17991,7 @@ function airline_get_booking_refund(data){
             }else if(msg.result.response.state == 'booked'){
                try{
                    if(now.diff(hold_date_time, 'minutes')<0)
-                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number, msg);
                    get_payment = true;
 //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                    document.getElementById('voucher_div').style.display = '';

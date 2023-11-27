@@ -2012,7 +2012,8 @@ function group_booking_get_booking(order_number){
                 }else if(msg.result.response.state_groupbooking == 'sent'){
                     document.getElementById('btn_pax').style.display = 'none';
                     document.getElementById('book_btn_group_booking').style.display = 'none';
-                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'groupbooking');
+                    is_agent = msg.result.response.agent_name == user_login.co_agent_name
+                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'groupbooking', is_agent);
                     try{
                         $(".issued_booking_btn").show();
                     }catch(err){

@@ -1313,7 +1313,7 @@ def get_new_cache(request, signature, type='all'):
             "signature": signature
         }
         url_request = get_url_gateway('content')
-        send_request_api({}, url_request, headers, data, 'POST', 1) ## timeout 1, fungsi ini hanya untuk bantu gateway ambil data terbaru kalau frontend update cache data
+        send_request_api(request, url_request, headers, data, 'POST', 1) ## timeout 1, fungsi ini hanya untuk bantu gateway ambil data terbaru kalau frontend update cache data
 
         if type == 'all' or type == 'data':
             logging.getLogger("info_logger").error("ERROR GENERATE NEW CACHE!")
@@ -1326,7 +1326,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('content')
-            res_destination_airline = send_request_api({}, url_request, headers, data, 'POST', 60)
+            res_destination_airline = send_request_api(request, url_request, headers, data, 'POST', 60)
             try:
                 if res_destination_airline['result']['error_code'] == 0:
                     res_destination_airline = res_destination_airline['result']['response']
@@ -1344,7 +1344,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('content')
-            res_destination_train = send_request_api({}, url_request, headers, data, 'POST', 60)
+            res_destination_train = send_request_api(request, url_request, headers, data, 'POST', 60)
             try:
                 destination_train = []
                 if res_destination_train['result']['error_code'] == 0:
@@ -1370,7 +1370,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('content')
-            res_country_airline = send_request_api({}, url_request, headers, data, 'POST', 60)
+            res_country_airline = send_request_api(request, url_request, headers, data, 'POST', 60)
             try:
                 if res_country_airline['result']['error_code'] == 0:
                     res_country_airline = res_country_airline['result']['response']
@@ -1393,7 +1393,7 @@ def get_new_cache(request, signature, type='all'):
                 "limit": 999999999999
             }
             url_request = get_url_gateway('booking/hotel')
-            res_cache_hotel = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res_cache_hotel = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_hotel['result']['error_code'] == 0:
                     write_cache(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data", request, 'cache_web')
@@ -1411,7 +1411,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('booking/visa')
-            res_config_visa = send_request_api({}, url_request, headers, data, 'POST', 60)
+            res_config_visa = send_request_api(request, url_request, headers, data, 'POST', 60)
             try:
                 if res_config_visa['result']['error_code'] == 0:
                     res_config_visa = res_config_visa['result']['response']
@@ -1434,7 +1434,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('booking/passport')
-            res_config_passport = send_request_api({}, url_request, headers, data, 'POST', 60)
+            res_config_passport = send_request_api(request, url_request, headers, data, 'POST', 60)
 
             try:
                 if res_config_passport['result']['error_code'] == 0:
@@ -1459,7 +1459,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('booking/issued_offline')
-            res_config_issued_offline = send_request_api({}, url_request, headers, data, 'POST', 60)
+            res_config_issued_offline = send_request_api(request, url_request, headers, data, 'POST', 60)
             try:
                 if res_config_issued_offline['result']['error_code'] == 0:
                     res_config_issued_offline = res_config_issued_offline['result']['response']
@@ -1479,7 +1479,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature,
             }
             data = {}
-            ff_request = send_request_api({}, url_request, headers, data, 'POST', 300)
+            ff_request = send_request_api(request, url_request, headers, data, 'POST', 300)
             try:
                 if ff_request['result']['error_code'] == 0:
                     write_cache(ff_request['result']['response'], "frequent_flyer_data", request, 'cache_web')
@@ -1495,7 +1495,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('booking/activity')
-            res_config_activity = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res_config_activity = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res_config_activity['result']['error_code'] == 0:
@@ -1519,7 +1519,7 @@ def get_new_cache(request, signature, type='all'):
                 "limit": 9999
             }
             url_request = get_url_gateway('booking/activity')
-            res_cache_activity = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res_cache_activity = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_activity['result']['error_code'] == 0:
                     write_cache(res_cache_activity['result']['response'], "activity_cache_data", request, 'cache_web')
@@ -1537,7 +1537,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature,
             }
             url_request = get_url_gateway('booking/tour')
-            res_config_tour = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res_config_tour = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res_config_tour['result']['error_code'] == 0:
@@ -1561,7 +1561,7 @@ def get_new_cache(request, signature, type='all'):
                 "limit": 9999
             }
             url_request = get_url_gateway('booking/tour')
-            res_cache_tour = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res_cache_tour = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_tour['result']['error_code'] == 0:
                     write_cache(res_cache_tour['result']['response'], "tour_cache_data", request, 'cache_web')
@@ -1615,7 +1615,7 @@ def get_new_cache(request, signature, type='all'):
             data = {}
 
             url_request = get_url_gateway('booking/ppob')
-            res_cache_ppob = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res_cache_ppob = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res_cache_ppob['result']['error_code'] == 0:
@@ -1693,7 +1693,7 @@ def get_new_cache(request, signature, type='all'):
                 'end_date': (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d')
             }
             url_request = get_url_gateway('content')
-            res = send_request_api({}, url_request, headers, data, 'POST')
+            res = send_request_api(request, url_request, headers, data, 'POST')
             write_cache(res, "get_holiday_cache", request, 'cache_web')
             # remove cache airline
             try:
@@ -1755,7 +1755,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway(additional_url)
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res['result']['error_code'] == 0:
@@ -1784,7 +1784,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway(additional_url)
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res['result']['error_code'] == 0:
@@ -1810,7 +1810,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway(additional_url)
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res['result']['error_code'] == 0:
@@ -1832,7 +1832,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway(additional_url)
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res['result']['error_code'] == 0:
@@ -1855,7 +1855,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway(additional_url)
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res['result']['error_code'] == 0:
@@ -1878,7 +1878,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway(additional_url)
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res['result']['error_code'] == 0:
@@ -1910,7 +1910,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway(additional_url)
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
 
             try:
                 if res['result']['error_code'] == 0:
@@ -1939,7 +1939,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('booking/bus')
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res['result']['error_code'] == 0:
                     res = res['result']['response']
@@ -1964,7 +1964,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature
             }
             url_request = get_url_gateway('booking/insurance')
-            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res['result']['error_code'] == 0:
                     write_cache(res, "insurance_cache_data", request, 'cache_web')
@@ -1981,7 +1981,7 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature,
             }
             url_request = get_url_gateway('content')
-            res = send_request_api({}, url_request, headers, data, 'POST', 300)
+            res = send_request_api(request, url_request, headers, data, 'POST', 300)
             try:
                 if res['result']['error_code'] == 0:
                     write_cache(res, 'currency_rate', request)
@@ -2004,7 +2004,7 @@ def get_new_cache(request, signature, type='all'):
                 'type': 'big_banner'
             }
             url_request = get_url_gateway('content')
-            res = send_request_api({}, url_request, headers, data, 'POST')
+            res = send_request_api(request, url_request, headers, data, 'POST')
             if res['result']['error_code'] == 0:
                 try:
                     empty_sequence = False
@@ -2035,7 +2035,7 @@ def get_new_cache(request, signature, type='all'):
                 'type': 'small_banner'
             }
             url_request = get_url_gateway('content')
-            res = send_request_api({}, url_request, headers, data, 'POST')
+            res = send_request_api(request, url_request, headers, data, 'POST')
             if res['result']['error_code'] == 0:
                 try:
                     empty_sequence = False
@@ -2066,7 +2066,7 @@ def get_new_cache(request, signature, type='all'):
                 'type': 'promotion'
             }
             url_request = get_url_gateway('content')
-            res = send_request_api({}, url_request, headers, data, 'POST')
+            res = send_request_api(request, url_request, headers, data, 'POST')
             if res['result']['error_code'] == 0:
                 try:
                     empty_sequence = False
@@ -2802,7 +2802,7 @@ def activate_corporate_mode(request, signature=False):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "activate_corporate_mode",
-            "signature": request.POST['signature'],
+            "signature": request.POST['master_signature'],
         }
     except Exception as e:
         if signature == False:
@@ -2856,7 +2856,7 @@ def deactivate_corporate_mode(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "deactivate_corporate_mode",
-            "signature": request.POST['signature'],
+            "signature": request.session['master_signature'],
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
