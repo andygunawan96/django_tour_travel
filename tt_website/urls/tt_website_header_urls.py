@@ -1,4 +1,5 @@
 from django.urls import path, re_path
+from ..views import tt_website_views as view
 """django_training URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -25,3 +26,8 @@ HOST_URL = ''
 app_name = 'tt_website'
 
 urlpatterns = []
+
+
+urlpatterns.append(path('signature/<str:signature>/<str:product_type>/<str:page>', view.login_by_signature, name="login_by_signature_bypass_page"))
+urlpatterns.append(path('signature/<str:signature>/<str:product_type>', view.login_by_signature, name="login_by_signature_with_product"))
+urlpatterns.append(path('signature/<str:signature>', view.login_by_signature, name="login_by_signature"))
