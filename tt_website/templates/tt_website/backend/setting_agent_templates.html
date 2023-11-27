@@ -201,7 +201,7 @@
                                                         </script>
 
                                                         <span style="font-weight:bold">Valid until:</span> <span id="valid_date_span{{forloop.counter}}"></span>
-                                                        {% if machine_obj.valid_date != 'Never ask again for this browser' %}
+                                                        {% if machine_obj.valid_date not in ['Never', 'Always'] %}
                                                             <script>
                                                                 date_valid_temp = '{{machine_obj.valid_date}}';
                                                                 date_valid_display = moment(date_valid_temp).format('ddd DD MMM YYYY HH:mm:ss');
