@@ -234,6 +234,18 @@ def signin(request):
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
+def signout(request):
+    url_request = get_url_gateway('session')
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signout",
+        "signature": request.session['master_signature']
+    }
+    res = send_request_api(request, url_request, headers, {}, 'POST', 10)
+    request.session.flush()
+    return res
+
 def check_session(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",

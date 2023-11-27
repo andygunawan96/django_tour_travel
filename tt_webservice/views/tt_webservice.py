@@ -59,15 +59,9 @@ def send_request_api(request, url, headers, data, method="POST", timeout=30):
 
 def _check_expired(request, res):
     if res.get('result')['error_code'] == 4003:
-        # if request.session._session and not request.session['keep_me_signin']:
-        if request.session._session:
-            for key in reversed(list(request.session._session.keys())):
-                if key != '_language':
-                    del request.session[key]
-        ## do re-signin
-        # else:
-        #     if request.session.get('user_account'):
-        #         del request.session['user_account']
+        request.session.flush()
+
+
 
 def create_session_product(request, product, timelimit=20, signature=''): #timelimit product in minutes
     now = datetime.now()
