@@ -2770,7 +2770,7 @@ function insurance_get_booking(data, sync=false){
 
                     //======================= Button Issued ==================
                     if(msg.result.response.state == 'booked'){
-                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'insurance', signature, msg.result.response.payment_acquirer_number);
+                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'insurance', signature, msg.result.response.payment_acquirer_number, msg);
                        $(".issued_booking_btn").show();
                        $text += 'Status: Booked\n';
                        document.getElementById('div_sync_status').hidden = false;

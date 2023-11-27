@@ -3131,7 +3131,7 @@ function hotel_get_booking(data){
                     }else if(msg.result.response.state == 'booked'){
                        try{
                            if(can_issued)
-                               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'hotel', signature, msg.result.response.payment_acquirer_number);
+                               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'hotel', signature, msg.result.response.payment_acquirer_number, msg);
                            get_payment = true;
         //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'hotel');
                            document.getElementById('voucher_div').style.display = '';
@@ -3345,7 +3345,7 @@ function hotel_get_booking(data){
                                     document.getElementById('hotel_issued_btn').innerHTML = "Request Issued Booking";
                                 }
                            }
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id,  'billing', 'hotel', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id,  'billing', 'hotel', signature, msg.result.response.payment_acquirer_number, msg);
                            $(".issued_booking_btn").show();
                        }
                    }

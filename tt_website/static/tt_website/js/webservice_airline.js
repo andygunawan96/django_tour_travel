@@ -8657,7 +8657,7 @@ function airline_get_booking(data, sync=false){
                 }else if(['booked', 'halt_booked'].includes(msg.result.response.state)){
                    try{
                        if(can_issued)
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number, msg);
                        get_payment = true;
     //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                        //document.getElementById('issued-breadcrumb').classList.remove("active");
@@ -8996,7 +8996,7 @@ function airline_get_booking(data, sync=false){
                                         for(i in msg.result.response.provider_bookings){
                                             if(['booked', 'halt_booked'].includes(msg.result.response.provider_bookings[i].state) && printed_hold_date == false){
                                                 if(get_payment == false){
-                                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number, msg);
                                                    get_payment = true;
                                                 }
                     //                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
@@ -17989,7 +17989,7 @@ function airline_get_booking_refund(data){
             }else if(msg.result.response.state == 'booked'){
                try{
                    if(now.diff(hold_date_time, 'minutes')<0)
-                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number, msg);
                    get_payment = true;
 //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                    document.getElementById('voucher_div').style.display = '';

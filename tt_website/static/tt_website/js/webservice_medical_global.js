@@ -1197,7 +1197,7 @@ function medical_global_get_booking(order_number, sync=false){
 
                         //======================= Button Issued ==================
                         if(msg.result.response.state == 'booked'){
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'medical_global', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'medical_global', signature, msg.result.response.payment_acquirer_number, msg);
                            $(".issued_booking_btn").show();
                            $text += 'Status: Booked\n';
                            document.getElementById('div_sync_status').hidden = false;
