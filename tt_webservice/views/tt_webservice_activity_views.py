@@ -1002,7 +1002,7 @@ def get_auto_complete(request):
                 "limit": 9999
             }
             url_request = get_url_gateway('booking/activity')
-            res_cache_activity = send_request_api({}, url_request, headers, data, 'POST', 120)
+            res_cache_activity = send_request_api(request, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_activity['result']['error_code'] == 0:
                     write_cache(res_cache_activity['result']['response'], "activity_cache_data", request, 'cache_web')
