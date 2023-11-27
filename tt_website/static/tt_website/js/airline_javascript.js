@@ -207,8 +207,8 @@ function add_promotion_code(car_code='', osi_code=''){
                     </div>
                     <i class="fa fa-trash" onclick="delete_promotion_code(`+promotion_code+`)" style="color: #ff0002; font-size:18px; position: absolute; right: 15px; top: 5px;"></i>
                 </div>
-                <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value="`+osi_code+`" hidden/>
-                <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="Carrier Code, example: GA" value="`+car_code+`" hidden/>
+                <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value="`+text_code+`" hidden/>
+                <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="Carrier Code, example: GA" value="`+text_carrier_code+`" hidden/>
             </div>`;
         }else{
             alert("Please input promo code");
