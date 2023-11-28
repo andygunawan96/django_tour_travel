@@ -41,12 +41,12 @@
                         <div id="otp_pin_div">
                             <label> {% trans 'OTP Code' %}</label>
                             <div class="pin-otp-container" style="justify-content: unset;" onclick="next_input_otp('pin_otp_input1');">
-                                <input type="text" id="pin_otp_input1" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                                <input type="text" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                                <input type="text" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                                <input type="text" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                                <input type="text" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                                <input type="text" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                                <input type="number" id="pin_otp_input1" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                                <input type="number" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                                <input type="number" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                                <input type="number" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                                <input type="number" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                                <input type="number" class="pin-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
                             </div>
                             <input type="text" class="form-control" style="display:none; border-radius:unset; font-size:13px; width:100%; margin-right:10px;" id="otp_pin" placeholder="OTP" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="6"/>
                             <div style="display:inline-block; margin-bottom:10px;">

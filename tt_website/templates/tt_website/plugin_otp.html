@@ -29,12 +29,12 @@
                 <div id="otp_user_div">
                     <label> {% trans 'OTP Code' %}</label>
                     <div class="email-otp-container" style="justify-content: unset;" onclick="next_input_otp('email_otp_input_user1');">
-                        <input type="text" id="email_otp_input_user1" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                        <input type="text" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                        <input type="text" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                        <input type="text" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                        <input type="text" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-                        <input type="text" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+                        <input type="number" id="email_otp_input_user1" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                        <input type="number" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                        <input type="number" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                        <input type="number" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                        <input type="number" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+                        <input type="number" class="email-otp-input-user" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
                     </div>
 
                     <input type="text" class="form-control" style="display:none; border-radius:unset; font-size:13px; width:100%; margin-right:10px;" id="otp_user" placeholder="OTP" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="6"/>
