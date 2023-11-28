@@ -684,6 +684,7 @@ def get_current_search(request):
             'child': int(request.POST['child']),
             'hotel_id': request.POST.get('id') or '',
             'search_name': request.POST.get('destination') and ' - '.join(request.POST.get('destination').split(' - ')[:-1]) or '',
+            'destination': request.POST.get('destination') or '',
             'room': int(request.POST['room']),
             'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
@@ -692,6 +693,7 @@ def get_current_search(request):
             'child_ages': child_age,
             'nationality': request.POST['nationality'].split(' - ')[0],
             'is_bussiness_trip': request.POST['business_trip'],
+            'guest_nationality': request.POST['nationality']
         }
         list_file = get_list_file_name(request, 'hotel_request')
 
