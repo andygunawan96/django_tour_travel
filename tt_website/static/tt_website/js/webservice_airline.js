@@ -951,7 +951,7 @@ function airline_do_passenger_js_load(){
                     singleDatePicker: true,
                     autoUpdateInput: true,
                     startDate: moment().subtract(18, 'years'),
-                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(120, 'years'),
                     maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
                     showDropdowns: true,
                     opens: 'center',

@@ -13,7 +13,7 @@ function toggle_show_attach_pay_ref() {
 
 total_price_payment_acq = 100000000;
 
-function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name, is_agent=false){
+function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name, is_agent=true){
     order_number_id = order_number;
     $.ajax({
        type: "POST",
@@ -1520,7 +1520,7 @@ function get_order_number_frontend(order_number){
 function check_payment_payment_method(order_number,btn_name,booker,type,provider_type,signature, payment_acq_booking, msg){
     is_agent = msg.result.response.agent_name == user_login.co_agent_name
     if(Object.keys(payment_acq_booking).length == 0){
-        get_payment_acq(btn_name, booker, order_number, type, signature, provider_type, is_agent);
+        get_payment_acq(btn_name, booker, order_number, type, signature, provider_type, '', '', is_agent);
     }else{
         //print
         data_gmt = moment(payment_acq_booking.time_limit)._d.toString().split(' ')[5];
