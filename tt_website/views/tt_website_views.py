@@ -1382,6 +1382,7 @@ def setting(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
+            'state_machine': ['always', 'never']
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
