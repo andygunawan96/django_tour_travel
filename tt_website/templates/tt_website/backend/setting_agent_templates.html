@@ -208,7 +208,7 @@
                                                                 document.getElementById('valid_date_span'+{{forloop.counter}}).innerHTML += date_valid_display;
                                                             </script>
                                                         {% else %}
-                                                            {% if machine_obj.valid_date == 'Never' %}
+                                                            {% if machine_obj.valid_date == 'never' %}
                                                                 Never ask again for this browser
                                                             {% else %}
                                                                 Always ask OTP for this browser
