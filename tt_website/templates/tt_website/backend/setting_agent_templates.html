@@ -201,14 +201,18 @@
                                                         </script>
 
                                                         <span style="font-weight:bold">Valid until:</span> <span id="valid_date_span{{forloop.counter}}"></span>
-                                                        {% if machine_obj.valid_date not in ['Never', 'Always'] %}
+                                                        {% if machine_obj.valid_date not in state_machine %}
                                                             <script>
                                                                 date_valid_temp = '{{machine_obj.valid_date}}';
                                                                 date_valid_display = moment(date_valid_temp).format('ddd DD MMM YYYY HH:mm:ss');
                                                                 document.getElementById('valid_date_span'+{{forloop.counter}}).innerHTML += date_valid_display;
                                                             </script>
                                                         {% else %}
-                                                            {{machine_obj.valid_date}}
+                                                            {% if machine_obj.valid_date == 'Never' %}
+                                                                Never ask again for this browser
+                                                            {% else %}
+                                                                Always ask OTP for this browser
+                                                            {% endif %}
                                                         {% endif %}
                                                     </td>
                                                     <td style="text-align:center;" id="button_machine{{forloop.counter0}}"><button type="button" class="primary-btn-cancel" onclick="set_turn_off_notif_user_api(false,'{{machine_obj.machine_id}}');"><i class="fas fa-sign-out-alt"></i></button></td>
