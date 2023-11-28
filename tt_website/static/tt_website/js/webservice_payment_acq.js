@@ -299,7 +299,7 @@ function set_payment(val, type){
         if(payment_method == 'credit_limit')
         text+=`
 
-        <label class="radio-button-custom">
+        <label class="radio-button-custom" style="margin-top:15px;">
             <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br></span>
             <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
             <span class="checkmark-radio"></span>
@@ -309,7 +309,7 @@ function set_payment(val, type){
             if(payment_method != 'payment_gateway' || payment_acq2[payment_method][i].show_device_type != 'mobile'){
                 text+=`
 
-                <label class="radio-button-custom">
+                <label class="radio-button-custom" style="margin-top:15px;">
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>`;
 
                 if(payment_acq2[payment_method][i].image){
@@ -1146,13 +1146,13 @@ function set_price(val, type, product_type){
             <div class='row'>
                 <div class="col-sm-12 mb-3" style="text-align:left;">
                     <h6 style="padding-bottom:10px;">4. Input your PIN</h6>
-                    <div class="pin-container" style="margin-bottom:0px; justify-content: unset;" onclick="next_input_pin();">
-                        <input type="text" id="pin_otp_input1" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
-                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
-                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
-                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
-                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
-                        <input type="text" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; font-size:60px; color:`+color+`;">
+                    <div class="pin-container" onclick="next_input_pin();">
+                        <input type="number" id="pin_otp_input1" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; color:`+color+`;" inputmode="numeric">
+                        <input type="number" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; color:`+color+`;" inputmode="numeric">
+                        <input type="number" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; color:`+color+`;" inputmode="numeric">
+                        <input type="number" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; color:`+color+`;" inputmode="numeric">
+                        <input type="number" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; color:`+color+`;" inputmode="numeric">
+                        <input type="number" id="pin_otp_input6" class="pin-num-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; color:`+color+`;" inputmode="numeric">
                     </div>
 
                     <input class="form-control" placeholder="Pin" type='text' id="pin" maxLength="6" autocomplete="off" style="text-security:disc; -webkit-text-security:disc; display:none;"/>
@@ -1234,6 +1234,10 @@ function setupOtpInputListeners(inputs) {
                 inputs[5].select();
             }
 
+            if (currentIndex === 5 && inputValue) {
+                $('#pin_otp_input6').blur();
+            }
+
             updatePINValue(inputs);
         });
 
@@ -1268,7 +1272,6 @@ function updatePINValue(inputs) {
     });
 
     var inputOtpInputs = document.querySelectorAll(".pin-num-input");
-
     document.getElementById("pin").value = otpValue;
 }
 
