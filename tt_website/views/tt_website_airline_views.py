@@ -1990,7 +1990,7 @@ def review(request, signature):
                                 is_wheelchair = True
                             else:
                                 is_wheelchair = False
-                            if request.POST['adult_id_type' + str(i + 1)]:
+                            if request.POST.get('adult_id_type' + str(i + 1)):
                                 passport_number = request.POST.get('adult_passport_number' + str(i + 1))
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
@@ -2114,7 +2114,7 @@ def review(request, signature):
                                 is_wheelchair = True
                             else:
                                 is_wheelchair = False
-                            if request.POST['child_id_type' + str(i + 1)]:
+                            if request.POST.get('child_id_type' + str(i + 1)):
                                 passport_number = request.POST['child_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
@@ -2160,7 +2160,7 @@ def review(request, signature):
                             else:
                                 is_valid_identity = True
                             is_wheelchair = False
-                            if request.POST['infant_id_type' + str(i + 1)]:
+                            if request.POST.get('infant_id_type' + str(i + 1)):
                                 passport_number = request.POST['infant_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
@@ -2227,7 +2227,7 @@ def review(request, signature):
                                 is_wheelchair = True
                             else:
                                 is_wheelchair = False
-                            if request.POST['student_id_type' + str(i + 1)]:
+                            if request.POST.get('student_id_type' + str(i + 1)):
                                 passport_number = request.POST['student_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['student_passport_expired_date' + str(i + 1)]
@@ -2296,7 +2296,7 @@ def review(request, signature):
                                 is_wheelchair = True
                             else:
                                 is_wheelchair = False
-                            if request.POST['labour_id_type' + str(i + 1)]:
+                            if request.POST.get('labour_id_type' + str(i + 1)):
                                 passport_number = request.POST['labour_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['labour_passport_expired_date' + str(i + 1)]
@@ -2365,7 +2365,7 @@ def review(request, signature):
                                 is_wheelchair = True
                             else:
                                 is_wheelchair = False
-                            if request.POST['seaman_id_type' + str(i + 1)]:
+                            if request.POST.get('seaman_id_type' + str(i + 1)):
                                 passport_number = request.POST['seaman_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
                                 passport_ed = request.POST['seaman_passport_expired_date' + str(i + 1)]
