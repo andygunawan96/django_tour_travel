@@ -4129,7 +4129,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
 
                                         change_identity = false;
                                         for(x in document.getElementById(type+'_id_type'+passenger_number).options){
-                                            if(document.getElementById(type+'_id_type'+passenger_number).options[x].value == data[0]){
+                                            if(document.getElementById(type+'_id_type'+passenger_number).options[x].value == i){
                                                 change_identity = true;
                                                 break;
                                             }
