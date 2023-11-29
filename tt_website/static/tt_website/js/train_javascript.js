@@ -169,11 +169,11 @@ function train_check_search_values(){
         }
         if(document.getElementById('checkbox_corpor_mode_train')){
             if(document.getElementById('checkbox_corpor_mode_train').checked){
-                request_airline['checkbox_corpor_mode_train'] = true;
+                train_request_data['checkbox_corpor_mode_train'] = true;
                 if(document.getElementById('train_corpor_select')){
-                    request_airline['train_corpor_select'] = document.getElementById('train_corpor_select').value;
+                    train_request_data['train_corpor_select'] = document.getElementById('train_corpor_select').value;
                 }if(document.getElementById('train_corbooker_select')){
-                    request_airline['train_corbooker_select'] = document.getElementById('train_corbooker_select').value;
+                    train_request_data['train_corbooker_select'] = document.getElementById('train_corbooker_select').value;
                 }
             }
         }

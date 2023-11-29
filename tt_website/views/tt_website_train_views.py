@@ -136,9 +136,6 @@ def search(request):
                 train_destinations = file
 
             try:
-                origin = []
-                destination = []
-                departure = []
                 train_request = {
                     'direction': request.GET['radio_train_type'],
                     'adult': request.GET['adult'],
@@ -198,6 +195,19 @@ def search(request):
                 cur_session.update({
                     "co_customer_parent_seq_id": request.POST['train_corpor_select_post'],
                     "co_customer_seq_id": request.POST['train_corbooker_select_post']
+                })
+                set_session(request, 'user_account', cur_session)
+                activate_corporate_mode(request, request.session['signature'])
+
+            if request.GET.get('checkbox_corpor_mode_train') and request.GET.get('train_corpor_select') and request.GET.get('train_corbooker_select'):
+                updated_request = request.POST.copy()
+                updated_request.update({
+                    'customer_parent_seq_id': request.GET['train_corpor_select']
+                })
+                cur_session = request.session['user_account']
+                cur_session.update({
+                    "co_customer_parent_seq_id": request.GET['train_corpor_select'],
+                    "co_customer_seq_id": request.GET['train_corbooker_select']
                 })
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, request.session['signature'])
