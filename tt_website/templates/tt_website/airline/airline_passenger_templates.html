@@ -635,6 +635,20 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
                                                             <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
@@ -1005,6 +1019,20 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            <label id="child_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
                                                             <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Passport Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
@@ -1341,6 +1369,20 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            <label id="infant_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="infant_identity_first_name{{forloop.counter}}" id="infant_identity_first_name{{forloop.counter}}" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="infant_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="infant_identity_last_name{{forloop.counter}}" id="infant_identity_last_name{{forloop.counter}}" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
                                                             <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
@@ -1646,6 +1688,20 @@
                                                             <label>{% trans 'Identity Number' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="student_passport_number{{forloop.counter}}" id="student_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="student_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="student_identity_first_name{{forloop.counter}}" id="student_identity_first_name{{forloop.counter}}" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="student_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="student_identity_last_name{{forloop.counter}}" id="student_identity_last_name{{forloop.counter}}" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1985,6 +2041,20 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            <label id="labour_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="labour_identity_first_name{{forloop.counter}}" id="labour_identity_first_name{{forloop.counter}}" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="labour_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="labour_identity_last_name{{forloop.counter}}" id="labour_identity_last_name{{forloop.counter}}" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
                                                             <label id="labour_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Passport Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
@@ -2319,6 +2389,20 @@
                                                             <label>{% trans 'Identity Number' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="seaman_passport_number{{forloop.counter}}" id="seaman_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="seaman_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="seaman_identity_first_name{{forloop.counter}}" id="seaman_identity_first_name{{forloop.counter}}" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label id="seaman_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="seaman_identity_last_name{{forloop.counter}}" id="seaman_identity_last_name{{forloop.counter}}" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">

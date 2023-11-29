@@ -1977,6 +1977,8 @@ def review(request, signature):
                                 counter += 1
 
                             passport_number = ''
+                            passport_first_name = ''
+                            passport_last_name = ''
                             passport_ed = ''
                             passport_country_of_issued = ''
                             is_valid_identity = request.POST.get('adult_valid_passport' + str(i + 1), 'off')
@@ -1993,6 +1995,8 @@ def review(request, signature):
                             if request.POST['adult_id_type' + str(i + 1)]:
                                 passport_number = request.POST.get('adult_passport_number' + str(i + 1))
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                                passport_first_name = re.sub(r'\s', ' ', request.POST['adult_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                                passport_last_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
                                 passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
                                 passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1) + '_id')
 
@@ -2016,6 +2020,8 @@ def review(request, signature):
                                 "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
                                 "identity_expdate": passport_ed if is_valid_identity else '',
                                 "identity_number": passport_number if is_valid_identity else '',
+                                "identity_first_name": passport_first_name if is_valid_identity else '',
+                                "identity_last_name": passport_last_name if is_valid_identity else '',
                                 "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                                 "identity_type": request.POST['adult_id_type' + str(i + 1)] if is_valid_identity else '',
                                 "ff_numbers": ff_number,
@@ -2101,6 +2107,8 @@ def review(request, signature):
                                 counter += 1
 
                             passport_number = ''
+                            passport_first_name = ''
+                            passport_last_name = ''
                             passport_ed = ''
                             passport_country_of_issued = ''
                             is_valid_identity = request.POST.get('child_valid_passport' + str(i + 1), 'off')
@@ -2117,6 +2125,8 @@ def review(request, signature):
                             if request.POST['child_id_type' + str(i + 1)]:
                                 passport_number = request.POST['child_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                                passport_first_name = re.sub(r'\s', ' ', request.POST['child_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                                passport_last_name = re.sub(r'\s', ' ', request.POST.get('child_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
                                 passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1) + '_id']
 
@@ -2139,6 +2149,8 @@ def review(request, signature):
                                 "birth_date": request.POST['child_birth_date' + str(i + 1)],
                                 "nationality_code": request.POST['child_nationality' + str(i + 1) + '_id'],
                                 "identity_number": passport_number if is_valid_identity else '',
+                                "identity_first_name": passport_first_name if is_valid_identity else '',
+                                "identity_last_name": passport_last_name if is_valid_identity else '',
                                 "identity_expdate": passport_ed if is_valid_identity else '',
                                 "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
                                 "passenger_seq_id": request.POST['child_id' + str(i + 1)],
@@ -2152,6 +2164,8 @@ def review(request, signature):
 
                         for i in range(int(airline_request['infant'])):
                             passport_number = ''
+                            passport_first_name = ''
+                            passport_last_name = ''
                             passport_ed = ''
                             passport_country_of_issued = ''
                             is_valid_identity = request.POST.get('infant_valid_passport' + str(i + 1), 'off')
@@ -2163,6 +2177,8 @@ def review(request, signature):
                             if request.POST['infant_id_type' + str(i + 1)]:
                                 passport_number = request.POST['infant_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                                passport_first_name = re.sub(r'\s', ' ', request.POST['infant_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                                passport_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
                                 passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1) + '_id']
 
@@ -2184,6 +2200,8 @@ def review(request, signature):
                                 "birth_date": request.POST['infant_birth_date' + str(i + 1)],
                                 "nationality_code": request.POST['infant_nationality' + str(i + 1) + '_id'],
                                 "identity_number": passport_number if is_valid_identity else '',
+                                "identity_first_name": passport_first_name if is_valid_identity else '',
+                                "identity_last_name": passport_last_name if is_valid_identity else '',
                                 "identity_expdate": passport_ed if is_valid_identity else '',
                                 "identity_country_of_issued_code": passport_country_of_issued if is_valid_identity else '',
                                 "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
@@ -2214,6 +2232,8 @@ def review(request, signature):
                                 counter += 1
 
                             passport_number = ''
+                            passport_first_name = ''
+                            passport_last_name = ''
                             passport_ed = ''
                             passport_country_of_issued = ''
                             is_valid_identity = request.POST.get('student_valid_passport' + str(i + 1), 'off')
@@ -2230,6 +2250,8 @@ def review(request, signature):
                             if request.POST['student_id_type' + str(i + 1)]:
                                 passport_number = request.POST['student_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                                passport_first_name = re.sub(r'\s', ' ', request.POST['student_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                                passport_last_name = re.sub(r'\s', ' ', request.POST.get('student_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
                                 passport_ed = request.POST['student_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['student_country_of_issued' + str(i + 1) + '_id']
 
@@ -2252,6 +2274,8 @@ def review(request, signature):
                                 "birth_date": request.POST['student_birth_date' + str(i + 1)],
                                 "nationality_code": request.POST['student_nationality' + str(i + 1) + '_id'],
                                 "identity_number": passport_number,
+                                "identity_first_name": passport_first_name,
+                                "identity_last_name": passport_last_name,
                                 "identity_expdate": passport_ed,
                                 "identity_country_of_issued_code": passport_country_of_issued,
                                 "passenger_seq_id": request.POST['student_id' + str(i + 1)],
@@ -2283,6 +2307,8 @@ def review(request, signature):
                                 counter += 1
 
                             passport_number = ''
+                            passport_first_name = ''
+                            passport_last_name = ''
                             passport_ed = ''
                             passport_country_of_issued = ''
                             is_valid_identity = request.POST.get('labour_valid_passport' + str(i + 1), 'off')
@@ -2299,6 +2325,8 @@ def review(request, signature):
                             if request.POST['labour_id_type' + str(i + 1)]:
                                 passport_number = request.POST['labour_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                                passport_first_name = re.sub(r'\s', ' ', request.POST['labour_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                                passport_last_name = re.sub(r'\s', ' ', request.POST.get('labour_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
                                 passport_ed = request.POST['labour_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['labour_country_of_issued' + str(i + 1) + '_id']
 
@@ -2321,6 +2349,8 @@ def review(request, signature):
                                 "birth_date": request.POST['labour_birth_date' + str(i + 1)],
                                 "nationality_code": request.POST['labour_nationality' + str(i + 1) + '_id'],
                                 "identity_number": passport_number,
+                                "identity_first_name": passport_first_name,
+                                "identity_last_name": passport_last_name,
                                 "identity_expdate": passport_ed,
                                 "identity_country_of_issued_code": passport_country_of_issued,
                                 "passenger_seq_id": request.POST['labour_id' + str(i + 1)],
@@ -2352,6 +2382,8 @@ def review(request, signature):
                                 counter += 1
 
                             passport_number = ''
+                            passport_first_name = ''
+                            passport_last_name = ''
                             passport_ed = ''
                             passport_country_of_issued = ''
                             is_valid_identity = request.POST.get('seaman_valid_passport' + str(i + 1), 'off')
@@ -2368,6 +2400,8 @@ def review(request, signature):
                             if request.POST['seaman_id_type' + str(i + 1)]:
                                 passport_number = request.POST['seaman_passport_number' + str(i + 1)]
                                 passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                                passport_first_name = re.sub(r'\s', ' ', request.POST['seaman_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                                passport_last_name = re.sub(r'\s', ' ', request.POST.get('seaman_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
                                 passport_ed = request.POST['seaman_passport_expired_date' + str(i + 1)]
                                 passport_country_of_issued = request.POST['seaman_country_of_issued' + str(i + 1) + '_id']
 
@@ -2390,6 +2424,8 @@ def review(request, signature):
                                 "birth_date": request.POST['seaman_birth_date' + str(i + 1)],
                                 "nationality_code": request.POST['seaman_nationality' + str(i + 1) + '_id'],
                                 "identity_number": passport_number,
+                                "identity_first_name": passport_first_name,
+                                "identity_last_name": passport_last_name,
                                 "identity_expdate": passport_ed,
                                 "identity_country_of_issued_code": passport_country_of_issued,
                                 "passenger_seq_id": request.POST['seaman_id' + str(i + 1)],

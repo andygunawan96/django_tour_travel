@@ -136,6 +136,7 @@ function check_issued_offline(){
                 }
                 if(document.getElementById('adult_identity_type' + (i + 1)).value != ''){
                     request['passenger_identity_type'+count_pax] = document.getElementById('adult_identity_type' + (i + 1)).value;
+                    request['passenger_identity_last_name'+count_pax] = document.getElementById('adult_identity_last_name'+ (i + 1)).value;
                     if(document.getElementById('adult_identity_type' + (i + 1)).value == 'ktp'){
                         if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
                             error_log+= 'Please fill identity number for passenger '+(count_pax + 1)+'!\n<br/>';
@@ -146,6 +147,13 @@ function check_issued_offline(){
                         }else{
                             request['passenger_identity_number'+count_pax] = document.getElementById('adult_identity_number' + (i + 1)).value;
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_identity_first_name'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity first name for passenger '+(count_pax + 1)+'!\n<br/>';
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_first_name'+count_pax] = document.getElementById('adult_identity_first_name'+ (i + 1)).value;
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_country_of_issued'+ (i + 1) + '_id').value == ''){
                             error_log+= 'Please fill country of issued for passenger '+(count_pax + 1)+'!\n<br/>';
@@ -161,6 +169,13 @@ function check_issued_offline(){
                         }else{
                             request['passenger_identity_number'+count_pax] = document.getElementById('adult_identity_number' + (i + 1)).value;
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_identity_first_name'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity first name for passenger '+(count_pax + 1)+'!\n<br/>';
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_first_name'+count_pax] = document.getElementById('adult_identity_first_name'+ (i + 1)).value;
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_country_of_issued'+ (i + 1) + '_id').value == ''){
                             error_log+= 'Please fill country of issued for passenger '+(count_pax + 1)+'!\n<br/>';
@@ -179,6 +194,13 @@ function check_issued_offline(){
                         }else{
                             request['passenger_identity_number'+count_pax] = document.getElementById('adult_identity_number' + (i + 1)).value;
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_identity_first_name'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity first name for passenger '+(count_pax + 1)+'!\n<br/>';
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_first_name'+count_pax] = document.getElementById('adult_identity_first_name'+ (i + 1)).value;
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_identity_expired_date'+ (i + 1)).value == ''){
                             error_log+= 'Please fill identity expired date for passenger '+(count_pax + 1)+'!\n<br/>';
@@ -204,6 +226,13 @@ function check_issued_offline(){
                         }else{
                             request['passenger_identity_number'+count_pax] = document.getElementById('adult_identity_number' + (i + 1)).value;
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                        }
+                        if(document.getElementById('adult_identity_first_name'+ (i + 1)).value == ''){
+                            error_log+= 'Please fill identity first name for passenger '+(count_pax + 1)+'!\n<br/>';
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = 'red';
+                        }else{
+                            request['passenger_identity_first_name'+count_pax] = document.getElementById('adult_identity_first_name'+ (i + 1)).value;
+                            document.getElementById('adult_identity_first_name'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_identity_expired_date'+ (i + 1)).value == ''){
                             error_log+= 'Please fill identity expired date for passenger '+(count_pax+1)+'!\n<br/>';

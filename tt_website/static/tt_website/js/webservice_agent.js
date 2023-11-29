@@ -1972,18 +1972,36 @@ function create_new_passenger(){
                 identity_type = 'other';
 
 
-            if(i == 2 && document.getElementById('passenger_identity_number'+i).value != '' && check_ktp(document.getElementById('passenger_identity_number'+i).value) == false){
-               error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
-               document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
-            }else{
-               document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+            if(i == 2 && document.getElementById('passenger_identity_number'+i).value != '')
+            {
+                if(check_ktp(document.getElementById('passenger_identity_number'+i).value) == false){
+                   error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
+                   document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+                }
+                if(document.getElementById('passenger_identity_first_name'+i).value == ''){
+                   error_log+= 'Please fill identity first name!</br>\n';
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
             }
 
-            if(i == 3 && document.getElementById('passenger_identity_number'+i).value != '' && check_sim(document.getElementById('passenger_identity_number'+i).value) == false){
-               error_log+= 'Please fill identity number, sim only contain 12 - 13 digits!</br>\n';
-               document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
-            }else{
-               document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+            if(i == 3 && document.getElementById('passenger_identity_number'+i).value != '')
+            {
+                if(check_sim(document.getElementById('passenger_identity_number'+i).value) == false){
+                   error_log+= 'Please fill identity number, sim only contain 12 - 13 digits!</br>\n';
+                   document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+                }
+                if(document.getElementById('passenger_identity_first_name'+i).value == ''){
+                   error_log+= 'Please fill identity first name!</br>\n';
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
             }
 
             if(i == 1 && document.getElementById('passenger_identity_number'+i).value != ''){
@@ -1992,6 +2010,12 @@ function create_new_passenger(){
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
                }else{
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('passenger_identity_first_name'+i).value == ''){
+                   error_log+= 'Please fill identity first name!</br>\n';
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                }
                if(document.getElementById('passenger_identity_expired_date'+i).value == ''){
                    error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -2005,13 +2029,21 @@ function create_new_passenger(){
                    document.getElementById('passenger_identity_country_of_issued'+i+'_id').style['border-color'] = '#EFEFEF';
                }
             }
-            if(i == 4 && document.getElementById('passenger_identity_number'+i).value != '' && document.getElementById('passenger_identity_number'+i).value.length < 6){
-               error_log+= 'Please fill '+identity_type+' number !</br>\n';
-               document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
-            }else{
-               document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+            if(i == 4 && document.getElementById('passenger_identity_number'+i).value != '')
+            {
+                if(document.getElementById('passenger_identity_number'+i).value.length < 6){
+                   error_log+= 'Please fill '+identity_type+' number !</br>\n';
+                   document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+                }
+                if(document.getElementById('passenger_identity_first_name'+i).value == ''){
+                   error_log+= 'Please fill identity first name!</br>\n';
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
             }
-
 
 //            if(document.getElementById('passenger_identity_number'+i).value != ''){
 //               if(document.getElementById('passenger_identity_number'+i).value == ''){
@@ -2125,6 +2157,8 @@ function create_new_passenger(){
                     identity[identity_type] = {
                         'identity_type': identity_type,
                         'identity_number': document.getElementById('passenger_identity_number'+i).value,
+                        'identity_first_name': document.getElementById('passenger_identity_first_name'+i).value,
+                        'identity_last_name': document.getElementById('passenger_identity_last_name'+i).value,
                         'identity_expdate': document.getElementById('passenger_identity_expired_date'+i).value,
                         'identity_country_of_issued_code': document.getElementById('passenger_identity_country_of_issued'+i+'_id').value
                     };
@@ -2171,6 +2205,8 @@ function create_new_passenger(){
                                     $('#passenger_identity').niceSelect('update');
                                     for(i=1;i<5;i++){
                                         document.getElementById('passenger_identity_number'+i).value = '';
+                                        document.getElementById('passenger_identity_first_name'+i).value = '';
+                                        document.getElementById('passenger_identity_last_name'+i).value = '';
                                         document.getElementById('passenger_identity_expired_date'+i).value = '';
                                         $('#passenger_identity_country_of_issued'+i+'_id').val('').trigger('change');
                                         document.getElementById('files_attachment'+i).value = '';
@@ -10660,6 +10696,14 @@ function fill_paxdata_from_idcard(idcard_type){
                 {
                     $("#passenger_identity_number"+id_idx.toString()).val(res_obj.identity_number);
                 }
+                if (res_obj.hasOwnProperty('identity_first_name'))
+                {
+                    $("#passenger_identity_first_name"+id_idx.toString()).val(res_obj.identity_first_name);
+                }
+                if (res_obj.hasOwnProperty('identity_last_name'))
+                {
+                    $("#passenger_identity_last_name"+id_idx.toString()).val(res_obj.identity_last_name);
+                }
                 if (res_obj.hasOwnProperty('identity_expired_date') && res_obj.identity_expired_date != 'SEUMUR HIDUP')
                 {
                     $("#passenger_identity_expired_date"+id_idx.toString()).val(res_obj.identity_expired_date);
@@ -10719,6 +10763,8 @@ function clear_create_search_passenger_db(){
     for(var i=1; i<=4; i++)
     {
         $("#passenger_identity_number"+i.toString()).val('');
+        $("#passenger_identity_first_name"+i.toString()).val('');
+        $("#passenger_identity_last_name"+i.toString()).val('');
         $("#passenger_identity_expired_date"+i.toString()).val('');
         $("#passenger_identity_country_of_issued"+i.toString()+"_id").val('').trigger('change');
         document.getElementById('selectedFiles_attachment'+i.toString()).innerHTML = '';
@@ -10772,18 +10818,31 @@ function update_passenger_backend(){
             identity_type = 'sim';
         else if(i == 4)
             identity_type = 'other';
-        if(i == 2 && document.getElementById('passenger_identity_number'+i).value != '' && check_ktp(document.getElementById('passenger_identity_number'+i).value) == false){
-           error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
-           document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
-        }else{
-           document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+
+        if(i == 2 && document.getElementById('passenger_identity_number'+i).value != '')
+        {
+            if(check_ktp(document.getElementById('passenger_identity_number'+i).value) == false){
+               error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+            }
         }
 
-        if(i == 3 && document.getElementById('passenger_identity_number'+i).value != '' && check_sim(document.getElementById('passenger_identity_number'+i).value) == false){
-           error_log+= 'Please fill identity number, sim only contain 12 - 13 digits!</br>\n';
-           document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
-        }else{
-           document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+        if(i == 3 && document.getElementById('passenger_identity_number'+i).value != '')
+        {
+            if(check_sim(document.getElementById('passenger_identity_number'+i).value) == false){
+               error_log+= 'Please fill identity number, sim only contain 12 - 13 digits!</br>\n';
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+            }
+            if(document.getElementById('passenger_identity_first_name'+i).value == ''){
+               error_log+= 'Please fill identity first name!</br>\n';
+               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+            }
         }
 
         if(i == 1 && document.getElementById('passenger_identity_number'+i).value != ''){
@@ -10792,6 +10851,12 @@ function update_passenger_backend(){
                document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+           }
+           if(document.getElementById('passenger_identity_first_name'+i).value == ''){
+               error_log+= 'Please fill identity first name!</br>\n';
+               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
            }
            if(document.getElementById('passenger_identity_expired_date'+i).value == ''){
                error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -10805,11 +10870,21 @@ function update_passenger_backend(){
                document.getElementById('passenger_identity_country_of_issued'+i+'_id').style['border-color'] = '#EFEFEF';
            }
         }
-        if(i == 4 && document.getElementById('passenger_identity_number'+i).value != '' && document.getElementById('passenger_identity_number'+i).value.length < 6){
-           error_log+= 'Please fill '+identity_type+' number !</br>\n';
-           document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
-        }else{
-           document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+
+        if(i == 4 && document.getElementById('passenger_identity_number'+i).value != '')
+        {
+            if(document.getElementById('passenger_identity_number'+i).value.length < 6){
+               error_log+= 'Please fill '+identity_type+' number !</br>\n';
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+            }
+            if(document.getElementById('passenger_identity_first_name'+i).value == ''){
+               error_log+= 'Please fill identity first name!</br>\n';
+               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+            }
         }
     }
     try{
@@ -11343,12 +11418,14 @@ function change_identity_type(id, automatic_change_number=true){
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else if(document.getElementById(id).value == 'passport' || document.getElementById(id).value == 'sim'){
             if(automatic_change_number)
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else if(is_identity_required == 'true'){
             //KALAU ADA BINTANG TETAP ADA TIDAK ADA YG BERUBAH
@@ -11356,12 +11433,14 @@ function change_identity_type(id, automatic_change_number=true){
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else{
             if(automatic_change_number)
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
+            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
         }
         try{

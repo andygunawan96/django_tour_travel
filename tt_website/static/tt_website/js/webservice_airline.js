@@ -747,6 +747,8 @@ function update_post_pax_name(type=''){
             "identity_expdate": document.getElementById('adult_passport_expired_date'+index).value != '' ? moment(document.getElementById('adult_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
             "identity_type": document.getElementById('adult_id_type'+index).value,
             "identity_number": document.getElementById('adult_passport_number'+index).value,
+            "identity_first_name": document.getElementById('adult_identity_first_name'+index).value,
+            "identity_last_name": document.getElementById('adult_identity_last_name'+index).value,
             "identity_country_of_issued_code": document.getElementById('adult_country_of_issued'+index).value,
             "passenger_number": pax_cache_reorder['adult'][i].passenger_number
         })
@@ -860,6 +862,8 @@ function update_post_pax_identity(){
             "identity_expdate": document.getElementById('adult_passport_expired_date'+index).value != '' ? moment(document.getElementById('adult_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
             "identity_type": document.getElementById('adult_id_type'+index).value,
             "identity_number": document.getElementById('adult_passport_number'+index).value,
+            "identity_first_name": document.getElementById('adult_identity_first_name'+index).value,
+            "identity_last_name": document.getElementById('adult_identity_last_name'+index).value,
             "identity_country_of_issued_code": document.getElementById('adult_country_of_issued'+index).value,
             "passenger_number": pax_cache_reorder['adult'][i].passenger_number
         })
@@ -1238,6 +1242,8 @@ function auto_input_pax_cache_reorder(){
             if(pax_cache_reorder.adult[x].identity_type != ''){
                 document.getElementById('adult_id_type'+index).value = pax_cache_reorder.adult[x].identity_type;
                 document.getElementById('adult_passport_number'+index).value = pax_cache_reorder.adult[x].identity_number;
+                document.getElementById('adult_identity_first_name'+index).value = pax_cache_reorder.adult[x].identity_first_name;
+                document.getElementById('adult_identity_last_name'+index).value = pax_cache_reorder.adult[x].identity_last_name;
                 if(pax_cache_reorder.adult[x].identity_expdate != '')
                     document.getElementById('adult_passport_expired_date'+index).value = pax_cache_reorder.adult[x].identity_expdate;
                 $('#adult_country_of_issued'+index+'_id').val(pax_cache_reorder.adult[x].identity_country_of_issued_code).trigger('change');
