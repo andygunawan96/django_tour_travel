@@ -156,7 +156,6 @@ function train_check_search_values(){
         if(radio_train_type == 'RT'){
             train_origin.push(document.getElementById('train_destination').value.split(' - ')[0]);
             train_destination.push(document.getElementById('train_origin').value.split(' - ')[0]);
-            train_departure_date.push(document.getElementById('train_return').value)
         }
 
         var train_request_data = {
