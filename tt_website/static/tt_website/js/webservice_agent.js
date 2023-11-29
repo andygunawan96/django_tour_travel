@@ -8992,6 +8992,8 @@ function edit_passenger_cache(val){
       document.getElementById('files_attachment_edit1').type = 'file'
     }
     document.getElementById('passenger_edit_identity_number1').value = '';
+    document.getElementById('passenger_edit_identity_first_name1').value = '';
+    document.getElementById('passenger_edit_identity_last_name1').value = '';
     $("passenger_edit_identity_expired_date1").val("");
     $('#passenger_edit_identity_country_of_issued1_id').val('').trigger('change');
 
@@ -9004,6 +9006,8 @@ function edit_passenger_cache(val){
       document.getElementById('files_attachment_edit2').type = 'file'
     }
     document.getElementById('passenger_edit_identity_number2').value = '';
+    document.getElementById('passenger_edit_identity_first_name2').value = '';
+    document.getElementById('passenger_edit_identity_last_name2').value = '';
     $("passenger_edit_identity_expired_date2").val("");
     $('#passenger_edit_identity_country_of_issued2_id').val('').trigger('change');
 
@@ -9016,6 +9020,8 @@ function edit_passenger_cache(val){
       document.getElementById('files_attachment_edit3').type = 'file'
     }
     document.getElementById('passenger_edit_identity_number3').value = '';
+    document.getElementById('passenger_edit_identity_first_name3').value = '';
+    document.getElementById('passenger_edit_identity_last_name3').value = '';
     $("passenger_edit_identity_expired_date3").val("");
     $('#passenger_edit_identity_country_of_issued3_id').val('').trigger('change');
 
@@ -9028,6 +9034,8 @@ function edit_passenger_cache(val){
       document.getElementById('files_attachment_edit4').type = 'file'
     }
     document.getElementById('passenger_edit_identity_number4').value = '';
+    document.getElementById('passenger_edit_identity_first_name4').value = '';
+    document.getElementById('passenger_edit_identity_last_name4').value = '';
     $("passenger_edit_identity_expired_date4").val("");
     $('#passenger_edit_identity_country_of_issued4_id').val('').trigger('change');
 
@@ -9216,6 +9224,8 @@ function edit_passenger_cache(val){
             text = '';
             draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number1').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_first_name1').value = passenger_data_cache[val].identities[i].identity_first_name;
+            document.getElementById('passenger_edit_identity_last_name1').value = passenger_data_cache[val].identities[i].identity_last_name;
             document.getElementById('passenger_edit_identity_expired_date1').value = passenger_data_cache[val].identities[i].identity_expdate;
             $('#passenger_edit_identity_country_of_issued1_id').val(passenger_data_cache[val].identities[i].identity_country_of_issued_code).trigger('change');
 
@@ -9285,6 +9295,8 @@ function edit_passenger_cache(val){
             text = '';
             draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number2').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_first_name2').value = passenger_data_cache[val].identities[i].identity_first_name;
+            document.getElementById('passenger_edit_identity_last_name2').value = passenger_data_cache[val].identities[i].identity_last_name;
             document.getElementById('passenger_edit_identity_expired_date2').value = passenger_data_cache[val].identities[i].identity_expdate;
             $('#passenger_edit_identity_country_of_issued2_id').val(passenger_data_cache[val].identities[i].identity_country_of_issued_code).trigger('change');
             //identity cenius edit ktp attachment dan shownya done
@@ -9342,6 +9354,8 @@ function edit_passenger_cache(val){
             text = '';
             draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number3').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_first_name3').value = passenger_data_cache[val].identities[i].identity_first_name;
+            document.getElementById('passenger_edit_identity_last_name3').value = passenger_data_cache[val].identities[i].identity_last_name;
             document.getElementById('passenger_edit_identity_expired_date3').value = passenger_data_cache[val].identities[i].identity_expdate;
             $('#passenger_edit_identity_country_of_issued3_id').val(passenger_data_cache[val].identities[i].identity_country_of_issued_code).trigger('change');
             //identity cenius edit sim attachment dan shownya done
@@ -9399,6 +9413,8 @@ function edit_passenger_cache(val){
             text = '';
             draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number4').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_first_name4').value = passenger_data_cache[val].identities[i].identity_first_name;
+            document.getElementById('passenger_edit_identity_last_name4').value = passenger_data_cache[val].identities[i].identity_last_name;
             document.getElementById('passenger_edit_identity_expired_date4').value = passenger_data_cache[val].identities[i].identity_expdate;
             $('#passenger_edit_identity_country_of_issued4_id').val(passenger_data_cache[val].identities[i].identity_country_of_issued_code).trigger('change');
             //identity cenius edit ot attachment dan shownya done
@@ -11059,6 +11075,8 @@ function update_passenger_backend(){
                             identity[identity_type] = {
                                 'identity_type': identity_type,
                                 'identity_number': document.getElementById('passenger_edit_identity_number'+i).value,
+                                'identity_first_name': document.getElementById('passenger_edit_identity_first_name'+i).value,
+                                'identity_last_name': document.getElementById('passenger_edit_identity_last_name'+i).value,
                                 'identity_expdate': document.getElementById('passenger_edit_identity_expired_date'+i).value,
                                 'identity_country_of_issued_code': document.getElementById('passenger_edit_identity_country_of_issued'+i+'_id').value
                             };
@@ -11130,6 +11148,8 @@ function update_passenger_backend(){
                                         $('#passenger_identity_country_of_issued'+i+'_id').val('').trigger('change');
                                         document.getElementById('files_attachment_edit'+i).value = '';
                                         document.getElementById('passenger_edit_identity_number'+i).value = '';
+                                        document.getElementById('passenger_edit_identity_first_name'+i).value = '';
+                                        document.getElementById('passenger_edit_identity_last_name'+i).value = '';
                                     }
                                     document.getElementById('passenger_edit_phone_table').innerHTML = '';
                                 }catch(err){

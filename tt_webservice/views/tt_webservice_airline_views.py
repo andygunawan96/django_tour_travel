@@ -373,6 +373,8 @@ def re_order_set_passengers(request):
                 "identity_country_of_issued_code": pax['identity_country_of_issued_code'] if pax['identity_country_of_issued_code'] != '' else '',
                 "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
                 "identity_number": pax['identity_number'],
+                "identity_first_name": pax['identity_first_name'],
+                "identity_last_name": pax['identity_last_name'],
                 "passenger_seq_id": pax['seq_id'],
                 "identity_type": pax['identity_type'],
                 "ff_numbers": [],
@@ -2057,6 +2059,8 @@ def update_passengers(request):
                             "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or 'ID',
                             "identity_expdate": identity_expired_date,
                             "identity_number": pax.get('identity_number') or identity_number,
+                            "identity_first_name": pax.get('identity_first_name') or pax['first_name'],
+                            "identity_last_name": pax.get('identity_last_name') or pax['last_name'],
                             "identity_type": pax.get('identity_type') or 'passport',
                             "identity_image": pax.get('identity_image', []),
                             # "is_valid_identity": pax.pop('is_valid_identity')
@@ -2064,6 +2068,8 @@ def update_passengers(request):
                         try:
                             pax.pop('identity_expdate')
                             pax.pop('identity_number')
+                            pax.pop('identity_first_name')
+                            pax.pop('identity_last_name')
                             pax.pop('identity_type')
                             pax.pop('identity_image')
                             pax.pop('is_valid_identity')
@@ -2080,6 +2086,8 @@ def update_passengers(request):
                             "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
                             "identity_expdate": pax.pop('identity_expdate'),
                             "identity_number": pax.pop('identity_number'),
+                            "identity_first_name": pax.pop('identity_first_name'),
+                            "identity_last_name": pax.pop('identity_last_name'),
                             "identity_type": pax.pop('identity_type'),
                             "identity_image": pax.pop('identity_image'),
                             "is_valid_identity": pax.pop('is_valid_identity')
@@ -2088,6 +2096,8 @@ def update_passengers(request):
                     else:
                         pax.pop('identity_expdate')
                         pax.pop('identity_number')
+                        pax.pop('identity_first_name')
+                        pax.pop('identity_last_name')
                         pax.pop('identity_type')
                         pax.pop('identity_image')
                         pax.pop('is_valid_identity')
@@ -5400,12 +5410,16 @@ def update_post_pax_name(request):
                     "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
                     "identity_expdate": pax.pop('identity_expdate'),
                     "identity_number": pax.pop('identity_number'),
+                    "identity_first_name": pax.pop('identity_first_name'),
+                    "identity_last_name": pax.pop('identity_last_name'),
                     "identity_type": pax.pop('identity_type'),
                 }
 
             else:
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
+                pax.pop('identity_first_name')
+                pax.pop('identity_last_name')
                 pax.pop('identity_type')
                 # pax.pop('identity_image')
             if data_awal_passenger[idx]['title'] != pax['title'] or data_awal_passenger[idx]['first_name'] != pax['first_name'] or data_awal_passenger[idx]['last_name'] != pax['last_name']:
@@ -5469,17 +5483,23 @@ def update_post_pax_identity(request):
                     "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
                     "identity_expdate": pax.pop('identity_expdate'),
                     "identity_number": pax.pop('identity_number'),
+                    "identity_first_name": pax.pop('identity_first_name'),
+                    "identity_last_name": pax.pop('identity_last_name'),
                     "identity_type": pax.pop('identity_type'),
                 }
 
             else:
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
+                pax.pop('identity_first_name')
+                pax.pop('identity_last_name')
                 pax.pop('identity_type')
                 # pax.pop('identity_image')
             try:
                 if data_awal_passenger[idx]['identity_type'] != pax['identity']['identity_type'] or \
                     data_awal_passenger[idx]['identity_number'] != pax['identity']['identity_number'] or \
+                    data_awal_passenger[idx]['identity_first_name'] != pax['identity']['identity_first_name'] or \
+                    data_awal_passenger[idx]['identity_last_name'] != pax['identity']['identity_last_name'] or \
                     data_awal_passenger[idx]['identity_expdate'] != pax['identity']['identity_expdate'] or \
                     data_awal_passenger[idx]['identity_country_of_issued_code'] != pax['identity']['identity_country_of_issued_code']:
                     passenger.append(pax)
