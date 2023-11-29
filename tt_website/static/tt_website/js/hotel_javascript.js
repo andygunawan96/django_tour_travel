@@ -205,7 +205,43 @@ function hotel_search_validation(){
         text+= 'Please fill checkout date\n';
     //check no error
     if(text == ''){
-        document.getElementById('hotel_searchForm').submit();
+        var hotel_request_data = {
+            "destination": document.getElementById('hotel_id_destination').value,
+            "guest_nationality": document.getElementById('hotel_id_nationality_id').value,
+            "business_trip": document.getElementById('business_trip').value == 'true' ? 'T' : 'F',
+            "checkin_date": document.getElementById('hotel_checkin').value,
+            "checkout_date": document.getElementById('hotel_checkout').value,
+            "room": document.getElementById('hotel_room').value,
+            "adult": document.getElementById('hotel_adult').value,
+            "child": document.getElementById('hotel_child').value
+        }
+
+        if(document.getElementById('hotel_child').value != '0'){
+            child_age = [];
+            for(i=1;i<=parseInt(document.getElementById('hotel_child').value);i++){
+                child_age.push(document.getElementById('hotel_child_age'+i).value);
+            }
+            hotel_request_data['child_age'] = child_age;
+        }
+        if(document.getElementById('checkbox_corpor_mode_hotel')){
+            if(document.getElementById('checkbox_corpor_mode_hotel').checked){
+                hotel_request_data['checkbox_corpor_mode_hotel'] = true;
+                if(document.getElementById('hotel_corpor_select')){
+                    hotel_request_data['hotel_corpor_select'] = document.getElementById('hotel_corpor_select').value;
+                }if(document.getElementById('hotel_corbooker_select')){
+                    hotel_request_data['hotel_corbooker_select'] = document.getElementById('hotel_corbooker_select').value;
+                }
+            }
+        }
+        var concat_url = '';
+        for(key in hotel_request_data){
+            if(concat_url)
+                concat_url += '&';
+            concat_url += key + '=' + hotel_request_data[key];
+        }
+        window.location.href = '/hotel/search?' + concat_url;
+
+//        document.getElementById('hotel_searchForm').submit();
     }else{
         alert(text);
     }
