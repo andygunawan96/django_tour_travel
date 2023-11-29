@@ -206,11 +206,11 @@ function hotel_search_validation(){
     //check no error
     if(text == ''){
         var hotel_request_data = {
-            "destination": document.getElementById('hotel_id_destination').value,
+            "destination": document.getElementById('hotel_id_destination').value.replace(/;/g,'~'),
             "guest_nationality": document.getElementById('hotel_id_nationality_id').value,
             "business_trip": document.getElementById('business_trip').value == 'true' ? 'T' : 'F',
-            "checkin_date": document.getElementById('hotel_checkin').value,
-            "checkout_date": document.getElementById('hotel_checkout').value,
+            "checkin_date": document.getElementById('hotel_checkin_checkout').value.split(' - ')[0],
+            "checkout_date": document.getElementById('hotel_checkin_checkout').value.split(' - ')[1],
             "room": document.getElementById('hotel_room').value,
             "adult": document.getElementById('hotel_adult').value,
             "child": document.getElementById('hotel_child').value
