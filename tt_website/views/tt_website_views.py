@@ -174,7 +174,7 @@ def index(request):
         phone_code = sorted(phone_code)
 
         if request.POST.get('logout'):
-            request.session.flush()
+            webservice_account.signout(request)
             # if request.session._session:
             #     for key in reversed(list(request.session._session.keys())):
             #         if key != '_language':
@@ -644,12 +644,7 @@ def login(request):
     javascript_version = get_javascript_version(request)
     values = get_data_template(request, 'login')
     if request.POST.get('logout') == 'true':
-        if request.session._session:
-            for key in reversed(list(request.session._session.keys())):
-                if key != '_language':
-                    del request.session[key]
-            request.session.modified = True
-            request.session.save()
+        webservice_account.signout(request)
     try:
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -1387,6 +1382,7 @@ def setting(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
+            'state_machine': ['always', 'never']
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -1583,13 +1579,16 @@ def create_cor_request(request, signature):
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/create_cor_agent_templates.html', values)
 
-def login_by_signature(request, signature):
+def login_by_signature(request, signature, product_type=False, page=False):
     try:
         update_context_machine_otp_pin_api(request, signature, True, True)
         language = request.session['_language']
     except:
         language = ''
-    return redirect(language + '/')
+    next_url = "/".join(request.META['PATH_INFO'].split('/')[3:])
+    if request.META['QUERY_STRING']:
+        next_url += "?%s" % request.META['QUERY_STRING']
+    return redirect(language + "/" + next_url)
 
 def get_reservation_request(request, request_number):
     try:

@@ -187,10 +187,10 @@
 								<div class="input-container-search-ticket">
 									<div class="form-select" id="default-select">
 										<select id="otp_type" name="otp_type" class="nice-select-default" onchange="next_input_otp('email_otp_input1')">
-											<option value="always">Always Ask OTP</option>
 											<option value="1">Input OTP every 1 day</option>
 											<option value="3">Input OTP every 3 day</option>
 											<option value="7">Input OTP every 7 day</option>
+											<option value="always">Always Ask OTP</option>
 											<option value="never">Never ask again for this browser</option>
 										</select>
 									</div>
@@ -201,12 +201,12 @@
 							<div id="otp_div" hidden>
 								<label> {% trans 'OTP Code' %}</label>
 								<div class="email-otp-container" onclick="next_input_otp('email_otp_input1')">
-									<input type="text" id="email_otp_input1" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-									<input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-									<input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-									<input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-									<input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
-									<input type="text" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off">
+									<input type="number" id="email_otp_input1" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+									<input type="number" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+									<input type="number" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+									<input type="number" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+									<input type="number" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
+									<input type="number" class="email-otp-input" onFocus="this.select()" pattern="\d" maxlength="1" autocomplete="off" inputmode="numeric">
 								</div>
 								<input type="text" class="form-control" style="display:none; height:36px; border-radius:unset; font-size:13px; padding:10px; margin:10px 0px;" id="otp" placeholder="OTP" />
 								<div style="display:inline-block; margin-bottom:10px;">

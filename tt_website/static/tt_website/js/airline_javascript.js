@@ -207,8 +207,8 @@ function add_promotion_code(car_code='', osi_code=''){
                     </div>
                     <i class="fa fa-trash" onclick="delete_promotion_code(`+promotion_code+`)" style="color: #ff0002; font-size:18px; position: absolute; right: 15px; top: 5px;"></i>
                 </div>
-                <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value="`+osi_code+`" hidden/>
-                <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="Carrier Code, example: GA" value="`+car_code+`" hidden/>
+                <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code" value="`+text_code+`" hidden/>
+                <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="Carrier Code, example: GA" value="`+text_carrier_code+`" hidden/>
             </div>`;
         }else{
             alert("Please input promo code");
@@ -14119,23 +14119,40 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             document.getElementById('origin_id_flight').value = cookie_airline['origin'][0];
             document.getElementById('destination_id_flight').value = cookie_airline['destination'][0];
             if(cookie_airline['direction'] == 'OW'){
-                document.getElementById('airline_departure').value = cookie_airline['departure'][0];
+
+                if(moment(cookie_airline['departure'][0]) > moment()){
+                    document.getElementById('airline_departure').value = cookie_airline['departure'][0];
+                }else{
+                    document.getElementById('airline_departure').value = moment().format('DD MMM YYYY')
+                }
+
                 var picker_airline_departure = new Lightpick({
                     field: document.getElementById('airline_departure'),
                     singleDate: true,
-                    startDate: cookie_airline['departure'][0],
+                    startDate: document.getElementById('airline_departure').value,
                     minDate: moment(),
                     maxDate: moment().subtract(-1, 'years'),
                 });
             }else{
-                document.getElementById('airline_departure_return').value = cookie_airline['departure'][0] + ' - ' + cookie_airline['return'][0];
-                document.getElementById('airline_departure').value = cookie_airline['departure'][0];
-                document.getElementById('airline_return').value = cookie_airline['return'][0];
+                if(moment(cookie_airline['departure'][0]) > moment()){
+                    document.getElementById('airline_departure_return').value = cookie_airline['departure'][0] + ' - ' + cookie_airline['return'][0];
+                    document.getElementById('airline_departure').value = cookie_airline['departure'][0];
+                }else{
+                    document.getElementById('airline_departure_return').value = moment().format('DD MMM YYYY');
+                    document.getElementById('airline_departure').value = moment().format('DD MMM YYYY');
+                }
+                if(moment(cookie_airline['return'][0]) > moment()){
+                    document.getElementById('airline_departure_return').value += ' - ' + cookie_airline['return'][0];
+                    document.getElementById('airline_return').value = cookie_airline['departure'][0];
+                }else{
+                    document.getElementById('airline_departure_return').value += ' - ' + moment().add(1, 'days').format('DD MMM YYYY');
+                    document.getElementById('airline_return').value = moment().add(1, 'days').format('DD MMM YYYY');
+                }
                 var picker_airline_departure = new Lightpick({
                     field: document.getElementById('airline_departure'),
                     singleDate: false,
-                    startDate: cookie_airline['departure'][0],
-                    endDate: cookie_airline['return'][0],
+                    startDate: document.getElementById('airline_departure').value,
+                    endDate: document.getElementById('airline_return').value,
                     minDate: moment(),
                     maxDate: moment().subtract(-1, 'years'),
                 });
@@ -14174,10 +14191,16 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             }
             document.getElementById('origin_id_flight1').value = cookie_airline['origin'][0];
             document.getElementById('destination_id_flight1').value = cookie_airline['destination'][0];
-            document.getElementById('airline_departure1').value = cookie_airline['departure'][0];
+            if(moment(cookie_airline['departure'][0]) > moment())
+                document.getElementById('airline_departure1').value = cookie_airline['departure'][0];
+            else
+                document.getElementById('airline_departure1').value = moment().format('DD MMM YYYY');
             document.getElementById('cabin_class_flight1').value = cookie_airline['cabin_class_list'][0];
             document.getElementById('origin_id_flight2').value = cookie_airline['origin'][1];
-            document.getElementById('destination_id_flight2').value = cookie_airline['destination'][1];
+            if(moment(cookie_airline['departure'][1]) > moment())
+                document.getElementById('destination_id_flight2').value = cookie_airline['destination'][1];
+            else
+                document.getElementById('destination_id_flight2').value = moment().format('DD MMM YYYY');
             document.getElementById('airline_departure2').value = cookie_airline['departure'][1];
             document.getElementById('cabin_class_flight2').value = cookie_airline['cabin_class_list'][1];
             document.getElementById('cabin_class_flight_mc').value = cookie_airline['cabin_class'];
@@ -14188,7 +14211,7 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             new Lightpick({
                 field: document.getElementById('airline_departure1'),
                 singleDate: true,
-                startDate: cookie_airline['departure'][0],
+                startDate: document.getElementById('airline_departure1').value,
                 minDate: moment(),
                 maxDate: moment().subtract(-1, 'years'),
                 idNumber: 0,
@@ -14203,8 +14226,8 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             new Lightpick({
                 field: document.getElementById('airline_departure2'),
                 singleDate: true,
-                startDate: cookie_airline['departure'][1],
-                minDate: cookie_airline['departure'][0],
+                startDate: document.getElementById('airline_departure2').value,
+                minDate: document.getElementById('airline_departure1').value,
                 maxDate: moment().subtract(-1, 'years'),
                 idNumber: 1,
                 onSelect: function(date){
@@ -14243,14 +14266,17 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
                 add_multi_city(page);
                 document.getElementById('origin_id_flight'+i).value = cookie_airline['origin'][i-1];
                 document.getElementById('destination_id_flight'+i).value = cookie_airline['destination'][i-1];
-                document.getElementById('airline_departure'+i).value = cookie_airline['departure'][i-1];
+                if(moment(cookie_airline['departure'][i-1]) > moment())
+                    document.getElementById('airline_departure'+i).value = cookie_airline['departure'][i-1];
+                else
+                    document.getElementById('airline_departure'+i).value = moment().format('DD MMM YYYY');
                 document.getElementById('cabin_class_flight'+i).value = cookie_airline['cabin_class_list'][i-1];
                 $('#cabin_class_flight'+i).niceSelect('update');
                 new Lightpick({
                     field: document.getElementById('airline_departure'+i),
                     singleDate: true,
-                    startDate: cookie_airline['departure'][i-1],
-                    minDate: cookie_airline['departure'][i-2],
+                    startDate: document.getElementById('airline_departure'+i).value,
+                    minDate: document.getElementById('airline_departure'+parseInt(parseInt(i)-1)).value,
                     maxDate: moment().subtract(-1, 'years'),
                     idNumber: i,
                     onSelect: function(date){
