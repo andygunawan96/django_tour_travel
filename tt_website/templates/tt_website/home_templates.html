@@ -1402,10 +1402,10 @@
         }
 
         var oneDay = 24*60*60*1000;
+        $("#hotel_checkin").val(hotel_checkin);
+        $("#hotel_checkout").val(hotel_checkout);
         var firstDate = new Date(hotel_checkin);
         var secondDate = new Date(hotel_checkout);
-        $("#hotel_checkin").val(firstDate);
-        $("#hotel_checkout").val(secondDate);
 
         var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
         $("#total_night_search").text(diffDays);

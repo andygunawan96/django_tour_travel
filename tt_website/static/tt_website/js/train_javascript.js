@@ -138,7 +138,53 @@ function train_check_search_values(){
 
     if(error_log == ''){
         $('.button-search').addClass("running");
-        document.getElementById('train_searchForm').submit();
+        var train_origin = [document.getElementById('train_origin').value.split(' - ')[0]];
+        var train_destination = [document.getElementById('train_destination').value.split(' - ')[0]];
+        var train_departure_date = [document.getElementById('train_departure').value];
+        var radio_train_type = '';
+        var radios = document.getElementsByName('radio_train_type');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                if(radios[j].value == 'oneway')
+                    radio_train_type = 'OW';
+                else
+                    radio_train_type = 'RT';
+                break;
+            }
+        }
+
+        if(radio_train_type == 'RT'){
+            train_origin.push(document.getElementById('train_destination').value.split(' - ')[0]);
+            train_destination.push(document.getElementById('train_origin').value.split(' - ')[0]);
+            train_departure_date.push(document.getElementById('train_return').value)
+        }
+
+        var train_request_data = {
+            "radio_train_type": radio_train_type,
+            "origin": train_origin,
+            "destination": train_destination,
+            "departure_date": train_departure_date,
+            "adult": document.getElementById('train_adult').value,
+            "infant": document.getElementById('train_infant').value,
+        }
+        if(document.getElementById('checkbox_corpor_mode_train')){
+            if(document.getElementById('checkbox_corpor_mode_train').checked){
+                train_request_data['checkbox_corpor_mode_train'] = true;
+                if(document.getElementById('train_corpor_select')){
+                    train_request_data['train_corpor_select'] = document.getElementById('train_corpor_select').value;
+                }if(document.getElementById('train_corbooker_select')){
+                    train_request_data['train_corbooker_select'] = document.getElementById('train_corbooker_select').value;
+                }
+            }
+        }
+        var concat_url = '';
+        for(key in train_request_data){
+            if(concat_url)
+                concat_url += '&';
+            concat_url += key + '=' + train_request_data[key];
+        }
+        window.location.href = '/train/search?' + concat_url;
+//        document.getElementById('train_searchForm').submit();
     }else{
         $('.button-search').removeClass("running");
         alert(error_log);

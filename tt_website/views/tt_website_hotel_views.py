@@ -120,22 +120,33 @@ def search(request):
             frontend_signature = generate_signature()
 
             try:
-                child_age = []
-                for i in range(int(request.POST['hotel_child'])):
-                    child_age.append(int(request.POST['hotel_child_age' + str(i + 1)]))
+                # child_age = []
+                # for i in range(int(request.POST['hotel_child'])):
+                #     child_age.append(int(request.POST['hotel_child_age' + str(i + 1)]))
+                # data = {
+                #     'destination': request.POST['hotel_id_destination'],
+                #     'guest_nationality': request.POST['hotel_id_nationality_id'],
+                #     'nationality': request.POST['hotel_id_nationality_id'].split(' - ')[0],
+                #     'business_trip': request.POST.get('business_trip') and 'T' or 'F',  # Checkbox klo disi baru di POST
+                #     'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
+                #     'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
+                #     'room': int(request.POST['hotel_room']),
+                #     'adult': int(request.POST['hotel_adult']),
+                #     'child': int(request.POST['hotel_child']),
+                #     'child_ages': child_age
+                # }
+
                 data = {
-                    'destination': request.POST['hotel_id_destination'],
-                    'guest_nationality': request.POST['hotel_id_nationality_id'],
-                    'nationality': request.POST['hotel_id_nationality_id'].split(' - ')[0],
-                    'business_trip': request.POST.get('business_trip') and 'T' or 'F',  # Checkbox klo disi baru di POST
-                    'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
-                    'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
-                    # 'checkin_date': request.POST['hotel_checkin'],
-                    # 'checkout_date': request.POST['hotel_checkout'],
-                    'room': int(request.POST['hotel_room']),
-                    'adult': int(request.POST['hotel_adult']),
-                    'child': int(request.POST['hotel_child']),
-                    'child_ages': child_age
+                    'destination': request.GET['destination'],
+                    'guest_nationality': request.GET['guest_nationality'],
+                    'nationality': request.GET['guest_nationality'].split(' - ')[0],
+                    'business_trip': request.GET['business_trip'],  # Checkbox klo disi baru di POST
+                    'checkin_date': request.GET['checkin_date'],
+                    'checkout_date': request.GET['checkout_date'],
+                    'room': int(request.GET['room']),
+                    'adult': int(request.GET['adult']),
+                    'child': int(request.GET['child']),
+                    'child_ages': [int(x) for x in request.GET['child_age'].split(',')] if request.GET.get('child_age') else []
                 }
                 write_cache_file(request, frontend_signature, 'hotel_request', data)
                 write_cache_file(request, '', 'hotel_request', data)
@@ -166,6 +177,19 @@ def search(request):
                 cur_session.update({
                     "co_customer_parent_seq_id": request.POST['hotel_corpor_select_post'],
                     "co_customer_seq_id": request.POST['hotel_corbooker_select_post']
+                })
+                set_session(request, 'user_account', cur_session)
+                activate_corporate_mode(request, request.session['signature'])
+
+            if request.GET.get('checkbox_corpor_mode_hotel') and request.GET.get('hotel_corpor_select') and request.GET.get('hotel_corbooker_select'):
+                updated_request = request.POST.copy()
+                updated_request.update({
+                    'customer_parent_seq_id': request.GET['hotel_corpor_select']
+                })
+                cur_session = request.session['user_account']
+                cur_session.update({
+                    "co_customer_parent_seq_id": request.GET['hotel_corpor_select'],
+                    "co_customer_seq_id": request.GET['hotel_corbooker_select']
                 })
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, request.session['signature'])

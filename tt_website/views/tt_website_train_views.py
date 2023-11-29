@@ -131,36 +131,48 @@ def search(request):
 
             frontend_signature = generate_signature()
 
-            try:
-                origin = []
-                destination = []
-                departure = []
-                if request.POST['radio_train_type'] == 'roundtrip':
-                    direction = 'RT'
-                    try:
-                        departure.append(request.POST['train_departure_return'].split(' - ')[0])
-                        departure.append(request.POST['train_departure_return'].split(' - ')[1])
-                    except:
-                        departure.append(request.POST['train_departure'].split(' - ')[0])
-                        departure.append(request.POST['train_departure'].split(' - ')[1])
-                    origin.append(request.POST['train_origin'])
-                    origin.append(request.POST['train_destination'])
-                    destination.append(request.POST['train_destination'])
-                    destination.append(request.POST['train_origin'])
-                elif request.POST['radio_train_type'] == 'oneway':
-                    direction = 'OW'
-                    departure.append(request.POST['train_departure'])
-                    origin.append(request.POST['train_origin'])
-                    destination.append(request.POST['train_destination'])
+            file = read_cache("train_cache_data", 'cache_web', request, 90911)
+            if file:
+                train_destinations = file
 
+            try:
                 train_request = {
-                    'direction': direction,
-                    'adult': request.POST['train_adult'],
-                    'infant': request.POST['train_infant'],
-                    'departure': departure,
-                    'origin': origin,
-                    'destination': destination
+                    'direction': request.GET['radio_train_type'],
+                    'adult': request.GET['adult'],
+                    'infant': request.GET['infant'],
+                    'departure': request.GET['departure_date'].split(','),
+                    'origin': request.GET['origin'].split(','),
+                    'destination': request.GET['destination'].split(',')
                 }
+
+                temporary_train_destination_choose_dict = {}
+                for idx, origin_code in enumerate(train_request['origin']):
+                    if temporary_train_destination_choose_dict.get(origin_code):
+                        train_request['origin'][idx] = "%s - %s - %s - %s" % (origin_code, temporary_train_destination_choose_dict[origin_code]['name'], temporary_train_destination_choose_dict[origin_code]['city'], temporary_train_destination_choose_dict[origin_code]['country'])
+                    else:
+                        for train_destination in train_destinations:
+                            if origin_code == train_destination['code']:
+                                temporary_train_destination_choose_dict[origin_code] = {
+                                    "name": train_destination['name'],
+                                    "city": train_destination['city'],
+                                    "country": train_destination['country']
+                                }
+                                train_request['origin'][idx] = "%s - %s - %s - %s" % (origin_code, train_destination['name'], train_destination['city'], train_destination['country'])
+                                break
+
+                for idx, destination_code in enumerate(train_request['destination']):
+                    if temporary_train_destination_choose_dict.get(destination_code):
+                        train_request['destination'][idx] = "%s - %s - %s - %s" % (destination_code, temporary_train_destination_choose_dict[destination_code]['name'], temporary_train_destination_choose_dict[destination_code]['city'], temporary_train_destination_choose_dict[destination_code]['country'])
+                    else:
+                        for train_destination in train_destinations:
+                            if destination_code == train_destination['code']:
+                                temporary_train_destination_choose_dict[destination_code] = {
+                                    "name": train_destination['name'],
+                                    "city": train_destination['city'],
+                                    "country": train_destination['country']
+                                }
+                                train_request['destination'][idx] = "%s - %s - %s - %s" % (destination_code, train_destination['name'], train_destination['city'], train_destination['country'])
+                                break
 
                 write_cache_file(request, frontend_signature, 'train_request', train_request)
                 write_cache_file(request, '', 'train_request', train_request)
@@ -183,6 +195,19 @@ def search(request):
                 cur_session.update({
                     "co_customer_parent_seq_id": request.POST['train_corpor_select_post'],
                     "co_customer_seq_id": request.POST['train_corbooker_select_post']
+                })
+                set_session(request, 'user_account', cur_session)
+                activate_corporate_mode(request, request.session['signature'])
+
+            if request.GET.get('checkbox_corpor_mode_train') and request.GET.get('train_corpor_select') and request.GET.get('train_corbooker_select'):
+                updated_request = request.POST.copy()
+                updated_request.update({
+                    'customer_parent_seq_id': request.GET['train_corpor_select']
+                })
+                cur_session = request.session['user_account']
+                cur_session.update({
+                    "co_customer_parent_seq_id": request.GET['train_corpor_select'],
+                    "co_customer_seq_id": request.GET['train_corbooker_select']
                 })
                 set_session(request, 'user_account', cur_session)
                 activate_corporate_mode(request, request.session['signature'])
