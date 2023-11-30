@@ -137,7 +137,7 @@ def search(request):
                 # }
 
                 data = {
-                    'destination': request.GET['destination'],
+                    'destination': re.sub('~', ';', request.GET['destination']),
                     'guest_nationality': request.GET['guest_nationality'],
                     'nationality': request.GET['guest_nationality'].split(' - ')[0],
                     'business_trip': request.GET['business_trip'],  # Checkbox klo disi baru di POST

@@ -134,7 +134,7 @@
                             <div class="col-lg-3 col-md-6" style="padding:0px;" id="train_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                    <input type="text" class="form-control" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6" style="padding:0px;">
@@ -279,7 +279,7 @@
                                 <div class="col-lg-3 col-md-6" id="train_date_search">
                                     <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                        <input type="text" style="background:white;" class="form-control" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
@@ -426,7 +426,7 @@
                         <div class="col-lg-3 col-md-6" id="train_date_search">
                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                             <div class="form-group">
-                                <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                <input type="text" style="background:white;" class="form-control" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
@@ -571,7 +571,7 @@
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                 <div class="input-container-search-ticket">
                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                    <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                    <input type="text" style="background:white;" class="form-control" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
@@ -718,7 +718,7 @@
                             <div class="col-lg-3 col-md-6" id="train_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                    <input type="text" style="background:white;" class="form-control" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
@@ -862,7 +862,7 @@
                         <div class="col-lg-3 col-md-6" id="train_date_search">
                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                             <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" style="background:white;" id="train_departure" name="train_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                <input type="text" class="form-control" style="background:white;" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
@@ -2213,7 +2213,7 @@
         breadcrumb_create("train", 2, 0);
         if('{{train_request.direction}}' == 'OW'){
             var picker_train_departure = new Lightpick({
-                field: document.getElementById('train_departure'),
+                field: document.getElementById('train_departure_return'),
                 singleDate: true,
                 startDate: departure_date,
                 minDate: moment(),
@@ -2221,7 +2221,7 @@
                 nextFocus: '#show_total_pax_train'
             });
 
-            //$('input[name="train_departure"]').daterangepicker({
+            //$('input[name="train_departure_return"]').daterangepicker({
             //  singleDatePicker: true,
             //  autoUpdateInput: true,
             //  startDate: departure_date,
@@ -2234,7 +2234,7 @@
             //  }
             //});
 
-            //$('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //$('input[name="train_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
             //   setTimeout(function(){
             //        $("#show_total_pax_train").click();
             //    }, 200);
@@ -2242,7 +2242,7 @@
         }else{
 
             var picker_train_departure = new Lightpick({
-                field: document.getElementById('train_departure'),
+                field: document.getElementById('train_departure_return'),
                 singleDate: false,
                 hoveringTooltip: false,
                 startDate: departure_date.split(' - ')[0],
@@ -2252,7 +2252,7 @@
                 nextFocus: '#show_total_pax_train',
             });
 
-            //$('input[name="train_departure"]').daterangepicker({
+            //$('input[name="train_departure_return"]').daterangepicker({
             //  singleDatePicker: false,
             //  autoUpdateInput: true,
             //  autoApply: true,
@@ -2267,7 +2267,7 @@
             //  }
             //});
 
-            //$('input[name="train_departure"]').on('apply.daterangepicker', function(ev, picker) {
+            //$('input[name="train_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
             //    setTimeout(function(){
             //        $("#show_total_pax_train").click();
             //    }, 200);
@@ -2306,7 +2306,7 @@
         },
         onSelect: function(e, term, item){
             setTimeout(function(){
-                $("#train_departure").focus();
+                //$("#train_departure").focus();
                 $("#train_departure_return").focus();
             }, 200);
             set_train_search_value_to_true();
