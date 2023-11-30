@@ -140,7 +140,7 @@ function train_check_search_values(){
         $('.button-search').addClass("running");
         var train_origin = [document.getElementById('train_origin').value.split(' - ')[0]];
         var train_destination = [document.getElementById('train_destination').value.split(' - ')[0]];
-        var train_departure_date = document.getElementById('train_departure_return').value.split(' - ');
+
         var radio_train_type = '';
         var radios = document.getElementsByName('radio_train_type');
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -152,11 +152,18 @@ function train_check_search_values(){
                 break;
             }
         }
-
+        try{
+            var train_departure_date = document.getElementById('train_departure_return').value.split(' - ');
+        }
+        catch{
+            var train_departure_date = document.getElementById('train_departure').value.split(' - ');
+        }
         if(radio_train_type == 'RT'){
             train_origin.push(document.getElementById('train_destination').value.split(' - ')[0]);
             train_destination.push(document.getElementById('train_origin').value.split(' - ')[0]);
+
         }
+
 
         var train_request_data = {
             "radio_train_type": radio_train_type,
