@@ -1715,7 +1715,7 @@ $(document).ready(function(){
             $("#train_departure").val(moment().format('DD MMM YYYY'));
             $("#train_return").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
 
-            var picker_train_departure_return = new Lightpick({
+            picker_train_departure_return = new Lightpick({
                 field: document.getElementById('train_departure_return'),
                 singleDate: false,
                 hoveringTooltip: false,
