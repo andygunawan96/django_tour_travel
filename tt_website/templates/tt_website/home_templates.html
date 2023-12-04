@@ -1282,7 +1282,7 @@
 
         try{
             {% if cache.train.departure %}
-                train_date = '{{cache.train.departure}}';
+                train_date = '{{cache.train.departure.0}}';
             {% else %}
                 train_date = now;
             {% endif %}
@@ -1290,14 +1290,28 @@
             train_date = now;
         }
 
-        var picker_train_departure = new Lightpick({
-            field: document.getElementById('train_departure'),
-            singleDate: true,
-            startDate: train_date,
-            minDate: moment(),
-            maxDate: moment().subtract(-2, 'months'),
-            nextFocus: '#show_total_pax_train'
-        });
+        {% if cache.train.direction == 'RT' %}
+            document.getElementsByName('radio_train_type')[1].checked = true;
+            setTimeout(() => {
+                $('#radio_train_search').click();
+
+                $("#train_departure").val(moment('{{cache.train.departure.0}}').format('DD MMM YYYY'));
+                $("#train_return").val(moment('{{cache.train.departure.1}}').format('DD MMM YYYY'));
+                picker_train_departure_return.setDateRange(moment('{{cache.train.departure.0}}'), moment('{{cache.train.departure.1}}'))
+
+            }, 1000);
+        {% else %}
+
+            var picker_train_departure = new Lightpick({
+                field: document.getElementById('train_departure'),
+                singleDate: true,
+                startDate: train_date,
+                minDate: moment(),
+                maxDate: moment().subtract(-2, 'months'),
+                nextFocus: '#show_total_pax_train'
+            });
+
+        {% endif %}
 
         //$('input[name="train_departure"]').daterangepicker({
         //    singleDatePicker: true,

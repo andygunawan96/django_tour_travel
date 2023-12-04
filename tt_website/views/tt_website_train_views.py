@@ -77,14 +77,16 @@ def train(request):
                         'origin': file['origin'][0],
                         'destination': file['destination'][0],
                         'departure': file['departure'][0],
+                        'direction': file['direction']
                     }
                 # cache['train'] = {
                 #     'origin': request.session['train_request']['origin'][0],
                 #     'destination': request.session['train_request']['destination'][0],
                 #     'departure': request.session['train_request']['departure'][0],
                 # }
-                if cache['train']['departure'] == 'Invalid date':
-                    cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                for rec in cache['train']['departure']:
+                    if rec == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now())[:10]) > rec:
+                        cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
             except:
                 pass
             values.update({

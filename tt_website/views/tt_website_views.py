@@ -265,11 +265,13 @@ def index(request):
                     cache['train'] = {
                         'origin': file['origin'][0],
                         'destination': file['destination'][0],
-                        'departure': file['departure'][0],
+                        'departure': file['departure'],
+                        'direction': file['direction']
                     }
+                    for rec in cache['train']['departure']:
+                        if rec == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now())[:10]) > rec:
+                            cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
 
-                    if cache['train']['departure'] == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now())[:10]) > cache['train']['departure']:
-                        cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                 # if request.session['train_request']['origin'][0].split('-')[1] != ' ':
                 #     cache['train'] = {
                 #         'origin': request.session['train_request']['origin'][0],
