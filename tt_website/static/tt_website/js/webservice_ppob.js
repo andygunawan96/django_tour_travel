@@ -2112,7 +2112,7 @@ function ppob_get_booking(data){
                     commission = rac;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                         text_detail+=`
-                        <div class="row" id="show_commission" style="display:block;">
+                        <div class="row" id="show_commission" style="display:none;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                 <div class="alert alert-success">
                                     <div class="row">
@@ -2182,7 +2182,7 @@ function ppob_get_booking(data){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
                     <div style="margin-bottom:10px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show YPM"/>
                     </div>`;
                     if(msg.result.response.state == 'fail_issued' || msg.result.response.state == 'fail_refunded')
                     text_detail+=`

@@ -1204,7 +1204,7 @@ def search2(request):
                 'country': country['country'],
             })
         data_search = json.loads(request.POST['search_request'])
-        direction = 'MC'
+        direction = data_search['direction']
         journey_list = []
         if data_search['is_combo_price'] == 'false':
             is_combo_price = False

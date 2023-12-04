@@ -1195,7 +1195,7 @@ function bus_get_detail(){
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 bus_detail_text+=`
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br/>`;
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>`;
             bus_detail_text += `</div>`;
             if(agent_security.includes('book_reservation') == true)
             bus_detail_text+=`
@@ -1667,7 +1667,7 @@ function bus_detail(){
         if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="col-lg-12" style="padding-bottom:5px;">
-                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br/>
+                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>
             </div>`;
         text+=`
     </div>`;
