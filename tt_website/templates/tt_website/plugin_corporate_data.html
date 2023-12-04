@@ -1,153 +1,163 @@
 {% load i18n %}
-<div class="col-lg-12 mb-3">
-                            <h4>Company</h4>
-                            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                                <div class="row">
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Name' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_name" id="company_name" placeholder="{% trans 'Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Address' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_address" id="company_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Property' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="company_property" style="width:100%;" id="company_property" placeholder="Property"  class="nice-select-default">
-                                                    <option value="">--Select Property--</option>
-                                                    <option value="milik sendiri">Own</option>
-                                                    <option value="sewa">Rent</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'How long have you occupied this property?' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="number" class="form-control" name="company_occupied" id="company_occupied" placeholder="Years " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Years '" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
-                                        <div class="form-select" style="margin-bottom:0px;">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans 'Phone Code' %}</label>
-                                            <select class="form-control js-example-basic-single" name="company_phone_code_id" style="width:100%;" id="company_phone_code_id" class="nice-select-default">
-                                                {% for phone in phone_code %}
-                                                <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Phone Number' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_phone_number" id="company_phone_number" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Email' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_email" id="company_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label></label>
-                                        <label>{% trans 'Established Date' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_established_date" id="company_established_date" placeholder="{% trans 'Established Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Established Date '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'How many workers in the company?' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="number" style="margin-bottom:0px;" class="form-control" name="company_worker" id="company_worker" placeholder="{% trans '5 - 1000' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = '5 - 1000 '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Affiliate / Group' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_group" id="company_group" placeholder="{% trans 'Affiliate / Group' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Affiliate / Group '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Business Field' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_business_field" id="company_business_field" placeholder="{% trans 'Business Field' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Business Field '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Company Data Bank' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="margin-bottom:0px;" class="form-control" name="company_bank_data" id="company_bank_data" placeholder="{% trans 'Data Bank' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Data Bank '">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Upload Company Structure' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_structure" name="company_structure" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_structure')">
-                                        </div>
-                                        <div id="company_structure_div" hidden>
-                                            <img id="company_structure_img" src="" alt="Company Structure" style="width:120px; height:auto;">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Upload NPWP' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_npwp" name="company_npwp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_npwp')">
-                                        </div>
-                                        <div id="company_npwp_div" hidden>
-                                            <img id="company_npwp_img" src="" alt="NPWP" style="width:120px; height:auto;">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Upload SIUP/NIB' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_siup_nib" name="company_siup_nib" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_siup_nib')">
-                                        </div>
-                                        <div id="company_siup_nib_div" hidden>
-                                            <img id="company_siup_nib_img" src="" alt="SIUP/NIB" style="width:120px; height:auto;">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Upload Akta Pendirian' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="file" style="color:#FFFFFF;" id="company_akta_pendirian" name="company_akta_pendirian" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_akta_pendirian')">
-                                        </div>
-                                        <div id="company_akta_pendirian_div" hidden>
-                                            <img id="company_akta_pendirian_img" src="" alt="Akta Pendirian" style="width:120px; height:auto;">
-                                        </div>
-                                    </div>
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    .proposed-limit::-webkit-outer-spin-button,
+    .proposed-limit::-webkit-inner-spin-button
 
-                                    <div class="col-lg-12" style="margin-bottom:15px;">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'How do you know us?' %}</label>
-                                        <div class="input-container-search-ticket">
-                                            <textarea class="form-control" style="resize: none; height:200px;" id="company_how_to_know_us" name="company_how_to_know_us" placeholder="" rows="6" cols="45"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    /* Firefox */
+    .proposed-limit[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+<div class="col-lg-12 mb-3">
+    <h4>Company</h4>
+    <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+        <div class="row">
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Name' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_name" id="company_name" placeholder="{% trans 'Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Address' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_address" id="company_address" placeholder="{% trans 'Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Property' %}</label>
+                <div class="input-container-search-ticket">
+                    <div class="form-select">
+                        <select class="form-control js-example-basic-single" name="company_property" style="width:100%;" id="company_property" placeholder="Property"  class="nice-select-default">
+                            <option value="">--Select Property--</option>
+                            <option value="milik sendiri">Own</option>
+                            <option value="sewa">Rent</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'How long have you occupied this property?' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="number" class="form-control" name="company_occupied" id="company_occupied" placeholder="Years " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Years '" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                <div class="form-select" style="margin-bottom:0px;">
+                    <label style="color:red">*</label>
+                    <label>{% trans 'Phone Code' %}</label>
+                    <select class="form-control js-example-basic-single" name="company_phone_code_id" style="width:100%;" id="company_phone_code_id" class="nice-select-default">
+                        {% for phone in phone_code %}
+                        <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-8" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Phone Number' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_phone_number" id="company_phone_number" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Email' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_email" id="company_email" placeholder="{% trans 'Email' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label></label>
+                <label>{% trans 'Established Date' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_established_date" id="company_established_date" placeholder="{% trans 'Established Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Established Date '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'How many workers in the company?' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="number" style="margin-bottom:0px;" class="form-control" name="company_worker" id="company_worker" placeholder="{% trans '5 - 1000' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = '5 - 1000 '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Affiliate / Group' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_group" id="company_group" placeholder="{% trans 'Affiliate / Group' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Affiliate / Group '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Business Field' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_business_field" id="company_business_field" placeholder="{% trans 'Business Field' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Business Field '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Company Data Bank' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="margin-bottom:0px;" class="form-control" name="company_bank_data" id="company_bank_data" placeholder="{% trans 'Data Bank' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Data Bank '">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Upload Company Structure' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="file" style="color:#FFFFFF;" id="company_structure" name="company_structure" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_structure')">
+                </div>
+                <div id="company_structure_div" hidden>
+                    <img id="company_structure_img" src="" alt="Company Structure" style="width:120px; height:auto;">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Upload NPWP' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="file" style="color:#FFFFFF;" id="company_npwp" name="company_npwp" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_npwp')">
+                </div>
+                <div id="company_npwp_div" hidden>
+                    <img id="company_npwp_img" src="" alt="NPWP" style="width:120px; height:auto;">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Upload SIUP/NIB' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="file" style="color:#FFFFFF;" id="company_siup_nib" name="company_siup_nib" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_siup_nib')">
+                </div>
+                <div id="company_siup_nib_div" hidden>
+                    <img id="company_siup_nib_img" src="" alt="SIUP/NIB" style="width:120px; height:auto;">
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'Upload Akta Pendirian' %}</label>
+                <div class="input-container-search-ticket">
+                    <input type="file" style="color:#FFFFFF;" id="company_akta_pendirian" name="company_akta_pendirian" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'company_akta_pendirian')">
+                </div>
+                <div id="company_akta_pendirian_div" hidden>
+                    <img id="company_akta_pendirian_img" src="" alt="Akta Pendirian" style="width:120px; height:auto;">
+                </div>
+            </div>
+
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <label style="color:red">*</label>
+                <label>{% trans 'How do you know us?' %}</label>
+                <div class="input-container-search-ticket">
+                    <textarea class="form-control" style="resize: none; height:200px;" id="company_how_to_know_us" name="company_how_to_know_us" placeholder="" rows="6" cols="45"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="col-lg-12 mb-3">
     <h4>Data Owner</h4>
@@ -203,7 +213,7 @@
                 <label style="color:red">*</label>
                 <label>{% trans 'Upload KTP' %}</label>
                 <div class="input-container-search-ticket">
-                    <input type="file" style="color:#FFFFFF;" id="owner_ktp" name="owner_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'owner_ktp')">
+                    <input type="file" style="color:#FFFFFF;" id="owner_ktp" name="owner_ktp" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'owner_ktp')">
                 </div>
                 <div id="owner_ktp_div" hidden>
                     <img id="owner_ktp_img" src="" alt="Owner KTP" style="width:120px; height:auto;">
@@ -321,7 +331,7 @@
                 <label style="color:red">*</label>
                 <label>{% trans 'Upload KTP' %}</label>
                 <div class="input-container-search-ticket">
-                    <input type="file" style="color:#FFFFFF;" id="accounting_ktp" name="accounting_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'accounting_ktp')">
+                    <input type="file" style="color:#FFFFFF;" id="accounting_ktp" name="accounting_ktp" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'accounting_ktp')">
                 </div>
                 <div id="accounting_ktp_div" hidden>
                     <img id="accounting_ktp_img" src="" alt="Accounting KTP" style="width:120px; height:auto;">
@@ -406,7 +416,7 @@
                 <label style="color:red">*</label>
                 <label>{% trans 'Upload KTP' %}</label>
                 <div class="input-container-search-ticket">
-                    <input type="file" style="color:#FFFFFF;" id="pic_ktp" name="pic_ktp" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'pic_ktp')">
+                    <input type="file" style="color:#FFFFFF;" id="pic_ktp" name="pic_ktp" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'pic_ktp')">
                 </div>
                 <div id="pic_ktp_div" hidden>
                     <img id="pic_ktp_img" src="" alt="PIC KTP" style="width:120px; height:auto;">
@@ -422,7 +432,7 @@
         <label style="color:red">*</label>
         <label>{% trans 'Proposed Limit' %}</label>
         <div class="input-container-search-ticket">
-            <input type="text" style="margin-bottom:0px;" class="form-control" name="proposed_limit" id="proposed_limit" placeholder="{% trans 'Proposed Limit' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Proposed Limit '">
+            <input type="number" style="margin-bottom:0px;" class="form-control proposed-limit" name="proposed_limit" id="proposed_limit" placeholder="{% trans 'Proposed Limit' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Proposed Limit '" inputmode="numeric">
         </div>
 
         <label style="color:red">*</label>
@@ -524,7 +534,7 @@
     <div style="background:white; border:1px solid #cdcdcd; padding:15px;" id="corporate_airline_div">
         <label style="color:red">*</label>
         <label>{% trans 'Statement Letter' %}</label><br/>
-        <input type="file" style="color:#FFFFFF;" id="statement_letter" name="statement_letter" multiple="" accept="*/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'statement_letter')">
+        <input type="file" style="color:#FFFFFF;" id="statement_letter" name="statement_letter" multiple="" accept="image/*" onchange="cor_update_image(window.URL.createObjectURL(this.files[0]), 'statement_letter')">
         <div id="statement_letter_div" hidden>
             <img id="statement_letter_img" src="" alt="Statement Letter" style="width:120px; height:auto;">
         </div>
