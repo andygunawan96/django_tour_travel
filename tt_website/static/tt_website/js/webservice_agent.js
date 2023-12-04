@@ -3915,6 +3915,19 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('adult_identity_type'+passenger_number).value = 'ktp';
                     $('#adult_identity_type'+passenger_number).niceSelect('update');
                     document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_number;
+                    if(passenger_data[sequence].identities.ktp.hasOwnProperty('identity_first_name'))
+                    {
+                        document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_first_name;
+                        if(passenger_data[sequence].identities.ktp.hasOwnProperty('identity_last_name'))
+                        {
+                            document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_last_name;
+                        }
+                    }
+                    else
+                    {
+                        document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                        document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                    }
                     if(passenger_data[sequence].identities.ktp.identity_country_of_issued_name != '' && passenger_data[sequence].identities.ktp.identity_country_of_issued_name != undefined){
                         $('#adult_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities.ktp.identity_country_of_issued_code).trigger('change');
                     }
@@ -4025,6 +4038,19 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     $('#adult_identity_type'+passenger_number).niceSelect('update');
                 }
                 document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+                if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_first_name'))
+                {
+                    document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_first_name;
+                    if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_last_name'))
+                    {
+                        document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
+                    }
+                }
+                else
+                {
+                    document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                    document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                }
                 if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                     $('#adult_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities.passport.identity_country_of_issued_code).trigger('change');
                     if(passenger_data[sequence].identities['passport'].identity_images.length > 0){
@@ -4171,11 +4197,27 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                             }
                                         }
                                         if(change_identity){
-                                            $('#'+type+'_id_type'+passenger_number).niceSelect('update');
                                             document.getElementById(type+'_id_type'+passenger_number).value = i;
+                                            $('#'+type+'_id_type'+passenger_number).niceSelect('update');
                                             try{ //kalau ada identity number
                                                 if(passenger_data[sequence].identities[i].identity_number != ''){
                                                     document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities[i].identity_number;
+                                                }
+                                            }catch(err){console.log(err)}
+                                            try{ //kalau ada identity first name
+                                                if(passenger_data[sequence].identities[i].identity_first_name != ''){
+                                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].identities[i].identity_first_name;
+                                                }
+                                                else{
+                                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                                                }
+                                            }catch(err){console.log(err)}
+                                            try{ //kalau ada identity last name
+                                                if(passenger_data[sequence].identities[i].identity_last_name != ''){
+                                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].identities[i].identity_last_name;
+                                                }
+                                                else{
+                                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                                                 }
                                             }catch(err){console.log(err)}
                                             try{ //kalau ada expire date
@@ -4312,6 +4354,19 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                     $('#'+type+'_identity_type'+passenger_number).niceSelect('update');
                                 }
                                 document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+                                if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_first_name'))
+                                {
+                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_first_name;
+                                    if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_last_name'))
+                                    {
+                                        document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
+                                    }
+                                }
+                                else
+                                {
+                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                                }
                                 if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                                     $('#'+type+'_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities.passport.identity_country_of_issued_code).trigger('change');
                                 }
@@ -5543,7 +5598,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 for(i in passenger_data[sequence].identities){
                     if(index != 0)
                         temp_data += '~';
-                    temp_data += i + ',' + passenger_data[sequence].identities[i].identity_number + ',' + passenger_data[sequence].identities[i].identity_country_of_issued_code + ',' + passenger_data[sequence].identities[i].identity_expdate;
+                    temp_data += i + ',' + passenger_data[sequence].identities[i].identity_number + ',' + passenger_data[sequence].identities[i].identity_country_of_issued_code + ',' + passenger_data[sequence].identities[i].identity_expdate + ',' + passenger_data[sequence].identities[i].identity_first_name + ',' + passenger_data[sequence].identities[i].identity_last_name;
                     index++;
                 }
                 document.getElementById('booker_id_number').value = temp_data;
@@ -6164,6 +6219,8 @@ function copy_booker(val,type,identity){
             if(document.getElementById('adult_passport_passport_number1_id')){
                 if(data_booker.hasOwnProperty('identities') && data_booker['identities'].hasOwnProperty('passport')){
                     document.getElementById('adult_passport_passport_number1').value = data_booker['identities']['passport'].identity_number;
+                    document.getElementById('adult_passport_passport_first_name1').value = data_booker['identities']['passport'].identity_first_name;
+                    document.getElementById('adult_passport_passport_last_name1').value = data_booker['identities']['passport'].identity_last_name;
                     document.getElementById('adult_passport_passport_expired_date1').value = data_booker['identities']['passport'].identity_expdate;
                     $('#adult_passport_passport_country_of_issued1_id').val(data_booker['identities']['passport'].identity_country_of_issued_code).trigger('change');
                 }
@@ -6320,7 +6377,27 @@ function copy_booker(val,type,identity){
                                             document.getElementById('adult_passport_number'+passenger_number_copy_booker).value = data[1];
                                         else if(document.getElementById('adult_identity_number'+passenger_number_copy_booker))
                                             document.getElementById('adult_identity_number'+passenger_number_copy_booker).value = data[1];
-                                    }if(data[4] != '')
+                                    }if(data[4] != '' && data[4] != undefined && data[4] != false){
+                                        if(document.getElementById('adult_passport_first_name'+passenger_number_copy_booker))
+                                            document.getElementById('adult_passport_first_name'+passenger_number_copy_booker).value = data[4];
+                                        else if(document.getElementById('adult_identity_first_name'+passenger_number_copy_booker))
+                                            document.getElementById('adult_identity_first_name'+passenger_number_copy_booker).value = data[4];
+                                        if(data[5] != undefined && data[5] != false){
+                                            if(document.getElementById('adult_passport_last_name'+passenger_number_copy_booker))
+                                                document.getElementById('adult_passport_last_name'+passenger_number_copy_booker).value = data[5];
+                                            else if(document.getElementById('adult_identity_last_name'+passenger_number_copy_booker))
+                                                document.getElementById('adult_identity_last_name'+passenger_number_copy_booker).value = data[5];
+                                        }
+                                    }else{
+                                        if(document.getElementById('adult_passport_first_name'+passenger_number_copy_booker))
+                                            document.getElementById('adult_passport_first_name'+passenger_number_copy_booker).value = document.getElementById('booker_first_name').value;
+                                        else if(document.getElementById('adult_identity_first_name'+passenger_number_copy_booker))
+                                            document.getElementById('adult_identity_first_name'+passenger_number_copy_booker).value = document.getElementById('booker_first_name').value;
+                                        if(document.getElementById('adult_passport_last_name'+passenger_number_copy_booker))
+                                            document.getElementById('adult_passport_last_name'+passenger_number_copy_booker).value = document.getElementById('booker_last_name').value;
+                                        else if(document.getElementById('adult_identity_last_name'+passenger_number_copy_booker))
+                                            document.getElementById('adult_identity_last_name'+passenger_number_copy_booker).value = document.getElementById('booker_last_name').value;
+                                    }if(data[3] != '')
                                         if(document.getElementById('adult_passport_expired_date'+passenger_number_copy_booker))
                                             document.getElementById('adult_passport_expired_date'+passenger_number_copy_booker).value = data[3];
                                         if(document.getElementById('adult_identity_expired_date'+passenger_number_copy_booker))
@@ -6358,9 +6435,30 @@ function copy_booker(val,type,identity){
                                 if(document.getElementById('adult_passport_number'+passenger_number_copy_booker))
                                     document.getElementById('adult_passport_number'+passenger_number_copy_booker).value = data[1];
                                 else if(document.getElementById('adult_identity_number'+passenger_number_copy_booker))
-                                    document.getElementById('adult_identity_number'+passenger_number_copy_booker).value = data[1]
+                                    document.getElementById('adult_identity_number'+passenger_number_copy_booker).value = data[1];
                             }
-                            if(data[4] != '')
+                            if(data[4] != '' && data[4] != undefined && data[4] != false){
+                                if(document.getElementById('adult_passport_first_name'+passenger_number_copy_booker))
+                                    document.getElementById('adult_passport_first_name'+passenger_number_copy_booker).value = data[4];
+                                else if(document.getElementById('adult_identity_first_name'+passenger_number_copy_booker))
+                                    document.getElementById('adult_identity_first_name'+passenger_number_copy_booker).value = data[4];
+                                if(data[5] != undefined && data[5] != false){
+                                    if(document.getElementById('adult_passport_last_name'+passenger_number_copy_booker))
+                                        document.getElementById('adult_passport_last_name'+passenger_number_copy_booker).value = data[5];
+                                    else if(document.getElementById('adult_identity_last_name'+passenger_number_copy_booker))
+                                        document.getElementById('adult_identity_last_name'+passenger_number_copy_booker).value = data[5];
+                                }
+                            }else{
+                                if(document.getElementById('adult_passport_first_name'+passenger_number_copy_booker))
+                                    document.getElementById('adult_passport_first_name'+passenger_number_copy_booker).value = document.getElementById('booker_first_name').value;
+                                else if(document.getElementById('adult_identity_first_name'+passenger_number_copy_booker))
+                                    document.getElementById('adult_identity_first_name'+passenger_number_copy_booker).value = document.getElementById('booker_first_name').value;
+                                if(document.getElementById('adult_passport_last_name'+passenger_number_copy_booker))
+                                    document.getElementById('adult_passport_last_name'+passenger_number_copy_booker).value = document.getElementById('booker_last_name').value;
+                                else if(document.getElementById('adult_identity_last_name'+passenger_number_copy_booker))
+                                    document.getElementById('adult_identity_last_name'+passenger_number_copy_booker).value = document.getElementById('booker_last_name').value;
+                            }
+                            if(data[3] != '')
                                 document.getElementById('adult_passport_expired_date'+passenger_number_copy_booker).value = data[3];
                             if(data[2] != ''){
                                 $('#adult_country_of_issued'+passenger_number_copy_booker+'_id').val(data[2]).trigger('change');
@@ -6550,6 +6648,14 @@ function copy_booker(val,type,identity){
                 document.getElementById('adult_passport_number'+i).readOnly = false;
             }catch(err){console.log(err)}
             try{
+                document.getElementById('adult_identity_first_name'+i).value = '';
+                document.getElementById('adult_identity_first_name'+i).readOnly = false;
+            }catch(err){console.log(err)}
+            try{
+                document.getElementById('adult_identity_last_name'+i).value = '';
+                document.getElementById('adult_identity_last_name'+i).readOnly = false;
+            }catch(err){console.log(err)}
+            try{
                 document.getElementById('adult_id_type'+i).value = '';
                 $('#adult_id_type'+i).niceSelect('update');
             }catch(err){console.log(err)}
@@ -6565,6 +6671,10 @@ function copy_booker(val,type,identity){
                 $('#adult_identity_type'+i).niceSelect('update');
                 document.getElementById('adult_identity_number'+i).value = '';
                 document.getElementById('adult_identity_number'+i).readOnly = false;
+                document.getElementById('adult_identity_first_name'+i).value = '';
+                document.getElementById('adult_identity_first_name'+i).readOnly = false;
+                document.getElementById('adult_identity_last_name'+i).value = '';
+                document.getElementById('adult_identity_last_name'+i).readOnly = false;
                 document.getElementById('adult_identity_expired_date'+i).value = '';
                 document.getElementById('adult_identity_expired_date'+i).readOnly = false;
             }catch(err){console.log(err)}
@@ -6648,6 +6758,14 @@ function copy_booker(val,type,identity){
                 document.getElementById('adult_passport_number1').readOnly = false;
             }catch(err){console.log(err)}
             try{
+                document.getElementById('adult_identity_first_name1').value = '';
+                document.getElementById('adult_identity_first_name1').readOnly = false;
+            }catch(err){console.log(err)}
+            try{
+                document.getElementById('adult_identity_last_name1').value = '';
+                document.getElementById('adult_identity_last_name1').readOnly = false;
+            }catch(err){console.log(err)}
+            try{
                 document.getElementById('adult_id_type1').value = '';
                 $('#adult_id_type1').niceSelect('update');
             }catch(err){console.log(err)}
@@ -6663,6 +6781,10 @@ function copy_booker(val,type,identity){
                 $('#adult_identity_type1').niceSelect('update');
                 document.getElementById('adult_identity_number1').value = '';
                 document.getElementById('adult_identity_number1').readOnly = false;
+                document.getElementById('adult_identity_first_name1').value = '';
+                document.getElementById('adult_identity_first_name1').readOnly = false;
+                document.getElementById('adult_identity_last_name1').value = '';
+                document.getElementById('adult_identity_last_name1').readOnly = false;
                 document.getElementById('adult_identity_expired_date1').value = '';
                 document.getElementById('adult_identity_expired_date1').readOnly = false;
             }catch(err){console.log(err)}
@@ -6823,6 +6945,10 @@ function clear_passenger(type, sequence){
             }
             document.getElementById('adult_passport_number'+sequence).value = '';
             document.getElementById('adult_passport_number'+sequence).readOnly = false;
+            document.getElementById('adult_identity_first_name'+sequence).value = '';
+            document.getElementById('adult_identity_first_name'+sequence).readOnly = false;
+            document.getElementById('adult_identity_last_name'+sequence).value = '';
+            document.getElementById('adult_identity_last_name'+sequence).readOnly = false;
             document.getElementById('adult_passport_expired_date'+sequence).value = '';
             document.getElementById('adult_passport_expired_date'+sequence).readOnly = false;
             $('#adult_country_of_issued'+sequence+'_id').val('').trigger('change');
@@ -6888,6 +7014,10 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_birth_date'+sequence).value = '';
             document.getElementById('infant_passport_number'+sequence).value = '';
             document.getElementById('infant_passport_number'+sequence).readOnly = false;
+            document.getElementById('infant_identity_first_name'+sequence).value = '';
+            document.getElementById('infant_identity_first_name'+sequence).readOnly = false;
+            document.getElementById('infant_identity_last_name'+sequence).value = '';
+            document.getElementById('infant_identity_last_name'+sequence).readOnly = false;
             document.getElementById('infant_passport_expired_date'+sequence).value = '';
             document.getElementById('infant_passport_expired_date'+sequence).readOnly = false;
             $('#infant_country_of_issued'+sequence+'_id').val('').trigger('change');
@@ -6934,7 +7064,7 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_title'+sequence).value = '';
         for(i in document.getElementById('senior_title'+sequence).options){
             document.getElementById('senior_title'+sequence).options[i].disabled = false;
-        }
+        }passport
         $('#senior_title'+sequence).niceSelect('update');
         document.getElementById('senior_id'+sequence).value = '';
         document.getElementById('senior_first_name'+sequence).value = '';
@@ -6951,6 +7081,10 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_birth_date'+sequence).value = '';
         document.getElementById('senior_passport_number'+sequence).value = '';
         document.getElementById('senior_passport_number'+sequence).readOnly = false;
+        document.getElementById('senior_identity_first_name'+sequence).value = '';
+        document.getElementById('senior_identity_first_name'+sequence).readOnly = false;
+        document.getElementById('senior_identity_last_name'+sequence).value = '';
+        document.getElementById('senior_identity_last_name'+sequence).readOnly = false;
         document.getElementById('senior_passport_expired_date'+sequence).value = '';
         document.getElementById('senior_passport_expired_date'+sequence).readOnly = false;
         $('#senior_country_of_issued'+sequence+'_id').val('').trigger('change');
@@ -7010,6 +7144,10 @@ function clear_passenger(type, sequence){
         document.getElementById('child_birth_date'+sequence).value = '';
         document.getElementById('child_passport_number'+sequence).value = '';
         document.getElementById('child_passport_number'+sequence).readOnly = false;
+        document.getElementById('child_identity_first_name'+sequence).value = '';
+        document.getElementById('child_identity_first_name'+sequence).readOnly = false;
+        document.getElementById('child_identity_last_name'+sequence).value = '';
+        document.getElementById('child_identity_last_name'+sequence).readOnly = false;
         document.getElementById('child_passport_expired_date'+sequence).value = '';
         document.getElementById('child_passport_expired_date'+sequence).readOnly = false;
         $('#child_country_of_issued'+sequence+'_id').val('').trigger('change');
@@ -7087,6 +7225,10 @@ function clear_passenger(type, sequence){
                     document.getElementById('adult_birth_date'+sequence).value = "";
                     //document.getElementById('adult_birth_date'+sequence).disabled = false;
                     document.getElementById('adult_identity_number'+sequence).value = '';
+                    document.getElementById('adult_identity_first_name'+sequence).value = '';
+                    document.getElementById('adult_identity_first_name'+sequence).readOnly = false;
+                    document.getElementById('adult_identity_last_name'+sequence).value = '';
+                    document.getElementById('adult_identity_last_name'+sequence).readOnly = false;
                     document.getElementById('adult_identity_expired_date'+sequence).value = '';
                     document.getElementById('adult_identity_expired_date'+sequence).readOnly = false;
 
@@ -7392,6 +7534,10 @@ function clear_passenger(type, sequence){
         document.getElementById('student_birth_date'+sequence).value = '';
         document.getElementById('student_passport_number'+sequence).value = '';
         document.getElementById('student_passport_number'+sequence).readOnly = false;
+        document.getElementById('student_identity_first_name'+sequence).value = '';
+        document.getElementById('student_identity_first_name'+sequence).readOnly = false;
+        document.getElementById('student_identity_last_name'+sequence).value = '';
+        document.getElementById('student_identity_last_name'+sequence).readOnly = false;
         document.getElementById('student_passport_expired_date'+sequence).value = '';
         document.getElementById('student_passport_expired_date'+sequence).readOnly = false;
         $('#student_country_of_issued'+sequence+'_id').val('').trigger('change');
@@ -7451,6 +7597,10 @@ function clear_passenger(type, sequence){
         document.getElementById('labour_birth_date'+sequence).value = '';
         document.getElementById('labour_passport_number'+sequence).value = '';
         document.getElementById('labour_passport_number'+sequence).readOnly = false;
+        document.getElementById('labour_identity_first_name'+sequence).value = '';
+        document.getElementById('labour_identity_first_name'+sequence).readOnly = false;
+        document.getElementById('labour_identity_last_name'+sequence).value = '';
+        document.getElementById('labour_identity_last_name'+sequence).readOnly = false;
         document.getElementById('labour_passport_expired_date'+sequence).value = '';
         document.getElementById('labour_passport_expired_date'+sequence).readOnly = false;
         $('#labour_country_of_issued'+sequence+'_id').val('').trigger('change');
@@ -7510,6 +7660,10 @@ function clear_passenger(type, sequence){
         document.getElementById('seaman_birth_date'+sequence).value = '';
         document.getElementById('seaman_passport_number'+sequence).value = '';
         document.getElementById('seaman_passport_number'+sequence).readOnly = false;
+        document.getElementById('seaman_identity_first_name'+sequence).value = '';
+        document.getElementById('seaman_identity_first_name'+sequence).readOnly = false;
+        document.getElementById('seaman_identity_last_name'+sequence).value = '';
+        document.getElementById('seaman_identity_last_name'+sequence).readOnly = false;
         document.getElementById('seaman_passport_expired_date'+sequence).value = '';
         document.getElementById('seaman_passport_expired_date'+sequence).readOnly = false;
         $('#seaman_country_of_issued'+sequence+'_id').val('').trigger('change');
@@ -7587,7 +7741,20 @@ function clear_passenger(type, sequence){
                 document.getElementById(type+'_number'+sequence).value = '';
                 document.getElementById(type+'_number'+sequence).readOnly = false;
             }
-
+            try{
+                document.getElementById(type+'_identity_first_name'+sequence).value = '';
+                document.getElementById(type+'_identity_first_name'+sequence).readOnly = false;
+            }catch(err){
+                document.getElementById(type+'_first_name'+sequence).value = '';
+                document.getElementById(type+'_first_name'+sequence).readOnly = false;
+            }
+            try{
+                document.getElementById(type+'_identity_last_name'+sequence).value = '';
+                document.getElementById(type+'_identity_last_name'+sequence).readOnly = false;
+            }catch(err){
+                document.getElementById(type+'_last_name'+sequence).value = '';
+                document.getElementById(type+'_last_name'+sequence).readOnly = false;
+            }
             try{
                 document.getElementById(type+'_passport_expired_date'+sequence).value = '';
                 document.getElementById(type+'_passport_expired_date'+sequence).readOnly = false;
@@ -10054,7 +10221,27 @@ function pick_passenger_cache_copy(val, identity){
                                                     document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number).value = data[1];
                                                 else if(document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number))
                                                     document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number).value = data[1];
-                                            }if(data[4] != '')
+                                            }if(data[4] != '' && data[4] != undefined && data[4] != false){
+                                                if(document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number))
+                                                    document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number).value = data[4];
+                                                else if(document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number))
+                                                    document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number).value = data[4];
+                                                if(data[5] != undefined && data[5] != false){
+                                                    if(document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number))
+                                                        document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number).value = data[5];
+                                                    else if(document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number))
+                                                        document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number).value = data[5];
+                                                }
+                                            }else{
+                                                if(document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number))
+                                                    document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number).value = passenger_data_cache[val].first_name;
+                                                else if(document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number))
+                                                    document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number).value = passenger_data_cache[val].first_name;
+                                                if(document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number))
+                                                    document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number).value = passenger_data_cache[val].last_name;
+                                                else if(document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number))
+                                                    document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number).value = passenger_data_cache[val].last_name;
+                                            }if(data[3] != '')
                                                 if(document.getElementById(passenger_pick+'_passport_expired_date'+passenger_pick_number))
                                                     document.getElementById(passenger_pick+'_passport_expired_date'+passenger_pick_number).value = data[3];
                                             if(data[2] != ''){
@@ -10160,8 +10347,30 @@ function pick_passenger_cache_copy(val, identity){
                                         if(document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number))
                                             document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number).value = data[1];
                                         else if(document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number))
-                                            document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number).value = data[1]
-                                    }if(data[4] != '')
+                                            document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number).value = data[1];
+                                    }
+                                    if(data[4] != '' && data[4] != undefined && data[4] != false){
+                                        if(document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number).value = data[4];
+                                        else if(document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number).value = data[4];
+                                        if(data[5] != undefined && data[5] != false){
+                                            if(document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number))
+                                                document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number).value = data[5];
+                                            else if(document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number))
+                                                document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number).value = data[5];
+                                        }
+                                    }else{
+                                        if(document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number).value = passenger_data_cache[val].first_name;
+                                        else if(document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_identity_first_name'+passenger_pick_number).value = passenger_data_cache[val].first_name;
+                                        if(document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_passport_last_name'+passenger_pick_number).value = passenger_data_cache[val].last_name;
+                                        else if(document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number).value = passenger_data_cache[val].last_name;
+                                    }
+                                    if(data[3] != '')
                                         document.getElementById(passenger_pick+'_passport_expired_date'+passenger_pick_number).value = data[3];
                                     if(data[2] != ''){
                                         $('#'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id').val(data[2]).trigger('change');
@@ -11814,7 +12023,7 @@ function filter_top_right(pax_btn, num, prd){
     }else if(prd == 'cache'){
         document.getElementById('button_tr_passenger_db').innerHTML = response_filter;
 
-        value_radio_pax = document.querySelector('input[name="radio_passenger_cache"]:checked').value;;
+        value_radio_pax = document.querySelector('input[name="radio_passenger_cache"]:checked').value;
         if(value_radio_pax == 'search')
             document.getElementById('button_tr_passenger_db').style.display = 'block';
         else
@@ -11848,7 +12057,7 @@ function filter_top_right(pax_btn, num, prd){
             }
         }else if(prd == 'offline'){
             try{
-                value_radio_pax = document.querySelector('input[name="radio_passenger' + parseInt(num) + '"]:checked').value;;
+                value_radio_pax = document.querySelector('input[name="radio_passenger' + parseInt(num) + '"]:checked').value;
                 if(value_radio_pax == 'search')
                     document.getElementById('button_tr_'+parseInt(num)).style.display = 'block';
                 else
