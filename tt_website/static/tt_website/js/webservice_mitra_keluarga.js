@@ -969,6 +969,8 @@ function mitra_keluarga_get_booking(order_number, sync=false){
 
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
+                    document.getElementById('button_new_offline').hidden = false;
+                    document.getElementById('booking_data_product').value = JSON.stringify(msg);
                     if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_mitra_keluarga') == false){
                         window.location.href = '/mitrakeluarga/confirm_order/';
                         Swal.fire({

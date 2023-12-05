@@ -3020,6 +3020,8 @@ function hotel_get_booking(data){
                     document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
                     document.getElementById("overlay-div-box").style.display = "none";
+                    document.getElementById('button_new_offline').hidden = false;
+                    document.getElementById('booking_data_product').value = JSON.stringify(msg);
                     can_issued = msg.result.response.can_issued;
                     if(msg.result.response.hold_date != ''){
                         tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')

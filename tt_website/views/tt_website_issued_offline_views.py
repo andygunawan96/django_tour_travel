@@ -43,6 +43,12 @@ def issued_offline(request):
             phone_code = sorted(phone_code)
             # get_balance(request)
 
+            if request.POST.get('product_type') and request.POST.get('booking_data_product'):
+                write_cache_file(request, request.session['signature'], 'data_cache_offline', {
+                    'product_type': request.POST['product_type'],
+                    'booking_data_product': json.loads(request.POST['booking_data_product'])
+                })
+
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values.update({

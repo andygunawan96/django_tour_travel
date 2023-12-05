@@ -8512,6 +8512,9 @@ function airline_get_booking(data, sync=false){
 
            document.getElementById('airline_reissue_div').innerHTML = '';
            time_now = moment().format('YYYY-MM-DD HH:mm:SS');
+           document.getElementById('button_new_offline').hidden = false;
+           document.getElementById('booking_data_product').value = JSON.stringify(msg);
+
            //get booking view edit here
            try{
                if(msg.result.error_code == 0){
