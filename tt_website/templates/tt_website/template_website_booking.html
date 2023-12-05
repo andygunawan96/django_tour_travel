@@ -2068,11 +2068,11 @@ Licence URI: http://www.os-templates.com/template-terms
                 }
                 error_log = '';
                 if(user_login.co_user_login != '{{default_user}}'){
-                    if(['optional', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp && ['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
+                    if(['notification', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp && ['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
                         error_log = 'Please Activate your PIN & OTP';
-                    }else if(['optional', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
+                    }else if(['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
                         error_log = 'Please Activate your PIN';
-                    }else if(['optional', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp){
+                    }else if(['notification', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp){
                         error_log = 'Please Activate your OTP';
                     }
                     var get_otp_pin_cookie = getCookie('notif_otp_pin');
