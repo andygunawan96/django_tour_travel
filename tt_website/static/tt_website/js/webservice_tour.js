@@ -3160,7 +3160,7 @@ function tour_get_booking(order_number)
                      </div>`;
                      if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                         price_text+=`
-                         <div class="row" id="show_commission" style="display:block;">
+                         <div class="row" id="show_commission" style="display:none;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                 <div class="alert alert-success">
                                     <div class="row">
@@ -3211,7 +3211,7 @@ function tour_get_booking(order_number)
                          price_text+=`
                          <div class="row" style="margin-top:10px; text-align:center;">
                            <div class="col-xs-12" style="padding-bottom:10px;">
-                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
+                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
                            </div>
                          </div>`;
                     $test+= '\n‣ Grand Total: '+`+price.currency+`+' '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
@@ -3842,7 +3842,7 @@ function table_price_update(msg,type){
                        price_txt+=`
                        <div class="row" style="margin-top:10px; text-align:center;">
                            <div class="col-lg-12" style="padding-bottom:10px;">
-                                <input type="button" id="show_commission_button" class="primary-btn-white" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
+                                <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
                            </div>
                        </div>`;
 

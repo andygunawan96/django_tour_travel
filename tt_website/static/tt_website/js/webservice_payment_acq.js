@@ -250,7 +250,7 @@ function set_payment_method_ho(){
                         <span style="font-size:14px;font-weight:500;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].total_amount)+`</span><br>
                     </div>
                 </div>
-                <div class="row mt-3" id="show_commission_payment_acq_ho" style="display: block;">
+                <div class="row mt-3" id="show_commission_payment_acq_ho" style="display: none;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
                             <div class="row">
@@ -265,7 +265,7 @@ function set_payment_method_ho(){
                     </div>
                 </div>
                 <div class="mt-3">
-                    <input class="primary-btn-white" id="show_commission_payment_acq_ho_button" style="width:100%;" type="button" onclick="show_commission_payment_acq();" value="Hide YPM">
+                    <input class="primary-btn-white" id="show_commission_payment_acq_ho_button" style="width:100%;" type="button" onclick="show_commission_payment_acq();" value="Show YPM">
                 </div>`;
     }
     if(document.getElementById('payment_method_ho_detail'))

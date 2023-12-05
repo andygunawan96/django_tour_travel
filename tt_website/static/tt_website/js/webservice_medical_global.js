@@ -576,7 +576,7 @@ function medical_global_check_price(){
                     }
                     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`
-                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"><br/>`;
+                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show YPM"><br/>`;
                     text += `</div>`;
 
                     if(msg.result.response.extra_cost == true){
@@ -728,7 +728,7 @@ function medical_global_get_cache_price(){
                 }
                 if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"><br/>`;
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show YPM"><br/>`;
                 text+=`
                     <div>
                         <center>
@@ -1767,7 +1767,7 @@ function medical_global_get_booking(order_number, sync=false){
                             </div>`;
                             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false && user_login.co_agent_frontend_security.includes('see_commission')){
                                 text_detail+=`
-                                <div class="row" id="show_commission" style="display:block;">
+                                <div class="row" id="show_commission" style="display:none;">
                                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                         <div class="alert alert-success">
                                             <div class="row">
@@ -1837,7 +1837,7 @@ function medical_global_get_booking(order_number, sync=false){
                             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false)
                             text_detail+=`
                             <div>
-                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show YPM"/>
                             </div>`;
                             if(window.location.pathname.includes('confirm_order') == false){
                             text_detail+=`
@@ -2430,7 +2430,7 @@ function medical_global_issued_booking(data){
                                 text+=print_commission(commission*-1,'show_commission_old', price.currency)
                             }
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show YPM"/></div>`;
                             text+=`</div>`;
                             document.getElementById('old_price').innerHTML = text;
 
@@ -2528,7 +2528,7 @@ function medical_global_issued_booking(data){
                                 text+=print_commission(commission*-1,'show_commission_new', price.currency)
                             }
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
                             text+=`</div>`;
                             document.getElementById('new_price').innerHTML = text;
                             $("#myModal").modal();

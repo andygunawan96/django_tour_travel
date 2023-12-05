@@ -4701,28 +4701,42 @@ function set_segment_provider_get_itinenary(segment, provider, val){
 function reset_airline_filter(){
     for(i in carrier_code){
         document.getElementById('checkbox_airline'+i).checked = false;
+        if(document.getElementById('checkbox_airline2'+i))
+            document.getElementById('checkbox_airline2'+i).checked = false;
         carrier_code[i].status = false;
     }for(i in transit_list){
         document.getElementById('checkbox_transit'+i).checked = false;
+        if(document.getElementById('checkbox_transit2'+i))
+            document.getElementById('checkbox_transit2'+i).checked = false;
         transit_list[i].status = false;
     }for(i in transit_duration_list){
         document.getElementById('checkbox_transit_duration'+i).checked = false;
+        if(document.getElementById('checkbox_transit_duration2'+i))
+            document.getElementById('checkbox_transit_duration2'+i).checked = false;
         transit_duration_list[i].status = false;
     }for(i in departure_list){
         if(i == 0){
             document.getElementById('checkbox_departure_time'+i).checked = true;
+            if(document.getElementById('checkbox_departure_time2'+i))
+                document.getElementById('checkbox_departure_time2'+i).checked = true;
             departure_list[i].status = true;
         }else{
             document.getElementById('checkbox_departure_time'+i).checked = false;
+            if(document.getElementById('checkbox_departure_time2'+i))
+                document.getElementById('checkbox_departure_time2'+i).checked = false;
             departure_list[i].status = false;
         }
     }
     for(i in arrival_list){
         if(i == 0){
             document.getElementById('checkbox_arrival_time'+i).checked = true;
+            if(document.getElementById('checkbox_arrival_time2'+i))
+                document.getElementById('checkbox_arrival_time2'+i).checked = true;
             arrival_list[i].status = true;
         }else{
             document.getElementById('checkbox_arrival_time'+i).checked = false;
+            if(document.getElementById('checkbox_arrival_time2'+i))
+                document.getElementById('checkbox_arrival_time2'+i).checked = false;
             arrival_list[i].status = false;
         }
     }
@@ -5669,8 +5683,13 @@ function draw_get_price_itinerary(){
     </div>`;
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         // tidak ikut default karena ada notes untuk YPM lionair
+        if(commission_price == 0)
+            text_detail_next+=`
+            <div class="col-xs-12" style="display:block;" id="show_commission">`;
+        else
+            text_detail_next+=`
+            <div class="col-xs-12" style="display:none;" id="show_commission">`;
         text_detail_next+=`
-            <div class="col-xs-12" style="display:block;" id="show_commission">
                 <div class="alert alert-success">
                     <div style="text-align:center;">
                         <span style="font-size:13px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span><br>
@@ -5708,10 +5727,17 @@ function draw_get_price_itinerary(){
     }
     text_detail_next+=`
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
        text_detail_next+=`
-            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"><br/>
+            <button type='button' class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');">`;
+            if(commission_price == 0)
+                text_detail_next+=`Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>`;
+            else
+                text_detail_next+=`Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>`;
+            text_detail_next+=`
+            </button>
         `;
+    }
     text_detail_next += `</div>`;
     if(agent_security.includes('book_reservation') == true)
         text_detail_next+=`
@@ -10814,10 +10840,10 @@ function airline_get_booking(data, sync=false){
                         <div class="alert alert-success">
                             <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
                                 <span id="show_commission_button"">
-                                    Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>
+                                    Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>
                                 </span>
                             </div>
-                            <div class="row" id="show_commission" style="display:block;">
+                            <div class="row" id="show_commission" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
@@ -12683,7 +12709,7 @@ function airline_issued(data){
         //                    </div>`;
                             }
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show YPM"/></div>`;
                             text+=`</div>`;
                             document.getElementById('old_price').innerHTML = text;
 
@@ -12797,7 +12823,7 @@ function airline_issued(data){
         //                    </div>`;
                             }
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
                             text+=`</div>`;
                             document.getElementById('new_price').innerHTML = text;
 
@@ -17130,7 +17156,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
         text += print_commission(commission_price*-1,'show_commission',currency)
 //        text+=`
-//        <div class="row" id="show_commission" style="display:block;">
+//        <div class="row" id="show_commission" style="display:none;">
 //            <div class="col-lg-12 col-xs-12">
 //                <div class="alert alert-success">
 //                    <div style="text-align:center;">
@@ -17155,7 +17181,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
         text+=`
         <div style="padding-bottom:10px;">
             <center>
-                <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Hide YPM"/><br/>
+                <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show YPM"/><br/>
             </center>
         </div>`;
     text+=`</div>`;
@@ -18997,10 +19023,17 @@ function airline_get_reschedule_itinerary_v2(){
                }
                get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.reschedule_itinerary_provider);
                get_airline_channel_repricing_data_reschedule(msg.result.response.reschedule_itinerary_provider);
-               document.getElementById('airline_detail').innerHTML += `
-                <div class="col-lg-12" style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
-                    <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
-                </div>`;
+               if(airline_get_detail.result.response.state == 'issued'){
+                    document.getElementById('airline_detail').innerHTML += `
+                    <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
+                        <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Choose Payment Method">
+                    </div>`;
+               }else{
+                    document.getElementById('airline_detail').innerHTML += `
+                    <div class="col-lg-12" style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
+                        <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
+                    </div>`;
+               }
 
 
            }else if(msg.result.error_code == 500 && msg.result.error_msg == 'Internal server error'){
@@ -19503,7 +19536,7 @@ function update_booking_after_sales_v2(input_pax_seat = false){
 //                        </div>
 //                    </div>`;
 //                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-//                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+//                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
 //                    text+=`</div>`;
 //                    document.getElementById('new_price').innerHTML = text;
 //
