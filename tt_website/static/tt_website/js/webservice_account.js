@@ -2148,7 +2148,12 @@ function print_commission(commission,id,currency='IDR',id_span=''){
 //    if(data_commission < 0)
 //        data_commission = data_commission *-1;
     print_commission_text+=`
-        <div class="row" id="`+id+`" style="display:block;">
+        <div class="row" id="`+id+`" style="`;
+    if(data_commission == 0)
+        print_commission_text+=`display:block;`;
+    else
+        print_commission_text+=`display:none;`;
+    print_commission_text+=`">
             <div class="col-lg-12 col-xs-12">
                 <div class="alert alert-success">
                     <div style="text-align:center;">

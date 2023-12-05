@@ -1698,7 +1698,7 @@ function hotel_room_pick(key, key2){
     <div class="row" style="padding-top:10px;">
         <div class="col-lg-6 col-md-6 col-sm-6">`;
         if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text_pick_footer += `<input class="primary-btn-white" id="show_commission_button" style="width:100%; margin-bottom:10px;" type="button" onclick="show_commission_hotel();" value="Hide YPM"/>`;
+            text_pick_footer += `<input class="primary-btn-white" id="show_commission_button" style="width:100%; margin-bottom:10px;" type="button" onclick="show_commission_hotel();" value="Show YPM"/>`;
         text_pick_footer+=`</div>`;
 
         if(agent_security.includes('book_reservation') == true){
@@ -2502,7 +2502,7 @@ function hotel_detail(old_cancellation_policy){
     text +=`</div></div><div class="row">`;
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text += `<div class="col-lg-12">
-            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Hide YPM"/>
+            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show YPM"/>
         </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">

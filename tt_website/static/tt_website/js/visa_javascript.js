@@ -301,7 +301,7 @@ function update_table_new(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                    </div>
                 </div>`;
                 if(agent_security.includes('book_reservation') == true && check_visa == 1 && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
@@ -490,7 +490,7 @@ function update_table_new(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                    </div>
                 </div>`;
     }
@@ -788,7 +788,7 @@ function update_table_new(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                    </div>
                 </div>`;
     }
@@ -1043,7 +1043,7 @@ function update_table_new(type){
             </div>`;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                 text_detail+=`
-                <div class="row" id="show_commission" style="display:block;">
+                <div class="row" id="show_commission" style="display:none;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
                             <div class="row">
@@ -1093,7 +1093,7 @@ function update_table_new(type){
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 text_detail+=`
                 <div style="margin-bottom:5px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show YPM"/>
                 </div>`;
             text_detail+=`
         </div>`;
@@ -1657,7 +1657,7 @@ function update_table(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                    </div>
                 </div>`;
                 if(agent_security.includes('book_reservation') == true && check_visa == 1)
@@ -1828,7 +1828,7 @@ function update_table(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                    </div>
                 </div>`;
     }else if(type == 'review'){
@@ -2108,7 +2108,7 @@ function update_table(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                    </div>
                 </div>`;
     }else if(type == 'booking'){
@@ -2345,7 +2345,7 @@ function update_table(type){
             </div>`;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                 text_detail+=`
-                <div class="row" id="show_commission" style="display:block;">
+                <div class="row" id="show_commission" style="display:none;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
                             <div class="row">
@@ -2395,7 +2395,7 @@ function update_table(type){
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 text_detail+=`
                 <div style="margin-bottom:5px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show YPM"/>
                 </div>`;
             text_detail+=`
         </div>`;
@@ -2574,7 +2574,7 @@ function update_table(type){
 //            text+=`
 //            <div class="row" style="margin-top:10px; text-align:center;">
 //               <div class="col-lg-12" style="padding-bottom:10px;">
-//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
 //               </div>
 //            </div>`;
 

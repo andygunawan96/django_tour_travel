@@ -7075,13 +7075,26 @@ function airline_detail(type){
             text+=`
             <div class="alert alert-success" style="margin-top:10px;">
                 <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
-                    <span id="show_commission_button"">
-                        Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>
+                    <span id="show_commission_button">`;
+
+            if(commission_price == 0)
+                text+=`
+                        Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>`;
+            else
+                text+=`
+                        Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>`;
+            text+=`
                     </span>
                 </div>`;
                 // tidak ikut default karena ada notes untuk YPM lionair
                 text+=`
-                <div class="row mt-3" id="show_commission" style="display:block;">
+                <div class="row mt-3" id="show_commission" style="`;
+
+                if(commission_price == 0)
+                    text+=`display:block;`;
+                else
+                    text+=`display:none;`;
+                text+=`">
                     <div class="col-lg-12 col-xs-12" "text-align:left;">
                         <span style="font-size:14px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span>`;
                             text_notes = '';

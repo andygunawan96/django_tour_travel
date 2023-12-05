@@ -214,7 +214,7 @@ function update_table(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                    </div>
                 </div>`;
                 if(agent_security.includes('book_reservation') == true)
@@ -336,7 +336,7 @@ function update_table(type){
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                </div>
             </div>
             `;
@@ -539,7 +539,7 @@ function update_table(type){
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
                </div>
             </div>
             `;
@@ -695,7 +695,7 @@ function update_table(type){
         text+=`
         <div class="row" style="margin-top:10px; text-align:center;">
            <div class="col-lg-12" style="padding-bottom:10px;">
-                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
+                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
            </div>
         </div>
         `;

@@ -829,7 +829,7 @@ function event_get_booking(data){
                         </div>`;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                             text_detail+=`
-                            <div class="row" id="show_commission_event" style="display:block;">
+                            <div class="row" id="show_commission_event" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="alert alert-success">
                                         <div class="row">
@@ -899,7 +899,7 @@ function event_get_booking(data){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`
                                 <div style="margin-bottom:5px;">
-                                    <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
+                                    <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show YPM"/>
                                 </div>
                             </div>`;
                     }catch(err){console.log(err);}
