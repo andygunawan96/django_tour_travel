@@ -44,7 +44,7 @@ function get_data_issued_offline(){
             $('#social_media').niceSelect('update');
 
             if(msg.hasOwnProperty('cache')){
-                document.getElementById('timelimit').value = moment().add(1, 'hours').format('DD MMM YYYY hh:mm:SS A');
+                document.getElementById('timelimit').value = moment().add(1, 'days').format('DD MMM YYYY hh:mm:SS A');
                 document.getElementById('transaction_type').value = msg.cache.product_type;
                 if(document.getElementById('transaction_type').value == '')
                     document.getElementById('transaction_type').value = 'other';
