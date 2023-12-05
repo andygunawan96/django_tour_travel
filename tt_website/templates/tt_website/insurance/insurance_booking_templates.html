@@ -59,6 +59,11 @@
                 </button>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7" style="text-align:right;">
+                <div id="button_new_offline" style="display:inline-block;margin-left:5px;" hidden>
+                    <button type="button" class="primary-btn-white" onclick="document.getElementById('offline_form').submit();">
+                        <i class="fas fa-book-open"></i> Create Issued Offline for this reservation
+                    </button>
+                </div>
                 <button type="button" class="primary-btn-white mb-2" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
                     <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
                 </button>
@@ -137,6 +142,12 @@
                     <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                     </div>
+                </form>
+
+                <form method="POST" id="offline_form" action="{% url 'tt_website:issued_offline'%}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_type" value="insurance"/>
+                    <input type="hidden" id="booking_data_product" name="booking_data_product" value=""/>
                 </form>
 <!--                <button type="button" class="primary-btn-white" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>-->
 <!--                    {% trans 'Home' %}-->

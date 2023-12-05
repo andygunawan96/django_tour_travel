@@ -690,6 +690,8 @@ def get_booking(request):
             train_destinations.append({
                 'code': country['code'],
                 'name': country['name'],
+                'country': country['country'],
+                'city': country['city']
             })
         data = {
             'order_number': request.POST['order_number']
@@ -737,11 +739,15 @@ def get_booking(request):
                         if destination['code'] == journey['origin']:
                             journey.update({
                                 'origin_name': destination['name'],
+                                'origin_city': destination['city'],
+                                'origin_country': destination['country']
                             })
                             check = check + 1
                         if destination['code'] == journey['destination']:
                             journey.update({
                                 'destination_name': destination['name'],
+                                'destination_city': destination['city'],
+                                'destination_country': destination['country']
                             })
                             check = check + 1
                         if check == 2:

@@ -2342,6 +2342,8 @@ function tour_get_booking(order_number)
                tour_order_number = order_number;
                tr_get_booking = msg;
                can_issued = msg.result.response.can_issued;
+               document.getElementById('button_new_offline').hidden = false;
+               document.getElementById('booking_data_product').value = JSON.stringify(msg);
                $('#loading-search-tour').hide();
                hide_modal_waiting_transaction();
                document.getElementById('button-home').hidden = false;

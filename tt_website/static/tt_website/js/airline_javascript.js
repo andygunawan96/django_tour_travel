@@ -1227,8 +1227,9 @@ function add_multi_city(type){
 function plus_min_passenger_airline_btn(){
     var max_pax = 9;
     var min_pax = 1;
-    if(airline_advance_pax_type == 'true')
-        min_pax = 0;
+    if(typeof(airline_advance_pax_type) !== 'undefined')
+        if(airline_advance_pax_type == 'true')
+            min_pax = 0;
     var quantity_total_pax = parseInt(document.getElementById('adult_flight').value)+parseInt(document.getElementById('child_flight').value);
     var quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
     var quantity_child_flight = parseInt(document.getElementById('child_flight').value);

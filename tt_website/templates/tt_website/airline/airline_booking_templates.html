@@ -207,6 +207,12 @@
                                     <i class="fas fa-sync-alt"></i> Sync Reprice
                                 </button>
                             </div>
+
+                            <div id="button_new_offline" style="display:inline-block;margin-left:5px;" hidden>
+                                <button type="button" class="primary-btn-white" onclick="document.getElementById('offline_form').submit();">
+                                    <i class="fas fa-book-open"></i> Create Issued Offline for this reservation
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -319,6 +325,12 @@
             </div>
         </div>
     </section>
+</form>
+
+<form method="POST" id="offline_form" action="{% url 'tt_website:issued_offline'%}">
+    {% csrf_token %}
+    <input type="hidden" name="product_type" value="airline"/>
+    <input type="hidden" id="booking_data_product" name="booking_data_product" value=""/>
 </form>
 
 <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>

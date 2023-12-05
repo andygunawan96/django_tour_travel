@@ -2734,13 +2734,13 @@
 
 {% include 'tt_website/footer.html' %}
 <script>
-    issued_offline_page();
     try{
         document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){
         console.log(err) //ada element yg tidak ada
     }
     $( document ).ready(function() {
+      issued_offline_page();
       $('.js-example-basic-single').select2();
 
       //radio_button('booker');

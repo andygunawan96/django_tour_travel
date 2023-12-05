@@ -1196,6 +1196,8 @@ function ppob_get_booking(data){
                //get booking view edit here
                if(msg.result.error_code == 0){
                 can_issued = msg.result.response.can_issued;
+                document.getElementById('button_new_offline').hidden = false;
+                document.getElementById('booking_data_product').value = JSON.stringify(msg);
                 var text = '';
                 $text = '';
                 csc = 0;

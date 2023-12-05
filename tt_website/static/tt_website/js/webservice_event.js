@@ -222,6 +222,8 @@ function event_get_booking(data){
                     document.getElementById('button-new-reservation').hidden = false;
                     document.getElementById('show_loading_booking_airline').style.display = 'none';
                     hide_modal_waiting_transaction();
+                    document.getElementById('button_new_offline').hidden = false;
+                    document.getElementById('booking_data_product').value = JSON.stringify(msg);
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                     localTime  = moment.utc(tes).toDate();
 
