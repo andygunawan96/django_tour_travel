@@ -3369,6 +3369,8 @@ th input {
 .dropdown-menu{
     width: 100% !important;
     max-height: 470px !important;
+    overflow:auto;
+    left: 0px !important;
 }
 
 .modal-header{
@@ -4425,6 +4427,12 @@ ul.progress_tabs li.current .image-rounded-icon{
 .ml10{
     margin-left:10px;
 }
+.pt3{
+    padding-top:3px;
+}
+.mt3{
+    margin-top:3px;
+}
 .pt5{
     padding-top:5px;
 }
@@ -4433,6 +4441,9 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 .pt12{
     padding-top:12px;
+}
+.mt12{
+    margin-top:12px;
 }
 
 @keyframes dash {
@@ -7329,6 +7340,16 @@ text-align: center;
     left: -30px !important;
 }
 
+.dropdown-toggle::after{
+    margin-top: 12px;
+    font-size: 18px;
+    color:white;
+}
+
+.drop_inline{
+    display: inline-block;
+}
+
 @media (max-width: 400px) {
     .div-dropdown-txt {
         display: block;
@@ -7372,7 +7393,7 @@ text-align: center;
 .sticky_time_fs{
     position: sticky;
     top: -1px;
-    z-index: 2;
+    z-index: 99;
 }
 
 

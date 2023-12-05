@@ -1,12 +1,60 @@
+{% load i18n %}
 
-<i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
+<div style="display:inline-block;">
+    <div data-toggle="dropdown" style="cursor:pointer;">
+        <span>
+            <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px; cursor:pointer;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor:pointer;">{{username.co_user_name}} <i class="fa fa-caret-down"></i></span>
+        </span>
+        <ul class="dropdown-menu" style="padding:10px 15px 10px 15px; z-index:9999; overflow-y:unset; overflow-x:unset;">
+            <span style="font-weight:bold; font-size:14px;"><i class="fas fa-user"></i> {{username.co_user_name}}</span><br/>
+            <span style="font-weight:500; font-size:13px;"><i class="fas fa-envelope"></i> {{username.co_user_login}}</span><hr/>
+            {% if "admin" in username.co_agent_frontend_security %}
+            <li style="padding-bottom:10px;"><a href="{% url 'tt_website:admin'%}">Admin Setting</a></li>
+            {% endif %}
+            <li style="padding-bottom:10px;"><a href="{% url 'tt_website:setting'%}">{% trans 'Setting' %}</a></li>
+            {% if "analyst_periksain" in username.co_agent_frontend_security or "assign_analyst_periksain" in username.co_agent_frontend_security %}
+            <li style="padding-bottom:10px;"><a href="/assign_analyst/periksain">Analyst Periksain Schedule</a></li>
+            {% endif %}
+            {% if "confirm_order_medical" in username.co_agent_frontend_security %}
+            <li style="padding-bottom:10px;"><a href="{% url 'tt_website:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+            {% endif %}
+            {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+            <li style="padding-bottom:10px;"><a href="{% url 'tt_website:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+            {% endif %}
+            {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
+            <li style="padding-bottom:10px;"><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
+            {% endif %}
+            {% if "report" in username.co_agent_frontend_security %}
+            <li style="padding-bottom:10px;"><a href="{% url 'tt_website:report'%}">Report</a></li>
+            {% endif %}
+            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+            {% if backend_url != ''%}
+            <li style="padding-bottom:10px;"><a href="" id="backend_btn">Backend</a></li>
+            {% endif %}
+            {% endif %}
+            {% if username.co_user_login != default_user %}
+            <li style="padding-bottom:10px;"><a href="{% url 'tt_website:history_transaction'%}">History Transaction</a></li>
+            {% endif %}
+            <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
+            <li>
+                <a>
+                    <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}}; width:fit-content; line-height:41px;">{% trans 'Logout' %}</button>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
 
-<button type="button" id="more_balance" class="dropdown-toggle" data-toggle="dropdown" style="border:unset; background:unset; cursor:pointer; padding-left:5px; padding-right:5px; font-weight:500;">Balance & Credit</button>
-<ul class="dropdown-menu" style="padding:10px 25px 10px 10px; z-index:9999; overflow-y:unset; overflow-x:unset;">
-    <span id="balance" style="font-size:13px; font-weight:500;"></span>
-    <span id="credit_limit" style="margin-top:5px; font-size:13px; font-weight:500;"></span>
-    <span id="customer_parent_balance" style="padding-top:5px; font-size:13px; font-weight:500;"></span>
-</ul>
+{% if not 'b2c_limitation' in username.co_agent_frontend_security %}
+<div style="display:inline-block;">
+    <span type="button" id="more_balance" data-toggle="dropdown" style="margin-top:0px; border:unset; background:unset; cursor:pointer; padding-left:5px; padding-right:5px; font-weight:500;">Balance & Credit <i class="fa fa-caret-down"></i></span>
+    <ul class="dropdown-menu" style="padding:10px 25px 10px 10px; z-index:9999; overflow-y:unset; overflow-x:unset;">
+        <span id="balance" style="font-size:13px; font-weight:500;"></span>
+        <span id="credit_limit" style="margin-top:5px; font-size:13px; font-weight:500;"></span>
+        <span id="customer_parent_balance" style="padding-top:5px; font-size:13px; font-weight:500;"></span>
+    </ul>
+</div>
+{% endif %}
 
 <script>
     agent_security = `{{username.co_agent_frontend_security}}`;

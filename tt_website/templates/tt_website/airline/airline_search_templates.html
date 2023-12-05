@@ -13,11 +13,11 @@
 
     {% if template == 4 or template == 5 %}
         .dropdown-menu-txt{
-            top: 25px !important;
+            top: 30px !important;
         }
-    {% elif template == 6 %}
+    {% else %}
         .dropdown-menu-txt{
-            top: 5px !important;
+            top: 0px !important;
         }
     {% endif %}
 </style>
@@ -385,30 +385,32 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="div-dropdown-txt btn-group" style="margin-bottom:0px;">
-                    <button type="button" class="primary-btn dropdown-toggle" data-toggle="dropdown" style="line-height: 1.5; height:42px; width:200px;">
-                        Quick Action
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-w" role="menu" style="padding:15px;">
-                        <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_result();">
-                            <i class="fas fa-copy"></i> <span id="badge-copy-notif2">0</span> <span> copy selected</span>
+                <div class="drop_inline">
+                    <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" style="margin-bottom:0px;">
+                        <button type="button" class="primary-btn" style="line-height: 1.5; height:42px; width:200px;">
+                            Quick Action
                         </button>
-                        <div id="recommendation_div_mbl" hidden>
-                            <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" data-toggle="modal" data-target="#myModalRecommendation">
-                                <i class="fas fa-plane"></i> Recommendation Flight
+                        <ul class="dropdown-menu dropdown-menu-w" role="menu" style="padding:15px;">
+                            <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_result();">
+                                <i class="fas fa-copy"></i> <span id="badge-copy-notif2">0</span> <span> copy selected</span>
                             </button>
-                        </div>
-                        <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_change_search();">
-                            <i class="fas fa-search"></i> Change Search
-                        </button>
-                        <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_element('change_date_search', 50)">
-                            <i class="fas fa-calendar-alt"></i> Change Date
-                        </button>
-                        <button type="button" class="primary-btn-white-short" style="width:100%; text-align:left;" id="button_chart_airline" data-toggle="modal" data-target="#myModalTicketFlight">
-                            <span><i class="fas fa-shopping-cart"></i> My Order</span>
-                            <span class="badge-notif2 animated bounceIn" id="badge-flight-notif2">0</span>
-                        </button>
-                    </ul>
+                            <div id="recommendation_div_mbl" hidden>
+                                <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" data-toggle="modal" data-target="#myModalRecommendation">
+                                    <i class="fas fa-plane"></i> Recommendation Flight
+                                </button>
+                            </div>
+                            <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_change_search();">
+                                <i class="fas fa-search"></i> Change Search
+                            </button>
+                            <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_element('change_date_search', 50)">
+                                <i class="fas fa-calendar-alt"></i> Change Date
+                            </button>
+                            <button type="button" class="primary-btn-white-short" style="width:100%; text-align:left;" id="button_chart_airline" data-toggle="modal" data-target="#myModalTicketFlight">
+                                <span><i class="fas fa-shopping-cart"></i> My Order</span>
+                                <span class="badge-notif2 animated bounceIn" id="badge-flight-notif2">0</span>
+                            </button>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -434,220 +436,226 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-lg-12" style="text-align:left;">
-                                    <div class="div-dropdown-txt btn-group">
-                                        <button type="button" class="btn-dropdown-txt dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fas fa-location-arrow"></i>
-                                            <span id="span_radio_airline_type">
+                                    <div class="drop_inline">
+                                        <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                            <button type="button" class="btn-dropdown-txt">
+                                                <i class="fas fa-location-arrow"></i>
+                                                <span id="span_radio_airline_type">
                                                 {%if airline_request.direction == 'OW' %} One Way {% endif %}
                                                 {%if airline_request.direction == 'RT' %} Round Trip {% endif %}
                                                 {%if airline_request.direction == 'MC' %} Multi City {% endif %}
                                             </span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-txt" role="menu">
-                                            <div id="radio_airline_change_search" style="width:fit-content;">
-                                                <label class="radio-button-custom">
-                                                    <span style="font-size:13px;">{% trans 'One Way' %}</span>
-                                                    <input type="radio" {%if airline_request.direction == 'OW' %} checked="checked" {% endif %} name="radio_airline_type" id="radio_airline_ow" value="oneway" onclick="next_focus_element('airline','route');">
-                                                    <span class="checkmark-radio"></span>
-                                                </label><br/>
-                                                <label class="radio-button-custom">
-                                                    <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
-                                                    <input type="radio" name="radio_airline_type" {%if airline_request.direction == 'RT' %} checked="checked" {% endif %} id="radio_airline_rt" value="roundtrip" onclick="next_focus_element('airline','route');">
-                                                    <span class="checkmark-radio"></span>
-                                                </label><br/>
-                                                <label class="radio-button-custom">
-                                                    <span style="font-size:13px;">{% trans 'Multi City' %}</span>
-                                                    <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity" onclick="next_focus_element('airline','route1');">
-                                                    <span class="checkmark-radio"></span>
-                                                </label>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                    <div id="ori_airline_top" style="display: inline-block">
-                                        <div class="div-dropdown-txt btn-group">
-                                            <button type="button" class="btn-dropdown-txt dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                                                <i class="fas fa-users"></i> <span id="show_total_pax_flight">1 Passengers</span>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-txt" role="menu">
-                                                <div class="row" style="padding:10px;">
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}</span><br/>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.adult}}" id="adult_flight" name="adult_flight" min="0" readonly>
-                                                            <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 2 - 11)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.child}}" id="child_flight" name="child_flight" min="0" readonly>
-                                                            <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} <2)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight" readonly>
-                                                            <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.student}}" id="student_flight" name="student_flight" readonly>
-                                                            <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-
-                                                    {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.labour}}" id="labour_flight" name="labour_flight" readonly>
-                                                            <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-
-                                                    {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.seaman}}" id="seaman_flight" name="seaman_flight" readonly>
-                                                            <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
-                                                    </div>
+                                                <div id="radio_airline_change_search" style="width:fit-content;">
+                                                    <label class="radio-button-custom">
+                                                        <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                        <input type="radio" {%if airline_request.direction == 'OW' %} checked="checked" {% endif %} name="radio_airline_type" id="radio_airline_ow" value="oneway" onclick="next_focus_element('airline','route');">
+                                                        <span class="checkmark-radio"></span>
+                                                    </label><br/>
+                                                    <label class="radio-button-custom">
+                                                        <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                        <input type="radio" name="radio_airline_type" {%if airline_request.direction == 'RT' %} checked="checked" {% endif %} id="radio_airline_rt" value="roundtrip" onclick="next_focus_element('airline','route');">
+                                                        <span class="checkmark-radio"></span>
+                                                    </label><br/>
+                                                    <label class="radio-button-custom">
+                                                        <span style="font-size:13px;">{% trans 'Multi City' %}</span>
+                                                        <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity" onclick="next_focus_element('airline','route1');">
+                                                        <span class="checkmark-radio"></span>
+                                                    </label>
                                                 </div>
                                             </ul>
                                         </div>
-                                        <div class="div-dropdown-txt btn-group">
-                                            <button type="button" class="btn-dropdown-txt dropdown-toggle" data-toggle="dropdown">
-                                                <i class="fas fa-plane"></i> <span id="show_provider_airline">All airline</span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-txt" role="menu">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="row">
-                                                            <div class="col-lg-12 mt-1" id="provider_flight_content" style="z-index:8; overflow-y:unset; overflow-x:unset;">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">
-                                                                        {% for key,value in airline_carriers.0.items %}
-                                                                        {% if value.code == 'all'%}
-                                                                        <li>
-                                                                            <a class="small" data-value="option1" tabIndex="-1">
-                                                                                <label class="check_box_custom">
-                                                                                    <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
-                                                                                    <span class="check_box_span_custom"></span>
-                                                                                </label>
-                                                                            </a>
-                                                                        </li>
-                                                                        {% else %}
-                                                                        <li>
-                                                                            <a class="small" data-value="option1" tabIndex="-1">
-                                                                                <label class="check_box_custom">
-                                                                                    <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
-                                                                                    <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
-                                                                                    <span class="check_box_span_custom"></span>
-                                                                                </label>
-                                                                            </a>
-                                                                        </li>
-                                                                        {% endif %}
-                                                                        {% endfor %}
-                                                                    </div>
-                                                                    <div class="col-lg-12" style="text-align:right;">
-                                                                        <hr/>
-                                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','airline');">Done</button>
+                                    </div>
+                                    <div id="ori_airline_top" style="display: inline-block">
+                                        <div class="drop_inline">
+                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                    <i class="fas fa-users"></i> <span id="show_total_pax_flight">1 Passengers</span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.adult}}" id="adult_flight" name="adult_flight" min="0" readonly>
+                                                                <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 2 - 11)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.child}}" id="child_flight" name="child_flight" min="0" readonly>
+                                                                <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} <2)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight" readonly>
+                                                                <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        {% if airline_pax_type_student == 'true' and airline_advance_pax_type == 'true' %}
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Student' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.student}}" id="student_flight" name="student_flight" readonly>
+                                                                <button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+
+                                                        {% if airline_pax_type_labour == 'true' and airline_advance_pax_type == 'true' %}
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Labour' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.labour}}" id="labour_flight" name="labour_flight" readonly>
+                                                                <button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+
+                                                        {% if airline_pax_type_seaman == 'true' and airline_advance_pax_type == 'true' %}
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Seaman' %}</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 11+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.seaman}}" id="seaman_flight" name="seaman_flight" readonly>
+                                                                <button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <hr/>
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger');">Done</button>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="drop_inline">
+                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                <button type="button" class="btn-dropdown-txt">
+                                                    <i class="fas fa-plane"></i> <span id="show_provider_airline">All airline</span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 mt-1" id="provider_flight_content" style="z-index:8; overflow-y:unset; overflow-x:unset;">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">
+                                                                            {% for key,value in airline_carriers.0.items %}
+                                                                            {% if value.code == 'all'%}
+                                                                            <li>
+                                                                                <a class="small" data-value="option1" tabIndex="-1">
+                                                                                    <label class="check_box_custom">
+                                                                                        <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
+                                                                                        <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="func_check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                                        <span class="check_box_span_custom"></span>
+                                                                                    </label>
+                                                                                </a>
+                                                                            </li>
+                                                                            {% else %}
+                                                                            <li>
+                                                                                <a class="small" data-value="option1" tabIndex="-1">
+                                                                                    <label class="check_box_custom">
+                                                                                        <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
+                                                                                        <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="func_check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                                                        <span class="check_box_span_custom"></span>
+                                                                                    </label>
+                                                                                </a>
+                                                                            </li>
+                                                                            {% endif %}
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                        <div class="col-lg-12" style="text-align:right;">
+                                                                            <hr/>
+                                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','airline');">Done</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </ul>
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="div-dropdown-txt btn-group" style="margin-right:0px;">
                                             <div class="input-container-search-ticket btn-group" style="padding-top:10px;">
@@ -753,20 +761,24 @@
                             <span class="count_time" id="elapse_time" style="float:right;"> </span>
                         </span>
                         {% if username.co_user_login != default_user %}
-                        <div class="row" style="padding-top:10px;">
-                            <div class="col-lg-12">
-                                <span title="{{username.co_user_login}}" style="font-weight:600; cursor:pointer; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px; display:inline-block; display:-webkit-inline-block;">
-                                    <i class="fas fa-user" style="font-size:16px;"></i> {{username.co_user_login}}
-                                </span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button type="button" class="btn-dropdown-txt dropdown-toggle" data-toggle="dropdown" style="color:black">
-                                        Balance & Credit
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu" style="padding:15px;">
-                                        <span style="float:right; font-size:20px; cursor:pointer;"><i class="fas fa-times" onclick='$(".dropdown-menu").removeClass("show");'></i></span><br/>
-                                        <div id="balance_search"></div>
-                                        <div id="credit_search"></div>
-                                    </ul>
+                        <div style="display:flex;">
+                            <div class="row" style="padding-top:10px;">
+                                <div class="col-lg-12">
+                                    <span title="{{username.co_user_login}}" style="font-weight:600; cursor:pointer; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px; display:inline-block; display:-webkit-inline-block;">
+                                        <i class="fas fa-user" style="font-size:16px;"></i> {{username.co_user_login}}
+                                    </span><br/>
+                                    <div class="drop_inline">
+                                        <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                            <button type="button" class="btn-dropdown-txt" style="color:black">
+                                                Balance & Credit
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-txt" role="menu" style="padding:15px;">
+                                                <span style="float:right; font-size:20px; cursor:pointer;"><i class="fas fa-times" onclick='$(".dropdown-menu").removeClass("show");'></i></span><br/>
+                                                <div id="balance_search"></div>
+                                                <div id="credit_search"></div>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -797,45 +809,47 @@
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="input-container-search-ticket btn-group" style="text-align:left;margin-bottom:0px;">
-                            <button id="show_promo_code_btn" type="button" class="primary-btn-white-short dropdown-toggle" data-toggle="dropdown" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; width:100%; margin-bottom:15px;">
-                                <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Promo code</span>
-                            </button>
-                            <ul id="show_promo_code_ul" class="dropdown-menu" role="menu" style="padding:15px;">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <button class="primary-btn-ticket mb-3" type="button" onclick="add_promotion_code();">{% trans 'Add' %} <i class="fas fa-plus"></i></button>
-                                    </div>
+                        <div class="drop_inline mt-3" style="width:100%;">
+                            <div class="dropdown-toggle div-dropdown-txt btn-group primary-btn-white-short" data-toggle="dropdown" style="text-align:left; width:100%;">
+                                <span id="show_promo_code_btn" type="button" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; width:100%; padding-top:5px;">
+                                    <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Promo code</span>
+                                </span>
+                                <ul id="show_promo_code_ul" class="dropdown-menu" role="menu" style="padding:15px;">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button class="primary-btn-ticket mb-3" type="button" onclick="add_promotion_code();">{% trans 'Add' %} <i class="fas fa-plus"></i></button>
+                                        </div>
 
-                                    <div class="col-lg-12">
-                                        <h5>Promo chosen:</h5>
-                                        <div style="display:flex; overflow:auto;">
-                                            <div id="promotion_code" style="display:flex;">
-                                                <span id="span_promo_code">No Promo Codes Added</span>
+                                        <div class="col-lg-12">
+                                            <h5>Promo chosen:</h5>
+                                            <div style="display:flex; overflow:auto;">
+                                                <div id="promotion_code" style="display:flex;">
+                                                    <span id="span_promo_code">No Promo Codes Added</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <script>
-                                        {% if use_osi_code_backend == True %}
-                                            {% if 'co_customer_parent_osi_codes' in username %}
-                                                {% for key, osi_code in username.co_customer_parent_osi_codes.items %}
-                                                    add_promotion_code('{{key}}', '{{osi_code}}');
+                                        <script>
+                                            {% if use_osi_code_backend == True %}
+                                                {% if 'co_customer_parent_osi_codes' in username %}
+                                                    {% for key, osi_code in username.co_customer_parent_osi_codes.items %}
+                                                        add_promotion_code('{{key}}', '{{osi_code}}');
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% for promo_code in promo_codes %}
+                                                    add_promotion_code('{{promo_code.carrier_code}}','{{promo_code.promo_code}}');
                                                 {% endfor %}
-                                            {% endif %}
-                                        {% else %}
-                                            {% for promo_code in promo_codes %}
-                                                add_promotion_code('{{promo_code.carrier_code}}','{{promo_code.promo_code}}');
-                                            {% endfor %}
-                                        {%endif %}
-                                    </script>
-                                </div>
-                            </ul>
+                                            {%endif %}
+                                        </script>
+                                    </div>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

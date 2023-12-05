@@ -1,4 +1,5 @@
 var div_overlay_checked=0;
+
 $(document).ready(function(){
     var sort_price=0;
     var sort_duration=0;
@@ -2213,16 +2214,6 @@ $(document).ready(function(){
 $('.dropdown-menu').on('click', function(event) {
 	event.stopPropagation();
 });
-
-if(template == 7){
-    //dropdown kalo double klik
-    $('.dropdown-toggle').click(function(e) {
-        e.preventDefault();
-        $(this).parent().addClass("show");
-        $(this).attr("aria-expanded", "true");
-        $(this).next().addClass("show");
-    });
-}
 
 $('body').on('click', function(event) {
 	var target = $(event.target);
