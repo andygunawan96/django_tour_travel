@@ -799,7 +799,7 @@ def issued_booking(request):
             'voucher': {}
         }
         if request.POST.get('pin'):
-            data['pin'] = encrypt_pin(encrypt_pin(request.POST['pin']))
+            data['pin'] = encrypt_pin(request.POST['pin'])
         try:
             if request.POST['use_point'] == 'false':
                 data['use_point'] = False
