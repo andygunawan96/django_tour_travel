@@ -1154,7 +1154,7 @@ function render_object_from_value(val){
 
         text+=`
         <div style="margin-bottom:5px;">
-            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
+            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show YPM"/>
         </div>`;
 
     text+=`<center>
@@ -1204,7 +1204,7 @@ function hotel_room_pick_button(total_commission, currency){
         text+=`</div>`
         text+=`
         <div class="col-lg-12">
-            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
+            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show YPM"/>
         </div>`;
     }
     text += `

@@ -24,11 +24,11 @@
 
             {% if username.co_user_login == default_user %}
             {% include 'tt_website/html_include/header_signin_signup.html' %}
-            {% endif %}
-
-            <div class="col-lg-6 sign_in_up" {% if 'b2c_limitation' in username.co_agent_frontend_security %} hidden {% endif %}>
+            {% else %}
+            <div class="col-lg-6 sign_in_up">
                 {% include 'tt_website/balance_credit.html' %}
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

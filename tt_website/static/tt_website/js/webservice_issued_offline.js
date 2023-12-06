@@ -4,27 +4,29 @@ agent_offside = 0;
 function get_data_issued_offline(){
     getToken();
     $.ajax({
-       type: "POST",
-       url: "/webservice/issued_offline",
-       headers:{
+        type: "POST",
+        url: "/webservice/issued_offline",
+        headers:{
             'action': 'get_data',
-       },
-       data: {},
-       success: function(msg) {
-           issued_offline_data = msg;
-           text = '<option value="">Select</option>';
-           for(i in issued_offline_data.transaction_type){
-               text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
-           }
-           document.getElementById('transaction_type').innerHTML = text;
-           $('#transaction_type').niceSelect('update');
+        },
+        data: {
+            'signature': signature
+        },
+        success: function(msg) {
+            issued_offline_data = msg;
+            text = '<option value="">Select</option>';
+            for(i in issued_offline_data.transaction_type){
+                text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
+            }
+            document.getElementById('transaction_type').innerHTML = text;
+            $('#transaction_type').niceSelect('update');
 
-           text = '<option value=""></option>';
-           for(i in issued_offline_data.sector_type){
-               text+= `<option value='`+issued_offline_data.sector_type[i][0]+`'>`+issued_offline_data.sector_type[i][1]+`</option>`;
-           }
-           document.getElementById('sector').innerHTML = text;
-           $('#sector').niceSelect('update');
+            text = '<option value=""></option>';
+            for(i in issued_offline_data.sector_type){
+                text+= `<option value='`+issued_offline_data.sector_type[i][0]+`'>`+issued_offline_data.sector_type[i][1]+`</option>`;
+            }
+            document.getElementById('sector').innerHTML = text;
+            $('#sector').niceSelect('update');
 
 
 //           text = '<option value=""></option>';
@@ -34,12 +36,250 @@ function get_data_issued_offline(){
 //           document.getElementById('carrier_id').innerHTML = text;
 //           $('#carrier_id').niceSelect('update');
 
-           text = '<option value=""></option>';
-           for(i in issued_offline_data.social_media_id){
-               text+= `<option value='`+issued_offline_data.social_media_id[i].name+`'>`+issued_offline_data.social_media_id[i].name+`</option>`;
-           }
-           document.getElementById('social_media').innerHTML = text;
-           $('#social_media').niceSelect('update');
+            text = '<option value=""></option>';
+            for(i in issued_offline_data.social_media_id){
+                text+= `<option value='`+issued_offline_data.social_media_id[i].name+`'>`+issued_offline_data.social_media_id[i].name+`</option>`;
+            }
+            document.getElementById('social_media').innerHTML = text;
+            $('#social_media').niceSelect('update');
+
+            if(msg.hasOwnProperty('cache')){
+                document.getElementById('timelimit').value = moment().add(1, 'days').format('DD MMM YYYY hh:mm:SS A');
+                document.getElementById('transaction_type').value = msg.cache.product_type;
+                if(document.getElementById('transaction_type').value == '')
+                    document.getElementById('transaction_type').value = 'other';
+                $('#transaction_type').niceSelect('update');
+                change_transaction_type();
+                current_product_line = 0;
+                country_list = [];
+                if(['airline', 'train'].includes(msg.cache.product_type)){
+                    for(x in msg.cache.booking_data_product.result.response.provider_bookings){
+                        for(y in msg.cache.booking_data_product.result.response.provider_bookings[x].journeys){
+                            if(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].hasOwnProperty('segments')){
+                                for(z in msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments){
+                                    if(country_list.includes(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[z].origin_country))
+                                        country_list.push(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[z].origin_country)
+                                    if(country_list.includes(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[z].destination_country))
+                                        country_list.push(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[z].destination_country)
+                                }
+                            }
+                            add_table_of_line(document.getElementById('transaction_type').value);
+                            document.getElementById('origin'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].origin + ' - ' + msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].origin_city + ' - ' + msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].origin_country + ' - ' + msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].origin_name;
+                            document.getElementById('destination'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].destination + ' - ' + msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].destination_city + ' - ' + msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].destination_country + ' - ' + msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].destination_name;
+                            document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].pnr;
+                            if(msg.cache.product_type == 'airline'){
+                                document.getElementById('departure'+current_product_line).value = moment(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].departure_date).format('DD MMM YYYY hh:mm:SS A');
+                                document.getElementById('arrival'+current_product_line).value = moment(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].arrival_date).format('DD MMM YYYY hh:mm:SS A');
+                                document.getElementById('carrier_number'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[0].carrier_number;
+                                if(document.getElementById('provider_data'+current_product_line) && msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments.length > 0){
+                                    $('#provider_data'+current_product_line).val(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[0].carrier_code).trigger('change');
+                                    if(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[0].cabin_class == 'Y')
+                                        document.getElementById('class'+current_product_line).value = 'eco';
+                                    else if(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[0].cabin_class == 'W')
+                                        document.getElementById('class'+current_product_line).value = 'pre';
+                                    else if(msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[0].cabin_class == 'C')
+                                        document.getElementById('class'+current_product_line).value = 'bus';
+                                    document.getElementById('sub_class'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].segments[0].class_of_service;
+                                    $('#class'+current_product_line).niceSelect('update');
+                                    set_data(current_product_line,'provider')
+                                }
+                                if(document.getElementById('sector')){
+                                    if(country_list.length > 1)
+                                        document.getElementById('sector').value = 'international'
+                                    else
+                                        document.getElementById('sector').value = 'domestic'
+                                    $('#sector').niceSelect('update');
+                                }
+                            }else if(msg.cache.product_type == 'train'){
+                                document.getElementById('departure'+current_product_line).value = moment(msg.cache.booking_data_product.result.response.provider_bookings[x].departure_date).format('DD MMM YYYY hh:mm:SS A');
+                                document.getElementById('arrival'+current_product_line).value = moment(msg.cache.booking_data_product.result.response.provider_bookings[x].arrival_date).format('DD MMM YYYY hh:mm:SS A');
+                                document.getElementById('carrier_number'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].carrier_number;
+                                document.getElementById('sub_class'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].class_of_service;
+                            }
+                            current_product_line++;
+                        }
+                    }
+                }else if(msg.cache.product_type == 'activity'){
+                    try{
+                        for(x in msg.cache.booking_data_product.result.response.provider_booking){
+                            for(y in msg.cache.booking_data_product.result.response.provider_booking[x].activity_details){
+                                add_table_of_line(document.getElementById('transaction_type').value);
+                                document.getElementById('activity_name'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_booking[x].activity_details[y].activity;
+                                document.getElementById('activity_package'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_booking[x].activity_details[y].activity_type;
+                                document.getElementById('activity_qty'+current_product_line).value = '1';
+                                document.getElementById('activity_datetime'+current_product_line).value = moment(msg.cache.booking_data_product.result.response.provider_booking[x].activity_details[y].visit_date).format('DD MMM YYYY hh:mm:SS A');
+                                document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_booking[x].pnr;
+                                document.getElementById('activity_description'+current_product_line).value = 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                                current_product_line++;
+                            }
+                        }
+                    }catch(err){console.log(err);}
+
+
+                }else if(msg.cache.product_type == 'hotel'){
+                    for(x in msg.cache.booking_data_product.result.response.provider_bookings){
+                        for(y in msg.cache.booking_data_product.result.response.provider_bookings[x].rooms){
+                            add_table_of_line(document.getElementById('transaction_type').value);
+                            document.getElementById('hotel_name'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].hotel_name;
+                            document.getElementById('hotel_room'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].rooms[y].room_name;
+                            document.getElementById('hotel_qty'+current_product_line).value = '1';
+                            for(z in msg.cache.booking_data_product.result.response.provider_bookings[x].rooms[y].dates){
+                                if(z == 0){
+                                    document.getElementById('hotel_check_in'+current_product_line).value = moment(msg.cache.booking_data_product.result.response.provider_bookings[x].rooms[y].dates[z].date).format('DD MMM YYYY') + ' 14:00:00 PM';
+                                }
+                                document.getElementById('hotel_check_out'+current_product_line).value = moment(msg.cache.booking_data_product.result.response.provider_bookings[x].rooms[y].dates[z].date).add(1,'days').format('DD MMM YYYY') + ' 12:00:00 PM';
+                            }
+                            document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].pnr;
+                            document.getElementById('hotel_description'+current_product_line).value = 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                            current_product_line++;
+                        }
+                    }
+                }else if(msg.cache.product_type == 'insurance'){
+                    for(x in msg.cache.booking_data_product.result.response.provider_bookings){
+                        add_table_of_line(document.getElementById('transaction_type').value);
+                        document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_bookings[x].pnr;
+                        description = '';
+                        description += 'Destination: ' + msg.cache.booking_data_product.result.response.provider_bookings[x].destination + '\n';
+                        description +=  msg.cache.booking_data_product.result.response.provider_bookings[x].carrier_name+'\n';
+                        description += moment(msg.cache.booking_data_product.result.response.provider_bookings[x].start_date).format('DD MMM YYYY') + ' - ' + moment(msg.cache.booking_data_product.result.response.provider_bookings[x].end_date).format('DD MMM YYYY');
+                        description += 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                        document.getElementById('other_description'+current_product_line).innerHTML = description;
+                        current_product_line++;
+                    }
+                }else if(msg.cache.product_type == 'ppob'){
+                    for(x in msg.cache.booking_data_product.result.response.provider_booking){
+                        add_table_of_line(document.getElementById('transaction_type').value);
+                        document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_booking[x].pnr;
+                        description = '';
+                        description +=  msg.cache.booking_data_product.result.response.provider_booking[x].carrier_name + '\n';
+                        if(msg.cache.booking_data_product.result.response.provider_booking[x].hasOwnProperty('customer_id_number'))
+                            description +=  'Customer Number: ' + msg.cache.booking_data_product.result.response.provider_booking[x].customer_id_number+'\n';
+                        if(msg.cache.booking_data_product.result.response.provider_booking[x].hasOwnProperty('customer_name'))
+                            description +=  'Customer Name: ' + msg.cache.booking_data_product.result.response.provider_booking[x].customer_name+'\n';
+                        description += 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                        document.getElementById('other_description'+current_product_line).innerHTML = description;
+                        current_product_line++;
+                    }
+                }else if(msg.cache.product_type == 'tour'){
+                    for(x in msg.cache.booking_data_product.result.response.provider_booking){
+                        add_table_of_line(document.getElementById('transaction_type').value);
+                        document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.provider_booking[x].pnr;
+                        description = '';
+                        description += msg.cache.booking_data_product.result.response.tour_details.name + '\n';
+                        description += msg.cache.booking_data_product.result.response.tour_details.departure_date_str + ' - ' + msg.cache.booking_data_product.result.response.tour_details.arrival_date_str + '\n';
+                        description += 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                        document.getElementById('other_description'+current_product_line).innerHTML = description;
+                        current_product_line++;
+                    }
+                }else if(msg.cache.product_type == 'visa'){
+                    add_table_of_line(document.getElementById('transaction_type').value);
+                    document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.pnr;
+                    description = '';
+                    description += msg.cache.booking_data_product.result.response.journey.country + '\n';
+                    description += msg.cache.booking_data_product.result.response.journey.departure_date + '\n';
+                    description += 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                    document.getElementById('other_description'+current_product_line).innerHTML = description;
+                    current_product_line++;
+                }else if(msg.cache.product_type == 'event'){
+                    add_table_of_line(document.getElementById('transaction_type').value);
+                    document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.pnr;
+                    description = '';
+                    description += msg.cache.booking_data_product.result.response.event_name+ '\n';
+
+                    for(x in msg.cache.booking_data_product.result.response.event_location){
+                        description += 'Location: ';
+                        if(msg.cache.booking_data_product.result.response.event_location[x].name)
+                            description += msg.cache.booking_data_product.result.response.event_location[x].name;
+                        if(msg.cache.booking_data_product.result.response.event_location[x].address)
+                            description += ', ' + msg.cache.booking_data_product.result.response.event_location[x].address;
+                        if(msg.cache.booking_data_product.result.response.event_location[x].city)
+                            description += ', ' + msg.cache.booking_data_product.result.response.event_location[x].city;
+                        if(msg.cache.booking_data_product.result.response.event_location[x].country)
+                            description += ', ' + msg.cache.booking_data_product.result.response.event_location[x].country;
+                        description += '\n';
+                    }
+                    description += 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                    document.getElementById('other_description'+current_product_line).innerHTML = description;
+                    current_product_line++;
+                }else if(msg.cache.product_type == 'bus'){
+                    add_table_of_line(document.getElementById('transaction_type').value);
+                    document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.pnr;
+                    description = '';
+                    for(x in msg.cache.booking_data_product.result.response.provider_bookings){
+                        for(y in msg.cache.booking_data_product.result.response.provider_bookings[x].journeys){
+                            description += msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].carrier_name + ' ' + msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].carrier_number + '\n';
+                            description += 'Origin\n';
+                            description += msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].origin_name + '\n';
+                            description += msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].departure_date + '\n';
+                            description += 'Destination\n';
+                            description += msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].destination_name + '\n';
+                            description += msg.cache.booking_data_product.result.response.provider_bookings[x].journeys[y].arrival_date + '\n';
+                        }
+                    }
+                    description += 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                    document.getElementById('other_description'+current_product_line).innerHTML = description;
+                    current_product_line++;
+                }else if(msg.cache.product_type == 'mitrakeluarga'){
+                    add_table_of_line(document.getElementById('transaction_type').value);
+                    document.getElementById('pnr'+current_product_line).value = msg.cache.booking_data_product.result.response.pnr;
+                    description = '';
+                    for(x in msg.cache.booking_data_product.result.response.provider_bookings){
+                        description += msg.cache.booking_data_product.result.response.provider_bookings[x].carrier_name + '\n';
+                        description += msg.cache.booking_data_product.result.response.provider_bookings[x].additional_info + '\n';
+                    }
+                    description += 'Order Number: ' + msg.cache.booking_data_product.result.response.order_number;
+                    document.getElementById('other_description'+current_product_line).innerHTML = description;
+                    current_product_line++;
+                }
+                if(msg.cache.booking_data_product.result.response.hasOwnProperty('booker')){
+                    title = '';
+                    if(msg.cache.booking_data_product.result.response.booker.gender == 'male')
+                        title = 'MR';
+                    else{
+                        if(msg.cache.booking_data_product.result.response.booker.marital_status == 'married')
+                            title = 'MRS';
+                        else
+                            title = 'MS';
+                    }
+                    document.getElementById('booker_title').value = title;
+                    document.getElementById('booker_first_name').value = msg.cache.booking_data_product.result.response.booker.first_name;
+                    document.getElementById('booker_last_name').value = msg.cache.booking_data_product.result.response.booker.last_name;
+                    $('#booker_nationality_id').val(msg.cache.booking_data_product.result.response.booker.nationality_code).trigger('change');
+                    document.getElementById('booker_email').value = msg.cache.booking_data_product.result.response.booker.email;
+                    $('#booker_phone_code_id').val(msg.cache.booking_data_product.result.response.booker.phones[0].calling_code).trigger('change');
+                    document.getElementById('booker_phone').value = msg.cache.booking_data_product.result.response.booker.phones[0].calling_number;
+                    $('#booker_title').niceSelect('update');
+                    update_contact('booker');
+                }
+                if(msg.cache.booking_data_product.result.response.hasOwnProperty('passengers')){
+                    for(x in msg.cache.booking_data_product.result.response.passengers){
+                        add_table_of_passenger();
+                        current_pax_number = parseInt(parseInt(x) + 1);
+                        if(msg.cache.booking_data_product.result.response.passengers[x].title)
+                            document.getElementById('adult_title'+current_pax_number).value = msg.cache.booking_data_product.result.response.passengers[x].title;
+                        document.getElementById('adult_first_name'+current_pax_number).value = msg.cache.booking_data_product.result.response.passengers[x].first_name;
+                        document.getElementById('adult_last_name'+current_pax_number).value = msg.cache.booking_data_product.result.response.passengers[x].last_name;
+                        $('#adult_nationality'+current_pax_number+'_id').val(msg.cache.booking_data_product.result.response.passengers[x].nationality_code).trigger('change');
+                        if(msg.cache.booking_data_product.result.response.passengers[x].birth_date)
+                            document.getElementById('adult_birth_date'+current_pax_number).value = msg.cache.booking_data_product.result.response.passengers[x].birth_date;
+                        if(msg.cache.booking_data_product.result.response.passengers[x].identity_type){
+                            document.getElementById('adult_identity_type'+current_pax_number).value = msg.cache.booking_data_product.result.response.passengers[x].identity_type;
+                            document.getElementById('adult_identity_number'+current_pax_number).value = msg.cache.booking_data_product.result.response.passengers[x].identity_number;
+                            if(msg.cache.booking_data_product.result.response.passengers[x].identity_expdate)
+                                document.getElementById('adult_identity_expired_date'+current_pax_number).value = moment(msg.cache.booking_data_product.result.response.passengers[x].identity_expdate).format('DD MMM YYYY');
+                            $('#adult_country_of_issued'+current_pax_number+'_id').val(msg.cache.booking_data_product.result.response.passengers[x].identity_country_of_issued_code).trigger('change');
+                        }
+                        if(msg.cache.booking_data_product.result.response.passengers[x].hasOwnProperty('behaviors')){
+                            if(msg.cache.booking_data_product.result.response.passengers[x].behaviors.hasOwnProperty(msg.cache.product_type)){
+                                document.getElementById('adult_behaviors_'+current_pax_number).innerHTML = msg.cache.booking_data_product.result.response.passengers[x].behaviors[msg.cache.product_type];
+                            }
+                        }
+                        $('#adult_title'+current_pax_number).niceSelect('update');
+                        $('#adult_identity_type'+current_pax_number).niceSelect('update');
+                        update_contact('passenger',current_pax_number)
+                    }
+                }
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data issued offline');
@@ -2013,7 +2253,7 @@ function get_booking_offline(data){
                         commission = msg.result.response.commission;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                             text_detail+=`
-                            <div class="row" id="show_commission" style="display:block;">
+                            <div class="row" id="show_commission" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="alert alert-success">
                                         <div class="row">
@@ -2084,7 +2324,7 @@ function get_booking_offline(data){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`
                             <div style="margin-bottom:5px;">
-                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
+                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show YPM"/>
                             </div>`;
                         text_detail+=`
                     </div>`;

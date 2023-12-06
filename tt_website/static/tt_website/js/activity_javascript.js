@@ -460,7 +460,7 @@ function activity_table_detail(){
                text+=`
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
+                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
                    </div>
                </div>`;
 
@@ -845,7 +845,7 @@ function activity_table_detail2(pagetype){
                text+= `
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-xs-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
+                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
                    </div>
                </div>`;
    document.getElementById('activity_detail_table').innerHTML = text;

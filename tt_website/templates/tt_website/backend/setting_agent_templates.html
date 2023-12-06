@@ -78,19 +78,20 @@
             </div>
             <div class="col-lg-3 mb-3">
                 <ul class="main_menu_tabs" id="identity">
+
+                    <li class="main_menu_link current" id="tab-security-li" data-tab="tab-security">
+                        <h5>
+                            <i class="fas fa-info-circle"></i> Security
+                        </h5>
+                    </li>
+
                     {% if "agent_setting_printout" in username.co_agent_frontend_security %}
-                    <li class="main_menu_link current" id="tab-printout-li" data-tab="tab-printout">
+                    <li class="main_menu_link" id="tab-printout-li" data-tab="tab-printout">
                         <h5>
                             <i class="fas fa-print"></i> Printout
                         </h5>
                     </li>
                     {% endif %}
-
-                    <li class="main_menu_link {% if "agent_setting_printout" not in username.co_agent_frontend_security %} current {% endif %}" id="tab-security-li" data-tab="tab-security">
-                        <h5>
-                            <i class="fas fa-info-circle"></i> Security
-                        </h5>
-                    </li>
 
                     {% if "b2c_limitation" in username.co_agent_frontend_security %}
                     <li class="main_menu_link" id="tab-user-li" data-tab="tab-user">
@@ -105,7 +106,7 @@
                 <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% if "agent_setting_printout" in username.co_agent_frontend_security %}
-                    <div id="tab-printout" class="main_menu_content current">
+                    <div id="tab-printout" class="main_menu_content">
                         <div class="row">
                             <div class="col-lg-12">
                                 <button type="button" class="accordion" data-tab="tab-printout">
@@ -147,7 +148,7 @@
                     </div>
                     {% endif %}
 
-                    <div id="tab-security" class="main_menu_content {% if "agent_setting_printout" not in username.co_agent_frontend_security %} current {% endif %}">
+                    <div id="tab-security" class="main_menu_content current">
                         <div class="row">
                             <div class="col-lg-12">
                                 <button type="button" class="accordion" data-tab="tab-security">

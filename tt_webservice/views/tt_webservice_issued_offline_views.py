@@ -127,8 +127,17 @@ def signin(request):
 def get_data(request):
     try:
         response = get_cache_data(request)
-
         res = response['result']['response']['issued_offline']
+
+        file = read_cache_file(request, request.POST['signature'], 'data_cache_offline')
+        if file:
+            res.update({
+                "cache": file
+            })
+        write_cache_file(request, request.POST['signature'], 'data_cache_offline', {
+            'product_type': request.POST['product_type'],
+            'booking_data_product': request.POST['booking_data_product']
+        })
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     # res = search2(request)

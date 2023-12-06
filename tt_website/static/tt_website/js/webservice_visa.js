@@ -901,22 +901,24 @@ function visa_get_data(data){
     price_arr_repricing = {};
     get_vendor_balance('false');
     $.ajax({
-       type: "POST",
-       url: "/webservice/visa",
-       headers:{
+        type: "POST",
+        url: "/webservice/visa",
+        headers:{
             'action': 'get_booking',
-       },
-       data: {
+        },
+        data: {
             'order_number': data,
             'signature': signature
-       },
-       success: function(msg) {
+        },
+        success: function(msg) {
             try{
                 document.getElementById('button-home').hidden = false;
                 document.getElementById('button-new-reservation').hidden = false;
                 if(msg.result.error_code == 0){
                     visa_get_detail = msg;
                     visa = msg.result.response;
+                    document.getElementById('button_new_offline').hidden = false;
+                    document.getElementById('booking_data_product').value = JSON.stringify(msg);
                     var cur_state = msg.result.response.journey.state;
                     var cur_state_visa = msg.result.response.journey.state_visa;
                     if(cur_state == 'booked'){

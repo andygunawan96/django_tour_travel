@@ -83,37 +83,30 @@ function render_payment(){
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                 if(typeof(payment_ho) !== 'undefined' && total_price_payment_acq > 0 && type_render != 'top_up' && payment_ho.length > 0){
                     text+=`
-                        <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment to HO: </h6>`;
-                        if(template == 1 || template == 5){
-                            text+=`<div class="input-container-search-ticket btn-group">`;
-                        }else if(template == 4){
-                            text+=`<div style="display:flex; margin-bottom:15px; width:100%;">`;
-                        }else{
-                            text+=`<div>`;
-                        }
-                        if(template == 1 || template == 2 || template == 4 || template == 5){
-                            text+=`<div class="form-select" id="default-select">`;
-                        }else if(template == 3){
-                            text+=`<div class="default-select" style="margin-bottom:15px;">`;
-                        }
-                        if(template == 4){
-                            text+=`<select class="nice-select-default rounded payment_method" id="payment_ho_id" onchange="set_payment_method_ho();">`;
-                        }else{
-                            text+=`<select class="payment_method" id="payment_ho_id" onchange="set_payment_method_ho();">`;
-                        }
-                        for(i in payment_ho){
-                            text+=`<option value="`+payment_ho[i].payment_method+`">`+payment_ho[i].name+`</option>`;
-                        }
-                        text+=`</select>
+                    <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment to HO: </h6>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select-2" style="margin-bottom:15px;">
+                            <select class="nice-select-default payment_method" id="payment_ho_id" onchange="set_payment_method_ho();">`;
+                                for(i in payment_ho){
+                                    text+=`<option value="`+payment_ho[i].payment_method+`">`+payment_ho[i].name+`</option>`;
+                                }
+                            text+=`
+                            </select>
                         </div>
                     </div>
                     <div id="payment_method_ho_detail">
                     </div>
-                    <hr id="payment_method_ho_break_div" style="display:none;"/>`;
+                    <div id="payment_method_ho_break_div" style="display:none;"/>`;
                     payment_counter++;
                 }
             }
 
+            text+=`
+            <div style="padding-top:15px;"></div>`;
+            if(payment_counter == 1 && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false) // agar tidak binggung kalau b2c
+                text+=`<h6 style="padding-bottom:10px;">`+payment_counter+`. Payment: </h6>`;
+            else // untuk agent agar bisa bedakan payment customer / payment ke HO (untuk agent yg punya credit limit saja)
+                text+=`<h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Customer to Agent: </h6>`;
             text+=`
                 <div class="row">
                     <div class="col-lg-12">
@@ -124,60 +117,43 @@ function render_payment(){
                         </label><br/>
                     </div>
                 </div>
-            `;
+            </div>`;
             text+=`
-                <div id="attach_pay_ref" style="display:none; margin-bottom:15px;">
-                    <span class="control-label" for="pay_ref_text">Payment Reference</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control o_website_form_input" id="pay_ref_text" name="pay_ref_text" placeholder="Payment Reference"/>
-                    </div>
+            <div id="attach_pay_ref" style="display:none; margin-bottom:15px;">
+                <span class="control-label" for="pay_ref_text">Payment Reference</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control o_website_form_input" id="pay_ref_text" name="pay_ref_text" placeholder="Payment Reference"/>
+                </div>
 
-                    <span class="control-label" for="pay_ref_file">Payment Ref Attachment</span>
-                    <div class="input-container-search-ticket">
-                        <input type="file" class="form-control o_website_form_input" id="pay_ref_file" name="pay_ref_file" multiple/>
+                <span class="control-label" for="pay_ref_file">Payment Ref Attachment</span>
+                <div class="input-container-search-ticket">
+                    <input type="file" class="form-control o_website_form_input" id="pay_ref_file" name="pay_ref_file" multiple/>
+                </div>
+            </div>`;
+
+            text+=`
+                <div class="input-container-search-ticket">
+                    <div class="form-select-2">
+                        <select class="nice-select-default payment_method" id="payment_via" onchange="set_payment('`+val_render+`','`+type_render+`');">`;
+                            for(i in payment_acq2){
+                                print = '';
+                                if(i == 'va')
+                                    print = 'Virtual Account';
+                                else{
+                                    data_temp = i.split('_').join(' ')
+                                    print = data_temp.charAt(0).toUpperCase() + data_temp.slice(1).toLowerCase();
+                                }
+                                text+=`<option value="`+i+`">`+print+`</option>`;
+                            }
+                        text+=`
+                        </select>
                     </div>
                 </div>`;
-            if(payment_counter == 1 && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false) // agar tidak binggung kalau b2c
-                text+=`
-            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment: </h6>`;
-            else // untuk agent agar bisa bedakan payment customer / payment ke HO (untuk agent yg punya credit limit saja)
-                text+=`
-            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Customer to Agent: </h6>`;
-            if(template == 1 || template == 5){
-                text+=`<div class="input-container-search-ticket btn-group">`;
-            }else if(template == 4){
-                text+=`<div style="display:flex; margin-bottom:15px; width:100%;">`;
-            }else{
-                text+=`<div>`;
-            }
-            if(template == 1 || template == 2 || template == 4 || template == 5){
-                text+=`<div class="form-select" id="default-select">`;
-            }else if(template == 3){
-                text+=`<div class="default-select" style="margin-bottom:15px;">`;
-            }
-            if(template == 4){
-                text+=`<select class="nice-select-default rounded payment_method" id="payment_via" onchange="set_payment('`+val_render+`','`+type_render+`');">`;
-            }else{
-                text+=`<select class="payment_method" id="payment_via" onchange="set_payment('`+val_render+`','`+type_render+`');">`;
-            }
-            for(i in payment_acq2){
-                print = '';
-                if(i == 'va')
-                    print = 'Virtual Account';
-                else{
-                    data_temp = i.split('_').join(' ')
-                    print = data_temp.charAt(0).toUpperCase() + data_temp.slice(1).toLowerCase();
-                }
-                text+=`<option value="`+i+`">`+print+`</option>`;
-            }
-            text+=`</select>
-            </div>
-        </div>`;
 
+                text+=`
+                <div id="payment_description" style="text-align:left;"></div>`;
             text+=`
-            <div id="payment_description" style="text-align:left;"></div>`;
-        text+=`
-        </div>`;
+            </div>`;
 
             document.getElementById('payment_acq').innerHTML = text;
             $('.payment_acq_btn').prop('disabled', false);
@@ -239,18 +215,26 @@ function set_payment_method_ho(){
     if(document.getElementById('payment_ho_id') && document.getElementById('payment_ho_id').value == 'credit_limit' && typeof(total_commission_payment_acquirer) !== 'undefined'){
         text += `
                 <div class="row">
-                    <div class="col-sm-5" style="text-align:left;">
-                        <span style="font-size:13px;"> Price: </span><br>
-                        <span style="font-size:13px;;"> Fee: </span><br>
-                        <span style="font-size:14px; font-weight:500;">Grand Total</span><br>
+                    <div class="col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">Price</span><br>
                     </div>
-                    <div class="col-sm-7" style="text-align:right;">
+                    <div class="col-xs-6" style="text-align:right;">
                         <span style="font-size:13px;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].price_component.amount)+`</span><br>
+                    </div>
+                    <div class="col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">Fee</span><br>
+                    </div>
+                    <div class="col-xs-6" style="text-align:right;">
                         <span style="font-size:13px;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].price_component.fee)+`</span><br>
-                        <span style="font-size:14px;font-weight:500;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].total_amount)+`</span><br>
+                    </div>
+                    <div class="col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">Grand Total</span><br>
+                    </div>
+                    <div class="col-xs-6" style="text-align:right;">
+                        <span style="font-size:14px; font-weight:bold;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].total_amount)+`</span><br>
                     </div>
                 </div>
-                <div class="row mt-3" id="show_commission_payment_acq_ho" style="display: block;">
+                <div class="row mt-3" id="show_commission_payment_acq_ho" style="display: none;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
                             <div class="row">
@@ -265,7 +249,7 @@ function set_payment_method_ho(){
                     </div>
                 </div>
                 <div class="mt-3">
-                    <input class="primary-btn-white" id="show_commission_payment_acq_ho_button" style="width:100%;" type="button" onclick="show_commission_payment_acq();" value="Hide YPM">
+                    <input class="primary-btn-white" id="show_commission_payment_acq_ho_button" style="width:100%;" type="button" onclick="show_commission_payment_acq();" value="Show YPM">
                 </div>`;
     }
     if(document.getElementById('payment_method_ho_detail'))
@@ -308,15 +292,12 @@ function set_payment(val, type){
         else{
             if(payment_method != 'payment_gateway' || payment_acq2[payment_method][i].show_device_type != 'mobile'){
                 text+=`
-
                 <label class="radio-button-custom" style="margin-top:15px;">
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>`;
-
-                if(payment_acq2[payment_method][i].image){
-                    text+=`<img width="50px" height="auto" alt="Logo `+payment_acq2[payment_method][i].name+`" src="`+payment_acq2[payment_method][i].image+`"/></span>`;
-                }
-
-                text+=`
+                    if(payment_acq2[payment_method][i].image){
+                        text+=`<img width="50px" height="auto" alt="Logo `+payment_acq2[payment_method][i].name+`" src="`+payment_acq2[payment_method][i].image+`"/></span>`;
+                    }
+                    text+=`
                     <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`'); next_input_pin();">
                     <span class="checkmark-radio"></span>
                 </label>
@@ -345,67 +326,58 @@ function set_price(val, type, product_type){
     text += ` <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Detail: </h6>`;
     if(payment_method != 'credit_limit'){
         if(payment_method == 'payment_gateway' && payment_acq2[payment_method][selected].online_wallet == true){
-            text+=`<div class='row'>
+            text+=`
+            <div class='row'>
                 <div class="col-sm-12" style='text-align:left;'>
-                <span style="font-size:13px;"> Phone Number: </span>
-
-                </div>
-                <div class="col-sm-12">
+                    <span style="font-size:13px;"> Phone Number</span><br/>
                     <input class="form-control" placeholder="Phone Number" type='text' id="phone_number"/>
                 </div>`;
         }else{
-        text+=`<div class='row'>
-                <div class="col-sm-5" style='text-align:left;'>
-                <span style="font-size:13px;"> Account Number: </span><br>
-                <span style="font-size:13px;;"> Account Name: </span>
+            text+=`
+            <div class='row'>
+                <div class="col-xs-12" style="text-align:left;">
+                    <b>Account Number </b>
+                    <i>`;
+                    if(payment_acq2[payment_method][selected].account_number)
+                        text+=`<span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number+`</span>`;
+                    else
+                        text+=`<span style="font-size:14px; font-weight:500;">-</span>`;
 
+                    if(type == 'top_up' && payment_acq2[payment_method][selected].account_number){
+                        text+=`
+                        <span style="float: right; cursor: pointer;color:`+color+`" onclick="copy_data_account('`+payment_acq2[payment_method][selected].account_number+`');">
+                            <i class="fa fa-clone" aria-hidden="true"></i>
+                        </span>`
+                    }
+                    text+=`
+                    </i><br>
                 </div>
-                <div class="col-sm-7" style='text-align:right;'>`;
-                if(payment_acq2[payment_method][selected].account_number)
-                    text+=`
-                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number+`</span>`;
-                else
-                    text+=`
-                    <span style="font-size:14px; font-weight:500;">-</span>`;
-                if(type == 'top_up' && payment_acq2[payment_method][selected].account_number){
-                    text+=`
-                    <span style="float: right; cursor: pointer;color:`+color+`" onclick="copy_data_account('`+payment_acq2[payment_method][selected].account_number+`');">
-                        <i class="fa fa-clone" aria-hidden="true"></i>
-                    </span>`
-                }
-                text+=`<br/>
-                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_name+`<br>
+                <div class="col-xs-12" style="text-align:left;">
+                    <b>Account Name </b>
+                    <i>`+payment_acq2[payment_method][selected].account_name+`</i>
                 </div>`;
         }
     }else if(payment_method == 'credit_limit'){
-        text+=`<div class='row'>
-                <div class="col-sm-5" style='text-align:left;'>
-                <span style="font-size:13px;;"> Account Name: </span>
-
-                </div>
-                <div class="col-sm-7" style='text-align:right;'>
-                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].name+`<br>
-                </div>`;
-        text+= `<div class='col-sm-6' style='text-align:left;'>
-                    <span>Credit Limit:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].credit_limit)+`</span>
-                </div>`;
-        usage = payment_acq2[payment_method][selected].credit_limit - payment_acq2[payment_method][selected].actual_balance;
-        text+= `<div class='col-sm-6' style='text-align:left;'>
-                    <span>Usage:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(usage)+`</span>
-                </div>`;
-        text+= `<div class='col-sm-6' style='text-align:left;'>
-                    <span>Balance:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].actual_balance)+`</span>
-                </div>`;
-
+        text+=`
+        <div class='row'>
+            <div class="col-xs-12" style='text-align:left;'>
+                <b>Account Name </b>
+                <i>`+payment_acq2[payment_method][selected].name+`</i>
+            </div>
+            <div class='col-xs-12' style='text-align:left;'>
+                <b>Credit Limit </b>
+                <i>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].credit_limit)+`</i>
+            </div>`;
+            usage = payment_acq2[payment_method][selected].credit_limit - payment_acq2[payment_method][selected].actual_balance;
+            text+=
+            `<div class='col-lg-12' style='text-align:left;'>
+                <b>Usage </b>
+                <i>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(usage)+`</i>
+            </div>
+            <div class='col-sm-12' style='text-align:left;'>
+                <b>Balance </b><br/>
+                <i>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].actual_balance)+`</i>
+            </div>`;
     }
     if(type == 'top_up' && payment_method == 'va'){
         var temp = payment_acq2[payment_method][selected].name.split(' ');
@@ -413,7 +385,8 @@ function set_price(val, type, product_type){
         for(i in temp)
           if(i > 1)
             temp_data += temp[i] + ' '
-        text+= `<div class="col-sm-12" data-id="253" data-token="">
+            text+= `
+            <div class="col-sm-12" data-id="253" data-token="">
 
             <div>
             <div id="mandiri_va_acquirer">
@@ -1030,32 +1003,31 @@ function set_price(val, type, product_type){
                 free_reservation = true;
         //price
         text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Price:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
-                    text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
-
-                    text+=`</span>
-                </div>`;
+        <div class='col-xs-6' style='text-align:left;'>
+            <span style="font-size:13px;">Price</span>
+        </div>
+        <div class='col-xs-6' style='text-align:right;'>
+            <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
+                text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
+            text+=`</span>
+        </div>`;
         //fee
         text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Fee:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span id="fee_span">`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
-                </div>`;
+        <div class='col-xs-6' style='text-align:left;'>
+            <span style="font-size:13px;">Fee</span>
+        </div>
+        <div class='col-xs-6' style='text-align:right;'>
+            <span id="fee_span">`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
+        </div>`;
         //unique amount
         if(payment_acq2[payment_method][selected].price_component.unique_amount){
             text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Unique Amount:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
-                </div>`;
+            <div class='col-xs-6' style='text-align:left;'>
+                <span <span style="font-size:13px;">>Unique Amount:</span>
+            </div>
+            <div class='col-xs-6' style='text-align:right;'>
+                <span <span style="font-size:13px;">>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
+            </div>`;
         }
 //        text += `
 //                <div class='col-sm-6' style='text-align:left;'>
@@ -1074,10 +1046,10 @@ function set_price(val, type, product_type){
             if(Object.keys(discount_voucher).length != 0 && window.location.href.includes('booking') == false){
                 payment_total = 0;
                 text += `
-                    <div class='col-sm-6' style='text-align:left;'>
-                        <span>Discount:</span>
+                    <div class='col-xs-6' style='text-align:left;'>
+                        <span>Discount</span>
                     </div>
-                    <div class='col-sm-6' style='text-align:right;'>
+                    <div class='col-xs-6' style='text-align:right;'>
                         <span>`+discount_voucher['currency']+` -`+getrupiah(discount_voucher['discount'])+`</span>
                     </div>`;
                 if(free_reservation == true)
@@ -1097,29 +1069,28 @@ function set_price(val, type, product_type){
         can_use_point = 0;
         if(typeof(get_balance_response) !== 'undefined' && type != 'top_up' && get_balance_response.result.response.is_show_point_reward && total_price_payment_acq > 0){
             text+=`
-                <div class="col-sm-5" style='text-align:left;'>
+                <div class="col-xs-12" style='text-align:left;'>
                     <span style="font-size:13px;"> Use Points: </span>
                 </div>
-                <div class="col-sm-7">
-                    <div class='row' style="justify-content:right;">
-                        <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
-                            <span style="font-size:13px; color:`+color+`;">No</span>
-                            <input type="radio" checked="checked" name="use_point" value="false" onclick="onchange_use_point(false); next_input_pin();"/>
-                            <span class="checkmark-radio"></span>
-                        </label>
-                        <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
-                            <span style="font-size:13px; color:`+color+`;">Yes</span>
-                            <input type="radio" name="use_point" value="true" onclick="onchange_use_point(true); next_input_pin();"/>
-                            <span class="checkmark-radio"></span>
-                        </label>
-                    </div>
+                <div class="col-xs-12" style="padding-bottom:10px;">
+                    <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                        <span style="font-size:13px; color:`+color+`;">No</span>
+                        <input type="radio" checked="checked" name="use_point" value="false" onclick="onchange_use_point(false); next_input_pin();"/>
+                        <span class="checkmark-radio"></span>
+                    </label>
+                    <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                        <span style="font-size:13px; color:`+color+`;">Yes</span>
+                        <input type="radio" name="use_point" value="true" onclick="onchange_use_point(true); next_input_pin();"/>
+                        <span class="checkmark-radio"></span>
+                    </label>
                 </div>
-                <div class='col-sm-12' style="display:none;" id="use_point_div">
+                <div class='col-xs-12' style="display:none;" id="use_point_div">
                     <div class='row'>
-                        <div class="col-sm-5">
+                        <div class="col-xs-5">
+                            <span style='font-weight:bold;'>Points</span>
                         </div>
-                        <div class="col-sm-7" style="text-align:right;">
-                            <span style="font-size:13px;" id="point_span"> `+get_balance_response.result.response.currency_code+` `+getrupiah(can_use_point)+`</span>
+                        <div class="col-xs-7" style="text-align:right;">
+                            <span style="font-weight:bold; color:`+color+`;" id="point_span"> - `+get_balance_response.result.response.currency_code+` `+getrupiah(can_use_point)+`</span>
                         </div>
                     </div>
                 </div>
@@ -1127,16 +1098,17 @@ function set_price(val, type, product_type){
         }
     //    grand total
             text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span style='font-weight:500;'>Grand Total:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
-                    text += getrupiah(payment_total)
+            <div class='col-xs-6' style='text-align:left;'>
+                <span style='font-weight:bold;'>Grand Total</span>
+            </div>
+            <div class='col-xs-6' style='text-align:right;'>
+                <span style='font-weight:bold;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
+                text += getrupiah(payment_total)
 
-                    text+=`</span>
-                </div>`;
-        text+= `</div><br/>`;
+                text+=`</span>
+            </div>`;
+        text+= `
+        </div><br/>`;
 
 
         if(user_login.hasOwnProperty('co_is_using_pin') && user_login.co_is_using_pin &&
@@ -1291,7 +1263,7 @@ function onchange_use_point(value){
                 else
                     can_use_point = payment_total - payment_acq2[payment_method][selected].minimum_amount['with_point']; // minimal transfer untuk payment gateway
             }
-            document.getElementById('point_span').innerHTML = payment_acq2[payment_method][selected].currency + ' ' + getrupiah(can_use_point);
+            document.getElementById('point_span').innerHTML = '- '+payment_acq2[payment_method][selected].currency + ' ' + getrupiah(can_use_point);
             document.getElementById('fee_span').innerHTML = payment_acq2[payment_method][selected].currency + ' ' + getrupiah(payment_acq2[payment_method][selected].price_component_with_point.fee);
             document.getElementById('use_point_div').style.display = 'block';
             document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_total - can_use_point);

@@ -4707,28 +4707,42 @@ function set_segment_provider_get_itinenary(segment, provider, val){
 function reset_airline_filter(){
     for(i in carrier_code){
         document.getElementById('checkbox_airline'+i).checked = false;
+        if(document.getElementById('checkbox_airline2'+i))
+            document.getElementById('checkbox_airline2'+i).checked = false;
         carrier_code[i].status = false;
     }for(i in transit_list){
         document.getElementById('checkbox_transit'+i).checked = false;
+        if(document.getElementById('checkbox_transit2'+i))
+            document.getElementById('checkbox_transit2'+i).checked = false;
         transit_list[i].status = false;
     }for(i in transit_duration_list){
         document.getElementById('checkbox_transit_duration'+i).checked = false;
+        if(document.getElementById('checkbox_transit_duration2'+i))
+            document.getElementById('checkbox_transit_duration2'+i).checked = false;
         transit_duration_list[i].status = false;
     }for(i in departure_list){
         if(i == 0){
             document.getElementById('checkbox_departure_time'+i).checked = true;
+            if(document.getElementById('checkbox_departure_time2'+i))
+                document.getElementById('checkbox_departure_time2'+i).checked = true;
             departure_list[i].status = true;
         }else{
             document.getElementById('checkbox_departure_time'+i).checked = false;
+            if(document.getElementById('checkbox_departure_time2'+i))
+                document.getElementById('checkbox_departure_time2'+i).checked = false;
             departure_list[i].status = false;
         }
     }
     for(i in arrival_list){
         if(i == 0){
             document.getElementById('checkbox_arrival_time'+i).checked = true;
+            if(document.getElementById('checkbox_arrival_time2'+i))
+                document.getElementById('checkbox_arrival_time2'+i).checked = true;
             arrival_list[i].status = true;
         }else{
             document.getElementById('checkbox_arrival_time'+i).checked = false;
+            if(document.getElementById('checkbox_arrival_time2'+i))
+                document.getElementById('checkbox_arrival_time2'+i).checked = false;
             arrival_list[i].status = false;
         }
     }
@@ -5110,33 +5124,34 @@ function draw_get_price_itinerary(){
                         text += `
                         <div class="col-lg-12">
                             <div style="border:1px solid #cdcdcd; background:white; padding:15px; cursor:pointer;" onclick="show_hide_flight(`+flight_count+`);">
-                                <h6 style="display:block;" id="flight_title_up`+flight_count+`">`;
+                                <h6 style="display:block; margin-bottom:0px;" id="flight_title_up`+flight_count+`">
+                                    <i class="fas fa-plane"></i> `;
                                     if(!is_roundtrip_combo)
-                                        text+=`Flight `+flight_count+` -`;
+                                        text+=`Flight #`+flight_count+` `;
                                     else
-                                        text+=`Roundtrip -`;
-                                    text+=get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].origin
+                                        text+=`Roundtrip `;
+                                    text+=', '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].origin
                                     if(!is_roundtrip_combo)
                                         text+=` <i class="fas fa-arrow-right"></i> `;
                                     else
                                         text+=` <i class="fas fa-arrows-alt-h"></i> `;
-                                    text+=get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].destination+`
+                                    text+=get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].destination+` ( `+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]+` )
                                     <span style="float:right;"><i class="fas fa-chevron-up" style="font-size:18px;"></i></span>
                                 </h6>
-                                <h6 style="display:none;" id="flight_title_down`+flight_count+`">`;
+                                <h6 style="display:none; margin-bottom:0px;" id="flight_title_down`+flight_count+`">
+                                    <i class="fas fa-plane"></i> `;
                                     if(!is_roundtrip_combo)
-                                        text+=`Flight `+flight_count+` -`;
+                                        text+=`Flight #`+flight_count+` `;
                                     else
-                                        text+=`Roundtrip -`;
-                                    text+=get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].origin;
+                                        text+=`Roundtrip `;
+                                    text+=', '+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].origin;
                                     if(!is_roundtrip_combo)
                                         text+=` <i class="fas fa-arrow-right"></i> `;
                                     else
                                         text+=` <i class="fas fa-arrows-alt-h"></i> `;
-                                    text+=get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].destination+`
+                                    text+=get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].destination+` ( `+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]+` )
                                     <span style="float:right;"><i class="fas fa-chevron-down" style="font-size:18px;"></i></span>
                                 </h6>
-                                <b>`+get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]+`</b>
                             </div>
                         </div>`;
                         if(!is_roundtrip_combo)
@@ -5588,140 +5603,147 @@ function draw_get_price_itinerary(){
         </div>
     </div>
 </div>`;
-    text_detail_next +=`
+
+text_detail_next +=`
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-12">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                    <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">`;
-            text_detail_next+=`<span id="grand_total_id" style="font-size:14px; font-weight: bold;`;
-            if(is_show_breakdown_price){
-                text_detail_next+=`cursor:pointer;`;
-            }
-            currency = '';
-            for(k in airline_price){
-                for(l in airline_price[k]){
-                    currency = airline_price[k][l].currency;
-                    if(currency)
-                        break;
-                }
-                if(currency)
-                    break;
-            }
-            text_detail_next+=`"><b>`+currency+` `+getrupiah(total_price+total_discount)+`</b>`;
-            if(is_show_breakdown_price){
-                 text_detail_next+=`<i class="fas fa-caret-down"></i>`;
-            }
-            text_detail_next+=`</span><br/>`;
-            currency = '';
-            for(x in airline_price){
-                for(y in airline_price[x])
-                    if(!currency)
-                        currency = airline_price[x][y].currency
-            }
-            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
-                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                        try{
-                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
-                                price_convert = ((total_price+total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                if(price_convert%1 == 0)
-                                    price_convert = parseInt(price_convert);
-                                text_detail_next+=`<span style="font-size:14px; font-weight: bold;"><b>Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>`;
-                            }
-                        }catch(err){
-                            console.log(err);
-                        }
-                    }
-                }
+            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>
+            <div style="padding:7px 0px 15px 0px; display:inline-block;">`;
+            if(total_discount != 0)
+                $text += '‣ Discount: '+currency+' '+ getrupiah(total_discount*-1) + '\n';
+            $text += '‣ Grand Total: '+currency+' '+ getrupiah(total_price+total_discount) + '\nPrices and availability may change at any time';
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text_detail_next+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+            } else {
+                text_detail_next+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
             }
             text_detail_next+=`
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xs-12">
-    <hr/>
-    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>
-    <div style="padding:7px 0px 15px 0px; display:inline-block;">`;
-    if(total_discount != 0)
-        $text += '‣ Discount: '+currency+' '+ getrupiah(total_discount*-1) + '\n';
-    $text += '‣ Grand Total: '+currency+' '+ getrupiah(total_price+total_discount) + '\nPrices and availability may change at any time';
-    share_data();
-    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-        text_detail_next+=`
-            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-    } else {
-        text_detail_next+=`
-            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-    }
-    text_detail_next+=`
         </div>
         <div style="float:right;">
-            <button class="primary-btn-white" type="button" onclick="copy_data();">
-                <i class="fas fa-copy"></i> Copy Flight Detail
+            <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                <i class="fas fa-copy"></i> Copy
             </button>
         </div>
     </div>`;
+
+
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         // tidak ikut default karena ada notes untuk YPM lionair
         text_detail_next+=`
-            <div class="col-xs-12" style="display:block;" id="show_commission">
-                <div class="alert alert-success">
-                    <div style="text-align:center;">
-                        <span style="font-size:13px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span><br>
-                    </div>`;
-        if(commission_price == 0){
-            text_notes = '';
-            for(x in get_price_airline_response.result.response.price_itinerary_provider){
-                for(y in get_price_airline_response.result.response.price_itinerary_provider[x].journeys){
-                    for(z in get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments){
-                        if(get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('JT') ||
-                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IW') ||
-                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('ID') ||
-                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IU') ||
-                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('OD'))
-                           text_notes = '* Lion Air YPM is shown after booking';
-                        if(text_notes != '')
-                            break;
-                    }
-                    if(text_notes != '')
-                        break;
-                }
-                if(text_notes != '')
+        <div class="col-xs-12">
+            <div class="alert alert-success">
+                <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
+                    <span id="show_commission_button">`;
+                    if(commission_price == 0)
+                        text_detail_next+=`Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>`;
+                    else
+                        text_detail_next+=`Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>`;
+                    text_detail_next+=`
+                    </span>
+                </div>`;
+                if(commission_price == 0)
+                    text_detail_next+=`<div class="row mt-3" id="show_commission" style="display:block;">`;
+                else
+                    text_detail_next+=`<div class="row mt-3" id="show_commission" style="display:none;">`;
+                text_detail_next+=`
+                    <div class="col-lg-12 col-xs-12" "text-align:left;">
+                        <span style="font-size:14px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span>`;
+                        if(commission_price == 0){
+                            text_notes = '';
+                            for(x in get_price_airline_response.result.response.price_itinerary_provider){
+                                for(y in get_price_airline_response.result.response.price_itinerary_provider[x].journeys){
+                                    for(z in get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments){
+                                        if(get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                                           text_notes = '* Lion Air YPM is shown after booking';
+                                        if(text_notes != '')
+                                            break;
+                                    }
+                                    if(text_notes != '')
+                                        break;
+                                }
+                                if(text_notes != '')
+                                    break;
+                            }
+                            if(text_notes == '')
+                                text_notes = '* Please mark up the price first'
+                            text_detail_next += `
+                                    <div style="text-align:left;">
+                                        <span style="font-size:13px; font-weight: bold;color:red">`+text_notes+`</span><br>
+                                    </div>`;
+                        }
+                        text_detail_next+=`
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    text_detail_next+=`
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-bottom:5px;">`;
+        text_detail_next+=`
+        <b>Grand Total</b><br/>
+        <span id="grand_total_id" style="font-size:18px; font-weight: bold;`;
+        if(is_show_breakdown_price){
+            text_detail_next+=`cursor:pointer;`;
+        }
+        currency = '';
+        for(k in airline_price){
+            for(l in airline_price[k]){
+                currency = airline_price[k][l].currency;
+                if(currency)
                     break;
             }
-            if(text_notes == '')
-                text_notes = '* Please mark up the price first'
-            text_detail_next += `
-                    <div style="text-align:left;">
-                        <span style="font-size:13px; font-weight: bold;color:red">`+text_notes+`</span><br>
-                    </div>`;
+            if(currency)
+                break;
         }
-        text_detail_next+=`
-                </div>
-            </div>`;
-    }
-    text_detail_next+=`
-        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-       text_detail_next+=`
-            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"><br/>
-        `;
+        text_detail_next+=`"><b>`+currency+` `+getrupiah(total_price+total_discount)+`</b>`;
+        if(is_show_breakdown_price){
+             text_detail_next+=`<i class="fas fa-caret-down"></i>`;
+        }
+        text_detail_next+=`</span><br/>`;
+        currency = '';
+        for(x in airline_price){
+            for(y in airline_price[x])
+                if(!currency)
+                    currency = airline_price[x][y].currency
+        }
+        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && total_price){
+            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                    try{
+                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
+                            price_convert = ((total_price+total_discount)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                            if(price_convert%1 == 0)
+                                price_convert = parseInt(price_convert);
+                            text_detail_next+=`<span style="font-size:14px; font-weight: bold;"><b>Estimated `+k+` `+getrupiah(price_convert)+`</b></span><br/>`;
+                        }
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            }
+        }
+
     text_detail_next += `</div>`;
+
     if(agent_security.includes('book_reservation') == true)
         text_detail_next+=`
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-bottom:5px;">
                 <button class="primary-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
                     Next
                     <div class="ld ld-ring ld-cycle"></div>
@@ -8496,6 +8518,9 @@ function airline_get_booking(data, sync=false){
 
            document.getElementById('airline_reissue_div').innerHTML = '';
            time_now = moment().format('YYYY-MM-DD HH:mm:SS');
+           document.getElementById('button_new_offline').hidden = false;
+           document.getElementById('booking_data_product').value = JSON.stringify(msg);
+
            //get booking view edit here
            try{
                if(msg.result.error_code == 0){
@@ -10820,10 +10845,10 @@ function airline_get_booking(data, sync=false){
                         <div class="alert alert-success">
                             <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
                                 <span id="show_commission_button"">
-                                    Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>
+                                    Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>
                                 </span>
                             </div>
-                            <div class="row" id="show_commission" style="display:block;">
+                            <div class="row" id="show_commission" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
@@ -12689,7 +12714,7 @@ function airline_issued(data){
         //                    </div>`;
                             }
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show YPM"/></div>`;
                             text+=`</div>`;
                             document.getElementById('old_price').innerHTML = text;
 
@@ -12803,7 +12828,7 @@ function airline_issued(data){
         //                    </div>`;
                             }
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
                             text+=`</div>`;
                             document.getElementById('new_price').innerHTML = text;
 
@@ -17136,7 +17161,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
         text += print_commission(commission_price*-1,'show_commission',currency)
 //        text+=`
-//        <div class="row" id="show_commission" style="display:block;">
+//        <div class="row" id="show_commission" style="display:none;">
 //            <div class="col-lg-12 col-xs-12">
 //                <div class="alert alert-success">
 //                    <div style="text-align:center;">
@@ -17161,7 +17186,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
         text+=`
         <div style="padding-bottom:10px;">
             <center>
-                <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Hide YPM"/><br/>
+                <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show YPM"/><br/>
             </center>
         </div>`;
     text+=`</div>`;
@@ -19003,10 +19028,17 @@ function airline_get_reschedule_itinerary_v2(){
                }
                get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.reschedule_itinerary_provider);
                get_airline_channel_repricing_data_reschedule(msg.result.response.reschedule_itinerary_provider);
-               document.getElementById('airline_detail').innerHTML += `
-                <div class="col-lg-12" style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
-                    <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
-                </div>`;
+               if(airline_get_detail.result.response.state == 'issued'){
+                    document.getElementById('airline_detail').innerHTML += `
+                    <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
+                        <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Choose Payment Method">
+                    </div>`;
+               }else{
+                    document.getElementById('airline_detail').innerHTML += `
+                    <div class="col-lg-12" style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
+                        <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
+                    </div>`;
+               }
 
 
            }else if(msg.result.error_code == 500 && msg.result.error_msg == 'Internal server error'){
@@ -19509,7 +19541,7 @@ function update_booking_after_sales_v2(input_pax_seat = false){
 //                        </div>
 //                    </div>`;
 //                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-//                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+//                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
 //                    text+=`</div>`;
 //                    document.getElementById('new_price').innerHTML = text;
 //

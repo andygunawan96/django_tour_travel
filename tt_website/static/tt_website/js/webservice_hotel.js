@@ -2223,7 +2223,7 @@ function hotel_issued_alert(val){
                     text+= print_commission(hotel_price.commission*-1,'show_commission_hotel_old', hotel_price.rooms[i].nightly_prices[j].currency)
                 if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text += `<div class="col-lg-12">
-                        <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Hide YPM"/>
+                        <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Show YPM"/>
                     </div>`;
                 text += `</div>`;
             }
@@ -2280,7 +2280,7 @@ function hotel_issued_alert(val){
                     text+= print_commission(temporary.commission*-1,'show_commission_hotel_new',temporary.rooms[i].currency)
                 if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text += `<div class="col-lg-12">
-                        <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Hide YPM"/>
+                        <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Show YPM"/>
                     </div>`;
                 text += `</div>`;
             }
@@ -2576,7 +2576,7 @@ function hotel_issued(data){
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                                 text+= print_commission(commission*-1,'show_commission_old', price.currency)
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show YPM"/></div>`;
                             text+=`
                         </div>`;
                             document.getElementById('old_price').innerHTML = text;
@@ -2674,7 +2674,7 @@ function hotel_issued(data){
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                                 text+= print_commission(commission*-1,'show_commission_new', price.currency)
                             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
                             text+=`</div>`;
                             document.getElementById('new_price').innerHTML = text;
 
@@ -3020,6 +3020,8 @@ function hotel_get_booking(data){
                     document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
                     document.getElementById("overlay-div-box").style.display = "none";
+                    document.getElementById('button_new_offline').hidden = false;
+                    document.getElementById('booking_data_product').value = JSON.stringify(msg);
                     can_issued = msg.result.response.can_issued;
                     if(msg.result.response.hold_date != ''){
                         tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
@@ -3926,7 +3928,7 @@ function hotel_get_booking(data){
                         </div>`;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                             text_detail+=`
-                            <div class="row" id="show_commission_hotel" style="display:block;">
+                            <div class="row" id="show_commission_hotel" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="alert alert-success">
                                         <div class="row">
@@ -3995,7 +3997,7 @@ function hotel_get_booking(data){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`
                             <div style="margin-bottom:5px;">
-                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel('commission');" value="Hide YPM"/>
+                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel('commission');" value="Show YPM"/>
                             </div>`;
                         text_detail+=`
                     </div>`;
