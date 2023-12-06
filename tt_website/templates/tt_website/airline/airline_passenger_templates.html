@@ -634,6 +634,9 @@
                                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('adult', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
+                                                        </div>
                                                         <div class="col-lg-6">
                                                             <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity First Name' %}</label>
@@ -1018,6 +1021,9 @@
                                                                 <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('child', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
+                                                        </div>
                                                         <div class="col-lg-6">
                                                             <label id="child_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity First Name' %}</label>
@@ -1368,6 +1374,9 @@
                                                                 <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('infant', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
+                                                        </div>
                                                         <div class="col-lg-6">
                                                             <label id="infant_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity First Name' %}</label>
@@ -1689,6 +1698,9 @@
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="student_passport_number{{forloop.counter}}" id="student_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('student', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="student_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -2040,6 +2052,9 @@
                                                                 <input type="text" class="form-control" name="labour_passport_number{{forloop.counter}}" id="labour_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('labour', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
+                                                        </div>
                                                         <div class="col-lg-6">
                                                             <label id="labour_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity First Name' %}</label>
@@ -2390,6 +2405,9 @@
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="seaman_passport_number{{forloop.counter}}" id="seaman_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('seaman', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="seaman_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
