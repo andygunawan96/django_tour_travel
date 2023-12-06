@@ -18,23 +18,6 @@ Licence URI: http://www.os-templates.com/template-terms
         {% else %}
         keep_me_signin = false;
         {% endif %}
-
-
-    function getCookie_airline(variable) {
-        var name = variable + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0 && c.substring(name.length, c.length) != '') {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
     </script>
 
     {% if '{{google_tag_manager_key}}' != '' %}
@@ -66,6 +49,8 @@ Licence URI: http://www.os-templates.com/template-terms
     {% if google_recaptcha == '1' %}
     <script src="https://www.google.com/recaptcha/api.js?render={{site_key}}"></script>
     {% endif %}
+
+    <script src="{{ static_path }}js/cookie_javascript.js?version={{javascript_version}}"></script>
 
     <script>
         function get_captcha(id,type){
@@ -2083,14 +2068,38 @@ Licence URI: http://www.os-templates.com/template-terms
                 }
                 error_log = '';
                 if(user_login.co_user_login != '{{default_user}}'){
-                    if(document.URL.split('/')[document.URL.split('/').length-1] == '' && ['notification', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp && ['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
+                    if(['notification', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp && ['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
                         error_log = 'Please Activate your PIN & OTP';
-                    }else if(document.URL.split('/')[document.URL.split('/').length-1] == '' && ['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
+                    }else if(['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
                         error_log = 'Please Activate your PIN';
-                    }else if(document.URL.split('/')[document.URL.split('/').length-1] == '' && ['notification', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp){
+                    }else if(['notification', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp){
                         error_log = 'Please Activate your OTP';
                     }
-                    if(error_log){
+                    var get_otp_pin_cookie = getCookie('notif_otp_pin');
+
+                    if(['required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp || ['required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
+                        if(document.URL.split('/')[document.URL.split('/').length-1] != 'page_setting'){
+                            window.location.href = '/page_setting';
+                        }else{
+                            if(['required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp && ['required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
+                                error_log = 'Please Set your PIN & OTP';
+                            }else if(['required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
+                                error_log = 'Please Set your PIN';
+                            }else if(['required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp){
+                                error_log = 'Please Set your OTP';
+                            }
+                            if(error_log){
+                                $( document ).ready(function() {
+                                    setTimeout(function(){
+                                        Swal.fire({
+                                            title: error_log,
+                                            type: 'warning',
+                                        })
+                                    }, 200);
+                                });
+                            }
+                        }
+                    }else if(error_log && get_otp_pin_cookie != 'hide'){
                         $( document ).ready(function() {
                             setTimeout(function(){
                                 Swal.fire({
@@ -2104,6 +2113,13 @@ Licence URI: http://www.os-templates.com/template-terms
                                 }).then((result) => {
                                     if (result.value) {
                                         window.location.href = '/page_setting';
+                                    }else{
+                                        end_second = moment().endOf('day').diff(moment(), 'seconds');
+                                        const next_date = new Date();
+                                        next_date.setTime(next_date.getTime() + (end_second*1000));
+                                        let expires = "expires="+next_date.toUTCString();
+                                        document.cookie = 'notif_otp_pin=hide;' + expires + ';';
+                                        console.log('notif_otp_pin=;' + expires + ';');
                                     }
                                 })
                             }, 200);
@@ -2526,7 +2542,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Jquery, Popper, Bootstrap -->
 <script src="{{ static_path }}js/template7/vendor/jquery-1.12.4.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template7/popper.min.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/template7/bootstrap.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/template7/bootstrap.min.js?version={{javascript_version}}"></script>-->
 <!-- Jquery Mobile Menu -->
 <script src="{{ static_path }}js/template7/jquery.slicknav.min.js?version={{javascript_version}}"></script>
 
@@ -2582,7 +2598,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ static_path }}js/library/cart.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/library/jquery.simplePagination.js?version={{javascript_version}}"></script>
 <!--other-->
-<script src="{{ static_path }}js/cookie_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
 <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 <!--<script src="{{ static_path }}js/library/maps.js?version={{javascript_version}}"></script>-->

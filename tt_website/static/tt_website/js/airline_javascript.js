@@ -554,225 +554,229 @@ function add_multi_city(type){
                 quantity_seaman_flight = parseInt(document.getElementById('seaman_flight').value);
             var node_paxs = document.createElement("div");
             text_paxs = `
-            <div class="div-dropdown-txt btn-group">
-                <button type="button" class="btn-dropdown-txt dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                    <i class="fas fa-users"></i> <span id="show_total_pax_flight`+counter_airline_search+`">1 Passengers</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
-                    <div class="row" style="padding:10px;">
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                            <div style="float:left;">
-                                <label>
-                                    <span style="color:black; font-size:13px;">Adult</span><br/>
-                                    <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                </label>
+            <div class="drop_inline">
+                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                    <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                        <i class="fas fa-users"></i> <span id="show_total_pax_flight`+counter_airline_search+`">1 Passengers</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                        <div class="row" style="padding:10px;">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                <div style="float:left;">
+                                    <label>
+                                        <span style="color:black; font-size:13px;">Adult</span><br/>
+                                        <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                if(quantity_adult_flight == 1)
-                                text_paxs +=`
-                                <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
-                                else
-                                text_paxs+=`<button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
-                                text_paxs +=`
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter_airline_search+`" name="adult_flight`+counter_airline_search+`" value="`+quantity_adult_flight+`" min="1" readonly>`;
-                                if(quantity_adult_flight + quantity_child_flight == 9)
-                                text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);" disabled>`;
-                                else
-                                text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);">`;
-                                text_paxs +=`
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                    if(quantity_adult_flight == 1)
+                                    text_paxs +=`
+                                    <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                    else
+                                    text_paxs+=`<button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                    text_paxs +=`
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter_airline_search+`" name="adult_flight`+counter_airline_search+`" value="`+quantity_adult_flight+`" min="1" readonly>`;
+                                    if(quantity_adult_flight + quantity_child_flight == 9)
+                                    text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);" disabled>`;
+                                    else
+                                    text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);">`;
+                                    text_paxs +=`
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                            <div style="float:left;">
-                                <label>
-                                    <span style="color:black; font-size:13px;">Child<br/></span>
-                                    <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
-                                </label>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                <div style="float:left;">
+                                    <label>
+                                        <span style="color:black; font-size:13px;">Child<br/></span>
+                                        <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                if(quantity_child_flight == 0)
-                                text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
-                                else
-                                text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
-                                text_paxs +=`
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter_airline_search+`" name="child_flight`+counter_airline_search+`" value="`+quantity_child_flight+`" min="0" readonly>`;
-                                if(quantity_adult_flight + quantity_child_flight == 9)
-                                text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
-                                else
-                                text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
-                                text_paxs+=`
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                    if(quantity_child_flight == 0)
+                                    text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
+                                    else
+                                    text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
+                                    text_paxs +=`
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter_airline_search+`" name="child_flight`+counter_airline_search+`" value="`+quantity_child_flight+`" min="0" readonly>`;
+                                    if(quantity_adult_flight + quantity_child_flight == 9)
+                                    text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
+                                    else
+                                    text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
+                                    text_paxs+=`
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                            <div style="float:left;">
-                                <label>
-                                    <span style="color:black; font-size:13px;">Infant<br/></span>
-                                    <span style="color:gray; font-size:11px;">(Age < 2)</span>
-                                </label>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                <div style="float:left;">
+                                    <label>
+                                        <span style="color:black; font-size:13px;">Infant<br/></span>
+                                        <span style="color:gray; font-size:11px;">(Age < 2)</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                    if(quantity_infant_flight == 0)
+                                        text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
+                                    else
+                                        text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
+                                    text_paxs+=`
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="`+quantity_infant_flight+`" readonly>`;
+                                    if(quantity_infant_flight == quantity_adult_flight)
+                                        text_paxs+=`
+                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
+                                    else
+                                        text_paxs+=`
+                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
+                                    text_paxs+=`
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>`;
+                            if(airline_pax_type_student == 'true' && document.getElementById('student_flight')){
+                                text_paxs += `
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Student</span><br/>
+                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                        if(quantity_student_flight == 1)
+                                        text_paxs +=`
+                                        <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('student',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                        else
+                                        text_paxs+=`<button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('student',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                        text_paxs +=`
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight`+counter_airline_search+`" name="student_flight`+counter_airline_search+`" value="`+quantity_student_flight+`" min="`+min_pax+`" readonly>`;
+                                        if(quantity_adult_flight + quantity_child_flight == 9)
+                                        text_paxs +=`<button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('student',`+counter_airline_search+`);" disabled>`;
+                                        else
+                                        text_paxs +=`<button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('student',`+counter_airline_search+`);">`;
+                                        text_paxs +=`
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                            }
+                            if(airline_pax_type_labour == 'true' && document.getElementById('labour_flight')){
+                                text_paxs += `
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Labour</span><br/>
+                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                        if(quantity_labour_flight == 1)
+                                        text_paxs +=`
+                                        <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('labour',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                        else
+                                        text_paxs+=`<button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('labour',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                        text_paxs +=`
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight`+counter_airline_search+`" name="labour_flight`+counter_airline_search+`" value="`+quantity_labour_flight+`" min="`+min_pax+`" readonly>`;
+                                        if(quantity_adult_flight + quantity_child_flight == 9)
+                                        text_paxs +=`<button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('labour',`+counter_airline_search+`);" disabled>`;
+                                        else
+                                        text_paxs +=`<button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('labour',`+counter_airline_search+`);">`;
+                                        text_paxs +=`
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                            }
+                            if(airline_pax_type_seaman == 'true' && document.getElementById('seaman_flight')){
+                                text_paxs += `
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Seaman</span><br/>
+                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                        if(quantity_seaman_flight == 1)
+                                        text_paxs +=`
+                                        <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('seaman',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                        else
+                                        text_paxs+=`<button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('seaman',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                        text_paxs +=`
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight`+counter_airline_search+`" name="seaman_flight`+counter_airline_search+`" value="`+quantity_seaman_flight+`" min="`+min_pax+`" readonly>`;
+                                        if(quantity_adult_flight + quantity_child_flight == 9)
+                                        text_paxs +=`<button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('seaman',`+counter_airline_search+`);" disabled>`;
+                                        else
+                                        text_paxs +=`<button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('seaman',`+counter_airline_search+`);">`;
+                                        text_paxs +=`
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                            }
+                            text_paxs+=`
+                            <div class="col-lg-12" style="text-align:right;">
+                                <hr/>
+                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger1');">Done</button>
                             </div>
                         </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                if(quantity_infant_flight == 0)
-                                    text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
-                                else
-                                    text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
-                                text_paxs+=`
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="`+quantity_infant_flight+`" readonly>`;
-                                if(quantity_infant_flight == quantity_adult_flight)
-                                    text_paxs+=`
-                                <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
-                                else
-                                    text_paxs+=`
-                                <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
-                                text_paxs+=`
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>`;
-                        if(airline_pax_type_student == 'true' && document.getElementById('student_flight')){
-                            text_paxs += `
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Student</span><br/>
-                                        <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                    if(quantity_student_flight == 1)
-                                    text_paxs +=`
-                                    <button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('student',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
-                                    else
-                                    text_paxs+=`<button type="button" class="left-minus-student-flight btn-custom-circle" id="left-minus-student-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('student',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
-                                    text_paxs +=`
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="student_flight`+counter_airline_search+`" name="student_flight`+counter_airline_search+`" value="`+quantity_student_flight+`" min="`+min_pax+`" readonly>`;
-                                    if(quantity_adult_flight + quantity_child_flight == 9)
-                                    text_paxs +=`<button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('student',`+counter_airline_search+`);" disabled>`;
-                                    else
-                                    text_paxs +=`<button type="button" class="right-plus-student-flight btn-custom-circle" id="right-plus-student-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('student',`+counter_airline_search+`);">`;
-                                    text_paxs +=`
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>`;
-                        }
-                        if(airline_pax_type_labour == 'true' && document.getElementById('labour_flight')){
-                            text_paxs += `
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Labour</span><br/>
-                                        <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                    if(quantity_labour_flight == 1)
-                                    text_paxs +=`
-                                    <button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('labour',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
-                                    else
-                                    text_paxs+=`<button type="button" class="left-minus-labour-flight btn-custom-circle" id="left-minus-labour-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('labour',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
-                                    text_paxs +=`
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="labour_flight`+counter_airline_search+`" name="labour_flight`+counter_airline_search+`" value="`+quantity_labour_flight+`" min="`+min_pax+`" readonly>`;
-                                    if(quantity_adult_flight + quantity_child_flight == 9)
-                                    text_paxs +=`<button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('labour',`+counter_airline_search+`);" disabled>`;
-                                    else
-                                    text_paxs +=`<button type="button" class="right-plus-labour-flight btn-custom-circle" id="right-plus-labour-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('labour',`+counter_airline_search+`);">`;
-                                    text_paxs +=`
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>`;
-                        }
-                        if(airline_pax_type_seaman == 'true' && document.getElementById('seaman_flight')){
-                            text_paxs += `
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Seaman</span><br/>
-                                        <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                    if(quantity_seaman_flight == 1)
-                                    text_paxs +=`
-                                    <button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('seaman',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
-                                    else
-                                    text_paxs+=`<button type="button" class="left-minus-seaman-flight btn-custom-circle" id="left-minus-seaman-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('seaman',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
-                                    text_paxs +=`
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="seaman_flight`+counter_airline_search+`" name="seaman_flight`+counter_airline_search+`" value="`+quantity_seaman_flight+`" min="`+min_pax+`" readonly>`;
-                                    if(quantity_adult_flight + quantity_child_flight == 9)
-                                    text_paxs +=`<button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('seaman',`+counter_airline_search+`);" disabled>`;
-                                    else
-                                    text_paxs +=`<button type="button" class="right-plus-seaman-flight btn-custom-circle" id="right-plus-seaman-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('seaman',`+counter_airline_search+`);">`;
-                                    text_paxs +=`
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>`;
-                        }
-                        text_paxs+=`
-                        <div class="col-lg-12" style="text-align:right;">
-                            <hr/>
-                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','passenger1');">Done</button>
-                        </div>
-                    </div>
-                </ul>
+                    </ul>
+                </div>
             </div>
+            <div class="drop_inline">
+                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">`;
+                    try{
+                        text_paxs += `
+                        <button id="show_provider_airline`+counter_airline_search+`" type="button" class="btn-dropdown-txt" style="text-align:left; cursor:pointer;">
+                            <i class="fas fa-plane"></i> <span id="show_provider_airline`+counter_airline_search+`"> ` + airline_check + `</span>
+                        </button>`;
+                    }
+                    catch(err){
+                        text_paxs += `
+                        <button type="button" class="btn-dropdown-txt" style="text-align:left; cursor:pointer;">
+                            <i class="fas fa-plane"></i> <span id="show_provider_airline`+counter_airline_search+`">All airline</span>
+                        </button>`;
+                    }
 
-            <div class="div-dropdown-txt btn-group">`;
-                try{
                     text_paxs += `
-                    <button id="show_provider_airline`+counter_airline_search+`" type="button" class="btn-dropdown-txt dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">
-                        <i class="fas fa-plane"></i> <span id="show_provider_airline`+counter_airline_search+`"> ` + airline_check + `</span>
-                    </button>`;
-                }catch(err){
-                    text_paxs += `
-                    <button type="button" class="btn-dropdown-txt dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">
-                        <i class="fas fa-plane"></i> <span id="show_provider_airline`+counter_airline_search+`">All airline</span>
-                    </button>`;
-                }
+                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12 mt-1" id="provider_flight_content`+counter_airline_search+`" style="z-index:8; overflow-y:unset; overflow-x:unset;">
 
-                text_paxs += `
-                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-12 mt-1" id="provider_flight_content`+counter_airline_search+`" style="z-index:8; overflow-y:unset; overflow-x:unset;">
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </ul>
+                    </ul>
+                </div>
             </div>
 
             <div class="div-dropdown-txt btn-group" style="margin-right:0px;">
@@ -846,14 +850,10 @@ function add_multi_city(type){
                 <h5 style="color:`+text_color+`; border-bottom: 3px solid `+text_color+`;"><i class="fas fa-plane"></i> #`+counter_airline_search+`</h5>
             </div>
             <div class="row" style="width:100%;">`;
-                if(type == 'search'){
-                    text+=`<div class="col-lg-3 col-md-6 airline-from">`;
+                if(template == 3 || template == 6 || template == 7){
+                    text+=`<div class="col-lg-6 col-md-6 airline-from">`;
                 }else{
-                    if(template == 3 || template == 6){
-                        text+=`<div class="col-lg-6 col-md-6 airline-from">`;
-                    }else{
-                        text+=`<div class="col-lg-3 col-md-6 airline-from">`;
-                    }
+                    text+=`<div class="col-lg-3 col-md-6 airline-from">`;
                 }
 
                 text+=`
@@ -890,15 +890,12 @@ function add_multi_city(type){
                     </div>
                 </div>`;
 
-                if(type == 'search'){
-                    text+=`<div class="col-lg-3 col-md-6 airline-to" style="z-index:5;">`;
+                if(template == 3 || template == 6 || template == 7){
+                    text+=`<div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">`;
                 }else{
-                    if(template == 3 || template == 6){
-                        text+=`<div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">`;
-                    }else{
-                        text+=`<div class="col-lg-3 col-md-6 airline-to" style="z-index:5;">`;
-                    }
+                    text+=`<div class="col-lg-3 col-md-6 airline-to" style="z-index:5;">`;
                 }
+
                 text+=`
                     <div class="image-change-route-vertical">
                         <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
@@ -932,14 +929,10 @@ function add_multi_city(type){
                     </div>
                 </div>`;
 
-                if(type == 'search'){
-                    text+=`<div class="col-lg-3 col-md-6">`;
+                if(template == 3 || template == 6 || template == 7){
+                    text+=`<div class="col-lg-6 col-md-6">`;
                 }else{
-                    if(template == 3 || template == 6){
-                        text+=`<div class="col-lg-6 col-md-6">`;
-                    }else{
-                        text+=`<div class="col-lg-3 col-md-6">`;
-                    }
+                    text+=`<div class="col-lg-3 col-md-6">`;
                 }
 
                 text+=`
@@ -949,44 +942,39 @@ function add_multi_city(type){
                     </div>
                 </div>`;
 
-                if(type == 'search'){
-                    text+=`<div class="col-lg-3 col-md-6">`;
+                if(template == 3 || template == 6 || template == 7){
+                    text+=`<div class="col-lg-6 col-md-6">`;
                 }else{
-                    if(template == 3 || template == 6){
-                        text+=`<div class="col-lg-6 col-md-6">`;
-                    }else{
-                        text+=`<div class="col-lg-3 col-md-6">`;
-                    }
+                    text+=`<div class="col-lg-3 col-md-6">`;
                 }
 
                 text+=`
                 <span class="span-search-ticket">Class (If supported by airlines)</span>
                 <div class="input-container-search-ticket btn-group">
-                    <div class="form-select class_airline_select`+counter_airline_search+`" id="default-select`+counter_airline_search+`">
-                        <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" onchange="next_focus_element('airline', '#origin_id_flight`+parseInt(counter_airline_search+1)+`');">`;
-
-                    for(i in cabin_class){
-                        try{
-                            if(type == 'search'){
-                                if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
-                                    text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                else
-                                    text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                            }else if(i == 0){
-                                if(type == 'home')
-                                    text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                else
-                                    text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                            }else
-                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                        }catch(err){
-                            if(i == 0)
-                                text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                            else
-                                text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                        }
-                    }
-                    text +=`</select>
+                    <div class="form-select-2 class_airline_select`+counter_airline_search+`" id="default-select`+counter_airline_search+`">
+                        <select class="nice-select-default" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" onchange="next_focus_element('airline', '#origin_id_flight`+parseInt(counter_airline_search+1)+`');">`;
+                            for(i in cabin_class){
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                        text +=`</select>
                         </div>
                     </div>
                 </div>`;
@@ -1239,8 +1227,9 @@ function add_multi_city(type){
 function plus_min_passenger_airline_btn(){
     var max_pax = 9;
     var min_pax = 1;
-    if(airline_advance_pax_type == 'true')
-        min_pax = 0;
+    if(typeof(airline_advance_pax_type) !== 'undefined')
+        if(airline_advance_pax_type == 'true')
+            min_pax = 0;
     var quantity_total_pax = parseInt(document.getElementById('adult_flight').value)+parseInt(document.getElementById('child_flight').value);
     var quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
     var quantity_child_flight = parseInt(document.getElementById('child_flight').value);
@@ -1584,22 +1573,26 @@ function airline_filter_render(){
 
     text='';
     text+=`
-    <h6 style="display: inline;">Sort by</h6>
-    <div class="input-container-search-ticket btn-group">
-        <button type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="width:100%; cursor:pointer; margin-bottom:0px !important; text-align:left;">
-            <span id="sort_by_span">---Sort by---</span>
-        </button>
-        <ul class="dropdown-menu" role="menu" style="padding:15px;">`;
-        for(i in sorting_list){
+    <div style="margin-bottom:10px;">
+        <h6 style="display: inline;">Sort by</h6>
+    </div>
+    <div class="drop_inline" style="width:100%;">
+        <div class="dropdown-toggle div-dropdown-txt primary-btn-white" data-toggle="dropdown" style="width:100%; line-height:unset; padding:10px">
+            <span type="button" style=" cursor:pointer; margin-bottom:0px !important; text-align:left;">
+                <span id="sort_by_span">---Sort by---</span>
+            </span>
+            <ul class="dropdown-menu" role="menu" style="padding:15px;">`;
+            for(i in sorting_list){
+                text+=`
+                <label class="radio-button-custom">
+                    <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                    <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`', '`+i+`');" value="`+sorting_list[i].value+`">
+                    <span class="checkmark-radio"></span>
+                </label></br>`;
+            }
             text+=`
-            <label class="radio-button-custom">
-                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
-                <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`', '`+i+`');" value="`+sorting_list[i].value+`">
-                <span class="checkmark-radio"></span>
-            </label></br>`;
-        }
-        text+=`
-        </ul>
+            </ul>
+        </div>
     </div>`;
 
 //    for(i in sorting_list2){
@@ -7075,21 +7068,17 @@ function airline_detail(type){
             text+=`
             <div class="alert alert-success" style="margin-top:10px;">
                 <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
-                    <span id="show_commission_button">`;
-
-            if(commission_price == 0)
-                text+=`
-                        Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>`;
-            else
-                text+=`
-                        Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>`;
-            text+=`
+                    <span id="show_commission_button"">`;
+                    if(commission_price == 0)
+                        text+=`Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>`;
+                    else
+                        text+=`Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>`;
+                    text+=`
                     </span>
                 </div>`;
                 // tidak ikut default karena ada notes untuk YPM lionair
                 text+=`
                 <div class="row mt-3" id="show_commission" style="`;
-
                 if(commission_price == 0)
                     text+=`display:block;`;
                 else

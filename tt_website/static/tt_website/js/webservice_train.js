@@ -856,6 +856,8 @@ function train_get_booking(data){
                 price_arr_repricing = {};
                 pax_type_repricing = [];
                 can_issued = msg.result.response.can_issued;
+                document.getElementById('button_new_offline').hidden = false;
+                document.getElementById('booking_data_product').value = JSON.stringify(msg);
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                     var localTime  = moment.utc(tes).toDate();
