@@ -8237,6 +8237,11 @@ function check_passenger(adult, child, infant, type=''){
                        document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                    }if(document.getElementById('adult_identity_first_name'+i).value == ''){
+                       error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                     }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                        $("#adult_country_of_issued"+i+"_id").each(function() {
@@ -8257,6 +8262,12 @@ function check_passenger(adult, child, infant, type=''){
                        document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                    }else{
                        document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                   }
+                   if(document.getElementById('adult_identity_first_name'+i).value == ''){
+                       error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                    }
                    if(document.getElementById('adult_passport_expired_date'+i).value == ''){
                        error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -8297,6 +8308,8 @@ function check_passenger(adult, child, infant, type=''){
                 if(document.getElementById('adult_passport_number'+i).value != ''){
                     error_log+= 'Please choose identity type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+                    document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                    document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
                     document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
                     $("#adult_id_type"+i).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -10292,6 +10305,11 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                        }if(document.getElementById('adult_identity_first_name'+i).value == ''){
+                           error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
+                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                         }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                            $("#adult_country_of_issued"+i+"_id").each(function() {
@@ -10311,6 +10329,11 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('adult_identity_first_name'+i).value == ''){
+                           error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
+                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                       }else{
+                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                        }
                        if(document.getElementById('adult_passport_expired_date'+i).value == ''){
                            error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -10356,6 +10379,11 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('adult_identity_first_name'+i).value == ''){
+                           error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
+                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                       }else{
+                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                        }
                        if(document.getElementById('adult_passport_expired_date'+i).value == ''){
                            error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -11110,11 +11138,28 @@ function get_airline_review(){
                                             else if(passengers_ssr[i].title == "MISS"){
                                                 text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
                                             }
+                                        if(passengers_ssr[i].identity_first_name != '' && passengers_ssr[i].identity_first_name != undefined && passengers_ssr[i].identity_first_name != false)
+                                        {
+                                            temp_pax_first_name = passengers_ssr[i].identity_first_name;
+                                            if(passengers_ssr[i].identity_last_name != undefined && passengers_ssr[i].identity_last_name != false)
+                                            {
+                                                temp_pax_last_name = passengers_ssr[i].identity_last_name;
+                                            }
+                                            else
+                                            {
+                                                temp_pax_last_name = '';
+                                            }
+                                        }
+                                        else
+                                        {
+                                            temp_pax_first_name = passengers_ssr[i].first_name;
+                                            temp_pax_last_name = passengers_ssr[i].last_name;
+                                        }
                                         text+=`
                                         </div>
                                         <div style="margin-left:10px;">
                                             <h5>
-                                                `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+`
+                                                `+passengers_ssr[i].title+` `+temp_pax_first_name+` `+temp_pax_last_name+`
                                                 <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">`;
 
                                                 if(passengers_ssr[i].pax_type == 'ADT'){
@@ -11269,11 +11314,28 @@ function get_airline_review(){
                                     else if(passengers.infant[i].title == "MISS"){
                                         text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
                                     }
-                                    text+=`
+                                if(passengers.infant[i].identity_first_name != '' && passengers.infant[i].identity_first_name != undefined && passengers.infant[i].identity_first_name != false)
+                                {
+                                    temp_inf_first_name = passengers.infant[i].identity_first_name;
+                                    if(passengers.infant[i].identity_last_name != undefined && passengers.infant[i].identity_last_name != false)
+                                    {
+                                        temp_inf_last_name = passengers.infant[i].identity_last_name;
+                                    }
+                                    else
+                                    {
+                                        temp_inf_last_name = '';
+                                    }
+                                }
+                                else
+                                {
+                                    temp_inf_first_name = passengers.infant[i].first_name;
+                                    temp_inf_last_name = passengers.infant[i].last_name;
+                                }
+                                text+=`
                                 </div>
                                 <div style="margin-left:10px;">
                                     <h5>
-                                        `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
+                                        `+passengers.infant[i].title+` `+temp_inf_first_name+` `+temp_inf_last_name+`
                                         <b style="background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                             Infant
                                         </b>
@@ -14244,4 +14306,10 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
                 auto_fill_airline_cookie(cookie_airline,page,max_try+1)
             }, 500);
     }
+}
+
+function copy_first_last_name_to_identity(pax_type, ctp)
+{
+    document.getElementById(pax_type+'_identity_first_name'+ctp).value = document.getElementById(pax_type+'_first_name'+ctp).value;
+    document.getElementById(pax_type+'_identity_last_name'+ctp).value = document.getElementById(pax_type+'_last_name'+ctp).value;
 }

@@ -425,13 +425,16 @@ def update_passenger(request):
                     'behaviors': behaviors
                 })
                 try:
-                    if request.POST['passenger_identity_type' + str(i)] != '':
+                    if request.POST.get('passenger_identity_type' + str(i)):
                         identity = {}
-                        if request.POST['passenger_identity_number' + str(i)]:
+                        if request.POST.get('passenger_identity_number' + str(i)):
                             identity['identity_number'] = request.POST['passenger_identity_number' + str(i)]
                             identity['identity_number'] = re.sub(r'\s', ' ', identity['identity_number']).replace(':', '').strip()
-                        if request.POST['passenger_identity_type' + str(i)]:
-                            identity['identity_type'] = request.POST['passenger_identity_type' + str(i)]
+                        if request.POST.get('passenger_first_name' + str(i)):
+                            identity['identity_first_name'] = request.POST['identity_first_name' + str(i)]
+                        if request.POST.get('identity_last_name' + str(i)):
+                            identity['identity_last_name'] = request.POST['identity_last_name' + str(i)]
+                        identity['identity_type'] = request.POST['passenger_identity_type' + str(i)]
                         identity["identity_expdate"] = passport_expdate
 
                         if request.POST['passenger_country_of_issued' + str(i) + '_id'] != '':
