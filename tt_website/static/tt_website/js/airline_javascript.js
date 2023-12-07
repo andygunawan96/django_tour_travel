@@ -8237,11 +8237,6 @@ function check_passenger(adult, child, infant, type=''){
                        document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                    }if(document.getElementById('adult_identity_first_name'+i).value == ''){
-                       error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                    }else{
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                     }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                        $("#adult_country_of_issued"+i+"_id").each(function() {
@@ -8262,12 +8257,6 @@ function check_passenger(adult, child, infant, type=''){
                        document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                    }else{
                        document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                   }
-                   if(document.getElementById('adult_identity_first_name'+i).value == ''){
-                       error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                   }else{
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                    }
                    if(document.getElementById('adult_passport_expired_date'+i).value == ''){
                        error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -10305,11 +10294,6 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                        }if(document.getElementById('adult_identity_first_name'+i).value == ''){
-                           error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                        }else{
-                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                         }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                            $("#adult_country_of_issued"+i+"_id").each(function() {
@@ -10329,11 +10313,6 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_identity_first_name'+i).value == ''){
-                           error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                        }
                        if(document.getElementById('adult_passport_expired_date'+i).value == ''){
                            error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -10379,11 +10358,6 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_identity_first_name'+i).value == ''){
-                           error_log+= 'Please fill id first name for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                        }
                        if(document.getElementById('adult_passport_expired_date'+i).value == ''){
                            error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -14312,4 +14286,31 @@ function copy_first_last_name_to_identity(pax_type, ctp)
 {
     document.getElementById(pax_type+'_identity_first_name'+ctp).value = document.getElementById(pax_type+'_first_name'+ctp).value;
     document.getElementById(pax_type+'_identity_last_name'+ctp).value = document.getElementById(pax_type+'_last_name'+ctp).value;
+}
+
+function show_hide_id_name_div(pax_type, ctp)
+{
+    pax_id_names = document.getElementsByClassName(pax_type+'_id_name'+ctp);
+    pax_id_name_down = document.getElementById(pax_type+'_down_id_name'+ctp);
+    pax_id_name_up = document.getElementById(pax_type+'_up_id_name'+ctp);
+
+    if(pax_id_names.length > 0)
+    {
+        if (pax_id_names[0].style.display === "none") {
+            for(rec_pax of pax_id_names)
+            {
+                rec_pax.style.display = "inline-block";
+            }
+            pax_id_name_down.style.display = "inline-block";
+            pax_id_name_up.style.display = "none";
+        }
+        else {
+            for(rec_pax of pax_id_names)
+            {
+                rec_pax.style.display = "none";
+            }
+            pax_id_name_down.style.display = "none";
+            pax_id_name_up.style.display = "inline-block";
+        }
+    }
 }
