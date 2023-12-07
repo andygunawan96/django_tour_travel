@@ -634,23 +634,6 @@
                                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('adult', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
-                                                            <label>{% trans 'Identity First Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
-                                                            <label>{% trans 'Identity Last Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
-                                                            </div>
-                                                        </div>
                                                         <div class="col-lg-6">
                                                             <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
@@ -672,6 +655,29 @@
                                                                     </select>
                                                                 </div>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                    <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6"></div>
@@ -1022,21 +1028,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('child', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="child_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
-                                                            <label>{% trans 'Identity First Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
-                                                            <label>{% trans 'Identity Last Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
-                                                            </div>
+                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('child', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -1059,6 +1051,29 @@
                                                                     </select>
                                                                 </div>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                    <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="child_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1375,21 +1390,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('infant', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="infant_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
-                                                            <label>{% trans 'Identity First Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="infant_identity_first_name{{forloop.counter}}" id="infant_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('infant_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="infant_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
-                                                            <label>{% trans 'Identity Last Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="infant_identity_last_name{{forloop.counter}}" id="infant_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('infant_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
-                                                            </div>
+                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('infant', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -1412,6 +1413,29 @@
                                                                     </select>
                                                                 </div>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('infant', '{{forloop.counter}}');">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <span id="fill_infant_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span style="margin-right:5px; display:none;" id="infant_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                    <span style="margin-right:5px;" id="infant_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 infant_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="infant_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="infant_identity_first_name{{forloop.counter}}" id="infant_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('infant_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 infant_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="infant_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="infant_identity_last_name{{forloop.counter}}" id="infant_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('infant_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1700,21 +1724,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('student', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="student_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
-                                                            <label>{% trans 'Identity First Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="student_identity_first_name{{forloop.counter}}" id="student_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('student_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="student_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
-                                                            <label>{% trans 'Identity Last Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="student_identity_last_name{{forloop.counter}}" id="student_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('student_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
-                                                            </div>
+                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('student', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="student_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -1737,6 +1747,29 @@
                                                                     </select>
                                                                 </div>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('student', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('student', '{{forloop.counter}}');">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <span id="fill_student_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span style="margin-right:5px; display:none;" id="student_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                    <span style="margin-right:5px;" id="student_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 student_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="student_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="student_identity_first_name{{forloop.counter}}" id="student_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('student_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 student_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="student_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="student_identity_last_name{{forloop.counter}}" id="student_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('student_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2053,21 +2086,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('labour', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="labour_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
-                                                            <label>{% trans 'Identity First Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="labour_identity_first_name{{forloop.counter}}" id="labour_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('labour_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="labour_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
-                                                            <label>{% trans 'Identity Last Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="labour_identity_last_name{{forloop.counter}}" id="labour_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('labour_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
-                                                            </div>
+                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('labour', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="labour_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -2090,6 +2109,29 @@
                                                                     </select>
                                                                 </div>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('labour', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('labour', '{{forloop.counter}}');">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <span id="fill_labour_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span style="margin-right:5px; display:none;" id="labour_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                    <span style="margin-right:5px;" id="labour_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 labour_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="labour_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="labour_identity_first_name{{forloop.counter}}" id="labour_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('labour_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 labour_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="labour_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="labour_identity_last_name{{forloop.counter}}" id="labour_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('labour_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2407,21 +2449,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn-white" onclick="copy_first_last_name_to_identity('seaman', {{forloop.counter}})">Copy original First and Last Name to Identity</button>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="seaman_identity_first_name_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
-                                                            <label>{% trans 'Identity First Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="seaman_identity_first_name{{forloop.counter}}" id="seaman_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('seaman_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="seaman_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
-                                                            <label>{% trans 'Identity Last Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="seaman_identity_last_name{{forloop.counter}}" id="seaman_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('seaman_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
-                                                            </div>
+                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('seaman', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="seaman_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -2444,6 +2472,29 @@
                                                                     </select>
                                                                 </div>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('seaman', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('seaman', '{{forloop.counter}}');">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <span id="fill_seaman_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span style="margin-right:5px; display:none;" id="seaman_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                    <span style="margin-right:5px;" id="seaman_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 seaman_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="seaman_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity First Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="seaman_identity_first_name{{forloop.counter}}" id="seaman_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('seaman_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 seaman_id_name{{forloop.counter}}" style="display:none;">
+                                                            <label id="seaman_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                            <label>{% trans 'Identity Last Name' %}</label>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control" name="seaman_identity_last_name{{forloop.counter}}" id="seaman_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('seaman_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
                                                             </div>
                                                         </div>
                                                     </div>
