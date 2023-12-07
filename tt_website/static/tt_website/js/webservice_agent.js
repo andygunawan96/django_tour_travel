@@ -1980,12 +1980,6 @@ function create_new_passenger(){
                 }else{
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
                 }
-                if(document.getElementById('passenger_identity_first_name'+i).value == ''){
-                   error_log+= 'Please fill identity first name!</br>\n';
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                }
             }
 
             if(i == 3 && document.getElementById('passenger_identity_number'+i).value != '')
@@ -1996,12 +1990,6 @@ function create_new_passenger(){
                 }else{
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
                 }
-                if(document.getElementById('passenger_identity_first_name'+i).value == ''){
-                   error_log+= 'Please fill identity first name!</br>\n';
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                }
             }
 
             if(i == 1 && document.getElementById('passenger_identity_number'+i).value != ''){
@@ -2010,12 +1998,6 @@ function create_new_passenger(){
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
                }else{
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
-               }
-               if(document.getElementById('passenger_identity_first_name'+i).value == ''){
-                   error_log+= 'Please fill identity first name!</br>\n';
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                }
                if(document.getElementById('passenger_identity_expired_date'+i).value == ''){
                    error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -2036,12 +2018,6 @@ function create_new_passenger(){
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
                 }else{
                    document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
-                }
-                if(document.getElementById('passenger_identity_first_name'+i).value == ''){
-                   error_log+= 'Please fill identity first name!</br>\n';
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                 }
             }
 
@@ -7064,7 +7040,7 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_title'+sequence).value = '';
         for(i in document.getElementById('senior_title'+sequence).options){
             document.getElementById('senior_title'+sequence).options[i].disabled = false;
-        }passport
+        }
         $('#senior_title'+sequence).niceSelect('update');
         document.getElementById('senior_id'+sequence).value = '';
         document.getElementById('senior_first_name'+sequence).value = '';
@@ -11105,12 +11081,6 @@ function update_passenger_backend(){
             }else{
                document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
             }
-            if(document.getElementById('passenger_identity_first_name'+i).value == ''){
-               error_log+= 'Please fill identity first name!</br>\n';
-               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
-            }else{
-               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-            }
         }
 
         if(i == 1 && document.getElementById('passenger_identity_number'+i).value != ''){
@@ -11119,12 +11089,6 @@ function update_passenger_backend(){
                document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
-           }
-           if(document.getElementById('passenger_identity_first_name'+i).value == ''){
-               error_log+= 'Please fill identity first name!</br>\n';
-               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
            }
            if(document.getElementById('passenger_identity_expired_date'+i).value == ''){
                error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
@@ -11146,12 +11110,6 @@ function update_passenger_backend(){
                document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
             }else{
                document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
-            }
-            if(document.getElementById('passenger_identity_first_name'+i).value == ''){
-               error_log+= 'Please fill identity first name!</br>\n';
-               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = 'red';
-            }else{
-               document.getElementById('passenger_identity_first_name'+i).style['border-color'] = '#EFEFEF';
             }
         }
     }
@@ -11690,14 +11648,12 @@ function change_identity_type(id, automatic_change_number=true){
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
-            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else if(document.getElementById(id).value == 'passport' || document.getElementById(id).value == 'sim'){
             if(automatic_change_number)
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
-            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else if(is_identity_required == 'true'){
             //KALAU ADA BINTANG TETAP ADA TIDAK ADA YG BERUBAH
@@ -11705,14 +11661,12 @@ function change_identity_type(id, automatic_change_number=true){
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
-            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else{
             if(automatic_change_number)
                 document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
-            document.getElementById(id.replace('id_type','identity_first_name_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
         }
         try{
