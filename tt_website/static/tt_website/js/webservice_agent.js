@@ -7064,7 +7064,7 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_title'+sequence).value = '';
         for(i in document.getElementById('senior_title'+sequence).options){
             document.getElementById('senior_title'+sequence).options[i].disabled = false;
-        }passport
+        }
         $('#senior_title'+sequence).niceSelect('update');
         document.getElementById('senior_id'+sequence).value = '';
         document.getElementById('senior_first_name'+sequence).value = '';
