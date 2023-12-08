@@ -376,8 +376,8 @@ function check_issued_offline(){
                 }
                 if(document.getElementById('adult_identity_type' + (i + 1)).value != ''){
                     request['passenger_identity_type'+count_pax] = document.getElementById('adult_identity_type' + (i + 1)).value;
-                    request['passenger_identity_first_name'+count_pax] = document.getElementById('adult_identity_first_name'+ (i + 1)).value;
-                    request['passenger_identity_last_name'+count_pax] = document.getElementById('adult_identity_last_name'+ (i + 1)).value;
+//                    request['passenger_identity_first_name'+count_pax] = document.getElementById('adult_identity_first_name'+ (i + 1)).value;
+//                    request['passenger_identity_last_name'+count_pax] = document.getElementById('adult_identity_last_name'+ (i + 1)).value;
                     if(document.getElementById('adult_identity_type' + (i + 1)).value == 'ktp'){
                         if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
                             error_log+= 'Please fill identity number for passenger '+(count_pax + 1)+'!\n<br/>';
