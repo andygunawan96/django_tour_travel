@@ -8250,7 +8250,7 @@ function get_merchant_info(){
     });
 }
 
-function get_payment_espay(order_number_full){
+function get_payment_vendor(order_number_full){
     getToken();
     phone_number = '';
     if(payment_acq2[payment_method][selected].online_wallet){
@@ -8278,6 +8278,7 @@ function get_payment_espay(order_number_full){
             "bank_code": payment_acq2[payment_method][selected]['bank']['code'],
             "bank_name": payment_acq2[payment_method][selected].name,
             "online_wallet": payment_acq2[payment_method][selected].online_wallet,
+            "provider": payment_acq2[payment_method][selected].provider,
             "phone_number": phone_number,
             'save_url': payment_acq2[payment_method][selected].save_url,
             'url_back': url_back
