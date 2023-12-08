@@ -14123,13 +14123,6 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
                     document.getElementById('airline_departure_return').value = moment().format('DD MMM YYYY');
                     document.getElementById('airline_departure').value = moment().format('DD MMM YYYY');
                 }
-                if(moment(cookie_airline['return'][0]) > moment()){
-                    document.getElementById('airline_departure_return').value += ' - ' + cookie_airline['return'][0];
-                    document.getElementById('airline_return').value = cookie_airline['departure'][0];
-                }else{
-                    document.getElementById('airline_departure_return').value += ' - ' + moment().add(1, 'days').format('DD MMM YYYY');
-                    document.getElementById('airline_return').value = moment().add(1, 'days').format('DD MMM YYYY');
-                }
                 var picker_airline_departure = new Lightpick({
                     field: document.getElementById('airline_departure'),
                     singleDate: false,
