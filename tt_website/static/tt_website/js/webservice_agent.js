@@ -2855,7 +2855,18 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                                                         //print semua yg ada cache
                                                         for(j in msg.result.response[i].identities){
                                                             if(j=='passport' || found_selection == 0 || found_selection.includes(j))
-                                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                            {
+                                                                resp_str = j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number;
+                                                                if (msg.result.response[i].identities[j].identity_first_name != '' && msg.result.response[i].identities[j].identity_first_name != undefined && msg.result.response[i].identities[j].identity_first_name != false)
+                                                                {
+                                                                    resp_str += ` - ` + msg.result.response[i].identities[j].identity_first_name;
+                                                                    if (msg.result.response[i].identities[j].identity_last_name != '' && msg.result.response[i].identities[j].identity_last_name != undefined && msg.result.response[i].identities[j].identity_last_name != false)
+                                                                    {
+                                                                        resp_str += ` ` + msg.result.response[i].identities[j].identity_last_name;
+                                                                    }
+                                                                }
+                                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+resp_str+`</option>`;
+                                                            }
                                                         }
                                                     }
                                                     else{
@@ -2871,7 +2882,16 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                                                                             response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" `;
                                                                             if(!is_first_identity_found)
                                                                                 response += 'selected';
-                                                                            response += `>`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                                            resp_str = j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number;
+                                                                            if (msg.result.response[i].identities[j].identity_first_name != '' && msg.result.response[i].identities[j].identity_first_name != undefined && msg.result.response[i].identities[j].identity_first_name != false)
+                                                                            {
+                                                                                resp_str += ` - ` + msg.result.response[i].identities[j].identity_first_name;
+                                                                                if (msg.result.response[i].identities[j].identity_last_name != '' && msg.result.response[i].identities[j].identity_last_name != undefined && msg.result.response[i].identities[j].identity_last_name != false)
+                                                                                {
+                                                                                    resp_str += ` ` + msg.result.response[i].identities[j].identity_last_name;
+                                                                                }
+                                                                            }
+                                                                            response += `>`+resp_str+`</option>`;
                                                                             identity_is_found = true;
                                                                             is_first_identity_found = true;
                                                                         }
@@ -3898,6 +3918,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         {
                             document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_last_name;
                         }
+                        show_hide_id_name_div('adult', passenger_number.toString(), true)
                     }
                     else
                     {
@@ -4021,6 +4042,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     {
                         document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
                     }
+                    show_hide_id_name_div('adult', passenger_number.toString(), true)
                 }
                 else
                 {
@@ -4187,6 +4209,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                                 else{
                                                     document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
                                                 }
+                                                show_hide_id_name_div(type, passenger_number.toString(), true)
                                             }catch(err){console.log(err)}
                                             try{ //kalau ada identity last name
                                                 if(passenger_data[sequence].identities[i].identity_last_name != ''){
@@ -4337,6 +4360,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                     {
                                         document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
                                     }
+                                    show_hide_id_name_div(type, passenger_number.toString(), true)
                                 }
                                 else
                                 {
@@ -6364,6 +6388,7 @@ function copy_booker(val,type,identity){
                                             else if(document.getElementById('adult_identity_last_name'+passenger_number_copy_booker))
                                                 document.getElementById('adult_identity_last_name'+passenger_number_copy_booker).value = data[5];
                                         }
+                                        show_hide_id_name_div('adult', passenger_number_copy_booker.toString(), true)
                                     }else{
                                         if(document.getElementById('adult_passport_first_name'+passenger_number_copy_booker))
                                             document.getElementById('adult_passport_first_name'+passenger_number_copy_booker).value = document.getElementById('booker_first_name').value;
@@ -6424,6 +6449,7 @@ function copy_booker(val,type,identity){
                                     else if(document.getElementById('adult_identity_last_name'+passenger_number_copy_booker))
                                         document.getElementById('adult_identity_last_name'+passenger_number_copy_booker).value = data[5];
                                 }
+                                show_hide_id_name_div('adult', passenger_number_copy_booker.toString(), true)
                             }else{
                                 if(document.getElementById('adult_passport_first_name'+passenger_number_copy_booker))
                                     document.getElementById('adult_passport_first_name'+passenger_number_copy_booker).value = document.getElementById('booker_first_name').value;
@@ -8856,8 +8882,17 @@ function get_passenger_cache(type,update_cache=false){
                                                         <option value="all_identity">All Identity</option>`;
 
                                                     for(j in msg.result.response[i].identities){
+                                                        resp_str = j+` - `+msg.result.response[i].identities[j].identity_number;
+                                                        if (msg.result.response[i].identities[j].identity_first_name != '' && msg.result.response[i].identities[j].identity_first_name != undefined && msg.result.response[i].identities[j].identity_first_name != false)
+                                                        {
+                                                            resp_str += ` - ` + msg.result.response[i].identities[j].identity_first_name;
+                                                            if (msg.result.response[i].identities[j].identity_last_name != '' && msg.result.response[i].identities[j].identity_last_name != undefined && msg.result.response[i].identities[j].identity_last_name != false)
+                                                            {
+                                                                resp_str += ` ` + msg.result.response[i].identities[j].identity_last_name;
+                                                            }
+                                                        }
                                                         response+=`
-                                                        <option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" style="text-transform: capitalize;">`+j+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                        <option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" style="text-transform: capitalize;">`+resp_str+`</option>`;
                                                     }
                                                     response+=`</select>`;
                                                 }
@@ -10208,6 +10243,7 @@ function pick_passenger_cache_copy(val, identity){
                                                     else if(document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number))
                                                         document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number).value = data[5];
                                                 }
+                                                show_hide_id_name_div(passenger_pick, passenger_pick_number.toString(), true)
                                             }else{
                                                 if(document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number))
                                                     document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number).value = passenger_data_cache[val].first_name;
@@ -10336,6 +10372,7 @@ function pick_passenger_cache_copy(val, identity){
                                             else if(document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number))
                                                 document.getElementById(passenger_pick+'_identity_last_name'+passenger_pick_number).value = data[5];
                                         }
+                                        show_hide_id_name_div(passenger_pick, passenger_pick_number.toString(), true)
                                     }else{
                                         if(document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number))
                                             document.getElementById(passenger_pick+'_passport_first_name'+passenger_pick_number).value = passenger_data_cache[val].first_name;
@@ -12018,5 +12055,37 @@ function filter_top_right(pax_btn, num, prd){
                     document.getElementById('button_tr_'+parseInt(num)).style.display = 'none';
             }catch(err){console.log(err);}
         }
+    }
+}
+
+function show_hide_id_name_div(pax_type, ctp, force_open=false)
+{
+    try{
+        pax_id_names = document.getElementsByClassName(pax_type+'_id_name'+ctp);
+        pax_id_name_down = document.getElementById(pax_type+'_down_id_name'+ctp);
+        pax_id_name_up = document.getElementById(pax_type+'_up_id_name'+ctp);
+
+        if(pax_id_names.length > 0)
+        {
+            if (pax_id_names[0].style.display === "none" || force_open == true) {
+                for(rec_pax of pax_id_names)
+                {
+                    rec_pax.style.display = "inline-block";
+                }
+                pax_id_name_down.style.display = "inline-block";
+                pax_id_name_up.style.display = "none";
+            }
+            else {
+                for(rec_pax of pax_id_names)
+                {
+                    rec_pax.style.display = "none";
+                }
+                pax_id_name_down.style.display = "none";
+                pax_id_name_up.style.display = "inline-block";
+            }
+        }
+    }
+    catch{
+        console.log('no passenger identity name section');
     }
 }
