@@ -14287,30 +14287,3 @@ function copy_first_last_name_to_identity(pax_type, ctp)
     document.getElementById(pax_type+'_identity_first_name'+ctp).value = document.getElementById(pax_type+'_first_name'+ctp).value;
     document.getElementById(pax_type+'_identity_last_name'+ctp).value = document.getElementById(pax_type+'_last_name'+ctp).value;
 }
-
-function show_hide_id_name_div(pax_type, ctp)
-{
-    pax_id_names = document.getElementsByClassName(pax_type+'_id_name'+ctp);
-    pax_id_name_down = document.getElementById(pax_type+'_down_id_name'+ctp);
-    pax_id_name_up = document.getElementById(pax_type+'_up_id_name'+ctp);
-
-    if(pax_id_names.length > 0)
-    {
-        if (pax_id_names[0].style.display === "none") {
-            for(rec_pax of pax_id_names)
-            {
-                rec_pax.style.display = "inline-block";
-            }
-            pax_id_name_down.style.display = "inline-block";
-            pax_id_name_up.style.display = "none";
-        }
-        else {
-            for(rec_pax of pax_id_names)
-            {
-                rec_pax.style.display = "none";
-            }
-            pax_id_name_down.style.display = "none";
-            pax_id_name_up.style.display = "inline-block";
-        }
-    }
-}
