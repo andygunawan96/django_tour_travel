@@ -199,7 +199,7 @@ def get_merchant_info(request):
 def set_payment_method(request):
     try:
         data = {
-            "provider": "espay",
+            "provider": request.POST['provider'],
             "signature": request.POST['signature'],
             "order_number": request.POST['order_number'],
             "bank_code": request.POST['bank_code'],
