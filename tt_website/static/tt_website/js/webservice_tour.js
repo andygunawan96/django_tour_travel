@@ -3015,11 +3015,11 @@ function tour_get_booking(order_number)
                                         price_text+=`</div>
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                             <span style="font-size:13px;`;
-//                                            if(is_show_breakdown_price){
-//                                                price_text+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
-//                                            }else{
+                                            if(is_show_breakdown_price){
+                                                price_text+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
+                                            }else{
                                                 price_text+=`"`;
-//                                            }
+                                            }
 
 //                                        if(counter_service_charge == 0){
 //                                        price_text+=`
@@ -3030,8 +3030,8 @@ function tour_get_booking(order_number)
 //                                        }
                                         price_text+=`
                                             >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC));
-//                                        if(is_show_breakdown_price)
-//                                            price_text+=`<i class="fas fa-caret-down"></i>`;
+                                        if(is_show_breakdown_price)
+                                            price_text+=`<i class="fas fa-caret-down"></i>`;
                                         price_text += `</span>`;
                                         price_text+=`
                                         </div>
@@ -3089,11 +3089,11 @@ function tour_get_booking(order_number)
                           </div>
                           <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                <span id="total_price" style="font-weight:bold;`;
-//                            if(is_show_breakdown_price)
-//                                price_text+='cursor:pointer;';
+                            if(is_show_breakdown_price)
+                                price_text+='cursor:pointer;';
                             price_text +=`;">`+price.currency+` `+getrupiah(Math.ceil(total_price));
-//                            if(is_show_breakdown_price)
-//                                price_text+=`<i class="fas fa-caret-down"></i>`;
+                            if(is_show_breakdown_price)
+                                price_text+=`<i class="fas fa-caret-down"></i>`;
                             price_text+=`
                                 </span>
                           </div>
@@ -3219,99 +3219,183 @@ function tour_get_booking(order_number)
                     $test+= '\n‣ Grand Total: '+`+price.currency+`+' '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                     document.getElementById('tour_detail_table').innerHTML = price_text;
 
-//                    if(is_show_breakdown_price){
-//                        var price_breakdown = {};
-//                        var currency_breakdown = '';
-//                        for(i in tr_get_booking.result.response.passengers){
-//                            for(j in tr_get_booking.result.response.passengers[i].sale_service_charges){
-//                                for(k in tr_get_booking.result.response.passengers[i].sale_service_charges[j]){
-//                                    if(k != 'RAC'){
-//                                        if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
-//                                            price_breakdown[k.toUpperCase()] = 0;
-//                                        price_breakdown[k.toUpperCase()] += tr_get_booking.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                                        if(currency_breakdown == '')
-//                                            currency_breakdown = tr_get_booking.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                                    }
-//                                }
-//                            }
-//                            var breakdown_text = '';
-//                            for(j in price_breakdown){
-//                                if(breakdown_text)
-//                                    breakdown_text += '<br/>';
-//                                if(j != 'ROC')
-//                                    breakdown_text += '<b>'+j+'</b> ';
-//                                else
-//                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                            }
-//                            new jBox('Tooltip', {
-//                                attach: '#passenger_breakdown'+i,
-//                                target: '#passenger_breakdown'+i,
-//                                theme: 'TooltipBorder',
-//                                trigger: 'click',
-//                                adjustTracker: true,
-//                                closeOnClick: 'body',
-//                                closeButton: 'box',
-//                                animation: 'move',
-//                                position: {
-//                                  x: 'left',
-//                                  y: 'top'
-//                                },
-//                                outside: 'y',
-//                                pointer: 'left:20',
-//                                offset: {
-//                                  x: 25
-//                                },
-//                                content: breakdown_text
-//                            });
-//                            price_breakdown = {};
-//                            breakdown_text = '';
-//                            currency_breakdown = '';
-//                        }
-//                        for(i in tr_get_booking.result.response.passengers){
-//                            for(j in tr_get_booking.result.response.passengers[i].sale_service_charges){
-//                                for(k in tr_get_booking.result.response.passengers[i].sale_service_charges[j]){
-//                                    if(k != 'RAC'){
-//                                        if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
-//                                            price_breakdown[k.toUpperCase()] = 0;
-//                                        price_breakdown[k.toUpperCase()] += tr_get_booking.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                                        if(currency_breakdown == '')
-//                                            currency_breakdown = tr_get_booking.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        var breakdown_text = '';
-//                        for(j in price_breakdown){
-//                            if(breakdown_text)
-//                                breakdown_text += '<br/>';
-//                            if(j != 'ROC')
-//                                breakdown_text += '<b>'+j+'</b> ';
-//                            else
-//                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                        }
-//                        new jBox('Tooltip', {
-//                            attach: '#total_price',
-//                            target: '#total_price',
-//                            theme: 'TooltipBorder',
-//                            trigger: 'click',
-//                            adjustTracker: true,
-//                            closeOnClick: 'body',
-//                            closeButton: 'box',
-//                            animation: 'move',
-//                            position: {
-//                              x: 'left',
-//                              y: 'top'
-//                            },
-//                            outside: 'y',
-//                            pointer: 'left:20',
-//                            offset: {
-//                              x: 25
-//                            },
-//                            content: breakdown_text
-//                        });
-//                    }
+                    if(is_show_breakdown_price){
+                        var price_breakdown = {};
+                        var currency_breakdown = '';
+                        for(i in tr_get_booking.result.response.passengers){
+                            price_breakdown = {};
+                            for(j in tr_get_booking.result.response.passengers[i].service_charge_details){
+                                for(k in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges){
+                                    for(l in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                        currency_breakdown = tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k][l].currency;
+                                        break;
+                                    }
+                                }
+                                if(!price_breakdown.hasOwnProperty('FARE'))
+                                    price_breakdown['FARE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TAX'))
+                                    price_breakdown['TAX'] = 0;
+                                if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                    price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                    price_breakdown['COMMISSION'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA TOUR'))
+                                    price_breakdown['NTA TOUR'] = 0;
+                                if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                    price_breakdown['SERVICE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('VAT'))
+                                    price_breakdown['VAT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('OTT'))
+                                    price_breakdown['OTT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                    price_breakdown['TOTAL PRICE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                    price_breakdown['NTA AGENT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                    price_breakdown['COMMISSION HO'] = 0;
+
+                                price_breakdown['FARE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                                price_breakdown['TAX'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['COMMISSION'] = (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                price_breakdown['NTA TOUR'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                                price_breakdown['SERVICE FEE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                                price_breakdown['VAT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                                price_breakdown['OTT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['TOTAL PRICE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price;
+                                price_breakdown['NTA AGENT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta;
+                                price_breakdown['COMMISSION HO'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                for(k in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges){
+                                    if(k == 'ROC'){
+                                        for(l in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                            if(tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                                price_breakdown['CHANNEL UPSELL'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                                var breakdown_text = '';
+                                for(k in price_breakdown){
+                                    if(breakdown_text)
+                                        breakdown_text += '<br/>';
+                                    breakdown_text += '<b>'+k+'</b> ';
+                                    if(j != 'BREAKDOWN')
+                                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
+                                }
+                                new jBox('Tooltip', {
+                                    attach: '#passenger_breakdown'+i,
+                                    target: '#passenger_breakdown'+i,
+                                    theme: 'TooltipBorder',
+                                    trigger: 'click',
+                                    adjustTracker: true,
+                                    closeOnClick: 'body',
+                                    closeButton: 'box',
+                                    animation: 'move',
+                                    position: {
+                                      x: 'left',
+                                      y: 'top'
+                                    },
+                                    outside: 'y',
+                                    pointer: 'left:20',
+                                    offset: {
+                                      x: 25
+                                    },
+                                    content: breakdown_text
+                                });
+                                price_breakdown = {};
+                                breakdown_text = '';
+                                currency_breakdown = '';
+                            }
+                        }
+
+                        price_breakdown = {};
+                        for(i in tr_get_booking.result.response.passengers){
+                            for(j in tr_get_booking.result.response.passengers[i].service_charge_details){
+                                if(!price_breakdown.hasOwnProperty('FARE'))
+                                    price_breakdown['FARE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TAX'))
+                                    price_breakdown['TAX'] = 0;
+                                if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                    price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                    price_breakdown['COMMISSION'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA TRAIN'))
+                                    price_breakdown['NTA TOUR'] = 0;
+                                if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                    price_breakdown['SERVICE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('VAT'))
+                                    price_breakdown['VAT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('OTT'))
+                                    price_breakdown['OTT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                    price_breakdown['TOTAL PRICE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                    price_breakdown['NTA AGENT'] = 0;
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                    price_breakdown['COMMISSION HO'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                                    price_breakdown['CHANNEL UPSELL'] = 0;
+
+                                price_breakdown['FARE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                                price_breakdown['TAX'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['COMMISSION'] += (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                price_breakdown['NTA TOUR'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                                price_breakdown['SERVICE FEE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                                price_breakdown['VAT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                                price_breakdown['OTT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['TOTAL PRICE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price;
+                                price_breakdown['NTA AGENT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta;
+                                price_breakdown['COMMISSION HO'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                for(k in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges){
+                                    if(k == 'ROC'){
+                                        for(l in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                            if(tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                                price_breakdown['CHANNEL UPSELL'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        var breakdown_text = '';
+                        for(j in price_breakdown){
+                            add_breakdown = true
+                            if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
+                                add_breakdown = false;
+                            if(add_breakdown){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+j+'</b> ';
+                                if(j != 'BREAKDOWN')
+                                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            }
+                        }
+                        new jBox('Tooltip', {
+                            attach: '#total_price',
+                            target: '#total_price',
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'top'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: breakdown_text
+                        });
+                    }
                     add_repricing();
                     if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
                         try{

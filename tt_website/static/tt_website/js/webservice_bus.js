@@ -1601,11 +1601,11 @@ function bus_get_booking(data, sync=false){
                                 text_detail+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;`;
-//                                    if(is_show_breakdown_price){
-//                                        text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
-//                                    }else{
+                                    if(is_show_breakdown_price){
+                                        text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
+                                    }else{
                                         text_detail+=`"`;
-//                                    }
+                                    }
 
                                 if(counter_service_charge == 0) //with upsell pnr pertama
                                     text_detail+=`
@@ -1613,8 +1613,8 @@ function bus_get_booking(data, sync=false){
                                 else
                                     text_detail+=`
                                     >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
-//                                if(is_show_breakdown_price)
-//                                    text_detail+=`<i class="fas fa-caret-down"></i>`;
+                                if(is_show_breakdown_price)
+                                    text_detail+=`<i class="fas fa-caret-down"></i>`;
                                 text_detail += `</span>`;
                                 text_detail+=`
                                 </div>
@@ -1698,8 +1698,8 @@ function bus_get_booking(data, sync=false){
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span id="total_price" style="font-size:13px; font-weight: bold;`;
-//                            if(is_show_breakdown_price)
-//                                text_detail+='cursor:pointer;';
+                            if(is_show_breakdown_price)
+                                text_detail+='cursor:pointer;';
                             text_detail +=`">`;
                             try{
                                 if(total_price != 0)
@@ -1709,8 +1709,8 @@ function bus_get_booking(data, sync=false){
                             }catch(err){
 
                             }
-//                            if(is_show_breakdown_price)
-//                                text_detail+=`<i class="fas fa-caret-down"></i>`;
+                            if(is_show_breakdown_price)
+                                text_detail+=`<i class="fas fa-caret-down"></i>`;
                             text_detail+= `</span>
                         </div>
                     </div>`;
@@ -1836,99 +1836,183 @@ function bus_get_booking(data, sync=false){
                 document.getElementById('show_loading_booking_bus').hidden = true;
                 document.getElementById('bus_detail').innerHTML = text;
 
-//                if(is_show_breakdown_price){
-//                    var price_breakdown = {};
-//                    var currency_breakdown = '';
-//                    for(i in bus_get_detail.result.response.passengers){
-//                        for(j in bus_get_detail.result.response.passengers[i].sale_service_charges){
-//                            for(k in bus_get_detail.result.response.passengers[i].sale_service_charges[j]){
-//                                if(k != 'RAC'){
-//                                    if(!price_breakdown.hasOwnProperty(k))
-//                                        price_breakdown[k.toUpperCase()] = 0;
-//                                    price_breakdown[k.toUpperCase()] += bus_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                                    if(currency_breakdown == '')
-//                                        currency_breakdown = bus_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                                }
-//                            }
-//                        }
-//                        var breakdown_text = '';
-//                        for(j in price_breakdown){
-//                            if(breakdown_text)
-//                                breakdown_text += '<br/>';
-//                            if(j != 'ROC')
-//                                breakdown_text += '<b>'+j+'</b> ';
-//                            else
-//                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                        }
-//                        new jBox('Tooltip', {
-//                            attach: '#passenger_breakdown'+i,
-//                            target: '#passenger_breakdown'+i,
-//                            theme: 'TooltipBorder',
-//                            trigger: 'click',
-//                            adjustTracker: true,
-//                            closeOnClick: 'body',
-//                            closeButton: 'box',
-//                            animation: 'move',
-//                            position: {
-//                              x: 'left',
-//                              y: 'top'
-//                            },
-//                            outside: 'y',
-//                            pointer: 'left:20',
-//                            offset: {
-//                              x: 25
-//                            },
-//                            content: breakdown_text
-//                        });
-//                        price_breakdown = {};
-//                        breakdown_text = '';
-//                        currency_breakdown = '';
-//                    }
-//                    for(i in bus_get_detail.result.response.passengers){
-//                        for(j in bus_get_detail.result.response.passengers[i].sale_service_charges){
-//                            for(k in bus_get_detail.result.response.passengers[i].sale_service_charges[j]){
-//                                if(k != 'RAC'){
-//                                    if(!price_breakdown.hasOwnProperty(k))
-//                                        price_breakdown[k.toUpperCase()] = 0;
-//                                    price_breakdown[k.toUpperCase()] += bus_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                                    if(currency_breakdown == '')
-//                                        currency_breakdown = bus_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    var breakdown_text = '';
-//                    for(j in price_breakdown){
-//                        if(breakdown_text)
-//                            breakdown_text += '<br/>';
-//                        if(j != 'ROC')
-//                            breakdown_text += '<b>'+j+'</b> ';
-//                        else
-//                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                    }
-//                    new jBox('Tooltip', {
-//                        attach: '#total_price',
-//                        target: '#total_price',
-//                        theme: 'TooltipBorder',
-//                        trigger: 'click',
-//                        adjustTracker: true,
-//                        closeOnClick: 'body',
-//                        closeButton: 'box',
-//                        animation: 'move',
-//                        position: {
-//                          x: 'left',
-//                          y: 'top'
-//                        },
-//                        outside: 'y',
-//                        pointer: 'left:20',
-//                        offset: {
-//                          x: 25
-//                        },
-//                        content: breakdown_text
-//                    });
-//                }
+                if(is_show_breakdown_price){
+                    var price_breakdown = {};
+                    var currency_breakdown = '';
+                    for(i in bus_get_detail.result.response.passengers){
+                        price_breakdown = {};
+                        for(j in bus_get_detail.result.response.passengers[i].service_charge_details){
+                            for(k in bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                for(l in bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                    currency_breakdown = bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].currency;
+                                    break;
+                                }
+                            }
+                            if(!price_breakdown.hasOwnProperty('FARE'))
+                                price_breakdown['FARE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TAX'))
+                                price_breakdown['TAX'] = 0;
+                            if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                price_breakdown['COMMISSION'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA BUS'))
+                                price_breakdown['NTA BUS'] = 0;
+                            if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                price_breakdown['SERVICE FEE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('VAT'))
+                                price_breakdown['VAT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('OTT'))
+                                price_breakdown['OTT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                price_breakdown['TOTAL PRICE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                price_breakdown['NTA AGENT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                price_breakdown['COMMISSION HO'] = 0;
+
+                            price_breakdown['FARE'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                            price_breakdown['TAX'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['COMMISSION'] = (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            price_breakdown['NTA BUS'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                            price_breakdown['SERVICE FEE'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                            price_breakdown['VAT'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                            price_breakdown['OTT'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['TOTAL PRICE'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                            price_breakdown['NTA AGENT'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                            price_breakdown['COMMISSION HO'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            for(k in bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                if(k == 'ROC'){
+                                    for(l in bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                        if(bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                            price_breakdown['CHANNEL UPSELL'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            var breakdown_text = '';
+                            for(k in price_breakdown){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+k+'</b> ';
+                                if(j != 'BREAKDOWN')
+                                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
+                            }
+                            new jBox('Tooltip', {
+                                attach: '#passenger_breakdown'+i+'_'+ bus_get_detail.result.response.passengers[i].service_charge_details[j].pnr,
+                                target: '#passenger_breakdown'+i+'_'+ bus_get_detail.result.response.passengers[i].service_charge_details[j].pnr,
+                                theme: 'TooltipBorder',
+                                trigger: 'click',
+                                adjustTracker: true,
+                                closeOnClick: 'body',
+                                closeButton: 'box',
+                                animation: 'move',
+                                position: {
+                                  x: 'left',
+                                  y: 'top'
+                                },
+                                outside: 'y',
+                                pointer: 'left:20',
+                                offset: {
+                                  x: 25
+                                },
+                                content: breakdown_text
+                            });
+                            price_breakdown = {};
+                            breakdown_text = '';
+                            currency_breakdown = '';
+                        }
+                    }
+
+                    price_breakdown = {};
+                    for(i in bus_get_detail.result.response.passengers){
+                        for(j in bus_get_detail.result.response.passengers[i].service_charge_details){
+                            if(!price_breakdown.hasOwnProperty('FARE'))
+                                price_breakdown['FARE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TAX'))
+                                price_breakdown['TAX'] = 0;
+                            if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                price_breakdown['COMMISSION'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA BUS'))
+                                price_breakdown['NTA BUS'] = 0;
+                            if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                price_breakdown['SERVICE FEE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('VAT'))
+                                price_breakdown['VAT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('OTT'))
+                                price_breakdown['OTT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                price_breakdown['TOTAL PRICE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                price_breakdown['NTA AGENT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                price_breakdown['COMMISSION HO'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                                price_breakdown['CHANNEL UPSELL'] = 0;
+
+                            price_breakdown['FARE'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                            price_breakdown['TAX'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['COMMISSION'] += (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            price_breakdown['NTA BUS'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                            price_breakdown['SERVICE FEE'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                            price_breakdown['VAT'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                            price_breakdown['OTT'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['TOTAL PRICE'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                            price_breakdown['NTA AGENT'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                            price_breakdown['COMMISSION HO'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            for(k in bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                if(k == 'ROC'){
+                                    for(l in bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                        if(bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                            price_breakdown['CHANNEL UPSELL'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    var breakdown_text = '';
+                    for(j in price_breakdown){
+                        add_breakdown = true
+                        if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
+                            add_breakdown = false;
+                        if(add_breakdown){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            breakdown_text += '<b>'+j+'</b> ';
+                            if(j != 'BREAKDOWN')
+                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }
+                    }
+                    new jBox('Tooltip', {
+                        attach: '#total_price',
+                        target: '#total_price',
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'top'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: breakdown_text
+                    });
+                }
 
                 if(msg.result.response.state == 'cancel'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
