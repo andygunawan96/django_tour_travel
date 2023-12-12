@@ -12090,3 +12090,47 @@ function show_hide_id_name_div(pax_type, ctp, force_open=false)
         console.log('no passenger identity name section');
     }
 }
+
+function show_hide_fill_identity_div(pax_type, ctp)
+{
+    try{
+        fill_pax_id = document.getElementById(pax_type+'_identity_div'+ctp);
+        fill_pax_id_check = document.getElementById(pax_type+'_checkbox_identity_div'+ctp);
+        fill_pax_id_down = document.getElementById(pax_type+'_down_fill_identity'+ctp);
+        fill_pax_id_up = document.getElementById(pax_type+'_up_fill_identity'+ctp);
+
+        if(fill_pax_id)
+        {
+            if(fill_pax_id_down.style.display === "none") {
+                if(fill_pax_id_check)
+                {
+                    fill_pax_id_check.style.display = "block";
+                    if(!document.getElementById(pax_type+'_valid_passport'+ctp).checked)
+                    {
+                        fill_pax_id.style.display = "block";
+                    }
+                }
+                else
+                {
+                    fill_pax_id.style.display = "block";
+                }
+                fill_pax_id_down.style.display = "inline-block";
+                fill_pax_id_up.style.display = "none";
+            }
+            else {
+                if(fill_pax_id_check)
+                {
+                    fill_pax_id_check.style.display = "none";
+                }
+                if(fill_pax_id.style.display !== "none") {
+                    fill_pax_id.style.display = "none";
+                }
+                fill_pax_id_down.style.display = "none";
+                fill_pax_id_up.style.display = "inline-block";
+            }
+        }
+    }
+    catch{
+        console.log('no passenger identity section');
+    }
+}

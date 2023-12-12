@@ -556,8 +556,18 @@
                                                     </div>
                                                 </div>
 
-                                                {% if is_identity_required == True or is_international == True or is_need_valid_identity == True %}
-                                                <div class="col-lg-12" style="text-align:left;">
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_fill_identity_div('adult', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_adult_identity{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity {% if is_identity_required != True and is_need_valid_identity != True %} (Optional) {% endif %}</strong></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:inline-block; {% else %} display:none; {% endif %}" id="adult_down_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:none; {% else %} display:inline-block; {% endif %}" id="adult_up_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {% if is_identity_required == True or is_need_valid_identity == True %}
+                                                <div id="adult_checkbox_identity_div{{forloop.counter}}" class="col-lg-12" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">{% trans "I Don't have a valid passport " %}</span>
@@ -569,7 +579,7 @@
                                                 </div>
                                                 {% endif %}
 
-                                                <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if is_identity_required == True or is_need_valid_identity == True %} display:block; {% else %} display:none; {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
                                                         </div>
@@ -660,7 +670,7 @@
                                                         <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                                 </div>
@@ -950,8 +960,18 @@
                                                     </div>
                                                 </div>
 
-                                                {% if is_identity_required == True or is_international == True or is_need_valid_identity == True %}
-                                                <div class="col-lg-12" style="text-align:left;">
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_fill_identity_div('child', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_child_identity{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity {% if is_identity_required != True and is_need_valid_identity != True %} (Optional) {% endif %}</strong></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:inline-block; {% else %} display:none; {% endif %}" id="child_down_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:none; {% else %} display:inline-block; {% endif %}" id="child_up_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {% if is_identity_required == True or is_need_valid_identity == True %}
+                                                <div id="child_checkbox_identity_div{{forloop.counter}}" class="col-lg-12" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">{% trans "I Don't have a valid passport " %}</span>
@@ -963,7 +983,7 @@
                                                 </div>
                                                 {% endif %}
 
-                                                <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if is_identity_required == True or is_need_valid_identity == True %} display:block; {% else %} display:none; {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
                                                         </div>
@@ -986,7 +1006,7 @@
 
                                                                             <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
                                                                             <div class="input-container-search-ticket">
-                                                                                <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                                <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="child_description_attachment_identity{{forloop.counter}}" placeholder="Description">
                                                                             </div>
                                                                             <div id="child_attachment_identity{{forloop.counter}}">
 
@@ -1057,7 +1077,7 @@
                                                         <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                                 </div>
@@ -1313,8 +1333,18 @@
                                                     </div>
                                                 </div>
 
-                                                {% if is_identity_required == True or is_international == True or is_need_valid_identity == True %}
-                                                <div class="col-lg-12" style="text-align:left;">
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_fill_identity_div('infant', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_infant_identity{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity {% if is_identity_required != True and is_need_valid_identity != True %} (Optional) {% endif %}</strong></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:inline-block; {% else %} display:none; {% endif %}" id="infant_down_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:none; {% else %} display:inline-block; {% endif %}" id="infant_up_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {% if is_identity_required == True or is_need_valid_identity == True %}
+                                                <div id="infant_checkbox_identity_div{{forloop.counter}}" class="col-lg-12" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">{% trans "I Don't have a valid passport " %}</span>
@@ -1326,7 +1356,7 @@
                                                 </div>
                                                 {% endif %}
 
-                                                <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if is_identity_required == True or is_need_valid_identity == True %} display:block; {% else %} display:none; {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
                                                         </div>
@@ -1420,7 +1450,7 @@
                                                         <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('infant', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span id="fill_infant_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span id="fill_infant_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="infant_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="infant_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                                 </div>
@@ -1648,8 +1678,18 @@
                                                     </div>
                                                 </div>
 
-                                                {% if is_identity_required == True or is_international == True or is_need_valid_identity == True %}
-                                                <div class="col-lg-12" style="text-align:left;">
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_fill_identity_div('student', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_student_identity{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity {% if is_identity_required != True and is_need_valid_identity != True %} (Optional) {% endif %}</strong></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:inline-block; {% else %} display:none; {% endif %}" id="student_down_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:none; {% else %} display:inline-block; {% endif %}" id="student_up_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {% if is_identity_required == True or is_need_valid_identity == True %}
+                                                <div id="student_checkbox_identity_div{{forloop.counter}}" class="col-lg-12" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">{% trans "I Don't have a valid passport " %}</span>
@@ -1661,7 +1701,7 @@
                                                 </div>
                                                 {% endif %}
 
-                                                <div class="col-lg-12" id="student_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                <div class="col-lg-12" id="student_identity_div{{forloop.counter}}" style="{% if is_identity_required == True or is_need_valid_identity == True %} display:block; {% else %} display:none; {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-12 col-md-12 col-sm-12" id="student_div_avatar_identity{{forloop.counter}}" hidden>
                                                         </div>
@@ -1684,7 +1724,7 @@
 
                                                                             <div id="selectedFiles_student_files_identity{{forloop.counter}}"></div>
                                                                             <div class="input-container-search-ticket">
-                                                                                <input type="text" class="form-control o_website_form_input" id="student_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                                <input type="text" class="form-control o_website_form_input" id="student_description_attachment_identity{{forloop.counter}}" name="student_description_attachment_identity{{forloop.counter}}" placeholder="Description">
                                                                             </div>
                                                                             <div id="student_attachment_identity{{forloop.counter}}">
 
@@ -1755,7 +1795,7 @@
                                                         <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('student', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span id="fill_student_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span id="fill_student_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="student_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="student_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                                 </div>
@@ -2011,8 +2051,18 @@
                                                     </div>
                                                 </div>
 
-                                                {% if is_identity_required == True or is_international == True or is_need_valid_identity == True %}
-                                                <div class="col-lg-12" style="text-align:left;">
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_fill_identity_div('labour', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_labour_identity{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity {% if is_identity_required != True and is_need_valid_identity != True %} (Optional) {% endif %}</strong></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:inline-block; {% else %} display:none; {% endif %}" id="labour_down_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:none; {% else %} display:inline-block; {% endif %}" id="labour_up_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {% if is_identity_required == True or is_need_valid_identity == True %}
+                                                <div id="labour_checkbox_identity_div{{forloop.counter}}" class="col-lg-12" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">{% trans "I Don't have a valid passport " %}</span>
@@ -2024,7 +2074,7 @@
                                                 </div>
                                                 {% endif %}
 
-                                                <div class="col-lg-12" id="labour_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                <div class="col-lg-12" id="labour_identity_div{{forloop.counter}}" style="{% if is_identity_required == True or is_need_valid_identity == True %} display:block; {% else %} display:none; {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-12 col-md-12 col-sm-12" id="labour_div_avatar_identity{{forloop.counter}}" hidden>
                                                         </div>
@@ -2047,7 +2097,7 @@
 
                                                                             <div id="selectedFiles_labour_files_identity{{forloop.counter}}"></div>
                                                                             <div class="input-container-search-ticket">
-                                                                                <input type="text" class="form-control o_website_form_input" id="labour_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                                <input type="text" class="form-control o_website_form_input" id="labour_description_attachment_identity{{forloop.counter}}" name="labour_description_attachment_identity{{forloop.counter}}" placeholder="Description">
                                                                             </div>
                                                                             <div id="labour_attachment_identity{{forloop.counter}}">
 
@@ -2118,7 +2168,7 @@
                                                         <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('labour', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span id="fill_labour_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span id="fill_labour_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="labour_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="labour_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                                 </div>
@@ -2375,8 +2425,18 @@
                                                     </div>
                                                 </div>
 
-                                                {% if is_identity_required == True or is_international == True or is_need_valid_identity == True %}
-                                                <div class="col-lg-12" style="text-align:left;">
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_fill_identity_div('seaman', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_seaman_identity{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity {% if is_identity_required != True and is_need_valid_identity != True %} (Optional) {% endif %}</strong></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:inline-block; {% else %} display:none; {% endif %}" id="seaman_down_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px; {% if is_identity_required == True or is_need_valid_identity == True %} display:none; {% else %} display:inline-block; {% endif %}" id="seaman_up_fill_identity{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {% if is_identity_required == True or is_need_valid_identity == True %}
+                                                <div id="seaman_checkbox_identity_div{{forloop.counter}}" class="col-lg-12" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">{% trans "I Don't have a valid passport " %}</span>
@@ -2388,7 +2448,7 @@
                                                 </div>
                                                 {% endif %}
 
-                                                <div class="col-lg-12" id="seaman_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True or is_need_valid_identity == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                <div class="col-lg-12" id="seaman_identity_div{{forloop.counter}}" style="{% if is_identity_required == True or is_need_valid_identity == True %} display:block; {% else %} display:none; {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-12 col-md-12 col-sm-12" id="seaman_div_avatar_identity{{forloop.counter}}" hidden>
                                                         </div>
@@ -2411,7 +2471,7 @@
 
                                                                             <div id="selectedFiles_seaman_files_identity{{forloop.counter}}"></div>
                                                                             <div class="input-container-search-ticket">
-                                                                                <input type="text" class="form-control o_website_form_input" id="seaman_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                                <input type="text" class="form-control o_website_form_input" id="seaman_description_attachment_identity{{forloop.counter}}" name="seaman_description_attachment_identity{{forloop.counter}}" placeholder="Description">
                                                                             </div>
                                                                             <div id="seaman_attachment_identity{{forloop.counter}}">
 
@@ -2482,7 +2542,7 @@
                                                         <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('seaman', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <span id="fill_seaman_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>Fill Identity Name</strong></span>
+                                                                    <span id="fill_seaman_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="seaman_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="seaman_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                                 </div>
