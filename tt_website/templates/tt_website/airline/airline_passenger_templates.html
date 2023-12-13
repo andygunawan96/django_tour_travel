@@ -166,11 +166,12 @@
                                                                         <div class="form-select-2">
                                                                             <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('booker','','train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="seq_id">By Customer Sequence ID</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
                                                                                 <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="birth_date">By Birth Date</option>
-                                                                                <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -415,6 +416,7 @@
                                                                                     <div class="form-select-2">
                                                                                         <select class="nice-select-default" id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type" onchange="search_type_on_change('adult','{{forloop.counter}}','train_adult{{forloop.counter}}_search_type','train_adult{{forloop.counter}}_search');">
                                                                                             <option value="cust_name">By Customer Name</option>
+                                                                                            <option value="seq_id">By Customer Sequence ID</option>
                                                                                             <option value="mobile">By Customer Mobile</option>
                                                                                             <option value="email">By Customer Mail</option>
                                                                                             <option value="identity_type">By Customer Identity Number</option>
@@ -535,7 +537,7 @@
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="update_identity('adult',{{forloop.counter}});" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" class="nice-select-default">
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                                 {% endfor %}
@@ -627,12 +629,10 @@
                                                                 <div class="form-select-2" id="default-select">
                                                                     <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_international == False %} <!--KALAU BUKAN INTER-->
                                                                         <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
                                                                         {% endif %}
+                                                                        <option value="passport">Passport</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -830,6 +830,7 @@
                                                                                 <div class="form-select-2">
                                                                                     <select class="nice-select-default" id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type" onchange="search_type_on_change('child','{{forloop.counter}}','train_child{{forloop.counter}}_search_type','train_child{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="seq_id">By Customer Sequence ID</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
                                                                                         <option value="identity_type">By Customer Identity Number</option>
@@ -943,7 +944,7 @@
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="update_identity('child',{{forloop.counter}});" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" class="nice-select-default">
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                                 {% endfor %}
@@ -1031,12 +1032,10 @@
                                                                 <div class="form-select-2" id="default-select">
                                                                     <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_international == False %} <!--KALAU BUKAN INTER-->
                                                                         <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
                                                                         {% endif %}
+                                                                        <option value="passport">Passport</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -1047,9 +1046,6 @@
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('child', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -1203,6 +1199,7 @@
                                                                                 <div class="form-select-2">
                                                                                     <select class="nice-select-default" id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type" onchange="search_type_on_change('infant','{{forloop.counter}}','train_infant{{forloop.counter}}_search_type','train_infant{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="seq_id">By Customer Sequence ID</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
                                                                                         <option value="identity_type">By Customer Identity Number</option>
@@ -1316,7 +1313,7 @@
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="update_identity('infant',{{forloop.counter}});" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" class="nice-select-default">
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                                 {% endfor %}
@@ -1404,12 +1401,10 @@
                                                                 <div class="form-select-2" id="default-select">
                                                                     <select class="nice-select-default" id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_international == False %} <!--KALAU BUKAN INTER-->
                                                                         <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
                                                                         {% endif %}
+                                                                        <option value="passport">Passport</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -1420,9 +1415,6 @@
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('infant', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -1547,6 +1539,7 @@
                                                                                 <div class="form-select-2">
                                                                                     <select class="nice-select-default" id="train_student{{forloop.counter}}_search_type" name="train_student{{forloop.counter}}_search_type" onchange="search_type_on_change('student','{{forloop.counter}}','train_student{{forloop.counter}}_search_type','train_student{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="seq_id">By Customer Sequence ID</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
                                                                                         <option value="identity_type">By Customer Identity Number</option>
@@ -1661,7 +1654,7 @@
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="student_nationality{{forloop.counter}}_id" style="width:100%;" id="student_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="update_identity('student',{{forloop.counter}});" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="student_nationality{{forloop.counter}}_id" style="width:100%;" id="student_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" class="nice-select-default">
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                                 {% endfor %}
@@ -1749,12 +1742,10 @@
                                                                 <div class="form-select-2" id="default-select">
                                                                     <select class="nice-select-default" id='student_id_type{{forloop.counter}}' name='student_id_type{{forloop.counter}}' onchange="change_identity_type(`student_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_international == False %} <!--KALAU BUKAN INTER-->
                                                                         <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
                                                                         {% endif %}
+                                                                        <option value="passport">Passport</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -1765,9 +1756,6 @@
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="student_passport_number{{forloop.counter}}" id="student_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('student', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="student_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -1921,6 +1909,7 @@
                                                                                 <div class="form-select-2">
                                                                                     <select class="nice-select-default" id="train_labour{{forloop.counter}}_search_type" name="train_labour{{forloop.counter}}_search_type" onchange="search_type_on_change('labour','{{forloop.counter}}','train_labour{{forloop.counter}}_search_type','train_labour{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="seq_id">By Customer Sequence ID</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
                                                                                         <option value="identity_type">By Customer Identity Number</option>
@@ -2034,7 +2023,7 @@
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="labour_nationality{{forloop.counter}}_id" style="width:100%;" id="labour_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="update_identity('labour',{{forloop.counter}});" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="labour_nationality{{forloop.counter}}_id" style="width:100%;" id="labour_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" class="nice-select-default">
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                                 {% endfor %}
@@ -2122,12 +2111,10 @@
                                                                 <div class="form-select-2" id="default-select">
                                                                     <select class="nice-select-default" id='labour_id_type{{forloop.counter}}' name='labour_id_type{{forloop.counter}}' onchange="change_identity_type(`labour_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_international == False %} <!--KALAU BUKAN INTER-->
                                                                         <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
                                                                         {% endif %}
+                                                                        <option value="passport">Passport</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -2138,9 +2125,6 @@
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="labour_passport_number{{forloop.counter}}" id="labour_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('labour', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="labour_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
@@ -2294,6 +2278,7 @@
                                                                                 <div class="form-select-2">
                                                                                     <select class="nice-select-default" id="train_seaman{{forloop.counter}}_search_type" name="train_seaman{{forloop.counter}}_search_type" onchange="search_type_on_change('seaman','{{forloop.counter}}','train_seaman{{forloop.counter}}_search_type','train_seaman{{forloop.counter}}_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="seq_id">By Customer Sequence ID</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
                                                                                         <option value="identity_type">By Customer Identity Number</option>
@@ -2408,7 +2393,7 @@
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="seaman_nationality{{forloop.counter}}_id" style="width:100%;" id="seaman_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="update_identity('seaman',{{forloop.counter}});" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="seaman_nationality{{forloop.counter}}_id" style="width:100%;" id="seaman_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" class="nice-select-default">
                                                                 {% for country in countries %}
                                                                 <option value="{{country.code}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                                 {% endfor %}
@@ -2496,12 +2481,10 @@
                                                                 <div class="form-select-2" id="default-select">
                                                                     <select class="nice-select-default" id='seaman_id_type{{forloop.counter}}' name='seaman_id_type{{forloop.counter}}' onchange="change_identity_type(`seaman_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_international == False %} <!--KALAU BUKAN INTER-->
                                                                         <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
                                                                         {% endif %}
+                                                                        <option value="passport">Passport</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -2512,9 +2495,6 @@
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="seaman_passport_number{{forloop.counter}}" id="seaman_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:left;">
-                                                            <button type="button" class="primary-btn" onclick="copy_first_last_name_to_identity('seaman', {{forloop.counter}})">Copy from Name</button>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label id="seaman_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
