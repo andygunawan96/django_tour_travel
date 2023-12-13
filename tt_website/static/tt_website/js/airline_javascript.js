@@ -7904,6 +7904,10 @@ function update_identity(type, val){
         document.getElementById(type+'_identity_div'+val).style.display = 'none';
         document.getElementById(type+'_passport_number'+val).value = '';
         try{
+            document.getElementById(type+'_identity_first_name'+val).value = '';
+            document.getElementById(type+'_identity_last_name'+val).value = '';
+        }catch(err){}
+        try{
             document.getElementById(type+'_identity_div'+val).value = '';
         }catch(err){}
         try{
