@@ -123,8 +123,8 @@
 </section>
 
 {% if username.co_user_login != '' %}
-{% for rec in provider_types_sequence %}
-{% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
+    {% for rec in provider_types_sequence %}
+        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
 <section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
@@ -419,7 +419,6 @@
                                     <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                     <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                     <div class="col-lg-12" style="text-align:left;">
-                                        {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
                                         <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
                                             <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
@@ -456,7 +455,6 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        {% endif %}
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <div class="div-dropdown-txt btn-group">
                                             <label class="check_box_custom cblabel">
@@ -473,8 +471,8 @@
                                                 <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                         </div>
-                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                        {% elif 'co_customer_parent_type_name' in username or 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="div-dropdown-txt btn-group" style="text-align:left;" id="div_osi_code_airline">
                                             <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
                                                 <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
@@ -484,7 +482,7 @@
                                         {% endif %}
                                     </div>
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                    <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
+                                    <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none; margin-bottom:15px;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6">
                                                 <span class="span-search-ticket">Corporate</span>
@@ -791,70 +789,68 @@
                                         <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                         <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                         <div class="col-lg-12" style="text-align:left;">
-                                        {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
-                                                <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        <div class="drop_inline">
-                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
-                                                <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                                                    <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
-                                                </button>
-                                                <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
-                                                        </div>
+                                            <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
+                                                    <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                            </div>
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
+                                                    <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                        <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
+                                                    </button>
+                                                    <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
+                                                            </div>
 
-                                                        <div class="col-lg-12">
-                                                            <h5>Promo chosen:</h5>
-                                                            <div style="display:flex; overflow:auto;">
-                                                                <div id="promo_code_airline_div" style="display:flex;">
-                                                                    <span id="span_promo_code">No Promo Codes Added</span>
+                                                            <div class="col-lg-12">
+                                                                <h5>Promo chosen:</h5>
+                                                                <div style="display:flex; overflow:auto;">
+                                                                    <div id="promo_code_airline_div" style="display:flex;">
+                                                                        <span id="span_promo_code">No Promo Codes Added</span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </ul>
+                                                    </ul>
+                                                </div>
                                             </div>
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                            <div class="div-dropdown-txt btn-group">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                    <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                                <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                            </div>
+                                            <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                    <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                            </div>
+                                            {% elif 'co_customer_parent_type_name' in username or 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="div-dropdown-txt btn-group" style="text-align:left;" id="div_osi_code_airline">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                    <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                            </div>
+                                            {% endif %}
                                         </div>
-                                        {% endif %}
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <div class="div-dropdown-txt btn-group">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                            <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                        </div>
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% endif %}
-                                    </div>
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <div class="col-lg-12 mb-3" id="div_corpor_mode_airline" style="display:none;">
                                             <div class="row">
@@ -1161,7 +1157,6 @@
                                     <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                     <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                     <div class="col-lg-12" style="text-align:left;">
-                                        {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
                                         <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
                                             <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
@@ -1198,7 +1193,6 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        {% endif %}
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <div class="div-dropdown-txt btn-group">
                                             <label class="check_box_custom cblabel">
@@ -1215,8 +1209,8 @@
                                                 <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                         </div>
-                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                        {% elif 'co_customer_parent_type_name' in username or 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="div-dropdown-txt btn-group" style="text-align:left;" id="div_osi_code_airline">
                                             <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
                                                 <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
@@ -1527,70 +1521,68 @@
                                                     <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                                     <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                                     <div class="col-lg-12" style="text-align:left;">
-                                        {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
-                                                <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        <div class="drop_inline">
-                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
-                                                <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                                                    <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
-                                                </button>
-                                                <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
+                                                        <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
+                                                            <label class="check_box_custom cblabel">
+                                                                <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
+                                                                <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
+                                                                <span class="check_box_span_custom cbspan"></span>
+                                                            </label>
                                                         </div>
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
-                                                        </div>
+                                                        <div class="drop_inline">
+                                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
+                                                                <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                                    <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
+                                                                </button>
+                                                                <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12">
+                                                                            <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
+                                                                        </div>
 
-                                                        <div class="col-lg-12">
-                                                            <h5>Promo chosen:</h5>
-                                                            <div style="display:flex; overflow:auto;">
-                                                                <div id="promo_code_airline_div" style="display:flex;">
-                                                                    <span id="span_promo_code">No Promo Codes Added</span>
-                                                                </div>
+                                                                        <div class="col-lg-12">
+                                                                            <h5>Promo chosen:</h5>
+                                                                            <div style="display:flex; overflow:auto;">
+                                                                                <div id="promo_code_airline_div" style="display:flex;">
+                                                                                    <span id="span_promo_code">No Promo Codes Added</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </ul>
                                                             </div>
                                                         </div>
+                                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                        <div class="div-dropdown-txt btn-group">
+                                                            <label class="check_box_custom cblabel">
+                                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                                <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
+                                                                <span class="check_box_span_custom cbspan"></span>
+                                                            </label>
+                                                            <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                        </div>
+                                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                                            <label class="check_box_custom cblabel">
+                                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                                <span class="check_box_span_custom cbspan"></span>
+                                                            </label>
+                                                        </div>
+                                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                        <div class="div-dropdown-txt btn-group" style="text-align:left;" id="div_osi_code_airline">
+                                                            <label class="check_box_custom cblabel">
+                                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                                <span class="check_box_span_custom cbspan"></span>
+                                                            </label>
+                                                        </div>
+                                                        {% endif %}
                                                     </div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        {% endif %}
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <div class="div-dropdown-txt btn-group">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                            <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                        </div>
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% endif %}
-                                    </div>
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                                     <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
                                                         <div class="row">
@@ -1905,70 +1897,68 @@
                                                 <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                                 <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                                 <div class="col-lg-12" style="text-align:left;">
-                                        {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
-                                                <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        <div class="drop_inline">
-                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
-                                                <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                                                    <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
-                                                </button>
-                                                <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
-                                                        </div>
+                                                    <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
+                                                            <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="drop_inline">
+                                                        <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
+                                                            <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                                <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
+                                                            </button>
+                                                            <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
+                                                                    </div>
 
-                                                        <div class="col-lg-12">
-                                                            <h5>Promo chosen:</h5>
-                                                            <div style="display:flex; overflow:auto;">
-                                                                <div id="promo_code_airline_div" style="display:flex;">
-                                                                    <span id="span_promo_code">No Promo Codes Added</span>
+                                                                    <div class="col-lg-12">
+                                                                        <h5>Promo chosen:</h5>
+                                                                        <div style="display:flex; overflow:auto;">
+                                                                            <div id="promo_code_airline_div" style="display:flex;">
+                                                                                <span id="span_promo_code">No Promo Codes Added</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </ul>
                                                         </div>
                                                     </div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        {% endif %}
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <div class="div-dropdown-txt btn-group">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                            <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                        </div>
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% endif %}
-                                    </div>
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                    <div class="div-dropdown-txt btn-group">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                            <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                        <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    </div>
+                                                    <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                            <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                    </div>
+                                                    {% elif 'co_customer_parent_type_name' in username or 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                    <div class="div-dropdown-txt btn-group" style="text-align:left;" id="div_osi_code_airline">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                            <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                                 <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
                                                     <div class="row">
@@ -2287,70 +2277,68 @@
                                                 <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                                 <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                                 <div class="col-lg-12" style="text-align:left;">
-                                        {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
-                                                <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        <div class="drop_inline">
-                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
-                                                <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
-                                                    <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
-                                                </button>
-                                                <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
-                                                        </div>
+                                                    <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
+                                                            <input type="checkbox" id="checkbox_add_promotion_code_airline" name="checkbox_add_promotion_code_airline" onclick="toggle_promo_code();"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="drop_inline">
+                                                        <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" id="promo_code_airline" style="display:none; text-align:left; padding-bottom:5px;">
+                                                            <button id="show_promo_code_btn" type="button" class="btn-dropdown-txt" style="text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                                <i class="fas fa-ticket-alt" style="font-size:16px;"></i> <span id="show_total_promo_code">Add promo code</span>
+                                                            </button>
+                                                            <ul id="show_promo_code_ul" class="dropdown-menu-txt dropdown-menu" role="menu" style="padding:15px;">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <input type="text" class="form-control" id="code_line_input" name="code_line_input" placeholder="Code" value=""/>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <input type="text" class="form-control" id="carrier_code_line_input" name="carrier_code_line_input" placeholder="Carrier Code, example: GA" value=""/>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <button class="primary-btn mb-3" type="button" onclick="add_promotion_code_home();">Add <i class="fas fa-plus"></i></button>
+                                                                    </div>
 
-                                                        <div class="col-lg-12">
-                                                            <h5>Promo chosen:</h5>
-                                                            <div style="display:flex; overflow:auto;">
-                                                                <div id="promo_code_airline_div" style="display:flex;">
-                                                                    <span id="span_promo_code">No Promo Codes Added</span>
+                                                                    <div class="col-lg-12">
+                                                                        <h5>Promo chosen:</h5>
+                                                                        <div style="display:flex; overflow:auto;">
+                                                                            <div id="promo_code_airline_div" style="display:flex;">
+                                                                                <span id="span_promo_code">No Promo Codes Added</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </ul>
                                                         </div>
                                                     </div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        {% endif %}
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <div class="div-dropdown-txt btn-group">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                            <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                        </div>
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% endif %}
-                                    </div>
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                    <div class="div-dropdown-txt btn-group">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                            <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                        <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    </div>
+                                                    <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                            <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                    </div>
+                                                    {% elif 'co_customer_parent_type_name' in username or 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                    <div class="div-dropdown-txt btn-group" style="text-align:left;" id="div_osi_code_airline">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                            <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                                 <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
                                                     <div class="row">
@@ -2655,7 +2643,6 @@
                                         <input type="hidden" class="col-lg-12" id="promo_code_counter" name="promo_code_counter"/>
                                         <input type="hidden" class="col-lg-12" id="promo_code_counter_list" name="promo_code_counter_list"/>
                                         <div class="col-lg-12" style="text-align:left;">
-                                        {% if 'co_customer_parent_type_name' not in username or 'corp_limitation' in username.co_agent_frontend_security %}
                                         <div class="div-dropdown-txt btn-group" id="div_checkbox_promo_code_airline">
                                             <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">Promo Code</span>
@@ -2692,33 +2679,32 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        {% endif %}
-                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <div class="div-dropdown-txt btn-group">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                            <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                            <div class="div-dropdown-txt btn-group">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                    <input type="checkbox" id="checkbox_corpor_mode_airline" name="checkbox_corpor_mode_airline" onclick="toggle_corpor_mode_div('airline');"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                                <span id="corpor_list_loading_airline" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                            </div>
+                                            <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                    <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                            </div>
+                                            {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
+                                                    <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                            </div>
+                                            {% endif %}
                                         </div>
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% elif 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="div-dropdown-txt btn-group" style="text-align:left; display:none;" id="div_osi_code_airline">
-                                            <label class="check_box_custom cblabel">
-                                                <span style="font-size:13px; color:{{text_color}};">Don't use OSI Code</span>
-                                                <input type="checkbox" id="checkbox_osi_code_backend_airline" name="checkbox_osi_code_backend_airline"/>
-                                                <span class="check_box_span_custom cbspan"></span>
-                                            </label>
-                                        </div>
-                                        {% endif %}
-                                    </div>
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <div class="col-lg-12" id="div_corpor_mode_airline" style="display:none;">
                                             <div class="row">
@@ -2765,8 +2751,8 @@
         </div>
     </div>
 </section>
-{% endif %}
-{% endfor %}
+        {% endif %}
+    {% endfor %}
 {% endif %}
 
 {% if small_banner_value == 1 %}
@@ -3062,11 +3048,40 @@
         {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
             // check data cache airline
             if(!cookie_airline){
-                document.getElementById('origin_id_flight').value = '{{airline_origin}}';
-                airline_origin = '{{airline_origin}}';
-                document.getElementById('destination_id_flight').value = '{{airline_destination}}';
-                airline_destination = '{{airline_destination}}';
-                airline_date = now;
+                try{
+                    {% if cache.airline.origin %}
+                        document.getElementById('origin_id_flight').value = '{{cache.airline.origin}}';
+                        airline_origin = '{{cache.airline.origin}}';
+                    {% else %}
+                        document.getElementById('origin_id_flight').value = '{{airline_origin}}';
+                        airline_origin = '{{airline_origin}}';
+                    {% endif %}
+                }catch(err){
+                    document.getElementById('origin_id_flight').value = '{{airline_origin}}';
+                }
+
+                try{
+                    {% if cache.airline.origin %}
+                        document.getElementById('destination_id_flight').value = '{{cache.airline.destination}}';
+                        airline_destination = '{{cache.airline.destination}}';
+                    {% else %}
+                        document.getElementById('destination_id_flight').value = '{{airline_destination}}';
+                        airline_destination = '{{airline_destination}}';
+                    {% endif %}
+                }catch(err){
+                    console.log(err);
+                    document.getElementById('destination_id_flight').value = '{{airline_destination}}';
+                }
+
+                try{
+                    {% if cache.airline.departure %}
+                        airline_date = '{{cache.airline.departure}}';
+                    {% else %}
+                        airline_date = now;
+                    {% endif %}
+                }catch(err){
+                    airline_date = now;
+                }
                 var picker_airline_departure = new Lightpick({
                     field: document.getElementById('airline_departure'),
                     singleDate: true,

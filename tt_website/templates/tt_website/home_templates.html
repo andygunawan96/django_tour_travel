@@ -1244,7 +1244,7 @@
             // airline_destination = '{{airline_destination}}';
             try{
                 {% if cache.airline.departure %}
-                    airline_date = '{{cache.airline.departure.0}}';
+                    airline_date = '{{cache.airline.departure}}';
                 {% else %}
                     airline_date = now;
                 {% endif %}

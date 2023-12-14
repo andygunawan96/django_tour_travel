@@ -1287,6 +1287,8 @@ function auto_input_pax_cache_reorder(){
             if(pax_cache_reorder.child[i].identity_type != ''){
                 document.getElementById('child_id_type'+index).value = pax_cache_reorder.child[i].identity_type;
                 document.getElementById('child_passport_number'+index).value = pax_cache_reorder.child[i].identity_number;
+                document.getElementById('child_identity_first_name'+index).value = pax_cache_reorder.child[i].identity_first_name;
+                document.getElementById('child_identity_last_name'+index).value = pax_cache_reorder.child[i].identity_last_name;
                 if(pax_cache_reorder.child[i].identity_expdate != '')
                     document.getElementById('child_passport_expired_date'+index).value = pax_cache_reorder.child[i].identity_expdate;
                 $('#child_country_of_issued'+index+'_id').val(pax_cache_reorder.child[i].identity_country_of_issued_code).trigger('change');
@@ -1315,6 +1317,8 @@ function auto_input_pax_cache_reorder(){
             if(pax_cache_reorder.infant[i].identity_type != ''){
                 document.getElementById('infant_id_type'+index).value = pax_cache_reorder.infant[i].identity_type;
                 document.getElementById('infant_passport_number'+index).value = pax_cache_reorder.infant[i].identity_number;
+                document.getElementById('infant_identity_first_name'+index).value = pax_cache_reorder.infant[i].identity_first_name;
+                document.getElementById('infant_identity_last_name'+index).value = pax_cache_reorder.infant[i].identity_last_name;
                 if(pax_cache_reorder.infant[i].identity_expdate != '')
                     document.getElementById('infant_passport_expired_date'+index).value = pax_cache_reorder.infant[i].identity_expdate;
                 $('#infant_country_of_issued'+index+'_id').val(pax_cache_reorder.infant[i].identity_country_of_issued_code).trigger('change');
@@ -1350,6 +1354,8 @@ function auto_input_pax_cache_reorder(){
             if(pax_cache_reorder.student[x].identity_type != ''){
                 document.getElementById('student_id_type'+index).value = pax_cache_reorder.student[x].identity_type;
                 document.getElementById('student_passport_number'+index).value = pax_cache_reorder.student[x].identity_number;
+                document.getElementById('student_identity_first_name'+index).value = pax_cache_reorder.student[x].identity_first_name;
+                document.getElementById('student_identity_last_name'+index).value = pax_cache_reorder.student[x].identity_last_name;
                 if(pax_cache_reorder.student[x].identity_expdate != '')
                     document.getElementById('student_passport_expired_date'+index).value = pax_cache_reorder.student[x].identity_expdate;
                 $('#student_country_of_issued'+index+'_id').val(pax_cache_reorder.student[x].identity_country_of_issued_code).trigger('change');
@@ -1399,6 +1405,8 @@ function auto_input_pax_cache_reorder(){
             if(pax_cache_reorder.seaman[x].identity_type != ''){
                 document.getElementById('seaman_id_type'+index).value = pax_cache_reorder.seaman[x].identity_type;
                 document.getElementById('seaman_passport_number'+index).value = pax_cache_reorder.seaman[x].identity_number;
+                document.getElementById('seaman_identity_first_name'+index).value = pax_cache_reorder.seaman[x].identity_first_name;
+                document.getElementById('seaman_identity_last_name'+index).value = pax_cache_reorder.seaman[x].identity_last_name;
                 if(pax_cache_reorder.seaman[x].identity_expdate != '')
                     document.getElementById('seaman_passport_expired_date'+index).value = pax_cache_reorder.seaman[x].identity_expdate;
                 $('#seaman_country_of_issued'+index+'_id').val(pax_cache_reorder.seaman[x].identity_country_of_issued_code).trigger('change');
@@ -1448,6 +1456,8 @@ function auto_input_pax_cache_reorder(){
             if(pax_cache_reorder.labour[x].identity_type != ''){
                 document.getElementById('labour_id_type'+index).value = pax_cache_reorder.labour[x].identity_type;
                 document.getElementById('labour_passport_number'+index).value = pax_cache_reorder.labour[x].identity_number;
+                document.getElementById('labour_identity_first_name'+index).value = pax_cache_reorder.labour[x].identity_first_name;
+                document.getElementById('labour_identity_last_name'+index).value = pax_cache_reorder.labour[x].identity_last_name;
                 if(pax_cache_reorder.labour[x].identity_expdate != '')
                     document.getElementById('labour_passport_expired_date'+index).value = pax_cache_reorder.labour[x].identity_expdate;
                 $('#labour_country_of_issued'+index+'_id').val(pax_cache_reorder.labour[x].identity_country_of_issued_code).trigger('change');

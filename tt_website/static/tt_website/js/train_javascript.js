@@ -140,7 +140,6 @@ function train_check_search_values(){
         $('.button-search').addClass("running");
         var train_origin = [document.getElementById('train_origin').value.split(' - ')[0]];
         var train_destination = [document.getElementById('train_destination').value.split(' - ')[0]];
-        var train_departure_date = []
         var radio_train_type = '';
         var radios = document.getElementsByName('radio_train_type');
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -152,13 +151,15 @@ function train_check_search_values(){
                 break;
             }
         }
-
+        try{
+            var train_departure_date = document.getElementById('train_departure_return').value.split(' - ');
+        }
+        catch{
+            var train_departure_date = document.getElementById('train_departure').value.split(' - ');
+        }
         if(radio_train_type == 'RT'){
             train_origin.push(document.getElementById('train_destination').value.split(' - ')[0]);
             train_destination.push(document.getElementById('train_origin').value.split(' - ')[0]);
-            train_departure_date = document.getElementById('train_departure_return').value.split(' - ');
-        }else{
-            train_departure_date = document.getElementById('train_departure').value.split(' - ');
         }
 
         var train_request_data = {
@@ -2473,11 +2474,11 @@ function sort(value){
                                 if(data_filter[i].price != data_filter[i].without_discount_price)
                                     response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
                                 response += `<span class="copy_price" id="train_price_`+i+`" style="font-size:16px; font-weight: bold; color:`+color+`;`;
-                                if(is_show_breakdown_price)
-                                    response+='cursor:pointer;';
+//                                if(is_show_breakdown_price)
+//                                    response+='cursor:pointer;';
                                 response += `">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price)+`</span>`;
-                                if(is_show_breakdown_price)
-                                    response+=`<i class="fas fa-caret-down price_template"></i>`;
+//                                if(is_show_breakdown_price)
+//                                    response+=`<i class="fas fa-caret-down price_template"></i>`;
                                 response+=`<br/>`;
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
@@ -2553,6 +2554,7 @@ function sort(value){
     document.getElementById("train_result").appendChild(node_co);
 
     for(i in data_filter){
+        /*
         if(is_show_breakdown_price){
             if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
                 var price_breakdown = {};
@@ -2618,6 +2620,7 @@ function sort(value){
                 });
             }
         }
+        */
         if(data_filter[i].hasOwnProperty('search_banner')){
            for(banner_counter in data_filter[i].search_banner){
                var max_banner_date = moment().subtract(parseInt(-1*data_filter[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
@@ -2720,11 +2723,11 @@ function train_ticket_pick(){
                     }
                     response+=`
                         <span id="train_pick_price_`+i+`" style="font-size:16px; margin-bottom:10px; font-weight: bold; color:`+color+`;`;
-                    if(is_show_breakdown_price)
-                        response+='cursor:pointer;';
+//                    if(is_show_breakdown_price)
+//                        response+='cursor:pointer;';
                     response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
-                    if(is_show_breakdown_price)
-                        response+=`<i class="fas fa-caret-down price_template"></i>`;
+//                    if(is_show_breakdown_price)
+//                        response+=`<i class="fas fa-caret-down price_template"></i>`;
                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
                         if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                             for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
@@ -2758,6 +2761,7 @@ function train_ticket_pick(){
     document.getElementById('train_pick_ticket').innerHTML = response;
 
     for(i in journeys){
+        /*
         if(is_show_breakdown_price){
             var price_breakdown = {};
             var currency_breakdown = '';
@@ -2822,6 +2826,7 @@ function train_ticket_pick(){
                 content: breakdown_text
             });
         }
+        */
         if(journeys[i].hasOwnProperty('search_banner')){
            for(banner_counter in journeys[i].search_banner){
                var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');

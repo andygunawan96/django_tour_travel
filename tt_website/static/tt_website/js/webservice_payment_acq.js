@@ -1439,6 +1439,7 @@ function get_payment_order_number(order_number){
                 'show_device_type': payment_acq2[payment_method][selected].show_device_type,
                 'url_back': window.location.href,
                 'voucher_reference': typeof voucher_code === 'string' ? voucher_code : '',
+                'provider': payment_acq2[payment_method][selected].provider,
                 'use_point': use_point
            },
            success: function(msg) {
@@ -1484,7 +1485,7 @@ function get_order_number_frontend(order_number){
             'signature': signature,
        },
        success: function(msg) {
-            get_payment_espay(msg.result.response.order_number)
+            get_payment_vendor(msg.result.response.order_number)
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get signature');

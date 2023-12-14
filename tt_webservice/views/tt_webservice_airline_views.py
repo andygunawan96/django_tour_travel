@@ -363,8 +363,8 @@ def re_order_set_passengers(request):
                 title = 'MRS'
             data_pax_dict = {
                 "pax_type": pax['pax_type'],
-                "first_name": pax['first_name'],
-                "last_name": pax['last_name'],
+                "first_name": pax['cust_first_name'],
+                "last_name": pax['cust_last_name'],
                 "title": title,
                 "birth_date": pax['birth_date'],
                 "nationality_name": pax['nationality_name'],
@@ -373,8 +373,8 @@ def re_order_set_passengers(request):
                 "identity_country_of_issued_code": pax['identity_country_of_issued_code'] if pax['identity_country_of_issued_code'] != '' else '',
                 "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
                 "identity_number": pax['identity_number'],
-                "identity_first_name": pax['identity_first_name'],
-                "identity_last_name": pax['identity_last_name'],
+                "identity_first_name": pax['first_name'],
+                "identity_last_name": pax['last_name'],
                 "passenger_seq_id": pax['seq_id'],
                 "identity_type": pax['identity_type'],
                 "ff_numbers": [],
@@ -408,7 +408,7 @@ def re_order_set_passengers(request):
         write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
         # set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
         ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
-        write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
+        write_cache_file(request, '', 'airline_create_passengers', airline_create_passengers)
         # set_session(request, 'airline_create_passengers',airline_create_passengers)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
