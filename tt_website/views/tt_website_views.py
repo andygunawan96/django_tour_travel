@@ -1240,6 +1240,18 @@ def admin(request):
                         text += 'false'
                     write_cache(text, "register_b2c", request, 'cache_web')
 
+                    ## MANUAL TOP UP
+                    file = read_cache("manual_top_up", 'cache_web', request, 90911)
+                    data_cache = {}
+                    if file:
+                        data_cache['is_show_manual_top_up'] = file
+                    text = ''
+                    if request.POST.get('is_show_manual_top_up'):
+                        text += 'true'
+                    else:
+                        text += 'false'
+                    write_cache(text, "manual_top_up", request, 'cache_web')
+
                     ## CRED B2C ##
                     # text = ''
                     # if request.POST.get('signup_btb_text'):
@@ -1988,6 +2000,8 @@ def get_data_template(request, type='home', provider_type = []):
     is_register_agent = 'false'
     is_register_b2c = 'false'
 
+    is_show_manual_top_up = 'true'
+
     about_us_page = webservice_account.get_about_us(request)
     if about_us_page['result']['error_code'] == 0:
         for page in about_us_page['result']['response']:
@@ -2021,6 +2035,10 @@ def get_data_template(request, type='home', provider_type = []):
     file = read_cache("register_b2c", 'cache_web', request, 90911)
     if file:
         is_register_b2c = file
+
+    file = read_cache("manual_top_up", 'cache_web', request, 90911)
+    if file:
+        is_show_manual_top_up = file
 
     if request.session.get('signature') and request.session.get('user_account'):
         currency = get_ho_currency_api(request, request.session['signature'])
@@ -2493,7 +2511,8 @@ def get_data_template(request, type='home', provider_type = []):
         'is_have_page_contact_us': is_have_page_contact_us,
         'is_have_page_faq': is_have_page_faq,
         'is_register_agent': is_register_agent,
-        'is_register_b2c': is_register_b2c
+        'is_register_b2c': is_register_b2c,
+        'is_show_manual_top_up': is_show_manual_top_up
     }
 
 def tutorial_re_order_phc(request):

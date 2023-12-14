@@ -14240,59 +14240,34 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             // update niceselect
             $('#cabin_class_flight').niceSelect('update');
         }else{
-            for(i in cookie_airline['origin']){
-                if(i != 0){
-                    add_multi_city('home');
+            for(x in cookie_airline['origin']){
+                // FIX ME LATER KALAU DI GABUNG DATA COOKIE TANGGAL BULAN DEPAN, 1 BLN KEBELAKANG TIDAK BISA DI PICK
+                if(x != 0){
+                    setTimeout(function(){
+                        add_multi_city('home');
+                        document.getElementById('origin_id_flight'+parseInt(parseInt(x)+1)).value = cookie_airline['origin'][x];
+                        if(moment(cookie_airline['departure'][x]) > moment())
+                            document.getElementById('destination_id_flight'+parseInt(parseInt(x)+1)).value = cookie_airline['destination'][x];
+                        else
+                            document.getElementById('destination_id_flight'+parseInt(parseInt(x)+1)).value = moment().format('DD MMM YYYY');
+                        document.getElementById('airline_departure'+parseInt(parseInt(x)+1)).value = cookie_airline['departure'][x];
+                        document.getElementById('cabin_class_flight'+parseInt(parseInt(x)+1)).value = cookie_airline['cabin_class_list'][x];
+                        $('#cabin_class_flight'+parseInt(parseInt(x)+1)).niceSelect('update');
+                    }, 500);
+                }else{
+                    document.getElementById('origin_id_flight1').value = cookie_airline['origin'][x];
+                    document.getElementById('destination_id_flight1').value = cookie_airline['destination'][0];
+                    if(moment(cookie_airline['departure'][0]) > moment())
+                        document.getElementById('airline_departure1').value = cookie_airline['departure'][0];
+                    else
+                        document.getElementById('airline_departure1').value = moment().format('DD MMM YYYY');
+                    document.getElementById('cabin_class_flight1').value = cookie_airline['cabin_class_list'][0];
+                    $('#cabin_class_flight1').niceSelect('update');
                 }
             }
-            document.getElementById('origin_id_flight1').value = cookie_airline['origin'][0];
-            document.getElementById('destination_id_flight1').value = cookie_airline['destination'][0];
-            if(moment(cookie_airline['departure'][0]) > moment())
-                document.getElementById('airline_departure1').value = cookie_airline['departure'][0];
-            else
-                document.getElementById('airline_departure1').value = moment().format('DD MMM YYYY');
-            document.getElementById('cabin_class_flight1').value = cookie_airline['cabin_class_list'][0];
-            document.getElementById('origin_id_flight2').value = cookie_airline['origin'][1];
-            if(moment(cookie_airline['departure'][1]) > moment())
-                document.getElementById('destination_id_flight2').value = cookie_airline['destination'][1];
-            else
-                document.getElementById('destination_id_flight2').value = moment().format('DD MMM YYYY');
-            document.getElementById('airline_departure2').value = cookie_airline['departure'][1];
-            document.getElementById('cabin_class_flight2').value = cookie_airline['cabin_class_list'][1];
+
             document.getElementById('cabin_class_flight_mc').value = cookie_airline['cabin_class'];
-            // update niceselect
-            $('#cabin_class_flight1').niceSelect('update');
-            $('#cabin_class_flight2').niceSelect('update');
 
-            new Lightpick({
-                field: document.getElementById('airline_departure1'),
-                singleDate: true,
-                startDate: document.getElementById('airline_departure1').value,
-                minDate: moment(),
-                maxDate: moment().subtract(-1, 'years'),
-                idNumber: 0,
-                onSelect: function(date){
-                    onchange_mc_date(this._opts.idNumber);
-                    setTimeout(function(){
-                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
-                    }, 200);
-                }
-            });
-
-            new Lightpick({
-                field: document.getElementById('airline_departure2'),
-                singleDate: true,
-                startDate: document.getElementById('airline_departure2').value,
-                minDate: document.getElementById('airline_departure1').value,
-                maxDate: moment().subtract(-1, 'years'),
-                idNumber: 1,
-                onSelect: function(date){
-                    onchange_mc_date(this._opts.idNumber);
-                    setTimeout(function(){
-                        $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
-                    }, 200);
-                }
-            });
 
             if(cookie_airline['adult']){
                 document.getElementById('adult_flight1').value = cookie_airline['adult'];
@@ -14318,31 +14293,31 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
                 document.getElementById('seaman_flight1').value = cookie_airline['seaman'];
             }
             // MC
-            for(i=3;i<=counter;i++){
-                add_multi_city(page);
-                document.getElementById('origin_id_flight'+i).value = cookie_airline['origin'][i-1];
-                document.getElementById('destination_id_flight'+i).value = cookie_airline['destination'][i-1];
-                if(moment(cookie_airline['departure'][i-1]) > moment())
-                    document.getElementById('airline_departure'+i).value = cookie_airline['departure'][i-1];
-                else
-                    document.getElementById('airline_departure'+i).value = moment().format('DD MMM YYYY');
-                document.getElementById('cabin_class_flight'+i).value = cookie_airline['cabin_class_list'][i-1];
-                $('#cabin_class_flight'+i).niceSelect('update');
-                new Lightpick({
-                    field: document.getElementById('airline_departure'+i),
-                    singleDate: true,
-                    startDate: document.getElementById('airline_departure'+i).value,
-                    minDate: document.getElementById('airline_departure'+parseInt(parseInt(i)-1)).value,
-                    maxDate: moment().subtract(-1, 'years'),
-                    idNumber: i,
-                    onSelect: function(date){
-                        onchange_mc_date(this._opts.idNumber);
-                        setTimeout(function(){
-                            $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
-                        }, 200);
-                    }
-                });
-            }
+//            for(i=3;i<=counter;i++){
+//                add_multi_city(page);
+//                document.getElementById('origin_id_flight'+i).value = cookie_airline['origin'][i-1];
+//                document.getElementById('destination_id_flight'+i).value = cookie_airline['destination'][i-1];
+//                if(moment(cookie_airline['departure'][i-1]) > moment())
+//                    document.getElementById('airline_departure'+i).value = cookie_airline['departure'][i-1];
+//                else
+//                    document.getElementById('airline_departure'+i).value = moment().format('DD MMM YYYY');
+//                document.getElementById('cabin_class_flight'+i).value = cookie_airline['cabin_class_list'][i-1];
+//                $('#cabin_class_flight'+i).niceSelect('update');
+//                new Lightpick({
+//                    field: document.getElementById('airline_departure'+i),
+//                    singleDate: true,
+//                    startDate: document.getElementById('airline_departure'+i).value,
+//                    minDate: document.getElementById('airline_departure'+parseInt(parseInt(i)-1)).value,
+//                    maxDate: moment().subtract(-1, 'years'),
+//                    idNumber: i,
+//                    onSelect: function(date){
+//                        onchange_mc_date(this._opts.idNumber);
+//                        setTimeout(function(){
+//                            $("#origin_id_flight"+parseInt(this._opts.idNumber+1)).focus();
+//                        }, 200);
+//                    }
+//                });
+//            }
         }
         plus_min_passenger_airline_btn();
         if(['roundtrip', 'multicity'].includes(cookie_airline['is_combo_price'])){
