@@ -1735,17 +1735,19 @@ function get_va_number(){
                     }catch(err){
                         console.log(err) //ada element yg tidak ada
                     }
+                    if(is_show_manual_top_up != 'false')
+                        text+=`
+                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                            <span style="font-size:13px;"> Transfer Bank</span>
+                            <input type="radio" name="top_up_radio" value="`+name+`">
+                            <span class="checkmark-radio"></span>
+                        </label>`;
                     text+=`
-                    <label class="radio-button-custom" style="margin-bottom:0px;">
-                        <span style="font-size:13px;"> Transfer Bank</span>
-                        <input type="radio" name="top_up_radio" value="`+name+`">
-                        <span class="checkmark-radio"></span>
-                    </label>
                 </div>`;
             document.getElementById('top_up_method_div').innerHTML = text + document.getElementById('top_up_method_div').innerHTML;
             if(msg.result.response.hasOwnProperty('va') && msg.result.response.va.length > 0 || msg.result.response.is_ho_have_open_top_up){
                 document.getElementsByName('top_up_radio')[0].checked = true;
-            }else{
+            }else if(is_show_manual_top_up != 'false'){
                 document.getElementsByName('top_up_radio')[1].checked = true;
             }
             change_top_up_method();

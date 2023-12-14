@@ -167,7 +167,7 @@
                                 {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                                 <li class="pt5"><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                                 {% endif%}
-                                {% if "top_up" in username.co_agent_frontend_security %}
+                                {% if "top_up" in username.co_agent_frontend_security and username.is_ho_have_open_top_up or "top_up" in username.co_agent_frontend_security and is_show_manual_top_up == 'true' %}
                                 <li class="menu-has-children pt5"><a href="#">{% trans 'Top Up' %}</a>
                                     <ul>
                                         <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
@@ -463,7 +463,7 @@
                                     {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                                     <li><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                                     {% endif%}
-                                    {% if "top_up" in username.co_agent_frontend_security %}
+                                    {% if "top_up" in username.co_agent_frontend_security and username.is_ho_have_open_top_up or "top_up" in username.co_agent_frontend_security and is_show_manual_top_up == 'true' %}
                                     <li><a href="#">{% trans 'Top Up' %}</a>
                                         <ul class="dropdown">
                                             <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
@@ -718,7 +718,7 @@
                             {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                             <li class="pt5"><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                             {% endif%}
-                            {% if "top_up" in username.co_agent_frontend_security %}
+                            {% if "top_up" in username.co_agent_frontend_security and username.is_ho_have_open_top_up or "top_up" in username.co_agent_frontend_security and is_show_manual_top_up == 'true' %}
                             <li class="menu-has-children pt5"><a href="#">{% trans 'Top Up' %}</a>
                                 <ul>
                                     <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
@@ -983,7 +983,7 @@
                                     {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                                     <li><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                                     {% endif %}
-                                    {% if "top_up" in username.co_agent_frontend_security %}
+                                    {% if "top_up" in username.co_agent_frontend_security and username.is_ho_have_open_top_up or "top_up" in username.co_agent_frontend_security and is_show_manual_top_up == 'true' %}
                                     <li class="has-children"><a href="#">{% trans 'Top Up' %}</a>
                                         <ul class="dropdown">
                                             <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
@@ -1231,7 +1231,7 @@
                                 {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                                 <li style="margin-top:8px;"><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                                 {% endif%}
-                                {% if "top_up" in username.co_agent_frontend_security %}
+                                {% if "top_up" in username.co_agent_frontend_security and username.is_ho_have_open_top_up or "top_up" in username.co_agent_frontend_security and is_show_manual_top_up == 'true' %}
                                 <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                                     <ul style="top:65%;">
                                         <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
@@ -1468,7 +1468,7 @@
                     {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                     <li><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                     {% endif%}
-                    {% if "top_up" in username.co_agent_frontend_security %}
+                    {% if "top_up" in username.co_agent_frontend_security and username.is_ho_have_open_top_up or "top_up" in username.co_agent_frontend_security and is_show_manual_top_up == 'true' %}
                     <li class="menu-has-children"><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down"></i></a>
                         <ul>
                             <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>
@@ -1693,7 +1693,7 @@
                                                 {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                                                 <li><a href="{% url 'tt_website:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
                                                 {% endif%}
-                                                {% if "top_up" in username.co_agent_frontend_security %}
+                                                {% if "top_up" in username.co_agent_frontend_security and username.is_ho_have_open_top_up or "top_up" in username.co_agent_frontend_security and is_show_manual_top_up == 'true' %}
                                                 <li><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down i_fast6"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'tt_website:top_up'%}">{% trans 'Request' %}</a></li>

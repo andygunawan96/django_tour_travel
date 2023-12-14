@@ -732,6 +732,130 @@
 
                                 <button type="button" class="accordion" data-tab="tab-website">
                                     <div style="display:inline-flex">
+                                        <i class="fas fa-coins" style="padding-top:5px;font-size:18px;"></i>
+                                        <h6 style="padding-left:10px;">
+                                            Breakdown Price<br/>
+                                            <span style="font-weight:500; font-size:12px;">Breakdown Price.</span>
+                                        </h6>
+                                    </div>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="row">
+                                        <div class="col-lg-12 mt-3 mb-3">
+                                            <div class="row">
+                                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                                    <div class="input-container-search-ticket">
+                                                        <label class="check_box_custom">
+                                                            <span>Show Breakdown Price?</span>
+                                                            <input type="checkbox" id="is_show_breakdown_price" name="is_show_breakdown_price" onchange="show_breakdown_price();" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" id="breakdown_div" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Fare</span>
+                                                                    <input type="checkbox" id="is_show_fare" name="is_show_fare" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Tax</span>
+                                                                    <input type="checkbox" id="is_show_tax" name="is_show_tax" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Convenience Fee</span>
+                                                                    <input type="checkbox" id="is_show_convenience_fee" name="is_show_convenience_fee" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Commission</span>
+                                                                    <input type="checkbox" id="is_show_commission" name="is_show_commission" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>NTA</span>
+                                                                    <input type="checkbox" id="is_show_nta" name="is_show_nta" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Service Fee</span>
+                                                                    <input type="checkbox" id="is_show_service_fee" name="is_show_service_fee" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>VAT</span>
+                                                                    <input type="checkbox" id="is_show_vat" name="is_show_vat" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>OTT</span>
+                                                                    <input type="checkbox" id="is_show_ott" name="is_show_ott" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>Total Price</span>
+                                                                    <input type="checkbox" id="is_show_total_price" name="is_show_total_price" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="margin-bottom:15px;">
+                                                            <div class="input-container-search-ticket">
+                                                                <label class="check_box_custom">
+                                                                    <span>NTA Agent</span>
+                                                                    <input type="checkbox" id="is_show_nta_agent" name="is_show_nta_agent" />
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3">
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_estimate_price();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="accordion" data-tab="tab-website">
+                                    <div style="display:inline-flex">
                                         <i class="fas fa-user-plus" style="padding-top:5px;font-size:18px;"></i>
                                         <h6 style="padding-left:10px;">
                                             Sign Up B2B Text<br/>
@@ -2016,6 +2140,36 @@
                                         </div>
                                         <div class="col-lg-12" style="text-align:center;">
                                             <input type="text" class="form-control" name="backend_url" id="delete_cache_user" placeholder="Delete Cache User " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Delete Cache User '" value="{{delete_cache_user}}">
+                                        </div>
+                                        <div class="col-lg-12 mb-3">
+                                            <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">Save Change <i class="fas fa-save"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="accordion" data-tab="tab-system">
+                            <div style="display:inline-flex">
+                                <i class="fas fa-database" style="padding-top:5px;font-size:18px;"></i>
+                                <h6 style="padding-left:10px;">
+                                    Top Up<br/>
+                                    <span style="font-weight:500; font-size:12px;">Manual Top Up.</span>
+                                </h6>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="row">
+                                <div class="col-lg-12 mt-3 mb-3">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="margin-bottom:15px;">
+                                            <div class="input-container-search-ticket">
+                                                <label class="check_box_custom">
+                                                    <span>Show Manual Top Up?</span>
+                                                    <input type="checkbox" id="is_show_manual_top_up" name="is_show_manual_top_up" {% if is_show_manual_top_up == 'true' %} checked {% endif %} />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                         <div class="col-lg-12 mb-3">
                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">Save Change <i class="fas fa-save"></i></button>
