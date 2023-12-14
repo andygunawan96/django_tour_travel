@@ -237,7 +237,7 @@ function hotel_search_validation(){
         for(key in hotel_request_data){
             if(concat_url)
                 concat_url += '&';
-            concat_url += key + '=' + hotel_request_data[key];
+            concat_url += key + '=' + encodeURIComponent(hotel_request_data[key]);
         }
         window.location.href = '/hotel/search?' + concat_url;
 

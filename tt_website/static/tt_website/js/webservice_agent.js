@@ -6269,7 +6269,7 @@ function copy_booker(val,type,identity){
         }
 
         // DI PINDAH KE BAWAH KARENA ISSUED OFFLINE BALUM INNER HTML JADI IDENTITY TIDAK MASUK
-        if(need_identity !== null && is_auto_add_identity){
+        if(is_auto_add_identity){
             for(i in data_identity){
                 data = data_identity[i].split(',');
                 if(data[3] != ''){
