@@ -5872,10 +5872,23 @@ function copy_booker_to_passenger(val, type){
         }
         if(selection != null && data.length > 1){
             var found_selection = [];
+            var found_selection_str = [];
             for(i in selection){
                 for(j in data){
-                    if(selection[i].value == data[j].split(',')[0]){
+                    id_data = data[j].split(',');
+                    if(selection[i].value == id_data[0]){
                         found_selection.push(selection[i].value);
+                        id_sel_str = selection[i].value;
+                        if(id_data[1] != '' && id_data[1] != undefined && id_data[1] != false){
+                            id_sel_str = id_sel_str.concat(' - ', id_data[1])
+                        }
+                        if(id_data[4] != '' && id_data[4] != undefined && id_data[4] != false){
+                            id_sel_str = id_sel_str.concat(' - ', id_data[4])
+                            if(id_data[5] != '' && id_data[5] != undefined && id_data[5] != false){
+                                id_sel_str = id_sel_str.concat(' ', id_data[5])
+                            }
+                        }
+                        found_selection_str.push(id_sel_str);
                         break;
                     }
                 }
@@ -5883,15 +5896,17 @@ function copy_booker_to_passenger(val, type){
             if(['airline','train', ''].includes(window.location.href.split('/')[window.location.href.split('/').length-2])){
                 if(!found_selection.includes('passport'))
                     found_selection.push('passport')
+                    found_selection_str.push('passport')
                 if(!found_selection.includes('ktp'))
                     found_selection.push('ktp')
+                    found_selection_str.push('ktp')
             }
             if(found_selection.length == 1 || need_identity !== null){
                 copy_booker(val,type, found_selection[0])
             }else{
                 text = '<br/><select id="found_selection" class="nice-select-default">';
                 for(i in found_selection)
-                    text += `<option value=`+found_selection[i]+`>`+found_selection[i]+`</option>`;
+                    text += `<option value=`+found_selection[i]+`>`+found_selection_str[i]+`</option>`;
                 text += '</select>';
                 Swal.fire({
                   type: 'info',
