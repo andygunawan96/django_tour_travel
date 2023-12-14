@@ -59,10 +59,7 @@ def send_request_api(request, url, headers, data, method="POST", timeout=30):
 
 def _check_expired(request, res):
     if res.get('result')['error_code'] == 4003:
-        try:
-            request.session.flush()
-        except Exception as e:
-            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+        request.session.flush()
 
 
 
