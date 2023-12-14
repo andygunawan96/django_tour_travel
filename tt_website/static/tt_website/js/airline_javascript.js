@@ -506,7 +506,7 @@ function airline_goto_search(){
                 }
                 concat_url += key + '=' + data_list;
             }else
-                concat_url += key + '=' + request_airline[key];
+                concat_url += key + '=' + encodeURIComponent(request_airline[key]);
         }
         window.location.href = '/airline/search?' + concat_url;
 //        document.getElementById('airline_searchForm').action = '/airline/search?' + concat_url;
