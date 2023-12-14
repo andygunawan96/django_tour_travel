@@ -425,7 +425,7 @@ function airline_research_signin(type){
                         for(key in airline_request){
                             if(concat_url)
                                 concat_url += '&';
-                            concat_url += key + '=' + airline_request[key];
+                            concat_url += key + '=' + encodeURIComponent(airline_request[key]);
                         }
     //                    document.getElementById('airline_searchForm').action += '?' + concat_url;
                         window.location.href = '/airline/search?' + concat_url;
@@ -8273,7 +8273,7 @@ function re_order_find_journey(){
                     for(key in airline_request){
                         if(concat_url)
                             concat_url += '&';
-                        concat_url += key + '=' + airline_request[key];
+                        concat_url += key + '=' + encodeURIComponent(airline_request[key]);
                     }
 //                    document.getElementById('airline_searchForm').action += '?' + concat_url;
                     window.location.href = '/airline/search?' + concat_url;
@@ -8340,7 +8340,7 @@ function re_order_get_price(){
                         for(key in airline_request){
                             if(concat_url)
                                 concat_url += '&';
-                            concat_url += key + '=' + airline_request[key];
+                            concat_url += key + '=' + encodeURIComponent(airline_request[key]);
                         }
                         window.location.href = '/airline/search?' + concat_url;
 //                        window.location.href = '/airline/search';
@@ -8417,7 +8417,7 @@ function re_order_sell_journeys(){
                         for(key in airline_request){
                             if(concat_url)
                                 concat_url += '&';
-                            concat_url += key + '=' + airline_request[key];
+                            concat_url += key + '=' + encodeURIComponent(airline_request[key]);
                         }
                         window.location.href = '/airline/search?' + concat_url;
 //                        window.location.href = '/airline/search';

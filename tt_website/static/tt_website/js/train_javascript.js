@@ -184,7 +184,7 @@ function train_check_search_values(){
         for(key in train_request_data){
             if(concat_url)
                 concat_url += '&';
-            concat_url += key + '=' + train_request_data[key];
+            concat_url += key + '=' + encodeURIComponent(train_request_data[key]);
         }
         window.location.href = '/train/search?' + concat_url;
 //        document.getElementById('train_searchForm').submit();
