@@ -182,9 +182,42 @@ def set_color_printout(request):
             # save color
             text = request.POST['color']
             write_cache(text, 'color_printout', request, 'cache_web')
-            _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS set_printout_api_printout SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR get_printout_api_printout" + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR set_printout_api_printout  SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_color_printout(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_color_printout_api",
+        }
+        if request.POST.get('signature'):
+            headers.update({
+                "signature": request.POST['signature'],
+            })
+        else:
+            headers.update({
+                "signature": request.session['master_signature'],
+            })
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    url_request = get_url_gateway('printout')
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            # save color
+            text = request.POST['color']
+            write_cache(text, 'color_printout', request, 'cache_web')
+            _logger.info("SUCCESS set_printout_api_printout SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR set_printout_api_printout SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
