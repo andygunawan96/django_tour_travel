@@ -1084,10 +1084,12 @@ function search_ppob(){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                    price_breakdown['CONVENIENCE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
-                                if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-                                    price_breakdown['NTA AIRLINE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA PPOB'))
+                                    price_breakdown['NTA PPOB'] = 0;
                                 if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
                                     price_breakdown['SERVICE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('VAT'))
@@ -1106,8 +1108,9 @@ function search_ppob(){
                                 price_breakdown['FARE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += bill_response.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['CONVENIENCE FEE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                                 price_breakdown['COMMISSION'] += (bill_response.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
-                                price_breakdown['NTA AIRLINE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                                price_breakdown['NTA PPOB'] += bill_response.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += bill_response.result.response.passengers[i].service_charge_details[j].base_vat_ho;
                                 price_breakdown['OTT'] += bill_response.result.response.passengers[i].service_charge_details[j].base_price_ori;
@@ -2247,6 +2250,8 @@ function ppob_get_booking(data){
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                price_breakdown['CONVENIENCE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA TRAIN'))
@@ -2269,6 +2274,7 @@ function ppob_get_booking(data){
                             price_breakdown['FARE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                             price_breakdown['TAX'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['CONVENIENCE FEE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                             price_breakdown['COMMISSION'] += (bills_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA PPOB'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;

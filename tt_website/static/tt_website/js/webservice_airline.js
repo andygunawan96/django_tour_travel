@@ -5781,6 +5781,8 @@ text_detail_next +=`
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                price_breakdown['CONVENIENCE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -5800,6 +5802,7 @@ text_detail_next +=`
                             price_breakdown['FARE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
                             price_breakdown['TAX'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['CONVENIENCE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_convenience_fee;
                             price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor * -1);
                             price_breakdown['NTA AIRLINE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                             price_breakdown['SERVICE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
@@ -5863,6 +5866,8 @@ text_detail_next +=`
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                price_breakdown['CONVENIENCE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -5882,6 +5887,7 @@ text_detail_next +=`
                             price_breakdown['FARE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
                             price_breakdown['TAX'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['CONVENIENCE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_convenience_fee;
                             price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor * -1);
                             price_breakdown['NTA AIRLINE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                             price_breakdown['SERVICE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
@@ -10979,6 +10985,8 @@ function airline_get_booking(data, sync=false){
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                price_breakdown['CONVENIENCE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -10999,6 +11007,7 @@ function airline_get_booking(data, sync=false){
                             price_breakdown['FARE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                             price_breakdown['TAX'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['CONVENIENCE FEE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                             price_breakdown['COMMISSION'] = (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA AIRLINE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -11062,6 +11071,8 @@ function airline_get_booking(data, sync=false){
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                price_breakdown['CONVENIENCE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -11084,6 +11095,7 @@ function airline_get_booking(data, sync=false){
                             price_breakdown['FARE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                             price_breakdown['TAX'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['CONVENIENCE FEE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                             price_breakdown['COMMISSION'] += (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA AIRLINE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -15441,6 +15453,8 @@ function render_ticket_reissue(){
                                                 price_breakdown['TAX'] = 0;
                                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                                 price_breakdown['BREAKDOWN'] = 0;
+                                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                                price_breakdown['CONVENIENCE FEE'] = 0;
                                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                                 price_breakdown['COMMISSION'] = 0;
                                             if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -15460,6 +15474,7 @@ function render_ticket_reissue(){
                                             price_breakdown['FARE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
                                             price_breakdown['TAX'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
                                             price_breakdown['BREAKDOWN'] = 0;
+                                            price_breakdown['CONVENIENCE FEE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_convenience_fee;
                                             price_breakdown['COMMISSION'] += (airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_vendor * -1);
                                             price_breakdown['NTA AIRLINE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta_vendor;
                                             price_breakdown['SERVICE FEE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
@@ -16652,6 +16667,8 @@ function get_chosen_ticket(type='all'){
                             price_breakdown['TAX'] = 0;
                         if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                             price_breakdown['BREAKDOWN'] = 0;
+                        if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                            price_breakdown['CONVENIENCE FEE'] = 0;
                         if(!price_breakdown.hasOwnProperty('COMMISSION'))
                             price_breakdown['COMMISSION'] = 0;
                         if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -16671,6 +16688,7 @@ function get_chosen_ticket(type='all'){
                         price_breakdown['FARE'] += airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
                         price_breakdown['TAX'] += airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
                         price_breakdown['BREAKDOWN'] = 0;
+                        price_breakdown['CONVENIENCE FEE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_convenience_fee;
                         price_breakdown['COMMISSION'] += (airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_commission_vendor * -1);
                         price_breakdown['NTA AIRLINE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_nta_vendor;
                         price_breakdown['SERVICE FEE'] += airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;

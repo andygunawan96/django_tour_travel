@@ -1240,6 +1240,8 @@ function bus_get_detail(){
                         price_breakdown['TAX'] = 0;
                     if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                         price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                        price_breakdown['CONVENIENCE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA BUS'))
@@ -1260,6 +1262,7 @@ function bus_get_detail(){
                     price_breakdown['FARE'] += journeys[i].fares[j].service_charge_summary[k].total_fare_ori;
                     price_breakdown['TAX'] += journeys[i].fares[j].service_charge_summary[k].total_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['CONVENIENCE FEE'] += journeys[i].fares[j].service_charge_summary[k].total_convenience_fee;
                     price_breakdown['COMMISSION'] += (journeys[i].fares[j].service_charge_summary[k].total_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += journeys[i].fares[j].service_charge_summary[k].total_nta_vendor;
                     price_breakdown['SERVICE FEE'] += journeys[i].fares[j].service_charge_summary[k].total_fee_ho;
@@ -1747,6 +1750,8 @@ function bus_detail(){
                         price_breakdown['TAX'] = 0;
                     if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                         price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                        price_breakdown['CONVENIENCE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA BUS'))
@@ -1766,6 +1771,7 @@ function bus_detail(){
                     price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare_ori;
                     price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['CONVENIENCE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_convenience_fee;
                     price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += train_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_fee_ho;
