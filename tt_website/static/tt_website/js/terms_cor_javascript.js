@@ -265,12 +265,6 @@ function create_request_cor(){
     }else{
         document.getElementById('company_siup_nib').style['border-color'] = '';
     }
-    if(document.getElementById("company_akta_pendirian").files.length == 0 ){
-        error_log+= 'Please upload Company Akta Pendirian!</br>\n';
-        document.getElementById('company_akta_pendirian').style['border-color'] = 'red';
-    }else{
-        document.getElementById('company_akta_pendirian').style['border-color'] = '';
-    }
 
     if(document.getElementById('company_how_to_know_us').value == ''){
         error_log+= 'Please input How do you know us!</br>\n';
@@ -733,7 +727,6 @@ function clear_request_cor(){
     document.getElementById('company_structure').value = '';
     document.getElementById('company_npwp').value = '';
     document.getElementById('company_siup_nib').value = '';
-    document.getElementById('company_akta_pendirian').value = '';
     document.getElementById('company_how_to_know_us').value = '';
 
     document.getElementById('owner_name').value = '';
@@ -818,8 +811,6 @@ function clear_request_cor(){
     document.getElementById('company_npwp_img').src = "";
     document.getElementById('company_siup_nib_div').hidden = true;
     document.getElementById('company_siup_nib_img').src = "";
-    document.getElementById('company_akta_pendirian_div').hidden = true;
-    document.getElementById('company_akta_pendirian_img').src = "";
     document.getElementById('owner_ktp_div').hidden = true;
     document.getElementById('owner_ktp_img').src = "";
     document.getElementById('accounting_ktp_div').hidden = true;
