@@ -3237,6 +3237,8 @@ function tour_get_booking(order_number)
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                    price_breakdown['CONVENIENCE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA TOUR'))
@@ -3257,6 +3259,7 @@ function tour_get_booking(order_number)
                                 price_breakdown['FARE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['CONVENIENCE FEE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                                 price_breakdown['COMMISSION'] = (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -3319,6 +3322,8 @@ function tour_get_booking(order_number)
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                    price_breakdown['CONVENIENCE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA TRAIN'))
@@ -3341,6 +3346,7 @@ function tour_get_booking(order_number)
                                 price_breakdown['FARE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['CONVENIENCE FEE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                                 price_breakdown['COMMISSION'] += (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;

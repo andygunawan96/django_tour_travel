@@ -11,6 +11,7 @@ from tt_webservice.views.tt_webservice_content_views import *
 from tt_webservice.views.tt_webservice_airline_views import *
 from tt_webservice.views.tt_webservice_payment_views import *
 from tt_webservice.views import tt_webservice_account_views as webservice_account
+from tt_webservice.views import tt_webservice_printout_views as webservice_printout
 from tt_webservice.views.tt_webservice_views import *
 import logging
 import traceback
@@ -2076,6 +2077,11 @@ def get_data_template(request, type='home', provider_type = []):
     file = read_cache("color_printout", 'cache_web', request, 90911)
     if file:
         printout_color = file
+    else:
+        webservice_printout.get_color_printout(request)
+        file = read_cache("color_printout", 'cache_web', request, 90911)
+        if file:
+            printout_color = file
 
     # one signal
     file = read_cache("one_signal", 'cache_web', request, 90911)

@@ -1140,6 +1140,8 @@ function update_table_new(type){
                             price_breakdown['TAX'] = 0;
                         if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                             price_breakdown['BREAKDOWN'] = 0;
+                        if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                            price_breakdown['CONVENIENCE FEE'] = 0;
                         if(!price_breakdown.hasOwnProperty('COMMISSION'))
                             price_breakdown['COMMISSION'] = 0;
                         if(!price_breakdown.hasOwnProperty('NTA VISA'))
@@ -1159,6 +1161,7 @@ function update_table_new(type){
                         price_breakdown['FARE'] += sell_visa.search_data[i].service_charge_summary[j].base_fare_ori;
                         price_breakdown['TAX'] += sell_visa.search_data[i].service_charge_summary[j].base_tax_ori;
                         price_breakdown['BREAKDOWN'] = 0;
+                        price_breakdown['CONVENIENCE FEE'] += sell_visa.search_data[i].service_charge_summary[j].base_convenience_fee;
                         price_breakdown['COMMISSION'] += (sell_visa.search_data[i].service_charge_summary[j].base_commission_vendor * -1);
                         price_breakdown['NTA VISA'] += sell_visa.search_data[i].service_charge_summary[j].base_nta_vendor;
                         price_breakdown['SERVICE FEE'] += sell_visa.search_data[i].service_charge_summary[j].base_fee_ho;
@@ -1185,6 +1188,8 @@ function update_table_new(type){
                         price_breakdown['TAX'] = 0;
                     if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                         price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                        price_breakdown['CONVENIENCE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA VISA'))
@@ -1207,6 +1212,7 @@ function update_table_new(type){
                     price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['CONVENIENCE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -1273,6 +1279,8 @@ function update_table_new(type){
                         price_breakdown['TAX'] = 0;
                     if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                         price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                        price_breakdown['CONVENIENCE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA VISA'))
@@ -1295,6 +1303,7 @@ function update_table_new(type){
                     price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['CONVENIENCE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -1361,6 +1370,8 @@ function update_table_new(type){
                         price_breakdown['TAX'] = 0;
                     if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                         price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                        price_breakdown['CONVENIENCE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA VISA'))
@@ -1383,6 +1394,7 @@ function update_table_new(type){
                     price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['CONVENIENCE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
