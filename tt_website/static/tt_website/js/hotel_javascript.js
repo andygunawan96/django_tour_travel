@@ -1582,7 +1582,7 @@ function hotel_room_pick(key, key2){
     text += '</div>';
 
     text += `<div>
-        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>`;
     text += `<div id="price_detail_hotel_div" style="display:none;">`;
     discount_hotel = 0;
@@ -1631,7 +1631,7 @@ function hotel_room_pick(key, key2){
     text += `</div>`;
 
     text += `<div>
-        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
 
     $text2 += 'Grand Total: '+hotel_room.currency+' '+getrupiah(total_price_hotel + discount_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
@@ -2303,7 +2303,7 @@ function hotel_detail(old_cancellation_policy){
     text+=`<h5>`+show_name_room+`</h5>`;
 
     text += `<div class="mt-3">
-        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>`;
     text += `<div id="price_detail_hotel_div" style="display:none;">`;
     total_room_night = 0;
@@ -2413,7 +2413,7 @@ function hotel_detail(old_cancellation_policy){
     text += `</div>`;
 
     text += `<div>
-        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
 
     text += `<div class="row">
@@ -3240,7 +3240,7 @@ function reset_filter(){
     filtering('filter');
 }
 
-function show_hide_div(key){
+function show_hide_div_hotel(key){
     var show_div = document.getElementById(key+'_div');
     var btn_down = document.getElementById(key+'_down');
     var btn_up = document.getElementById(key+'_up');
