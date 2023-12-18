@@ -980,8 +980,8 @@ def admin(request):
 
                     ### KALAU ADA CACHE BARU MAU MASUK DATA CACHE TEMPLATE TAMBAH DI ATAS SINI ###
 
-                    if request.session.get('username'): ## LAST UPDATE USER
-                        text += request.session['username']
+                    if request.session.get('user_account'): ## LAST UPDATE USER
+                        text += request.session['user_account']['co_user_login']
                     text += '\n'
 
                     write_cache(text, "data_cache_template", request, 'cache_web')
@@ -1225,6 +1225,8 @@ def admin(request):
                     text = ''
                     if request.POST.get('is_register_agent'):
                         text += 'true'
+                    elif data_cache.get('register_agent'):
+                        text += data_cache['register_agent']
                     else:
                         text += 'false'
                     write_cache(text, "register_agent", request, 'cache_web')
@@ -1237,6 +1239,8 @@ def admin(request):
                     text = ''
                     if request.POST.get('is_register_b2c'):
                         text += 'true'
+                    elif data_cache.get('register_b2c'):
+                        text += data_cache['register_b2c']
                     else:
                         text += 'false'
                     write_cache(text, "register_b2c", request, 'cache_web')
@@ -1249,6 +1253,8 @@ def admin(request):
                     text = ''
                     if request.POST.get('is_show_manual_top_up'):
                         text += 'true'
+                    elif data_cache.get('is_show_manual_top_up'):
+                        text += data_cache['is_show_manual_top_up']
                     else:
                         text += 'false'
                     write_cache(text, "manual_top_up", request, 'cache_web')
