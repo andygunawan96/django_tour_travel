@@ -1854,6 +1854,8 @@ function bus_get_booking(data, sync=false){
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                price_breakdown['CONVENIENCE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA BUS'))
@@ -1874,6 +1876,7 @@ function bus_get_booking(data, sync=false){
                             price_breakdown['FARE'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                             price_breakdown['TAX'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['CONVENIENCE FEE'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                             price_breakdown['COMMISSION'] = (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA BUS'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -1936,6 +1939,8 @@ function bus_get_booking(data, sync=false){
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                price_breakdown['CONVENIENCE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA BUS'))
@@ -1958,6 +1963,7 @@ function bus_get_booking(data, sync=false){
                             price_breakdown['FARE'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                             price_breakdown['TAX'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['CONVENIENCE FEE'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                             price_breakdown['COMMISSION'] += (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA BUS'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
