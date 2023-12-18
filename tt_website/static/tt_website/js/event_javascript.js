@@ -1219,16 +1219,26 @@ function hotel_room_pick_button(total_commission, currency){
     document.getElementById('event_detail_button').innerHTML = text;
 }
 
-function show_commission_event(){
-    var sc = document.getElementById("show_commission_event");
-    var scs = document.getElementById("show_commission_button_event");
+function show_commission(val){
+    var sc = '';
+    var scs = '';
+    if(val == 'show_commission_new'){
+        sc = document.getElementById("show_commission_new");
+        scs = document.getElementById("show_commission_new_button");
+    }else if(val == 'show_commission'){
+        var sc = document.getElementById("show_commission");
+        var scs = document.getElementById("show_commission_button");
+    }else{
+        sc = document.getElementById("show_commission_old");
+        scs = document.getElementById("show_commission_old_button");
+    }
     if (sc.style.display === "none"){
-        sc.style.display = "block";
-        scs.value = "Hide YPM";
+        sc.style.display = "inline";
+        scs.innerHTML = `<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show YPM";
+        scs.innerHTML = `<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
     }
 }
 

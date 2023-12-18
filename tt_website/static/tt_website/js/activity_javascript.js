@@ -456,13 +456,14 @@ function activity_table_detail(){
                    <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-               text+=`
-               <div class="row" style="margin-top:10px; text-align:center;">
-                   <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
-                   </div>
-               </div>`;
+           //cenedit
+//           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//               text+=`
+//               <div class="row" style="margin-top:10px; text-align:center;">
+//                   <div class="col-lg-12" style="padding-bottom:10px;">
+//                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
+//                   </div>
+//               </div>`;
 
    document.getElementById('activity_detail_table').innerHTML = text;
    if(agent_security.includes('book_reservation') == true)
@@ -873,13 +874,15 @@ function activity_table_detail2(pagetype){
                      <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div></div></div>`;
-           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-               text+= `
-               <div class="row" style="margin-top:10px; text-align:center;">
-                   <div class="col-xs-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
-                   </div>
-               </div>`;
+
+           //cenedit
+//           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//               text+= `
+//               <div class="row" style="margin-top:10px; text-align:center;">
+//                   <div class="col-xs-12" style="padding-bottom:10px;">
+//                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
+//                   </div>
+//               </div>`;
    document.getElementById('activity_detail_table').innerHTML = text;
 
    if(is_show_breakdown_price){
@@ -1004,16 +1007,26 @@ function copy_data(){
     })
 }
 
-function show_commission(){
-    var sc = document.getElementById("show_commission");
-    var scs = document.getElementById("show_commission_button");
+function show_commission(val){
+    var sc = '';
+    var scs = '';
+    if(val == 'show_commission_new'){
+        sc = document.getElementById("show_commission_new");
+        scs = document.getElementById("show_commission_new_button");
+    }else if(val == 'show_commission'){
+        var sc = document.getElementById("show_commission");
+        var scs = document.getElementById("show_commission_button");
+    }else{
+        sc = document.getElementById("show_commission_old");
+        scs = document.getElementById("show_commission_old_button");
+    }
     if (sc.style.display === "none"){
-        sc.style.display = "block";
-        scs.value = "Hide YPM";
+        sc.style.display = "inline";
+        scs.innerHTML = `<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show YPM";
+        scs.innerHTML = `<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
     }
 }
 

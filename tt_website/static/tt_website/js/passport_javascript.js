@@ -210,13 +210,13 @@ function update_table(type){
                         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
                    </div>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                text+=`
-                <div class="row" style="margin-top:10px; text-align:center;">
-                   <div class="col-lg-12">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
-                   </div>
-                </div>`;
+//                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                text+=`
+//                <div class="row" style="margin-top:10px; text-align:center;">
+//                   <div class="col-lg-12">
+//                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
+//                   </div>
+//                </div>`;
                 if(agent_security.includes('book_reservation') == true)
                 text+=
                 `<div class="row" style="margin-top:10px; text-align:center;">
@@ -332,14 +332,13 @@ function update_table(type){
                     <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
-               </div>
-            </div>
-            `;
+//            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//            text+=`
+//            <div class="row" style="margin-top:10px; text-align:center;">
+//               <div class="col-lg-12" style="padding-bottom:10px;">
+//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
+//               </div>
+//            </div>`;
     }else if(type == 'review'){
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
             tax = 0;
@@ -535,14 +534,13 @@ function update_table(type){
                     <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
-               </div>
-            </div>
-            `;
+//            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//            text+=`
+//            <div class="row" style="margin-top:10px; text-align:center;">
+//               <div class="col-lg-12" style="padding-bottom:10px;">
+//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
+//               </div>
+//            </div>`;
     }else if(type == 'booking'){
         text += `<h4>Price detail</h4><hr/>
                 <table style="width:100%; margin-bottom:10px;">`;
@@ -643,6 +641,8 @@ function update_table(type){
         }
         if(passport.journey.state == 'booked')
             text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" style="width:auto; height:30px;" alt="Bank"/></i></div>`;
+
+        //edit ypm passport
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`
         <div class="row" id="show_commission" style="display: block;">
@@ -691,27 +691,38 @@ function update_table(type){
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
            </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-        text+=`
-        <div class="row" style="margin-top:10px; text-align:center;">
-           <div class="col-lg-12" style="padding-bottom:10px;">
-                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
-           </div>
-        </div>
-        `;
-
+//        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//        text+=`
+//        <div class="row" style="margin-top:10px; text-align:center;">
+//           <div class="col-lg-12" style="padding-bottom:10px;">
+//                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
+//           </div>
+//        </div>`;
     }
     document.getElementById('detail').innerHTML = text;
     $("#select_visa_first").hide();
 }
 
-function show_commission(){
-    if(document.getElementById('show_commission').style.display == 'none'){
-        document.getElementById('show_commission').style.display = 'block';
-        document.getElementById('show_commission_button').value = 'Hide YPM';
+function show_commission(val){
+    var sc = '';
+    var scs = '';
+    if(val == 'show_commission_new'){
+        sc = document.getElementById("show_commission_new");
+        scs = document.getElementById("show_commission_new_button");
+    }else if(val == 'show_commission'){
+        var sc = document.getElementById("show_commission");
+        var scs = document.getElementById("show_commission_button");
     }else{
-        document.getElementById('show_commission').style.display = 'none';
-        document.getElementById('show_commission_button').value = 'Show PYM';
+        sc = document.getElementById("show_commission_old");
+        scs = document.getElementById("show_commission_old_button");
+    }
+    if (sc.style.display === "none"){
+        sc.style.display = "inline";
+        scs.innerHTML = `<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
+    }
+    else{
+        sc.style.display = "none";
+        scs.innerHTML = `<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
     }
 }
 
