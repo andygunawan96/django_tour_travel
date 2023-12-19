@@ -3589,7 +3589,10 @@ function table_price_update(msg,type){
             for(i in all_pax){
                 if(i == 0)
                     $test += 'Passengers:\n';
-                $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+                if(all_pax[i].hasOwnProperty('identity_first_name') && all_pax[i].identity_first_name != '' && all_pax[i].identity_first_name != undefined && all_pax[i].identity_first_name != false)
+                    $test += all_pax[i].title + ' ' + all_pax[i].identity_first_name + ' ' + all_pax[i].identity_last_name + '\n';
+                else
+                    $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
             }
             $test +='\n';
         }catch(err){
