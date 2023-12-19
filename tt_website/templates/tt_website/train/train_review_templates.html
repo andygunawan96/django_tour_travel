@@ -148,7 +148,11 @@
                                     <div class="col-lg-12 pt-3 pb-3" style="border-top: 1px solid #cdcdcd;">
                                     {% endif %}
                                         <h5>
-                                            {{adult.title}} {{adult.first_name}} {{adult.last_name}}
+                                            {% if adult.identity_first_name %}
+                                                {{adult.title}} {{adult.identity_first_name}} {{adult.identity_last_name}}
+                                            {% else %}
+                                                {{adult.title}} {{adult.first_name}} {{adult.last_name}}
+                                            {% endif %}
                                             <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                                 <i class="fas fa-user"></i> Adult
                                             </b>
@@ -166,7 +170,11 @@
                                     {% for infant in passenger.infant%}
                                     <div class="col-lg-12 pt-3 pb-3" style="border-top: 1px solid #cdcdcd;">
                                         <h5>
-                                            {{infant.title}} {{infant.first_name}} {{infant.last_name}}
+                                            {% if infant.identity_first_name %}
+                                                {{infant.title}} {{infant.identity_first_name}} {{infant.identity_last_name}}
+                                            {% else %}
+                                                {{infant.title}} {{infant.first_name}} {{infant.last_name}}
+                                            {% endif %}
                                             <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                                 <i class="fas fa-user"></i> Infant
                                             </b>

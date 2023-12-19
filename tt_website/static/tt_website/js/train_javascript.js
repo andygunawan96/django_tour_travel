@@ -1576,9 +1576,14 @@ function train_detail(){
             $text += 'Passengers\n';
             for(i in passengers){
                 if(i != 'booker' && i != 'contact')
+                {
                     for(j in passengers[i]){
-                        $text += passengers[i][j].title + ' ' + passengers[i][j].first_name + ' ' + passengers[i][j].last_name + '\n';
+                        if(passengers[i][j].hasOwnProperty('identity_first_name') && passengers[i][j].identity_first_name != '' && passengers[i][j].identity_first_name != undefined && passengers[i][j].identity_first_name != false)
+                            $text += passengers[i][j].title + ' ' + passengers[i][j].identity_first_name + ' ' + passengers[i][j].identity_last_name + '\n';
+                        else
+                            $text += passengers[i][j].title + ' ' + passengers[i][j].first_name + ' ' + passengers[i][j].last_name + '\n';
                     }
+                }
             }
             $text += '\n';
         }
