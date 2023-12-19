@@ -4009,11 +4009,16 @@ function sort(){
                                     }
                                     var breakdown_text = '';
                                     for(j in price_breakdown){
-                                        if(breakdown_text)
-                                            breakdown_text += '<br/>';
-                                        breakdown_text += '<b>'+j+'</b> ';
-                                        if(j != 'BREAKDOWN')
+                                        if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                            if(breakdown_text)
+                                                breakdown_text += '<br/>';
+                                            breakdown_text += '<b>'+j+'</b> ';
                                             breakdown_text += airline_pick_list[0].currency + ' ' + getrupiah(price_breakdown[j]);
+                                        }else if(j == 'BREAKDOWN'){
+                                            if(breakdown_text)
+                                                breakdown_text += '<br/>';
+                                            breakdown_text += '<b>'+j+'</b> ';
+                                        }
                                     }
 
                                     if(breakdown_price_list_jbox.length > i){
@@ -4161,11 +4166,16 @@ function sort(){
                                         }
                                         var breakdown_text = '';
                                         for(j in price_breakdown){
-                                            if(breakdown_text)
-                                                breakdown_text += '<br/>';
-                                            breakdown_text += '<b>'+j+'</b> ';
-                                            if(j != 'BREAKDOWN')
+                                            if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                                if(breakdown_text)
+                                                    breakdown_text += '<br/>';
+                                                breakdown_text += '<b>'+j+'</b> ';
                                                 breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                                            }else if(j == 'BREAKDOWN'){
+                                                if(breakdown_text)
+                                                    breakdown_text += '<br/>';
+                                                breakdown_text += '<b>'+j+'</b> ';
+                                            }
                                         }
 
 //                                        if(breakdown_price_list_jbox.length > i){
@@ -5555,11 +5565,16 @@ function airline_pick_mc(type){
             }
             var breakdown_text = '';
             for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                breakdown_text += '<b>'+j+'</b> ';
-                if(j != 'BREAKDOWN')
+                if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
                     breakdown_text += airline_pick_list[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                }else if(j == 'BREAKDOWN'){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
+                }
             }
             new jBox('Tooltip', {
                 attach: '#fare_detail_pick'+airline_pick_list[i].airline_pick_sequence,
@@ -7502,8 +7517,8 @@ function airline_detail(type){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -7524,7 +7539,7 @@ function airline_detail(type){
                                 price_breakdown['FARE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_convenience_fee;
+                                price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
                                 price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor * -1);
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
@@ -7541,11 +7556,16 @@ function airline_detail(type){
 
                 var breakdown_text = '';
                 for(j in price_breakdown){
-                    if(breakdown_text)
-                        breakdown_text += '<br/>';
-                    breakdown_text += '<b>'+j+'</b> ';
-                    if(j != 'BREAKDOWN')
+                    if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
                         breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }else if(j == 'BREAKDOWN'){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
+                    }
                 }
                 new jBox('Tooltip', {
                     attach: '#sub_total_price'+i,
@@ -7580,8 +7600,8 @@ function airline_detail(type){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -7602,7 +7622,7 @@ function airline_detail(type){
                                 price_breakdown['FARE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_convenience_fee;
+                                price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
                                 price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor * -1);
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
@@ -7631,11 +7651,16 @@ function airline_detail(type){
             }
             var breakdown_text = '';
             for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                breakdown_text += '<b>'+j+'</b> ';
-                if(j != 'BREAKDOWN')
+                if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
                     breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                }else if(j == 'BREAKDOWN'){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
+                }
             }
             new jBox('Tooltip', {
                 attach: '#total_price',

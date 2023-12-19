@@ -4192,8 +4192,8 @@ function activity_get_booking(data){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA ACTIVITY'))
@@ -4214,7 +4214,7 @@ function activity_get_booking(data){
                                 price_breakdown['FARE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                                price_breakdown['UPSELL'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] = (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA ACTIVITY'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -4237,11 +4237,16 @@ function activity_get_booking(data){
                                 }
                                 var breakdown_text = '';
                                 for(k in price_breakdown){
-                                    if(breakdown_text)
-                                        breakdown_text += '<br/>';
-                                    breakdown_text += '<b>'+k+'</b> ';
-                                    if(k != 'BREAKDOWN')
-                                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
+                                    if(k != 'BREAKDOWN' && price_breakdown[k] != 0){
+                                        if(breakdown_text)
+                                            breakdown_text += '<br/>';
+                                        breakdown_text += '<b>'+k+'</b> ';
+                                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                                    }else if(j == 'BREAKDOWN'){
+                                        if(breakdown_text)
+                                            breakdown_text += '<br/>';
+                                        breakdown_text += '<b>'+k+'</b> ';
+                                    }
                                 }
                                 new jBox('Tooltip', {
                                     attach: '#passenger_breakdown'+i+'_'+ act_get_booking.result.response.passengers[i].service_charge_details[j].pnr,
@@ -4278,8 +4283,8 @@ function activity_get_booking(data){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA ACTIVITY'))
@@ -4302,7 +4307,7 @@ function activity_get_booking(data){
                                 price_breakdown['FARE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                                price_breakdown['UPSELL'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA ACTIVITY'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -4326,11 +4331,16 @@ function activity_get_booking(data){
                         }
                         var breakdown_text = '';
                         for(j in price_breakdown){
-                            if(breakdown_text)
-                                breakdown_text += '<br/>';
-                            breakdown_text += '<b>'+j+'</b> ';
-                            if(j != 'BREAKDOWN')
+                            if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+j+'</b> ';
                                 breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            }else if(j == 'BREAKDOWN'){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+j+'</b> ';
+                            }
                         }
                         new jBox('Tooltip', {
                             attach: '#total_price',
