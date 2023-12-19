@@ -8157,17 +8157,38 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
         }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
+               if(document.getElementById('adult_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
         }
-        if(document.getElementById('adult_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+        if(is_need_valid_identity == 'true'){
            if(document.getElementById('adult_id_type'+i).value != ''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                 });
+                if(document.getElementById('adult_identity_first_name'+i).value != '')
+                {
+                    if(check_name(document.getElementById('adult_title'+i).value,
+                        document.getElementById('adult_identity_first_name'+i).value,
+                        document.getElementById('adult_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+                }
+
 //               if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -8518,7 +8539,7 @@ function check_passenger(adult, child, infant, type=''){
            error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = 'red';
        }else{
-           if(is_identity_required == 'true' && document.getElementById('child_identity_div'+i).style.display == 'block')
+           if(is_identity_required == 'true')
                if(document.getElementById('child_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger child '+i+'!</br>\n';
                     document.getElementById('child_id_type'+i).style['border-color'] = 'red';
@@ -8526,9 +8547,29 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(document.getElementById('child_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+       if(is_need_valid_identity == 'true'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('child_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('child_title'+i).value,
+                        document.getElementById('child_identity_first_name'+i).value,
+                        document.getElementById('child_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
 //               if(document.getElementById('child_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -8863,16 +8904,36 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = 'red';
        }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('infant_id_type'+i).value == '' && document.getElementById('infant_identity_div'+i).style.display == 'block'){
+               if(document.getElementById('infant_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger infant '+i+'!</br>\n';
                     document.getElementById('infant_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(document.getElementById('infant_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+       if(is_need_valid_identity == 'true'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('infant_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('infant_title'+i).value,
+                        document.getElementById('infant_identity_first_name'+i).value,
+                        document.getElementById('infant_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
 //               if(document.getElementById('infant_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -9159,7 +9220,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger student '+i+'!</br>\n';
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true' && document.getElementById('student_identity_div'+i).style.display == 'block')
+               if(is_identity_required == 'true')
                    if(document.getElementById('student_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger student '+i+'!</br>\n';
                         document.getElementById('student_id_type'+i).style['border-color'] = 'red';
@@ -9167,9 +9228,29 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('student_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+           if(is_need_valid_identity == 'true'){
                if(document.getElementById('student_id_type'+i).value != ''){
                    document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
+                   if(document.getElementById('student_identity_first_name'+i).value != '')
+                   {
+                        if(check_name(document.getElementById('student_title'+i).value,
+                            document.getElementById('student_identity_first_name'+i).value,
+                            document.getElementById('student_identity_last_name'+i).value,
+                            length_name) == false){
+                           error_log+= 'Total of student '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
+                           document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
+                        }else if(check_word(document.getElementById('student_identity_first_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity first name of student passenger '+i+'!</br>\n';
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
+                        }else if(document.getElementById('student_identity_last_name'+i).value != '' && check_word(document.getElementById('student_identity_last_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity last name of student passenger '+i+'!</br>\n';
+                           document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                        }
+                   }
     //               if(document.getElementById('student_nationality'+i).value == 'Indonesia'){
     //                   //indonesia
     //                   if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -9507,7 +9588,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger seaman '+i+'!</br>\n';
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true' && document.getElementById('seaman_identity_div'+i).style.display == 'block')
+               if(is_identity_required == 'true')
                    if(document.getElementById('seaman_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger seaman '+i+'!</br>\n';
                         document.getElementById('seaman_id_type'+i).style['border-color'] = 'red';
@@ -9515,9 +9596,29 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('seaman_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+           if(is_need_valid_identity == 'true'){
                if(document.getElementById('seaman_id_type'+i).value != ''){
                    document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
+                   if(document.getElementById('seaman_identity_first_name'+i).value != '')
+                   {
+                        if(check_name(document.getElementById('seaman_title'+i).value,
+                            document.getElementById('seaman_identity_first_name'+i).value,
+                            document.getElementById('seaman_identity_last_name'+i).value,
+                            length_name) == false){
+                           error_log+= 'Total of seaman '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
+                           document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
+                        }else if(check_word(document.getElementById('seaman_identity_first_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity first name of seaman passenger '+i+'!</br>\n';
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
+                        }else if(document.getElementById('seaman_identity_last_name'+i).value != '' && check_word(document.getElementById('seaman_identity_last_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity last name of seaman passenger '+i+'!</br>\n';
+                           document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                        }
+                   }
     //               if(document.getElementById('seaman_nationality'+i).value == 'Indonesia'){
     //                   //indonesia
     //                   if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -9855,7 +9956,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger labour '+i+'!</br>\n';
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true' && document.getElementById('labour_identity_div'+i).style.display == 'block')
+               if(is_identity_required == 'true')
                    if(document.getElementById('labour_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger labour '+i+'!</br>\n';
                         document.getElementById('labour_id_type'+i).style['border-color'] = 'red';
@@ -9863,9 +9964,29 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('labour_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+           if(is_need_valid_identity == 'true'){
                if(document.getElementById('labour_id_type'+i).value != ''){
                    document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
+                   if(document.getElementById('labour_identity_first_name'+i).value != '')
+                   {
+                        if(check_name(document.getElementById('labour_title'+i).value,
+                            document.getElementById('labour_identity_first_name'+i).value,
+                            document.getElementById('labour_identity_last_name'+i).value,
+                            length_name) == false){
+                           error_log+= 'Total of labour '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
+                           document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
+                        }else if(check_word(document.getElementById('labour_identity_first_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity first name of labour passenger '+i+'!</br>\n';
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
+                        }else if(document.getElementById('labour_identity_last_name'+i).value != '' && check_word(document.getElementById('labour_identity_last_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity last name of labour passenger '+i+'!</br>\n';
+                           document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                        }
+                   }
     //               if(document.getElementById('labour_nationality'+i).value == 'Indonesia'){
     //                   //indonesia
     //                   if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -10382,6 +10503,26 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                 });
+                if(document.getElementById('adult_identity_first_name'+i).value != '')
+                {
+                    if(check_name(document.getElementById('adult_title'+i).value,
+                        document.getElementById('adult_identity_first_name'+i).value,
+                        document.getElementById('adult_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+                }
                if(document.getElementById('adult_nationality'+i+'_id').value == 'ID'){
                    //indonesia
                    if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false' || is_provider_lionair == true && document.getElementById('adult_id_type'+i).value == 'ktp'){
@@ -10603,6 +10744,26 @@ function check_passenger_aftersales(adult, child, infant, type=''){
        if(document.getElementById('child_identity_div'+i).style.display == 'block'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('child_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('child_title'+i).value,
+                        document.getElementById('child_identity_first_name'+i).value,
+                        document.getElementById('child_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
                if(document.getElementById('child_nationality'+i+'_id').value == 'ID'){
                    //indonesia
                    if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -10809,6 +10970,26 @@ function check_passenger_aftersales(adult, child, infant, type=''){
        if(document.getElementById('infant_identity_div'+i).style.display == 'block'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('infant_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('infant_title'+i).value,
+                        document.getElementById('infant_identity_first_name'+i).value,
+                        document.getElementById('infant_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
                if(document.getElementById('infant_nationality'+i+'_id').value == 'ID'){
                    //indonesia
                    if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
