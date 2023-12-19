@@ -124,7 +124,11 @@ img {vertical-align: middle;}
                                         <div class="row">
                                             {% for pax in passengers%}
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <input title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:white;padding:10px; margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.first_name}} {{pax.last_name}}">
+                                                {% if pax.identity_first_name %}
+                                                    <input title="{{pax.title}} {{pax.identity_first_name}} {{pax.identity_last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:white;padding:10px; margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.identity_first_name}} {{pax.identity_last_name}}">
+                                                {% else %}
+                                                    <input title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:white;padding:10px; margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.first_name}} {{pax.last_name}}">
+                                                {% endif %}
                                             </div>
                                             {% endfor %}
                                         </div>

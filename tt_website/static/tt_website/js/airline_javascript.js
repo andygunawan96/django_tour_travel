@@ -6644,7 +6644,10 @@ function airline_detail(type){
                 $text += ':\n';
                 if(passengers.hasOwnProperty('adult')){
                     for(x in passengers['adult']){
-                        $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].first_name + ' ' + passengers['adult'][x].last_name;
+                        if(passengers['adult'][x].hasOwnProperty('identity_first_name') && passengers['adult'][x].identity_first_name != '' && passengers['adult'][x].identity_first_name != undefined && passengers['adult'][x].identity_first_name != false)
+                            $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].identity_first_name + ' ' + passengers['adult'][x].identity_last_name;
+                        else
+                            $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].first_name + ' ' + passengers['adult'][x].last_name;
                         if(passengers['adult'][x].birth_date)
                             $text += ' (ADT ' +  passengers['adult'][x].birth_date + ')';
                         if(passengers['adult'][x].identity_type){
@@ -6692,7 +6695,10 @@ function airline_detail(type){
                 }
                 if(passengers.hasOwnProperty('child')){
                     for(x in passengers['child']){
-                        $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name;
+                        if(passengers['child'][x].hasOwnProperty('identity_first_name') && passengers['child'][x].identity_first_name != '' && passengers['child'][x].identity_first_name != undefined && passengers['child'][x].identity_first_name != false)
+                            $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].identity_first_name + ' ' + passengers['child'][x].identity_last_name;
+                        else
+                            $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name;
                         if(passengers['adult'][x].birth_date)
                             $text += ' (CHD ' +  passengers['child'][x].birth_date + ')';
                         if(passengers['child'][x].identity_type){
@@ -6740,7 +6746,10 @@ function airline_detail(type){
                 }
                 if(passengers.hasOwnProperty('infant')){
                     for(x in passengers['infant']){
-                        $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].first_name + ' ' + passengers['infant'][x].last_name;
+                        if(passengers['infant'][x].hasOwnProperty('identity_first_name') && passengers['infant'][x].identity_first_name != '' && passengers['infant'][x].identity_first_name != undefined && passengers['infant'][x].identity_first_name != false)
+                            $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].identity_first_name + ' ' + passengers['infant'][x].identity_last_name;
+                        else
+                            $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].first_name + ' ' + passengers['infant'][x].last_name;
                         if(passengers['infant'][x].birth_date)
                             $text += ' (INF ' +  passengers['infant'][x].birth_date + ')';
                         if(passengers['infant'][x].identity_type)
@@ -6750,7 +6759,10 @@ function airline_detail(type){
 
                 if(passengers.hasOwnProperty('student')){
                     for(x in passengers['student']){
-                        $text += '- ' + passengers['student'][x].title + ' ' + passengers['student'][x].first_name + ' ' + passengers['student'][x].last_name;
+                        if(passengers['student'][x].hasOwnProperty('identity_first_name') && passengers['student'][x].identity_first_name != '' && passengers['student'][x].identity_first_name != undefined && passengers['student'][x].identity_first_name != false)
+                            $text += '• ' + passengers['student'][x].title + ' ' + passengers['student'][x].identity_first_name + ' ' + passengers['student'][x].identity_last_name;
+                        else
+                            $text += '- ' + passengers['student'][x].title + ' ' + passengers['student'][x].first_name + ' ' + passengers['student'][x].last_name;
                         if(passengers['student'][x].birth_date)
                             $text += ' (STU ' +  passengers['student'][x].birth_date + ')';
                         if(passengers['student'][x].identity_type){
@@ -6799,7 +6811,10 @@ function airline_detail(type){
 
                 if(passengers.hasOwnProperty('labour')){
                     for(x in passengers['labour']){
-                        $text += '- ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].first_name + ' ' + passengers['labour'][x].last_name;
+                        if(passengers['labour'][x].hasOwnProperty('identity_first_name') && passengers['labour'][x].identity_first_name != '' && passengers['labour'][x].identity_first_name != undefined && passengers['labour'][x].identity_first_name != false)
+                            $text += '• ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].identity_first_name + ' ' + passengers['labour'][x].identity_last_name;
+                        else
+                            $text += '- ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].first_name + ' ' + passengers['labour'][x].last_name;
                         if(passengers['labour'][x].birth_date)
                             $text += ' (LBR ' +  passengers['labour'][x].birth_date + ')';
                         if(passengers['labour'][x].identity_type){
@@ -6848,7 +6863,10 @@ function airline_detail(type){
 
                 if(passengers.hasOwnProperty('seaman')){
                     for(x in passengers['seaman']){
-                        $text += '- ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].first_name + ' ' + passengers['seaman'][x].last_name;
+                        if(passengers['seaman'][x].hasOwnProperty('identity_first_name') && passengers['seaman'][x].identity_first_name != '' && passengers['seaman'][x].identity_first_name != undefined && passengers['seaman'][x].identity_first_name != false)
+                            $text += '• ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].identity_first_name + ' ' + passengers['seaman'][x].identity_last_name;
+                        else
+                            $text += '- ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].first_name + ' ' + passengers['seaman'][x].last_name;
                         if(passengers['seaman'][x].birth_date)
                             $text += ' (SEA ' +  passengers['seaman'][x].birth_date + ')';
                         if(passengers['seaman'][x].identity_type){
@@ -11193,7 +11211,7 @@ function get_airline_review(){
                                             else if(passengers_ssr[i].title == "MISS"){
                                                 text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
                                             }
-                                        if(passengers_ssr[i].identity_first_name != '' && passengers_ssr[i].identity_first_name != undefined && passengers_ssr[i].identity_first_name != false)
+                                        if(passengers_ssr[i].hasOwnProperty('identity_first_name') && passengers_ssr[i].identity_first_name != '' && passengers_ssr[i].identity_first_name != undefined && passengers_ssr[i].identity_first_name != false)
                                         {
                                             temp_pax_first_name = passengers_ssr[i].identity_first_name;
                                             if(passengers_ssr[i].identity_last_name != undefined && passengers_ssr[i].identity_last_name != false)
@@ -11369,7 +11387,7 @@ function get_airline_review(){
                                     else if(passengers.infant[i].title == "MISS"){
                                         text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
                                     }
-                                if(passengers.infant[i].identity_first_name != '' && passengers.infant[i].identity_first_name != undefined && passengers.infant[i].identity_first_name != false)
+                                if(passengers.infant[i].hasOwnProperty('identity_first_name') && passengers.infant[i].identity_first_name != '' && passengers.infant[i].identity_first_name != undefined && passengers.infant[i].identity_first_name != false)
                                 {
                                     temp_inf_first_name = passengers.infant[i].identity_first_name;
                                     if(passengers.infant[i].identity_last_name != undefined && passengers.infant[i].identity_last_name != false)

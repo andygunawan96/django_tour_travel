@@ -111,12 +111,21 @@ img {vertical-align: middle;}
                             </button>
                             <ul id="passenger_seat_map_ul" class="dropdown-menu" role="menu" style="padding:20px; top:25px !important; max-height:250px !important;">
                                 {% for pax in passengers%}
-                                <button title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="font-weight:700;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);">
-                                    {{pax.title}} {{pax.first_name}} {{pax.last_name}}
-                                    <b style="background:white; font-size:13px; color:black; padding:0px 15px; border: 1px solid #cdcdcd; border-radius:3px; float:right;">
-                                        {{pax.pax_type}}
-                                    </b>
-                                </button>
+                                {% if pax.identity_first_name %}
+                                    <button title="{{pax.title}} {{pax.identity_first_name}} {{pax.identity_last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="font-weight:700;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);">
+                                        {{pax.title}} {{pax.identity_first_name}} {{pax.identity_last_name}}
+                                        <b style="background:white; font-size:13px; color:black; padding:0px 15px; border: 1px solid #cdcdcd; border-radius:3px; float:right;">
+                                            {{pax.pax_type}}
+                                        </b>
+                                    </button>
+                                {% else %}
+                                    <button title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="font-weight:700;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);">
+                                        {{pax.title}} {{pax.first_name}} {{pax.last_name}}
+                                        <b style="background:white; font-size:13px; color:black; padding:0px 15px; border: 1px solid #cdcdcd; border-radius:3px; float:right;">
+                                            {{pax.pax_type}}
+                                        </b>
+                                    </button>
+                                {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
