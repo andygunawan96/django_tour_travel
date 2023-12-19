@@ -1992,8 +1992,8 @@ function price_detail(){
                 price_breakdown['TAX'] = 0;
             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                 price_breakdown['BREAKDOWN'] = 0;
-            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                price_breakdown['CONVENIENCE FEE'] = 0;
+            if(!price_breakdown.hasOwnProperty('UPSELL'))
+                price_breakdown['UPSELL'] = 0;
             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                 price_breakdown['COMMISSION'] = 0;
             if(!price_breakdown.hasOwnProperty('NTA INSURANCE'))
@@ -2013,7 +2013,7 @@ function price_detail(){
             price_breakdown['FARE'] += insurance_pick.service_charge_summary[i].total_fare_ori;
             price_breakdown['TAX'] += insurance_pick.service_charge_summary[i].total_tax_ori;
             price_breakdown['BREAKDOWN'] = 0;
-            price_breakdown['CONVENIENCE FEE'] += insurance_pick.service_charge_summary[i].total_convenience_fee;
+            price_breakdown['UPSELL'] += insurance_pick.service_charge_summary[i].total_upsell;
             price_breakdown['COMMISSION'] += (insurance_pick.service_charge_summary[i].total_commission_vendor * -1);
             price_breakdown['NTA INSURANCE'] += insurance_pick.service_charge_summary[i].total_nta_vendor;
             price_breakdown['SERVICE FEE'] += insurance_pick.service_charge_summary[i].total_fee_ho;
@@ -2039,11 +2039,16 @@ function price_detail(){
             price_breakdown['ADDITIONAL PRICE'] = additional_price;
         var breakdown_text = '';
         for(j in price_breakdown){
-            if(breakdown_text)
-                breakdown_text += '<br/>';
-            breakdown_text += '<b>'+j+'</b> ';
-            if(j != 'BREAKDOWN')
+            if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                breakdown_text += '<b>'+j+'</b> ';
                 breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+            }else if(j == 'BREAKDOWN'){
+                if(breakdown_text)
+                    breakdown_text += '<br/>';
+                breakdown_text += '<b>'+j+'</b> ';
+            }
         }
         new jBox('Tooltip', {
             attach: '#total_price',
@@ -3632,8 +3637,8 @@ function insurance_get_booking(data, sync=false){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA INSURANCE'))
@@ -3656,7 +3661,7 @@ function insurance_get_booking(data, sync=false){
                                 price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                                price_breakdown['UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -3679,13 +3684,16 @@ function insurance_get_booking(data, sync=false){
                             }
                             var breakdown_text = '';
                             for(j in price_breakdown){
-                                if(breakdown_text)
-                                    breakdown_text += '<br/>';
-                                if(j != 'ROC')
+                                if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                    if(breakdown_text)
+                                        breakdown_text += '<br/>';
                                     breakdown_text += '<b>'+j+'</b> ';
-                                else
-                                    breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                                }else if(j == 'BREAKDOWN'){
+                                    if(breakdown_text)
+                                        breakdown_text += '<br/>';
+                                    breakdown_text += '<b>'+j+'</b> ';
+                                }
                             }
                             new jBox('Tooltip', {
                                 attach: '#passenger_breakdown'+i,
@@ -3719,8 +3727,8 @@ function insurance_get_booking(data, sync=false){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA INSURANCE'))
@@ -3743,7 +3751,7 @@ function insurance_get_booking(data, sync=false){
                                 price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                                price_breakdown['UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -3767,13 +3775,16 @@ function insurance_get_booking(data, sync=false){
                         }
                         var breakdown_text = '';
                         for(j in price_breakdown){
-                            if(breakdown_text)
-                                breakdown_text += '<br/>';
-                            if(j != 'ROC')
+                            if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
                                 breakdown_text += '<b>'+j+'</b> ';
-                            else
-                                breakdown_text += '<b>CONVENIENCE FEE</b> ';
-                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            }else if(j == 'BREAKDOWN'){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+j+'</b> ';
+                            }
                         }
                         new jBox('Tooltip', {
                             attach: '#total_price',
