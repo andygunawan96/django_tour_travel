@@ -4241,7 +4241,7 @@ function activity_get_booking(data){
                                         if(breakdown_text)
                                             breakdown_text += '<br/>';
                                         breakdown_text += '<b>'+k+'</b> ';
-                                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[jk);
+                                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
                                     }else if(j == 'BREAKDOWN'){
                                         if(breakdown_text)
                                             breakdown_text += '<br/>';
