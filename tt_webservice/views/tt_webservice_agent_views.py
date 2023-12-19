@@ -2412,25 +2412,40 @@ def get_customer_list(request):
             counter = 0
             for pax in res['result']['response']:
                 try:
+                    old = ''
+                    if pax['birth_date']:
+                        birth_date = datetime.strptime(pax['birth_date'], '%Y-%m-%d')
+                        departure_obj = datetime.now()
+                        old = relativedelta(birth_date, departure_obj).years
+
                     if pax['gender'] == 'female' and pax['marital_status'] == 'married':
                         if 'adult' in request.POST['passenger_type'].lower() or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MRS'
                         elif request.POST['passenger_type'] == 'child' or request.POST['passenger_type'] == 'infant':
-                            title = 'MISS'
+                            if old and old > 11 and request.POST['product'] == 'insurance':
+                                title = 'MRS'
+                            else:
+                                title = 'MISS'
                         else:
                             title = 'MRS'
                     elif pax['gender'] == 'female':
                         if 'adult' in request.POST['passenger_type'].lower() or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MS'
                         elif 'child' in request.POST['passenger_type'].lower() or 'infant' in request.POST['passenger_type'].lower():
-                            title = 'MISS'
+                            if old and old > 11 and request.POST['product'] == 'insurance':
+                                title = 'MS'
+                            else:
+                                title = 'MISS'
                         else:
                             title = 'MS'
                     else:
                         if 'adult' in request.POST['passenger_type'].lower() or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MR'
                         elif 'child' in request.POST['passenger_type'].lower() or 'infant' in request.POST['passenger_type'].lower():
-                            title = 'MSTR'
+                            if old and old > 11 and request.POST['product'] == 'insurance':
+                                title = 'MR'
+                            else:
+                                title = 'MSTR'
                         else:
                             title = 'MR'
                     pax.update({
