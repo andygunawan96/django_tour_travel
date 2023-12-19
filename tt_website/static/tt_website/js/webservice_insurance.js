@@ -299,7 +299,7 @@ function insurance_get_config(page=false, provider_allowed=[]){
                     var choice_place_of_birth = '<option value="">Place of Birth</option>';
                     var choice_identity = '<option value="">Choose Identity Type</option>';
                     var choice_title_adult = '<option value=""></option><option value="MR">MR</option><option value="MRS">MRS</option><option value="MS">MS</option>';
-                    var choice_title_child = '<option value=""></option><option value="MSTR">MSTR</option><option value="MISS">MISS</option>';
+                    var choice_title_child = '<option value=""></option><option value="MR">MR</option><option value="MRS">MRS</option><option value="MS">MS</option><option value="MSTR">MSTR</option><option value="MISS">MISS</option>';
 
                     if(insurance_pick.provider == 'zurich')
                         choice_identity+=`<option value="ktp">KTP/NIK</option>`;
@@ -333,7 +333,7 @@ function insurance_get_config(page=false, provider_allowed=[]){
                             document.getElementById('adult_additional_data_for_insurance'+i).style.display = 'block';
                         }
                         for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
-                            if(insurance_pick.type_trip_name == 'Family'){
+                            if(insurance_pick.product_type_code == 'family'){
                                 document.getElementById('Adult_relation'+i+'_relation'+counter).innerHTML += choice_adult;
                                 $('#Adult_relation'+i+'_relation'+counter).niceSelect('update');
                             }else{
@@ -346,7 +346,7 @@ function insurance_get_config(page=false, provider_allowed=[]){
                             counter++;
                         }
                         for(var j=1;j<=parseInt(insurance_request.family.child);j++){
-                            if(insurance_pick.type_trip_name == 'Family'){
+                            if(insurance_pick.product_type_code == 'family'){
                                 document.getElementById('Child_relation'+i+'_relation'+counter).innerHTML += choice_child;
                                 $('#Child_relation'+i+'_relation'+counter).niceSelect('update');
                             }else{
