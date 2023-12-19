@@ -1210,9 +1210,9 @@ function bus_get_detail(){
                 <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                bus_detail_text+=`
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>`;
+//            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                bus_detail_text+=`
+//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>`;
             bus_detail_text += `</div>`;
             if(agent_security.includes('book_reservation') == true)
             bus_detail_text+=`
@@ -1240,6 +1240,8 @@ function bus_get_detail(){
                         price_breakdown['TAX'] = 0;
                     if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                         price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                        price_breakdown['CONVENIENCE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA BUS'))
@@ -1260,6 +1262,7 @@ function bus_get_detail(){
                     price_breakdown['FARE'] += journeys[i].fares[j].service_charge_summary[k].total_fare_ori;
                     price_breakdown['TAX'] += journeys[i].fares[j].service_charge_summary[k].total_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['CONVENIENCE FEE'] += journeys[i].fares[j].service_charge_summary[k].total_convenience_fee;
                     price_breakdown['COMMISSION'] += (journeys[i].fares[j].service_charge_summary[k].total_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += journeys[i].fares[j].service_charge_summary[k].total_nta_vendor;
                     price_breakdown['SERVICE FEE'] += journeys[i].fares[j].service_charge_summary[k].total_fee_ho;
@@ -1721,11 +1724,11 @@ function bus_detail(){
         <div class="col-lg-12" style="padding-bottom:10px;">
             <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div class="col-lg-12" style="padding-bottom:5px;">
-                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>
-            </div>`;
+//        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//            text+=`
+//            <div class="col-lg-12" style="padding-bottom:5px;">
+//                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>
+//            </div>`;
         text+=`
     </div>`;
 
@@ -1747,6 +1750,8 @@ function bus_detail(){
                         price_breakdown['TAX'] = 0;
                     if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                         price_breakdown['BREAKDOWN'] = 0;
+                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                        price_breakdown['CONVENIENCE FEE'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION'))
                         price_breakdown['COMMISSION'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA BUS'))
@@ -1766,6 +1771,7 @@ function bus_detail(){
                     price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare_ori;
                     price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
+                    price_breakdown['CONVENIENCE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_convenience_fee;
                     price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += train_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_fee_ho;
@@ -2580,16 +2586,26 @@ function copy_data(){
 }
 
 
-function show_commission(){
-    var sc = document.getElementById("show_commission");
-    var scs = document.getElementById("show_commission_button");
+function show_commission(val){
+    var sc = '';
+    var scs = '';
+    if(val == 'show_commission_new'){
+        sc = document.getElementById("show_commission_new");
+        scs = document.getElementById("show_commission_new_button");
+    }else if(val == 'show_commission'){
+        var sc = document.getElementById("show_commission");
+        var scs = document.getElementById("show_commission_button");
+    }else{
+        sc = document.getElementById("show_commission_old");
+        scs = document.getElementById("show_commission_old_button");
+    }
     if (sc.style.display === "none"){
-        sc.style.display = "block";
-        scs.value = "Hide YPM";
+        sc.style.display = "inline";
+        scs.innerHTML = `<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show YPM";
+        scs.innerHTML = `<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
     }
 }
 

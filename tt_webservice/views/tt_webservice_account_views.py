@@ -1084,6 +1084,7 @@ def get_payment_partner(request):
             sequence = ''
             title = ''
             image_partner = ''
+            active = 'true'
             for idx, line in enumerate(file.split('\n')):
                 if idx == 0:
                     if line.split('\n')[0] == 'false':
@@ -1096,11 +1097,14 @@ def get_payment_partner(request):
                     title = line.split('\n')[0]
                 elif idx == 3:
                     image_partner = line.split('\n')[0]
+                elif idx == 4:
+                    active = line.split('\n')[0]
             response.append({
                 "state": bool(state),
                 "sequence": sequence,
                 "title": title,
-                "image_partner": image_partner
+                "image_partner": image_partner,
+                "active": active
             })
         res = {
             'result': {
@@ -1661,12 +1665,25 @@ def get_va_number(request):
                                         data['heading'] = data_cache
                                     elif idx == 1:
                                         data['html'] = data_cache.replace('<br>', '\n')
+                                    elif idx == 2:
+                                        data['active'] = data_cache
                             else:
                                 data['html'] = ''
                                 data['heading'] = ''
                         else:
                             data['html'] = ''
                             data['heading'] = ''
+
+            new_other_bank = []
+            if res['result']['response'].get('other'):
+                for rec in res['result']['response']['other']:
+                    if rec['active'] == 'true':
+                        new_other_bank.append(rec)
+            if new_other_bank:
+                res['result']['response']['other'] = new_other_bank
+            else:
+                res['result']['response'].pop('other')
+
     except Exception as e:
         res = {
             'result': {
@@ -1730,7 +1747,8 @@ def get_va_bank(request):
             res['result']['response'].append({
                 "acquirer_seq_id": 'other_bank',
                 "name": 'Other Bank',
-                "type": ''
+                "type": '',
+                "active": 'true'
             })
             for rec in res['result']['response']:
                 file = read_cache(rec['acquirer_seq_id'], "payment_information", request, 90911)
@@ -1740,6 +1758,8 @@ def get_va_bank(request):
                             rec['heading'] = data_cache
                         elif idx == 1:
                             rec['html'] = data_cache.replace('<br>','\n')
+                        elif idx == 2:
+                            rec['active'] = data_cache
                 else:
                     rec['html'] = ''
                     rec['heading'] = ''
@@ -1760,6 +1780,8 @@ def set_payment_information(request):
         if not os.path.exists(path):
             os.mkdir(path)
         text = request.POST['heading'] + '\n' + request.POST['body'].replace('\n','<br>')
+        if request.POST['title'] == 'other_bank':
+            text += '\n' + request.POST['active']
         write_cache(text, request.POST['title'], request, "payment_information")
         res = {
             'result': {

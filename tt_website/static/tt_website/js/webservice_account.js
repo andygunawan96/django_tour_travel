@@ -2148,33 +2148,46 @@ function print_commission(commission,id,currency='IDR',id_span=''){
 //    if(data_commission < 0)
 //        data_commission = data_commission *-1;
     print_commission_text+=`
-        <div class="row" id="`+id+`" style="`;
-    if(data_commission == 0)
-        print_commission_text+=`display:block;`;
-    else
-        print_commission_text+=`display:none;`;
-    print_commission_text+=`">
-            <div class="col-lg-12 col-xs-12">
-                <div class="alert alert-success">
-                    <div style="text-align:center;">
-                        <span `;
-    if(id_span != '')
-        print_commission_text+='id="'+id_span+'" ';
-    if(data_commission != 0)
-        print_commission_text+=`style="font-size:13px;font-weight: bold;">YPM: `+currency+` `+getrupiah(parseInt(data_commission))+`</span>
-                    </div>`;
-    else
-        print_commission_text+=`style="font-size:13px;font-weight: bold;color:red;">YPM: `+currency+` `+getrupiah(parseInt(data_commission))+`</span>
-                    </div>`;
-            if(data_commission == 0)
-                print_commission_text+=`
-                    <div style="text-align:left;">
-                        <span style="font-size:13px;color:red;">* Please mark up the price first</span>
-                    </div>`;
-            print_commission_text+=`
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-success" style="margin-bottom:5px;">
+                <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('`+id+`');">
+                    <span>YPM </span>
+                    <span id="`+id+`_button">`;
+                    if(data_commission == 0)
+                        print_commission_text+=`<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
+                    else
+                        print_commission_text+=`<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
+                    print_commission_text+=`
+                    </span>`;
+
+                    print_commission_text+=`<span id="`+id+`" style="`;
+                    if(data_commission == 0)
+                        print_commission_text+=`display:inline;"`;
+                    else
+                        print_commission_text+=`display:none;"`;
+
+                        print_commission_text+=`
+                        >
+                        <span`;
+                            if(id_span != '')
+                                print_commission_text+='id="'+id_span+'" ';
+                            if(data_commission != 0)
+                                print_commission_text+=` style="font-size:14px;font-weight: bold;color:`+color+`;">`+currency+` `+getrupiah(parseInt(data_commission));
+                            else
+                                print_commission_text+=` style="font-size:14px;font-weight: bold;color:red;">`+currency+` `+getrupiah(parseInt(data_commission));
+                        print_commission_text+=`
+                        </span><br/>`;
+
+                        if(data_commission == 0)
+                            print_commission_text+=`<span style="font-size:13px;color:red;">* Please mark up the price first</span>`;
+
+                        print_commission_text+=`
+                    </span>
                 </div>
             </div>
-        </div>`;
+        </div>
+    </div>`;
     return print_commission_text;
 }
 

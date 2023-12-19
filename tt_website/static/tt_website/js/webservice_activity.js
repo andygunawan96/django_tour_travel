@@ -4113,81 +4113,63 @@ function activity_get_booking(data){
                         price_text+=`
                         </div>
                      </div>`;
-                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                         price_text+=`
-                         <div class="row mt-3" id="show_commission" style="display:none;">
-                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                                <div class="alert alert-success">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">YPM</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
-                                        </div>
-                                    </div>`;
-                                    if(msg.result.response.hasOwnProperty('agent_nta') == true){
-                                        total_nta = 0;
-                                        total_nta = msg.result.response.agent_nta;
-                                        price_text+=`<div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                            </div>
-                                        </div>`;
-                                    }
-                                    if(msg.result.response.hasOwnProperty('total_nta') == true){
-                                        total_nta = 0;
-                                        total_nta = msg.result.response.total_nta;
-                                        price_text+=`<div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">HO NTA</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                        </div>
-                                    </div>`;
-                                    }
-                                    text_detail = '';
-                                    if(msg.result.response.hasOwnProperty('booker_insentif') == true){
-                                        booker_insentif = 0;
-                                        booker_insentif = msg.result.response.booker_insentif;
-                                        text_detail+=`<div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
-                                        </div>
-                                    </div>`;
-                                    }
-                                    if(commission == 0){
-                                        text_detail+=`
-                                        <div class="row">
-                                            <div class="col-lg-12 col-xs-12" style="text-align:left;">
-                                                <span style="font-size:13px; color:red;">* Please mark up the price first</span>
-                                            </div>
-                                        </div>`;
-                                    }
+
+                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        price_text+=`
+                        <div class="alert alert-success" style="margin-top:10px;">
+                            <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
+                                <span>YPM </span>
+                                <span id="show_commission_button">`;
+                                    price_text+=`<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
+                                price_text+=`
+                                </span>`;
+
+                                price_text+=`<span id="show_commission" style="display:none;">`;
+
+                                price_text+=`<span style="font-size:14px; font-weight: bold; color:`+color+`;"> `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br/>`;
+
+                                if(msg.result.response.hasOwnProperty('agent_nta') == true){
+                                    total_nta = 0;
+                                    total_nta = msg.result.response.agent_nta;
                                     price_text+=`
-                                </div>
+                                    <span style="font-size:14px; font-weight:bold;">Agent NTA: </span>
+                                    <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(total_nta)+`</span><br/>`;
+                                }
+                                if(msg.result.response.hasOwnProperty('total_nta') == true){
+                                    total_nta = 0;
+                                    total_nta = msg.result.response.total_nta;
+                                    price_text+=`
+                                    <span style="font-size:14px; font-weight:bold;">HO NTA: </span>
+                                    <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(total_nta)+`</span><br/>`;
+                                }
+                                if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                    booker_insentif = 0;
+                                    booker_insentif = msg.result.response.booker_insentif;
+                                    price_text+=`
+                                    <span style="font-size:14px; font-weight:bold;">Booker Insentif: </span>
+                                    <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>`;
+                                }
+                                if(commission == 0){
+                                    price_text+=`<span style="font-size:13px; font-weight: bold;color:red">* Please mark up the price first</span>`;
+                                }
+                                price_text+=`
+                                </span>
                             </div>
-                         </div>`;
+                        </div>`;
+                     }
                      price_text+=`
                      <div class="row" style="margin-top:10px; text-align:center;">
                        <div class="col-xs-12">
                             <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                        </div>
                      </div>`;
-                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                         price_text+=`
-                         <div class="row" style="margin-top:10px; text-align:center;">
-                           <div class="col-xs-12">
-                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
-                           </div>
-                         </div>`;
+//                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                         price_text+=`
+//                         <div class="row" style="margin-top:10px; text-align:center;">
+//                           <div class="col-xs-12">
+//                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
+//                           </div>
+//                         </div>`;
                     $test+= '\nGrand Total : '+price.currency+' '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                     document.getElementById('activity_detail_table').innerHTML = price_text;
                     document.getElementById('activity_detail').style.display = 'block';
@@ -4210,10 +4192,12 @@ function activity_get_booking(data){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                    price_breakdown['CONVENIENCE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
-                                if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-                                    price_breakdown['NTA AIRLINE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA ACTIVITY'))
+                                    price_breakdown['NTA ACTIVITY'] = 0;
                                 if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
                                     price_breakdown['SERVICE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('VAT'))
@@ -4230,8 +4214,9 @@ function activity_get_booking(data){
                                 price_breakdown['FARE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['CONVENIENCE FEE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                                 price_breakdown['COMMISSION'] = (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
-                                price_breakdown['NTA AIRLINE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                                price_breakdown['NTA ACTIVITY'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
                                 price_breakdown['OTT'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ori;
@@ -4293,10 +4278,12 @@ function activity_get_booking(data){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
+                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                                    price_breakdown['CONVENIENCE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
-                                if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-                                    price_breakdown['NTA AIRLINE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('NTA ACTIVITY'))
+                                    price_breakdown['NTA ACTIVITY'] = 0;
                                 if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
                                     price_breakdown['SERVICE FEE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('VAT'))
@@ -4315,8 +4302,9 @@ function activity_get_booking(data){
                                 price_breakdown['FARE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
+                                price_breakdown['CONVENIENCE FEE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
                                 price_breakdown['COMMISSION'] += (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
-                                price_breakdown['NTA AIRLINE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                                price_breakdown['NTA ACTIVITY'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
                                 price_breakdown['OTT'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ori;
