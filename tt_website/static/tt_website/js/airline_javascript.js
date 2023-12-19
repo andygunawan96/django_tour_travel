@@ -8182,13 +8182,13 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
         }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('adult_id_type'+i).value == ''){
+               if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
         }
-        if(is_need_valid_identity == 'true'){
+        if(document.getElementById('adult_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('adult_id_type'+i).value != ''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
@@ -8564,7 +8564,7 @@ function check_passenger(adult, child, infant, type=''){
            error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = 'red';
        }else{
-           if(is_identity_required == 'true')
+           if(is_identity_required == 'true' && document.getElementById('child_identity_div'+i).style.display == 'block')
                if(document.getElementById('child_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger child '+i+'!</br>\n';
                     document.getElementById('child_id_type'+i).style['border-color'] = 'red';
@@ -8572,7 +8572,7 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(is_need_valid_identity == 'true'){
+       if(document.getElementById('child_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
                if(document.getElementById('child_identity_first_name'+i).value != '')
@@ -8929,14 +8929,14 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = 'red';
        }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('infant_id_type'+i).value == ''){
+               if(document.getElementById('infant_id_type'+i).value == '' && document.getElementById('infant_identity_div'+i).style.display == 'block'){
                     error_log+= 'Please fill id type for passenger infant '+i+'!</br>\n';
                     document.getElementById('infant_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(is_need_valid_identity == 'true'){
+       if(document.getElementById('infant_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
                if(document.getElementById('infant_identity_first_name'+i).value != '')
@@ -9245,7 +9245,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger student '+i+'!</br>\n';
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true')
+               if(is_identity_required == 'true' && document.getElementById('student_identity_div'+i).style.display == 'block')
                    if(document.getElementById('student_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger student '+i+'!</br>\n';
                         document.getElementById('student_id_type'+i).style['border-color'] = 'red';
@@ -9253,7 +9253,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(is_need_valid_identity == 'true'){
+           if(document.getElementById('student_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('student_id_type'+i).value != ''){
                    document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
                    if(document.getElementById('student_identity_first_name'+i).value != '')
@@ -9613,7 +9613,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger seaman '+i+'!</br>\n';
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true')
+               if(is_identity_required == 'true' && document.getElementById('seaman_identity_div'+i).style.display == 'block')
                    if(document.getElementById('seaman_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger seaman '+i+'!</br>\n';
                         document.getElementById('seaman_id_type'+i).style['border-color'] = 'red';
@@ -9621,7 +9621,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(is_need_valid_identity == 'true'){
+           if(document.getElementById('seaman_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('seaman_id_type'+i).value != ''){
                    document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
                    if(document.getElementById('seaman_identity_first_name'+i).value != '')
@@ -9981,7 +9981,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger labour '+i+'!</br>\n';
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true')
+               if(is_identity_required == 'true' && document.getElementById('labour_identity_div'+i).style.display == 'block')
                    if(document.getElementById('labour_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger labour '+i+'!</br>\n';
                         document.getElementById('labour_id_type'+i).style['border-color'] = 'red';
@@ -9989,7 +9989,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(is_need_valid_identity == 'true'){
+           if(document.getElementById('labour_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('labour_id_type'+i).value != ''){
                    document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
                    if(document.getElementById('labour_identity_first_name'+i).value != '')
