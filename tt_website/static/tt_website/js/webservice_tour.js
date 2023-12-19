@@ -3160,48 +3160,41 @@ function tour_get_booking(order_number)
                         price_text+=`
                         </div>
                      </div>`;
+
                      if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                         price_text+=`
-                         <div class="row" id="show_commission" style="display:none;">
-                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                                <div class="alert alert-success">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">YPM</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
-                                        </div>
-                                    </div>`;
-                                    if(msg.result.response.hasOwnProperty('agent_nta') == true){
-                                        total_nta = 0;
-                                        total_nta = msg.result.response.agent_nta;
-                                        price_text+=`<div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                        </div>
-                                    </div>`;
-                                    }
-                                    if(msg.result.response.hasOwnProperty('total_nta') == true){
-                                        total_nta = 0;
-                                        total_nta = msg.result.response.total_nta;
-                                        price_text+=`<div class="row">
-                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">HO NTA</span>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                        </div>
-                                    </div>`;
-                                    }
+                        <div class="alert alert-success" style="margin-top:10px;">
+                            <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
+                                <span>YPM </span>
+                                <span id="show_commission_button">`;
+                                    price_text+=`<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
+                                price_text+=`
+                                </span>`;
+
+                                price_text+=`<span id="show_commission" style="display:none;">`;
+
+                                price_text+=`<span style="font-size:14px; font-weight: bold; color:`+color+`;"> `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br/>`;
+
+                                if(msg.result.response.hasOwnProperty('agent_nta') == true){
+                                    total_nta = 0;
+                                    total_nta = msg.result.response.agent_nta;
                                     price_text+=`
-                                </div>
+                                    <span style="font-size:14px; font-weight:bold;">Agent NTA: </span>
+                                    <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(total_nta)+`</span><br/>`;
+                                }
+                                if(msg.result.response.hasOwnProperty('total_nta') == true){
+                                    total_nta = 0;
+                                    total_nta = msg.result.response.total_nta;
+                                    price_text+=`
+                                    <span style="font-size:14px; font-weight:bold;">HO NTA: </span>
+                                    <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(total_nta)+`</span><br/>`;
+                                }
+                                price_text+=`
+                                </span>
                             </div>
-                         </div>`;
-                     }
+                        </div>`;
+                    }
+
                      price_text+=`
 
                      <div class="row" style="margin-top:10px; text-align:center;">
@@ -3209,13 +3202,13 @@ function tour_get_booking(order_number)
                             <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                        </div>
                      </div>`;
-                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                         price_text+=`
-                         <div class="row" style="margin-top:10px; text-align:center;">
-                           <div class="col-xs-12" style="padding-bottom:10px;">
-                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
-                           </div>
-                         </div>`;
+//                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                         price_text+=`
+//                         <div class="row" style="margin-top:10px; text-align:center;">
+//                           <div class="col-xs-12" style="padding-bottom:10px;">
+//                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
+//                           </div>
+//                         </div>`;
                     $test+= '\n‣ Grand Total: '+`+price.currency+`+' '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                     document.getElementById('tour_detail_table').innerHTML = price_text;
 
@@ -3930,13 +3923,13 @@ function table_price_update(msg,type){
                            <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                        </div>
                    </div>`;
-                   if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                       price_txt+=`
-                       <div class="row" style="margin-top:10px; text-align:center;">
-                           <div class="col-lg-12" style="padding-bottom:10px;">
-                                <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
-                           </div>
-                       </div>`;
+//                   if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                       price_txt+=`
+//                       <div class="row" style="margin-top:10px; text-align:center;">
+//                           <div class="col-lg-12" style="padding-bottom:10px;">
+//                                <input type="button" id="show_commission_button" class="primary-btn-white" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
+//                           </div>
+//                       </div>`;
 
 
     document.getElementById('tour_detail_table').innerHTML = price_txt;
