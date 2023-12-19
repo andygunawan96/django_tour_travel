@@ -1827,65 +1827,47 @@ function group_booking_get_booking(order_number){
                         text_detail+=`
                             </div>
                         </div>`;
+
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
                             text_detail+=`
-                            <div class="row" id="show_commission" style="display:none;">
-                                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                                    <div class="alert alert-success">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">YPM</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
-                                            </div>
-                                        </div>`;
-                                        if(msg.result.response.hasOwnProperty('agent_nta') == true){
-                                            total_nta = 0;
-                                            total_nta = msg.result.response.agent_nta;
-                                            text_detail+=`<div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                            </div>
-                                        </div>`;
-                                        }
-                                        if(msg.result.response.hasOwnProperty('total_nta') == true){
-                                            total_nta = 0;
-                                            total_nta = msg.result.response.total_nta;
-                                            text_detail+=`<div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">HO NTA</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
-                                            </div>
-                                        </div>`;
-                                        }
-                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
-                                            booker_insentif = 0;
-                                            booker_insentif = msg.result.response.booker_insentif;
-                                            text_detail+=`<div class="row">
-                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
-                                            </div>
-                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
-                                            </div>
-                                        </div>`;
-                                        }
-                                        if(commission == 0){
-                                            text_detail+=`
-                                            <div class="row">
-                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
-                                                </div>
-                                            </div>`;
-                                        }
+                            <div class="alert alert-success" style="margin-top:10px;">
+                                <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
+                                    <span>YPM </span>
+                                    <span id="show_commission_button">`;
+                                        text_detail+=`<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
+                                    text_detail+=`
+                                    </span>`;
+
+                                    text_detail+=`<span id="show_commission" style="display:none;">`;
+
+                                    text_detail+=`<span style="font-size:14px; font-weight: bold; color:`+color+`;"> `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br/>`;
+
+                                    if(msg.result.response.hasOwnProperty('agent_nta') == true){
+                                        total_nta = 0;
+                                        total_nta = msg.result.response.agent_nta;
                                         text_detail+=`
-                                    </div>
+                                        <span style="font-size:14px; font-weight:bold;">Agent NTA: </span>
+                                        <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(total_nta)+`</span><br/>`;
+                                    }
+                                    if(msg.result.response.hasOwnProperty('total_nta') == true){
+                                        total_nta = 0;
+                                        total_nta = msg.result.response.total_nta;
+                                        text_detail+=`
+                                        <span style="font-size:14px; font-weight:bold;">HO NTA: </span>
+                                        <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(total_nta)+`</span><br/>`;
+                                    }
+                                    if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                        booker_insentif = 0;
+                                        booker_insentif = msg.result.response.booker_insentif;
+                                        text_detail+=`
+                                        <span style="font-size:14px; font-weight:bold;">Booker Insentif: </span>
+                                        <span style="font-size:14px; font-weight:bold; color:`+color+`;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>`;
+                                    }
+                                    if(commission == 0){
+                                        text_detail+=`<span style="font-size:13px; font-weight: bold;color:red">* Please mark up the price first</span>`;
+                                    }
+                                    text_detail+=`
+                                    </span>
                                 </div>
                             </div>`;
                         }
@@ -1895,13 +1877,13 @@ function group_booking_get_booking(order_number){
                             <center>
                                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
-                        </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text_detail+=`
-                        <div style="margin-bottom:5px;">
-                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show YPM"/>
                         </div>
                     </div>`;
+//                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                        text_detail+=`
+//                        <div style="margin-bottom:5px;">
+//                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show YPM"/>
+//                        </div>
 
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
@@ -4034,16 +4016,26 @@ function ProcessExcel(data) {
     }
 };
 
-function show_commission(){
-    var sc = document.getElementById("show_commission");
-    var scs = document.getElementById("show_commission_button");
+function show_commission(val){
+    var sc = '';
+    var scs = '';
+    if(val == 'show_commission_new'){
+        sc = document.getElementById("show_commission_new");
+        scs = document.getElementById("show_commission_new_button");
+    }else if(val == 'show_commission'){
+        var sc = document.getElementById("show_commission");
+        var scs = document.getElementById("show_commission_button");
+    }else{
+        sc = document.getElementById("show_commission_old");
+        scs = document.getElementById("show_commission_old_button");
+    }
     if (sc.style.display === "none"){
-        sc.style.display = "block";
-        scs.value = "Hide YPM";
+        sc.style.display = "inline";
+        scs.innerHTML = `<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show YPM";
+        scs.innerHTML = `<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
     }
 }
 

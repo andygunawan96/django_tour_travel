@@ -1651,9 +1651,18 @@ function change_payment_information(){
         if(payment_information[i].acquirer_seq_id == document.getElementById('payment_information_choose').value){
             CKEDITOR.instances['body_payment_information'].setData(payment_information[i].html)
             document.getElementById('payment_information_heading').value = payment_information[i].heading;
+            if(payment_information[i].acquirer_seq_id == 'other_bank' && payment_information[i].active == 'true')
+                document.getElementById('payment_information_active').checked = true;
+            else
+                document.getElementById('payment_information_active').checked = false;
 //            document.getElementById('body_printout').innerHTML = printout[i].html;
             break;
         }
+    }
+    if(document.getElementById('payment_information_choose').value == 'other_bank'){
+        document.getElementById('payment_information_display_div').style.display = 'block';
+    }else{
+        document.getElementById('payment_information_display_div').style.display = 'none';
     }
 }
 
@@ -1668,7 +1677,8 @@ function set_payment_information(){
             'signature': signature,
             'title': document.getElementById('payment_information_choose').value,
             'body': CKEDITOR.instances['body_payment_information'].getData(),
-            'heading': document.getElementById('payment_information_heading').value
+            'heading': document.getElementById('payment_information_heading').value,
+            'active': document.getElementById('payment_information_active').checked ? true : false
        },
        success: function(msg) {
             if(msg.result.error_code == 0){

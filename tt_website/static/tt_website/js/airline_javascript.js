@@ -7067,53 +7067,49 @@ function airline_detail(type){
         if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             text+=`
             <div class="alert alert-success" style="margin-top:10px;">
-                <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('commission');">
-                    <span id="show_commission_button"">`;
+                <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
+                    <span>YPM </span>
+                    <span id="show_commission_button">`;
                     if(commission_price == 0)
-                        text+=`Hide YPM <i class="fas fa-chevron-up" style="float:right;"></i>`;
+                        text+=`<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
                     else
-                        text+=`Show YPM <i class="fas fa-chevron-down" style="float:right;"></i>`;
+                        text+=`<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
                     text+=`
-                    </span>
-                </div>`;
-                // tidak ikut default karena ada notes untuk YPM lionair
-                text+=`
-                <div class="row mt-3" id="show_commission" style="`;
-                if(commission_price == 0)
-                    text+=`display:block;`;
-                else
-                    text+=`display:none;`;
-                text+=`">
-                    <div class="col-lg-12 col-xs-12" "text-align:left;">
-                        <span style="font-size:14px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission_price*-1)+`</span>`;
-                            text_notes = '';
-                            for(x in airline_pick){
-                                for(y in airline_pick[x].journeys){
-                                    for(z in airline_pick[x].journeys[y].segments){
-                                        if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
-                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
-                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
-                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
-                                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
-                                           text_notes = '* Lion Air YPM is shown after booking';
-                                        if(text_notes != '')
-                                            break;
-                                    }
+                    </span>`;
+
+                    if(commission_price == 0)
+                        text+=`<span id="show_commission" style="display:inline;">`;
+                    else
+                        text+=`<span id="show_commission" style="display:none;">`;
+
+                    text+=`<span style="font-size:14px; font-weight: bold; color:`+color+`;"> `+currency+` `+getrupiah(commission_price*-1)+`</span><br/>`;
+
+                    text_notes = '';
+                    for(x in airline_pick){
+                            for(y in airline_pick[x].journeys){
+                                for(z in airline_pick[x].journeys[y].segments){
+                                    if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                                       text_notes = '* Lion Air YPM is shown after booking';
                                     if(text_notes != '')
                                         break;
                                 }
                                 if(text_notes != '')
                                     break;
                             }
-                            if(text_notes == '')
-                                text_notes = '* Please mark up the price first'
-                            if(commission_price == 0)
-                                text +=`
-                                <div style="text-align:left;">
-                                    <span style="font-size:13px;font-weight: bold;color:red">`+text_notes+`</span>
-                                </div>`;
-                        text+=`
-                    </div>
+                            if(text_notes != '')
+                                break;
+                        }
+                    if(text_notes == '')
+                        text_notes = '* Please mark up the price first'
+
+                    if(commission_price == 0)
+                        text += `<span style="font-size:13px; font-weight: bold;color:red">`+text_notes+`</span>`;
+                    text+=`
+                    </span>
                 </div>
             </div>`;
         }

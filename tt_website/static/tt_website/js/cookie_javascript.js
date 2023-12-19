@@ -29,20 +29,20 @@ function getCookie(variable) {
 }
 
 function getCookie_airline(variable) {
-        var name = variable + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0 && c.substring(name.length, c.length) != '') {
-                return c.substring(name.length, c.length);
-            }
+    var name = variable + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
         }
-        return "";
+        if (c.indexOf(name) == 0 && c.substring(name.length, c.length) != '') {
+            return c.substring(name.length, c.length);
+        }
     }
+    return "";
+}
 
 function checkCookie(type, check, page, version) {
     cookie_page = page;

@@ -430,7 +430,7 @@ $(document).ready(function(){
 
     var quantity_adult_train = parseInt($('#train_adult').val());
     var quantity_infant_train = parseInt($('#train_infant').val());
-    $('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant");
+    $('#show_total_pax_train').text(quantity_adult_train+quantity_infant_train+ ' Passengers');
 
     $('.right-plus-adult-train').click(function(e){
         // Stop acting like a button
@@ -443,7 +443,8 @@ $(document).ready(function(){
             $('#train_adult').val(quantity + 1);
             quantity_adult_train = quantity + 1;
 
-            $('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            //$('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            $('#show_total_pax_train').text(quantity_adult_train+quantity_infant_train+ ' Passengers');
         }
 
         if (quantity_adult_train == 4){
@@ -476,7 +477,8 @@ $(document).ready(function(){
                $('#train_infant').val(quantity - 1);
             }
 
-            $('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            //$('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            $('#show_total_pax_train').text(quantity_adult_train+quantity_infant_train+ ' Passengers');
         }
 
         if (quantity_adult_train == 1){
@@ -503,7 +505,8 @@ $(document).ready(function(){
             $("#show_infant_train").text(quantity + 1);
             quantity_infant_train = quantity + 1;
 
-            $('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            //$('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            $('#show_total_pax_train').text(quantity_adult_train+quantity_infant_train+ ' Passengers');
         }
         // Increment
 
@@ -534,7 +537,8 @@ $(document).ready(function(){
             $('#train_infant').val(quantity - 1);
             quantity_infant_train = quantity - 1;
 
-            $('#show_total_pax_train').val(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            //$('#show_total_pax_train').val(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
+            $('#show_total_pax_train').text(quantity_adult_train+quantity_infant_train+ ' Passengers');
         }
 
         if (quantity_infant_train == 0){
@@ -1645,6 +1649,7 @@ $(document).ready(function(){
         selected_value = $("input[name='radio_train_type']:checked").val();
 
         if (selected_value == "oneway"){
+            $('#span_radio_train_type').text('One Way');
             document.getElementById("train_date_search").innerHTML = '';
             text='';
             var node = document.createElement("div");
@@ -1684,7 +1689,7 @@ $(document).ready(function(){
             });
         }
         else if(selected_value == "roundtrip"){
-
+            $('#span_radio_train_type').text('Round Trip');
             document.getElementById("train_date_search").innerHTML = '';
             text ='';
             var node = document.createElement("div");
@@ -1724,7 +1729,6 @@ $(document).ready(function(){
                 endDate: moment().subtract(-1, 'days'),
                 minDate: moment(),
                 maxDate: moment().subtract(-2, 'months'),
-                nextFocus: '#show_total_pax_train',
                 onSelect: function(start, end){
                     $("#train_departure").val(start.format('DD MMM YYYY'));
                     $("#train_return").val(end.format('DD MMM YYYY'));
@@ -3337,6 +3341,22 @@ function next_focus_element(product, from){
             }, 200);
         }
     }else if(product == 'train'){
+        if(from == 'route'){
+            setTimeout(function(){
+                $('.nice-select').removeClass("open");
+                $("#show_total_pax_train").click();
+            }, 200);
+        }else if(from == 'passenger'){
+            setTimeout(function(){
+                $("#train_origin").focus();
+            }, 200);
+        }else{
+            setTimeout(function(){
+                $(''+from).focus();
+                $(''+from).find('.nice-select').addClass("open");
+            }, 200);
+        }
+
         if(from == 'passenger'){
             setTimeout(function(){
                 $("#show_total_pax_train").click();
@@ -3620,3 +3640,5 @@ function next_input_pin(){
         }, 0);
     }catch(err){}
 }
+
+

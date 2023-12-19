@@ -4161,314 +4161,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
     else{
         // ISI PAX
         try{
-            // IDENTITY
-            if(['Booker','booker'].includes(type) == false){
-                var need_identity = null;
-                try{
-                    need_identity = document.getElementById('adult_checkbox_identity_div1');
-                }catch(err){
-                    console.log(err); // kalau required ada di html, kalau tidak default tidak required
-                }
-                // IDENTITY GLOBAL FOR adult, child, infant, senior
-                try{
-                    var radios = document.getElementById(type+'_id_type'+passenger_number).options;
-                }catch(err){console.log(err)}
-                try{
-                    if(typeof radios === 'undefined')
-                        var radios = document.getElementById(type+'_identity_type'+passenger_number).options;
-                }catch(err){console.log(err)}
-                var date1 = null;
-                var date2 = null;
-                var expired = null;
-                var identity_check = true;
-                var new_identity = true;
-                if(typeof radios !== 'undefined'){
-                    for(i in passenger_data[sequence].identities){
-                        if(passenger_data[sequence].identities[i].identity_expdate){
-                            date1 = moment(passenger_data[sequence].identities[i].identity_expdate);
-                            date2 = moment();
-                            expired = date2.diff(date1, 'days');
-                        }
-                        for (var j = 0, length = radios.length; j < length; j++) {
-                            if(expired == null || expired < -1){
-                                if (radios[j].value == i && identity == '' || radios[j].value == i && identity == i) {
-                                    new_identity = false;
-                                    identity_check = false;
-
-                                    change_identity = false;
-                                    for(x in document.getElementById(type+'_id_type'+passenger_number).options){
-                                        if(document.getElementById(type+'_id_type'+passenger_number).options[x].value == i){
-                                            change_identity = true;
-                                            break;
-                                        }
-                                    }
-                                    if(change_identity){
-                                        document.getElementById(type+'_id_type'+passenger_number).value = i;
-                                        $('#'+type+'_id_type'+passenger_number).niceSelect('update');
-                                        try{ //kalau ada identity number
-                                            if(passenger_data[sequence].identities[i].identity_number != ''){
-                                                document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities[i].identity_number;
-                                            }
-                                        }catch(err){console.log(err)}
-                                        try{ //kalau ada identity first name
-                                            if(passenger_data[sequence].identities[i].identity_first_name != ''){
-                                                document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].identities[i].identity_first_name;
-                                            }
-                                            else{
-                                                document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
-                                            }
-                                            show_hide_id_name_div(type, passenger_number.toString(), true)
-                                        }catch(err){console.log(err)}
-                                        try{ //kalau ada identity last name
-                                            if(passenger_data[sequence].identities[i].identity_last_name != ''){
-                                                document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].identities[i].identity_last_name;
-                                            }
-                                            else if(passenger_data[sequence].identities[i].identity_first_name != ''){
-                                                document.getElementById(type+'_identity_last_name'+passenger_number).value = '';
-                                            }
-                                            else{
-                                                document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
-                                            }
-                                        }catch(err){console.log(err)}
-                                        try{ //kalau ada expire date
-                                            if(passenger_data[sequence].identities[i].identity_expdate != '' && passenger_data[sequence].identities[i].identity_expdate != undefined)
-                                                document.getElementById(type+'_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities[i].identity_expdate;
-                                        }catch(err){console.log(err)}
-                                        try{ //kalau ada country of issued
-                                            if(passenger_data[sequence].identities[i].identity_country_of_issued_name != ''){
-                                                $('#'+type+'_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities[i].identity_country_of_issued_code).trigger('change');
-                                            }
-                                        }catch(err){console.log(err)}
-                                    }
-                                    if(passenger_data[sequence].identities[i].identity_images.length > 0){
-                                        text = '';
-                                        //identity cenius (waktu choose passenger langsung saat search + muncul di formny) done
-                                        text += `
-                                            <div class="row">
-                                                <div class="col-lg-12">`;
-                                                    text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+i+` - `+passenger_data[sequence].identities[i].identity_number+`</label><br/>`;
-                                                    text+=`
-                                                    <div class="row" style="padding:15px;">
-                                                        <div class="col-lg-12" style="background:#f7f7f7; padding-top:15px; border:1px solid #cdcdcd; max-height:200px; overflow-x:auto; margin-bottom:15px;">`;
-                                                            for(k in passenger_data[sequence].identities[i].identity_images){
-                                                                text += `
-                                                                <div class="row">
-                                                                    <div class="col-lg-3 col-md-4 col-sm-4">
-                                                                        <a class="demo-img" href="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" data-jbox-image="5showidentity`+sequence+``+i+``+for_jbox_image+`" title="`+i+` - `+passenger_data[sequence].identities[i].identity_number+` (`+passenger_data[sequence].identities[i].identity_images[k][2]+`)">
-                                                                            <img src="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="col-lg-9 col-md-8 col-sm-8" style="padding-top:15px;">
-                                                                        <h6 class="mb-2" style="white-space: normal; word-break: break-word;">`+passenger_data[sequence].identities[i].identity_images[k][2]+`</h6>
-                                                                        <b>Upload date:</b><br/>
-                                                                        <i>
-                                                                            `+moment(passenger_data[sequence].identities[i].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
-                                                                        </i>
-                                                                    </div>
-                                                                    <div class="col-lg-12">
-                                                                        <br/>
-                                                                    </div>
-                                                                </div>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                    </div>`;
-                                                text+=`
-                                                </div>
-                                            </div>
-                                        `;
-
-                                        if(document.getElementById(type+'_attachment_identity'+passenger_number)){
-                                            text_attachment= '';
-                                            for(k in passenger_data[sequence].identities[i].identity_images){
-                                                text_attachment += `
-                                                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                                        <img src="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities[i].identity_images[k][1]+`" style="height:220px;width:auto" />
-
-                                                        <div class="row" style="justify-content:space-around">
-                                                            <div class="checkbox" style="display: block;">
-                                                                <label class="check_box_custom">
-                                                                    <span style="font-size:13px;">Delete</span>
-                                                                    <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_`+k+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
-                                                                    <input type="hidden" value="`+passenger_data[sequence].identities[i].identity_images[k][1]+`" id="`+type+`_identity`+passenger_number+`_`+k+`_image_seq_id" name="`+type+`_identity`+passenger_number+`_`+k+`_image_seq_id">
-                                                                    <span class="check_box_span_custom"></span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
-                                            }
-                                            document.getElementById(type+'_attachment_identity'+passenger_number).innerHTML = text_attachment;
-                                        }
-
-                                        if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
-                                            document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
-                                            document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
-                                            new jBox('Image', {
-                                              imageCounter: true,
-                                              imageCounterSeparator: ' of '
-                                            });
-                                        }
-                                    }else{
-                                        if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
-                                            document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = true;
-                                    }
-                                    //notif passport krng dari 6 bulan
-                                    if(expired != null){
-                                        if(expired > -180){
-                                            Swal.fire({
-                                              type: 'warning',
-                                              title: 'Oops!',
-                                              html: '<span style="color: #ff9900;">'+identity+' expired date less then 6 months </span>' ,
-                                            })
-                                        }
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        date1 = null;
-                        date2 = null;
-                        expired = null;
-                    }
-                    try{
-                        change_identity_type(type+`_id_type`+passenger_number, false);
-                    }catch(err){
-                        console.log(err); //tidak ada identity type
-                    }
-                    if(new_identity){
-                        identity_check = false;
-
-                        change_identity = false;
-                        for(x in document.getElementById(type+'_id_type'+passenger_number).options){
-                            if(document.getElementById(type+'_id_type'+passenger_number).options[x].value == identity){
-                                change_identity = true;
-                                break;
-                            }
-                        }
-                        if(change_identity){
-                            document.getElementById(type+'_id_type'+passenger_number).value = identity;
-                            $('#'+type+'_id_type'+passenger_number).niceSelect('update');
-                        }
-                    }
-
-                }else{
-                    //passport
-                    try{// kalau ada input identity
-                        var date1 = moment(passenger_data[sequence].identities.passport.identity_expdate);
-                        var date2 = moment();
-                        var expired = date2.diff(date1, 'days');
-                        if(expired < -180){
-                            identity_check = false;
-                            if(document.getElementById(type+'_identity_type'+passenger_number)){
-                                document.getElementById(type+'_identity_type'+passenger_number).value = 'passport';
-                                $('#'+type+'_identity_type'+passenger_number).niceSelect('update');
-                            }
-                            document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-                            if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_first_name'))
-                            {
-                                document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_first_name;
-                                if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_last_name'))
-                                {
-                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
-                                }
-                                show_hide_id_name_div(type, passenger_number.toString(), true)
-                            }
-                            else
-                            {
-                                document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
-                                document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
-                            }
-                            if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
-                                $('#'+type+'_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities.passport.identity_country_of_issued_code).trigger('change');
-                            }
-                            if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
-                                document.getElementById(type+'_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
-                            }
-                            if(passenger_data[sequence].identities['passport'].identity_images.length > 0){
-                                text = '';
-                                //identity cenius only passport (waktu choose passenger langsung saat search + muncul di formny) done
-                                text += `
-                                    <div class="row">
-                                        <div class="col-lg-12">`;
-                                            text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">Passport - `+passenger_data[sequence].identities['passport'].identity_number+`</label><br/>`;
-                                            text+=`
-                                            <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
-                                            for(k in passenger_data[sequence].identities['passport'].identity_images){
-                                                text += `
-                                                <div style="width:220px; text-align:center; margin:0px 10px 10px 10px;">
-                                                    <a class="demo-img" href="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" data-jbox-image="6showidentitypassport`+sequence+`passport`+for_jbox_image+`" title="passport - `+passenger_data[sequence].identities['passport'].identity_number+` (`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`)">
-                                                        <img src="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
-                                                    </a><br/>
-                                                    <h6 class="mb-2" style="white-space: normal; word-break: break-word;">`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`</h6>
-                                                    <i>
-                                                        Upload date<br/>
-                                                        `+moment(passenger_data[sequence].identities['passport'].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
-                                                    </i>
-                                                </div>`;
-                                            }
-                                            text+=`</div>`;
-                                        text+=`
-                                        </div>
-                                    </div>
-                                `;
-                                console.log(text);
-                                if(document.getElementById(type+'_attachment_identity'+passenger_number)){
-                                    text_attachment= '';
-                                    for(k in passenger_data[sequence].identities['passport'].identity_images){
-                                        text_attachment += `
-                                            <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                                <img src="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities['passport'].identity_images[k][1]+`" style="height:220px;width:auto" />
-
-                                                <div class="row" style="justify-content:space-around">
-                                                    <div class="checkbox" style="display: block;">
-                                                        <label class="check_box_custom">
-                                                            <span style="font-size:13px;">Delete</span>
-                                                            <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>`;
-                                    }
-                                    document.getElementById(type+'_attachment_identity'+passenger_number).innerHTML = text_attachment;
-                                }
-                                if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
-                                    document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
-                                    document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
-                                    new jBox('Image', {
-                                      imageCounter: true,
-                                      imageCounterSeparator: ' of '
-                                    });
-                                }
-                            }else{
-                                if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
-                                    document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = true;
-                            }
-                        }
-                    }catch(err){
-                        console.log(err); //tidak ada selection buat identity di product type
-                    }
-                }
-                if(identity_check){
-                    //notif error
-                    try{
-                        document.getElementById(type+'_identity_msg_error'+passenger_number).innerHTML = 'Identity already expired';
-                    }catch(err){
-                        console.log(err);
-                    }
-                }else{
-                    try{
-                        document.getElementById(type+'_identity_msg_error'+passenger_number).innerHTML = '';
-                    }catch(err){
-                        console.log(err);
-                    }
-                    //identity copy
-                    if(document.getElementById(type+'_id_type'+passenger_number))
-                        change_identity_type(type+`_id_type`+passenger_number, false);
-                    else if(document.getElementById(type+'_identity_type'+passenger_number))
-                        change_identity_type(type+`_identity_type`+passenger_number, false);
-                }
-            }
+            error_log = '';
 
             // UNTUK INSURANCE KARENA ADA FAMILY, BENEFICIARY
             if(type.includes('Adult') || type.includes('Child') || type.includes('adult') || type.includes('child')){
@@ -4600,14 +4293,14 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                       })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    });
                 }
             }
-
             // ALL PRODUCT
             else if(['Adult','adult'].includes(type)){
                 if(document.getElementById('adult_id'+passenger_number).value == ''){
@@ -4760,11 +4453,12 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                       })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    })
                 }
             }
             else if(['Child','child'].includes(type)){
@@ -4899,11 +4593,12 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                       })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    })
                 }
             }
             else if(['Infant','infant'].includes(type)){
@@ -5015,11 +4710,12 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                       })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    })
                 }
             }
             else if(['Senior','senior'].includes(type)){
@@ -5129,11 +4825,12 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    })
                 }
             }
 
@@ -5244,11 +4941,12 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    })
                 }
             }
             else if(['Labour','labour'].includes(type)){
@@ -5358,11 +5056,12 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    })
                 }
             }
             else if(['Seaman','seaman'].includes(type)){
@@ -5472,11 +5171,324 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         })
                     }
                 }else{
+                    error_log += 'Please clear before pick passenger';
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "Please clear before pick passenger",
-                  })
+                        type: 'error',
+                        title: 'Oops!',
+                        text: "Please clear before pick passenger",
+                    })
+                }
+            }
+
+            // IDENTITY
+            if(!error_log){
+                if(['Booker','booker'].includes(type) == false){
+                    var need_identity = null;
+                    try{
+                        need_identity = document.getElementById('adult_checkbox_identity_div1');
+                    }catch(err){
+                        console.log(err); // kalau required ada di html, kalau tidak default tidak required
+                    }
+                    // IDENTITY GLOBAL FOR adult, child, infant, senior
+                    try{
+                        var radios = document.getElementById(type+'_id_type'+passenger_number).options;
+                    }catch(err){console.log(err)}
+                    try{
+                        if(typeof radios === 'undefined')
+                            var radios = document.getElementById(type+'_identity_type'+passenger_number).options;
+                    }catch(err){console.log(err)}
+                    var date1 = null;
+                    var date2 = null;
+                    var expired = null;
+                    var identity_check = true;
+                    var new_identity = true;
+                    if(typeof radios !== 'undefined'){
+                        for(i in passenger_data[sequence].identities){
+                            if(passenger_data[sequence].identities[i].identity_expdate){
+                                date1 = moment(passenger_data[sequence].identities[i].identity_expdate);
+                                date2 = moment();
+                                expired = date2.diff(date1, 'days');
+                            }
+                            for (var j = 0, length = radios.length; j < length; j++) {
+                                if(expired == null || expired < -1){
+                                    if (radios[j].value == i && identity == '' || radios[j].value == i && identity == i) {
+                                        new_identity = false;
+                                        identity_check = false;
+
+                                        change_identity = false;
+                                        for(x in document.getElementById(type+'_id_type'+passenger_number).options){
+                                            if(document.getElementById(type+'_id_type'+passenger_number).options[x].value == i){
+                                                change_identity = true;
+                                                break;
+                                            }
+                                        }
+                                        if(change_identity){
+                                            document.getElementById(type+'_id_type'+passenger_number).value = i;
+                                            $('#'+type+'_id_type'+passenger_number).niceSelect('update');
+                                            try{ //kalau ada identity number
+                                                if(passenger_data[sequence].identities[i].identity_number != ''){
+                                                    document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities[i].identity_number;
+                                                }
+                                            }catch(err){console.log(err)}
+                                            try{ //kalau ada identity first name
+                                                if(passenger_data[sequence].identities[i].identity_first_name != ''){
+                                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].identities[i].identity_first_name;
+                                                }
+                                                else{
+                                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                                                }
+                                                show_hide_id_name_div(type, passenger_number.toString(), true)
+                                            }catch(err){console.log(err)}
+                                            try{ //kalau ada identity last name
+                                                if(passenger_data[sequence].identities[i].identity_last_name != ''){
+                                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].identities[i].identity_last_name;
+                                                }
+                                                else if(passenger_data[sequence].identities[i].identity_first_name != ''){
+                                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = '';
+                                                }
+                                                else{
+                                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                                                }
+                                            }catch(err){console.log(err)}
+                                            try{ //kalau ada expire date
+                                                if(passenger_data[sequence].identities[i].identity_expdate != '' && passenger_data[sequence].identities[i].identity_expdate != undefined)
+                                                    document.getElementById(type+'_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities[i].identity_expdate;
+                                            }catch(err){console.log(err)}
+                                            try{ //kalau ada country of issued
+                                                if(passenger_data[sequence].identities[i].identity_country_of_issued_name != ''){
+                                                    $('#'+type+'_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities[i].identity_country_of_issued_code).trigger('change');
+                                                }
+                                            }catch(err){console.log(err)}
+                                        }
+                                        if(passenger_data[sequence].identities[i].identity_images.length > 0){
+                                            text = '';
+                                            //identity cenius (waktu choose passenger langsung saat search + muncul di formny) done
+                                            text += `
+                                                <div class="row">
+                                                    <div class="col-lg-12">`;
+                                                        text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+i+` - `+passenger_data[sequence].identities[i].identity_number+`</label><br/>`;
+                                                        text+=`
+                                                        <div class="row" style="padding:15px;">
+                                                            <div class="col-lg-12" style="background:#f7f7f7; padding-top:15px; border:1px solid #cdcdcd; max-height:200px; overflow-x:auto; margin-bottom:15px;">`;
+                                                                for(k in passenger_data[sequence].identities[i].identity_images){
+                                                                    text += `
+                                                                    <div class="row">
+                                                                        <div class="col-lg-3 col-md-4 col-sm-4">
+                                                                            <a class="demo-img" href="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" data-jbox-image="5showidentity`+sequence+``+i+``+for_jbox_image+`" title="`+i+` - `+passenger_data[sequence].identities[i].identity_number+` (`+passenger_data[sequence].identities[i].identity_images[k][2]+`)">
+                                                                                <img src="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="col-lg-9 col-md-8 col-sm-8" style="padding-top:15px;">
+                                                                            <h6 class="mb-2" style="white-space: normal; word-break: break-word;">`+passenger_data[sequence].identities[i].identity_images[k][2]+`</h6>
+                                                                            <b>Upload date:</b><br/>
+                                                                            <i>
+                                                                                `+moment(passenger_data[sequence].identities[i].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
+                                                                            </i>
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <br/>
+                                                                        </div>
+                                                                    </div>`;
+                                                                }
+                                                            text+=`
+                                                            </div>
+                                                        </div>`;
+                                                    text+=`
+                                                    </div>
+                                                </div>
+                                            `;
+
+                                            if(document.getElementById(type+'_attachment_identity'+passenger_number)){
+                                                text_attachment= '';
+                                                for(k in passenger_data[sequence].identities[i].identity_images){
+                                                    text_attachment += `
+                                                        <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                            <img src="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities[i].identity_images[k][1]+`" style="height:220px;width:auto" />
+
+                                                            <div class="row" style="justify-content:space-around">
+                                                                <div class="checkbox" style="display: block;">
+                                                                    <label class="check_box_custom">
+                                                                        <span style="font-size:13px;">Delete</span>
+                                                                        <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_`+k+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
+                                                                        <input type="hidden" value="`+passenger_data[sequence].identities[i].identity_images[k][1]+`" id="`+type+`_identity`+passenger_number+`_`+k+`_image_seq_id" name="`+type+`_identity`+passenger_number+`_`+k+`_image_seq_id">
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>`;
+                                                }
+                                                document.getElementById(type+'_attachment_identity'+passenger_number).innerHTML = text_attachment;
+                                            }
+
+                                            if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
+                                                document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
+                                                document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
+                                                new jBox('Image', {
+                                                  imageCounter: true,
+                                                  imageCounterSeparator: ' of '
+                                                });
+                                            }
+                                        }else{
+                                            if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
+                                                document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = true;
+                                        }
+                                        //notif passport krng dari 6 bulan
+                                        if(expired != null){
+                                            if(expired > -180){
+                                                Swal.fire({
+                                                  type: 'warning',
+                                                  title: 'Oops!',
+                                                  html: '<span style="color: #ff9900;">'+identity+' expired date less then 6 months </span>' ,
+                                                })
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            date1 = null;
+                            date2 = null;
+                            expired = null;
+                        }
+                        try{
+                            change_identity_type(type+`_id_type`+passenger_number, false);
+                        }catch(err){
+                            console.log(err); //tidak ada identity type
+                        }
+                        if(new_identity){
+                            identity_check = false;
+
+                            change_identity = false;
+                            for(x in document.getElementById(type+'_id_type'+passenger_number).options){
+                                if(document.getElementById(type+'_id_type'+passenger_number).options[x].value == identity){
+                                    change_identity = true;
+                                    break;
+                                }
+                            }
+                            if(change_identity){
+                                document.getElementById(type+'_id_type'+passenger_number).value = identity;
+                                $('#'+type+'_id_type'+passenger_number).niceSelect('update');
+                            }
+                        }
+
+                    }
+                    else{
+                        //passport
+                        try{// kalau ada input identity
+                            var date1 = moment(passenger_data[sequence].identities.passport.identity_expdate);
+                            var date2 = moment();
+                            var expired = date2.diff(date1, 'days');
+                            if(expired < -180){
+                                identity_check = false;
+                                if(document.getElementById(type+'_identity_type'+passenger_number)){
+                                    document.getElementById(type+'_identity_type'+passenger_number).value = 'passport';
+                                    $('#'+type+'_identity_type'+passenger_number).niceSelect('update');
+                                }
+                                document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+                                if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_first_name'))
+                                {
+                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_first_name;
+                                    if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_last_name'))
+                                    {
+                                        document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
+                                    }
+                                    show_hide_id_name_div(type, passenger_number.toString(), true)
+                                }
+                                else
+                                {
+                                    document.getElementById(type+'_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                                    document.getElementById(type+'_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                                }
+                                if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
+                                    $('#'+type+'_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities.passport.identity_country_of_issued_code).trigger('change');
+                                }
+                                if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
+                                    document.getElementById(type+'_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                                }
+                                if(passenger_data[sequence].identities['passport'].identity_images.length > 0){
+                                    text = '';
+                                    //identity cenius only passport (waktu choose passenger langsung saat search + muncul di formny) done
+                                    text += `
+                                        <div class="row">
+                                            <div class="col-lg-12">`;
+                                                text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">Passport - `+passenger_data[sequence].identities['passport'].identity_number+`</label><br/>`;
+                                                text+=`
+                                                <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                                for(k in passenger_data[sequence].identities['passport'].identity_images){
+                                                    text += `
+                                                    <div style="width:220px; text-align:center; margin:0px 10px 10px 10px;">
+                                                        <a class="demo-img" href="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" data-jbox-image="6showidentitypassport`+sequence+`passport`+for_jbox_image+`" title="passport - `+passenger_data[sequence].identities['passport'].identity_number+` (`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`)">
+                                                            <img src="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                        </a><br/>
+                                                        <h6 class="mb-2" style="white-space: normal; word-break: break-word;">`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`</h6>
+                                                        <i>
+                                                            Upload date<br/>
+                                                            `+moment(passenger_data[sequence].identities['passport'].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
+                                                        </i>
+                                                    </div>`;
+                                                }
+                                                text+=`</div>`;
+                                            text+=`
+                                            </div>
+                                        </div>
+                                    `;
+                                    console.log(text);
+                                    if(document.getElementById(type+'_attachment_identity'+passenger_number)){
+                                        text_attachment= '';
+                                        for(k in passenger_data[sequence].identities['passport'].identity_images){
+                                            text_attachment += `
+                                                <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                    <img src="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities['passport'].identity_images[k][1]+`" style="height:220px;width:auto" />
+
+                                                    <div class="row" style="justify-content:space-around">
+                                                        <div class="checkbox" style="display: block;">
+                                                            <label class="check_box_custom">
+                                                                <span style="font-size:13px;">Delete</span>
+                                                                <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                        }
+                                        document.getElementById(type+'_attachment_identity'+passenger_number).innerHTML = text_attachment;
+                                    }
+                                    if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
+                                        document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
+                                        document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
+                                        new jBox('Image', {
+                                          imageCounter: true,
+                                          imageCounterSeparator: ' of '
+                                        });
+                                    }
+                                }else{
+                                    if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
+                                        document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = true;
+                                }
+                            }
+                        }catch(err){
+                            console.log(err); //tidak ada selection buat identity di product type
+                        }
+                    }
+                    if(identity_check){
+                        //notif error
+                        try{
+                            document.getElementById(type+'_identity_msg_error'+passenger_number).innerHTML = 'Identity already expired';
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }else{
+                        try{
+                            document.getElementById(type+'_identity_msg_error'+passenger_number).innerHTML = '';
+                        }catch(err){
+                            console.log(err);
+                        }
+                        //identity copy
+                        if(document.getElementById(type+'_id_type'+passenger_number))
+                            change_identity_type(type+`_id_type`+passenger_number, false);
+                        else if(document.getElementById(type+'_identity_type'+passenger_number))
+                            change_identity_type(type+`_identity_type`+passenger_number, false);
+                    }
                 }
             }
         }catch(err){
