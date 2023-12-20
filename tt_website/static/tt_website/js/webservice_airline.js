@@ -11077,16 +11077,16 @@ function airline_get_booking(data, sync=false){
                                 }
                             }
                             var breakdown_text = '';
-                            for(j in price_breakdown){
-                                if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                            for(k in price_breakdown){
+                                if(k != 'BREAKDOWN' && price_breakdown[k] != 0){
                                     if(breakdown_text)
                                         breakdown_text += '<br/>';
-                                    breakdown_text += '<b>'+j+'</b> ';
-                                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                                    breakdown_text += '<b>'+k+'</b> ';
+                                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
                                 }else if(j == 'BREAKDOWN'){
                                     if(breakdown_text)
                                         breakdown_text += '<br/>';
-                                    breakdown_text += '<b>'+j+'</b> ';
+                                    breakdown_text += '<b>'+k+'</b> ';
                                 }
                             }
                             new jBox('Tooltip', {
