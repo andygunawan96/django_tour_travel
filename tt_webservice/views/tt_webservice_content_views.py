@@ -687,11 +687,11 @@ def get_banner(request):
 
 def get_banner_data(request, type):
     if type == "big_banner":
-        file = read_cache("big_banner_cache", 'cache_web', request, 86400)
+        file = read_cache("big_banner_cache", 'cache_web', request, 90911)
     elif type == "small_banner":
-        file = read_cache("small_banner_cache", 'cache_web', request, 86400)
+        file = read_cache("small_banner_cache", 'cache_web', request, 90911)
     elif type == "promotion":
-        file = read_cache("promotion_banner_cache", 'cache_web', request, 86400)
+        file = read_cache("promotion_banner_cache", 'cache_web', request, 90911)
     else:
         file = False
     return file
