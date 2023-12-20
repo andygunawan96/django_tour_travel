@@ -1033,7 +1033,7 @@ function train_get_detail(){
         train_detail_footer+=`
         <div class="col-lg-4">
             <button class="primary-btn-white" style="width:100%; margin-bottom:15px;" type="button" id="btn_share_popup">
-                <i class="fas fa-share-alt"></i> Share
+                <i class="fas fa-share-alt"></i> Share / Copy
             </button>
         </div>`;
         if(agent_security.includes('book_reservation') == true)

@@ -5701,68 +5701,68 @@ text_detail_next +=`
                     }
                 }
             text_detail_next += `
-            </div>`;
+            </div>
+            <div class="col-lg-7" style="margin:auto;">`;
             if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                 // tidak ikut default karena ada notes untuk YPM lionair
                 text_detail_next+=`
-                <div class="col-lg-7" style="margin:auto;">
-                    <div class="alert alert-success" style="margin-bottom:5px;">
-                        <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
-                            <span>YPM </span>
-                            <span id="show_commission_button">`;
-                            if(commission_price == 0)
-                                text_detail_next+=`<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
-                            else
-                                text_detail_next+=`<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
-                            text_detail_next+=`
-                            </span>`;
+                <div class="alert alert-success" style="margin-bottom:5px;">
+                    <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
+                        <span>YPM </span>
+                        <span id="show_commission_button">`;
+                        if(commission_price == 0)
+                            text_detail_next+=`<span style="float:right;">hide <i class="fas fa-eye-slash"></i></span>`;
+                        else
+                            text_detail_next+=`<span style="float:right;">show <i class="fas fa-eye"></i></span>`;
+                        text_detail_next+=`
+                        </span>`;
 
-                            if(commission_price == 0)
-                                text_detail_next+=`<span id="show_commission" style="display:inline;">`;
-                            else
-                                text_detail_next+=`<span id="show_commission" style="display:none;">`;
+                        if(commission_price == 0)
+                            text_detail_next+=`<span id="show_commission" style="display:inline;">`;
+                        else
+                            text_detail_next+=`<span id="show_commission" style="display:none;">`;
 
-                            text_detail_next+=`<span style="font-size:14px; font-weight: bold; color:`+color+`;"> `+currency+` `+getrupiah(commission_price*-1)+`</span><br/>`;
+                        text_detail_next+=`<span style="font-size:14px; font-weight: bold; color:`+color+`;"> `+currency+` `+getrupiah(commission_price*-1)+`</span><br/>`;
 
-                            if(commission_price == 0){
-                                text_notes = '';
-                                for(x in get_price_airline_response.result.response.price_itinerary_provider){
-                                    for(y in get_price_airline_response.result.response.price_itinerary_provider[x].journeys){
-                                        for(z in get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments){
-                                            if(get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('JT') ||
-                                               get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IW') ||
-                                               get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('ID') ||
-                                               get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IU') ||
-                                               get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('OD'))
-                                               text_notes = '* Lion Air YPM is shown after booking';
-                                            if(text_notes != '')
-                                                break;
-                                        }
+                        if(commission_price == 0){
+                            text_notes = '';
+                            for(x in get_price_airline_response.result.response.price_itinerary_provider){
+                                for(y in get_price_airline_response.result.response.price_itinerary_provider[x].journeys){
+                                    for(z in get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments){
+                                        if(get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                                           get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                                           text_notes = '* Lion Air YPM is shown after booking';
                                         if(text_notes != '')
                                             break;
                                     }
                                     if(text_notes != '')
                                         break;
                                 }
-                                if(text_notes == '')
-                                    text_notes = '* Please mark up the price first'
-
-                                text_detail_next += `<span style="font-size:13px; font-weight: bold;color:red">`+text_notes+`</span>`;
+                                if(text_notes != '')
+                                    break;
                             }
-                            text_detail_next+=`
-                            </span>
-                        </div>
+                            if(text_notes == '')
+                                text_notes = '* Please mark up the price first'
+
+                            text_detail_next += `<span style="font-size:13px; font-weight: bold;color:red">`+text_notes+`</span>`;
+                        }
+                        text_detail_next+=`
+                        </span>
                     </div>
                 </div>`;
             }
             text_detail_next += `
+            </div>
         </div>
     </div>`;
 
     text_detail_next+=`
     <div class="col-lg-4">
         <button class="primary-btn-white" style="width:100%; margin-bottom:15px;" type="button" id="btn_share_popup">
-            <i class="fas fa-share-alt"></i> Share
+            <i class="fas fa-share-alt"></i> Share / Copy
         </button>
     </div>`;
 
