@@ -2344,7 +2344,10 @@ function triggered_balance(val){
             time--;
         }else{
             if(login_again == true){
-                get_vendor_balance(val);
+                // KALAU HALAMAN PAYMENT SKIP
+                if(document.URL.split('/')[document.URL.split('/').length-1] != 'payment'){
+                    get_vendor_balance(val);
+                }
                 time--;
             }
         }

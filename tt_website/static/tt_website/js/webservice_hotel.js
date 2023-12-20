@@ -3671,7 +3671,7 @@ function hotel_get_booking(data){
                     $text += '\nPrice:\n';
 
                     text_detail += `<div class="mt-3">
-                        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+                        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
                     </div>`;
                     text_detail += `<div id="price_detail_hotel_div" style="display:none;">`;
                     csc = 0;
@@ -3815,7 +3815,7 @@ function hotel_get_booking(data){
                     }
                     text_detail += `</div>`;
                     text_detail += `<div>
-                        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+                        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
                     </div>`;
 
                     try{
