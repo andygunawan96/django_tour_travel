@@ -16748,13 +16748,13 @@ function get_chosen_ticket(type='all'){
                             price_breakdown['NTA AGENT'] = 0;
                         if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                             price_breakdown['COMMISSION HO'] = 0;
-                        price_breakdown['FARE'] += airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
-                        price_breakdown['TAX'] += airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
+                        price_breakdown['FARE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_fare_ori;
+                        price_breakdown['TAX'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_tax_ori;
                         price_breakdown['BREAKDOWN'] = 0;
                         price_breakdown['UPSELL'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_upsell;
                         price_breakdown['COMMISSION'] += (airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_commission_vendor * -1);
                         price_breakdown['NTA AIRLINE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_nta_vendor;
-                        price_breakdown['SERVICE FEE'] += airline_pick_list[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
+                        price_breakdown['SERVICE FEE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
                         price_breakdown['VAT'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_vat_ho;
                         price_breakdown['OTT'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_price_ori;
                         price_breakdown['TOTAL PRICE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_price;
