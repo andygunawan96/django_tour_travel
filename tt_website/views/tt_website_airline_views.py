@@ -671,21 +671,21 @@ def passenger(request, signature):
             for journey in airline['journeys']:
                 if journey['origin_country'] == 'United States' or journey['destination_country'] == 'United States':
                     is_need_valid_identity = True
-                if journey['origin_city'] == 'Dubai' or journey['destination_city'] == 'Dubai':
+                if journey['origin_city'] == 'Dubai' or journey['destination_city'] == 'Dubai' or journey['origin_country'] == 'Saudi Arabia' or journey['destination_country'] == 'Saudi Arabia':
                     is_need_last_name = True
                 if is_need_valid_identity and is_need_last_name:
                     break
                 for segment in journey['segments']:
                     if segment['origin_country'] == 'United States' or segment['destination_country'] == 'United States':
                         is_need_valid_identity = True
-                    if segment['origin_city'] == 'Dubai' or segment['destination_city'] == 'Dubai':
+                    if segment['origin_city'] == 'Dubai' or segment['destination_city'] == 'Dubai' or segment['origin_city'] == 'Saudi Arabia' or segment['destination_city'] == 'Saudi Arabia':
                         is_need_last_name = True
                     if is_need_valid_identity and is_need_last_name:
                         break
                     for leg in segment['legs']:
                         if leg['origin_country'] == 'United States' or leg['destination_country'] == 'United States':
                             is_need_valid_identity = True
-                        if leg['origin_city'] == 'Dubai' or leg['destination_city'] == 'Dubai':
+                        if leg['origin_city'] == 'Dubai' or leg['destination_city'] == 'Dubai' or leg['origin_city'] == 'Saudi Arabia' or leg['destination_city'] == 'Saudi Arabia':
                             is_need_last_name = True
                         if is_need_valid_identity and is_need_last_name:
                             break

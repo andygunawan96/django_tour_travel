@@ -8000,20 +8000,6 @@ function check_passenger(adult, child, infant, type=''){
     }catch(err){
 
     }
-    is_jeddah = false;
-    for(i in price_itinerary_temp){
-        for(j in price_itinerary_temp[i].journeys){
-            for(k in price_itinerary_temp[i].journeys[j].segments){
-                for(l in price_itinerary_temp[i].journeys[j].segments[k].legs){
-                    if(price_itinerary_temp[i].journeys[j].segments[k].legs[l].destination_country == "Saudi Arabia" ||
-                       price_itinerary_temp[i].journeys[j].segments[k].legs[l].origin_country == "Saudi Arabia"){
-                        is_jeddah = true;
-                        break;
-                    }
-                }
-            }
-        }
-    }
 
 
     if(document.getElementById('booker_title') != undefined){
@@ -8144,16 +8130,6 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
         }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-        }
-
-        // JEDDAH
-        if(is_jeddah){
-            name = document.getElementById('adult_first_name'+i).value;
-            if(document.getElementById('adult_last_name'+i).value)
-                name += ' ' + document.getElementById('adult_last_name'+i).value;
-            if(name.split(' ').length < 2){
-                error_log+= 'Minimum 2 word of adult name passenger '+i+' for destination Saudi Arabia!</br>\n';
-            }
         }
 
        //check lastname
@@ -8531,16 +8507,6 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }
 
-       // JEDDAH
-       if(is_jeddah){
-            name = document.getElementById('child_first_name'+i).value;
-            if(document.getElementById('child_last_name'+i).value)
-                name += ' ' + document.getElementById('child_last_name'+i).value;
-            if(name.split(' ').length < 2){
-                error_log+= 'Minimum 2 word of child name passenger '+i+' for destination Saudi Arabia!</br>\n';
-            }
-       }
-
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
 //       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
@@ -8895,15 +8861,6 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }
 
-       // JEDDAH
-       if(is_jeddah){
-            name = document.getElementById('infant_first_name'+i).value;
-            if(document.getElementById('infant_last_name'+i).value)
-                name += ' ' + document.getElementById('infant_last_name'+i).value;
-            if(name.split(' ').length < 2){
-                error_log+= 'Minimum 2 word of infant name passenger '+i+' for destination Saudi Arabia!</br>\n';
-            }
-       }
 
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
@@ -9212,15 +9169,6 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('student_last_name'+i).style['border-color'] = '#EFEFEF';
            }
 
-           // JEDDAH
-           if(is_jeddah){
-                name = document.getElementById('student_first_name'+i).value;
-                if(document.getElementById('student_last_name'+i).value)
-                    name += ' ' + document.getElementById('student_last_name'+i).value;
-                if(name.split(' ').length < 2){
-                    error_log+= 'Minimum 2 word of student name passenger '+i+' for destination Saudi Arabia!</br>\n';
-                }
-           }
 
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
@@ -9580,15 +9528,6 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('seaman_last_name'+i).style['border-color'] = '#EFEFEF';
            }
 
-           // JEDDAH
-           if(is_jeddah){
-                name = document.getElementById('seaman_first_name'+i).value;
-                if(document.getElementById('seaman_last_name'+i).value)
-                    name += ' ' + document.getElementById('seaman_last_name'+i).value;
-                if(name.split(' ').length < 2){
-                    error_log+= 'Minimum 2 word of seaman name passenger '+i+' for destination Saudi Arabia!</br>\n';
-                }
-           }
 
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
@@ -9948,15 +9887,6 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('labour_last_name'+i).style['border-color'] = '#EFEFEF';
            }
 
-           // JEDDAH
-           if(is_jeddah){
-                name = document.getElementById('labour_first_name'+i).value;
-                if(document.getElementById('labour_last_name'+i).value)
-                    name += ' ' + document.getElementById('labour_last_name'+i).value;
-                if(name.split(' ').length < 2){
-                    error_log+= 'Minimum 2 word of labour name passenger '+i+' for destination Saudi Arabia!</br>\n';
-                }
-           }
 
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
