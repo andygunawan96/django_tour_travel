@@ -4002,8 +4002,8 @@ function hotel_get_booking(data){
                                 price_breakdown['UPSELL'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
-                            if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
-                                price_breakdown['NTA AIRLINE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA HOTEL'))
+                                price_breakdown['NTA HOTEL'] = 0;
                             if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
                                 price_breakdown['SERVICE FEE'] = 0;
                             if(!price_breakdown.hasOwnProperty('VAT'))
@@ -4024,7 +4024,7 @@ function hotel_get_booking(data){
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                             price_breakdown['COMMISSION'] += (hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
-                            price_breakdown['NTA AIRLINE'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                            price_breakdown['NTA HOTEL'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
                             price_breakdown['OTT'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
