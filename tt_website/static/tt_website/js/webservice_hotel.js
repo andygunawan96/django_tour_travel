@@ -3855,9 +3855,9 @@ function hotel_get_booking(data){
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span id="total_price" style="font-size:13px; font-weight: bold;`;
-//                        if(is_show_breakdown_price){
-//                            text_detail+=`cursor:pointer;`;
-//                        }
+                        if(is_show_breakdown_price){
+                            text_detail+=`cursor:pointer;`;
+                        }
                         text_detail+=`">`;
                                 try{
                                     text_detail+= currency+` `+getrupiah(total_price);
@@ -3865,9 +3865,9 @@ function hotel_get_booking(data){
 
                                 }
                                 text_detail+= `</span>`;
-//                        if(is_show_breakdown_price){
-//                             text_detail+=`<i class="fas fa-caret-down"></i>`;
-//                        }
+                        if(is_show_breakdown_price){
+                             text_detail+=`<i class="fas fa-caret-down"></i>`;
+                        }
                         text_detail+=`
                             </div>
                         </div>`;
@@ -3986,53 +3986,98 @@ function hotel_get_booking(data){
                     </div>`;
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;
-//                if(is_show_breakdown_price){
-//                    var price_breakdown = {};
-//                    var currency_breakdown = '';
-//                    for(i in hotel_get_detail.result.response.passengers){
-//                        for(j in hotel_get_detail.result.response.passengers[i].sale_service_charges){
-//                            for(k in hotel_get_detail.result.response.passengers[i].sale_service_charges[j]){
-//                                if(k != 'RAC'){
-//                                    if(!price_breakdown.hasOwnProperty(k.toUpperCase()))
-//                                        price_breakdown[k.toUpperCase()] = 0;
-//                                    price_breakdown[k.toUpperCase()] += hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].amount;
-//                                    if(currency_breakdown == '')
-//                                        currency_breakdown = hotel_get_detail.result.response.passengers[i].sale_service_charges[j][k].currency;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    var breakdown_text = '';
-//                    for(j in price_breakdown){
-//                        if(breakdown_text)
-//                            breakdown_text += '<br/>';
-//                        if(j != 'ROC')
-//                            breakdown_text += '<b>'+j+'</b> ';
-//                        else
-//                            breakdown_text += '<b>CONVENIENCE FEE</b> ';
-//                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
-//                    }
-//                    new jBox('Tooltip', {
-//                        attach: '#total_price',
-//                        target: '#total_price',
-//                        theme: 'TooltipBorder',
-//                        trigger: 'click',
-//                        adjustTracker: true,
-//                        closeOnClick: 'body',
-//                        closeButton: 'box',
-//                        animation: 'move',
-//                        position: {
-//                          x: 'left',
-//                          y: 'top'
-//                        },
-//                        outside: 'y',
-//                        pointer: 'left:20',
-//                        offset: {
-//                          x: 25
-//                        },
-//                        content: breakdown_text
-//                    });
-//                }
+                if(is_show_breakdown_price){
+                    var price_breakdown = {};
+                    var currency_breakdown = '';
+
+                    for(i in hotel_get_detail.result.response.passengers){
+                        for(j in hotel_get_detail.result.response.passengers[i].service_charge_details){
+                            if(!price_breakdown.hasOwnProperty('FARE'))
+                                price_breakdown['FARE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TAX'))
+                                price_breakdown['TAX'] = 0;
+                            if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
+                                price_breakdown['BREAKDOWN'] = 0;
+                            if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                price_breakdown['UPSELL'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                                price_breakdown['COMMISSION'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
+                                price_breakdown['NTA AIRLINE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                                price_breakdown['SERVICE FEE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('VAT'))
+                                price_breakdown['VAT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('OTT'))
+                                price_breakdown['OTT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                                price_breakdown['TOTAL PRICE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                                price_breakdown['NTA AGENT'] = 0;
+                            if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                price_breakdown['COMMISSION HO'] = 0;
+                            if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
+                                price_breakdown['CHANNEL UPSELL'] = 0;
+
+                            price_breakdown['FARE'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
+                            price_breakdown['TAX'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['BREAKDOWN'] = 0;
+                            price_breakdown['UPSELL'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
+                            price_breakdown['COMMISSION'] += (hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            price_breakdown['NTA AIRLINE'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
+                            price_breakdown['SERVICE FEE'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
+                            price_breakdown['VAT'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
+                            price_breakdown['OTT'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['TOTAL PRICE'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
+                            price_breakdown['NTA AGENT'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
+                            price_breakdown['COMMISSION HO'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            for(k in hotel_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
+                                if(k == 'ROC'){
+                                    for(l in hotel_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
+                                        if(hotel_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].charge_code == 'csc'){
+                                            price_breakdown['CHANNEL UPSELL'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k][l].amount;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    var breakdown_text = '';
+                    for(j in price_breakdown){
+                        if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            breakdown_text += '<b>'+j+'</b> ';
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }else if(j == 'BREAKDOWN'){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            breakdown_text += '<b>'+j+'</b> ';
+                        }
+                    }
+                    new jBox('Tooltip', {
+                        attach: '#total_price',
+                        target: '#total_price',
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'top'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: breakdown_text
+                    });
+                }
                 text_cancellation_policy = `
                     <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
                         <div class="row">
