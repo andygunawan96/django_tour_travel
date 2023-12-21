@@ -1084,8 +1084,8 @@ function search_ppob(){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA PPOB'))
@@ -1108,7 +1108,7 @@ function search_ppob(){
                                 price_breakdown['FARE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += bill_response.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                                price_breakdown['UPSELL'] += bill_response.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (bill_response.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA PPOB'] += bill_response.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -1132,11 +1132,16 @@ function search_ppob(){
                         }
                         var breakdown_text = '';
                         for(j in price_breakdown){
-                            if(breakdown_text)
-                                breakdown_text += '<br/>';
-                            breakdown_text += '<b>'+j+'</b> ';
-                            if(j != 'BREAKDOWN')
+                            if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+j+'</b> ';
                                 breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            }else if(j == 'BREAKDOWN'){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+j+'</b> ';
+                            }
                         }
                         new jBox('Tooltip', {
                             attach: '#total_price_ppob',
@@ -2232,8 +2237,8 @@ function ppob_get_booking(data){
                                 price_breakdown['TAX'] = 0;
                             if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                 price_breakdown['BREAKDOWN'] = 0;
-                            if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                price_breakdown['CONVENIENCE FEE'] = 0;
+                            if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                price_breakdown['UPSELL'] = 0;
                             if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                 price_breakdown['COMMISSION'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA TRAIN'))
@@ -2256,7 +2261,7 @@ function ppob_get_booking(data){
                             price_breakdown['FARE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                             price_breakdown['TAX'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                             price_breakdown['BREAKDOWN'] = 0;
-                            price_breakdown['CONVENIENCE FEE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                            price_breakdown['UPSELL'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                             price_breakdown['COMMISSION'] += (bills_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA PPOB'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -2280,15 +2285,15 @@ function ppob_get_booking(data){
                     }
                     var breakdown_text = '';
                     for(j in price_breakdown){
-                        add_breakdown = true
-                        if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
-                            add_breakdown = false;
-                        if(add_breakdown){
+                        if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
                             if(breakdown_text)
                                 breakdown_text += '<br/>';
                             breakdown_text += '<b>'+j+'</b> ';
-                            if(j != 'BREAKDOWN')
-                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                        }else if(j == 'BREAKDOWN'){
+                            if(breakdown_text)
+                                breakdown_text += '<br/>';
+                            breakdown_text += '<b>'+j+'</b> ';
                         }
                     }
 

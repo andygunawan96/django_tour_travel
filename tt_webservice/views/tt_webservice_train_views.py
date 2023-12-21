@@ -386,8 +386,8 @@ def re_order_set_passengers(request):
 
             data_pax_dict = {
                 "pax_type": pax_type,
-                "first_name": pax['first_name'],
-                "last_name": pax['last_name'],
+                "first_name": pax['cust_first_name'],
+                "last_name": pax['cust_last_name'],
                 "title": title,
                 "birth_date": pax['birth_date'],
                 "nationality_code": pax['nationality_code'],
@@ -396,6 +396,8 @@ def re_order_set_passengers(request):
                 "identity_country_of_issued_name": pax['identity_country_of_issued_name'],
                 "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
                 "identity_number": pax['identity_number'],
+                "identity_first_name": pax['first_name'],
+                "identity_last_name": pax['last_name'],
                 "passenger_seq_id": pax['seq_id'],
                 "identity_type": pax['identity_type'],
                 "behaviors": pax['behaviors'],
@@ -593,6 +595,8 @@ def commit_booking(request):
                             "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                             "identity_expdate": pax.pop('identity_expdate'),
                             "identity_number": pax.pop('identity_number'),
+                            "identity_first_name": pax.get('identity_first_name') and pax.pop('identity_first_name') or pax['first_name'],
+                            "identity_last_name": pax.get('identity_last_name') and pax.pop('identity_last_name') or pax['last_name'],
                             "identity_type": pax.pop('identity_type'),
                             "identity_image": pax.pop('identity_image'),
                         }

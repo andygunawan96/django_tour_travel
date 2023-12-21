@@ -673,6 +673,7 @@
                                                                     <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                    <span id="adult_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
                                                                 </div>
                                                             </div>
                                                             <label class="adult_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
@@ -1076,6 +1077,7 @@
                                                                     <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                    <span id="child_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
                                                                 </div>
                                                             </div>
                                                             <label class="child_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
@@ -1445,6 +1447,7 @@
                                                                     <span id="fill_infant_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="infant_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="infant_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                    <span id="infant_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
                                                                 </div>
                                                             </div>
                                                             <label class="infant_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
@@ -1786,6 +1789,7 @@
                                                                     <span id="fill_student_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="student_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="student_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                    <span id="student_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
                                                                 </div>
                                                             </div>
                                                             <label class="student_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
@@ -2155,6 +2159,7 @@
                                                                     <span id="fill_labour_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="labour_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="labour_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                    <span id="labour_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
                                                                 </div>
                                                             </div>
                                                             <label class="labour_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
@@ -2525,6 +2530,7 @@
                                                                     <span id="fill_seaman_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
                                                                     <span style="margin-right:5px; display:none;" id="seaman_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                                     <span style="margin-right:5px;" id="seaman_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                    <span id="seaman_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
                                                                 </div>
                                                             </div>
                                                             <label class="seaman_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
@@ -2689,6 +2695,26 @@
                 },
                 content: "Check this section if you don't have a valid passport or your passport is about to expire. <br/> Please update your passport as soon as possible on a later date. <br/> If you don't update your passport, we won't be responsible for your flight",
             });
+
+            new jBox('Tooltip', {
+                attach: '#adult_fill_id_name_help{{forloop.counter}}',
+                target: '#adult_fill_id_name_help{{forloop.counter}}',
+                theme: 'TooltipBorder',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'bottom'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: "Fill this section if the name written in your ID card is different with your birth name. For example: <br/> <strong>Birth Name</strong>: Fitra Hanif Boediono<br/> <strong>ID Card Name</strong>: Fitra Hanif",
+            });
       {% endfor %}
       {% for child in childs%}
             document.addEventListener("DOMContentLoaded", init_upload('child','{{forloop.counter}}'), false);
@@ -2714,6 +2740,26 @@
                   x: 25
                 },
                 content: "Check this section if you don't have a valid passport or your passport is about to expire. <br/>Please update your passport as soon as possible on a later date.<br/>If you don't update your passport, we won't be responsible for your flight",
+            });
+
+            new jBox('Tooltip', {
+                attach: '#child_fill_id_name_help{{forloop.counter}}',
+                target: '#child_fill_id_name_help{{forloop.counter}}',
+                theme: 'TooltipBorder',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'bottom'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: "Fill this section if the name written in your ID card is different with your birth name. For example: <br/> <strong>Birth Name</strong>: Fitra Hanif Boediono<br/> <strong>ID Card Name</strong>: Fitra Hanif",
             });
       {% endfor %}
       {% for infant in infants%}
@@ -2741,6 +2787,26 @@
                 },
                 content: "Check this section if you don't have a valid passport or your passport is about to expire.<br/>Please update your passport as soon as possible on a later date.<br/>If you don't update your passport, we won't be responsible for your flight",
             });
+
+            new jBox('Tooltip', {
+                attach: '#infant_fill_id_name_help{{forloop.counter}}',
+                target: '#infant_fill_id_name_help{{forloop.counter}}',
+                theme: 'TooltipBorder',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'bottom'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: "Fill this section if the name written in your ID card is different with your birth name. For example: <br/> <strong>Birth Name</strong>: Fitra Hanif Boediono<br/> <strong>ID Card Name</strong>: Fitra Hanif",
+            });
       {% endfor %}
       {% for student in students%}
             document.addEventListener("DOMContentLoaded", init_upload('student','{{forloop.counter}}'), false);
@@ -2766,6 +2832,26 @@
                   x: 25
                 },
                 content: "Check this section if you don't have a valid passport or your passport is about to expire.<br/>Please update your passport as soon as possible on a later date.<br/>If you don't update your passport, we won't be responsible for your flight",
+            });
+
+            new jBox('Tooltip', {
+                attach: '#student_fill_id_name_help{{forloop.counter}}',
+                target: '#student_fill_id_name_help{{forloop.counter}}',
+                theme: 'TooltipBorder',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'bottom'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: "Fill this section if the name written in your ID card is different with your birth name. For example: <br/> <strong>Birth Name</strong>: Fitra Hanif Boediono<br/> <strong>ID Card Name</strong>: Fitra Hanif",
             });
       {% endfor %}
       {% for labour in labours%}
@@ -2793,6 +2879,26 @@
                 },
                 content: "Check this section if you don't have a valid passport or your passport is about to expire.<br/>Please update your passport as soon as possible on a later date.<br/>If you don't update your passport, we won't be responsible for your flight",
             });
+
+            new jBox('Tooltip', {
+                attach: '#labour_fill_id_name_help{{forloop.counter}}',
+                target: '#labour_fill_id_name_help{{forloop.counter}}',
+                theme: 'TooltipBorder',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'bottom'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: "Fill this section if the name written in your ID card is different with your birth name. For example: <br/> <strong>Birth Name</strong>: Fitra Hanif Boediono<br/> <strong>ID Card Name</strong>: Fitra Hanif",
+            });
       {% endfor %}
       {% for seaman in seamans%}
             document.addEventListener("DOMContentLoaded", init_upload('seaman','{{forloop.counter}}'), false);
@@ -2818,6 +2924,26 @@
                   x: 25
                 },
                 content: "Check this section if you don't have a valid passport or your passport is about to expire.<br/>Please update your passport as soon as possible on a later date.<br/>If you don't update your passport, we won't be responsible for your flight",
+            });
+
+            new jBox('Tooltip', {
+                attach: '#seaman_fill_id_name_help{{forloop.counter}}',
+                target: '#seaman_fill_id_name_help{{forloop.counter}}',
+                theme: 'TooltipBorder',
+                adjustTracker: true,
+                closeOnClick: 'body',
+                closeButton: 'box',
+                animation: 'move',
+                position: {
+                  x: 'left',
+                  y: 'bottom'
+                },
+                outside: 'y',
+                pointer: 'left:20',
+                offset: {
+                  x: 25
+                },
+                content: "Fill this section if the name written in your ID card is different with your birth name. For example: <br/> <strong>Birth Name</strong>: Fitra Hanif Boediono<br/> <strong>ID Card Name</strong>: Fitra Hanif",
             });
       {% endfor %}
     });

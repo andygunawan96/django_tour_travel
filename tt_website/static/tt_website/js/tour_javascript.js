@@ -886,7 +886,8 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_passport_number'+i).value != '' ||
           document.getElementById('adult_passport_expired_date'+i).value != '' ||
-          document.getElementById('adult_country_of_issued'+i+'_id').value != ''){
+          document.getElementById('adult_country_of_issued'+i+'_id').value != '' ||
+          document.getElementById('adult_identity_first_name'+i).value != ''){
            if(document.getElementById('adult_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
@@ -906,6 +907,23 @@ function check_passenger(adult, child, infant){
                $("#adult_country_of_issued"+i+"_id").each(function() {
                  $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                });
+           }
+           if(check_name(document.getElementById('adult_title'+i).value,
+                document.getElementById('adult_identity_first_name'+i).value,
+                document.getElementById('adult_identity_last_name'+i).value,
+                length_name) == false){
+               error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+           }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+               error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+               document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+           }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+               error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+               document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
            }
        }if(document.getElementById('adult_cp'+i).checked == true){
             if(check_email(document.getElementById('adult_email'+i).value)==false){
@@ -965,7 +983,8 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_passport_number'+i).value != '' ||
           document.getElementById('child_passport_expired_date'+i).value != '' ||
-          document.getElementById('child_country_of_issued'+i+'_id').value != ''){
+          document.getElementById('child_country_of_issued'+i+'_id').value != '' ||
+          document.getElementById('child_identity_first_name'+i).value != ''){
            if(document.getElementById('child_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
@@ -985,6 +1004,23 @@ function check_passenger(adult, child, infant){
                $("#child_country_of_issued"+i+"_id").each(function() {
                  $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                });
+           }
+           if(check_name(document.getElementById('child_title'+i).value,
+                document.getElementById('child_identity_first_name'+i).value,
+                document.getElementById('child_identity_last_name'+i).value,
+                length_name) == false){
+               error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+           }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
+               error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
+               document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+           }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
+               error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
+               document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
            }
        }
    }
@@ -1032,7 +1068,8 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_passport_number'+i).value != '' ||
           document.getElementById('infant_passport_expired_date'+i).value != '' ||
-          document.getElementById('infant_country_of_issued'+i+'_id').value != ''){
+          document.getElementById('infant_country_of_issued'+i+'_id').value != '' ||
+          document.getElementById('infant_identity_first_name'+i).value != ''){
            if(document.getElementById('infant_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
@@ -1052,6 +1089,23 @@ function check_passenger(adult, child, infant){
                $("#infant_country_of_issued"+i+"_id").each(function() {
                  $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                });
+           }
+           if(check_name(document.getElementById('infant_title'+i).value,
+                document.getElementById('infant_identity_first_name'+i).value,
+                document.getElementById('infant_identity_last_name'+i).value,
+                length_name) == false){
+               error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+           }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+               error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+               document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+           }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+               error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+               document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
            }
        }
 

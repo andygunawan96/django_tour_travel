@@ -584,12 +584,16 @@ def update_passengers(request):
                 "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
+                "identity_first_name": pax.get('identity_first_name') and pax.pop('identity_first_name') or pax['first_name'],
+                "identity_last_name": pax.get('identity_last_name') and pax.pop('identity_last_name') or pax['last_name'],
                 "identity_type": pax.pop('identity_type'),
                 "identity_image": pax.pop('identity_image'),
             }
         else:
             pax.pop('identity_expdate')
             pax.pop('identity_number')
+            pax.pop('identity_first_name')
+            pax.pop('identity_last_name')
             pax.pop('identity_type')
             pax.pop('identity_image')
         passenger.append(pax)
@@ -610,11 +614,15 @@ def update_passengers(request):
                 "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
+                "identity_first_name": pax.get('identity_first_name') and pax.pop('identity_first_name') or pax['first_name'],
+                "identity_last_name": pax.get('identity_last_name') and pax.pop('identity_last_name') or pax['last_name'],
                 "identity_type": pax.pop('identity_type'),
             }
         else:
             pax.pop('identity_expdate')
             pax.pop('identity_number')
+            pax.pop('identity_first_name')
+            pax.pop('identity_last_name')
             pax.pop('identity_type')
         passenger.append(pax)
 
@@ -634,11 +642,15 @@ def update_passengers(request):
                 "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
+                "identity_first_name": pax.get('identity_first_name') and pax.pop('identity_first_name') or pax['first_name'],
+                "identity_last_name": pax.get('identity_last_name') and pax.pop('identity_last_name') or pax['last_name'],
                 "identity_type": pax.pop('identity_type'),
             }
         else:
             pax.pop('identity_expdate')
             pax.pop('identity_number')
+            pax.pop('identity_first_name')
+            pax.pop('identity_last_name')
             pax.pop('identity_type')
         passenger.append(pax)
 

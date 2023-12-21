@@ -1033,7 +1033,7 @@ function train_get_detail(){
         train_detail_footer+=`
         <div class="col-lg-4">
             <button class="primary-btn-white" style="width:100%; margin-bottom:15px;" type="button" id="btn_share_popup">
-                <i class="fas fa-share-alt"></i> Share
+                <i class="fas fa-share-alt"></i> Share / Copy
             </button>
         </div>`;
         if(agent_security.includes('book_reservation') == true)
@@ -1105,7 +1105,7 @@ function train_get_detail(){
                     price_breakdown['FARE'] = journeys[i].fares[j].service_charge_summary[k].base_fare_ori;
                     price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
-                    price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_convenience_fee;
+                    price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_upsell;
                     price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
@@ -1124,12 +1124,17 @@ function train_get_detail(){
                     break;
                 }
                 var breakdown_text = '';
-                for(j in price_breakdown){
-                    if(breakdown_text)
-                        breakdown_text += '<br/>';
-                    breakdown_text += '<b>'+j+'</b> ';
-                    if(j != 'BREAKDOWN')
-                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                for(k in price_breakdown){
+                    if(k != 'BREAKDOWN' && price_breakdown[k] != 0){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+k+'</b> ';
+                        breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
+                    }else if(k == 'BREAKDOWN'){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+k+'</b> ';
+                    }
                 }
                 new jBox('Tooltip', {
                     attach: '#sub_total_' + i,
@@ -1161,7 +1166,7 @@ function train_get_detail(){
                     price_breakdown['FARE'] = journeys[i].fares[j].service_charge_summary[k].base_fare_ori;
                     price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
-                    price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_convenience_fee;
+                    price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_upsell;
                     price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
@@ -1176,11 +1181,16 @@ function train_get_detail(){
             }
             var breakdown_text = '';
             for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                breakdown_text += '<b>'+j+'</b> ';
-                if(j != 'BREAKDOWN')
+                if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
                     breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                }else if(j == 'BREAKDOWN'){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
+                }
             }
             new jBox('Tooltip', {
                 attach: '#total_price',
@@ -1576,9 +1586,14 @@ function train_detail(){
             $text += 'Passengers\n';
             for(i in passengers){
                 if(i != 'booker' && i != 'contact')
+                {
                     for(j in passengers[i]){
-                        $text += passengers[i][j].title + ' ' + passengers[i][j].first_name + ' ' + passengers[i][j].last_name + '\n';
+                        if(passengers[i][j].hasOwnProperty('identity_first_name') && passengers[i][j].identity_first_name != '' && passengers[i][j].identity_first_name != undefined && passengers[i][j].identity_first_name != false)
+                            $text += passengers[i][j].title + ' ' + passengers[i][j].identity_first_name + ' ' + passengers[i][j].identity_last_name + '\n';
+                        else
+                            $text += passengers[i][j].title + ' ' + passengers[i][j].first_name + ' ' + passengers[i][j].last_name + '\n';
                     }
+                }
             }
             $text += '\n';
         }
@@ -1656,7 +1671,7 @@ function train_detail(){
                     price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare_ori;
                     price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax_ori;
                     price_breakdown['BREAKDOWN'] = 0;
-                    price_breakdown['CONVENIENCE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_convenience_fee;
+                    price_breakdown['CONVENIENCE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_upsell;
                     price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA TRAIN'] += train_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_fee_ho;
@@ -1710,11 +1725,16 @@ function train_detail(){
     }
     var breakdown_text = '';
     for(j in price_breakdown){
-        if(breakdown_text)
-            breakdown_text += '<br/>';
-        breakdown_text += '<b>'+j+'</b> ';
-        if(j != 'BREAKDOWN')
+        if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+            if(breakdown_text)
+                breakdown_text += '<br/>';
+            breakdown_text += '<b>'+j+'</b> ';
             breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+        }else if(j == 'BREAKDOWN'){
+            if(breakdown_text)
+                breakdown_text += '<br/>';
+            breakdown_text += '<b>'+j+'</b> ';
+        }
     }
     new jBox('Tooltip', {
         attach: '#total_price',
@@ -1947,6 +1967,26 @@ function check_passenger(adult, infant){
            document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_id_type'+i).style['border-color'] = '#EFEFEF';
+           if(document.getElementById('adult_identity_first_name'+i).value != '')
+           {
+                if(check_name(document.getElementById('adult_title'+i).value,
+                    document.getElementById('adult_identity_first_name'+i).value,
+                    document.getElementById('adult_identity_last_name'+i).value,
+                    length_name) == false){
+                   error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+                   document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+           }
            if(document.getElementById('adult_id_type'+i).value == 'ktp'){
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                if(document.getElementById('adult_id_type'+i).value == 'ktp' && check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
@@ -2111,6 +2151,26 @@ function check_passenger(adult, infant){
            document.getElementById('infant_id_type'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
+           if(document.getElementById('infant_identity_first_name'+i).value != '')
+           {
+                if(check_name(document.getElementById('infant_title'+i).value,
+                    document.getElementById('infant_identity_first_name'+i).value,
+                    document.getElementById('infant_identity_last_name'+i).value,
+                    length_name) == false){
+                   error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+                   document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+           }
            if(document.getElementById('infant_id_type'+i).value == 'ktp'){
                if(document.getElementById('infant_id_type'+i).value == 'ktp' && check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
                    error_log+= 'Please fill id number, ktp only contain 16 digits for passenger infant '+i+'!</br>\n';

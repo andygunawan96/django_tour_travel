@@ -731,6 +731,8 @@ def review(request, signature=''):
                         email = re.sub(r'\s', ' ', request.POST.get('adult_email' + str(i + 1), '')).replace(':', '').strip()
                         mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1), '')).replace(':', '').strip()
                         identity_number = re.sub(r'\s', ' ', request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '').replace(':', '').strip()
+                        identity_first_name = re.sub(r'\s', ' ', request.POST['adult_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                        identity_last_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
                         adult.append({
                             "temp_pax_id": temp_pax_id,
@@ -742,6 +744,8 @@ def review(request, signature=''):
                             "pax_type_str": "Adult",
                             "birth_date": request.POST['adult_birth_date' + str(i + 1)],
                             "identity_number": identity_number,
+                            "identity_first_name": identity_first_name,
+                            "identity_last_name": identity_last_name,
                             "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
                             "identity_country_of_issued_code": request.POST.get('adult_country_of_issued' + str(i + 1) + '_id') and request.POST['adult_country_of_issued' + str(i + 1) + '_id'] or '',
                             "identity_image": img_identity_data,
@@ -828,6 +832,8 @@ def review(request, signature=''):
                         # email = re.sub(r'\s', ' ', request.POST.get('adult_email' + str(i + 1))).replace(':', '').strip()
                         # mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1))).replace(':', '').strip()
                         identity_number = re.sub(r'\s', ' ', request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '').replace(':','')
+                        identity_first_name = re.sub(r'\s', ' ', request.POST['child_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                        identity_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
                         child.append({
                             "temp_pax_id": temp_pax_id,
@@ -839,6 +845,8 @@ def review(request, signature=''):
                             "pax_type_str": "Child",
                             "birth_date": request.POST['child_birth_date'+str(i+1)],
                             "identity_number": identity_number,
+                            "identity_first_name": identity_first_name,
+                            "identity_last_name": identity_last_name,
                             "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
                             "identity_country_of_issued_code": request.POST.get('child_country_of_issued' + str(i + 1) + '_id') and request.POST['child_country_of_issued' + str(i + 1) + '_id'] or '',
                             "identity_image": img_identity_data,
@@ -866,6 +874,8 @@ def review(request, signature=''):
                         # email = re.sub(r'\s', ' ', request.POST.get('adult_email' + str(i + 1))).replace(':', '').strip()
                         # mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1))).replace(':', '').strip()
                         identity_number = re.sub(r'\s', ' ', request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '').replace(':','')
+                        identity_first_name = re.sub(r'\s', ' ', request.POST['infant_identity_first_name' + str(i + 1)]).replace(':', '').strip()
+                        identity_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
                         infant.append({
                             "temp_pax_id": temp_pax_id,
@@ -877,6 +887,8 @@ def review(request, signature=''):
                             "pax_type_str": "Infant",
                             "birth_date": request.POST['infant_birth_date'+str(i+1)],
                             "identity_number": identity_number,
+                            "identity_first_name": identity_first_name,
+                            "identity_last_name": identity_last_name,
                             "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
                             "identity_country_of_issued_code": request.POST.get('infant_country_of_issued' + str(i + 1) + '_id') and request.POST['infant_country_of_issued' + str(i + 1) + '_id'] or '',
                             "identity_image": img_identity_data,

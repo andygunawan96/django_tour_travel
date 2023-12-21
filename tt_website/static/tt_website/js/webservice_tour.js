@@ -3209,7 +3209,7 @@ function tour_get_booking(order_number)
 //                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Show YPM" style="width:100%;" onclick="show_commission();"/>
 //                           </div>
 //                         </div>`;
-                    $test+= '\n‣ Grand Total: '+`+price.currency+`+' '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
+                    $test+= `\n‣ Grand Total: `+price.currency+` `+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                     document.getElementById('tour_detail_table').innerHTML = price_text;
 
                     if(is_show_breakdown_price){
@@ -3230,8 +3230,8 @@ function tour_get_booking(order_number)
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA TOUR'))
@@ -3252,7 +3252,7 @@ function tour_get_booking(order_number)
                                 price_breakdown['FARE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                                price_breakdown['UPSELL'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] = (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -3274,11 +3274,16 @@ function tour_get_booking(order_number)
                                 }
                                 var breakdown_text = '';
                                 for(k in price_breakdown){
-                                    if(breakdown_text)
-                                        breakdown_text += '<br/>';
-                                    breakdown_text += '<b>'+k+'</b> ';
-                                    if(j != 'BREAKDOWN')
+                                    if(k != 'BREAKDOWN' && price_breakdown[k] != 0){
+                                        if(breakdown_text)
+                                            breakdown_text += '<br/>';
+                                        breakdown_text += '<b>'+k+'</b> ';
                                         breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[k]);
+                                    }else if(k == 'BREAKDOWN'){
+                                        if(breakdown_text)
+                                            breakdown_text += '<br/>';
+                                        breakdown_text += '<b>'+k+'</b> ';
+                                    }
                                 }
                                 new jBox('Tooltip', {
                                     attach: '#passenger_breakdown'+i,
@@ -3315,8 +3320,8 @@ function tour_get_booking(order_number)
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA TRAIN'))
@@ -3339,7 +3344,7 @@ function tour_get_booking(order_number)
                                 price_breakdown['FARE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
                                 price_breakdown['TAX'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_convenience_fee;
+                                price_breakdown['UPSELL'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
@@ -3363,15 +3368,15 @@ function tour_get_booking(order_number)
                         }
                         var breakdown_text = '';
                         for(j in price_breakdown){
-                            add_breakdown = true
-                            if(j == 'CHANNEL UPSELL' && price_breakdown[j] == 0)
-                                add_breakdown = false;
-                            if(add_breakdown){
+                            if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
                                 if(breakdown_text)
                                     breakdown_text += '<br/>';
                                 breakdown_text += '<b>'+j+'</b> ';
-                                if(j != 'BREAKDOWN')
-                                    breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                                breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                            }else if(j == 'BREAKDOWN'){
+                                if(breakdown_text)
+                                    breakdown_text += '<br/>';
+                                breakdown_text += '<b>'+j+'</b> ';
                             }
                         }
                         new jBox('Tooltip', {
@@ -3589,7 +3594,10 @@ function table_price_update(msg,type){
             for(i in all_pax){
                 if(i == 0)
                     $test += 'Passengers:\n';
-                $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+                if(all_pax[i].hasOwnProperty('identity_first_name') && all_pax[i].identity_first_name != '' && all_pax[i].identity_first_name != undefined && all_pax[i].identity_first_name != false)
+                    $test += all_pax[i].title + ' ' + all_pax[i].identity_first_name + ' ' + all_pax[i].identity_last_name + '\n';
+                else
+                    $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
             }
             $test +='\n';
         }catch(err){

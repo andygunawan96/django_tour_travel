@@ -4009,11 +4009,16 @@ function sort(){
                                     }
                                     var breakdown_text = '';
                                     for(j in price_breakdown){
-                                        if(breakdown_text)
-                                            breakdown_text += '<br/>';
-                                        breakdown_text += '<b>'+j+'</b> ';
-                                        if(j != 'BREAKDOWN')
+                                        if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                            if(breakdown_text)
+                                                breakdown_text += '<br/>';
+                                            breakdown_text += '<b>'+j+'</b> ';
                                             breakdown_text += airline_pick_list[0].currency + ' ' + getrupiah(price_breakdown[j]);
+                                        }else if(j == 'BREAKDOWN'){
+                                            if(breakdown_text)
+                                                breakdown_text += '<br/>';
+                                            breakdown_text += '<b>'+j+'</b> ';
+                                        }
                                     }
 
                                     if(breakdown_price_list_jbox.length > i){
@@ -4161,11 +4166,16 @@ function sort(){
                                         }
                                         var breakdown_text = '';
                                         for(j in price_breakdown){
-                                            if(breakdown_text)
-                                                breakdown_text += '<br/>';
-                                            breakdown_text += '<b>'+j+'</b> ';
-                                            if(j != 'BREAKDOWN')
+                                            if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                                                if(breakdown_text)
+                                                    breakdown_text += '<br/>';
+                                                breakdown_text += '<b>'+j+'</b> ';
                                                 breakdown_text += airline[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                                            }else if(j == 'BREAKDOWN'){
+                                                if(breakdown_text)
+                                                    breakdown_text += '<br/>';
+                                                breakdown_text += '<b>'+j+'</b> ';
+                                            }
                                         }
 
 //                                        if(breakdown_price_list_jbox.length > i){
@@ -5555,11 +5565,16 @@ function airline_pick_mc(type){
             }
             var breakdown_text = '';
             for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                breakdown_text += '<b>'+j+'</b> ';
-                if(j != 'BREAKDOWN')
+                if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
                     breakdown_text += airline_pick_list[i].currency + ' ' + getrupiah(price_breakdown[j]);
+                }else if(j == 'BREAKDOWN'){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
+                }
             }
             new jBox('Tooltip', {
                 attach: '#fare_detail_pick'+airline_pick_list[i].airline_pick_sequence,
@@ -6644,7 +6659,10 @@ function airline_detail(type){
                 $text += ':\n';
                 if(passengers.hasOwnProperty('adult')){
                     for(x in passengers['adult']){
-                        $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].first_name + ' ' + passengers['adult'][x].last_name;
+                        if(passengers['adult'][x].hasOwnProperty('identity_first_name') && passengers['adult'][x].identity_first_name != '' && passengers['adult'][x].identity_first_name != undefined && passengers['adult'][x].identity_first_name != false)
+                            $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].identity_first_name + ' ' + passengers['adult'][x].identity_last_name;
+                        else
+                            $text += '• ' + passengers['adult'][x].title + ' ' + passengers['adult'][x].first_name + ' ' + passengers['adult'][x].last_name;
                         if(passengers['adult'][x].birth_date)
                             $text += ' (ADT ' +  passengers['adult'][x].birth_date + ')';
                         if(passengers['adult'][x].identity_type){
@@ -6692,7 +6710,10 @@ function airline_detail(type){
                 }
                 if(passengers.hasOwnProperty('child')){
                     for(x in passengers['child']){
-                        $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name;
+                        if(passengers['child'][x].hasOwnProperty('identity_first_name') && passengers['child'][x].identity_first_name != '' && passengers['child'][x].identity_first_name != undefined && passengers['child'][x].identity_first_name != false)
+                            $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].identity_first_name + ' ' + passengers['child'][x].identity_last_name;
+                        else
+                            $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name;
                         if(passengers['adult'][x].birth_date)
                             $text += ' (CHD ' +  passengers['child'][x].birth_date + ')';
                         if(passengers['child'][x].identity_type){
@@ -6740,7 +6761,10 @@ function airline_detail(type){
                 }
                 if(passengers.hasOwnProperty('infant')){
                     for(x in passengers['infant']){
-                        $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].first_name + ' ' + passengers['infant'][x].last_name;
+                        if(passengers['infant'][x].hasOwnProperty('identity_first_name') && passengers['infant'][x].identity_first_name != '' && passengers['infant'][x].identity_first_name != undefined && passengers['infant'][x].identity_first_name != false)
+                            $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].identity_first_name + ' ' + passengers['infant'][x].identity_last_name;
+                        else
+                            $text += '• ' + passengers['infant'][x].title + ' ' + passengers['infant'][x].first_name + ' ' + passengers['infant'][x].last_name;
                         if(passengers['infant'][x].birth_date)
                             $text += ' (INF ' +  passengers['infant'][x].birth_date + ')';
                         if(passengers['infant'][x].identity_type)
@@ -6750,7 +6774,10 @@ function airline_detail(type){
 
                 if(passengers.hasOwnProperty('student')){
                     for(x in passengers['student']){
-                        $text += '- ' + passengers['student'][x].title + ' ' + passengers['student'][x].first_name + ' ' + passengers['student'][x].last_name;
+                        if(passengers['student'][x].hasOwnProperty('identity_first_name') && passengers['student'][x].identity_first_name != '' && passengers['student'][x].identity_first_name != undefined && passengers['student'][x].identity_first_name != false)
+                            $text += '• ' + passengers['student'][x].title + ' ' + passengers['student'][x].identity_first_name + ' ' + passengers['student'][x].identity_last_name;
+                        else
+                            $text += '- ' + passengers['student'][x].title + ' ' + passengers['student'][x].first_name + ' ' + passengers['student'][x].last_name;
                         if(passengers['student'][x].birth_date)
                             $text += ' (STU ' +  passengers['student'][x].birth_date + ')';
                         if(passengers['student'][x].identity_type){
@@ -6799,7 +6826,10 @@ function airline_detail(type){
 
                 if(passengers.hasOwnProperty('labour')){
                     for(x in passengers['labour']){
-                        $text += '- ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].first_name + ' ' + passengers['labour'][x].last_name;
+                        if(passengers['labour'][x].hasOwnProperty('identity_first_name') && passengers['labour'][x].identity_first_name != '' && passengers['labour'][x].identity_first_name != undefined && passengers['labour'][x].identity_first_name != false)
+                            $text += '• ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].identity_first_name + ' ' + passengers['labour'][x].identity_last_name;
+                        else
+                            $text += '- ' + passengers['labour'][x].title + ' ' + passengers['labour'][x].first_name + ' ' + passengers['labour'][x].last_name;
                         if(passengers['labour'][x].birth_date)
                             $text += ' (LBR ' +  passengers['labour'][x].birth_date + ')';
                         if(passengers['labour'][x].identity_type){
@@ -6848,7 +6878,10 @@ function airline_detail(type){
 
                 if(passengers.hasOwnProperty('seaman')){
                     for(x in passengers['seaman']){
-                        $text += '- ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].first_name + ' ' + passengers['seaman'][x].last_name;
+                        if(passengers['seaman'][x].hasOwnProperty('identity_first_name') && passengers['seaman'][x].identity_first_name != '' && passengers['seaman'][x].identity_first_name != undefined && passengers['seaman'][x].identity_first_name != false)
+                            $text += '• ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].identity_first_name + ' ' + passengers['seaman'][x].identity_last_name;
+                        else
+                            $text += '- ' + passengers['seaman'][x].title + ' ' + passengers['seaman'][x].first_name + ' ' + passengers['seaman'][x].last_name;
                         if(passengers['seaman'][x].birth_date)
                             $text += ' (SEA ' +  passengers['seaman'][x].birth_date + ')';
                         if(passengers['seaman'][x].identity_type){
@@ -7484,8 +7517,8 @@ function airline_detail(type){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -7506,7 +7539,7 @@ function airline_detail(type){
                                 price_breakdown['FARE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_convenience_fee;
+                                price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
                                 price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor * -1);
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
@@ -7523,11 +7556,16 @@ function airline_detail(type){
 
                 var breakdown_text = '';
                 for(j in price_breakdown){
-                    if(breakdown_text)
-                        breakdown_text += '<br/>';
-                    breakdown_text += '<b>'+j+'</b> ';
-                    if(j != 'BREAKDOWN')
+                    if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
                         breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                    }else if(j == 'BREAKDOWN'){
+                        if(breakdown_text)
+                            breakdown_text += '<br/>';
+                        breakdown_text += '<b>'+j+'</b> ';
+                    }
                 }
                 new jBox('Tooltip', {
                     attach: '#sub_total_price'+i,
@@ -7562,8 +7600,8 @@ function airline_detail(type){
                                     price_breakdown['TAX'] = 0;
                                 if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                                     price_breakdown['BREAKDOWN'] = 0;
-                                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                                    price_breakdown['CONVENIENCE FEE'] = 0;
+                                if(!price_breakdown.hasOwnProperty('UPSELL'))
+                                    price_breakdown['UPSELL'] = 0;
                                 if(!price_breakdown.hasOwnProperty('COMMISSION'))
                                     price_breakdown['COMMISSION'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AIRLINE'))
@@ -7584,7 +7622,7 @@ function airline_detail(type){
                                 price_breakdown['FARE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare_ori;
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax_ori;
                                 price_breakdown['BREAKDOWN'] = 0;
-                                price_breakdown['CONVENIENCE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_convenience_fee;
+                                price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
                                 price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor * -1);
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
@@ -7613,11 +7651,16 @@ function airline_detail(type){
             }
             var breakdown_text = '';
             for(j in price_breakdown){
-                if(breakdown_text)
-                    breakdown_text += '<br/>';
-                breakdown_text += '<b>'+j+'</b> ';
-                if(j != 'BREAKDOWN')
+                if(j != 'BREAKDOWN' && price_breakdown[j] != 0){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
                     breakdown_text += currency_breakdown + ' ' + getrupiah(price_breakdown[j]);
+                }else if(j == 'BREAKDOWN'){
+                    if(breakdown_text)
+                        breakdown_text += '<br/>';
+                    breakdown_text += '<b>'+j+'</b> ';
+                }
             }
             new jBox('Tooltip', {
                 attach: '#total_price',
@@ -7957,20 +8000,6 @@ function check_passenger(adult, child, infant, type=''){
     }catch(err){
 
     }
-    is_jeddah = false;
-    for(i in price_itinerary_temp){
-        for(j in price_itinerary_temp[i].journeys){
-            for(k in price_itinerary_temp[i].journeys[j].segments){
-                for(l in price_itinerary_temp[i].journeys[j].segments[k].legs){
-                    if(price_itinerary_temp[i].journeys[j].segments[k].legs[l].destination_country == "Saudi Arabia" ||
-                       price_itinerary_temp[i].journeys[j].segments[k].legs[l].origin_country == "Saudi Arabia"){
-                        is_jeddah = true;
-                        break;
-                    }
-                }
-            }
-        }
-    }
 
 
     if(document.getElementById('booker_title') != undefined){
@@ -8103,16 +8132,6 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
         }
 
-        // JEDDAH
-        if(is_jeddah){
-            name = document.getElementById('adult_first_name'+i).value;
-            if(document.getElementById('adult_last_name'+i).value)
-                name += ' ' + document.getElementById('adult_last_name'+i).value;
-            if(name.split(' ').length < 2){
-                error_log+= 'Minimum 2 word of adult name passenger '+i+' for destination Saudi Arabia!</br>\n';
-            }
-        }
-
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
 //       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
@@ -8150,6 +8169,27 @@ function check_passenger(adult, child, infant, type=''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                 });
+                if(document.getElementById('adult_identity_first_name'+i).value != '')
+                {
+                    if(check_name(document.getElementById('adult_title'+i).value,
+                        document.getElementById('adult_identity_first_name'+i).value,
+                        document.getElementById('adult_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+                }
+
 //               if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -8467,16 +8507,6 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }
 
-       // JEDDAH
-       if(is_jeddah){
-            name = document.getElementById('child_first_name'+i).value;
-            if(document.getElementById('child_last_name'+i).value)
-                name += ' ' + document.getElementById('child_last_name'+i).value;
-            if(name.split(' ').length < 2){
-                error_log+= 'Minimum 2 word of child name passenger '+i+' for destination Saudi Arabia!</br>\n';
-            }
-       }
-
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
 //       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
@@ -8511,6 +8541,26 @@ function check_passenger(adult, child, infant, type=''){
        if(document.getElementById('child_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('child_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('child_title'+i).value,
+                        document.getElementById('child_identity_first_name'+i).value,
+                        document.getElementById('child_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
 //               if(document.getElementById('child_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -8811,15 +8861,6 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }
 
-       // JEDDAH
-       if(is_jeddah){
-            name = document.getElementById('infant_first_name'+i).value;
-            if(document.getElementById('infant_last_name'+i).value)
-                name += ' ' + document.getElementById('infant_last_name'+i).value;
-            if(name.split(' ').length < 2){
-                error_log+= 'Minimum 2 word of infant name passenger '+i+' for destination Saudi Arabia!</br>\n';
-            }
-       }
 
        //check lastname
        // no check update 10 jan 2023 IVAN case A JAN
@@ -8855,6 +8896,26 @@ function check_passenger(adult, child, infant, type=''){
        if(document.getElementById('infant_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('infant_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('infant_title'+i).value,
+                        document.getElementById('infant_identity_first_name'+i).value,
+                        document.getElementById('infant_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
 //               if(document.getElementById('infant_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -9108,15 +9169,6 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('student_last_name'+i).style['border-color'] = '#EFEFEF';
            }
 
-           // JEDDAH
-           if(is_jeddah){
-                name = document.getElementById('student_first_name'+i).value;
-                if(document.getElementById('student_last_name'+i).value)
-                    name += ' ' + document.getElementById('student_last_name'+i).value;
-                if(name.split(' ').length < 2){
-                    error_log+= 'Minimum 2 word of student name passenger '+i+' for destination Saudi Arabia!</br>\n';
-                }
-           }
 
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
@@ -9152,6 +9204,26 @@ function check_passenger(adult, child, infant, type=''){
            if(document.getElementById('student_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('student_id_type'+i).value != ''){
                    document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
+                   if(document.getElementById('student_identity_first_name'+i).value != '')
+                   {
+                        if(check_name(document.getElementById('student_title'+i).value,
+                            document.getElementById('student_identity_first_name'+i).value,
+                            document.getElementById('student_identity_last_name'+i).value,
+                            length_name) == false){
+                           error_log+= 'Total of student '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
+                           document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
+                        }else if(check_word(document.getElementById('student_identity_first_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity first name of student passenger '+i+'!</br>\n';
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
+                        }else if(document.getElementById('student_identity_last_name'+i).value != '' && check_word(document.getElementById('student_identity_last_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity last name of student passenger '+i+'!</br>\n';
+                           document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                        }
+                   }
     //               if(document.getElementById('student_nationality'+i).value == 'Indonesia'){
     //                   //indonesia
     //                   if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -9456,15 +9528,6 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('seaman_last_name'+i).style['border-color'] = '#EFEFEF';
            }
 
-           // JEDDAH
-           if(is_jeddah){
-                name = document.getElementById('seaman_first_name'+i).value;
-                if(document.getElementById('seaman_last_name'+i).value)
-                    name += ' ' + document.getElementById('seaman_last_name'+i).value;
-                if(name.split(' ').length < 2){
-                    error_log+= 'Minimum 2 word of seaman name passenger '+i+' for destination Saudi Arabia!</br>\n';
-                }
-           }
 
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
@@ -9500,6 +9563,26 @@ function check_passenger(adult, child, infant, type=''){
            if(document.getElementById('seaman_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('seaman_id_type'+i).value != ''){
                    document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
+                   if(document.getElementById('seaman_identity_first_name'+i).value != '')
+                   {
+                        if(check_name(document.getElementById('seaman_title'+i).value,
+                            document.getElementById('seaman_identity_first_name'+i).value,
+                            document.getElementById('seaman_identity_last_name'+i).value,
+                            length_name) == false){
+                           error_log+= 'Total of seaman '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
+                           document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
+                        }else if(check_word(document.getElementById('seaman_identity_first_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity first name of seaman passenger '+i+'!</br>\n';
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
+                        }else if(document.getElementById('seaman_identity_last_name'+i).value != '' && check_word(document.getElementById('seaman_identity_last_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity last name of seaman passenger '+i+'!</br>\n';
+                           document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                        }
+                   }
     //               if(document.getElementById('seaman_nationality'+i).value == 'Indonesia'){
     //                   //indonesia
     //                   if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -9804,15 +9887,6 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('labour_last_name'+i).style['border-color'] = '#EFEFEF';
            }
 
-           // JEDDAH
-           if(is_jeddah){
-                name = document.getElementById('labour_first_name'+i).value;
-                if(document.getElementById('labour_last_name'+i).value)
-                    name += ' ' + document.getElementById('labour_last_name'+i).value;
-                if(name.split(' ').length < 2){
-                    error_log+= 'Minimum 2 word of labour name passenger '+i+' for destination Saudi Arabia!</br>\n';
-                }
-           }
 
            //check lastname
            // no check update 10 jan 2023 IVAN case A JAN
@@ -9848,6 +9922,26 @@ function check_passenger(adult, child, infant, type=''){
            if(document.getElementById('labour_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
                if(document.getElementById('labour_id_type'+i).value != ''){
                    document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
+                   if(document.getElementById('labour_identity_first_name'+i).value != '')
+                   {
+                        if(check_name(document.getElementById('labour_title'+i).value,
+                            document.getElementById('labour_identity_first_name'+i).value,
+                            document.getElementById('labour_identity_last_name'+i).value,
+                            length_name) == false){
+                           error_log+= 'Total of labour '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
+                           document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
+                        }else if(check_word(document.getElementById('labour_identity_first_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity first name of labour passenger '+i+'!</br>\n';
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
+                        }else if(document.getElementById('labour_identity_last_name'+i).value != '' && check_word(document.getElementById('labour_identity_last_name'+i).value) == false){
+                           error_log+= 'Please use alpha characters identity last name of labour passenger '+i+'!</br>\n';
+                           document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
+                        }else{
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                        }
+                   }
     //               if(document.getElementById('labour_nationality'+i).value == 'Indonesia'){
     //                   //indonesia
     //                   if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -10364,6 +10458,26 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                 });
+                if(document.getElementById('adult_identity_first_name'+i).value != '')
+                {
+                    if(check_name(document.getElementById('adult_title'+i).value,
+                        document.getElementById('adult_identity_first_name'+i).value,
+                        document.getElementById('adult_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+                }
                if(document.getElementById('adult_nationality'+i+'_id').value == 'ID'){
                    //indonesia
                    if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false' || is_provider_lionair == true && document.getElementById('adult_id_type'+i).value == 'ktp'){
@@ -10585,6 +10699,26 @@ function check_passenger_aftersales(adult, child, infant, type=''){
        if(document.getElementById('child_identity_div'+i).style.display == 'block'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('child_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('child_title'+i).value,
+                        document.getElementById('child_identity_first_name'+i).value,
+                        document.getElementById('child_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
+                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
                if(document.getElementById('child_nationality'+i+'_id').value == 'ID'){
                    //indonesia
                    if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -10791,6 +10925,26 @@ function check_passenger_aftersales(adult, child, infant, type=''){
        if(document.getElementById('infant_identity_div'+i).style.display == 'block'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('infant_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('infant_title'+i).value,
+                        document.getElementById('infant_identity_first_name'+i).value,
+                        document.getElementById('infant_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
                if(document.getElementById('infant_nationality'+i+'_id').value == 'ID'){
                    //indonesia
                    if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -11195,7 +11349,7 @@ function get_airline_review(){
                                             else if(passengers_ssr[i].title == "MISS"){
                                                 text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
                                             }
-                                        if(passengers_ssr[i].identity_first_name != '' && passengers_ssr[i].identity_first_name != undefined && passengers_ssr[i].identity_first_name != false)
+                                        if(passengers_ssr[i].hasOwnProperty('identity_first_name') && passengers_ssr[i].identity_first_name != '' && passengers_ssr[i].identity_first_name != undefined && passengers_ssr[i].identity_first_name != false)
                                         {
                                             temp_pax_first_name = passengers_ssr[i].identity_first_name;
                                             if(passengers_ssr[i].identity_last_name != undefined && passengers_ssr[i].identity_last_name != false)
@@ -11371,7 +11525,7 @@ function get_airline_review(){
                                     else if(passengers.infant[i].title == "MISS"){
                                         text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
                                     }
-                                if(passengers.infant[i].identity_first_name != '' && passengers.infant[i].identity_first_name != undefined && passengers.infant[i].identity_first_name != false)
+                                if(passengers.infant[i].hasOwnProperty('identity_first_name') && passengers.infant[i].identity_first_name != '' && passengers.infant[i].identity_first_name != undefined && passengers.infant[i].identity_first_name != false)
                                 {
                                     temp_inf_first_name = passengers.infant[i].identity_first_name;
                                     if(passengers.infant[i].identity_last_name != undefined && passengers.infant[i].identity_last_name != false)
