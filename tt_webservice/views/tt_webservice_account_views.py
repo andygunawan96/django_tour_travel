@@ -1677,7 +1677,9 @@ def get_va_number(request):
             new_other_bank = []
             if res['result']['response'].get('other'):
                 for rec in res['result']['response']['other']:
-                    if rec['active'] == 'true':
+                    if not rec.get('active'):
+                        new_other_bank.append(rec)
+                    elif rec['active'] == 'true':
                         new_other_bank.append(rec)
             if new_other_bank:
                 res['result']['response']['other'] = new_other_bank
