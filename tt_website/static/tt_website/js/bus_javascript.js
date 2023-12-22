@@ -668,14 +668,14 @@ function sort(value){
                 var currency_breakdown = '';
                 for(j in data_filter[i].fares){
                     for(k in data_filter[i].fares[j].service_charge_summary){
-                        price_breakdown['FARE'] = data_filter[i].fares[j].service_charge_summary[k].base_fare_ori;
-                        price_breakdown['TAX'] = data_filter[i].fares[j].service_charge_summary[k].base_tax_ori;
+                        price_breakdown['FARE'] = data_filter[i].fares[j].service_charge_summary[k].base_fare;
+                        price_breakdown['TAX'] = data_filter[i].fares[j].service_charge_summary[k].base_tax;
 //                        price_breakdown['BREAKDOWN'] = 0;
 //                        price_breakdown['COMMISSION'] = (data_filter[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
 //                        price_breakdown['NTA TRAIN'] = data_filter[i].fares[j].service_charge_summary[k].base_nta_vendor;
 //                        price_breakdown['SERVICE FEE'] = data_filter[i].fares[j].service_charge_summary[k].base_fee_ho;
 //                        price_breakdown['VAT'] = data_filter[i].fares[j].service_charge_summary[k].base_vat_ho;
-//                        price_breakdown['OTT'] = data_filter[i].fares[j].service_charge_summary[k].base_price_ori;
+//                        price_breakdown['OTT'] = data_filter[i].fares[j].service_charge_summary[k].base_price_ott;
 //                        price_breakdown['TOTAL PRICE'] = data_filter[i].fares[j].service_charge_summary[k].base_price;
 //                        price_breakdown['NTA AGENT'] = data_filter[i].fares[j].service_charge_summary[k].base_nta;
 //                        if(user_login.co_agent_frontend_security.includes('agent_ho'))
@@ -901,14 +901,14 @@ function bus_ticket_pick(){
             var currency_breakdown = '';
             for(j in journeys[i].fares){
                 for(k in journeys[i].fares[j].service_charge_summary){
-                    price_breakdown['FARE'] = journeys[i].fares[j].service_charge_summary[k].base_fare_ori;
-                    price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax_ori;
+                    price_breakdown['FARE'] = journeys[i].fares[j].service_charge_summary[k].base_fare;
+                    price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax;
 //                    price_breakdown['BREAKDOWN'] = 0;
 //                    price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
 //                    price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
 //                    price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
 //                    price_breakdown['VAT'] = journeys[i].fares[j].service_charge_summary[k].base_vat_ho;
-//                    price_breakdown['OTT'] = journeys[i].fares[j].service_charge_summary[k].base_price_ori;
+//                    price_breakdown['OTT'] = journeys[i].fares[j].service_charge_summary[k].base_price_ott;
 //                    price_breakdown['TOTAL PRICE'] = journeys[i].fares[j].service_charge_summary[k].base_price;
 //                    price_breakdown['NTA AGENT'] = journeys[i].fares[j].service_charge_summary[k].base_nta;
 //                    if(user_login.co_agent_frontend_security.includes('agent_ho'))
@@ -1269,15 +1269,15 @@ function bus_get_detail(){
                     if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                         price_breakdown['COMMISSION HO'] = 0;
 
-                    price_breakdown['FARE'] += journeys[i].fares[j].service_charge_summary[k].total_fare_ori;
-                    price_breakdown['TAX'] += journeys[i].fares[j].service_charge_summary[k].total_tax_ori;
+                    price_breakdown['FARE'] += journeys[i].fares[j].service_charge_summary[k].total_fare;
+                    price_breakdown['TAX'] += journeys[i].fares[j].service_charge_summary[k].total_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += journeys[i].fares[j].service_charge_summary[k].total_upsell;
                     price_breakdown['COMMISSION'] += (journeys[i].fares[j].service_charge_summary[k].total_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += journeys[i].fares[j].service_charge_summary[k].total_nta_vendor;
                     price_breakdown['SERVICE FEE'] += journeys[i].fares[j].service_charge_summary[k].total_fee_ho;
                     price_breakdown['VAT'] += journeys[i].fares[j].service_charge_summary[k].total_vat_ho;
-                    price_breakdown['OTT'] += journeys[i].fares[j].service_charge_summary[k].total_price_ori;
+                    price_breakdown['OTT'] += journeys[i].fares[j].service_charge_summary[k].total_price_ott;
                     price_breakdown['TOTAL PRICE'] += journeys[i].fares[j].service_charge_summary[k].total_price;
                     price_breakdown['NTA AGENT'] += journeys[i].fares[j].service_charge_summary[k].total_nta;
                     if(user_login.co_agent_frontend_security.includes('agent_ho'))
@@ -1783,15 +1783,15 @@ function bus_detail(){
                         price_breakdown['NTA AGENT'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                         price_breakdown['COMMISSION HO'] = 0;
-                    price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare_ori;
-                    price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax_ori;
+                    price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare;
+                    price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += train_data[i].fares[j].service_charge_summary[k].base_upsell;
                     price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += train_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_fee_ho;
                     price_breakdown['VAT'] += train_data[i].fares[j].service_charge_summary[k].base_vat_ho;
-                    price_breakdown['OTT'] += train_data[i].fares[j].service_charge_summary[k].base_price_ori;
+                    price_breakdown['OTT'] += train_data[i].fares[j].service_charge_summary[k].base_price_ott;
                     price_breakdown['TOTAL PRICE'] += train_data[i].fares[j].service_charge_summary[k].base_price;
                     price_breakdown['NTA AGENT'] += train_data[i].fares[j].service_charge_summary[k].base_nta;
                     if(user_login.co_agent_frontend_security.includes('agent_ho'))

@@ -514,15 +514,15 @@ function activity_table_detail(){
             if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                 price_breakdown['COMMISSION HO'] = 0;
 
-            price_breakdown['FARE'] += activity_date.service_charge_summary[i].total_fare_ori;
-            price_breakdown['TAX'] += activity_date.service_charge_summary[i].total_tax_ori;
+            price_breakdown['FARE'] += activity_date.service_charge_summary[i].total_fare;
+            price_breakdown['TAX'] += activity_date.service_charge_summary[i].total_tax;
             price_breakdown['BREAKDOWN'] = 0;
             price_breakdown['UPSELL'] += (activity_date.service_charge_summary[i].total_upsell * -1);
             price_breakdown['COMMISSION'] += (activity_date.service_charge_summary[i].total_commission_vendor * -1);
             price_breakdown['NTA ACTIVITY'] += activity_date.service_charge_summary[i].total_nta_vendor;
             price_breakdown['SERVICE FEE'] += activity_date.service_charge_summary[i].total_fee_ho;
             price_breakdown['VAT'] += activity_date.service_charge_summary[i].total_vat_ho;
-            price_breakdown['OTT'] += activity_date.service_charge_summary[i].total_price_ori;
+            price_breakdown['OTT'] += activity_date.service_charge_summary[i].total_price_ott;
             price_breakdown['TOTAL PRICE'] += activity_date.service_charge_summary[i].total_price;
             price_breakdown['NTA AGENT'] += activity_date.service_charge_summary[i].total_nta;
             if(user_login.co_agent_frontend_security.includes('agent_ho'))
@@ -924,15 +924,15 @@ function activity_table_detail2(pagetype){
             if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                 price_breakdown['COMMISSION HO'] = 0;
 
-            price_breakdown['FARE'] += price.service_charge_summary[i].total_fare_ori;
-            price_breakdown['TAX'] += price.service_charge_summary[i].total_tax_ori;
+            price_breakdown['FARE'] += price.service_charge_summary[i].total_fare;
+            price_breakdown['TAX'] += price.service_charge_summary[i].total_tax;
             price_breakdown['BREAKDOWN'] = 0;
             price_breakdown['UPSELL'] += price.service_charge_summary[i].total_upsell;
             price_breakdown['COMMISSION'] += (price.service_charge_summary[i].total_commission_vendor * -1);
             price_breakdown['NTA ACTIVITY'] += price.service_charge_summary[i].total_nta_vendor;
             price_breakdown['SERVICE FEE'] += price.service_charge_summary[i].total_fee_ho;
             price_breakdown['VAT'] += price.service_charge_summary[i].total_vat_ho;
-            price_breakdown['OTT'] += price.service_charge_summary[i].total_price_ori;
+            price_breakdown['OTT'] += price.service_charge_summary[i].total_price_ott;
             price_breakdown['TOTAL PRICE'] += price.service_charge_summary[i].total_price;
             price_breakdown['NTA AGENT'] += price.service_charge_summary[i].total_nta;
             if(user_login.co_agent_frontend_security.includes('agent_ho'))
