@@ -1697,10 +1697,9 @@ function hotel_room_pick(key, key2){
     text_pick_footer += `
     <div class="row" style="padding-top:10px;">
         <div class="col-lg-6 col-md-6 col-sm-6">`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text_pick_footer += `<input class="primary-btn-white" id="show_commission_button" style="width:100%; margin-bottom:10px;" type="button" onclick="show_commission_hotel();" value="Show YPM"/>`;
+//        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//            text_pick_footer += `<input class="primary-btn-white" id="show_commission_button" style="width:100%; margin-bottom:10px;" type="button" onclick="show_commission_hotel();" value="Show YPM"/>`;
         text_pick_footer+=`</div>`;
-
         if(agent_security.includes('book_reservation') == true){
             text_pick_footer += `
             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1742,7 +1741,7 @@ function hotel_room_pick(key, key2){
     </div>`;
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-        text_pick_footer += print_commission(hotel_room.rooms[i].commission*-1,'show_commission_hotel', hotel_room.currency)
+        text_pick_footer += print_commission(hotel_room.rooms[i].commission*-1,'show_commission', hotel_room.currency)
     }
     document.getElementById('hotel_detail_button').innerHTML = text_pick_footer;
 
@@ -2529,7 +2528,7 @@ function hotel_detail(old_cancellation_policy){
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<br/>`;
-        text+= print_commission(commission,'show_commission_hotel', hotel_price.currency)
+        text+= print_commission(commission,'show_commission', hotel_price.currency)
     }
 
     text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
@@ -2550,10 +2549,10 @@ function hotel_detail(old_cancellation_policy){
                 <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
         }
     text +=`</div></div><div class="row">`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-        text += `<div class="col-lg-12">
-            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show YPM"/>
-        </div>`;
+//    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//        text += `<div class="col-lg-12">
+//            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show YPM"/>
+//        </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">

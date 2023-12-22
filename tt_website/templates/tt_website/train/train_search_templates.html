@@ -374,7 +374,7 @@
                                                             <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="{{train_request.adult}}" min="1" readonly>
                                                             <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
@@ -394,7 +394,7 @@
                                                             <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
                                                             <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                                 <i class="fas fa-plus"></i>
                                                             </button>
@@ -436,7 +436,7 @@
                                 <div class="col-lg-4" id="train_date_search">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                        <input type="text" class="form-control" style="background:white;" id="train_departure_return" name="train_departure_return" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
                                     </div>
                                 </div>
                             </div>
@@ -1382,6 +1382,7 @@
     {% endfor %}
 
     $(document).ready(function () {
+
         //new jBox('Tooltip', {
         //   attach: '#button_copy_train',
         //    theme: 'TooltipBorder',
