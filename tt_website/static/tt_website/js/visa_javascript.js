@@ -1114,8 +1114,8 @@ function update_table_new(type){
                         price_breakdown['FARE'] = 0;
                     if(!price_breakdown.hasOwnProperty('TAX'))
                         price_breakdown['TAX'] = 0;
-                    price_breakdown['FARE'] += visa[i].service_charge_summary[j].base_fare_ori * pax_count;
-                    price_breakdown['TAX'] += visa[i].service_charge_summary[j].base_tax_ori * pax_count;
+                    price_breakdown['FARE'] += visa[i].service_charge_summary[j].base_fare * pax_count;
+                    price_breakdown['TAX'] += visa[i].service_charge_summary[j].base_tax * pax_count;
                     if(currency_breakdown == ''){
                         for(k in visa[i].service_charge_summary[j].service_charges){
                             currency_breakdown = visa[i].service_charge_summary[j].service_charges[k].currency;
@@ -1151,15 +1151,15 @@ function update_table_new(type){
                             price_breakdown['NTA AGENT'] = 0;
                         if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                             price_breakdown['COMMISSION HO'] = 0;
-                        price_breakdown['FARE'] += sell_visa.search_data[i].service_charge_summary[j].base_fare_ori;
-                        price_breakdown['TAX'] += sell_visa.search_data[i].service_charge_summary[j].base_tax_ori;
+                        price_breakdown['FARE'] += sell_visa.search_data[i].service_charge_summary[j].base_fare;
+                        price_breakdown['TAX'] += sell_visa.search_data[i].service_charge_summary[j].base_tax;
                         price_breakdown['BREAKDOWN'] = 0;
                         price_breakdown['UPSELL'] += sell_visa.search_data[i].service_charge_summary[j].base_upsell;
                         price_breakdown['COMMISSION'] += (sell_visa.search_data[i].service_charge_summary[j].base_commission_vendor * -1);
                         price_breakdown['NTA VISA'] += sell_visa.search_data[i].service_charge_summary[j].base_nta_vendor;
                         price_breakdown['SERVICE FEE'] += sell_visa.search_data[i].service_charge_summary[j].base_fee_ho;
                         price_breakdown['VAT'] += sell_visa.search_data[i].service_charge_summary[j].base_vat_ho;
-                        price_breakdown['OTT'] += sell_visa.search_data[i].service_charge_summary[j].base_price_ori;
+                        price_breakdown['OTT'] += sell_visa.search_data[i].service_charge_summary[j].base_price_ott;
                         price_breakdown['TOTAL PRICE'] += sell_visa.search_data[i].service_charge_summary[j].base_price;
                         price_breakdown['NTA AGENT'] += sell_visa.search_data[i].service_charge_summary[j].base_nta;
                         price_breakdown['COMMISSION HO'] += sell_visa.search_data[i].service_charge_summary[j].base_commission_ho * -1;
@@ -1202,15 +1202,15 @@ function update_table_new(type){
                     if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                         price_breakdown['CHANNEL UPSELL'] = 0;
 
-                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                     price_breakdown['TOTAL PRICE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                     price_breakdown['NTA AGENT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                     price_breakdown['COMMISSION HO'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -1293,15 +1293,15 @@ function update_table_new(type){
                     if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                         price_breakdown['CHANNEL UPSELL'] = 0;
 
-                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                     price_breakdown['TOTAL PRICE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                     price_breakdown['NTA AGENT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                     price_breakdown['COMMISSION HO'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -1384,15 +1384,15 @@ function update_table_new(type){
                     if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                         price_breakdown['CHANNEL UPSELL'] = 0;
 
-                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                    price_breakdown['FARE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                    price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                     price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                    price_breakdown['OTT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                     price_breakdown['TOTAL PRICE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                     price_breakdown['NTA AGENT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                     price_breakdown['COMMISSION HO'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
