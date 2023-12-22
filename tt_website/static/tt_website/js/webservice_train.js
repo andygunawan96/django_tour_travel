@@ -1884,15 +1884,15 @@ function train_get_booking(data){
                             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                 price_breakdown['COMMISSION HO'] = 0;
 
-                            price_breakdown['FARE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                            price_breakdown['TAX'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['FARE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                            price_breakdown['TAX'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['CONVENIENCE FEE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                             price_breakdown['COMMISSION'] = (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA TRAIN'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                            price_breakdown['OTT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['OTT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                             price_breakdown['TOTAL PRICE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                             price_breakdown['NTA AGENT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                             price_breakdown['COMMISSION HO'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -1976,15 +1976,15 @@ function train_get_booking(data){
                             if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                 price_breakdown['CHANNEL UPSELL'] = 0;
 
-                            price_breakdown['FARE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                            price_breakdown['TAX'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['FARE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                            price_breakdown['TAX'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['CONVENIENCE FEE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                             price_breakdown['COMMISSION'] += (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA TRAIN'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                            price_breakdown['OTT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['OTT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                             price_breakdown['TOTAL PRICE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                             price_breakdown['NTA AGENT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                             price_breakdown['COMMISSION HO'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
