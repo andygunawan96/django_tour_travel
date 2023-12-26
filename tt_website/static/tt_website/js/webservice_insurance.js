@@ -2008,7 +2008,7 @@ function price_detail(){
                 price_breakdown['TOTAL PRICE'] = 0;
             if(!price_breakdown.hasOwnProperty('NTA AGENT'))
                 price_breakdown['NTA AGENT'] = 0;
-            if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+            if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                 price_breakdown['COMMISSION HO'] = 0;
             price_breakdown['FARE'] += insurance_pick.service_charge_summary[i].total_fare;
             price_breakdown['TAX'] += insurance_pick.service_charge_summary[i].total_tax;
@@ -2021,7 +2021,8 @@ function price_detail(){
             price_breakdown['OTT'] += insurance_pick.service_charge_summary[i].total_price_ott;
             price_breakdown['TOTAL PRICE'] += insurance_pick.service_charge_summary[i].total_price;
             price_breakdown['NTA AGENT'] += insurance_pick.service_charge_summary[i].total_nta;
-            price_breakdown['COMMISSION HO'] += insurance_pick.service_charge_summary[i].total_commission_ho * -1;
+            if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                price_breakdown['COMMISSION HO'] += insurance_pick.service_charge_summary[i].total_commission_ho * -1;
             if(currency_breakdown == ''){
                 for(j in insurance_pick.service_charge_summary[i].service_charges){
                     currency_breakdown = insurance_pick.service_charge_summary[i].service_charges[j].currency;
@@ -3653,7 +3654,7 @@ function insurance_get_booking(data, sync=false){
                                     price_breakdown['TOTAL PRICE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AGENT'))
                                     price_breakdown['NTA AGENT'] = 0;
-                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                                     price_breakdown['COMMISSION HO'] = 0;
                                 if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                     price_breakdown['CHANNEL UPSELL'] = 0;
@@ -3669,7 +3670,8 @@ function insurance_get_booking(data, sync=false){
                                 price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
-                                price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                                    price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
                                 for(k in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
                                     if(k == 'ROC'){
                                         for(l in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
@@ -3743,7 +3745,7 @@ function insurance_get_booking(data, sync=false){
                                     price_breakdown['TOTAL PRICE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AGENT'))
                                     price_breakdown['NTA AGENT'] = 0;
-                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                                     price_breakdown['COMMISSION HO'] = 0;
                                 if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                     price_breakdown['CHANNEL UPSELL'] = 0;
@@ -3759,7 +3761,8 @@ function insurance_get_booking(data, sync=false){
                                 price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
-                                price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                                    price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
                                 for(k in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
                                     if(k == 'ROC'){
                                         for(l in insurance_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){
