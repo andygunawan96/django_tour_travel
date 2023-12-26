@@ -1781,7 +1781,7 @@ function bus_detail(){
                         price_breakdown['TOTAL PRICE'] = 0;
                     if(!price_breakdown.hasOwnProperty('NTA AGENT'))
                         price_breakdown['NTA AGENT'] = 0;
-                    if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                    if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                         price_breakdown['COMMISSION HO'] = 0;
                     price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare;
                     price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax;
