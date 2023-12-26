@@ -1315,7 +1315,7 @@ function train_detail(){
             for(j in train_data[i].fares){
                 for(k in train_data[i].fares[j].service_charge_summary){
                     provider_price['fare'] = train_data[i].fares[j].service_charge_summary[k].total_fare;
-                    provider_price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax;
+                    provider_price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
                     provider_price['rac'] = train_data[i].fares[j].service_charge_summary[k].total_commission;
                     if(provider_price['currency'] != '')
                         provider_price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[0].currency;
@@ -1432,14 +1432,14 @@ function train_detail(){
         };
         for(j in train_data[i].fares){
             for(k in train_data[i].fares[j].service_charge_summary){
-                price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax;
+                price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
                 price['fare'] = train_data[i].fares[j].service_charge_summary[k].base_fare;
                 for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
                     if(l == 0)
                         price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
                     break;
                 }
-                total_tax += train_data[i].fares[j].service_charge_summary[k].total_tax;
+                total_tax += train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
                 total_commission += train_data[i].fares[j].service_charge_summary[k].total_commission*-1;
                 if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
                     total_price += price['fare'] * parseInt(adult);
