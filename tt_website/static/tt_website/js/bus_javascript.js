@@ -1427,7 +1427,7 @@ function bus_detail(){
             for(j in bus_data[i].fares){
                 for(k in bus_data[i].fares[j].service_charge_summary){
                     provider_price['fare'] = bus_data[i].fares[j].service_charge_summary[k].total_fare;
-                    provider_price['tax'] = bus_data[i].fares[j].service_charge_summary[k].total_tax;
+                    provider_price['tax'] = bus_data[i].fares[j].service_charge_summary[k].total_tax + bus_data[i].fares[j].service_charge_summary[k].total_upsell;
                     provider_price['rac'] = bus_data[i].fares[j].service_charge_summary[k].total_commission;
                     if(provider_price['currency'] != '')
                         provider_price['currency'] = bus_data[i].fares[j].service_charge_summary[k].service_charges[0].currency;
