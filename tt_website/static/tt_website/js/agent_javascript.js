@@ -583,28 +583,11 @@ function set_radio_payment(type){
 
 function toggle_corpor_mode_div(prov_type){
     if(document.getElementById('checkbox_corpor_mode_'+prov_type).checked == true){
-        if(typeof(agent_corpor_data) === 'undefined'){
-            get_corpor_list(prov_type);
-        }
-        else
-        {
-            text = ``;
-            for(i in agent_corpor_data){
-                text += `<option value="`+i+`">`+agent_corpor_data[i].name+`</option>`;
-            }
-            document.getElementById(prov_type+'_corpor_select').innerHTML = text;
-            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
-            $('#'+prov_type+'_corpor_select').select2();
-            if(text != '')
-            {
-                render_corbooker_list(prov_type);
-            }
-            document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
-            if(prov_type == 'airline'){
-                document.getElementById('div_checkbox_promo_code_airline').style.display = 'none';
-                document.getElementById('promo_code_airline').style.display = 'none';
-                document.getElementById('div_osi_code_airline').style.display = 'inline-flex';
-            }
+        document.getElementById('div_corpor_mode_'+prov_type).style.display = "block";
+        if(prov_type == 'airline'){
+            document.getElementById('div_checkbox_promo_code_airline').style.display = 'none';
+            document.getElementById('promo_code_airline').style.display = 'none';
+            document.getElementById('div_osi_code_airline').style.display = 'inline-flex';
         }
     }
     else{
@@ -618,8 +601,8 @@ function toggle_corpor_mode_div(prov_type){
 }
 
 function render_corbooker_list(prov_type){
-    var cor_selection = document.getElementById(prov_type+'_corpor_select');
-    var cor_sel_value = cor_selection.options[cor_selection.selectedIndex].value;
+    var cor_selection = document.getElementById(prov_type+'_corpor_select').value;
+    var cor_sel_value = cor_selection.split(' - ')[0];
     document.getElementById(prov_type+'_corpor_select_post').value = cor_sel_value;
     text = ``;
     for(i in agent_corpor_data[cor_sel_value].booker_data){
