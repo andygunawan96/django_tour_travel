@@ -4029,26 +4029,28 @@ function sort(){
                                     }
                                     if(breakdown_price_list_jbox.length == i)
                                         breakdown_price_list_jbox[i] = [];
-                                    breakdown_price_list_jbox[i][0] = new jBox('Tooltip', {
-                                        attach: '#more_fare'+i,
-                                        target: '#more_fare'+i,
-                                        theme: 'TooltipBorder',
-                                        trigger: 'click',
-                                        adjustTracker: true,
-                                        closeOnClick: 'body',
-                                        closeButton: 'box',
-                                        animation: 'move',
-                                        position: {
-                                          x: 'left',
-                                          y: 'top'
-                                        },
-                                        outside: 'y',
-                                        pointer: 'left:20',
-                                        offset: {
-                                          x: 25
-                                        },
-                                        content: breakdown_text
-                                    });
+                                    try{
+                                        breakdown_price_list_jbox[i][0] = new jBox('Tooltip', {
+                                            attach: '#more_fare'+i,
+                                            target: '#more_fare'+i,
+                                            theme: 'TooltipBorder',
+                                            trigger: 'click',
+                                            adjustTracker: true,
+                                            closeOnClick: 'body',
+                                            closeButton: 'box',
+                                            animation: 'move',
+                                            position: {
+                                              x: 'left',
+                                              y: 'top'
+                                            },
+                                            outside: 'y',
+                                            pointer: 'left:20',
+                                            offset: {
+                                              x: 25
+                                            },
+                                            content: breakdown_text
+                                        });
+                                    }catch(err){console.log(err)}
                                     try{
                                         breakdown_price_list_jbox[i][1] = new jBox('Tooltip', {
                                             attach: '#more_fare_fd'+i,
@@ -4070,7 +4072,7 @@ function sort(){
                                             },
                                             content: breakdown_text
                                         });
-                                    }catch(err){}
+                                    }catch(err){console.log(err)}
                                 }
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3

@@ -1131,7 +1131,7 @@ function train_get_booking(data){
                                                }
                                            }
                                        }
-                                   }
+                                    }
                                     //yang baru harus diganti
 
                                     $text += msg.result.response.provider_bookings[i].journeys[j].carrier_name+'\n';

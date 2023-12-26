@@ -5061,16 +5061,11 @@ function draw_get_price_itinerary(){
             is_roundtrip_combo = true;
     }
     for(i in get_price_airline_response.result.response.price_itinerary_provider){
-        airline_price.push({});
         for(j in get_price_airline_response.result.response.price_itinerary_provider[i].journeys){
             for(k in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments){
                 for(l in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-                    if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary.length != 0){
-                        if(check_journey != j || check_provider != i){
-                            check_journey = j;
-                            check_provider = i;
-                        }
-                    }
+                    if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary.length > 0)
+                        airline_price.push({});
                     for(m in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary){
                         price_type = {
                             'fare': 0,
@@ -5079,7 +5074,6 @@ function draw_get_price_itinerary(){
                             'roc':  0,
                             'disc':  0,
                         }
-
                         for(n in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                             if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare karena yg lain pax count bisa beda
                                 price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
@@ -5094,34 +5088,6 @@ function draw_get_price_itinerary(){
                         airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                         total_discount += airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type].hasOwnProperty('disc') ? airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type]['disc'] : 0
                         price_type = [];
-
-//                        for(n in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-//                            if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare karena yg lain pax count bisa beda
-//                                price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
-//                            else
-//                                price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].total;
-//                            if(price_type.hasOwnProperty('currency') == false)
-//                                price_type['currency'] = get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
-//                        }
-
-//                        for(n in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-////                            if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare saja yang lain ambil total karena pax count bisa beda
-////                                price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
-////                            else
-////                                price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount * get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].pax_count;
-//                            if(price_type.hasOwnProperty('currency') == false)
-//                                price_type['currency'] = get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
-//                        }
-//                        if(airline_price[airline_price.length-1].hasOwnProperty(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type) == false)
-//                            airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
-//                        else{
-//                            airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type]['fare'] += price_type.hasOwnProperty('fare') ? price_type['fare'] : 0;
-//                            airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type]['tax'] += price_type.hasOwnProperty('tax') ? price_type['tax'] : 0;
-//                            airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type]['rac'] += price_type.hasOwnProperty('rac') ? price_type['rac'] : 0;
-//                            airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type]['roc'] += price_type.hasOwnProperty('roc') ? price_type['roc'] : 0;
-//                            airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type]['disc'] += price_type.hasOwnProperty('disc') ? price_type['disc'] : 0;
-//                        }
-//                        price_type = {};
                     }
                 }
             }
