@@ -2144,7 +2144,7 @@ function print_commission(commission,id,currency='IDR',id_span=''){
     print_commission_text+=`
     <div class="row">
         <div class="col-lg-12">
-            <div class="alert alert-success" style="margin-bottom:5px;">
+            <div class="alert alert-success">
                 <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('`+id+`');">
                     <span>YPM </span>
                     <span id="`+id+`_button">`;

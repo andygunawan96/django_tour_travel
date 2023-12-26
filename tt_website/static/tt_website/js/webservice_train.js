@@ -894,8 +894,8 @@ function train_get_booking(data){
                 //rebooking
                 if(msg.result.response.hasOwnProperty('rebooking') && msg.result.response.rebooking){
                     document.getElementById('reorder_div').innerHTML = `
-                    <button type="button" id="button-re-order" class="primary-btn-white" onclick="create_new_reservation();">
-                        Re Order <i class="fas fa-redo-alt"></i>
+                    <button type="button" id="button-re-order" class="primary-btn-white mr-1" onclick="create_new_reservation();" data-toggle="modal" data-target="#myModalReOrder">
+                        <i class="fas fa-train"></i> Re Order
                     </button>`;
                 }
 
@@ -925,252 +925,274 @@ function train_get_booking(data){
                 if(msg.result.response.state == 'booked')
                     $text += 'Hold Date:\n';
                 text += `
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3">
-                                <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
-                            </h4>
-                        </div>
-                    </div>
-                    <table style="width:100%;">
-                        <tr>
-                            <th>PNR</th>`;
-                            if(msg.result.response.state == 'booked')
-                                text+=`<th>Hold Date</th>`;
-                            text+=`
-                            <th>Status</th>
-                        </tr>`;
-                        for(i in msg.result.response.provider_bookings){
-                            //datetime utc to local
-                            if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.state != 'issued')
-                                text += `<div class="alert alert-danger">
-                                    `+msg.result.response.provider_bookings[i].error_msg+`
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
-                                </div>`;
-                            if(msg.result.response.provider_bookings[i].hold_date != false || msg.result.response.provider_bookings[i].hold_date != ''){
-                                tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
-                                var localTime  = moment.utc(tes).toDate();
-                                data_gmt = moment(msg.result.response.provider_bookings[i].hold_date)._d.toString().split(' ')[5];
-                                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                                timezone = data_gmt.replace (/[^\d.]/g, '');
-                                timezone = timezone.split('')
-                                timezone = timezone.filter(item => item !== '0')
-                                msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-                            }
-                            //
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                $text += msg.result.response.provider_bookings[i].pnr;
-                            else
-                                $text += '-';
-                            if(msg.result.response.state == 'booked')
-                                $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
-                            else
-                                $text += '\n';
-                            text+=`<tr>`;
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                            text+=`
-                                <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
-                            else
-                                text+=`<td> - </td>`;
-                            if(msg.result.response.state == 'booked')
-                                text+=`<td>`+msg.result.response.hold_date+`</td>`;
-                            text+=`
-                                <td id='pnr'>`;
-                            if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
-                                msg.result.response.provider_bookings[i].state_description == 'Booking Failed' ||
-                                msg.result.response.provider_bookings[i].state_description == 'Cancelled'){
-                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
-                            }
-                            else if(msg.result.response.provider_bookings[i].state_description == 'Booked'){
-                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
-                            }
-                            else if(msg.result.response.provider_bookings[i].state_description == 'Issued'){
-                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
-                            }
-                            else{
-                                text+=`<span>`;
-                            }
-                            text+=`
-                                    `+msg.result.response.provider_bookings[i].state_description+`
-                                </span>
-                                </td>
-                            </tr>`;
-                        }
-                        $text +='\n';
-                text+=`</table>
-                    <hr/>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                    text+=`
+                <div class="mb-3" id="airline_booking_order_number">
+                    <div class="div_box_default">
                         <div class="row">
-                            <div class="col-lg-6">
-                                <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                            </div>`;
-                    if(msg.result.response.customer_parent_name){
-                        text+=`
-                            <div class="col-lg-6">
-                                <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                            </div>`;
-                    }
-                    text+= `</div>`;
-                }
-                text+=`
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h6>Booked</h6>
-                            <span>Date: <b>`;
-                                if(msg.result.response.booked_date != ""){
-                                    text+=``+msg.result.response.booked_date+``;
-                                }else{
-                                    text+=`-`
-                                }
-                                text+=`</b>
-                            </span>
-                            <br/>
-                            <span>by <b>`+msg.result.response.booked_by+`</b><span>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h4 style="margin-bottom:15px;">
+                                            <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                                        </h4>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <table class="list-of-table" style="width:100%; background:white;">
+                                            <tr>
+                                                <th>PNR</th>`;
+                                                if(msg.result.response.state == 'booked')
+                                                    text+=`<th>Hold Date</th>`;
+                                                text+=`
+                                                <th>Status</th>
+                                            </tr>`;
+                                            for(i in msg.result.response.provider_bookings){
+                                                //datetime utc to local
+                                                if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.state != 'issued')
+                                                    text += `<div class="alert alert-danger">
+                                                        `+msg.result.response.provider_bookings[i].error_msg+`
+                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
+                                                    </div>`;
+                                                if(msg.result.response.provider_bookings[i].hold_date != false || msg.result.response.provider_bookings[i].hold_date != ''){
+                                                    tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
+                                                    var localTime  = moment.utc(tes).toDate();
+                                                    data_gmt = moment(msg.result.response.provider_bookings[i].hold_date)._d.toString().split(' ')[5];
+                                                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                                                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                                                    timezone = timezone.split('')
+                                                    timezone = timezone.filter(item => item !== '0')
+                                                    msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                                                }
+                                                //
+                                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                                    $text += msg.result.response.provider_bookings[i].pnr;
+                                                else
+                                                    $text += '-';
+                                                if(msg.result.response.state == 'booked')
+                                                    $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
+                                                else
+                                                    $text += '\n';
+                                                text+=`<tr>`;
+                                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                                text+=`
+                                                    <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
+                                                else
+                                                    text+=`<td> - </td>`;
+                                                if(msg.result.response.state == 'booked')
+                                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
+                                                text+=`
+                                                    <td id='pnr'>`;
+                                                if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                                    msg.result.response.provider_bookings[i].state_description == 'Booking Failed' ||
+                                                    msg.result.response.provider_bookings[i].state_description == 'Cancelled'){
+                                                    text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                                }
+                                                else if(msg.result.response.provider_bookings[i].state_description == 'Booked'){
+                                                    text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                                }
+                                                else if(msg.result.response.provider_bookings[i].state_description == 'Issued'){
+                                                    text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                                }
+                                                else{
+                                                    text+=`<span>`;
+                                                }
+                                                text+=`
+                                                        `+msg.result.response.provider_bookings[i].state_description+`
+                                                    </span>
+                                                    </td>
+                                                </tr>`;
+                                            }
+                                            $text +='\n';
+                                        text+=`
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-lg-6 mb-3">`;
-                            if(msg.result.response.state == 'issued'){
-                                text+=`<h6>Issued</h6>
-                                    <span>Date: <b>`;
-                                    if(msg.result.response.issued_date != ""){
-                                        text+=``+msg.result.response.issued_date+``;
-                                    }else{
-                                        text+=`-`
-                                    }
-                                text+=`</b>
-                                </span>
-                                <br/>
-                                <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                            }
-                            text+=`
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">`;
+                                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                                text+=`
+                                                <div class="col-lg-6">
+                                                    <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                                </div>`;
+                                                if(msg.result.response.customer_parent_name){
+                                                    text+=`
+                                                    <div class="col-lg-6">
+                                                        <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
+                                                    </div>`;
+                                                }
+                                            }
+                                            text+=`
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <span>
+                                                    <b>Booked by: </b><i>`+msg.result.response.booked_by+`</i>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span>
+                                                    <b>Booked Date: </b>
+                                                    <i>`;
+                                                    if(msg.result.response.booked_date != ""){
+                                                        text+=``+msg.result.response.booked_date+``;
+                                                    }else{
+                                                        text+=`-`
+                                                    }
+                                                    text+=`</i>
+                                                </span><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <span>
+                                                    <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span>
+                                                    <b>Issued Date: </b>
+                                                    <i>`;
+                                                    if(msg.result.response.issued_date != ""){
+                                                        text+=``+msg.result.response.issued_date+``;
+                                                    }else{
+                                                        text+=`-`
+                                                    }
+                                                    text+=`</i>
+                                                </span><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
 
-                <div style="background-color:white; border:1px solid #cdcdcd;">
+                <div class="div_box_default mb-3">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="padding:15px; background-color:white;">
                             <div class="row">
                                 <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
                                     <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-train.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;"> Train Detail</h4>
                                 </div>
                             </div>`;
-                        check = 0;
-                        flight_counter = 1;
-                        for(i in msg.result.response.provider_bookings){
-                            for(j in msg.result.response.provider_bookings[i].journeys){
-                                if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'E')
-                                    msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['E', 'Executive']
-                                else if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'K')
-                                    msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['K', 'Economy']
-                                else if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'B')
-                                    msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['B', 'Business']
-                                if(i != 0){
-                                    text+=`<hr/>`;
-                                }
-                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                    text += `<h5>PNR: `+msg.result.response.provider_bookings[i].journeys[j].pnr+`</h5>`;
-                                else
-                                    text += `<h5>PNR: -</h5>`;
-                                text+=`<h6>Journey `+flight_counter+`</h6><br/>`;
-                                $text += 'Journey '+ flight_counter+'\n';
-                                flight_counter++;
+                            check = 0;
+                            flight_counter = 1;
+                            for(i in msg.result.response.provider_bookings){
+                                for(j in msg.result.response.provider_bookings[i].journeys){
+                                    if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'E')
+                                        msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['E', 'Executive']
+                                    else if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'K')
+                                        msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['K', 'Economy']
+                                    else if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'B')
+                                        msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['B', 'Business']
 
-                                if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
-                                   for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
-                                       var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                                       var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' -')[0]).format('YYYY-MM-DD');
-                                       if(selected_banner_date >= max_banner_date){
-                                           if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
-                                               text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
+                                    if(i != 0){
+                                        text+=`<div class="col-lg-12 mb-3 mt-3" style="border-top:1px solid #cdcdcd; padding:0px;"></div>`;
+                                    }
+
+                                    text+=`<h5 style="width: fit-content; border-bottom:2px solid #cdcdcd;">`;
+                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                        text += msg.result.response.provider_bookings[i].journeys[j].pnr;
+                                    else
+                                        text += `-`;
+                                    text+=`</h5>`;
+                                    text+=`<h6>Journey `+flight_counter+`</h6>`;
+                                    $text += 'Journey '+ flight_counter+'\n';
+                                    flight_counter++;
+
+                                    if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
+                                       for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
+                                           var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                                           var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' -')[0]).format('YYYY-MM-DD');
+                                           if(selected_banner_date >= max_banner_date){
+                                               if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
+                                                   text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
+                                               }
+                                           }
+                                       }
+                                    }
+
+                                    if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
+                                       for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
+                                           var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                                           var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
+
+                                           if(selected_banner_date <= max_banner_date){
+                                               if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
+                                                   text+=`<label style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
+                                               }
                                            }
                                        }
                                    }
-                                }
+                                    //yang baru harus diganti
 
-                                if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
-                                   for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
-                                       var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                                       var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
-
-                                       if(selected_banner_date <= max_banner_date){
-                                           if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
-                                               text+=`<label style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
-                                           }
-                                       }
-                                   }
-                               }
-                                //yang baru harus diganti
-
-                                $text += msg.result.response.provider_bookings[i].journeys[j].carrier_name+'\n';
-                                $text += msg.result.response.provider_bookings[i].journeys[j].departure_date + ' - ';
-                                if(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0] == msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0])
-                                    $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1] + '\n';
-                                else
-                                    $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
-                                $text += msg.result.response.provider_bookings[i].journeys[j].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].origin+') - '+msg.result.response.provider_bookings[i].journeys[j].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].destination+')\n';
-                                $text += 'Seats:\n'
-                                for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
-                                    $text += msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger + ', ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[0] + ' ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[1]+'\n';
-                                }
-                                $text += '\n';
-                                text+= `
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website/images/logo/product/kai_logo.png" alt="KAI"/>`;
-                                text+=`<h6>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
-                                <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1];
-                                if(msg.result.response.provider_bookings[i].journeys[j].class_of_service != '')
-                                    text+=` (`+msg.result.response.provider_bookings[i].journeys[j].class_of_service+`)</span><br/>`;
-                                else
-                                    text += '<br/>';
-                                text+=`</div>`;
-                                text += `
-                                    <div class="col-lg-8">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-xs-6">
-                                                <table style="width:100%">
-                                                    <tr>
-                                                        <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
-                                                        <td style="padding-left:15px;">
-                                                            <img src="/static/tt_website/images/icon/symbol/train-01.png" style="width:20px; height:20px;" alt="Train"/>
-                                                        </td>
-                                                        <td style="height:25px;padding:0 15px;width:100%">
-                                                            <div style="display:inline-block;position:relative;width:100%">
-                                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <span>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0]+`</span><br/>
-                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].origin_name+` (`+msg.result.response.provider_bookings[i].journeys[j].origin+`)</span>
-                                            </div>
-
-                                            <div class="col-lg-6 col-xs-6" style="padding:0;">
-                                                <table style="width:100%; margin-bottom:6px;">
-                                                    <tr>
-                                                        <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1]+`</h5></td>
-                                                        <td></td>
-                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                    </tr>
-                                                </table>
-                                                <span>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0]+`</span><br/>
-                                                <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].destination_name+`  (`+msg.result.response.provider_bookings[i].journeys[j].destination+`)</span>
+                                    $text += msg.result.response.provider_bookings[i].journeys[j].carrier_name+'\n';
+                                    $text += msg.result.response.provider_bookings[i].journeys[j].departure_date + ' - ';
+                                    if(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0] == msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0])
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1] + '\n';
+                                    else
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
+                                    $text += msg.result.response.provider_bookings[i].journeys[j].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].origin+') - '+msg.result.response.provider_bookings[i].journeys[j].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].destination+')\n';
+                                    $text += 'Seats:\n'
+                                    for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger + ', ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[0] + ' ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[1]+'\n';
+                                    }
+                                    $text += '\n';
+                                    text+= `
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-4">
+                                            <div style="display:inline-flex;">
+                                                <div style="display:inline-block;">
+                                                    <img data-toggle="tooltip" title="KAI" class="train_provider_img" src="/static/tt_website/images/logo/product/kai_logo.png" alt="KAI">
+                                                </div>
+                                                <div style="display:inline-block;">
+                                                    <span style="margin-top:15px; font-size:13px; font-weight:bold;">`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</span><br>
+                                                    <span style="margin-top:15px; font-size:13px; font-weight:500;">
+                                                        `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1];
+                                                        if(msg.result.response.provider_bookings[i].journeys[j].class_of_service != '')
+                                                            text+=` (`+msg.result.response.provider_bookings[i].journeys[j].class_of_service+`)`;
+                                                    text+=`
+                                                    </span><br>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>`;
+                                        <div class="col-lg-7 col-md-8">
+                                            <div class="row" style="padding-top:10px;">
+                                                <div class="col-lg-6 col-xs-6">
+                                                    <h6>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h6>
+                                                    <span>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0]+`</span><br>
+                                                    <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].origin_name+` (`+msg.result.response.provider_bookings[i].journeys[j].origin+`)</span><br>
+                                                </div>
+
+                                                <div class="col-lg-6 col-xs-6">
+                                                    <div style="text-align:center; position: absolute; left:-20%;">
+                                                        <div style="display:inline-block;position:relative;width:100%;z-index:1;">
+                                                            <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                                            <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                            <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                                        </div>
+                                                        <span style="font-weight:500;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    </div>
+                                                    <div style="text-align:right">
+                                                        <h6>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1]+`</h6>
+                                                        <span>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0]+`</span><br>
+                                                        <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].destination_name+` (`+msg.result.response.provider_bookings[i].journeys[j].destination+`)</span><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
                             }
-                        }
-                        text+=`
-                            </div>
+                            text+=`
                         </div>
                     </div>
                 </div>`;
@@ -1183,310 +1205,416 @@ function train_get_booking(data){
                     title = 'MR';
 
                 text+=`
-                <div class="mb-3" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
-                        </div>
-                    </div>
-                    <h5>
-                        `+title+` `+msg.result.response.booker.name+`
-                    </h5>
-                    <b>Email: </b><i>`+msg.result.response.booker.email+`</i><br/>
-                    <b>Phone: </b><i>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</i><br/>
-                </div>
 
-                <div class="mb-3" style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
-                        </div>
-                    </div>
-                    <h5>
-                        `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
-                    </h5>
-                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br/>
-                    <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br/>
-                </div>
-
-                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger</h4>
-                        </div>
-                    </div>
-                    <div class="row">`;
-                        for(pax in msg.result.response.passengers){
-                            ticket = [];
-                            give_space = false;
-                            for(i in msg.result.response.provider_bookings){
-                                for(j in msg.result.response.provider_bookings[i].journeys){
-                                    for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
-                                        if(msg.result.response.passengers[pax].name == msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
-                                            ticket.push({
-                                                'journey': msg.result.response.provider_bookings[i].journeys[j].origin + ' - ' + msg.result.response.provider_bookings[i].journeys[j].destination,
-                                                'seat': msg.result.response.provider_bookings[i].journeys[j].seats[k].seat
-                                            })
-                                            break;
-                                        }
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        <div class="div_box_default">
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
+                                </div>
+                            </div>
+                            <div style="display:inline-flex;">
+                                <div>`;
+                                    if(title == "MR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
                                     }
-                                }
-                                try{
-                                    ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
-                                    if(provider != msg.result.response.provider_bookings.length - 1)
-                                        ticket += ', ';
-                                }catch(err){
-
-                                }
-                            }
-                            text+=`
-                            <div class="col-lg-12">
-                                <div class="row">`;
-                                    if(pax == 0){
-                                        text+=`<div class="col-lg-12">`;
-                                    }else{
-                                        text+=`<div class="col-lg-12">
-                                        <hr/>`;
+                                    else if(title == "MRS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                    }
+                                    else if(title == "MS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                    }
+                                    else if(title == "MSTR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                    }
+                                    else if(title == "MISS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
                                     }
                                     text+=`
-                                        <h4 id="passenger_number0" class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(pax)+1)+`</h4>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <h5>
-                                            `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
-                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">`;
-                                            if(msg.result.response.passengers[pax].pax_type == 'ADT'){
-                                                 text+=` Adult`;
-                                            }
-                                            else if(msg.result.response.passengers[pax].pax_type == 'INF'){
-                                                 text+=` Infant`;
-                                            }
-                                        text+=`
-                                            </b>
-                                        </h5>
-                                        <b>Birth Date: </b><i>`+msg.result.response.passengers[pax].birth_date+`</i><br/>
-                                        <b>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`: </b>
-                                        <i>`+msg.result.response.passengers[pax].identity_number+`</i><br/>
-                                        <b>Status: </b><i>`;
-                                        if(msg.result.response.passengers[pax].hasOwnProperty('temporary_field'))
-                                            for(j in msg.result.response.passengers[pax].temporary_field){
-                                                for(k in msg.result.response.passengers[pax].temporary_field[j]){
-                                                    if(give_space)
-                                                        text += `<br/>`;
-                                                    if(give_space == false)
-                                                        give_space = true;
-                                                    text += `<span>`+k+` </span>`;
-                                                    if(msg.result.response.passengers[pax].temporary_field[j][k])
-                                                        text += `<i class="fas fa-check-square" style="color:blue"></i>`;
-                                                    else
-                                                        text += `<i class="fas fa-times" style="color:blue"></i>`;
-
-                                                }
-                                            }
-                                        text+=`
-                                        </i><br/>
-                                        <b>Seat: </b><br/><i>`;
-                                        for(i in ticket){
-                                            if(ticket[i].seat.split(',').length == 2){
-                                                text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
-                                            }
-                                        }
-                                        text+=`
-                                        </i>
-                                    </div>
                                 </div>
-                            </div>`;
-                        }
-                        text+=`
+                                <div style="margin-left:10px;">
+                                    <h5>
+                                        `+title+` `+msg.result.response.booker.name+`
+                                    </h5>
+                                    <b>Email: </b><i>`+msg.result.response.booker.email+`</i><br><b>Phone: </b><i>`+msg.result.response.booker.phone+`</i><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="div_box_default">
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <h4 class="mb-3"><i class="fas fa-address-book"></i> Contact Person</h4>
+                                </div>
+                            </div>
+                            <div style="display:inline-flex;">
+                                <div>`;
+                                    if(msg.result.response.contact.title == "MR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MRS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MSTR"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                    }
+                                    else if(msg.result.response.contact.title == "MISS"){
+                                        text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                    }
+                                    text+=`
+                                </div>
+                                <div style="margin-left:10px;">
+                                    <h5>
+                                        `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
+                                    </h5>
+                                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br><b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>`;
 
-                text += `
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <div class="row">`;
-                if (msg.result.response.state == 'issued'){
-                    text+=`
-                        <div class="col-lg-6">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
-                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </div>`;
-                }
+                //SSR
                 text+=`
-                        <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="div_box_default mb-3" style="padding: 15px 15px 0px 15px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="margin-bottom:10px;">
+                                        <i class="fas fa-users"></i>
+                                        Passengers
+                                    </h4>`;
+                                    text+=`
+                                </div>
+                            </div>
+                            <div class="row">`;
+                                for(pax in msg.result.response.passengers){
+                                    ticket = [];
+                                    give_space = false;
+                                    for(i in msg.result.response.provider_bookings){
+                                        for(j in msg.result.response.provider_bookings[i].journeys){
+                                            for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
+                                                if(msg.result.response.passengers[pax].name == msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
+                                                    ticket.push({
+                                                        'journey': msg.result.response.provider_bookings[i].journeys[j].origin + ' - ' + msg.result.response.provider_bookings[i].journeys[j].destination,
+                                                        'seat': msg.result.response.provider_bookings[i].journeys[j].seats[k].seat
+                                                    })
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        try{
+                                            ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
+                                            if(provider != msg.result.response.provider_bookings.length - 1)
+                                                ticket += ', ';
+                                        }catch(err){
+
+                                        }
+                                    }
+                                    text+=`
+                                    <div class="col-lg-12" style="border-top:1px solid #cdcdcd;">
+                                        <div class="row">
+                                            <div class="col-lg-12" style="background: aliceblue;">
+                                                <h5 id="passenger_number0" style="padding-top:10px;">
+                                                    Passenger #`+(parseInt(pax)+1)+`
+                                                </h5>
+                                                <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                                    <div>`;
+                    //                                if(passengers_ssr[i].face_image.length > 0){
+                    //                                    text+=`<img src="`+passengers_ssr[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+                    //                                }
+                                                        if(msg.result.response.passengers[pax].title == "MR"){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                                        }
+                                                        else if(msg.result.response.passengers[pax].title == "MRS"){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                                        }
+                                                        else if(msg.result.response.passengers[pax].title == "MS"){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                                        }
+                                                        else if(msg.result.response.passengers[pax].title == "MSTR"){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                                        }
+                                                        else if(msg.result.response.passengers[pax].title == "MISS"){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                                        }
+                                                    text+=`
+                                                    </div>
+                                                    <div style="margin-left:10px;">
+                                                        <h5>
+                                                            `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
+                                                            <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">`;
+                                                            if(msg.result.response.passengers[pax].pax_type == 'ADT'){
+                                                                 text+=` Adult`;
+                                                            }
+                                                            else if(msg.result.response.passengers[pax].pax_type == 'INF'){
+                                                                 text+=` Infant`;
+                                                            }
+                                                            text+=`
+                                                            </b>
+                                                        </h5>
+                                                        <b>Birth Date:</b> <i>`+msg.result.response.passengers[pax].birth_date+`</i><br/>
+                                                        <b>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`:</b> <i>`+msg.result.response.passengers[pax].identity_number+`</i><br/>
+                                                        <b>Status:</b> <i>`;
+                                                        if(msg.result.response.passengers[pax].hasOwnProperty('temporary_field')){
+                                                            for(j in msg.result.response.passengers[pax].temporary_field){
+                                                                for(k in msg.result.response.passengers[pax].temporary_field[j]){
+                                                                    if(give_space)
+                                                                        text += `<br/>`;
+                                                                    if(give_space == false)
+                                                                        give_space = true;
+                                                                    text += `<span>`+k+` </span>`;
+                                                                    if(msg.result.response.passengers[pax].temporary_field[j][k])
+                                                                        text += `<i class="fas fa-check-square" style="color:blue"></i>`;
+                                                                    else
+                                                                        text += `<i class="fas fa-times" style="color:blue"></i>`;
+
+                                                                }
+                                                            }
+                                                        }
+                                                        text+=`
+                                                        </i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="padding:15px;">
+                                                <h5 class="mb-3" style="border-bottom: 2px solid #cdcdcd; width:fit-content;">Seat</h5>
+                                                <div>`;
+                                                for(i in ticket){
+                                                    text+=`
+                                                    <div class="row">
+                                                       <div class="col-xs-12">`;
+                                                        if(ticket[i].seat.split(',').length == 2){
+                                                            text += `
+                                                            <h6 style="margin-bottom:10px;">`+ticket[i].journey+`</h6>
+                                                            <div style="padding:0px 15px;">
+                                                                <div class="row">
+                                                                   <div class="col-xs-12 mb-3">• <b style="background: white; padding: 5px; margin-right:5px;">`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`</b>
+                                                                   </div>
+                                                               </div>
+                                                           </div>`;
+                                                        }
+                                                        text+=`
+                                                        </div>
+                                                    </div>`;
+                                                }
+                                                text+=`
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }
+                                text+=`
+                            </div>`;
+                            text+=`
+                        </div>`;
+                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            if (msg.result.response.state == 'booked'){
+                                text+=`
+                                <div class="div_box_default" style="margin-bottom:15px; padding: 15px 15px 0px 15px">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3">Request</h4>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 mb-3">
+                                            <form method="post" id="seat_map_request" action='/train/seat_map/`+signature+`'>
+                                                <button class="btn-next primary-btn-white-cl" type="button" onclick="set_seat_map();" style="width:100%; margin-bottom:unset; text-align:left;">
+                                                    Seat Map
+                                                </button>
+                                                <input id='passenger_input' name="passenger_input" type="hidden"/>
+                                                <input id='seat_map_request_input' name="seat_map_request_input" type="hidden"/>
+                                                <input id='order_number' name="order_number" value="`+msg.result.response.order_number+`" type="hidden"/>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                        }
+                        text+=`
+                    </div>
+                </div>`;
+
+                text_print_booking = '';
+
+                text_print_booking += `
+                <div class="div_box_default">
+                    <h4 class="mb-3">Print</h4>
+                    <div class="row">`;
+                        if (msg.result.response.state == 'issued'){
+                            text_print_booking+=`
+                            <div class="col-lg-12">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
+                        }
+                        text_print_booking+=`
+                        <div class="col-lg-12">
                             <label class="check_box_custom">
                                 <span class="span-search-ticket" style="color:black;">Force get new printout</span>
                                 <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
                                 <span class="check_box_span_custom"></span>
                             </label>
-                        </div>`;
-                text += `
+                        </div>
                     </div>
-                </div>`;
 
-                text+=`
-                <div class="row" style="margin-top:20px;">
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
-                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state == 'booked'){
-                                text+=`
-                                <form method="post" id="seat_map_request" action='/train/seat_map/`+signature+`'>
-
-                                    <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-train ld-ext-right" style="width:100%;color:`+text_color+`;" value="Seat Map" onclick="set_seat_map();"/>
-                                    <input id='passenger_input' name="passenger_input" type="hidden"/>
-                                    <input id='seat_map_request_input' name="seat_map_request_input" type="hidden"/>
-                                    <input id='order_number' name="order_number" value="`+msg.result.response.order_number+`" type="hidden"/>
-                                </form>`;
-                            }else if(msg.result.response.state == 'issued'){
-                                text+=`
-                                <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','train');">
-                                    Print Ticket
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>`;
-                            }
-                        }
-                        text+=`
-                    </div>
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
-                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state  == 'booked'){
-                                text+=`
-                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','train');">
-                                    Print Form
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>`;
-                            }
-                            else if(msg.result.response.state == 'issued'){
-                                text+=`
-                                <button type="button" class="primary-btn ld-ext-right" id="button-print-print" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','train');">
-                                    Print Ticket (Price)
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>`;
-                            }
-                        }
-                        text+=`
-                    </div>
-                    <div class="col-lg-4" style="padding-bottom:10px;">`;
-                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state  == 'booked' || msg.result.response.state  == 'partial_booked' || msg.result.response.state == 'partial_issued'){
-                                if (msg.result.response.state  == 'booked'){
-                                    text+=`
-                                    <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','train');">
-                                        Print Form (Price)
+                    <div class="row">
+                        <div class="col-lg-12" style="padding-bottom:10px;">`;
+                            if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                                if(msg.result.response.state == 'issued'){
+                                    text_print_booking+=`
+                                    <button type="button" id="button-choose-print" class="primary-btn-white ld-ext-right" style="width:100%; margin-bottom:5px; text-align:left;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','train');">
+                                        <i class="fas fa-print"></i> Print Ticket
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
                                 }
-                                try{
-                                    if(can_issued)
-                                    {
-                                        if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
-                                        {
-                                            document.getElementById('issued_btn_train').setAttribute("onClick", "train_request_issued('"+msg.result.response.order_number+"');");
-                                            if(msg.result.response.issued_request_status == "on_process")
-                                            {
-                                                document.getElementById('issued_btn_train').innerHTML = "Issued Booking Requested";
-                                                document.getElementById('issued_btn_train').disabled = true;
-                                            }
-                                            else
-                                            {
-                                                document.getElementById('issued_btn_train').innerHTML = "Request Issued Booking";
-                                            }
-                                        }
-                                        $(".issued_booking_btn").show();
-                                    }
-                                }catch(err){
-                                    console.log(err); // error kalau ada element yg tidak ada
+                            }
+                            text_print_booking+=`
+                        </div>
+                        <div class="col-lg-12" style="padding-bottom:10px;">`;
+                            if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                                if (msg.result.response.state  == 'booked'){
+                                    text_print_booking+=`
+                                    <button type="button" id="button-print-print" class="primary-btn-white ld-ext-right" style="width:100%; margin-bottom:5px; text-align:left;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','train');">
+                                        <i class="fas fa-print"></i> Print Form
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                                }
+                                else if(msg.result.response.state == 'issued'){
+                                    text_print_booking+=`
+                                    <button type="button" class="primary-btn-white ld-ext-right" id="button-print-print" style="width:100%; margin-bottom:5px; text-align:left;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','train');">
+                                        <i class="fas fa-print"></i> Print Ticket (Price)
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
                                 }
                             }
-                            else if(msg.result.response.state == 'issued'){
-                                text+=`
-                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                                // modal invoice
-                                text+=`
-                                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                        <div class="modal-dialog">
+                            text_print_booking+=`
+                        </div>
+                        <div class="col-lg-12" style="padding-bottom:10px;">`;
+                            if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                                if (msg.result.response.state  == 'booked' || msg.result.response.state  == 'partial_booked' || msg.result.response.state == 'partial_issued'){
+                                    if (msg.result.response.state  == 'booked'){
+                                        text_print_booking+=`
+                                        <button type="button" id="button-print-itin-price" class="primary-btn-white ld-ext-right" style="width:100%; margin-bottom:5px; text-align:left;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','train');">
+                                            <i class="fas fa-print"></i> Print Form (Price)
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>`;
+                                    }
+                                    try{
+                                        if(can_issued)
+                                        {
+                                            if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
+                                            {
+                                                document.getElementById('issued_btn_train').setAttribute("onClick", "train_request_issued('"+msg.result.response.order_number+"');");
+                                                if(msg.result.response.issued_request_status == "on_process")
+                                                {
+                                                    document.getElementById('issued_btn_train').innerHTML = "Issued Booking Requested";
+                                                    document.getElementById('issued_btn_train').disabled = true;
+                                                }
+                                                else
+                                                {
+                                                    document.getElementById('issued_btn_train').innerHTML = "Request Issued Booking";
+                                                }
+                                            }
+                                            $(".issued_booking_btn").show();
+                                        }
+                                    }catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
+                                }
+                                else if(msg.result.response.state == 'issued'){
+                                    text_print_booking+=`
+                                    <button type="button" class="primary-btn-white issued-booking-train ld-ext-right" style="width:100%; margin-bottom:5px; text-align:left;" data-toggle="modal" data-target="#printInvoice">
+                                    <i class="fas fa-print"></i> Print Invoice
+                                    <div class="ld ld-ring ld-cycle"></div>`;
+                                    // modal invoice
+                                    text_print_booking+=`
+                                        <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog">
 
-                                          <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Invoice</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Name">Name</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Additional Information">Additional Information</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Address">Address</span>
-                                                            <div class="input-container-search-ticket">
-                                                                <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                            </div>
-                                                        </div>
+                                              <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Invoice</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Name">Name</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Additional Information">Additional Information</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Address">Address</span>
+                                                                <div class="input-container-search-ticket">
+                                                                    <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                    <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Name">Included Passengers</span>
-                                                            <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
-                                                            for (resv_pax in train_get_detail.result.response.passengers)
-                                                            {
-                                                                text += `
-                                                                <tr>
-                                                                    <td>
-                                                                        <span id="resv_pax_value`+resv_pax+`">`+train_get_detail.result.response.passengers[resv_pax].name+`, `+train_get_detail.result.response.passengers[resv_pax].title+`</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="check_box_custom cblabel">
-                                                                            <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
-                                                                            <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
-                                                                        </label>
-                                                                    </td>
-                                                                </tr>`;
-                                                            }
-                                               text += `</table></div>
-                                                    </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                                <span class="control-label" for="Name">Included Passengers</span>
+                                                                <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
+                                                                for (resv_pax in train_get_detail.result.response.passengers)
+                                                                {
+                                                                    text_print_booking += `
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span id="resv_pax_value`+resv_pax+`">`+train_get_detail.result.response.passengers[resv_pax].name+`, `+train_get_detail.result.response.passengers[resv_pax].title+`</span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="check_box_custom cblabel">
+                                                                                <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
+                                                                                <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
+                                                                            </label>
+                                                                        </td>
+                                                                    </tr>`;
+                                                                }
+                                                   text_print_booking += `</table></div>
+                                                        </div>
 
-                                                    <br/>
-                                                    <div style="text-align:right;">
-                                                        <span>Don't want to edit? just submit</span>
                                                         <br/>
-                                                        <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','train');">
-                                                            Submit
-                                                            <div class="ld ld-ring ld-cycle"></div>
-                                                        </button>
+                                                        <div style="text-align:right;">
+                                                            <span>Don't want to edit? just submit</span>
+                                                            <br/>
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','train');">
+                                                                Submit
+                                                                <div class="ld ld-ring ld-cycle"></div>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                `;
-                                $(".issued_booking_btn").remove();
+                                        </div>`;
+                                    $(".issued_booking_btn").remove();
+                                }
                             }
-                        }
-                            text+=`
-                        </a>
+                            text_print_booking+=`
+                        </div>
                     </div>
                 </div>`;
+                document.getElementById('train_booking_print').innerHTML = text_print_booking;
                 document.getElementById('train_booking').innerHTML = text;
                 hide_modal_waiting_transaction();
                 //$(".issued_booking_btn").show();
@@ -1884,15 +2012,15 @@ function train_get_booking(data){
                             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                 price_breakdown['COMMISSION HO'] = 0;
 
-                            price_breakdown['FARE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                            price_breakdown['TAX'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['FARE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                            price_breakdown['TAX'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['CONVENIENCE FEE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                             price_breakdown['COMMISSION'] = (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA TRAIN'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                            price_breakdown['OTT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['OTT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                             price_breakdown['TOTAL PRICE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                             price_breakdown['NTA AGENT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                             price_breakdown['COMMISSION HO'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -1976,15 +2104,15 @@ function train_get_booking(data){
                             if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                 price_breakdown['CHANNEL UPSELL'] = 0;
 
-                            price_breakdown['FARE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                            price_breakdown['TAX'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['FARE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                            price_breakdown['TAX'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['CONVENIENCE FEE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                             price_breakdown['COMMISSION'] += (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA TRAIN'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                            price_breakdown['OTT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['OTT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                             price_breakdown['TOTAL PRICE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                             price_breakdown['NTA AGENT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                             price_breakdown['COMMISSION HO'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -2268,9 +2396,6 @@ function create_new_reservation(){
     //pilihan carrier
     var text = '';
     var option = '';
-    text += `<div style="background:white;margin-top:15px;padding:15px 15px 5px 15px; border:1px solid #cdcdcd;">
-                <h5>Re Order</h5>`;
-
     //orang
     text += `<h6>Journey</h6>
             <table style="width:100%;background:white;margin-top:15px;" class="list-of-table">
@@ -2326,7 +2451,7 @@ function create_new_reservation(){
     </button>`;
 
     document.getElementById('button-re-order-div').innerHTML = text;
-    document.getElementById('reorder_div').hidden = true;
+    //document.getElementById('reorder_div').hidden = true;
 }
 
 function train_reorder(){
@@ -3340,22 +3465,32 @@ function upload_image(){
 function reset_train_filter(){
     for(i in cabin_list){
         document.getElementById('checkbox_cabin'+i).checked = false;
+        if(document.getElementById('checkbox_cabin2'+i))
+            document.getElementById('checkbox_cabin2'+i).checked = false;
         cabin_list[i].status = false;
     }for(i in departure_list){
         if(i == 0){
             document.getElementById('checkbox_departure_time'+i).checked = true;
+            if(document.getElementById('checkbox_departure_time2'+i))
+                document.getElementById('checkbox_departure_time2'+i).checked = true;
             departure_list[i].status = true;
         }else{
             document.getElementById('checkbox_departure_time'+i).checked = false;
+            if(document.getElementById('checkbox_departure_time2'+i))
+                document.getElementById('checkbox_departure_time2'+i).checked = false;
             departure_list[i].status = false;
         }
     }
     for(i in arrival_list){
         if(i == 0){
             document.getElementById('checkbox_arrival_time'+i).checked = true;
+            if(document.getElementById('checkbox_arrival_time2'+i))
+                document.getElementById('checkbox_arrival_time2'+i).checked = true;
             arrival_list[i].status = true;
         }else{
             document.getElementById('checkbox_arrival_time'+i).checked = false;
+            if(document.getElementById('checkbox_arrival_time2'+i))
+                document.getElementById('checkbox_arrival_time2'+i).checked = false;
             arrival_list[i].status = false;
         }
     }

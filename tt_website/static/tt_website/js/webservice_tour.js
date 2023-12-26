@@ -3249,15 +3249,15 @@ function tour_get_booking(order_number)
                                 if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                                     price_breakdown['COMMISSION HO'] = 0;
 
-                                price_breakdown['FARE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                                price_breakdown['TAX'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['FARE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare;
+                                price_breakdown['TAX'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] = (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                                price_breakdown['OTT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['OTT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta;
                                 price_breakdown['COMMISSION HO'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -3341,15 +3341,15 @@ function tour_get_booking(order_number)
                                 if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                     price_breakdown['CHANNEL UPSELL'] = 0;
 
-                                price_breakdown['FARE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                                price_breakdown['TAX'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['FARE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare;
+                                price_breakdown['TAX'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                                price_breakdown['OTT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['OTT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta;
                                 price_breakdown['COMMISSION HO'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;

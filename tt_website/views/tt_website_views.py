@@ -2027,7 +2027,7 @@ def get_data_template(request, type='home', provider_type = []):
                 is_have_page_faq = True
                 break
 
-    file = read_cache("greeting_login", 'cache_web', request, 90911)
+    file = read_cache("greeting_btb", 'cache_web', request, 90911)
     if file:
         greeting_login = file
 

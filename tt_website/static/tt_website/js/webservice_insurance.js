@@ -2010,15 +2010,15 @@ function price_detail(){
                 price_breakdown['NTA AGENT'] = 0;
             if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
                 price_breakdown['COMMISSION HO'] = 0;
-            price_breakdown['FARE'] += insurance_pick.service_charge_summary[i].total_fare_ori;
-            price_breakdown['TAX'] += insurance_pick.service_charge_summary[i].total_tax_ori;
+            price_breakdown['FARE'] += insurance_pick.service_charge_summary[i].total_fare;
+            price_breakdown['TAX'] += insurance_pick.service_charge_summary[i].total_tax;
             price_breakdown['BREAKDOWN'] = 0;
             price_breakdown['UPSELL'] += insurance_pick.service_charge_summary[i].total_upsell;
             price_breakdown['COMMISSION'] += (insurance_pick.service_charge_summary[i].total_commission_vendor * -1);
             price_breakdown['NTA INSURANCE'] += insurance_pick.service_charge_summary[i].total_nta_vendor;
             price_breakdown['SERVICE FEE'] += insurance_pick.service_charge_summary[i].total_fee_ho;
             price_breakdown['VAT'] += insurance_pick.service_charge_summary[i].total_vat_ho;
-            price_breakdown['OTT'] += insurance_pick.service_charge_summary[i].total_price_ori;
+            price_breakdown['OTT'] += insurance_pick.service_charge_summary[i].total_price_ott;
             price_breakdown['TOTAL PRICE'] += insurance_pick.service_charge_summary[i].total_price;
             price_breakdown['NTA AGENT'] += insurance_pick.service_charge_summary[i].total_nta;
             price_breakdown['COMMISSION HO'] += insurance_pick.service_charge_summary[i].total_commission_ho * -1;
@@ -3658,15 +3658,15 @@ function insurance_get_booking(data, sync=false){
                                 if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                     price_breakdown['CHANNEL UPSELL'] = 0;
 
-                                price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                                price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                                price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                                price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                                 price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -3748,15 +3748,15 @@ function insurance_get_booking(data, sync=false){
                                 if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                     price_breakdown['CHANNEL UPSELL'] = 0;
 
-                                price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                                price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['FARE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                                price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                                price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['OTT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                                 price_breakdown['COMMISSION HO'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;

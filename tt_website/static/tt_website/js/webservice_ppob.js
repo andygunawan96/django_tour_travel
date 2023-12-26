@@ -1105,15 +1105,15 @@ function search_ppob(){
                                 if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                     price_breakdown['CHANNEL UPSELL'] = 0;
 
-                                price_breakdown['FARE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                                price_breakdown['TAX'] += bill_response.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                                price_breakdown['FARE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fare;
+                                price_breakdown['TAX'] += bill_response.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += bill_response.result.response.passengers[i].service_charge_details[j].base_upsell;
                                 price_breakdown['COMMISSION'] += (bill_response.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA PPOB'] += bill_response.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += bill_response.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                                price_breakdown['OTT'] += bill_response.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                                price_breakdown['OTT'] += bill_response.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] += bill_response.result.response.passengers[i].service_charge_details[j].base_nta;
                                 price_breakdown['COMMISSION HO'] += bill_response.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
@@ -2258,15 +2258,15 @@ function ppob_get_booking(data){
                             if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                 price_breakdown['CHANNEL UPSELL'] = 0;
 
-                            price_breakdown['FARE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fare_ori;
-                            price_breakdown['TAX'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_tax_ori;
+                            price_breakdown['FARE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fare;
+                            price_breakdown['TAX'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
                             price_breakdown['COMMISSION'] += (bills_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA PPOB'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
-                            price_breakdown['OTT'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ori;
+                            price_breakdown['OTT'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                             price_breakdown['TOTAL PRICE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                             price_breakdown['NTA AGENT'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
                             price_breakdown['COMMISSION HO'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
