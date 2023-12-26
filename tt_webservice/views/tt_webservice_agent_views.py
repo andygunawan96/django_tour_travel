@@ -2817,7 +2817,7 @@ def activate_corporate_mode(request, signature=False):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "activate_corporate_mode",
-            "signature": request.POST['master_signature'],
+            "signature": request.session['master_signature'],
         }
     except Exception as e:
         if signature == False:

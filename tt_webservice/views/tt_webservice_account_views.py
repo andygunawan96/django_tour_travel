@@ -509,6 +509,10 @@ def get_balance_request(request):
 def get_corpor_list(request):
     try:
         data = {}
+        if request.POST.get('name'):
+            data.update({
+                'name': request.POST['name']
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

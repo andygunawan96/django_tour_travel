@@ -336,7 +336,7 @@ function airline_goto_search(){
         if(document.getElementById('checkbox_corpor_mode_airline').checked){
             var cor_selection = document.getElementById('airline_corpor_select');
             var corbooker_selection = document.getElementById('airline_corbooker_select');
-            if(!cor_selection.options[cor_selection.selectedIndex].value || !corbooker_selection.options[corbooker_selection.selectedIndex].value)
+            if(!cor_selection.value || !corbooker_selection.options[corbooker_selection.selectedIndex].value)
             {
                 error_log+= 'Please choose Corporate and Booker, or uncheck "Activate Corporate Mode" if you do not wish to activate it\n';
             }
@@ -484,7 +484,10 @@ function airline_goto_search(){
             if(document.getElementById('checkbox_corpor_mode_airline').checked){
                 request_airline['checkbox_corpor_mode_airline'] = true;
                 if(document.getElementById('airline_corpor_select')){
-                    request_airline['airline_corpor_select'] = document.getElementById('airline_corpor_select').value;
+                    if(!document.getElementById('airline_corpor_select').value){
+                        document.getElementById('airline_corpor_select').value = '';
+                    }
+                    request_airline['airline_corpor_select'] = document.getElementById('airline_corpor_select').value.split(' - ')[0];
                 }if(document.getElementById('airline_corbooker_select')){
                     request_airline['airline_corbooker_select'] = document.getElementById('airline_corbooker_select').value;
                 }

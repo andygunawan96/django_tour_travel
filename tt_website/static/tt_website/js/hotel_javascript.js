@@ -227,7 +227,10 @@ function hotel_search_validation(){
             if(document.getElementById('checkbox_corpor_mode_hotel').checked){
                 hotel_request_data['checkbox_corpor_mode_hotel'] = true;
                 if(document.getElementById('hotel_corpor_select')){
-                    hotel_request_data['hotel_corpor_select'] = document.getElementById('hotel_corpor_select').value;
+                    if(!document.getElementById('hotel_corpor_select').value){
+                        document.getElementById('hotel_corpor_select').value = '';
+                    }
+                    hotel_request_data['hotel_corpor_select'] = document.getElementById('hotel_corpor_select').value.split(' - ')[0];
                 }if(document.getElementById('hotel_corbooker_select')){
                     hotel_request_data['hotel_corbooker_select'] = document.getElementById('hotel_corbooker_select').value;
                 }
