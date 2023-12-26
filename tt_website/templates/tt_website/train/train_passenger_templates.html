@@ -1032,8 +1032,9 @@
 {% include 'tt_website/footer.html' %}
 
 <script>
-    get_agent_currency_rate();
+
     $( document ).ready(function() {
+        get_agent_currency_rate();
         get_train_data_passenger_page();
         $('.js-example-basic-single').niceSelect('destroy');
         $('.js-example-basic-single').select2();
