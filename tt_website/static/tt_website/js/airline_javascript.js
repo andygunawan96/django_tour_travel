@@ -336,7 +336,7 @@ function airline_goto_search(){
         if(document.getElementById('checkbox_corpor_mode_airline').checked){
             var cor_selection = document.getElementById('airline_corpor_select');
             var corbooker_selection = document.getElementById('airline_corbooker_select');
-            if(!cor_selection.options[cor_selection.selectedIndex].value || !corbooker_selection.options[corbooker_selection.selectedIndex].value)
+            if(!cor_selection.value || !corbooker_selection.options[corbooker_selection.selectedIndex].value)
             {
                 error_log+= 'Please choose Corporate and Booker, or uncheck "Activate Corporate Mode" if you do not wish to activate it\n';
             }
@@ -484,7 +484,10 @@ function airline_goto_search(){
             if(document.getElementById('checkbox_corpor_mode_airline').checked){
                 request_airline['checkbox_corpor_mode_airline'] = true;
                 if(document.getElementById('airline_corpor_select')){
-                    request_airline['airline_corpor_select'] = document.getElementById('airline_corpor_select').value;
+                    if(!document.getElementById('airline_corpor_select').value){
+                        document.getElementById('airline_corpor_select').value = '';
+                    }
+                    request_airline['airline_corpor_select'] = document.getElementById('airline_corpor_select').value.split(' - ')[0];
                 }if(document.getElementById('airline_corbooker_select')){
                     request_airline['airline_corbooker_select'] = document.getElementById('airline_corbooker_select').value;
                 }
@@ -4029,26 +4032,28 @@ function sort(){
                                     }
                                     if(breakdown_price_list_jbox.length == i)
                                         breakdown_price_list_jbox[i] = [];
-                                    breakdown_price_list_jbox[i][0] = new jBox('Tooltip', {
-                                        attach: '#more_fare'+i,
-                                        target: '#more_fare'+i,
-                                        theme: 'TooltipBorder',
-                                        trigger: 'click',
-                                        adjustTracker: true,
-                                        closeOnClick: 'body',
-                                        closeButton: 'box',
-                                        animation: 'move',
-                                        position: {
-                                          x: 'left',
-                                          y: 'top'
-                                        },
-                                        outside: 'y',
-                                        pointer: 'left:20',
-                                        offset: {
-                                          x: 25
-                                        },
-                                        content: breakdown_text
-                                    });
+                                    try{
+                                        breakdown_price_list_jbox[i][0] = new jBox('Tooltip', {
+                                            attach: '#more_fare'+i,
+                                            target: '#more_fare'+i,
+                                            theme: 'TooltipBorder',
+                                            trigger: 'click',
+                                            adjustTracker: true,
+                                            closeOnClick: 'body',
+                                            closeButton: 'box',
+                                            animation: 'move',
+                                            position: {
+                                              x: 'left',
+                                              y: 'top'
+                                            },
+                                            outside: 'y',
+                                            pointer: 'left:20',
+                                            offset: {
+                                              x: 25
+                                            },
+                                            content: breakdown_text
+                                        });
+                                    }catch(err){console.log(err)}
                                     try{
                                         breakdown_price_list_jbox[i][1] = new jBox('Tooltip', {
                                             attach: '#more_fare_fd'+i,
@@ -4070,7 +4075,7 @@ function sort(){
                                             },
                                             content: breakdown_text
                                         });
-                                    }catch(err){}
+                                    }catch(err){console.log(err)}
                                 }
                                 if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && airline[i].total_price){
                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3

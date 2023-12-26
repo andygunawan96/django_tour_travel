@@ -1694,21 +1694,11 @@ $(document).ready(function(){
             text ='';
             var node = document.createElement("div");
 
-            if(template == 4){
-                text+=`
-                <span class="span-search-ticket">Departure - Return</span>
-                <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                    <input type="text" class="form-control" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
-                </div>`;
-            }
-            else{
-                text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
-                </div>`;
-            }
+            text+=`
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" style="background:white;" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+            </div>`;
 
             text+=`
             <input type="hidden" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>

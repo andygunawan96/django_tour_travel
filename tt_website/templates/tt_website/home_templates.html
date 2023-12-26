@@ -663,6 +663,20 @@
                     set_airline_search_value_to_true();
                 }
             });
+
+            var airline_corpor_list = new autoComplete({
+                selector: '#airline_corpor_select',
+                minChars: 1,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.length > 2)
+                        get_corpor_list('airline', suggest, term);
+                },
+                onSelect: function(e, term, item){
+                    render_corbooker_list('airline');
+                }
+            });
             {% endif %}
             {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security %}
             var insurance_origin = new autoComplete({
@@ -800,6 +814,19 @@
                     }, 200);
                 }
             });
+            var hotel_corpor_list = new autoComplete({
+                selector: '#hotel_corpor_select',
+                minChars: 1,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.length > 2)
+                        get_corpor_list('hotel', suggest, term);
+                },
+                onSelect: function(e, term, item){
+                    render_corbooker_list('hotel');
+                }
+            });
 
             function change_date(type){
                 if(type == 'checkin'){
@@ -859,6 +886,19 @@
                         $("#train_departure_return").focus();
                     }, 200);
                     set_train_search_value_to_true();
+                }
+            });
+            var train_corpor_list = new autoComplete({
+                selector: '#train_corpor_select',
+                minChars: 1,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.length > 2)
+                        get_corpor_list('train', suggest, term);
+                },
+                onSelect: function(e, term, item){
+                    render_corbooker_list('train');
                 }
             });
             {% endif %}
@@ -927,7 +967,19 @@
                     $("#activity_query").trigger("blur");
                 }
             });
-
+            var activity_corpor_list = new autoComplete({
+                selector: '#activity_corpor_select',
+                minChars: 1,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.length > 2)
+                        get_corpor_list('activity', suggest, term);
+                },
+                onSelect: function(e, term, item){
+                    render_corbooker_list('activity');
+                }
+            });
             {% endif %}
             {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and tour_search_template == "default_search" %}
             get_dept_year();
