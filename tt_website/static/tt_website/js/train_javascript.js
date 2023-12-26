@@ -726,6 +726,7 @@ function change_train(val){
     //$('#button_copy_train').hide();
     change_date_next_prev(val);
     train_ticket_pick();
+    reset_train_filter();
     filtering('filter');
 }
 
@@ -840,8 +841,8 @@ function train_get_detail(){
                                         <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                         <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                     </div>
-                                    <span class="copy_duration" style="font-weight:500;">02h 00m
-                                </span></div>
+                                    <span class="copy_duration" style="font-weight:500;"></span>
+                                </div>
                                 <div style="text-align:right">
                                     <h6 class="copy_time_arr">`+journeys[i].arrival_date[1]+`</h6>
                                     <span class="copy_date_arr">`+journeys[i].arrival_date[0]+`</span><br>
@@ -1251,6 +1252,8 @@ function goto_passenger(){
 }
 
 function train_detail(){
+    modal_content_arr = [];
+
     if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
         tax = 0;
         fare = 0;
@@ -1334,45 +1337,19 @@ function train_detail(){
         <div class="col-lg-12">`;
 
     for(i in train_data){
-    $text +=
-        train_data[i].carrier_name+`-`+train_data[i].carrier_number+`(`+train_data[i].cabin_class[1]+`)\n`+
-        train_data[i].origin_name+` (`+train_data[i].origin+`) - `+train_data[i].destination_name+` (`+train_data[i].destination+`) `;
-    $text += train_data[i].departure_date[0]+' ' + train_data[i].departure_date[1]+ ` - `;
-    if(train_data[i].departure_date[0] != train_data[i].arrival_date[0])
-        $text += train_data[i].arrival_date[0] + ' ' + train_data[i].arrival_date[1]+`\n\n`;
-    else
-        $text += train_data[i].arrival_date[1]+`\n\n`;
-    text += `
-        <div class="row">
-            <div class="col-lg-12">`;
-            text += `
-            <h6 style="cursor:pointer; display:block;" id="train_title_up`+i+`" onclick="show_hide_train(`+i+`);">`;
-            if(i == 0){
-                text += `Departure - `;
-            }else{
-                text += `Return - `;
-            }
-            text += `
-            `+train_data[i].origin+`
-            <i class="fas fa-arrow-right"></i>
-            `+train_data[i].destination+`
-            <i class="fas fa-chevron-up" style="color:`+color+`; float:right; font-size:18px;"></i>
-            </h6>
-            <h6 style="cursor:pointer; display:none;" id="train_title_down`+i+`" onclick="show_hide_train(`+i+`);">`;
-            if(i == 0){
-                text += `Departure - `;
-            }else{
-                text += `Return - `;
-            }
-            text += `
-            `+train_data[i].origin+`
-            <i class="fas fa-arrow-right"></i>
-            `+train_data[i].destination+`
-            <i class="fas fa-chevron-down" style="float:right; color:`+color+`; font-size:18px;"></i>
-            </h6>
-            </div>
+        $text +=
+            train_data[i].carrier_name+`-`+train_data[i].carrier_number+`(`+train_data[i].cabin_class[1]+`)\n`+
+            train_data[i].origin_name+` (`+train_data[i].origin+`) - `+train_data[i].destination_name+` (`+train_data[i].destination+`) `;
+        $text += train_data[i].departure_date[0]+' ' + train_data[i].departure_date[1]+ ` - `;
+        if(train_data[i].departure_date[0] != train_data[i].arrival_date[0])
+            $text += train_data[i].arrival_date[0] + ' ' + train_data[i].arrival_date[1]+`\n\n`;
+        else
+            $text += train_data[i].arrival_date[1]+`\n\n`;
 
-            <div class="col-lg-12" id="train_div_sh`+i+`" style="padding:10px 15px; display:block;">
+        text_modal_content = '';
+        text_modal_content += `
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12">`;
                     if(train_data[i].hasOwnProperty('search_banner')){
@@ -1382,51 +1359,70 @@ function train_detail(){
 
                            if(selected_banner_date >= max_banner_date){
                                if(train_data[i].search_banner[banner_counter].active == true){
-                                   text+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+train_data[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+train_data[i].search_banner[banner_counter].name+`</label>`;
+                                   text_modal_content+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+train_data[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+train_data[i].search_banner[banner_counter].name+`</label>`;
                                }
                            }
                        }
                     }
-                    text+=`
+                    text_modal_content+=`
                     </div>
-                    <div class="col-lg-12">
-                        <h6>`+train_data[i].carrier_name+`-`+train_data[i].carrier_number+`</h6>
-                    </div>
-                    <div class="col-lg-6 col-xs-6">
-                        <table style="width:100%">
-                            <tr>
-                                <td><h6>`+train_data[i].departure_date[1]+`</h6></td>
-                                <td style="padding-left:15px;">
-                                    <img src="/static/tt_website/images/icon/symbol/train-01.png" style="width:20px; height:20px;">
-                                </td>
-                                <td style="height:30px;padding:0 15px;width:100%">
-                                    <div style="display:inline-block;position:relative;width:100%">
-                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                        <div style="height:30px;min-width:25px;position:relative;width:0%"></div>
+                    <div class="col-lg-12" style="padding-top:5px;">
+                        <h5>
+                            `+train_data[i].carrier_name+` `+train_data[i].carrier_number+`
+                        </h5>
+                        <span>
+                            `+train_data[i].cabin_class[1]+` (`+train_data[i].class_of_service+`)
+                        </span>
+                        <div class="row" style="padding-top:10px;">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <h6 class="copy_time_depart">`+train_data[i].departure_date[1]+`</h6>
+                                <span class="copy_date_depart">`+train_data[i].departure_date[0]+`</span><br>
+                                <span class="copy_departure" style="font-weight:500;">`+train_data[i].origin_name+` (`+train_data[i].origin+`)</span><br>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div style="text-align:center; position: absolute; left:-20%;">
+                                    <div style="display:inline-block;position:relative;width:100%;z-index:1;">
+                                        <img src="/static/tt_website/images/icon/symbol/train-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                        <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                        <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                     </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <span>`+train_data[i].departure_date[0]+`</span><br/>
-                        <span style="font-weight:500;">`+train_data[i].origin_name+` (`+train_data[i].origin+`)</span>
-                    </div>
-
-                    <div class="col-lg-6 col-xs-6">
-                        <table style="width:100%; margin-bottom:6px;">
-                            <tr>
-                                <td><h6>`+train_data[i].arrival_date[1]+`</h6></td>
-                                <td></td>
-                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                            </tr>
-                        </table>
-                        <span>`+train_data[i].arrival_date[0]+`</span><br/>
-                        <span style="font-weight:500;">`+train_data[i].destination_name+` (`+train_data[i].destination+`)</span>
+                                    <span style="font-weight:500;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                </div>
+                                <div style="text-align:right">
+                                    <h6>`+train_data[i].arrival_date[1]+`</h6>
+                                    <span>`+train_data[i].arrival_date[0]+`</span><br>
+                                    <span style="font-weight:500;">`+train_data[i].destination_name+` (`+train_data[i].destination+`)</span><br>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">`;
+        </div>`;
+
+        modal_content_arr.push(text_modal_content);
+
+        text+=`
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="span_link" style="display:inline-flex; margin-top:10px;" onclick="content_modal_custom('myModalDetail','myModalContent', 'Detail', modal_content_arr[`+parseInt(i)+`]);">
+                    <div>`;
+                        if(i == 0){
+                            text += `Departure`;
+                        }else{
+                            text += `Return`;
+                        }
+
+                        text+=`<br/>`+train_data[i].origin;
+                        text+=` <i class="fas fa-arrow-right"></i> `;
+                        text+=train_data[i].destination+`,
+                        `+train_data[i].departure_date[0]+`
+                        <span style="font-weight:bold; color:`+color+`; cursor:pointer;"> Detail</span>
+                    </div>
+                </div>
+            </div>`;
+
+
         price = {
             'fare': 0,
             'tax': 0

@@ -1150,12 +1150,12 @@ function render_object_from_value(val){
     </div>`;
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-        text+= print_commission(total_commission,'show_commission_event',val[0].currency)
+        text+= print_commission(total_commission,'show_commission',val[0].currency)
 
-        text+=`
-        <div style="margin-bottom:5px;">
-            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show YPM"/>
-        </div>`;
+//        text+=`
+//        <div style="margin-bottom:5px;">
+//            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show YPM"/>
+//        </div>`;
 
     text+=`<center>
 
@@ -1200,12 +1200,12 @@ function hotel_room_pick_button(total_commission, currency){
     text +=`</div>`;
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="col-lg-12">`
-        text+= print_commission(total_commission*-1,'show_commission_event',currency, 'commission_val')
-        text+=`</div>`
-        text+=`
-        <div class="col-lg-12">
-            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show YPM"/>
-        </div>`;
+        text+= print_commission(total_commission*-1,'show_commission',currency, 'commission_val')
+        text+=`</div>`;
+//        text+=`
+//        <div class="col-lg-12">
+//            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show YPM"/>
+//        </div>`;
     }
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
