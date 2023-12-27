@@ -1314,11 +1314,21 @@ function train_detail(){
 
             for(j in train_data[i].fares){
                 for(k in train_data[i].fares[j].service_charge_summary){
-                    provider_price['fare'] = train_data[i].fares[j].service_charge_summary[k].total_fare;
-                    provider_price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
-                    provider_price['rac'] = train_data[i].fares[j].service_charge_summary[k].total_commission;
-                    if(provider_price['currency'] != '')
-                        provider_price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[0].currency;
+                    for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
+                        if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare karena yg lain pax count bisa beda
+                            provider_price['fare'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        else if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'tax' || train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'roc')
+                            provider_price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        else if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'rac')
+                            provider_price['rac'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        if(provider_price['currency'] != '')
+                            provider_price['currency'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+//                    provider_price['fare'] = train_data[i].fares[j].service_charge_summary[k].total_fare;
+//                    provider_price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
+//                    provider_price['rac'] = train_data[i].fares[j].service_charge_summary[k].total_commission;
+//                    if(provider_price['currency'] != '')
+//                        provider_price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[0].currency;
                 }
             }
             total_price_provider.push({

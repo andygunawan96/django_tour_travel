@@ -5062,10 +5062,13 @@ function draw_get_price_itinerary(){
     }
     for(i in get_price_airline_response.result.response.price_itinerary_provider){
         for(j in get_price_airline_response.result.response.price_itinerary_provider[i].journeys){
+            is_create_price = true;
             for(k in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments){
                 for(l in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-                    if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary.length > 0)
+                    if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary.length > 0 && is_create_price){
                         airline_price.push({});
+                        is_create_price = false;
+                    }
                     for(m in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary){
                         price_type = {
                             'fare': 0,
@@ -5076,7 +5079,7 @@ function draw_get_price_itinerary(){
                         }
                         for(n in get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                             if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare karena yg lain pax count bisa beda
-                                price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                                price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                             else
                                 price_type[get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].total;
                             if(price_type.hasOwnProperty('currency') == false)
@@ -5085,7 +5088,17 @@ function draw_get_price_itinerary(){
                         if(currency == '')
                             currency = get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[0].currency;
                         price_type['currency'] = currency;
-                        airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
+
+                        if(!airline_price[airline_price.length-1].hasOwnProperty(get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type))
+                            airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
+                        else{
+                            for(n in price_type){
+                                if(!airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type].hasOwnProperty(n))
+                                    airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type][n] = 0
+                                if(n != 'currency')
+                                    airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type][n] += price_type[n];
+                            }
+                        }
                         total_discount += airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type].hasOwnProperty('disc') ? airline_price[airline_price.length-1][get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type]['disc'] : 0
                         price_type = [];
                     }
@@ -5574,7 +5587,14 @@ function draw_get_price_itinerary(){
                     //                        }else{
                     //                            text+=`</div></div></div></div>`;
                     //                        }
-
+                            // hanya print jika total price sama dengan journey / journey terakhir
+                            if(get_price_airline_response.result.response.price_itinerary_provider[i].journeys.length == airline_price.length ||
+                               get_price_airline_response.result.response.price_itinerary_provider[i].journeys.length - 1 == j){
+                                temp = render_price_in_get_price(text, $text, $text_price)
+                                text = temp[0];
+                                $text = temp[1];
+                                $text_price = temp[2];
+                            }
                                         text+=`</div>
                                         </div>
                                     </div>
@@ -5582,10 +5602,6 @@ function draw_get_price_itinerary(){
         //                        $text+= '\n';
                                 journey_idx++;
                             }
-                            temp = render_price_in_get_price(text, $text, $text_price)
-                            text = temp[0];
-                            $text = temp[1];
-                            $text_price = temp[2];
                             text+=`
                             </div>
                         </div>
@@ -11130,7 +11146,7 @@ function airline_get_booking(data, sync=false){
                                 price_breakdown['TOTAL PRICE'] = 0;
                             if(!price_breakdown.hasOwnProperty('NTA AGENT'))
                                 price_breakdown['NTA AGENT'] = 0;
-                            if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                            if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                                 price_breakdown['COMMISSION HO'] = 0;
                             if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                 price_breakdown['CHANNEL UPSELL'] = 0;
@@ -11146,7 +11162,8 @@ function airline_get_booking(data, sync=false){
                             price_breakdown['OTT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price_ott;
                             price_breakdown['TOTAL PRICE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_price;
                             price_breakdown['NTA AGENT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta;
-                            price_breakdown['COMMISSION HO'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                            if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                                price_breakdown['COMMISSION HO'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
                             for(k in airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges){
                                 if(k == 'ROC'){
                                     for(l in airline_get_detail.result.response.passengers[i].service_charge_details[j].service_charges[k]){

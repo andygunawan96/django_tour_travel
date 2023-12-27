@@ -3246,7 +3246,7 @@ function tour_get_booking(order_number)
                                     price_breakdown['TOTAL PRICE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AGENT'))
                                     price_breakdown['NTA AGENT'] = 0;
-                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                                     price_breakdown['COMMISSION HO'] = 0;
 
                                 price_breakdown['FARE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fare;
@@ -3260,7 +3260,8 @@ function tour_get_booking(order_number)
                                 price_breakdown['OTT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta;
-                                price_breakdown['COMMISSION HO'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                                    price_breakdown['COMMISSION HO'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
                                 for(k in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges){
                                     if(k == 'ROC'){
                                         for(l in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k]){
@@ -3336,7 +3337,7 @@ function tour_get_booking(order_number)
                                     price_breakdown['TOTAL PRICE'] = 0;
                                 if(!price_breakdown.hasOwnProperty('NTA AGENT'))
                                     price_breakdown['NTA AGENT'] = 0;
-                                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                                if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                                     price_breakdown['COMMISSION HO'] = 0;
                                 if(!price_breakdown.hasOwnProperty('CHANNEL UPSELL'))
                                     price_breakdown['CHANNEL UPSELL'] = 0;
@@ -3352,7 +3353,8 @@ function tour_get_booking(order_number)
                                 price_breakdown['OTT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price_ott;
                                 price_breakdown['TOTAL PRICE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_price;
                                 price_breakdown['NTA AGENT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta;
-                                price_breakdown['COMMISSION HO'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
+                                if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                                    price_breakdown['COMMISSION HO'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_ho * -1;
                                 for(k in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges){
                                     if(k == 'ROC'){
                                         for(l in tr_get_booking.result.response.passengers[i].service_charge_details[j].service_charges[k]){
