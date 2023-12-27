@@ -546,7 +546,7 @@ function sort(value){
                             <tr>
                                 <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
                                 <td style="padding-left:15px;">
-                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
+                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:30px; height:30px;"/>
                                 </td>
                                 <td style="height:30px;padding:0 15px;width:100%">
                                     <div style="display:inline-block;position:relative;width:100%">
@@ -672,7 +672,7 @@ function sort(value){
                         price_breakdown['TAX'] = data_filter[i].fares[j].service_charge_summary[k].base_tax;
 //                        price_breakdown['BREAKDOWN'] = 0;
 //                        price_breakdown['COMMISSION'] = (data_filter[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
-//                        price_breakdown['NTA TRAIN'] = data_filter[i].fares[j].service_charge_summary[k].base_nta_vendor;
+//                        price_breakdown['NTA Bus'] = data_filter[i].fares[j].service_charge_summary[k].base_nta_vendor;
 //                        price_breakdown['SERVICE FEE'] = data_filter[i].fares[j].service_charge_summary[k].base_fee_ho;
 //                        price_breakdown['VAT'] = data_filter[i].fares[j].service_charge_summary[k].base_vat_ho;
 //                        price_breakdown['OTT'] = data_filter[i].fares[j].service_charge_summary[k].base_price_ott;
@@ -827,7 +827,7 @@ function bus_ticket_pick(){
                         <tr>
                             <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
                             <td style="padding-left:15px;">
-                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:30px; height:30px;"/>
+                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:30px; height:30px;"/>
                             </td>
                             <td style="height:30px;padding:0 15px;width:100%">
                                 <div style="display:inline-block;position:relative;width:100%">
@@ -857,7 +857,7 @@ function bus_ticket_pick(){
                     <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                     check = 0;
                     response+=`
-                        <span id="train_pick_price_`+i+` style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;`;
+                        <span id="bus_pick_price_`+i+` style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;`;
                         if(is_show_breakdown_price)
                             response+='cursor:pointer;';
                         response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
@@ -905,7 +905,7 @@ function bus_ticket_pick(){
                     price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax;
 //                    price_breakdown['BREAKDOWN'] = 0;
 //                    price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
-//                    price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
+//                    price_breakdown['NTA BUS'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
 //                    price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
 //                    price_breakdown['VAT'] = journeys[i].fares[j].service_charge_summary[k].base_vat_ho;
 //                    price_breakdown['OTT'] = journeys[i].fares[j].service_charge_summary[k].base_price_ott;
@@ -945,8 +945,8 @@ function bus_ticket_pick(){
                 }
             }
             new jBox('Tooltip', {
-                attach: '#train_pick_price_'+ i,
-                target: '#train_pick_price_'+ i,
+                attach: '#bus_pick_price_'+ i,
+                target: '#bus_pick_price_'+ i,
                 theme: 'TooltipBorder',
                 trigger: 'click',
                 adjustTracker: true,
@@ -1035,7 +1035,7 @@ function bus_get_detail(){
                         <tr>
                             <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
                             <td style="padding-left:15px;">
-                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:30px; height:30px;">
+                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:30px; height:30px;">
                             </td>
                             <td style="height:30px;padding:0 15px;width:100%">
                                 <div style="display:inline-block;position:relative;width:100%">
@@ -1426,11 +1426,21 @@ function bus_detail(){
 
             for(j in bus_data[i].fares){
                 for(k in bus_data[i].fares[j].service_charge_summary){
-                    provider_price['fare'] = bus_data[i].fares[j].service_charge_summary[k].total_fare;
-                    provider_price['tax'] = bus_data[i].fares[j].service_charge_summary[k].total_tax + bus_data[i].fares[j].service_charge_summary[k].total_upsell;
-                    provider_price['rac'] = bus_data[i].fares[j].service_charge_summary[k].total_commission;
-                    if(provider_price['currency'] != '')
-                        provider_price['currency'] = bus_data[i].fares[j].service_charge_summary[k].service_charges[0].currency;
+                    for(l in bus_data[i].fares[j].service_charge_summary[k].service_charges){
+                        if(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare karena yg lain pax count bisa beda
+                            provider_price['fare'] = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        else if(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'tax' || bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'roc')
+                            provider_price['tax'] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        else if(bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type.toLowerCase() == 'rac')
+                            provider_price['rac'] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                        if(provider_price['currency'] != '')
+                            provider_price['currency'] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    }
+//                    provider_price['fare'] = bus_data[i].fares[j].service_charge_summary[k].total_fare;
+//                    provider_price['tax'] = bus_data[i].fares[j].service_charge_summary[k].total_tax + bus_data[i].fares[j].service_charge_summary[k].total_upsell;
+//                    provider_price['rac'] = bus_data[i].fares[j].service_charge_summary[k].total_commission;
+//                    if(provider_price['currency'] != '')
+//                        provider_price['currency'] = bus_data[i].fares[j].service_charge_summary[k].service_charges[0].currency;
                 }
             }
             total_price_provider.push({
@@ -1783,23 +1793,23 @@ function bus_detail(){
                         price_breakdown['NTA AGENT'] = 0;
                     if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                         price_breakdown['COMMISSION HO'] = 0;
-                    price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare;
-                    price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax;
+                    price_breakdown['FARE'] += bus_data[i].fares[j].service_charge_summary[k].base_fare;
+                    price_breakdown['TAX'] += bus_data[i].fares[j].service_charge_summary[k].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
-                    price_breakdown['UPSELL'] += train_data[i].fares[j].service_charge_summary[k].base_upsell;
-                    price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
-                    price_breakdown['NTA BUS'] += train_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
-                    price_breakdown['SERVICE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_fee_ho;
-                    price_breakdown['VAT'] += train_data[i].fares[j].service_charge_summary[k].base_vat_ho;
-                    price_breakdown['OTT'] += train_data[i].fares[j].service_charge_summary[k].base_price_ott;
-                    price_breakdown['TOTAL PRICE'] += train_data[i].fares[j].service_charge_summary[k].base_price;
-                    price_breakdown['NTA AGENT'] += train_data[i].fares[j].service_charge_summary[k].base_nta;
+                    price_breakdown['UPSELL'] += bus_data[i].fares[j].service_charge_summary[k].base_upsell;
+                    price_breakdown['COMMISSION'] += (bus_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
+                    price_breakdown['NTA BUS'] += bus_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
+                    price_breakdown['SERVICE FEE'] += bus_data[i].fares[j].service_charge_summary[k].base_fee_ho;
+                    price_breakdown['VAT'] += bus_data[i].fares[j].service_charge_summary[k].base_vat_ho;
+                    price_breakdown['OTT'] += bus_data[i].fares[j].service_charge_summary[k].base_price_ott;
+                    price_breakdown['TOTAL PRICE'] += bus_data[i].fares[j].service_charge_summary[k].base_price;
+                    price_breakdown['NTA AGENT'] += bus_data[i].fares[j].service_charge_summary[k].base_nta;
                     if(user_login.co_agent_frontend_security.includes('agent_ho'))
-                        price_breakdown['COMMISSION HO'] += train_data[i].fares[j].service_charge_summary[k].base_commission_ho * -1;
+                        price_breakdown['COMMISSION HO'] += bus_data[i].fares[j].service_charge_summary[k].base_commission_ho * -1;
 
                     if(currency_breakdown == ''){
-                        for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
-                            currency_breakdown = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                        for(l in bus_data[i].fares[j].service_charge_summary[k].service_charges){
+                            currency_breakdown = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
                             break;
                         }
                     }
