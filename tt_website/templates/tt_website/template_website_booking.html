@@ -2187,6 +2187,12 @@ junction_font.load().then(function(loaded_face) {
     console.log(err);
 });
 </script>
+<style>
+    h1, h2, h3, h4, h5, h6{
+        font-family: "{{font.name}}", Arial !important
+    }
+</style>
+{% endif %}
 <script>
     function get_user_login(type){
         $.ajax({
@@ -2296,12 +2302,6 @@ junction_font.load().then(function(loaded_face) {
     get_user_login();
     {% endif %}
 </script>
-<style>
-    h1, h2, h3, h4, h5, h6{
-        font-family: "{{font.name}}", Arial !important
-    }
-</style>
-{% endif %}
 <body>
 {% include 'tt_website/html_include/check_connection.html' %}
 
