@@ -691,7 +691,7 @@
                     visa_date = '{{cache.visa.date}}';
                 {% else %}
                     visa_date = moment();
-                {% endi %}
+                {% endif %}
             }catch(err){
                 visa_date = moment();
             }
