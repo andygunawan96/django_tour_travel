@@ -375,6 +375,7 @@ def re_order_set_passengers(request):
                 "identity_number": pax['identity_number'],
                 "identity_first_name": pax['first_name'],
                 "identity_last_name": pax['last_name'],
+                "is_valid_identity": pax.get('is_valid_identity', False),
                 "passenger_seq_id": pax['seq_id'],
                 "identity_type": pax['identity_type'],
                 "ff_numbers": [],
@@ -382,6 +383,12 @@ def re_order_set_passengers(request):
                 "identity_image": [],
                 "passenger_number": pax['passenger_number']
             }
+            if pax['frequent_flyers']:
+                for ff_dict in pax['frequent_flyers']:
+                    data_pax_dict['ff_numbers'].append({
+                        "ff_code": ff_dict['ff_code'],
+                        "ff_number": ff_dict['ff_number']
+                    })
             if pax['pax_type'] in ['YCD', 'ADT']:
                 adult.append(data_pax_dict)
             elif pax['pax_type'] == 'CHD':

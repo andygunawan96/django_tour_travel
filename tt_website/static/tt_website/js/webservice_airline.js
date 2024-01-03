@@ -1239,7 +1239,7 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('adult_first_name'+index).value = pax_cache_reorder.adult[x].first_name;
             document.getElementById('adult_last_name'+index).value = pax_cache_reorder.adult[x].last_name;
             document.getElementById('adult_birth_date'+index).value = pax_cache_reorder.adult[x].birth_date;
-            if(pax_cache_reorder.adult[x].identity_type != ''){
+            if(pax_cache_reorder.adult[x].identity_type != '' && pax_cache_reorder.adult[x].is_valid_identity){
                 document.getElementById('adult_id_type'+index).value = pax_cache_reorder.adult[x].identity_type;
                 document.getElementById('adult_passport_number'+index).value = pax_cache_reorder.adult[x].identity_number;
                 document.getElementById('adult_identity_first_name'+index).value = pax_cache_reorder.adult[x].identity_first_name;
@@ -1257,11 +1257,10 @@ function auto_input_pax_cache_reorder(){
                     try{
                         if(pax_cache_reorder.adult[x].hasOwnProperty('ff_numbers'))
                             for(z in pax_cache_reorder.adult[x].ff_numbers){
-                                if(x == pax_cache_reorder.adult[x].ff_numbers[z].schedule_id){
+                                try{
                                     $('#adult_ff_request'+index+'_'+parseInt(y+1)+'_id').val(pax_cache_reorder.adult[x].ff_numbers[z].ff_code).trigger('change');
                                     document.getElementById('adult_ff_number'+index+'_'+parseInt(y+1)).value = pax_cache_reorder.adult[x].ff_numbers[z].ff_number;
-                                    break;
-                                }
+                                }catch(err){console.log(err);}
                             }
                     }catch(err){console.log(err)}
                 }
@@ -1284,7 +1283,7 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('child_first_name'+index).value = pax_cache_reorder.child[i].first_name;
             document.getElementById('child_last_name'+index).value = pax_cache_reorder.child[i].last_name;
             document.getElementById('child_birth_date'+index).value = pax_cache_reorder.child[i].birth_date;
-            if(pax_cache_reorder.child[i].identity_type != ''){
+            if(pax_cache_reorder.child[i].identity_type != '' && pax_cache_reorder.child[i].is_valid_identity){
                 document.getElementById('child_id_type'+index).value = pax_cache_reorder.child[i].identity_type;
                 document.getElementById('child_passport_number'+index).value = pax_cache_reorder.child[i].identity_number;
                 document.getElementById('child_identity_first_name'+index).value = pax_cache_reorder.child[i].identity_first_name;
@@ -1314,7 +1313,7 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('infant_first_name'+index).value = pax_cache_reorder.infant[i].first_name;
             document.getElementById('infant_last_name'+index).value = pax_cache_reorder.infant[i].last_name;
             document.getElementById('infant_birth_date'+index).value = pax_cache_reorder.infant[i].birth_date;
-            if(pax_cache_reorder.infant[i].identity_type != ''){
+            if(pax_cache_reorder.infant[i].identity_type != '' && pax_cache_reorder.infant[i].is_valid_identity){
                 document.getElementById('infant_id_type'+index).value = pax_cache_reorder.infant[i].identity_type;
                 document.getElementById('infant_passport_number'+index).value = pax_cache_reorder.infant[i].identity_number;
                 document.getElementById('infant_identity_first_name'+index).value = pax_cache_reorder.infant[i].identity_first_name;
@@ -1351,7 +1350,7 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('student_first_name'+index).value = pax_cache_reorder.student[x].first_name;
             document.getElementById('student_last_name'+index).value = pax_cache_reorder.student[x].last_name;
             document.getElementById('student_birth_date'+index).value = pax_cache_reorder.student[x].birth_date;
-            if(pax_cache_reorder.student[x].identity_type != ''){
+            if(pax_cache_reorder.student[x].identity_type != '' && pax_cache_reorder.student[x].is_valid_identity){
                 document.getElementById('student_id_type'+index).value = pax_cache_reorder.student[x].identity_type;
                 document.getElementById('student_passport_number'+index).value = pax_cache_reorder.student[x].identity_number;
                 document.getElementById('student_identity_first_name'+index).value = pax_cache_reorder.student[x].identity_first_name;
@@ -1402,7 +1401,7 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('seaman_first_name'+index).value = pax_cache_reorder.seaman[x].first_name;
             document.getElementById('seaman_last_name'+index).value = pax_cache_reorder.seaman[x].last_name;
             document.getElementById('seaman_birth_date'+index).value = pax_cache_reorder.seaman[x].birth_date;
-            if(pax_cache_reorder.seaman[x].identity_type != ''){
+            if(pax_cache_reorder.seaman[x].identity_type != '' && pax_cache_reorder.seaman[x].is_valid_identity){
                 document.getElementById('seaman_id_type'+index).value = pax_cache_reorder.seaman[x].identity_type;
                 document.getElementById('seaman_passport_number'+index).value = pax_cache_reorder.seaman[x].identity_number;
                 document.getElementById('seaman_identity_first_name'+index).value = pax_cache_reorder.seaman[x].identity_first_name;
@@ -1453,7 +1452,7 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('labour_first_name'+index).value = pax_cache_reorder.labour[x].first_name;
             document.getElementById('labour_last_name'+index).value = pax_cache_reorder.labour[x].last_name;
             document.getElementById('labour_birth_date'+index).value = pax_cache_reorder.labour[x].birth_date;
-            if(pax_cache_reorder.labour[x].identity_type != ''){
+            if(pax_cache_reorder.labour[x].identity_type != '' && pax_cache_reorder.labour[x].is_valid_identity){
                 document.getElementById('labour_id_type'+index).value = pax_cache_reorder.labour[x].identity_type;
                 document.getElementById('labour_passport_number'+index).value = pax_cache_reorder.labour[x].identity_number;
                 document.getElementById('labour_identity_first_name'+index).value = pax_cache_reorder.labour[x].identity_first_name;
@@ -3313,6 +3312,10 @@ function airline_search(provider,carrier_codes,last_send=false,re_order=false){
             console.log(err); // error kalau ada element yg tidak ada
         }
     }
+    if(re_order && promotion_code_list.length == 0){
+        if(typeof(airline_request) !== 'undefined')
+            promotion_code_list = JSON.parse(airline_request.promo_code_counter_list);
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -4848,6 +4851,10 @@ function get_price_itinerary_request(){
             console.log(err); // error kalau ada element yg tidak ada
         }
     }
+
+    if(typeof(airline_request) !== 'undefined')
+        if(airline_request.hasOwnProperty('promo_codes'))
+            promotion_code_list = airline_request.promo_codes;
 
     last_get_price_request = {
         "promo_codes": JSON.stringify(promotion_code_list),
@@ -8121,7 +8128,8 @@ function search_reorder(){
         "carrier_codes":[],
         "cabin_class_list":[],
         "counter":"0",
-        "flight":""
+        "flight":"",
+        "promo_code_counter_list": []
     };
     adult = 0;
     child = 0;
@@ -8129,6 +8137,17 @@ function search_reorder(){
     student = 0;
     labour = 0;
     seaman = 0;
+
+    for(i in airline_get_detail.result.response.provider_bookings){
+        for(j in airline_get_detail.result.response.provider_bookings[i].promo_codes){
+            airline_request['promo_code_counter_list'].push({
+                "carrier_code": airline_get_detail.result.response.provider_bookings[i].promo_codes[j].carrier_code,
+                "promo_code": airline_get_detail.result.response.provider_bookings[i].promo_codes[j].promo_code,
+            })
+        }
+    }
+    airline_request['promo_code_counter_list'] = JSON.stringify(airline_request['promo_code_counter_list'])
+
     for(i in passenger_list_copy){
         if(['ADT', 'YCD'].includes(passenger_list_copy[i].pax_type))
             adult++;
@@ -8350,12 +8369,18 @@ function re_order_find_journey(){
             }).then((result) => {
                 if (result.value) {
                     document_set_cookie('airline_request', JSON.stringify(airline_request));
-
                     concat_url = ''
                     for(key in airline_request){
                         if(concat_url)
                             concat_url += '&';
-                        concat_url += key + '=' + encodeURIComponent(airline_request[key]);
+                        if(key == 'origin' || key == 'destination'){
+                            data_list = [];
+                            for(index in airline_request[key]){
+                                data_list.push(airline_request[key][index].split(' - ')[0])
+                            }
+                            concat_url += key + '=' + data_list;
+                        }else
+                            concat_url += key + '=' + encodeURIComponent(airline_request[key]);
                     }
 //                    document.getElementById('airline_searchForm').action += '?' + concat_url;
                     window.location.href = '/airline/search?' + concat_url;
@@ -8384,7 +8409,7 @@ function re_order_get_price(){
             'action': 'get_price_itinerary',
        },
        data: {
-          "promo_codes": JSON.stringify(promotion_code_list),
+          "promo_codes": airline_request.promo_code_counter_list,
           "journeys_booking": JSON.stringify(journey),
           'signature': signature,
           'separate_journey': separate,
@@ -8422,7 +8447,14 @@ function re_order_get_price(){
                         for(key in airline_request){
                             if(concat_url)
                                 concat_url += '&';
-                            concat_url += key + '=' + encodeURIComponent(airline_request[key]);
+                            if(key == 'origin' || key == 'destination'){
+                                data_list = [];
+                                for(index in airline_request[key]){
+                                    data_list.push(airline_request[key][index].split(' - ')[0])
+                                }
+                                concat_url += key + '=' + data_list;
+                            }else
+                                concat_url += key + '=' + encodeURIComponent(airline_request[key]);
                         }
                         window.location.href = '/airline/search?' + concat_url;
 //                        window.location.href = '/airline/search';
@@ -8499,7 +8531,14 @@ function re_order_sell_journeys(){
                         for(key in airline_request){
                             if(concat_url)
                                 concat_url += '&';
-                            concat_url += key + '=' + encodeURIComponent(airline_request[key]);
+                            if(key == 'origin' || key == 'destination'){
+                                data_list = [];
+                                for(index in airline_request[key]){
+                                    data_list.push(airline_request[key][index].split(' - ')[0])
+                                }
+                                concat_url += key + '=' + data_list;
+                            }else
+                                concat_url += key + '=' + encodeURIComponent(airline_request[key]);
                         }
                         window.location.href = '/airline/search?' + concat_url;
 //                        window.location.href = '/airline/search';
