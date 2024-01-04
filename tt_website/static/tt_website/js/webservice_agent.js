@@ -861,7 +861,7 @@ function signin_btc(is_resend=false){
                     }catch(err){
                         console.log(err); // error menu nav / browser / responsive
                     }
-                    if(window.location.href.includes('booking')){
+                    if(window.location.href.includes('booking') || window.location.href.includes('reservation_request')){
                         location.reload();
                     }else if(window.location.href.split('/')[3] == ''){
                         window.location.href = '/';
