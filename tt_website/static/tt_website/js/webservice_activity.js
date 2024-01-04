@@ -4501,7 +4501,7 @@ function activity_get_booking(data){
                     }catch(err){console.log(err);}
                 }else if(msg.result.error_code == 1035){
                     document.getElementById('activity_detail').hidden = true;
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',

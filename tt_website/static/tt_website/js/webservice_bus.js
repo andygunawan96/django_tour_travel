@@ -2159,7 +2159,7 @@ function bus_get_booking(data, sync=false){
             }else if(msg.result.error_code == 1035){
                 document.getElementById('show_loading_booking_bus').hidden = true;
                 document.getElementById('show_title_bus').hidden = true;
-                $('#myModalSignin').modal('show');
+                $('#myModalSignIn').modal('show');
                 Swal.fire({
                     type: 'error',
                     title: 'Oops!',
