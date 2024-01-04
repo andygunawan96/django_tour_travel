@@ -1000,12 +1000,13 @@ def signin_product_otp(request):
     return res
 
 def update_context_machine_otp_pin_api(request, signature='', is_need_to_save_session=False, is_need_to_create_new_session=False):
+    data_signature = signature if signature else request.session.get('master_signature', '')
     try:
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "update_context_machine_otp_pin_api",
-            "signature": signature if signature else request.session.get('master_signature', '')
+            "signature": data_signature
         }
         data = {}
     except Exception as e:
@@ -1016,10 +1017,32 @@ def update_context_machine_otp_pin_api(request, signature='', is_need_to_save_se
         if is_need_to_create_new_session:
             request.session.create()
             request.session.set_expiry(3 * 60 * 60)  # jam menit detik
-            set_session(request, 'signature', res['result']['response']['signature'])
-            set_session(request, 'master_signature', res['result']['response']['signature'])
+            set_session(request, 'signature', data_signature)
+            set_session(request, 'master_signature', data_signature)
         if is_need_to_save_session:
             set_session(request, 'user_account', res['result']['response'])
+
+    if not request.session.get('provider'):
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_type_list",
+            "signature": data_signature
+        }
+        url_request = get_url_gateway('content')
+        provider_type = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if provider_type['result']['error_code'] == 0:
+                provider_type_list = []
+                for provider in provider_type['result']['response']['provider_type_list']:
+                    provider_type_list.append(provider['code'])
+                set_session(request, 'provider', provider_type_list)
+            else:
+                # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
+                set_session(request, 'provider', [])
+        except:
+            set_session(request, 'provider', [])
 
     return res
 

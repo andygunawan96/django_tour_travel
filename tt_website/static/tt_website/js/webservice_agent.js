@@ -2423,6 +2423,48 @@ function get_automatic_booker(cust_code){
     });
 }
 
+function get_automatic_passenger(cust_code, pax_type, customer_number, product){
+    $.ajax({
+        type: "POST",
+        url: "/webservice/agent",
+        headers:{
+            'action': 'get_automatic_booker',
+        },
+        data: {
+            'cust_code': cust_code,
+            'signature': signature
+        },
+        success: function(msg) {
+            if(msg.result.error_code == 0){
+                if(msg.result.response.length > 0){
+                    passenger_data = msg.result.response;
+                    pax_type_name = '';
+                    if(pax_type == 'ADT')
+                        pax_type_name = 'adult';
+                    else if(pax_type == 'CHD')
+                        pax_type_name = 'child';
+                    else if(pax_type == 'INF')
+                        pax_type_name = 'infant';
+                    else if(pax_type == 'SEA')
+                        pax_type_name = 'seaman';
+                    else if(pax_type == 'LBR')
+                        pax_type_name = 'labour';
+                    else if(pax_type == 'STU')
+                        pax_type_name = 'student';
+                    else
+                        pax_type_name = pax_type;
+                    passenger_number = customer_number;
+                    pick_passenger(pax_type_name,0,product);
+                }
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error customer list');
+            $('.loading-booker-train').hide();
+        },timeout: 60000
+    });
+}
+
 function show_filter_data(){
     filter_data_div = document.getElementById('filter_search_div_cache');
     result_data_div = document.getElementById('result_paxs_div');
