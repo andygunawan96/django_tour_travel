@@ -80,7 +80,7 @@ function activity_redirect_signup(type){
                     activity_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
                     signature = new_login_signature;
-                    $('#myModalSignin').modal('hide');
+                    $('#myModalSignIn').modal('hide');
                     window.location.href = '/';
 //                    location.reload();
 //                    if(type != 'search'){
@@ -254,7 +254,7 @@ function activity_redirect_signup(type){
 //                                                                    });
 //                                                                }else{
 //                                                                    signature = new_login_signature;
-//                                                                    $('#myModalSignin').modal('hide');
+//                                                                    $('#myModalSignIn').modal('hide');
 //                                                                    location.reload();
 //                                                                }
 //                                                            }
@@ -269,7 +269,7 @@ function activity_redirect_signup(type){
 //                                        });
 //                                    }else{
 //                                        signature = new_login_signature;
-//                                        $('#myModalSignin').modal('hide');
+//                                        $('#myModalSignIn').modal('hide');
 //                                        location.reload();
 //                                    }
 //                               }
@@ -279,7 +279,7 @@ function activity_redirect_signup(type){
 //                        });
 //                    }else{
 //                        signature = new_login_signature;
-//                        $('#myModalSignin').modal('hide');
+//                        $('#myModalSignIn').modal('hide');
 //                        location.reload();
 //                    }
                }

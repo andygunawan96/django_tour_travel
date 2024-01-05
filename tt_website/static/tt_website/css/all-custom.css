@@ -3233,10 +3233,10 @@ th input {
 
 .img-hotel-search {
     width: auto;
-    height: 222px;
+    min-height: 200px;
+    height: 100%;
     background-size:cover;
     background-position:50% 50%;
-    border-radius: 5px;
 }
 .img-hotel-search-c {
     width: auto;
@@ -3820,7 +3820,7 @@ for better animation effect */
 }
 .sorting-box-b{
     background-color:white;
-    padding:10px;
+    padding:0px 10px 0px 0px;
     margin-bottom:15px;
     border:1px solid #cdcdcd;
 }
@@ -5831,8 +5831,7 @@ ul.progress_tabs li.current .image-rounded-icon{
     display:block !important;
   }
   .name_hotel_search{
-    padding-left:0px;
-    padding-top:0px;
+    padding: 10px 15px 15px 0px;
   }
 }
 @media (max-width: 991px) {
@@ -5888,6 +5887,9 @@ ul.progress_tabs li.current .image-rounded-icon{
   .name_hotel_search{
     padding-left:15px;
     padding-top:15px;
+  }
+  .sorting-box-b{
+    padding:10px;
   }
 }
 @media (max-height: 390px) {

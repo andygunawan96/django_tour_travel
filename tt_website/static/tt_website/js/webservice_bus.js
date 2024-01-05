@@ -107,7 +107,7 @@ function bus_redirect_signup(type){
                                         console.log(err); // error kalau ada element yg tidak ada
                                     }
                                     document.getElementById('reload_page').submit();
-                                    $('#myModalSignin').modal('hide');
+                                    $('#myModalSignIn').modal('hide');
                                }
                            },
                            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -115,7 +115,7 @@ function bus_redirect_signup(type){
                         });
                     }else{
                         signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
+                        $('#myModalSignIn').modal('hide');
                         location.reload();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
