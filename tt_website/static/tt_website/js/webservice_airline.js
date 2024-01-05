@@ -3643,7 +3643,7 @@ function datasearch2(airline){
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            if(!['CHD', 'INF'].includes(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type)){
                                for(n in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-                                   if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac2'){
+                                   if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type == 'TAX' || airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type == 'FARE' || airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type == 'ROC'){
                                        price += airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                        if(currency == ''){
                                            currency = airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
@@ -11515,7 +11515,7 @@ function airline_get_booking(data, sync=false){
                }else if(msg.result.error_code == 1035){
                     hide_modal_waiting_transaction();
                     document.getElementById('show_loading_booking_airline').hidden = true;
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     try{
                         document.getElementById('keep_me_sign_in_div').hidden = true;
                     }catch(err){}

@@ -3559,6 +3559,7 @@ function render_room_hotel(data_room_hotel_list){
                 var price_breakdown = {};
                 var currency_breakdown = '';
                 for(i in data_room_hotel_list){
+                    price_breakdown = {};
                     for(j in data_room_hotel_list[i].rooms){
                         for(k in data_room_hotel_list[i].rooms[j].nightly_prices){
                             if(currency_breakdown == ''){

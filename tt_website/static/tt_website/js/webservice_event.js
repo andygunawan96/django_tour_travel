@@ -969,7 +969,7 @@ function event_get_booking(data){
                     //======================= Other =========================
                     add_repricing();
                 }else if(msg.result.error_code == 1035){
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',

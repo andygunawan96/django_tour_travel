@@ -4134,7 +4134,7 @@ function hotel_get_booking(data){
 
     //               document.getElementById('hotel_detail').innerHTML = text;
                 }else if(msg.result.error_code == 1035){
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',

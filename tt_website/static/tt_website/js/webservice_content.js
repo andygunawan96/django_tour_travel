@@ -2021,11 +2021,25 @@ function get_reservation_issued_request(request_number)
                 }
                 document.getElementById('reservation_request_buttons').innerHTML = btn_text;
            }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get reservation issued request </span>' + msg.result.error_msg,
-                })
+//               hide_modal_waiting_transaction();
+//                document.getElementById('show_loading_booking_airline').hidden = true;
+                $('#myModalSignIn').modal('show');
+//                try{
+//                    document.getElementById('keep_me_sign_in_div').hidden = true;
+//                }catch(err){}
+//                try{
+//                    document.getElementById('forget_password_label').hidden = true;
+//                }catch(err){}
+//                try{
+//                    setTimeout(() => {
+//                      document.getElementById('email_otp_input1').select();
+//                    }, 500);
+//                }catch(err){}
+//               Swal.fire({
+//                  type: 'error',
+//                  title: 'Oops!',
+//                  html: '<span style="color: red;">Error get reservation issued request </span>' + msg.result.error_msg,
+//                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

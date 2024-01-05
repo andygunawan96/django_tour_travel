@@ -5366,35 +5366,35 @@ function airline_pick_mc(type){
 
                                                              var total_price = 0;
                                                              if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
-                                                                    check = 0;
-                                                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
-                                                                        try{
-                                                                            if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
-                                                                                check = 1;
-                                                                        }catch(err){
-                                                                            console.log(err); // error kalau ada element yg tidak ada
-                                                                        }
+                                                                check = 0;
+                                                                for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
+                                                                    try{
+                                                                        if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
+                                                                            check = 1;
+                                                                    }catch(err){
+                                                                        console.log(err); // error kalau ada element yg tidak ada
                                                                     }
-                                                                    if(check == 1){
-                                                                        if(j == airline_pick_list[i].segments.length - 1){
-                                                                            for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
-                                                                                if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
-                                                                                    total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
-                                                                            }
-                                                                            total_price -= total_price_pick;
+                                                                }
+                                                                if(check == 1){
+                                                                    if(j == airline_pick_list[i].segments.length - 1){
+                                                                        for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
+                                                                            if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
+                                                                                total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
                                                                         }
+                                                                        total_price -= total_price_pick;
                                                                     }
-                                                                    else{
-                                                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                                                            if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
-                                                                                for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                                                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'TAX' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'FARE' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'ROC')
-                                                                                        total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                                                                break;
-                                                                            }
+                                                                }
+                                                                else{
+                                                                    for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+                                                                        if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
+                                                                            for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                                                if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'TAX' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'FARE' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'ROC')
+                                                                                    total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                                            break;
                                                                         }
                                                                     }
                                                                 }
+                                                            }
                                                              else if(i != airline_request.origin.length-1 || airline_request.origin.length == 1){
                                                                     for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
                                                                         if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){

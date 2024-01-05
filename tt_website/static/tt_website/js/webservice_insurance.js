@@ -3968,7 +3968,7 @@ function insurance_get_booking(data, sync=false){
                     document.getElementById('show_title_insurance').hidden = false;
                     document.getElementById('show_loading_booking_insurance').hidden = true;
                     document.getElementById('show_title_insurance').hidden = true;
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',
