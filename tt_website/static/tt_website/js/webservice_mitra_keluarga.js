@@ -1910,7 +1910,7 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                     document.getElementById('show_title_mitra_keluarga').hidden = false;
                     document.getElementById('show_loading_booking_mitra_keluarga').hidden = true;
                     document.getElementById('show_title_mitra_keluarga').hidden = true;
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',

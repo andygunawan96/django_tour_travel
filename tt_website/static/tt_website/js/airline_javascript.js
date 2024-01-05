@@ -5366,35 +5366,35 @@ function airline_pick_mc(type){
 
                                                              var total_price = 0;
                                                              if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
-                                                                    check = 0;
-                                                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
-                                                                        try{
-                                                                            if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
-                                                                                check = 1;
-                                                                        }catch(err){
-                                                                            console.log(err); // error kalau ada element yg tidak ada
-                                                                        }
+                                                                check = 0;
+                                                                for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
+                                                                    try{
+                                                                        if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
+                                                                            check = 1;
+                                                                    }catch(err){
+                                                                        console.log(err); // error kalau ada element yg tidak ada
                                                                     }
-                                                                    if(check == 1){
-                                                                        if(j == airline_pick_list[i].segments.length - 1){
-                                                                            for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
-                                                                                if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
-                                                                                    total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
-                                                                            }
-                                                                            total_price -= total_price_pick;
+                                                                }
+                                                                if(check == 1){
+                                                                    if(j == airline_pick_list[i].segments.length - 1){
+                                                                        for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
+                                                                            if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
+                                                                                total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
                                                                         }
+                                                                        total_price -= total_price_pick;
                                                                     }
-                                                                    else{
-                                                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                                                            if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
-                                                                                for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                                                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'TAX' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'FARE' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'ROC')
-                                                                                        total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                                                                break;
-                                                                            }
+                                                                }
+                                                                else{
+                                                                    for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+                                                                        if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
+                                                                            for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                                                if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'TAX' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'FARE' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'ROC')
+                                                                                    total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                                            break;
                                                                         }
                                                                     }
                                                                 }
+                                                            }
                                                              else if(i != airline_request.origin.length-1 || airline_request.origin.length == 1){
                                                                     for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
                                                                         if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
@@ -8104,51 +8104,51 @@ function check_passenger(adult, child, infant, type=''){
     //adult
     for(i=1;i<=adult;i++){
         if(check_name(document.getElementById('adult_title'+i).value,
-            document.getElementById('adult_first_name'+i).value,
-            document.getElementById('adult_last_name'+i).value,
-            length_name) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
-           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+                document.getElementById('adult_first_name'+i).value,
+                document.getElementById('adult_last_name'+i).value,
+                length_name) == false){
+            error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
+            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
         }else{
-           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
         }if(document.getElementById('adult_title'+i).value == ''){
             error_log+= 'Please choose title of adult passenger '+i+'!</br>\n';
             $("#adult_title"+i).each(function() {
                 $(this).parent().find('.nice-select').css('border', '1px solid red');
             });
         }else{
-           $("#adult_title"+i).each(function() {
+            $("#adult_title"+i).each(function() {
                 $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
             });
         }
         if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
-           if(document.getElementById('adult_first_name'+i).value == '')
+            if(document.getElementById('adult_first_name'+i).value == '')
                error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+            else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
                error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
         }else{
-           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
         }
         if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
-           if(document.getElementById('adult_first_name'+i).value == '')
+            if(document.getElementById('adult_first_name'+i).value == '')
                error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+            else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
                error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
         }else{
-           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
         }
         if(is_need_last_name == 'true' && document.getElementById('adult_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('adult_last_name'+i).value) == false){
-           if(document.getElementById('adult_last_name'+i).value == '')
+            if(document.getElementById('adult_last_name'+i).value == '')
                error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('adult_last_name'+i).value) == false)
+            else if(check_word(document.getElementById('adult_last_name'+i).value) == false)
                error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
         }else{
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
         }
 
        //check lastname
@@ -8160,31 +8160,31 @@ function check_passenger(adult, child, infant, type=''){
 //           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
 //       }
         if(birth_date_required == true || document.getElementById('adult_id_type'+i).value == 'passport'){
-           if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-               error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-           }else{
-               duration = moment.duration(moment(document.getElementById('adult_birth_date'+i).value).diff(last_departure_date));
-               if(duration._data.years <= -12 == false){ //check age
+            if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+                document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+            }else{
+                duration = moment.duration(moment(document.getElementById('adult_birth_date'+i).value).diff(last_departure_date));
+                if(duration._data.years <= -12 == false){ //check age
                     error_log+= 'Age wrong for passenger adult '+i+' minimum 12 years old!</br>\n';
                     document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-               }else{
+                }else{
                     document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
-               }
-           }
+                }
+            }
         }if(document.getElementById('adult_nationality'+i+'_id').value == ''){
-           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
+            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
+            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
         }else{
-           if(is_identity_required == 'true')
-               if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
+            if(is_identity_required == 'true')
+                if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
-               }
-           document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
+                }
+            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
         }
         if(document.getElementById('adult_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
-           if(document.getElementById('adult_id_type'+i).value != ''){
+            if(document.getElementById('adult_id_type'+i).value != ''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                 });
@@ -10263,10 +10263,10 @@ function check_passenger(adult, child, infant, type=''){
             }
        }
        // auto check invalid identity
-       for(i in list_identity_need_update){
-            passenger_id = list_identity_need_update[i].split('_');
-            document.getElementById(passenger_id[0]+'_valid_passport'+passenger_id[1]).checked = true;
-       }
+//       for(i in list_identity_need_update){
+//            passenger_id = list_identity_need_update[i].split('_');
+//            document.getElementById(passenger_id[0]+'_valid_passport'+passenger_id[1]).checked = true;
+//       }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
 //       document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);

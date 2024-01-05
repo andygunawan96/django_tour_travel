@@ -2040,7 +2040,7 @@ function medical_global_get_booking(order_number, sync=false){
                     document.getElementById('show_title_medical').hidden = false;
                     document.getElementById('show_loading_booking_medical').hidden = true;
                     document.getElementById('show_title_medical').hidden = true;
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',

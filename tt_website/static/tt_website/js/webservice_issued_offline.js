@@ -2393,7 +2393,7 @@ function get_booking_offline(data){
 //                    }catch(err){console.log(err);}
                 }else if(msg.result.error_code == 1035){
                     document.getElementById('show_loading_booking_airline').hidden = true;
-                    $('#myModalSignin').modal('show');
+                    $('#myModalSignIn').modal('show');
                     Swal.fire({
                         type: 'error',
                         title: 'Oops!',
