@@ -7464,14 +7464,11 @@ text-align: center;
     z-index: 99;
 }
 
-
 .btn-group, .btn-group-vertical {
     position: relative;
     display: inline-flex;
     vertical-align: middle;
 }
-
-
 
 .adminActions {
   position: fixed;

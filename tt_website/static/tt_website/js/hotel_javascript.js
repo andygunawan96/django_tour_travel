@@ -1524,7 +1524,7 @@ function hotel_filter_render(){
         text+=`
         <label class="radio-button-custom">
             <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
-            <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting2" onclick="sorting_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+            <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting2" onclick="sorting_button('`+sorting_list[i].value+`', '`+i+`);" value="`+sorting_list[i].value+`">
             <span class="checkmark-radio"></span>
         </label></br>`;
 
