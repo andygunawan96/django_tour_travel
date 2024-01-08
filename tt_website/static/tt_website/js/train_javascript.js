@@ -1440,19 +1440,28 @@ function train_detail(){
 
         price = {
             'fare': 0,
-            'tax': 0
+            'tax': 0,
+            'currency': ''
         };
         for(j in train_data[i].fares){
             for(k in train_data[i].fares[j].service_charge_summary){
-                price['tax'] = train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
-                price['fare'] = train_data[i].fares[j].service_charge_summary[k].base_fare;
                 for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
-                    if(l == 0)
+                    if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type == 'FARE')
+                        price['fare'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
+                    else if(['TAX', 'ROC'].includes(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
+                        price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                    else if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type == 'RAC' && train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code == 'rac')
+                        total_commission += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total * -1;
+                    if(!price['currency'])
                         price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                    break;
                 }
-                total_tax += train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
-                total_commission += train_data[i].fares[j].service_charge_summary[k].total_commission*-1;
+//                for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
+//                    if(l == 0)
+//                        price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+//                    break;
+//                }
+//                total_tax += train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
+//                total_commission += train_data[i].fares[j].service_charge_summary[k].total_commission*-1;
                 if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
                     total_price += price['fare'] * parseInt(adult);
                 else
