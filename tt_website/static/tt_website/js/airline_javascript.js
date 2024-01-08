@@ -7116,7 +7116,7 @@ function airline_detail(type){
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             text+=`<div style="text-align:right; margin-top:15px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         }
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes('b2c_limitation') && !user_login.co_agent_frontend_security.includes("corp_limitation")){
             text+=`
             <div class="alert alert-success" style="margin-top:10px;">
                 <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
@@ -7559,7 +7559,8 @@ function airline_detail(type){
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
-                                price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
                                 price_breakdown['VAT'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;
@@ -7642,7 +7643,8 @@ function airline_detail(type){
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
-                                price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor)* -1;
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor)* -1;
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
                                 price_breakdown['VAT'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;

@@ -830,7 +830,7 @@ function event_get_booking(data){
                             </div>
                         </div>`;
 
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes('b2c_limitation') && !user_login.co_agent_frontend_security.includes("corp_limitation")){
                             text_detail+=`
                             <div class="alert alert-success" style="margin-top:10px;">
                                 <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">

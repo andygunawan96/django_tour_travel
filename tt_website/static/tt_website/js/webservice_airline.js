@@ -5716,7 +5716,7 @@ text_detail_next +=`
             text_detail_next += `
             </div>
             <div class="col-lg-7" style="margin:auto;">`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 // tidak ikut default karena ada notes untuk YPM lionair
                 text_detail_next+=`
                 <div class="alert alert-success" style="margin-bottom:5px;">
@@ -5876,7 +5876,8 @@ text_detail_next +=`
                             price_breakdown['TAX'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
-                            price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
                             price_breakdown['NTA AIRLINE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                             price_breakdown['SERVICE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
                             price_breakdown['VAT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;
@@ -5966,7 +5967,8 @@ text_detail_next +=`
                             price_breakdown['TAX'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
-                            price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] += (get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
                             price_breakdown['NTA AIRLINE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                             price_breakdown['SERVICE FEE'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
                             price_breakdown['VAT'] += get_price_airline_response.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;
@@ -11101,7 +11103,8 @@ function airline_get_booking(data, sync=false){
                             price_breakdown['TAX'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] = (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor) * -1;
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] = (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor) * -1;
                             price_breakdown['NTA AIRLINE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] = airline_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -11194,7 +11197,8 @@ function airline_get_booking(data, sync=false){
                             price_breakdown['TAX'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] += (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor) * -1;
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] += (airline_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor) * -1;
                             price_breakdown['NTA AIRLINE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += airline_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -12819,7 +12823,7 @@ function airline_issued(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                 text += print_commission(commission*-1,'show_commission_old',price.currency)
         //                        text+=`
         //                    <div class="row" id="show_commission_old" style="display:block;">
@@ -12937,7 +12941,7 @@ function airline_issued(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                 text += print_commission(commission*-1,'show_commission_new',price.currency)
         //                        text+=`
         //                    <div class="row" id="show_commission_new" style="display:block;">
@@ -15579,7 +15583,8 @@ function render_ticket_reissue(){
                                             price_breakdown['TAX'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_tax;
                                             price_breakdown['BREAKDOWN'] = 0;
                                             price_breakdown['UPSELL'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_upsell;
-                                            price_breakdown['COMMISSION'] += (airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_vendor)* -1;
+                                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                                price_breakdown['COMMISSION'] += (airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_commission_vendor)* -1;
                                             price_breakdown['NTA AIRLINE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_nta_vendor;
                                             price_breakdown['SERVICE FEE'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
                                             price_breakdown['VAT'] += airline[i].segments[j].fares[airline[i].segments[j].fare_pick].service_charge_summary[k].base_vat_ho;
@@ -16798,7 +16803,8 @@ function get_chosen_ticket(type='all'){
                         price_breakdown['TAX'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_tax;
                         price_breakdown['BREAKDOWN'] = 0;
                         price_breakdown['UPSELL'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_upsell;
-                        price_breakdown['COMMISSION'] += (airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_commission_vendor) * -1;
+                        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                            price_breakdown['COMMISSION'] += (airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].total_commission_vendor) * -1;
                         price_breakdown['NTA AIRLINE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_nta_vendor;
                         price_breakdown['SERVICE FEE'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_fee_ho;
                         price_breakdown['VAT'] += airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].base_vat_ho;
@@ -17300,7 +17306,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
         </div>
     </div>`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes('b2c_limitation')){
         text += print_commission(commission_price*-1,'show_commission',currency)
 //        text+=`
 //        <div class="row" id="show_commission" style="display:none;">

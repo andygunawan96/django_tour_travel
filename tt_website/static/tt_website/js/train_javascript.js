@@ -1025,7 +1025,7 @@ function train_get_detail(){
                 train_detail_footer+=`
                 </div>
                 <div class="col-lg-7" style="margin:auto;">`;
-                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         train_detail_footer+= print_commission(total_commission,'show_commission', price.currency);
                     }
                 train_detail_footer+=`
@@ -1110,7 +1110,8 @@ function train_get_detail(){
                     price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_upsell;
-                    price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
                     price_breakdown['VAT'] = journeys[i].fares[j].service_charge_summary[k].base_vat_ho;
@@ -1171,7 +1172,8 @@ function train_get_detail(){
                     price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_upsell;
-                    price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
                     price_breakdown['VAT'] = journeys[i].fares[j].service_charge_summary[k].base_vat_ho;
@@ -1579,7 +1581,7 @@ function train_detail(){
     if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="mb-3" style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
         text+= print_commission(total_commission,'show_commission', price.currency)
 //    $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
@@ -1681,7 +1683,8 @@ function train_detail(){
                     price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['CONVENIENCE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_upsell;
-                    price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA TRAIN'] += train_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_fee_ho;
                     price_breakdown['VAT'] += train_data[i].fares[j].service_charge_summary[k].base_vat_ho;

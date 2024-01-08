@@ -1212,7 +1212,7 @@ function bus_get_detail(){
         bus_detail_text +=`
             </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
             bus_detail_text+= print_commission(total_commission,'show_commission', price.currency)
         bus_detail_text+=`
         <div class="row">
@@ -1273,7 +1273,8 @@ function bus_get_detail(){
                     price_breakdown['TAX'] += journeys[i].fares[j].service_charge_summary[k].total_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += journeys[i].fares[j].service_charge_summary[k].total_upsell;
-                    price_breakdown['COMMISSION'] += (journeys[i].fares[j].service_charge_summary[k].total_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (journeys[i].fares[j].service_charge_summary[k].total_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += journeys[i].fares[j].service_charge_summary[k].total_nta_vendor;
                     price_breakdown['SERVICE FEE'] += journeys[i].fares[j].service_charge_summary[k].total_fee_ho;
                     price_breakdown['VAT'] += journeys[i].fares[j].service_charge_summary[k].total_vat_ho;
@@ -1715,7 +1716,7 @@ function bus_detail(){
         text+=`<div class="mb-3" style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
 
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
         text+= print_commission(total_commission,'show_commission', price.currency)
 
     if(total_tax != 0)
@@ -1797,7 +1798,8 @@ function bus_detail(){
                     price_breakdown['TAX'] += bus_data[i].fares[j].service_charge_summary[k].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += bus_data[i].fares[j].service_charge_summary[k].base_upsell;
-                    price_breakdown['COMMISSION'] += (bus_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (bus_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
                     price_breakdown['NTA BUS'] += bus_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += bus_data[i].fares[j].service_charge_summary[k].base_fee_ho;
                     price_breakdown['VAT'] += bus_data[i].fares[j].service_charge_summary[k].base_vat_ho;

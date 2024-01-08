@@ -2016,7 +2016,8 @@ function train_get_booking(data){
                             price_breakdown['TAX'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['CONVENIENCE FEE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] = (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] = (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA TRAIN'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] = train_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -2109,7 +2110,8 @@ function train_get_booking(data){
                             price_breakdown['TAX'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['CONVENIENCE FEE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] += (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] += (train_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA TRAIN'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += train_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;

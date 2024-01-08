@@ -1743,7 +1743,7 @@ function hotel_room_pick(key, key2){
         </div>
     </div>`;
 
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text_pick_footer += print_commission(hotel_room.rooms[i].commission*-1,'show_commission', hotel_room.currency)
     }
     document.getElementById('hotel_detail_button').innerHTML = text_pick_footer;
@@ -1796,7 +1796,8 @@ function hotel_room_pick(key, key2){
                     price_breakdown['TAX'] += hotel_room.rooms[j].nightly_prices[k].service_charge_summary[l].total_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += hotel_room.rooms[j].nightly_prices[k].service_charge_summary[l].total_upsell;
-                    price_breakdown['COMMISSION'] += (hotel_room.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (hotel_room.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
                     price_breakdown['NTA HOTEL'] += hotel_room.rooms[j].nightly_prices[k].service_charge_summary[l].total_nta_vendor;
                     price_breakdown['SERVICE FEE'] += hotel_room.rooms[j].nightly_prices[k].service_charge_summary[l].total_fee_ho;
                     price_breakdown['VAT'] += hotel_room.rooms[j].nightly_prices[k].service_charge_summary[l].total_vat_ho;
@@ -2529,7 +2530,7 @@ function hotel_detail(old_cancellation_policy){
         text+=`<div class="row"><div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div></div>`;
     }
 
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text+=`<br/>`;
         text+= print_commission(commission,'show_commission', hotel_price.currency)
     }
@@ -2615,7 +2616,8 @@ function hotel_detail(old_cancellation_policy){
                     price_breakdown['TAX'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_upsell;
-                    price_breakdown['COMMISSION'] += (hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
                     price_breakdown['NTA HOTEL'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_nta_vendor;
                     price_breakdown['SERVICE FEE'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_fee_ho;
                     price_breakdown['VAT'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_vat_ho;
@@ -3254,7 +3256,8 @@ function change_image_hotel_detail(numb){
                                         price_breakdown['TAX'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_tax;
                                         price_breakdown['BREAKDOWN'] = 0;
                                         price_breakdown['UPSELL'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_upsell;
-                                        price_breakdown['COMMISSION'] += (hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
+                                        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                            price_breakdown['COMMISSION'] += (hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
                                         price_breakdown['NTA HOTEL'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_nta_vendor;
                                         price_breakdown['SERVICE FEE'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_fee_ho;
                                         price_breakdown['VAT'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_vat_ho;
@@ -3598,7 +3601,8 @@ function render_room_hotel(data_room_hotel_list){
                                 price_breakdown['TAX'] += data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_upsell;
-                                price_breakdown['COMMISSION'] += (data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
                                 price_breakdown['NTA HOTEL'] += data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_fee_ho;
                                 price_breakdown['VAT'] += data_room_hotel_list[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_vat_ho;

@@ -2219,7 +2219,7 @@ function hotel_issued_alert(val){
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(grand_total_price) +`</span>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                     text+= print_commission(hotel_price.commission*-1,'show_commission_old', hotel_price.rooms[i].nightly_prices[j].currency)
 //                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                    text += `<div class="col-lg-12">
@@ -2276,7 +2276,7 @@ function hotel_issued_alert(val){
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+temporary.rooms[i].currency+` `+ getrupiah(grand_total_price) +`</span>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                     text+= print_commission(temporary.commission*-1,'show_commission_new',temporary.rooms[i].currency)
 //                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                    text += `<div class="col-lg-12">
@@ -2573,7 +2573,7 @@ function hotel_issued(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text+= print_commission(commission*-1,'show_commission_old', price.currency)
 //                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show YPM"/></div>`;
@@ -2671,7 +2671,7 @@ function hotel_issued(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text+= print_commission(commission*-1,'show_commission_new', price.currency)
 //                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
@@ -3926,8 +3926,7 @@ function hotel_get_booking(data){
                         text_detail+=`
                             </div>
                         </div>`;
-
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes('b2c_limitation') && !user_login.co_agent_frontend_security.includes("corp_limitation")){
                             text_detail+=`
                             <div class="alert alert-success" style="margin-top:10px;">
                                 <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
@@ -4023,7 +4022,8 @@ function hotel_get_booking(data){
                             price_breakdown['TAX'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] += (hotel_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_vendor * -1);
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] += (hotel_get_detail.result.response.passengers[i].service_charge_details[j].total_commission_vendor * -1);
                             price_breakdown['NTA HOTEL'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += hotel_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
