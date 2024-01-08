@@ -268,6 +268,7 @@ function signin(){
                 console.log(err); //error google analytics
             }
             if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
+                setCookie('otp', document.getElementById('otp_type') ? document.getElementById('otp_type').value : '1','otp');
                 gotoForm();
                 let timerInterval
                 Swal.fire({
@@ -447,6 +448,7 @@ function signin_booking(){
            data: data_send,
            success: function(msg) {
             if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true && window.location.href.split('/').length == 6){
+                setCookie('otp', document.getElementById('otp_type') ? document.getElementById('otp_type').value : '1','otp');
                 let timerInterval
                 Swal.fire({
                   type: 'success',
@@ -838,6 +840,7 @@ function signin_btc(is_resend=false){
            data: data_send,
            success: function(msg) {
             if(msg.result.error_code == 0){
+                setCookie('otp', document.getElementById('otp_type') ? document.getElementById('otp_type').value : '1','otp');
                 if(msg.result.response.co_agent_frontend_security.includes('login') == true){
                     try{
                         if(google_analytics != ''){
@@ -1059,6 +1062,7 @@ function signin_product_otp(is_resend=false){
        data: data_send,
        success: function(msg) {
         if(msg.result.error_code == 0){
+            setCookie('otp', document.getElementById('otp_type') ? document.getElementById('otp_type').value : '1','otp');
             window.location.reload();
             let timerInterval;
             Swal.fire({
@@ -1356,6 +1360,7 @@ function activation_otp_user_api(){
         success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
+                setCookie('otp', document.getElementById('otp_user_type') ? document.getElementById('otp_user_type').value : '1','otp');
                 update_context_machine_otp_pin_api();
             }
             else{
