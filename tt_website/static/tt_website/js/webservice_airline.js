@@ -130,7 +130,7 @@ function airline_redirect_signin(type){
                     airline_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
                     signature = new_login_signature;
-                    $('#myModalSignin').modal('hide');
+                    $('#myModalSignIn').modal('hide');
 //                    concat_url = ''
 //                    if(typeof(airline_request) !== 'undefined'){
 //                        for(key in airline_request){
@@ -302,7 +302,7 @@ function airline_redirect_signin(type){
 //                                                                });
 //                                                            }else{
 //                                                                signature = new_login_signature;
-//                                                                $('#myModalSignin').modal('hide');
+//                                                                $('#myModalSignIn').modal('hide');
 //                                                                location.reload();
 //                                                            }
 //                                                        }
@@ -316,7 +316,7 @@ function airline_redirect_signin(type){
 //                                        });
 //                                    }else{
 //                                        signature = new_login_signature;
-//                                        $('#myModalSignin').modal('hide');
+//                                        $('#myModalSignIn').modal('hide');
 //                                        location.reload();
 //                                    }
 //                               }
@@ -326,7 +326,7 @@ function airline_redirect_signin(type){
 //                        });
 //                    }else{
 //                        signature = new_login_signature;
-//                        $('#myModalSignin').modal('hide');
+//                        $('#myModalSignIn').modal('hide');
 //                        location.reload();
 //                    }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -410,7 +410,7 @@ function airline_research_signin(type){
                             airline_re_get_price(type);
                         }else{
                             signature = new_login_signature;
-                            $('#myModalSignin').modal('hide');
+                            $('#myModalSignIn').modal('hide');
                             location.reload();
                         }
                     }
@@ -593,7 +593,7 @@ function airline_re_get_price(type){
                             });
                         }else{
                             signature = new_login_signature;
-                            $('#myModalSignin').modal('hide');
+                            $('#myModalSignIn').modal('hide');
                             window.location.href = '/airline/passenger/'+signature
                         }
                    },

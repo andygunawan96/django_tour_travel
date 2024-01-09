@@ -103,7 +103,7 @@ function hotel_redirect_signup(type){
                if(msg.result.error_code == 0){
                     hotel_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
-                    $('#myModalSignin').modal('hide');
+                    $('#myModalSignIn').modal('hide');
                     window.location.href = '/';
 //                    if(type != 'search'){
 //                        $.ajax({
@@ -154,14 +154,14 @@ function hotel_redirect_signup(type){
 //                                                               },
 //                                                               success: function(msg) {
 //                                                                    signature = new_login_signature;
-//                                                                    $('#myModalSignin').modal('hide');
+//                                                                    $('#myModalSignIn').modal('hide');
 //                                                                    location.reload();
 //                                                            },error: function(XMLHttpRequest, textStatus, errorThrown) {
 //                                                               },timeout: 60000
 //                                                            });
 //                                                        }else{
 //                                                            signature = new_login_signature;
-//                                                            $('#myModalSignin').modal('hide');
+//                                                            $('#myModalSignIn').modal('hide');
 //                                                            location.reload();
 //
 //                                                        }
@@ -170,7 +170,7 @@ function hotel_redirect_signup(type){
 //                                                });
 //                                            }else{
 //                                                signature = new_login_signature;
-//                                                $('#myModalSignin').modal('hide');
+//                                                $('#myModalSignIn').modal('hide');
 //                                                location.reload();
 //
 //                                            }
@@ -185,7 +185,7 @@ function hotel_redirect_signup(type){
 //                        });
 //                    }else{
 //                        signature = new_login_signature;
-//                        $('#myModalSignin').modal('hide');
+//                        $('#myModalSignIn').modal('hide');
 //                        location.reload();
 //                    }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){

@@ -605,7 +605,7 @@ function next_focus_after_date(id){
                 for (var new_i in new_date_api.result.response){
                     var temp_date_footer = moment(new_date_api.result.response[new_i].date).format('DD/MM/YYYY');
                     if(temp_date_footer === tempDateRenderFormat){
-                        html += '<div style="margin-top:10px; margin-bottom:10px; padding:3px 10px;"><span style="color:red; padding:3px 10px; border:1px solid black; background:white;"> ' + tempDateRender2 + '</span> <span style="font-size:13px;"> '+ new_date_api.result.response[new_i].name +' </span></div>';
+                        html += '<div style="margin-top:10px; margin-bottom:10px; padding-top:5px; border-top:1px solid #cdcdcd;"><span style="color:red; padding:3px 10px;"> ' + tempDateRender2 + '</span> <span style="font-size:13px;"> '+ new_date_api.result.response[new_i].name +' </span></div>';
                     }
                 }
             }
