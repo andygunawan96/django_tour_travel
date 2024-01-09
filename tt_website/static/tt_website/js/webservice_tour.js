@@ -3253,7 +3253,8 @@ function tour_get_booking(order_number)
                                 price_breakdown['TAX'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
-                                price_breakdown['COMMISSION'] = (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] = (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] = tr_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -3346,7 +3347,8 @@ function tour_get_booking(order_number)
                                 price_breakdown['TAX'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
-                                price_breakdown['COMMISSION'] += (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (tr_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA TOUR'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += tr_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -3925,7 +3927,7 @@ function table_price_update(msg,type){
                         price_txt+=`
                         </div>
                    </div>`;
-                   if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                   if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                        price_txt+= print_commission(grand_commission,'show_commission', currency)
                    price_txt+=`
                    <div class="row" style="margin-top:10px; text-align:center;">

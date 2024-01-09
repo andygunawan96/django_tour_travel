@@ -447,7 +447,7 @@ function activity_table_detail(){
                 text+=`
                 </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+           if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                text+= print_commission(grand_commission,'show_commission', currency)
            text+=`
 
@@ -518,7 +518,8 @@ function activity_table_detail(){
             price_breakdown['TAX'] += activity_date.service_charge_summary[i].total_tax;
             price_breakdown['BREAKDOWN'] = 0;
             price_breakdown['UPSELL'] += (activity_date.service_charge_summary[i].total_upsell * -1);
-            price_breakdown['COMMISSION'] += (activity_date.service_charge_summary[i].total_commission_vendor * -1);
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                price_breakdown['COMMISSION'] += (activity_date.service_charge_summary[i].total_commission_vendor * -1);
             price_breakdown['NTA ACTIVITY'] += activity_date.service_charge_summary[i].total_nta_vendor;
             price_breakdown['SERVICE FEE'] += activity_date.service_charge_summary[i].total_fee_ho;
             price_breakdown['VAT'] += activity_date.service_charge_summary[i].total_vat_ho;
@@ -871,7 +872,7 @@ function activity_table_detail2(pagetype){
                 text+=`
                 </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+           if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                text+= print_commission(grand_commission,'show_commission', price_type.currency)
            text+=`
            <div class="row" style="margin-top:10px; text-align:center;">
@@ -928,7 +929,8 @@ function activity_table_detail2(pagetype){
             price_breakdown['TAX'] += price.service_charge_summary[i].total_tax;
             price_breakdown['BREAKDOWN'] = 0;
             price_breakdown['UPSELL'] += price.service_charge_summary[i].total_upsell;
-            price_breakdown['COMMISSION'] += (price.service_charge_summary[i].total_commission_vendor * -1);
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                price_breakdown['COMMISSION'] += (price.service_charge_summary[i].total_commission_vendor * -1);
             price_breakdown['NTA ACTIVITY'] += price.service_charge_summary[i].total_nta_vendor;
             price_breakdown['SERVICE FEE'] += price.service_charge_summary[i].total_fee_ho;
             price_breakdown['VAT'] += price.service_charge_summary[i].total_vat_ho;

@@ -1109,7 +1109,8 @@ function search_ppob(){
                                 price_breakdown['TAX'] += bill_response.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += bill_response.result.response.passengers[i].service_charge_details[j].base_upsell;
-                                price_breakdown['COMMISSION'] += (bill_response.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (bill_response.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA PPOB'] += bill_response.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += bill_response.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += bill_response.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -2263,7 +2264,8 @@ function ppob_get_booking(data){
                             price_breakdown['TAX'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] += (bills_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] += (bills_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA PPOB'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += bills_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;

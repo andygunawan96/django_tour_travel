@@ -2355,6 +2355,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 
 </body>
+
+<script>
+    //OTP
+    try{
+        otp_type_day = getCookie('otp')
+    }catch(err){
+        otp_type_day = '1';
+    }
+    try{
+        document.getElementById('otp_user_type').value = otp_type_day;
+        $('#otp_user_type').niceSelect('update');
+    }catch(err){}
+
+    try{
+        document.getElementById('otp_type').value = otp_type_day;
+        $('#otp_type').niceSelect('update');
+    }catch(err){}
+
+</script>
+
 <!-- JAVASCRIPTS -->
 
 <!--template1-->

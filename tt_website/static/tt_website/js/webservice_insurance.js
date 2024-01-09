@@ -1972,7 +1972,7 @@ function price_detail(){
         }
     }
 
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text+=print_commission(price['rac']*-1,'show_commission', price.currency)
     }
 //    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -2014,7 +2014,8 @@ function price_detail(){
             price_breakdown['TAX'] += insurance_pick.service_charge_summary[i].total_tax;
             price_breakdown['BREAKDOWN'] = 0;
             price_breakdown['UPSELL'] += insurance_pick.service_charge_summary[i].total_upsell;
-            price_breakdown['COMMISSION'] += (insurance_pick.service_charge_summary[i].total_commission_vendor * -1);
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                price_breakdown['COMMISSION'] += (insurance_pick.service_charge_summary[i].total_commission_vendor * -1);
             price_breakdown['NTA INSURANCE'] += insurance_pick.service_charge_summary[i].total_nta_vendor;
             price_breakdown['SERVICE FEE'] += insurance_pick.service_charge_summary[i].total_fee_ho;
             price_breakdown['VAT'] += insurance_pick.service_charge_summary[i].total_vat_ho;
@@ -3663,7 +3664,8 @@ function insurance_get_booking(data, sync=false){
                                 price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                                price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -3754,7 +3756,8 @@ function insurance_get_booking(data, sync=false){
                                 price_breakdown['TAX'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                                price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA INSURANCE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += insurance_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -4322,7 +4325,7 @@ function insurance_issued_booking(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text+= print_commission(commission*-1,'show_commission_old', price.currency)
 
 //                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -4420,7 +4423,7 @@ function insurance_issued_booking(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text+= print_commission(commission*-1,'show_commission_new', price.currency)
 //                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;
