@@ -1306,7 +1306,7 @@
                                                     <div class="owl-carousel-hotel-img-modal owl-theme" style="text-align:center;">
                                                         {% for i in response.images %}
                                                         <div class="item">
-                                                            <img class="img-fluid owl-lazy" data-src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="margin: auto; max-width:100%; height:400px;">
+                                                            <img class="img-fluid owl-lazy" data-src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpg';" style="margin: auto; max-width:100%; height:400px;">
                                                         </div>
                                                         {% endfor %}
                                                     </div>
@@ -1318,7 +1318,7 @@
                                                     <div class="owl-carousel-hotel-modal owl-theme">
                                                         {% for i in response.images %}
                                                         <div class="item" style="cursor:pointer;">
-                                                            <img class="img-fluid owl-lazy" data-src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="max-width:100%; height:90px;">
+                                                            <img class="img-fluid owl-lazy" data-src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpg';" style="max-width:100%; height:90px;">
                                                         </div>
                                                         {% endfor %}
                                                     </div>
@@ -1337,7 +1337,7 @@
                                     <div class="owl-carousel-hotel-img owl-theme" style="border:1px solid #cdcdcd;">
                                         {% for i in response.images %}
                                         <div class="item" style="cursor:pointer; float:none; height:360px; display: flex; justify-content: center; align-items: center;">
-                                            <img class="owl-lazy" data-src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                            <img class="owl-lazy" data-src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -1345,7 +1345,7 @@
                                     {% else %}
                                     <div class="owl-carousel-hotel-img owl-theme" style="border:1px solid #cdcdcd;">
                                         <div class="item" style="float:none; display:inline-block; height:360px;">
-                                            <img class="img-fluid owl-lazy" alt="No Image Hotel" data-src="{{static_path}}/images/no_found/no-image-hotel.jpeg">
+                                            <img class="img-fluid owl-lazy" alt="No Image Hotel" data-src="{{static_path}}/images/no_found/no-image-hotel2.jpg">
                                         </div>
                                     </div>
                                     {% endif %}
@@ -1358,12 +1358,12 @@
                                 {% for i in response.images %}
                                 {% if forloop.counter < 3 %}
                                 <div class="col-lg-12 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                    <img class="img-fluid" alt="Hotel" src="{{i.url}}" style="width:100%; height:110px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                    <img class="img-fluid" alt="Hotel" src="{{i.url}}" style="width:100%; height:110px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
                                 </div>
                                 {% elif forloop.counter == 3%}
                                 <div class="col-lg-12 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
                                     <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
-                                        <img class="img-fluid" alt="Hotel More" src="{{i.url}}" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="width:100%; height:110px;">
+                                        <img class="img-fluid" alt="Hotel More" src="{{i.url}}" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpg';" style="width:100%; height:110px;">
                                     </div>
                                     <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{response.images|length}})</span>
                                 </div>
@@ -1371,7 +1371,7 @@
                                 {% endfor %}
                                 {% else %}
                                 <div class="col-lg-12">
-                                    <img class="img-fluid" alt="No Image Hotel" src="{{static_path}}/images/no_found/no-image-hotel.jpeg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
+                                    <img class="img-fluid" alt="No Image Hotel" src="{{static_path}}/images/no_found/no-image-hotel2.jpg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
                                 </div>
                                 {% endif %}
                             </div>

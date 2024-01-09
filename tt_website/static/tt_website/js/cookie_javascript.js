@@ -3,6 +3,8 @@ function setCookie(cname, cvalue, type) {
         end_second = moment().endOf('day').diff(moment(), 'seconds');
     }else if(type == 'tac'){
         end_second = moment().subtract(-6, 'months').endOf('day').diff(moment(), 'seconds');
+    }else if(type == 'otp'){
+        end_second = moment().subtract(-3, 'months').endOf('day').diff(moment(), 'seconds');
     }
 
     const next_date = new Date();

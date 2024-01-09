@@ -267,7 +267,7 @@ function update_table_new(type){
             }catch(err){
                 display = 'none';
             }
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+= print_commission(commission,'show_commission', currency)
             text+=`
                 <div class="row">
@@ -478,7 +478,7 @@ function update_table_new(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+= print_commission(commission*-1,'show_commission', currency)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
@@ -775,7 +775,7 @@ function update_table_new(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+= print_commission(commission,'show_commission', currency)
 
             text+=`
@@ -1155,7 +1155,8 @@ function update_table_new(type){
                         price_breakdown['TAX'] += sell_visa.search_data[i].service_charge_summary[j].base_tax;
                         price_breakdown['BREAKDOWN'] = 0;
                         price_breakdown['UPSELL'] += sell_visa.search_data[i].service_charge_summary[j].base_upsell;
-                        price_breakdown['COMMISSION'] += (sell_visa.search_data[i].service_charge_summary[j].base_commission_vendor * -1);
+                        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                            price_breakdown['COMMISSION'] += (sell_visa.search_data[i].service_charge_summary[j].base_commission_vendor * -1);
                         price_breakdown['NTA VISA'] += sell_visa.search_data[i].service_charge_summary[j].base_nta_vendor;
                         price_breakdown['SERVICE FEE'] += sell_visa.search_data[i].service_charge_summary[j].base_fee_ho;
                         price_breakdown['VAT'] += sell_visa.search_data[i].service_charge_summary[j].base_vat_ho;
@@ -1207,7 +1208,8 @@ function update_table_new(type){
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                    price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -1299,7 +1301,8 @@ function update_table_new(type){
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                    price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -1391,7 +1394,8 @@ function update_table_new(type){
                     price_breakdown['TAX'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
                     price_breakdown['UPSELL'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                    price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                        price_breakdown['COMMISSION'] += (visa_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                     price_breakdown['NTA VISA'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                     price_breakdown['SERVICE FEE'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                     price_breakdown['VAT'] += visa_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -1637,7 +1641,7 @@ function update_table(type){
             }catch(err){
                 display = 'none';
             }
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+= print_commission(commission,'show_commission', currency)
             text+=`
                 <div class="row">
@@ -1830,7 +1834,7 @@ function update_table(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+= print_commission(commission,'show_commission', currency)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
@@ -2109,7 +2113,7 @@ function update_table(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+= print_commission(commission,'show_commission', currency)
 
             text+=`

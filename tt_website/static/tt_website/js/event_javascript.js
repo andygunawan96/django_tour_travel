@@ -1149,7 +1149,7 @@ function render_object_from_value(val){
         </div>
     </div>`;
 
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
         text+= print_commission(total_commission,'show_commission',val[0].currency)
 
 //        text+=`
@@ -1198,7 +1198,7 @@ function hotel_room_pick_button(total_commission, currency){
                 <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
         }
     text +=`</div>`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text+=`<div class="col-lg-12">`
         text+= print_commission(total_commission*-1,'show_commission',currency, 'commission_val')
         text+=`</div>`;

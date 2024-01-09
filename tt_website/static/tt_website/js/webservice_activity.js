@@ -80,7 +80,7 @@ function activity_redirect_signup(type){
                     activity_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
                     signature = new_login_signature;
-                    $('#myModalSignin').modal('hide');
+                    $('#myModalSignIn').modal('hide');
                     window.location.href = '/';
 //                    location.reload();
 //                    if(type != 'search'){
@@ -254,7 +254,7 @@ function activity_redirect_signup(type){
 //                                                                    });
 //                                                                }else{
 //                                                                    signature = new_login_signature;
-//                                                                    $('#myModalSignin').modal('hide');
+//                                                                    $('#myModalSignIn').modal('hide');
 //                                                                    location.reload();
 //                                                                }
 //                                                            }
@@ -269,7 +269,7 @@ function activity_redirect_signup(type){
 //                                        });
 //                                    }else{
 //                                        signature = new_login_signature;
-//                                        $('#myModalSignin').modal('hide');
+//                                        $('#myModalSignIn').modal('hide');
 //                                        location.reload();
 //                                    }
 //                               }
@@ -279,7 +279,7 @@ function activity_redirect_signup(type){
 //                        });
 //                    }else{
 //                        signature = new_login_signature;
-//                        $('#myModalSignin').modal('hide');
+//                        $('#myModalSignIn').modal('hide');
 //                        location.reload();
 //                    }
                }
@@ -4114,7 +4114,7 @@ function activity_get_booking(data){
                         </div>
                      </div>`;
 
-                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                     if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes('b2c_limitation') && !user_login.co_agent_frontend_security.includes("corp_limitation")){
                         price_text+=`
                         <div class="alert alert-success" style="margin-top:10px;">
                             <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
@@ -4215,7 +4215,8 @@ function activity_get_booking(data){
                                 price_breakdown['TAX'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
-                                price_breakdown['COMMISSION'] = (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] = (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA ACTIVITY'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] = act_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -4308,7 +4309,8 @@ function activity_get_booking(data){
                                 price_breakdown['TAX'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_upsell;
-                                price_breakdown['COMMISSION'] += (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (act_get_booking.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                                 price_breakdown['NTA ACTIVITY'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                                 price_breakdown['VAT'] += act_get_booking.result.response.passengers[i].service_charge_details[j].base_vat_ho;

@@ -448,7 +448,7 @@ function sentra_medika_check_price(){
                                     <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(msg.result.response.total_price)+`</span></b>
                                 </div>
                             </div>`;
-                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         text+=print_commission(msg.result.response.total_commission,'show_commission', price_list.fare.currency)
                     }
 //                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -584,7 +584,7 @@ function sentra_medika_get_cache_price(){
                                 <b><span style="font-size:13px;">`+price_list['fare']['currency']+` `+getrupiah(msg.result.response.total_price)+`</span></b>
                             </div>
                         </div>`;
-                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     text+=print_commission(msg.result.response.total_commission,'show_commission', price_list.fare.currency)
                 }
 //                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -2229,7 +2229,7 @@ function sentra_medika_issued_booking(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                 text+=print_commission(commission*-1,'show_commission_old', price.currency)
                             }
 //                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -2327,7 +2327,7 @@ function sentra_medika_issued_booking(data){
                                     <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                                 </div>
                             </div>`;
-                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text+=print_commission(commission*-1,'show_commission_new', price.currency)
 //                            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show YPM"/></div>`;

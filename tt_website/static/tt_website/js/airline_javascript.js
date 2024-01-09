@@ -7116,7 +7116,7 @@ function airline_detail(type){
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             text+=`<div style="text-align:right; margin-top:15px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         }
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes('b2c_limitation') && !user_login.co_agent_frontend_security.includes("corp_limitation")){
             text+=`
             <div class="alert alert-success" style="margin-top:10px;">
                 <div style="color:black; font-weight:bold; cursor:pointer; font-size:15px; text-align:left; width:100%;" onclick="show_commission('show_commission');">
@@ -7559,7 +7559,8 @@ function airline_detail(type){
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
-                                price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor) * -1;
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
                                 price_breakdown['VAT'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;
@@ -7642,7 +7643,8 @@ function airline_detail(type){
                                 price_breakdown['TAX'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax;
                                 price_breakdown['BREAKDOWN'] = 0;
                                 price_breakdown['UPSELL'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_upsell;
-                                price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor)* -1;
+                                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    price_breakdown['COMMISSION'] += (price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission_vendor)* -1;
                                 price_breakdown['NTA AIRLINE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_nta_vendor;
                                 price_breakdown['SERVICE FEE'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fee_ho;
                                 price_breakdown['VAT'] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_vat_ho;
@@ -7983,6 +7985,15 @@ function update_identity(type, val){
     }
 }
 
+function check_valid_identity_checked(pax_type, pax_seq){
+    valid_id_checked = false;
+    if(document.getElementById(pax_type+'_valid_passport'+pax_seq)){
+        if(document.getElementById(pax_type+'_valid_passport'+pax_seq).checked)
+            valid_id_checked = true;
+    }
+    return valid_id_checked;
+}
+
 function check_passenger(adult, child, infant, type=''){
     //booker
     error_log = '';
@@ -8177,13 +8188,13 @@ function check_passenger(adult, child, infant, type=''){
             document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
         }else{
             if(is_identity_required == 'true')
-                if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
+                if(document.getElementById('adult_id_type'+i).value == '' && check_valid_identity_checked('adult', i) === false){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
                 }
             document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
         }
-        if(document.getElementById('adult_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+        if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
             if(document.getElementById('adult_id_type'+i).value != ''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
@@ -8400,14 +8411,10 @@ function check_passenger(adult, child, infant, type=''){
                       $(this).siblings(".select2-container").css('border', '1px solid red');
                     });
                 }
+                if(check_valid_identity_checked('adult', i) === true)
+                    list_identity_need_update.push('adult_'+i)
            }
-       }else{
-           if(document.getElementById('adult_valid_passport'+i))
-               if(document.getElementById('adult_valid_passport'+i).checked)
-                   list_identity_need_update.push('adult_'+i)
        }
-
-
 
        if(document.getElementById('adult_cp'+i).checked == true){
             if(check_email(document.getElementById('adult_email'+i).value)==false){
@@ -8549,7 +8556,7 @@ function check_passenger(adult, child, infant, type=''){
            error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = 'red';
        }else{
-           if(is_identity_required == 'true' && document.getElementById('child_identity_div'+i).style.display == 'block')
+           if(is_identity_required == 'true' && check_valid_identity_checked('child', i) === false)
                if(document.getElementById('child_id_type'+i).value == ''){
                     error_log+= 'Please fill id type for passenger child '+i+'!</br>\n';
                     document.getElementById('child_id_type'+i).style['border-color'] = 'red';
@@ -8557,7 +8564,7 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(document.getElementById('child_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+       if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
                if(document.getElementById('child_identity_first_name'+i).value != '')
@@ -8755,11 +8762,11 @@ function check_passenger(adult, child, infant, type=''){
                }
            }else if(is_need_valid_identity == 'true'){
                 error_log += 'Identity required please change identity Passport for passenger child '+i+'!</br>\n';
-                    $("#adult_id_type"+i).each(function() {
+                    $("#child_id_type"+i).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
            }else{
-                if(document.getElementById('child_id_type'+i).value != ''){
+                if(document.getElementById('child_passport_number'+i).value != ''){
                     error_log+= 'Please choose identity type for passenger child '+i+'!</br>\n';
 
                     document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
@@ -8772,11 +8779,9 @@ function check_passenger(adult, child, infant, type=''){
                         $(this).siblings(".select2-container").css('border', '1px solid red');
                     });
                 }
+                if(check_valid_identity_checked('child', i) === true)
+                    list_identity_need_update.push('child_'+i)
            }
-       }else{
-           if(document.getElementById('child_valid_passport'+i))
-               if(document.getElementById('child_valid_passport'+i).checked)
-                   list_identity_need_update.push('child_'+i)
        }
        if(typeof ff_request !== 'undefined'){
            if(ff_request.length != 0 && check_ff == 1){
@@ -8905,14 +8910,14 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = 'red';
        }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('infant_id_type'+i).value == '' && document.getElementById('infant_identity_div'+i).style.display == 'block'){
+               if(document.getElementById('infant_id_type'+i).value == '' && check_valid_identity_checked('infant', i) === false){
                     error_log+= 'Please fill id type for passenger infant '+i+'!</br>\n';
                     document.getElementById('infant_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(document.getElementById('infant_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+       if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
                if(document.getElementById('infant_identity_first_name'+i).value != '')
@@ -9102,11 +9107,11 @@ function check_passenger(adult, child, infant, type=''){
                }
            }else if(is_need_valid_identity == 'true'){
                 error_log += 'Identity required please change identity Passport for passenger infant '+i+'!</br>\n';
-                    $("#adult_id_type"+i).each(function() {
+                    $("#infant_id_type"+i).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
            }else{
-                if(document.getElementById('infant_id_type'+i).value != ''){
+                if(document.getElementById('infant_passport_number'+i).value != ''){
                     error_log+= 'Please choose identity type for passenger infant '+i+'!</br>\n';
 
                     document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
@@ -9119,11 +9124,9 @@ function check_passenger(adult, child, infant, type=''){
                         $(this).siblings(".select2-container").css('border', '1px solid red');
                     });
                 }
+                if(check_valid_identity_checked('infant', i) === true)
+                    list_identity_need_update.push('infant_'+i)
            }
-       }else{
-           if(document.getElementById('infant_valid_passport'+i))
-               if(document.getElementById('infant_valid_passport'+i).checked)
-                   list_identity_need_update.push('infant_'+i)
        }
    }
 //   if(error_log != ''){
@@ -9212,7 +9215,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger student '+i+'!</br>\n';
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true' && document.getElementById('student_identity_div'+i).style.display == 'block')
+               if(is_identity_required == 'true' && check_valid_identity_checked('student', i) === false)
                    if(document.getElementById('student_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger student '+i+'!</br>\n';
                         document.getElementById('student_id_type'+i).style['border-color'] = 'red';
@@ -9220,7 +9223,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('student_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+           if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
                if(document.getElementById('student_id_type'+i).value != ''){
                    document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
                    if(document.getElementById('student_identity_first_name'+i).value != '')
@@ -9416,8 +9419,13 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                    }
+               }else if(is_need_valid_identity == 'true'){
+                    error_log += 'Identity required please change identity Passport for passenger student '+i+'!</br>\n';
+                        $("#student_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
                }else{
-                   if(document.getElementById('student_id_type'+i).value != ''){
+                   if(document.getElementById('student_passport_number'+i).value != ''){
                         error_log+= 'Please choose identity type for passenger student '+i+'!</br>\n';
 
                         document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
@@ -9430,16 +9438,9 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).siblings(".select2-container").css('border', '1px solid red');
                         });
                    }
+                   if(check_valid_identity_checked('student', i) === true)
+                        list_identity_need_update.push('student_'+i)
                }
-           }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger student '+i+'!</br>\n';
-                    $("#adult_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-           }else{
-               if(document.getElementById('student_valid_passport'+i))
-                   if(document.getElementById('student_valid_passport'+i).checked)
-                       list_identity_need_update.push('student_'+i)
            }
            if(typeof ff_request !== 'undefined'){
                if(ff_request.length != 0 && check_ff == 1){
@@ -9571,7 +9572,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger seaman '+i+'!</br>\n';
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true' && document.getElementById('seaman_identity_div'+i).style.display == 'block')
+               if(is_identity_required == 'true' && check_valid_identity_checked('seaman', i) === false)
                    if(document.getElementById('seaman_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger seaman '+i+'!</br>\n';
                         document.getElementById('seaman_id_type'+i).style['border-color'] = 'red';
@@ -9579,7 +9580,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('seaman_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+           if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
                if(document.getElementById('seaman_id_type'+i).value != ''){
                    document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
                    if(document.getElementById('seaman_identity_first_name'+i).value != '')
@@ -9775,8 +9776,13 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                    }
-               }else{
-                    if(document.getElementById('seaman_id_type'+i).value != ''){
+               }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger seaman '+i+'!</br>\n';
+                    $("#seaman_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+                }else{
+                    if(document.getElementById('seaman_passport_number'+i).value != ''){
                         error_log+= 'Please choose identity type for passenger seaman '+i+'!</br>\n';
 
                         document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
@@ -9789,16 +9795,9 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).siblings(".select2-container").css('border', '1px solid red');
                         });
                     }
+                    if(check_valid_identity_checked('seaman', i) === true)
+                        list_identity_need_update.push('seaman_'+i)
                }
-           }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger seaman '+i+'!</br>\n';
-                    $("#adult_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-           }else{
-               if(document.getElementById('seaman_valid_passport'+i))
-                   if(document.getElementById('seaman_valid_passport'+i).checked)
-                       list_identity_need_update.push('seaman_'+i)
            }
            if(typeof ff_request !== 'undefined'){
                if(ff_request.length != 0 && check_ff == 1){
@@ -9930,7 +9929,7 @@ function check_passenger(adult, child, infant, type=''){
                error_log+= 'Please fill nationality for passenger labour '+i+'!</br>\n';
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = 'red';
            }else{
-               if(is_identity_required == 'true' && document.getElementById('labour_identity_div'+i).style.display == 'block')
+               if(is_identity_required == 'true' && check_valid_identity_checked('labour', i) === false)
                    if(document.getElementById('labour_id_type'+i).value == ''){
                         error_log+= 'Please fill id type for passenger labour '+i+'!</br>\n';
                         document.getElementById('labour_id_type'+i).style['border-color'] = 'red';
@@ -9938,7 +9937,7 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('labour_identity_div'+i).style.display == 'block' || is_need_valid_identity == 'true'){
+           if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
                if(document.getElementById('labour_id_type'+i).value != ''){
                    document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
                    if(document.getElementById('labour_identity_first_name'+i).value != '')
@@ -10134,8 +10133,13 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                    }
-               }else{
-                    if(document.getElementById('labour_id_type'+i).value != ''){
+               }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger labour '+i+'!</br>\n';
+                    $("#labour_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+                }else{
+                    if(document.getElementById('labour_passport_number'+i).value != ''){
                         error_log+= 'Please choose identity type for passenger labour '+i+'!</br>\n';
 
                         document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
@@ -10148,16 +10152,9 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).siblings(".select2-container").css('border', '1px solid red');
                         });
                     }
+                    if(check_valid_identity_checked('labour', i) === true)
+                        list_identity_need_update.push('labour_'+i)
                }
-           }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger labour '+i+'!</br>\n';
-                    $("#adult_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-           }else{
-               if(document.getElementById('labour_valid_passport'+i))
-                   if(document.getElementById('labour_valid_passport'+i).checked)
-                       list_identity_need_update.push('labour_'+i)
            }
            if(typeof ff_request !== 'undefined'){
                if(ff_request.length != 0 && check_ff == 1){

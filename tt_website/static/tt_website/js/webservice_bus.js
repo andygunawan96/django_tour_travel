@@ -107,7 +107,7 @@ function bus_redirect_signup(type){
                                         console.log(err); // error kalau ada element yg tidak ada
                                     }
                                     document.getElementById('reload_page').submit();
-                                    $('#myModalSignin').modal('hide');
+                                    $('#myModalSignIn').modal('hide');
                                }
                            },
                            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -115,7 +115,7 @@ function bus_redirect_signup(type){
                         });
                     }else{
                         signature = new_login_signature;
-                        $('#myModalSignin').modal('hide');
+                        $('#myModalSignIn').modal('hide');
                         location.reload();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1860,7 +1860,8 @@ function bus_get_booking(data, sync=false){
                             price_breakdown['TAX'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] = (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] = (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA BUS'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] = bus_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
@@ -1953,7 +1954,8 @@ function bus_get_booking(data, sync=false){
                             price_breakdown['TAX'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_tax;
                             price_breakdown['BREAKDOWN'] = 0;
                             price_breakdown['UPSELL'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_upsell;
-                            price_breakdown['COMMISSION'] += (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
+                            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                price_breakdown['COMMISSION'] += (bus_get_detail.result.response.passengers[i].service_charge_details[j].base_commission_vendor * -1);
                             price_breakdown['NTA BUS'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_nta_vendor;
                             price_breakdown['SERVICE FEE'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_fee_ho;
                             price_breakdown['VAT'] += bus_get_detail.result.response.passengers[i].service_charge_details[j].base_vat_ho;
