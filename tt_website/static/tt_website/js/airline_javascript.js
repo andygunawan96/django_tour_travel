@@ -11421,6 +11421,11 @@ function get_airline_review(){
                                             }catch(err){
                                                 console.log(err); // error kalau ada element yg tidak ada
                                             }
+
+                                            if(passengers_ssr[i].hasOwnProperty('riz_text')){
+                                                text += `<b>Endorsement Box (RIZ)</b>: <i>`+passengers_ssr[i].riz_text+`</i><br/>`;
+                                            }
+
                                             if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
                                                 for(j in passengers_ssr[i].behaviors){
                                                     if(j.toLowerCase() == 'airline'){

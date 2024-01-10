@@ -9981,6 +9981,9 @@ function airline_get_booking(data, sync=false){
                                                 else if(!msg.result.response.passengers[pax].is_valid_identity)
                                                     text+= '<b style="color:red;">Need to Update Identity</b><br/>';
 
+                                                if(msg.result.response.passengers[pax].hasOwnProperty('riz_text') && msg.result.response.passengers[pax]['riz_text']){
+                                                    text += `<b>Endorsement Box (RIZ)</b>: <i>`+msg.result.response.passengers[pax]['riz_text']+`</i><br/>`;
+                                                }
                                                 text+=`
                                                 <b>Ticket Number:</b> <i>`+ticket+`</i><br/>
                                                 `+ff_request+`

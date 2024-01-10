@@ -3616,11 +3616,12 @@ function hotel_get_booking(data){
                         </div>`;
 
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                        text_detail+=`
-                            <div style="text-align:left">
-                                <span style="font-weight:700; font-size:14px;">Booking Code / PNR:<span><br/>
-                                <span style="font-weight:400; font-size:14px;">`+msg.result.response.hotel_rooms[0].prov_issued_code+` </span>
-                            </div>`;
+                        if(msg.result.response.hotel_rooms)
+                            text_detail+=`
+                                <div style="text-align:left">
+                                    <span style="font-weight:700; font-size:14px;">Booking Code / PNR:<span><br/>
+                                    <span style="font-weight:400; font-size:14px;">`+msg.result.response.hotel_rooms[0].prov_issued_code+` </span>
+                                </div>`;
 
                     var idx = 0;
                     var pnr_dict = []; //description
@@ -3664,9 +3665,11 @@ function hotel_get_booking(data){
                     counter_service_charge = 0;
 
                     $text += '\nContact Person:\n';
-                    $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
-                    $text += msg.result.response.contact.email + '\n';
-                    $text += msg.result.response.contact.phone+ '\n';
+                    if(msg.result.response.hasOwnProperty('contact')){
+                        $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
+                        $text += msg.result.response.contact.email + '\n';
+                        $text += msg.result.response.contact.phone+ '\n';
+                    }
 
                     $text += '\nPrice:\n';
 

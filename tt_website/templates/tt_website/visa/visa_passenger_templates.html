@@ -579,9 +579,17 @@
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: +62812345678</span>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_description_{{forloop.counter}}" name="adult_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -837,9 +845,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="child_description_{{forloop.counter}}" name="child_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1089,9 +1105,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="infant_description_{{forloop.counter}}" name="infant_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1714,9 +1738,17 @@
                                                 <span style="font-size:12px; padding:0;">{% trans 'Example' %}: +62812345678</span>
                                             </div>
                                             <div class="col-lg-12 mb-3" >
+                                                <label style="color:white">*</label>
                                                 <label>{% trans 'Behaviors' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label style="color:white">*</label>
+                                                <label>{% trans 'Description' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea class="form-control" style="resize: none; height:200px;" id="adult_description_{{forloop.counter}}" name="adult_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -1966,9 +1998,17 @@
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                             <div class="col-lg-12 mb-3" >
+                                                <label style="color:white">*</label>
                                                 <label>{% trans 'Behaviors' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                    <textarea class="form-control" style="resize: none; height:200px;" id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label style="color:white">*</label>
+                                                <label>{% trans 'Description' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea class="form-control" style="resize: none; height:200px;" id="child_description_{{forloop.counter}}" name="child_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -2211,9 +2251,17 @@
                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                             <div class="col-lg-12 mb-3" >
+                                                <label style="color:white">*</label>
                                                 <label>{% trans 'Behaviors' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <textarea class="form-control" style="resize: none; height:200px;" id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 mb-3" >
+                                                <label style="color:white">*</label>
+                                                <label>{% trans 'Description' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea class="form-control" style="resize: none; height:200px;" id="infant_description_{{forloop.counter}}" name="infant_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -2846,9 +2894,17 @@
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: +62812345678</span>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_description_{{forloop.counter}}" name="adult_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -3104,9 +3160,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="child_description_{{forloop.counter}}" name="child_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -3356,9 +3420,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="infant_description_{{forloop.counter}}" name="infant_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -3990,9 +4062,17 @@
                                         <span style="font-size:12px; padding:0;">{% trans 'Example' %}: +62812345678</span>
                                     </div>
                                     <div class="col-lg-12 mb-3" >
+                                        <label style="color:white">*</label>
                                         <label>{% trans 'Behaviors' %}</label>
                                         <div class="input-container-search-ticket">
                                             <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-3" >
+                                        <label style="color:white">*</label>
+                                        <label>{% trans 'Description' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea class="form-control" style="resize: none; height:200px;" id="adult_description_{{forloop.counter}}" name="adult_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -4248,9 +4328,17 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-3" >
+                                        <label style="color:white">*</label>
                                         <label>{% trans 'Behaviors' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            <textarea class="form-control" style="resize: none; height:200px;" id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-3" >
+                                        <label style="color:white">*</label>
+                                        <label>{% trans 'Description' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea class="form-control" style="resize: none; height:200px;" id="child_description_{{forloop.counter}}" name="child_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -4500,9 +4588,17 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-3" >
+                                        <label style="color:white">*</label>
                                         <label>{% trans 'Behaviors' %}</label>
                                         <div class="input-container-search-ticket">
                                             <textarea class="form-control" style="resize: none; height:200px;" id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-3" >
+                                        <label style="color:white">*</label>
+                                        <label>{% trans 'Description' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <textarea class="form-control" style="resize: none; height:200px;" id="infant_description_{{forloop.counter}}" name="infant_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -5129,9 +5225,17 @@
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: +62812345678</span>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_description_{{forloop.counter}}" name="adult_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -5387,9 +5491,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="child_description_{{forloop.counter}}" name="child_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -5639,9 +5751,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="infant_description_{{forloop.counter}}" name="infant_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -6272,9 +6392,17 @@
                                             <span style="font-size:12px; padding:0;">{% trans 'Example' %}: +62812345678</span>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_description_{{forloop.counter}}" name="adult_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -6530,9 +6658,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="child_behaviors_{{forloop.counter}}" name="child_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="child_description_{{forloop.counter}}" name="child_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -6782,9 +6918,17 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <textarea class="form-control" style="resize: none; height:200px;" id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mb-3" >
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Description' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <textarea class="form-control" style="resize: none; height:200px;" id="infant_description_{{forloop.counter}}" name="infant_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                             </div>
                                         </div>
                                     </div>
