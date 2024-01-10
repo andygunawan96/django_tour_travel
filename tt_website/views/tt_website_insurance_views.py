@@ -453,6 +453,10 @@ def review(request, signature=''):
                 mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1), '')).replace(':', '').strip()
                 passport_number = re.sub(r'\s', ' ', request.POST['adult_passport_number' + str(i + 1)]).replace(':', '').strip()
 
+                description = ''
+                if request.POST.get('adult_description_' + str(i + 1)):
+                    description = request.POST['adult_description_' + str(i + 1)]
+
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": first_name,
@@ -485,6 +489,7 @@ def review(request, signature=''):
                         "addons": addons
                     },
                     "behaviors": behaviors,
+                    "description": description
                 })
 
                 if i == 0:

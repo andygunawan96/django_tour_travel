@@ -409,6 +409,10 @@ def review(request, signature=''):
                     mobile = re.sub(r'\s', ' ', request.POST.get('adult_mobile' + str(i + 1), '')).replace(':', '').strip()
                     identity_number = re.sub(r'\s', ' ', request.POST.get('adult_passport_number' + str(i + 1))).replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('adult_description_' + str(i + 1)):
+                        description = request.POST['adult_description_' + str(i + 1)]
+
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": first_name,
@@ -422,7 +426,8 @@ def review(request, signature=''):
                         "identity_type": "passport",
                         "identity_image": img_identity_data,
                         "behaviors": behaviors,
-                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
+                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                        "description": description
                     })
 
                     if i == 0:
@@ -497,6 +502,10 @@ def review(request, signature=''):
                     # mobile = re.sub(r'\s', ' ', request.POST.get('adult_mobile' + str(i + 1))).replace(':', '').strip()
                     identity_number = re.sub(r'\s', ' ', request.POST.get('child_passport_number' + str(i + 1))).replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('child_description_' + str(i + 1)):
+                        description = request.POST['child_description_' + str(i + 1)]
+
                     child.append({
                         "pax_type": "CHD",
                         "first_name": first_name,
@@ -510,9 +519,8 @@ def review(request, signature=''):
                         "identity_type": "passport",
                         "identity_image": img_identity_data,
                         "behaviors": behaviors,
-                        "passenger_seq_id": request.POST['child_id' + str(i + 1)]
-
-
+                        "passenger_seq_id": request.POST['child_id' + str(i + 1)],
+                        "description": description
                     })
 
                 for i in range(int(visa_passenger['infant'])):
@@ -527,6 +535,10 @@ def review(request, signature=''):
                     # mobile = re.sub(r'\s', ' ', request.POST.get('adult_mobile' + str(i + 1))).replace(':', '').strip()
                     identity_number = re.sub(r'\s', ' ', request.POST.get('infant_passport_number' + str(i + 1))).replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('infant_description_' + str(i + 1)):
+                        description = request.POST['infant_description_' + str(i + 1)]
+
                     infant.append({
                         "pax_type": "INF",
                         "first_name": first_name,
@@ -540,7 +552,8 @@ def review(request, signature=''):
                         "identity_type": "passport",
                         "identity_image": img_identity_data,
                         "behaviors": behaviors,
-                        "passenger_seq_id": request.POST['infant_id' + str(i + 1)]
+                        "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
+                        "description": description
                     })
 
                 if len(contact) == 0:
