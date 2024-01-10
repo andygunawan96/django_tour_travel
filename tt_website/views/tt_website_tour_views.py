@@ -734,6 +734,10 @@ def review(request, signature=''):
                         identity_first_name = re.sub(r'\s', ' ', request.POST['adult_identity_first_name' + str(i + 1)]).replace(':', '').strip()
                         identity_last_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
+                        description = ''
+                        if request.POST.get('adult_description_' + str(i + 1)):
+                            description = request.POST['adult_description_' + str(i + 1)]
+
                         adult.append({
                             "temp_pax_id": temp_pax_id,
                             "first_name": first_name,
@@ -756,7 +760,7 @@ def review(request, signature=''):
                             "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                             "is_cp": request.POST.get('adult_cp' + str(i + 1)),
                             "behaviors": behaviors,
-
+                            "description": description
                         })
                         printout_paxs.append({
                             "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
@@ -835,6 +839,10 @@ def review(request, signature=''):
                         identity_first_name = re.sub(r'\s', ' ', request.POST['child_identity_first_name' + str(i + 1)]).replace(':', '').strip()
                         identity_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
+                        description = ''
+                        if request.POST.get('child_description_' + str(i + 1)):
+                            description = request.POST['child_description_' + str(i + 1)]
+
                         child.append({
                             "temp_pax_id": temp_pax_id,
                             "first_name": first_name,
@@ -853,6 +861,7 @@ def review(request, signature=''):
                             "passenger_seq_id": request.POST['child_id'+str(i+1)],
                             "identity_type": "passport",
                             "behaviors": behaviors,
+                            "description": description
                         })
                         printout_paxs.append({
                             "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
@@ -877,6 +886,10 @@ def review(request, signature=''):
                         identity_first_name = re.sub(r'\s', ' ', request.POST['infant_identity_first_name' + str(i + 1)]).replace(':', '').strip()
                         identity_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
+                        description = ''
+                        if request.POST.get('infant_description_' + str(i + 1)):
+                            description = request.POST['infant_description_' + str(i + 1)]
+
                         infant.append({
                             "temp_pax_id": temp_pax_id,
                             "first_name": first_name,
@@ -895,6 +908,7 @@ def review(request, signature=''):
                             "passenger_seq_id": request.POST['infant_id'+str(i+1)],
                             "behaviors": behaviors,
                             "identity_type": "passport",
+                            "description": description
                         })
                         printout_paxs.append({
                             "name": request.POST['infant_title' + str(i + 1)] + ' ' + request.POST['infant_first_name' + str(i + 1)] + ' ' + request.POST['infant_last_name' + str(i + 1)],
