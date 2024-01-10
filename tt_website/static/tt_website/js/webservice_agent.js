@@ -8492,6 +8492,14 @@ function get_payment_vendor(order_number_full){
         url_back += '/' + provider_type + '/booking/' + btoa(order_number_id);
 //        window.location.href = '/' + type_render + '/booking/' + order_number_id;
 //        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va //lupa kenapa dulu bikin kyk gini cuman kalau kyk gini ke redirect 2x & jika espay belum response redirect prtama akan muncul payment error fix
+    }else if(window.location.href.includes('top_up')){
+        url_back = window.location.href.split('/');
+        for(i in url_back)
+            if(url_back.length == 3)
+                break
+            else
+                url_back.pop()
+        url_back = url_back.join('/') + '/top_up'
     }else
         url_back = window.location.href;
     $.ajax({
