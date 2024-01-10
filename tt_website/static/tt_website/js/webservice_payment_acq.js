@@ -1426,6 +1426,13 @@ function get_payment_order_number(order_number){
 
     }catch(err){console.log(err)}
     if(check_phone_number_fill != true){
+        url_back = window.location.href.split('/');
+        for(i in url_back)
+            if(url_back.length == 3)
+                break
+            else
+                url_back.pop()
+        url_back = url_back.join('/') + '/top_up'
         $.ajax({
            type: "POST",
            url: "/webservice/payment",
@@ -1437,7 +1444,7 @@ function get_payment_order_number(order_number){
                 'signature': signature,
                 'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
                 'show_device_type': payment_acq2[payment_method][selected].show_device_type,
-                'url_back': window.location.href,
+                'url_back': url_back,
                 'voucher_reference': typeof voucher_code === 'string' ? voucher_code : '',
                 'provider': payment_acq2[payment_method][selected].provider,
                 'use_point': use_point
