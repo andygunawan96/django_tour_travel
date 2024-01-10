@@ -796,6 +796,10 @@ def review(request, signature=''):
                     mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
                     passport_number = re.sub(r'\s', ' ', request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('adult_description_' + str(i + 1)):
+                        description = request.POST['adult_description_' + str(i + 1)]
+
                     adult.append({
                         "first_name": first_name,
                         "last_name": last_name,
@@ -818,6 +822,7 @@ def review(request, signature=''):
                         "mobile": mobile,
                         "email": email,
                         "is_cp": request.POST.get('adult_cp' + str(i + 1)),
+                        "description": description
                     })
                     printout_paxs.append({
                         "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
@@ -1053,6 +1058,10 @@ def review(request, signature=''):
                     # mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
                     passport_number = re.sub(r'\s', ' ',request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('senior_description_' + str(i + 1)):
+                        description = request.POST['senior_description_' + str(i + 1)]
+
                     senior.append({
                         "first_name": first_name,
                         "last_name": last_name,
@@ -1071,6 +1080,7 @@ def review(request, signature=''):
                         "sku_id": request.POST['senior_sku_id' + str(i + 1)],
                         "sku_title": request.POST['senior_sku_title' + str(i + 1)],
                         "sku_real_id": request.POST['senior_sku_real_id' + str(i + 1)],
+                        "description": description
                     })
                     printout_paxs.append({
                         "name": request.POST['senior_title' + str(i + 1)] + ' ' + request.POST['senior_first_name' + str(i + 1)] + ' ' + request.POST['senior_last_name' + str(i + 1)],
@@ -1251,6 +1261,10 @@ def review(request, signature=''):
                     # mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
                     passport_number = re.sub(r'\s', ' ',request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('child_description_' + str(i + 1)):
+                        description = request.POST['child_description_' + str(i + 1)]
+
                     child.append({
                         "first_name": first_name,
                         "last_name": last_name,
@@ -1269,7 +1283,7 @@ def review(request, signature=''):
                         "sku_id": request.POST['child_sku_id' + str(i + 1)],
                         "sku_title": request.POST['child_sku_title' + str(i + 1)],
                         "sku_real_id": request.POST['child_sku_real_id' + str(i + 1)],
-
+                        "description": description
                     })
                     printout_paxs.append({
                         "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
@@ -1450,6 +1464,10 @@ def review(request, signature=''):
                     # mobile = re.sub(r'\s', ' ', request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ').replace(':', '').strip()
                     passport_number = re.sub(r'\s', ' ',request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '').replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('infant_description_' + str(i + 1)):
+                        description = request.POST['infant_description_' + str(i + 1)]
+
                     infant.append({
                         "first_name": first_name,
                         "last_name": last_name,
@@ -1468,6 +1486,7 @@ def review(request, signature=''):
                         "sku_id": request.POST['infant_sku_id' + str(i + 1)],
                         "sku_title": request.POST['infant_sku_title' + str(i + 1)],
                         "sku_real_id": request.POST['infant_sku_real_id' + str(i + 1)],
+                        "description": description
                     })
                     printout_paxs.append({
                         "name": request.POST['infant_title'+str(i+1)] + ' ' + request.POST['infant_first_name'+str(i+1)] + ' ' + request.POST['infant_last_name'+str(i+1)],

@@ -4326,6 +4326,13 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             }
                         }catch(err){console.log(err);}
 
+                        // riz_text
+                        try{
+                            if(passenger_data[sequence].hasOwnProperty('riz_text') && document.getElementById(type+'_riz_text_'+passenger_number)){
+                                document.getElementById(type+'_riz_text_'+passenger_number).value = passenger_data[sequence]['riz_text']
+                            }
+                        }catch(err){console.log(err);}
+
             //            if (document.getElementById("default-select")) {
             //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
             //                $('#adult_nationality1_id').niceSelect('update');
@@ -4466,6 +4473,13 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                         }catch(err){console.log(err)}
                                         index_ff++;
                                     }
+                                }
+                            }catch(err){console.log(err);}
+
+                            // riz_text
+                            try{
+                                if(passenger_data[sequence].hasOwnProperty('riz_text') && document.getElementById('adult_riz_text_'+passenger_number)){
+                                    document.getElementById('adult_riz_text_'+passenger_number).value = passenger_data[sequence]['riz_text']
                                 }
                             }catch(err){console.log(err);}
                         }
@@ -4620,6 +4634,13 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                     }
                                 }
                             }catch(err){console.log(err);}
+
+                            // riz_text
+                            try{
+                                if(passenger_data[sequence].hasOwnProperty('riz_text') && document.getElementById('child_riz_text_'+passenger_number)){
+                                    document.getElementById('child_riz_text_'+passenger_number).value = passenger_data[sequence]['riz_text']
+                                }
+                            }catch(err){console.log(err);}
                         }
 
                         try{
@@ -4745,6 +4766,13 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                 if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
                                     document.getElementById('infant_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
                                 }
+                            }
+                        }catch(err){console.log(err);}
+
+                        // riz_text
+                        try{
+                            if(passenger_data[sequence].hasOwnProperty('riz_text') && document.getElementById('infant_riz_text_'+passenger_number)){
+                                document.getElementById('infant_riz_text_'+passenger_number).value = passenger_data[sequence]['riz_text']
                             }
                         }catch(err){console.log(err);}
 //                        $('#infant_nationality'+passenger_number+'_id').niceSelect('update');
@@ -4974,10 +5002,35 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             if(passenger_data[sequence].hasOwnProperty('behaviors')){
                                 product_behaviors = product;
                                 if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
-                                    document.getElementById('infant_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                    document.getElementById('student_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
                                 }
                             }
                         }catch(err){console.log(err);}
+
+                        if(product == 'airline'){
+                            //add frequent flyer
+                            try{
+                                if(typeof ff_request !== 'undefined'){
+                                    index_ff = 1;
+                                    for(x in ff_request){
+                                        try{
+                                            if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                                $("#student_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                                document.getElementById('student_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                            }
+                                        }catch(err){console.log(err)}
+                                        index_ff++;
+                                    }
+                                }
+                            }catch(err){console.log(err);}
+
+                            // riz_text
+                            try{
+                                if(passenger_data[sequence].hasOwnProperty('riz_text') && document.getElementById('student_riz_text_'+passenger_number)){
+                                    document.getElementById('student_riz_text_'+passenger_number).value = passenger_data[sequence]['riz_text']
+                                }
+                            }catch(err){console.log(err);}
+                        }
 //                        $('#student_nationality'+passenger_number+'_id').niceSelect('update');
 //                        $('#student_country_of_issued'+passenger_number).niceSelect('update');
                         $('#myModal_student'+passenger_number).modal('hide');
@@ -5089,10 +5142,35 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             if(passenger_data[sequence].hasOwnProperty('behaviors')){
                                 product_behaviors = product;
                                 if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
-                                    document.getElementById('infant_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                    document.getElementById('labour_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
                                 }
                             }
                         }catch(err){console.log(err);}
+
+                        if(product == 'airline'){
+                            //add frequent flyer
+                            try{
+                                if(typeof ff_request !== 'undefined'){
+                                    index_ff = 1;
+                                    for(x in ff_request){
+                                        try{
+                                            if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                                $("#labour_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                                document.getElementById('labour_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                            }
+                                        }catch(err){console.log(err)}
+                                        index_ff++;
+                                    }
+                                }
+                            }catch(err){console.log(err);}
+
+                            // riz_text
+                            try{
+                                if(passenger_data[sequence].hasOwnProperty('riz_text') && document.getElementById('labour_riz_text_'+passenger_number)){
+                                    document.getElementById('labour_riz_text_'+passenger_number).value = passenger_data[sequence]['riz_text']
+                                }
+                            }catch(err){console.log(err);}
+                        }
 //                        $('#labour_nationality'+passenger_number+'_id').niceSelect('update');
 //                        $('#labour_country_of_issued'+passenger_number).niceSelect('update');
                         $('#myModal_labour'+passenger_number).modal('hide');
@@ -5204,10 +5282,35 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             if(passenger_data[sequence].hasOwnProperty('behaviors')){
                                 product_behaviors = product;
                                 if(passenger_data[sequence].behaviors.hasOwnProperty(product_behaviors)){
-                                    document.getElementById('infant_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
+                                    document.getElementById('seaman_behaviors_'+passenger_number).value = passenger_data[sequence].behaviors[product_behaviors].split('<br/>').join('\n');
                                 }
                             }
                         }catch(err){console.log(err);}
+
+                        if(product == 'airline'){
+                            //add frequent flyer
+                            try{
+                                if(typeof ff_request !== 'undefined'){
+                                    index_ff = 1;
+                                    for(x in ff_request){
+                                        try{
+                                            if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                                $("#seaman_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                                document.getElementById('seaman_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                            }
+                                        }catch(err){console.log(err)}
+                                        index_ff++;
+                                    }
+                                }
+                            }catch(err){console.log(err);}
+
+                            // riz_text
+                            try{
+                                if(passenger_data[sequence].hasOwnProperty('riz_text') && document.getElementById('seaman_riz_text_'+passenger_number)){
+                                    document.getElementById('seaman_riz_text_'+passenger_number).value = passenger_data[sequence]['riz_text']
+                                }
+                            }catch(err){console.log(err);}
+                        }
 //                        $('#seaman_nationality'+passenger_number+'_id').niceSelect('update');
 //                        $('#seaman_country_of_issued'+passenger_number).niceSelect('update');
                         $('#myModal_seaman'+passenger_number).modal('hide');
@@ -6672,6 +6775,10 @@ function copy_booker(val,type,identity){
                 index_ff++;
             }
         }
+        try{
+            if(document.getElementById('adult_riz_text_1') && data_booker.hasOwnProperty('riz_text'))
+                document.getElementById('adult_riz_text_1').value = data_booker['riz_text'];
+        }catch(err){}
     }else{
         //kosongi avatar
         if(type == 'offline' || type == 'groupbooking'){
@@ -6932,6 +7039,10 @@ function copy_booker(val,type,identity){
                 console.log(err); //error kalau id tidak ketemu (medical)
             }
         }
+        try{
+            if(document.getElementById('adult_riz_text_1'))
+                document.getElementById('adult_riz_text_1').value = '';
+        }catch(err){}
     }
 }
 
@@ -7054,6 +7165,11 @@ function clear_passenger(type, sequence){
                     }
                 }
             }catch(err){console.log(err);}
+
+            try{
+                if(document.getElementById('adult_riz_text_'+sequence))
+                    document.getElementById('adult_riz_text_'+sequence).value = '';
+            }catch(err){}
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
         }
@@ -7123,6 +7239,10 @@ function clear_passenger(type, sequence){
                     }
                 }
             }catch(err){console.log(err);}
+            try{
+                if(document.getElementById('infant_riz_text_'+sequence))
+                    document.getElementById('infant_riz_text_'+sequence).value = '';
+            }catch(err){}
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
         }
@@ -7253,6 +7373,10 @@ function clear_passenger(type, sequence){
                 }
             }
         }catch(err){console.log(err);}
+        try{
+            if(document.getElementById('child_riz_text_'+sequence))
+                document.getElementById('child_riz_text_'+sequence).value = '';
+        }catch(err){}
     }
     else if(type == 'Medical'){
         Swal.fire({
@@ -7643,6 +7767,11 @@ function clear_passenger(type, sequence){
                 }
             }
         }catch(err){console.log(err);}
+
+        try{
+            if(document.getElementById('student_riz_text_'+sequence))
+                document.getElementById('student_riz_text_'+sequence).value = '';
+        }catch(err){}
     }
     else if(type == 'Labour'){
         for(i in passenger_data_pick){
@@ -7706,6 +7835,10 @@ function clear_passenger(type, sequence){
                 }
             }
         }catch(err){console.log(err);}
+        try{
+            if(document.getElementById('labour_riz_text_'+sequence))
+                document.getElementById('labour_riz_text_'+sequence).value = '';
+        }catch(err){}
     }
     else if(type == 'Seaman'){
         for(i in passenger_data_pick){
@@ -7769,6 +7902,10 @@ function clear_passenger(type, sequence){
                 }
             }
         }catch(err){console.log(err);}
+        try{
+            if(document.getElementById('seaman_riz_text_'+sequence))
+                document.getElementById('seaman_riz_text_'+sequence).value = '';
+        }catch(err){}
     }
     else{
         //BUAT PAX TYPE YG TIDAK ADA
@@ -7868,6 +8005,10 @@ function clear_passenger(type, sequence){
                 }
             }catch(err){console.log(err);}
 
+            try{
+                if(document.getElementById(type+'_riz_text_'+sequence))
+                    document.getElementById(type+'_riz_text_'+sequence).value = '';
+            }catch(err){}
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
         }
@@ -10612,6 +10753,12 @@ function pick_passenger_cache_copy(val, identity){
                         index_ff++;
                     }
                 }
+            }catch(err){console.log(err);}
+
+            // add riz_text
+            try{
+                if(document.getElementById(passenger_pick+'_riz_text_'+passenger_pick_number) && passenger_data_cache[val]['riz_text'])
+                    document.getElementById(passenger_pick+'_riz_text_'+passenger_pick_number).value = passenger_data_cache[val]['riz_text'];
             }catch(err){console.log(err);}
         }
 //        try{

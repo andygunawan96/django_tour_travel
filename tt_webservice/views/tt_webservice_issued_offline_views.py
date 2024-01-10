@@ -414,6 +414,10 @@ def update_passenger(request):
                 # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
                 # mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
+                description = ''
+                if request.POST.get('passenger_description_' + str(i + 1)):
+                    description = request.POST['passenger_description_' + str(i + 1)]
+
                 passenger.append({
                     "pax_type": pax_type,
                     "first_name": first_name,
@@ -422,7 +426,8 @@ def update_passenger(request):
                     "birth_date": birth_date,
                     "nationality_code": request.POST.get('passenger_nationality_code' + str(i), ''),
                     'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or '',
-                    'behaviors': behaviors
+                    'behaviors': behaviors,
+                    "description": description
                 })
                 try:
                     if request.POST.get('passenger_identity_type' + str(i)):
