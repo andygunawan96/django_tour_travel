@@ -1601,7 +1601,7 @@ function bus_get_booking(data, sync=false){
                                 text_detail+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;`;
-                                    if(is_show_breakdown_price){
+                                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                         text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
                                     }else{
                                         text_detail+=`"`;
@@ -1613,7 +1613,7 @@ function bus_get_booking(data, sync=false){
                                 else
                                     text_detail+=`
                                     >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
-                                if(is_show_breakdown_price)
+                                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                     text_detail+=`<i class="fas fa-caret-down"></i>`;
                                 text_detail += `</span>`;
                                 text_detail+=`
@@ -1698,7 +1698,7 @@ function bus_get_booking(data, sync=false){
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text_detail+='cursor:pointer;';
                             text_detail +=`">`;
                             try{
@@ -1709,7 +1709,7 @@ function bus_get_booking(data, sync=false){
                             }catch(err){
 
                             }
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text_detail+=`<i class="fas fa-caret-down"></i>`;
                             text_detail+= `</span>
                         </div>
@@ -1819,7 +1819,7 @@ function bus_get_booking(data, sync=false){
                 document.getElementById('show_loading_booking_bus').hidden = true;
                 document.getElementById('bus_detail').innerHTML = text;
 
-                if(is_show_breakdown_price){
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     var price_breakdown = {};
                     var currency_breakdown = '';
                     for(i in bus_get_detail.result.response.passengers){

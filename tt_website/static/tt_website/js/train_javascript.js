@@ -996,11 +996,11 @@ function train_get_detail(){
                     train_detail_footer += `
                     <b style="font-size:16px; padding-right:10px;">Grand Total </b><br/>
                     <span id="total_price" style="font-size:16px;font-weight:bold; padding-right:10px;`;
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         train_detail_footer+= "cursor:pointer;";
                     }
                     train_detail_footer+=`"><b>`+price['currency']+` `+getrupiah(total_price+total_tax+total_discount)+`</b>`;
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         train_detail_footer+= ` <i class="fas fa-caret-down"></i>`;
                     }
                     train_detail_footer+=`
@@ -1100,7 +1100,7 @@ function train_get_detail(){
 
 
     for(i in journeys){
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             var price_breakdown = {};
             var currency_breakdown = '';
             for(j in journeys[i].fares){
@@ -1555,11 +1555,11 @@ function train_detail(){
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
             <span id="total_price" style="font-size:13px;`;
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text+= "cursor:pointer;";
     }
     text+=`"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b>`;
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text+= ` <i class="fas fa-caret-down"></i>`;
     }
     text+=`</span><br>
@@ -1662,7 +1662,7 @@ function train_detail(){
     var price_breakdown = {};
     var currency_breakdown = '';
     for(i in train_data){
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             for(j in train_data[i].fares){
                 for(k in train_data[i].fares[j].service_charge_summary){
                     if(!price_breakdown.hasOwnProperty('FARE'))
@@ -1758,7 +1758,7 @@ function train_detail(){
             breakdown_text += '<b>'+j+'</b> ';
         }
     }
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         new jBox('Tooltip', {
             attach: '#total_price',
             target: '#total_price',
@@ -2675,10 +2675,10 @@ function sort(value){
                                     if(data_filter[i].price != data_filter[i].without_discount_price)
                                         response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
                                     response += `<span class="copy_price" id="train_price_`+i+`" style="font-size:16px; font-weight: bold; color:`+color+`;`;
-//                                    if(is_show_breakdown_price)
+//                                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
 //                                        response+='cursor:pointer;';
                                     response += `">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price)+`</span>`;
-//                                    if(is_show_breakdown_price)
+//                                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
 //                                        response+=`<i class="fas fa-caret-down price_template"></i>`;
                                     response+=`<br/>`;
                                     if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
@@ -2755,7 +2755,7 @@ function sort(value){
 
     for(i in data_filter){
         /*
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
                 var price_breakdown = {};
                 var currency_breakdown = '';
@@ -2918,10 +2918,10 @@ function train_ticket_pick(){
                         }
                         response+=`
                             <span id="train_pick_price_`+i+`" style="font-size:16px; margin-bottom:10px; font-weight: bold; color:`+color+`;`;
-//                    if(is_show_breakdown_price)
+//                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
 //                        response+='cursor:pointer;';
                         response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
-//                        if(is_show_breakdown_price)
+//                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
 //                            response+=`<i class="fas fa-caret-down price_template"></i>`;
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
@@ -2958,7 +2958,7 @@ function train_ticket_pick(){
 
     for(i in journeys){
         /*
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             var price_breakdown = {};
             var currency_breakdown = '';
             for(j in journeys[i].fares){

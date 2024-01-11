@@ -596,10 +596,10 @@ function sort(value){
                                 response+= color+';';
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                 response+= '#505050;'
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 response+='cursor:pointer;';
                             response+=`">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price);
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 response+=`<i class="fas fa-caret-down price_template"></i>`;
                             response+=`</span><br/>`;
                             if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
@@ -662,7 +662,7 @@ function sort(value){
     document.getElementById('loading-search-bus').hidden = true;
 
     for(i in data_filter){
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
                 var price_breakdown = {};
                 var currency_breakdown = '';
@@ -858,10 +858,10 @@ function bus_ticket_pick(){
                     check = 0;
                     response+=`
                         <span id="bus_pick_price_`+i+` style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;`;
-                        if(is_show_breakdown_price)
+                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                             response+='cursor:pointer;';
                         response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
-                        if(is_show_breakdown_price)
+                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                             response+=`<i class="fas fa-caret-down price_template"></i>`;
                         if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
@@ -896,7 +896,7 @@ function bus_ticket_pick(){
     document.getElementById('bus_pick_ticket').innerHTML = response;
 
     for(i in journeys){
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             var price_breakdown = {};
             var currency_breakdown = '';
             for(j in journeys[i].fares){
@@ -1179,11 +1179,11 @@ function bus_get_detail(){
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                 <span id="total_price" style="font-size:13px;font-weight:bold;`;
-            if(is_show_breakdown_price){
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 bus_detail_text+= "cursor:pointer;";
             }
             bus_detail_text +=`"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b>`;
-            if(is_show_breakdown_price){
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 bus_detail_text+= ` <i class="fas fa-caret-down"></i>`;
             }
             bus_detail_text+=`</span><br>
@@ -1239,7 +1239,7 @@ function bus_get_detail(){
     document.getElementById('bus_detail').innerHTML = bus_detail_text;
 
     for(i in journeys){
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             var price_breakdown = {};
             var currency_breakdown = '';
             for(j in journeys[i].fares){
@@ -1679,11 +1679,11 @@ function bus_detail(){
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
             <span id="total_price" style="font-size:13px;`;
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text+= "cursor:pointer;";
     }
     text+=`"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b>`;
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         text+= ` <i class="fas fa-caret-down"></i>`;
     }
     text+=`</span><br>
@@ -1761,7 +1761,7 @@ function bus_detail(){
     document.getElementById('bus_detail').innerHTML = text;
 
     for(i in bus_data){
-        if(is_show_breakdown_price){
+        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
             var price_breakdown = {};
             var currency_breakdown = '';
             for(j in bus_data[i].fares){

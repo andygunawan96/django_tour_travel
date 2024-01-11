@@ -375,10 +375,10 @@ function activity_table_detail(){
            <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:bold">Grand Total</span></div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span id="total_price" style="font-weight:bold;`;
-           if(is_show_breakdown_price)
+           if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+='cursor:pointer;';
            text+=`">`+currency+` `+getrupiah(grand_total);
-           if(is_show_breakdown_price)
+           if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+=`<i class="fas fa-caret-down"></i>`;
            text+=`</span>
                 </div>
@@ -480,7 +480,7 @@ function activity_table_detail(){
    document.getElementById('activity_detail_next_btn').innerHTML = text_btn;
    document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
 
-   if(is_show_breakdown_price){
+   if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};
         var currency_breakdown = '';
         for(i in activity_date.service_charge_summary){
@@ -815,11 +815,11 @@ function activity_table_detail2(pagetype){
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
                     <span id="total_price" style="font-weight:bold;`;
-                if(is_show_breakdown_price){
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     text+= "cursor:pointer;";
                 }
                 text+= `">`+price_type.currency+` `+getrupiah(grand_total);
-                if(is_show_breakdown_price){
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     text+= ` <i class="fas fa-caret-down"></i>`;
                 }
                 text+=`</span>
@@ -891,7 +891,7 @@ function activity_table_detail2(pagetype){
 //               </div>`;
    document.getElementById('activity_detail_table').innerHTML = text;
 
-   if(is_show_breakdown_price){
+   if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};
         var currency_breakdown = '';
         for(i in price.service_charge_summary){
