@@ -4946,7 +4946,10 @@ function get_price_itinerary_request(){
                 //$("#badge-flight-notif").removeClass("infinite");
                 //$("#badge-flight-notif2").removeClass("infinite");
                 //$('#button_chart_airline').hide();
-                text = `<div class="col-lg-12" style="text-align:center;"><span style="font-weight: bold; font-size:14px; padding:15px;">No Price Itinerary</span></div>`;
+                text = `<div class="col-lg-12" style="text-align:center;">
+                            <span style="font-weight: bold; font-size:14px; padding:15px;">No Price Itinerary</span><br/>
+                            <span style="font-weight: bold; font-size:14px; padding:15px;">`+resJson.result.error_msg+`</span>
+                        </div>`;
 //                check_other_class = false;
 //                for(pick in airline_pick_list){
 //                    for(segment in airline_pick_list[pick].segments){
