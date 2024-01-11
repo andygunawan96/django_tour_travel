@@ -609,6 +609,10 @@ def review(request, signature):
                     mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1) ,'')).replace(':', '').strip()
                     booker_mobile = re.sub(r'\s', ' ', request.POST['booker_phone']).replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('adult_description_' + str(i + 1)):
+                        description = request.POST['adult_description_' + str(i + 1)]
+
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": first_name,
@@ -619,6 +623,7 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                         "room_number": '1',
                         "behaviors": behaviors,
+                        "description": description
                     })
                     printout_paxs.append({
                         "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
@@ -693,6 +698,10 @@ def review(request, signature):
                     # email = re.sub(r'\s', ' ', request.POST.get('adult_email' + str(i + 1))).replace(':', '').strip()
                     # mobile = re.sub(r'\s', ' ', request.POST.get('adult_phone' + str(i + 1))).replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('child_description_' + str(i + 1)):
+                        description = request.POST['child_description_' + str(i + 1)]
+
                     child.append({
                         "pax_type": "CHD",
                         "first_name": first_name,
@@ -703,6 +712,7 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "room_number": '1',
                         "behaviors": behaviors,
+                        "description": description
                     })
                     printout_paxs.append({
                         "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],

@@ -1462,6 +1462,7 @@ function train_detail(){
 //                }
 //                total_tax += train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
 //                total_commission += train_data[i].fares[j].service_charge_summary[k].total_commission*-1;
+                total_tax += price['tax'];
                 if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
                     total_price += price['fare'] * parseInt(adult);
                 else
@@ -1757,26 +1758,28 @@ function train_detail(){
             breakdown_text += '<b>'+j+'</b> ';
         }
     }
-    new jBox('Tooltip', {
-        attach: '#total_price',
-        target: '#total_price',
-        theme: 'TooltipBorder',
-        trigger: 'click',
-        adjustTracker: true,
-        closeOnClick: 'body',
-        closeButton: 'box',
-        animation: 'move',
-        position: {
-          x: 'left',
-          y: 'top'
-        },
-        outside: 'y',
-        pointer: 'left:20',
-        offset: {
-          x: 25
-        },
-        content: breakdown_text
-    });
+    if(is_show_breakdown_price){
+        new jBox('Tooltip', {
+            attach: '#total_price',
+            target: '#total_price',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            position: {
+              x: 'left',
+              y: 'top'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: breakdown_text
+        });
+    }
 }
 
 function copy_data(){

@@ -757,10 +757,29 @@
                                                     <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                                 </div>
 
+                                                {% if is_pre_riz %}
                                                 <div class="col-lg-12 mb-3" >
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'Endorsement Box (RIZ)' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" style="margin-bottom:0px;" name="adult_riz_text_{{forloop.counter}}" id="adult_riz_text_{{forloop.counter}}" placeholder="{% trans 'Endorsement Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Endorsement Number '">
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label style="color:white">*</label>
                                                     <label>{% trans 'Behaviors' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <textarea class="form-control" style="resize: none; height:200px;" id="adult_behaviors_{{forloop.counter}}" name="adult_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'Description' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea class="form-control" style="resize: none; height:200px;" id="adult_description_{{forloop.counter}}" name="adult_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1125,6 +1144,14 @@
                                                 {% endif %}
                                                 {% endfor %}
 
+                                                {% if is_pre_riz %}
+                                                <div class="col-lg-6 mb-3" >
+                                                    <label>{% trans 'Endorsement Box (RIZ)' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" style="margin-bottom:0px;" name="child_riz_text_{{forloop.counter}}" id="child_riz_text_{{forloop.counter}}" placeholder="{% trans 'Endorsement Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Endorsement Number '">
+                                                    </div>
+                                                </div>
+                                                {% endif %}
 
                                                 <div class="col-lg-12 mb-3" >
                                                     <label>{% trans 'Behaviors' %}</label>
@@ -1133,6 +1160,12 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Description' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea class="form-control" style="resize: none; height:200px;" id="child_description_{{forloop.counter}}" name="child_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1468,10 +1501,27 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                {% if is_pre_riz %}
+                                                <div class="col-lg-6 mb-3" >
+                                                    <label>{% trans 'Endorsement Box (RIZ)' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" style="margin-bottom:0px;" name="infant_riz_text_{{forloop.counter}}" id="infant_riz_text_{{forloop.counter}}" placeholder="{% trans 'Endorsement Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Endorsement Number '">
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+
                                                 <div class="col-lg-12 mb-3" >
                                                     <label>{% trans 'Behaviors' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <textarea class="form-control" style="resize: none; height:200px;" id="infant_behaviors_{{forloop.counter}}" name="infant_behaviors_{{forloop.counter}}" placeholder="Solo Traveller:&#10;&#10;Group Traveller:&#10;" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Description' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea class="form-control" style="resize: none; height:200px;" id="infant_description_{{forloop.counter}}" name="infant_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1837,6 +1887,14 @@
                                                 {% endif %}
                                                 {% endfor %}
 
+                                                {% if is_pre_riz %}
+                                                <div class="col-lg-6 mb-3" >
+                                                    <label>{% trans 'Endorsement Box (RIZ)' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" style="margin-bottom:0px;" name="stuudent_riz_text_{{forloop.counter}}" id="student_riz_text_{{forloop.counter}}" placeholder="{% trans 'Endorsement Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Endorsement Number '">
+                                                    </div>
+                                                </div>
+                                                {% endif %}
 
                                                 <div class="col-lg-12 mb-3" >
                                                     <label>{% trans 'Behaviors' %}</label>
@@ -1845,6 +1903,12 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Description' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea class="form-control" style="resize: none; height:200px;" id="student_description_{{forloop.counter}}" name="student_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2207,6 +2271,14 @@
                                                 {% endif %}
                                                 {% endfor %}
 
+                                                {% if is_pre_riz %}
+                                                <div class="col-lg-6 mb-3" >
+                                                    <label>{% trans 'Endorsement Box (RIZ)' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" style="margin-bottom:0px;" name="labour_riz_text_{{forloop.counter}}" id="labour_riz_text_{{forloop.counter}}" placeholder="{% trans 'Endorsement Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Endorsement Number '">
+                                                    </div>
+                                                </div>
+                                                {% endif %}
 
                                                 <div class="col-lg-12 mb-3" >
                                                     <label>{% trans 'Behaviors' %}</label>
@@ -2215,6 +2287,12 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Description' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea class="form-control" style="resize: none; height:200px;" id="labour_description_{{forloop.counter}}" name="labour_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2578,6 +2656,14 @@
                                                 {% endif %}
                                                 {% endfor %}
 
+                                                {% if is_pre_riz %}
+                                                <div class="col-lg-6 mb-3" >
+                                                    <label>{% trans 'Endorsement Box (RIZ)' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" style="margin-bottom:0px;" name="seaman_riz_text_{{forloop.counter}}" id="seaman_riz_text_{{forloop.counter}}" placeholder="{% trans 'Endorsement Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Endorsement Number '">
+                                                    </div>
+                                                </div>
+                                                {% endif %}
 
                                                 <div class="col-lg-12 mb-3" >
                                                     <label>{% trans 'Behaviors' %}</label>
@@ -2586,6 +2672,12 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-lg-12 mb-3" >
+                                                    <label>{% trans 'Description' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea class="form-control" style="resize: none; height:200px;" id="seaman_description_{{forloop.counter}}" name="seaman_description_{{forloop.counter}}" placeholder="Description" rows="6" cols="45"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

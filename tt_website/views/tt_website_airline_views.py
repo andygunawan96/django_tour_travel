@@ -645,6 +645,16 @@ def passenger(request, signature):
             airline_price_provider_temp = file['sell_journey_provider']
         # airline_price_provider_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
         ## KURANG AMBIL DEFAULT DOMESTIC ORIGIN SEMENTARA PAKAI INDONESIA
+
+        provider_data_dict = {}
+        file = read_cache("get_list_provider_data", 'cache_web', request, 90911)
+        try:
+            if file and request.session['user_account']['co_ho_seq_id'] in file:
+                provider_data_dict = file[request.session['user_account']['co_ho_seq_id']]
+        except Exception as e:
+            _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
+
+        is_pre_riz = False
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
@@ -666,6 +676,10 @@ def passenger(request, signature):
                             break
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
+            if provider_data_dict:
+                if hasattr(provider_data_dict[airline['provider']], 'is_pre_riz'):
+                    if provider_data_dict[airline['provider']]['is_pre_riz']:
+                        is_pre_riz = True
 
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
@@ -754,6 +768,7 @@ def passenger(request, signature):
                 # 'time_limit': request.session['time_limit_%s' % signature],
                 'time_limit': time_limit,
                 'static_path_url_server': get_url_static_path(),
+                'is_pre_riz': is_pre_riz
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -2005,6 +2020,10 @@ def review(request, signature):
                             if request.POST.get('adult_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['adult_behaviors_' + str(i + 1)]}
 
+                            description = ''
+                            if request.POST.get('adult_description_' + str(i + 1)):
+                                description = request.POST['adult_description_' + str(i + 1)]
+
                             first_name = re.sub(r'\s', ' ', request.POST['adult_first_name' + str(i + 1)]).replace(':', '').strip()
                             last_name = re.sub(r'\s', ' ', request.POST.get('adult_last_name' + str(i + 1), '')).replace(':', '').strip()
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
@@ -2026,10 +2045,18 @@ def review(request, signature):
                                 "identity_type": request.POST['adult_id_type' + str(i + 1)] if is_valid_identity else '',
                                 "ff_numbers": ff_number,
                                 "behaviors": behaviors,
+                                "description": description,
                                 "identity_image": img_identity_data,
                                 "is_valid_identity": is_valid_identity,
                                 "is_request_wheelchair": is_wheelchair
                             })
+
+                            if request.POST.get('adult_riz_text_' + str(i + 1)):
+                                adult[-1].update({
+                                    "riz_text": request.POST.get('adult_riz_text_' + str(i + 1))
+                                })
+
+
 
                             if i == 0:
                                 if request.POST['myRadios'] == 'yes':
@@ -2136,6 +2163,10 @@ def review(request, signature):
                             if request.POST.get('child_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['child_behaviors_' + str(i + 1)]}
 
+                            description = ''
+                            if request.POST.get('child_description_' + str(i + 1)):
+                                description = request.POST['child_description_' + str(i + 1)]
+
                             first_name = re.sub(r'\s', ' ', request.POST['child_first_name' + str(i + 1)]).replace(':', '').strip()
                             last_name = re.sub(r'\s', ' ', request.POST.get('child_last_name' + str(i + 1), '')).replace(':', '').strip()
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
@@ -2157,10 +2188,15 @@ def review(request, signature):
                                 "identity_type": request.POST['child_id_type' + str(i + 1)] if is_valid_identity else '',
                                 "ff_numbers": ff_number,
                                 "behaviors": behaviors,
+                                "description": description,
                                 "identity_image": img_identity_data,
                                 "is_valid_identity": is_valid_identity,
                                 "is_request_wheelchair": is_wheelchair
                             })
+                            if request.POST.get('child_riz_text_' + str(i + 1)):
+                                child[-1].update({
+                                    "riz_text": request.POST.get('child_riz_text_' + str(i + 1))
+                                })
 
                         for i in range(int(airline_request['infant'])):
                             passport_number = ''
@@ -2187,6 +2223,10 @@ def review(request, signature):
                             if request.POST.get('infant_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['infant_behaviors_' + str(i + 1)]}
 
+                            description = ''
+                            if request.POST.get('infant_description_' + str(i + 1)):
+                                description = request.POST['infant_description_' + str(i + 1)]
+
                             first_name = re.sub(r'\s', ' ', request.POST['infant_first_name' + str(i + 1)]).replace(':', '').strip()
                             last_name = re.sub(r'\s', ' ', request.POST.get('infant_last_name' + str(i + 1), '')).replace(':', '').strip()
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
@@ -2207,10 +2247,16 @@ def review(request, signature):
                                 "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                                 "identity_type": request.POST['infant_id_type' + str(i + 1)] if is_valid_identity else '',
                                 "behaviors": behaviors,
+                                "description": description,
                                 "identity_image": img_identity_data,
                                 "is_valid_identity": is_valid_identity,
                                 "is_request_wheelchair": is_wheelchair
                             })
+
+                            if request.POST.get('infant_riz_text_' + str(i + 1)):
+                                infant[-1].update({
+                                    "riz_text": request.POST.get('infant_riz_text_' + str(i + 1))
+                                })
 
                         for i in range(int(airline_request.get('student') or 0)):
                             ff_number = []
@@ -2261,6 +2307,10 @@ def review(request, signature):
                             if request.POST.get('student_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['student_behaviors_' + str(i + 1)]}
 
+                            description = ''
+                            if request.POST.get('student_description_' + str(i + 1)):
+                                description = request.POST['student_description_' + str(i + 1)]
+
                             first_name = re.sub(r'\s', ' ', request.POST['student_first_name' + str(i + 1)]).replace(':','')
                             last_name = re.sub(r'\s', ' ', request.POST.get('student_last_name' + str(i + 1), '')).replace(':','')
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
@@ -2282,10 +2332,15 @@ def review(request, signature):
                                 "identity_type": request.POST['student_id_type' + str(i + 1)],
                                 "ff_numbers": ff_number,
                                 "behaviors": behaviors,
+                                "description": description,
                                 "identity_image": img_identity_data,
                                 "is_valid_identity": is_valid_identity,
                                 "is_request_wheelchair": is_wheelchair
                             })
+                            if request.POST.get('student_riz_text_' + str(i + 1)):
+                                student[-1].update({
+                                    "riz_text": request.POST.get('student_riz_text_' + str(i + 1))
+                                })
 
                         for i in range(int(airline_request.get('labour') or 0)):
                             ff_number = []
@@ -2336,6 +2391,10 @@ def review(request, signature):
                             if request.POST.get('labour_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['labour_behaviors_' + str(i + 1)]}
 
+                            description = ''
+                            if request.POST.get('labour_description_' + str(i + 1)):
+                                description = request.POST['labour_description_' + str(i + 1)]
+
                             first_name = re.sub(r'\s', ' ', request.POST['labour_first_name' + str(i + 1)]).replace(':','')
                             last_name = re.sub(r'\s', ' ', request.POST.get('labour_last_name' + str(i + 1), '')).replace(':','')
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
@@ -2357,10 +2416,15 @@ def review(request, signature):
                                 "identity_type": request.POST['labour_id_type' + str(i + 1)],
                                 "ff_numbers": ff_number,
                                 "behaviors": behaviors,
+                                "description": description,
                                 "identity_image": img_identity_data,
                                 "is_valid_identity": is_valid_identity,
                                 "is_request_wheelchair": is_wheelchair
                             })
+                            if request.POST.get('labour_riz_text_' + str(i + 1)):
+                                labour[-1].update({
+                                    "riz_text": request.POST.get('labour_riz_text_' + str(i + 1))
+                                })
 
                         for i in range(int(airline_request.get('seaman') or 0)):
                             ff_number = []
@@ -2411,6 +2475,10 @@ def review(request, signature):
                             if request.POST.get('seaman_behaviors_' + str(i + 1)):
                                 behaviors = {'airline': request.POST['seaman_behaviors_' + str(i + 1)]}
 
+                            description = ''
+                            if request.POST.get('seaman_description_' + str(i + 1)):
+                                description = request.POST['seaman_description_' + str(i + 1)]
+
                             first_name = re.sub(r'\s', ' ', request.POST['seaman_first_name' + str(i + 1)]).replace(':','')
                             last_name = re.sub(r'\s', ' ', request.POST.get('seaman_last_name' + str(i + 1), '')).replace(':','')
                             # email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
@@ -2432,10 +2500,15 @@ def review(request, signature):
                                 "identity_type": request.POST['seaman_id_type' + str(i + 1)],
                                 "ff_numbers": ff_number,
                                 "behaviors": behaviors,
+                                "description": description,
                                 "identity_image": img_identity_data,
                                 "is_valid_identity": is_valid_identity,
                                 "is_request_wheelchair": is_wheelchair
                             })
+                            if request.POST.get('seaman_riz_text_' + str(i + 1)):
+                                seaman[-1].update({
+                                    "riz_text": request.POST.get('seaman_riz_text_' + str(i + 1))
+                                })
 
 
                     if len(contact) == 0:

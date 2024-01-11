@@ -372,6 +372,10 @@ def review(request, signature):
                     identity_first_name = re.sub(r'\s', ' ', request.POST['adult_identity_first_name' + str(i + 1)]).replace(':','').strip()
                     identity_last_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('adult_description_' + str(i + 1)):
+                        description = request.POST['adult_description_' + str(i + 1)]
+
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": first_name,
@@ -388,6 +392,7 @@ def review(request, signature):
                         "identity_type": request.POST['adult_id_type' + str(i + 1)],
                         "identity_image": img_identity_data,
                         "behaviors": behaviors,
+                        "description": description
                     })
 
                     if i == 0:
@@ -458,6 +463,10 @@ def review(request, signature):
                     identity_first_name = re.sub(r'\s', ' ', request.POST['infant_identity_first_name' + str(i + 1)]).replace(':','').strip()
                     identity_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
+                    description = ''
+                    if request.POST.get('infant_description_' + str(i + 1)):
+                        description = request.POST['infant_description_' + str(i + 1)]
+
                     infant.append({
                         "pax_type": "INF",
                         "first_name": first_name,
@@ -474,6 +483,7 @@ def review(request, signature):
                         "identity_type": request.POST['infant_id_type' + str(i + 1)],
                         "identity_image": img_identity_data,
                         "behaviors": behaviors,
+                        "description": description
                     })
 
                 if len(contact) == 0:
