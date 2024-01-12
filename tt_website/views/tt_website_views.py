@@ -2031,7 +2031,7 @@ def get_data_template(request, type='home', provider_type = []):
     if file:
         greeting_login = file
 
-    file = read_cache("greeting_b2c", 'cache_web', request, 90911)
+    file = read_cache("greeting_btc", 'cache_web', request, 90911)
     if file:
         greeting_b2c = file
 

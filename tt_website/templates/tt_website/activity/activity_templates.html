@@ -93,7 +93,7 @@
                     {% if username.co_user_login != default_user %}
                     {{greeting_login.greeting}} <span style="color:{{color}};">{{greeting_login.website_name}}</span>
                     {% else %}
-                    {% trans 'Hello, dear customer, book your trip with us' %}
+                    {{greeting_b2c}}
                     {% endif %}
                 </span>
             </div>

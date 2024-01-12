@@ -1704,10 +1704,10 @@ function hotel_room_pick(key, key2){
             </div>
             <div class="col-lg-6" style="text-align:right;">
                 <span style="font-weight:bold;font-size:15px;`;
-                if(is_show_breakdown_price)
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                     text_pick_footer+='cursor:pointer;';
                 text_pick_footer += `" id="total_price">`+hotel_room.currency+` `+ getrupiah(total_price_hotel+discount_hotel);
-                if(is_show_breakdown_price)
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                     text_pick_footer+=`<i class="fas fa-caret-down"></i>`;
                 text_pick_footer += `
                 </span><br/>
@@ -1800,7 +1800,7 @@ function hotel_room_pick(key, key2){
         </div>
     </div>`;
 
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};
         var currency_breakdown = '';
         for(j in hotel_room.rooms){
@@ -2536,10 +2536,10 @@ function hotel_detail(old_cancellation_policy){
             </div>
             <div class="col-lg-6" style="text-align:right;">
                 <span style="font-weight:bold;font-size:15px;`;
-            if(is_show_breakdown_price)
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+='cursor:pointer;';
             text+=`" id="total_price">`+hotel_price.currency+` `+ getrupiah(total_price_hotel + discount_hotel);
-            if(is_show_breakdown_price)
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                 text+=`<i class="fas fa-caret-down"></i>`;
             text+=`</span>
                 </div>
@@ -2619,7 +2619,7 @@ function hotel_detail(old_cancellation_policy){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};
         var currency_breakdown = '';
         for(j in hotel_price.rooms){
@@ -3260,7 +3260,7 @@ function change_image_hotel_detail(numb){
                         document.getElementById(node.id).innerHTML = node.innerHTML;
                     document.getElementById(node.id).style.display = 'block';
 
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         var price_breakdown = {};
                         var currency_breakdown = '';
                         for(i in hotel_price){
@@ -3603,7 +3603,7 @@ function render_room_hotel(data_room_hotel_list){
             node.innerHTML = text;
             document.getElementById("detail_room_pick").appendChild(node);
 
-            if(is_show_breakdown_price){
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 var price_breakdown = {};
                 var currency_breakdown = '';
                 for(i in data_room_hotel_list){
@@ -3934,11 +3934,11 @@ function render_hotel_search_detail(data_room_hotel_list, i){
                     if(data_room_hotel_list.total != data_room_hotel_list.total_without_discount)
                         text+= '<span style="text-decoration: line-through;color:#cdcdcd;">' + data_room_hotel_list.currency + ' ' + data_room_hotel_list.total_without_discount +'</span><br/>';
                     text+= '<span id="hotel_room_span_'+i+'" class="price_room" style="font-weight: bold; font-size:14px;';
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         text+= "cursor:pointer;";
                     }
                     text+= '">' + data_room_hotel_list.currency + ' ' + data_room_hotel_list.total;
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         text+= ` <i class="fas fa-caret-down"></i>`;
                     }
                     text+='</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
@@ -3946,11 +3946,11 @@ function render_hotel_search_detail(data_room_hotel_list, i){
                     if(data_room_hotel_list.total != data_room_hotel_list.total_without_discount)
                         text+= '<span style="text-decoration: line-through;color:#cdcdcd;">' + data_room_hotel_list.currency + ' ' + getrupiah(data_room_hotel_list.total_without_discount) +'</span><br/>';
                     text+= '<span id="hotel_room_span_'+i+'" class="price_room" style="font-weight: bold; font-size:14px;';
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         text+= "cursor:pointer;";
                     }
                     text+= '">' +  data_room_hotel_list.currency + ' ' + getrupiah(data_room_hotel_list.total);
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         text+= ` <i class="fas fa-caret-down"></i>`;
                     }
                     text+='</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';

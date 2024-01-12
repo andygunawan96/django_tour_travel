@@ -3858,7 +3858,7 @@ function hotel_get_booking(data){
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                        if(is_show_breakdown_price){
+                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                             text_detail+=`cursor:pointer;`;
                         }
                         text_detail+=`">`;
@@ -3868,7 +3868,7 @@ function hotel_get_booking(data){
 
                                 }
                                 text_detail+= `</span>`;
-                        if(is_show_breakdown_price){
+                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                              text_detail+=`<i class="fas fa-caret-down"></i>`;
                         }
                         text_detail+=`
@@ -3988,7 +3988,7 @@ function hotel_get_booking(data){
                     </div>`;
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;
-                if(is_show_breakdown_price){
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     var price_breakdown = {};
                     var currency_breakdown = '';
 
