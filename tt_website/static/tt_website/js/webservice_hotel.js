@@ -4474,7 +4474,7 @@ function update_service_charge(type){
                 }else{
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    hotel_detail();
+                    hotel_detail(cancellation_policy);
                 }
 
                 $('#myModalRepricing').modal('hide');
