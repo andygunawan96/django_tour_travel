@@ -229,11 +229,11 @@ function update_table_new(type){
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <h6 id="total_price"`;
-                if(is_show_breakdown_price){
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     text+= `style="cursor:pointer;"`;
                 }
                 text+= `>`+currency+` `+getrupiah(price);
-                if(is_show_breakdown_price){
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     text += `<i class="fas fa-caret-down"></i>`;
                 }
                 text+=`</h6>
@@ -418,11 +418,11 @@ function update_table_new(type){
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                     <h6 id="total_price"`;
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         text+= `style="cursor:pointer;"`;
                     }
                     text+= `>`+currency+` `+getrupiah(price);
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         text += `<i class="fas fa-caret-down"></i>`;
                     }
                     text+=`
@@ -713,11 +713,11 @@ function update_table_new(type){
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                 <h6 id="total_price"`;
-            if(is_show_breakdown_price){
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 text+= `style="cursor:pointer;"`;
             }
             text+= `>`+currency+` `+getrupiah(grand_total_price);
-            if(is_show_breakdown_price){
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 text += `<i class="fas fa-caret-down"></i>`;
             }
         text+=`</h6>
@@ -903,7 +903,7 @@ function update_table_new(type){
                         text_detail+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                             <span style="font-size:13px;`;
-                            if(is_show_breakdown_price){
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                 text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
                             }else{
                                 text_detail+=`"`;
@@ -914,7 +914,7 @@ function update_table_new(type){
                         else
                             text_detail+=`
                             >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
-                        if(is_show_breakdown_price)
+                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                             text_detail+=`<i class="fas fa-caret-down"></i>`;
                         text_detail += `</span>`;
                         text_detail+=`
@@ -977,7 +977,7 @@ function update_table_new(type){
                 </div>
                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
                     <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                    if(is_show_breakdown_price)
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                         text_detail+='cursor:pointer;';
                     text_detail +=`">`;
                     try{
@@ -985,7 +985,7 @@ function update_table_new(type){
                     }catch(err){
 
                     }
-                    if(is_show_breakdown_price)
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                         text_detail+=`<i class="fas fa-caret-down"></i>`;
                     text_detail+= `</span>
                 </div>
@@ -1103,7 +1103,7 @@ function update_table_new(type){
     }
     document.getElementById('detail').innerHTML = text;
 
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};
         var currency_breakdown = '';
         if(type == 'search'){
@@ -3219,7 +3219,7 @@ function check_on_off_radio(pax_type,number,value){
                 }
                 pax_price.innerHTML = currency + ' ' + getrupiah(price_perpax.toString());
 
-//                if(is_show_breakdown_price){
+//                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
 //                    var price_breakdown = {};
 //                    var currency_breakdown = '';
 //                    for(j in sell_visa['search_data'][i].service_charges){

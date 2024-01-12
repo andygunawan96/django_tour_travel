@@ -3015,7 +3015,7 @@ function tour_get_booking(order_number)
                                         price_text+=`</div>
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                             <span style="font-size:13px;`;
-                                            if(is_show_breakdown_price){
+                                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                                 price_text+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
                                             }else{
                                                 price_text+=`"`;
@@ -3030,7 +3030,7 @@ function tour_get_booking(order_number)
 //                                        }
                                         price_text+=`
                                             >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC));
-                                        if(is_show_breakdown_price)
+                                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                             price_text+=`<i class="fas fa-caret-down"></i>`;
                                         price_text += `</span>`;
                                         price_text+=`
@@ -3089,10 +3089,10 @@ function tour_get_booking(order_number)
                           </div>
                           <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                <span id="total_price" style="font-weight:bold;`;
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 price_text+='cursor:pointer;';
                             price_text +=`;">`+price.currency+` `+getrupiah(Math.ceil(total_price));
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 price_text+=`<i class="fas fa-caret-down"></i>`;
                             price_text+=`
                                 </span>
@@ -3212,7 +3212,7 @@ function tour_get_booking(order_number)
                     $test+= `\n‣ Grand Total: `+price.currency+` `+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                     document.getElementById('tour_detail_table').innerHTML = price_text;
 
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         var price_breakdown = {};
                         var currency_breakdown = '';
                         for(i in tr_get_booking.result.response.passengers){
@@ -3873,11 +3873,11 @@ function table_price_update(msg,type){
                    <div class="row">
                         <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
                         <div class="col-xs-4" style="text-align: right;"><span id="total_price" style="font-weight:bold;`;
-//                    if(is_show_breakdown_price){
+//                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
 //                        price_txt+= "cursor:pointer;";
 //                    }
                     price_txt += `">`+currency+` `+getrupiah(grand_total);
-//                    if(is_show_breakdown_price)
+//                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
 //                        price_txt+=`<i class="fas fa-caret-down"></i>`;
                     price_txt+=`</span>
                         </div>
@@ -3946,7 +3946,7 @@ function table_price_update(msg,type){
 
     document.getElementById('tour_detail_table').innerHTML = price_txt;
 
-//    if(is_show_breakdown_price){
+//    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
 //        var price_breakdown = {};
 //        var currency_breakdown = '';
 //        for (i in price_data){

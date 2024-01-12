@@ -1042,10 +1042,10 @@ function search_ppob(){
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
                             <div style="padding-bottom:15px;"><span id="total_price_ppob" style="font-size:15px;`;
-                    if(is_show_breakdown_price)
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                         text_ppob+='cursor:pointer;';
                     text_ppob += `">`+currency+` `+getrupiah(total_price);
-                    if(is_show_breakdown_price)
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                         text_ppob+=`<i class="fas fa-caret-down"></i>`;
                     text_ppob +=`</span></div>
                         </div>`;
@@ -1072,7 +1072,7 @@ function search_ppob(){
                             }
                         }
                     }
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         var price_breakdown = {};
                         var currency_breakdown = '';
 
@@ -2083,7 +2083,7 @@ function ppob_get_booking(data){
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text_detail+='cursor:pointer;';
                             text_detail+=`">`;
                             try{
@@ -2091,7 +2091,7 @@ function ppob_get_booking(data){
                             }catch(err){
 
                             }
-                            if(is_show_breakdown_price)
+                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                 text_detail+=`<i class="fas fa-caret-down"></i>`;
                             text_detail+= `</span>
                         </div>
@@ -2227,7 +2227,7 @@ function ppob_get_booking(data){
                 document.getElementById('bills_detail').innerHTML = text_detail;
                 $("#show_loading_booking_bills").hide();
 
-                if(is_show_breakdown_price){
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     var price_breakdown = {};
                     var currency_breakdown = '';
 

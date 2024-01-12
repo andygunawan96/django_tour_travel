@@ -677,7 +677,7 @@ def passenger(request, signature):
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
             if provider_data_dict:
-                if hasattr(provider_data_dict[airline['provider']], 'is_pre_riz'):
+                if provider_data_dict[airline['provider']].get('is_pre_riz'):
                     if provider_data_dict[airline['provider']]['is_pre_riz']:
                         is_pre_riz = True
 

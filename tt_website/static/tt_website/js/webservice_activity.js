@@ -3970,7 +3970,7 @@ function activity_get_booking(data){
                                         price_text+=`</div>
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                             <span style="font-size:13px;`;
-                                        if(is_show_breakdown_price){
+                                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                             price_text+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
                                         }else{
                                             price_text+=`"`;
@@ -3983,7 +3983,7 @@ function activity_get_booking(data){
                                             price_text+=`
                                             >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC));
                                         }
-                                        if(is_show_breakdown_price)
+                                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                             price_text+=`<i class="fas fa-caret-down"></i>`;
                                         price_text += `</span>`;
                                         price_text+=`
@@ -4043,10 +4043,10 @@ function activity_get_booking(data){
                           </div>
                           <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                <span id="total_price" style="font-weight:bold;`;
-                     if(is_show_breakdown_price)
+                     if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                         price_text+='cursor:pointer;';
                      price_text+=`">`+price.currency+` `+getrupiah(Math.ceil(total_price));
-                     if(is_show_breakdown_price)
+                     if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                         price_text+=`<i class="fas fa-caret-down"></i>`;
                      price_text+=`</span>
                           </div>
@@ -4174,7 +4174,7 @@ function activity_get_booking(data){
                     document.getElementById('activity_detail_table').innerHTML = price_text;
                     document.getElementById('activity_detail').style.display = 'block';
 
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         var price_breakdown = {};
                         var currency_breakdown = '';
                         for(i in act_get_booking.result.response.passengers){

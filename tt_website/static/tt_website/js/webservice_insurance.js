@@ -1940,11 +1940,11 @@ function price_detail(){
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                 <span id="total_price" style="font-size:13px; font-weight:500;`;
-            if(is_show_breakdown_price){
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 text+= "cursor:pointer;";
             }
             text+=`">`+price.currency+` `+getrupiah(grandtotal+additional_price);
-            if(is_show_breakdown_price){
+            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                 text+= ` <i class="fas fa-caret-down"></i>`;
             }
             text+=`</span><br/>
@@ -1982,7 +1982,7 @@ function price_detail(){
 
     document.getElementById('insurance_detail_table').innerHTML = text;
 
-    if(is_show_breakdown_price){
+    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};
         var currency_breakdown = '';
         for(i in insurance_pick.service_charge_summary){
@@ -3375,7 +3375,7 @@ function insurance_get_booking(data, sync=false){
                                     text_detail+=`</div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;`;
-                                            if(is_show_breakdown_price){
+                                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                                                 text_detail+=`cursor:pointer;" id="passenger_breakdown`+j+`"`;
                                             }else{
                                                 text_detail+=`"`;
@@ -3386,7 +3386,7 @@ function insurance_get_booking(data, sync=false){
                                     else
                                         text_detail+=`
                                         >`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT));
-                                    if(is_show_breakdown_price)
+                                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                         text_detail+=`<i class="fas fa-caret-down"></i>`;
                                     text_detail += `</span>`;
                                     text_detail+=`
@@ -3481,7 +3481,7 @@ function insurance_get_booking(data, sync=false){
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span id="total_price" style="font-size:13px; font-weight: bold;`;
-                                if(is_show_breakdown_price)
+                                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                     text_detail+='cursor:pointer;';
                                 text_detail +=`">`;
                                 try{
@@ -3490,7 +3490,7 @@ function insurance_get_booking(data, sync=false){
                                 }catch(err){
 
                                 }
-                                if(is_show_breakdown_price)
+                                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                     text_detail+=`<i class="fas fa-caret-down"></i>`;
                                 text_detail+= `
                                 </span>
@@ -3628,7 +3628,7 @@ function insurance_get_booking(data, sync=false){
                     document.getElementById('insurance_detail').innerHTML = text_detail;
                     document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
 
-                    if(is_show_breakdown_price){
+                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                         var price_breakdown = {};
                         var currency_breakdown = '';
                         for(i in insurance_get_detail.result.response.passengers){
@@ -3847,7 +3847,7 @@ function insurance_get_booking(data, sync=false){
                         }
                         provider = msg.result.response.provider_bookings[i].provider;
                     }
-                    if(provider == 'zurich' && print_quotation && ['issued', 'booked'].includes(msg.result.response.state)){
+                    if(provider == 'zurich' && print_quotation && ['booked'].includes(msg.result.response.state)){
                         print_text += `
                         <div class="col-lg-6" style="padding-bottom:10px;">
                             <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_print_quotation_insurance();" style="width:100%;">
