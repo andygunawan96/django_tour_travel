@@ -1762,11 +1762,9 @@ function get_va_number(){
                     text+=`
                 </div>`;
             document.getElementById('top_up_method_div').innerHTML = text + document.getElementById('top_up_method_div').innerHTML;
-            if(msg.result.response.hasOwnProperty('va') && msg.result.response.va.length > 0 || msg.result.response.is_ho_have_open_top_up){
+            try{
                 document.getElementsByName('top_up_radio')[0].checked = true;
-            }else if(is_show_manual_top_up != 'false'){
-                document.getElementsByName('top_up_radio')[1].checked = true;
-            }
+            }catch(err){console.log(err);}
             change_top_up_method();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
