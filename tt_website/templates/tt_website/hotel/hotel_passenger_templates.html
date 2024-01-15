@@ -27,6 +27,7 @@
     time_limit = {{time_limit}};
     last_session = 'sell_journeys';
     session_time_limit();
+    is_identity_required = 'false';
 </script>
 <title id="title_search">{{name}} Hotel - {% trans 'Passenger' %}</title>
 
@@ -46,6 +47,7 @@
         <div class="banner-right">
             <form id="hotel_review" class="form-wrap" action="/hotel/review/{{signature}}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
@@ -492,6 +494,117 @@
                                                 <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="adult_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="adult_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="adult_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -729,6 +842,117 @@
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="child_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="child_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="child_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="child_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-12 mb-3" >
                                             <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
@@ -902,6 +1126,7 @@
             <div class="hotel-search-form" style="background-color:unset; box-shadow:unset; padding:unset;">
                 <form id="hotel_review" class="form-wrap" action="{% url 'tt_website:hotel_review'%}" method="POST" style="padding:0; text-align:unset;">
                     {% csrf_token %}
+                    <input type="hidden" id="image_list_data" name="image_list_data" />
                     <div class="row">
                         <div class="col-lg-8" style="margin-top:10px;">
                             <div class="row">
@@ -1342,6 +1567,117 @@
                                                     <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
+
+                                            <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="display:block;">
+                                                <div class="row">
+                                                    <div class="col-lg-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label>Identity Photo</label><br/>
+                                                        <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                            <div class="modal-dialog">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Identity Photo</h4>
+                                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+
+                                                                        Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                        <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <input type="text" class="form-control o_website_form_input" id="adult_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                        </div>
+                                                                        <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label style="color:white">*</label>
+                                                        <label>{% trans 'ID Type' %}</label>
+                                                        <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select-2" id="default-select">
+                                                                <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                    <option value="">Choose Identity Type</option>
+                                                                    <option value="ktp">NIK</option>
+                                                                    <option value="passport">Passport</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                        <label>{% trans 'Identity Number' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                        <label>{% trans 'Identity Expired Date' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                        <label>{% trans 'Country of Issued' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                                    {% for country in countries %}
+                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                                <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                <span id="adult_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="adult_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                    </div>
+                                                    <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                        <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                        <label>{% trans 'Identity First Name' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                        <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                        <label>{% trans 'Identity Last Name' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Contact Email Address' %}</label>
@@ -1574,6 +1910,117 @@
                                                     <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                                 </div>
                                             </div>
+
+                                            <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="display:block;">
+                                                <div class="row">
+                                                    <div class="col-lg-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label>Identity Photo</label><br/>
+                                                        <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                            <div class="modal-dialog">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Identity Photo</h4>
+                                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+
+                                                                        Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                        <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="child_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                        </div>
+                                                                        <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label style="color:white">*</label>
+                                                        <label>{% trans 'ID Type' %}</label>
+                                                        <label id="child_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select-2" id="default-select">
+                                                                <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                    <option value="">Choose Identity Type</option>
+                                                                    <option value="ktp">NIK</option>
+                                                                    <option value="passport">Passport</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                        <label>{% trans 'Identity Number' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                        <label>{% trans 'Identity Expired Date' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                        <label>{% trans 'Country of Issued' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                                    {% for country in countries %}
+                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                                <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                                <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                                <span id="child_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="child_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                    </div>
+                                                    <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                        <label id="child_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                        <label>{% trans 'Identity First Name' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                        <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                        <label>{% trans 'Identity Last Name' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-12 mb-3" >
                                                 <label style="color:white">*</label>
                                                 <label>{% trans 'Behaviors' %}</label>
@@ -1740,6 +2187,7 @@
         <div class="header-right" style="background:unset; border:unset;">
             <form id="hotel_review" class="form-wrap" action="{% url 'tt_website:hotel_review'%}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
@@ -2188,6 +2636,116 @@
                                                 <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="adult_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="adult_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="adult_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -2425,6 +2983,117 @@
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="child_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="child_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="child_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="child_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-12 mb-3" >
                                             <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
@@ -2588,6 +3257,7 @@
     <div class="container">
         <form id="hotel_review" class="form-wrap" action="{% url 'tt_website:hotel_review'%}" method="POST" style="padding:0; text-align:unset;">
             {% csrf_token %}
+            <input type="hidden" id="image_list_data" name="image_list_data" />
             <div class="row">
                 <div class="col-lg-8" style="margin-top:10px;">
                     <div class="row">
@@ -3042,6 +3712,117 @@
                                             <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="display:block;">
+                                        <div class="row">
+                                            <div class="col-lg-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label>Identity Photo</label><br/>
+                                                <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Identity Photo</h4>
+                                                                <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="adult_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                </div>
+                                                                <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label style="color:white">*</label>
+                                                <label>{% trans 'ID Type' %}</label>
+                                                <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select-2" id="default-select">
+                                                        <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                            <option value="">Choose Identity Type</option>
+                                                            <option value="ktp">NIK</option>
+                                                            <option value="passport">Passport</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Identity Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Identity Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.code}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                        <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        <span id="adult_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                    </div>
+                                                </div>
+                                                <label class="adult_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                            </div>
+                                            <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                <label>{% trans 'Identity First Name' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                <label>{% trans 'Identity Last Name' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Contact Email Address' %}</label>
@@ -3280,6 +4061,117 @@
                                             <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="display:block;">
+                                        <div class="row">
+                                            <div class="col-lg-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label>Identity Photo</label><br/>
+                                                <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Identity Photo</h4>
+                                                                <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="child_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                </div>
+                                                                <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label style="color:white">*</label>
+                                                <label>{% trans 'ID Type' %}</label>
+                                                <label id="child_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select-2" id="default-select">
+                                                        <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                            <option value="">Choose Identity Type</option>
+                                                            <option value="ktp">NIK</option>
+                                                            <option value="passport">Passport</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Identity Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Identity Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.code}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                        <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                        <span id="child_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                    </div>
+                                                </div>
+                                                <label class="child_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                            </div>
+                                            <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                <label id="child_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                <label>{% trans 'Identity First Name' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                <label>{% trans 'Identity Last Name' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-lg-12 mb-3" >
                                         <label style="color:white">*</label>
                                         <label>{% trans 'Behaviors' %}</label>
@@ -3445,6 +4337,7 @@
         <div class="banner-right">
             <form id="hotel_review" class="form-wrap" action="{% url 'tt_website:hotel_review'%}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
@@ -3897,6 +4790,117 @@
                                                 <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="adult_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="adult_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="adult_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -4136,6 +5140,117 @@
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="child_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="child_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="child_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="child_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-12 mb-3" >
                                             <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
@@ -4301,6 +5416,7 @@
         <div class="banner-right">
             <form id="hotel_review" class="form-wrap" action="{% url 'tt_website:hotel_review'%}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
@@ -4753,6 +5869,117 @@
                                                 <button type="button" class="primary-delete-date" onclick="delete_birth_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="adult_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="adult_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('adult', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_adult_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="adult_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="adult_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="adult_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="adult_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_first_name{{forloop.counter}}" id="adult_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 adult_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="adult_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_identity_last_name{{forloop.counter}}" id="adult_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('adult_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -4992,6 +6219,117 @@
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="display:block;">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Identity Photo</label><br/>
+                                                    <button type="button" class="primary-btn-white" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image <i class="fas fa-images"></i></button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="child_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="color:white">*</label>
+                                                    <label>{% trans 'ID Type' %}</label>
+                                                    <label id="child_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                <option value="">Choose Identity Type</option>
+                                                                <option value="ktp">NIK</option>
+                                                                <option value="passport">Passport</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Number' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Identity Expired Date' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label id="child_country_of_issued_required{{forloop.counter}}" style="color:{% if is_identity_required == True or is_need_valid_identity == True %}red{% else %}white{%endif%}">*</label>
+                                                    <label>{% trans 'Country of Issued' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" class="nice-select-default">
+                                                                <option value="">{% trans 'Country of Issued' %}</option>
+                                                                {% for country in countries %}
+                                                                <option value="{{country.code}}">{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 div_customer" style="color:{{color}};" onclick="show_hide_id_name_div('child', '{{forloop.counter}}');">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span id="fill_child_id_first_last_name{{forloop.counter}}" style="margin-left:5px;"><strong>For different name between identities</strong></span>
+                                                            <span style="margin-right:5px; display:none;" id="child_down_id_name{{forloop.counter}}"><i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                            <span style="margin-right:5px;" id="child_up_id_name{{forloop.counter}}"><i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                            <span id="child_fill_id_name_help{{forloop.counter}}" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;color:black;"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label class="child_id_name{{forloop.counter}}" style="font-size:10px; color:red; display:none;">({% trans "This name will be used for booking" %})</label>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_first_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity First Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_first_name{{forloop.counter}}" id="child_identity_first_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_first_name{{forloop.counter}}');" placeholder="{% trans 'Identity First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity First Name '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 child_id_name{{forloop.counter}}" style="display:none;">
+                                                    <label id="child_identity_last_name_required{{forloop.counter}}" style="color:white">*</label>
+                                                    <label>{% trans 'Identity Last Name' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="child_identity_last_name{{forloop.counter}}" id="child_identity_last_name{{forloop.counter}}" onchange="capitalizeInput('child_identity_last_name{{forloop.counter}}');" placeholder="{% trans 'Identity Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Last Name '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-12 mb-3" >
                                             <label style="color:white">*</label>
                                             <label>{% trans 'Behaviors' %}</label>
@@ -5203,53 +6541,69 @@
     });
 
     $(function() {
-      for (var i = 1; i <= adult; i++){
-          document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-             event.preventDefault();
-             var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
-             document.getElementById(adult_enter).click();
-            }
-          });
+        for (var i = 1; i <= adult; i++){
+            document.addEventListener("DOMContentLoaded", init_upload('adult',i), false);
+            document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                    document.getElementById(adult_enter).click();
+                }
+            });
 
-          $('input[name="adult_birth_date'+i+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              startDate: moment().subtract(18, 'years'),
-              minDate: moment().subtract(100, 'years'),
-              maxDate: moment().subtract(13, 'years'),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-          });
-          $('input[name="adult_birth_date'+i+'"]').val("");
-      }
+            $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(18, 'years'),
+                minDate: moment().subtract(100, 'years'),
+                maxDate: moment().subtract(13, 'years'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[name="adult_birth_date'+i+'"]').val("");
 
-      for (var i = 1; i <= child; i++){
-          document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-             event.preventDefault();
-             var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
-             document.getElementById(child_enter).click();
-            }
-          });
+            $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(-1,'years'),
+                minDate: moment().subtract(-1, 'days'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[name="adult_passport_expired_date'+i+'"]').val("");
 
-          $('input[name="child_birth_date'+i+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              startDate: moment().subtract(5, 'years'),
-              minDate: moment().subtract(12, 'years').subtract(365, 'days'),
-              maxDate: moment(),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-          });
-          $('input[name="child_birth_date'+i+'"]').val("");
-      }
+        }
+
+        for (var i = 1; i <= child; i++){
+            document.addEventListener("DOMContentLoaded", init_upload('child','{{forloop.counter}}'), false);
+            document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                    document.getElementById(child_enter).click();
+                }
+            });
+
+            $('input[name="child_birth_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(5, 'years'),
+                minDate: moment().subtract(12, 'years').subtract(365, 'days'),
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[name="child_birth_date'+i+'"]').val("");
+        }
     });
     {% if username.co_customer_seq_id %}
         setTimeout(() => {

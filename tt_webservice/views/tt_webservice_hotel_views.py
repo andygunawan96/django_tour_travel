@@ -1094,6 +1094,39 @@ def create_booking(request):
                             })
                         except Exception as e:
                             _logger.error(str(e) + traceback.format_exc())
+
+                        if pax['identity_type'] != '':
+                            if pax['identity_expdate'] != '':
+                                pax.update({
+                                    'identity_expdate': '%s-%s-%s' % (
+                                        pax['identity_expdate'].split(' ')[2],
+                                        month[pax['identity_expdate'].split(' ')[1]],
+                                        pax['identity_expdate'].split(' ')[0])
+                                })
+                            pax['identity'] = {
+                                "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
+                                "identity_expdate": pax.pop('identity_expdate'),
+                                "identity_number": pax.pop('identity_number'),
+                                "identity_first_name": pax.pop('identity_first_name'),
+                                "identity_last_name": pax.pop('identity_last_name'),
+                                "identity_type": pax.pop('identity_type'),
+                                "identity_image": pax.pop('identity_image')
+                            }
+                        else:
+                            if pax.get('identity_expdate'):
+                                pax.pop('identity_expdate')
+                            if pax.get('identity_number'):
+                                pax.pop('identity_number')
+                            if pax.get('identity_first_name'):
+                                pax.pop('identity_first_name')
+                            if pax.get('identity_last_name'):
+                                pax.pop('identity_last_name')
+                            if pax.get('identity_type'):
+                                pax.pop('identity_type')
+                            if pax.get('identity_image'):
+                                pax.pop('identity_image')
+                            if pax.get('identity_country_of_issued_code'):
+                                pax.pop('identity_country_of_issued_code')
                         passenger.append(pax)
             booker = hotel_review_pax['booker']
             contacts = hotel_review_pax['contact']

@@ -2230,7 +2230,7 @@ function check_passenger(adult, child, room){
        }
 
        document.getElementById('time_limit_input').value = time_limit;
-       document.getElementById('hotel_review').submit();
+       upload_image();
    }
    else{
        Swal.fire({
