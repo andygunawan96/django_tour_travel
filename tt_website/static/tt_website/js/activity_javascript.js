@@ -1297,87 +1297,109 @@ function check_passenger(adult, senior, child, infant){
         booker_copy = 'no';
     }
 
-   length_name = 100;
-   if(length_name > activity_carrier_data.adult_length_name)
-   {
-       length_name = activity_carrier_data.adult_length_name;
-   }
-   //adult
-   for(i=1;i<=adult;i++){
+    length_name = 100;
+    if(length_name > activity_carrier_data.adult_length_name)
+    {
+        length_name = activity_carrier_data.adult_length_name;
+    }
+    //adult
+    for(i=1;i<=adult;i++){
 
-       if(check_name(document.getElementById('adult_title'+i).value,
+        if(check_name(document.getElementById('adult_title'+i).value,
             document.getElementById('adult_first_name'+i).value,
             document.getElementById('adult_last_name'+i).value,
             length_name) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
-           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_title'+i).value == ''){
+            error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
+            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+        }if(document.getElementById('adult_title'+i).value == ''){
             error_log+= 'Please choose title of adult passenger '+i+'!</br>\n';
-           $("#adult_title"+i).each(function() {
+            $("#adult_title"+i).each(function() {
                 $(this).parent().find('.nice-select').css('border', '1px solid red');
             });
-       }else{
-           $("#adult_title"+i).each(function() {
+        }else{
+            $("#adult_title"+i).each(function() {
                 $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
             });
-       }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
-           if(document.getElementById('adult_first_name'+i).value == '')
-               error_log+= 'Please input first name of adult guest '+i+'!</br>\n';
-           else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
-               error_log+= 'Please use alpha characters first name of adult guest '+i+'!</br>\n';
-           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_last_name'+i).value != ''){
-           if(check_word(document.getElementById('adult_last_name'+i).value) == false)
-           {
+        }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+            if(document.getElementById('adult_first_name'+i).value == '')
+                error_log+= 'Please input first name of adult guest '+i+'!</br>\n';
+            else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+                error_log+= 'Please use alpha characters first name of adult guest '+i+'!</br>\n';
+            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+        }if(document.getElementById('adult_last_name'+i).value != ''){
+            if(check_word(document.getElementById('adult_last_name'+i).value) == false)
+            {
                 error_log+= 'Please use alpha characters last name of adult guest '+i+'!</br>\n';
                 document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-           }
-           else
-           {
+            }
+            else
+            {
                 document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-           }
-       }else{
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
-       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for adult guest '+i+'!</br>\n';
-           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_nationality'+i+'_id').value == ''){
-           error_log+= 'Please fill nationality for adult guest '+i+'!</br>\n';
-           document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_passport_number'+i).value != '' ||
-          document.getElementById('adult_passport_expired_date'+i).value != '' ||
-          document.getElementById('adult_country_of_issued'+i+'_id').value != ''){
-           if(document.getElementById('adult_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for adult guest '+i+'!</br>\n';
-               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for adult guest '+i+'!</br>\n';
-               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
-               error_log+= 'Please fill country of issued for adult guest '+i+'!</br>\n';
-               $("#adult_country_of_issued"+i+"_id").each(function() {
-                 $(this).siblings(".select2-container").css('border', '1px solid red');
-               });
-           }else{
-               $("#adult_country_of_issued"+i+"_id").each(function() {
-                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-               });
-           }
+            }
+        }else{
+            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+        }
+        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+            error_log+= 'Birth date wrong for adult guest '+i+'!</br>\n';
+            document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+        }if(document.getElementById('adult_nationality'+i+'_id').value == ''){
+            error_log+= 'Please fill nationality for adult guest '+i+'!</br>\n';
+            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
+        }
+        if(document.getElementById('adult_passport_number'+i).value != '' ||
+            document.getElementById('adult_passport_expired_date'+i).value != '' ||
+            document.getElementById('adult_country_of_issued'+i+'_id').value != ''){
+            if(document.getElementById('adult_passport_number'+i).value == ''){
+                error_log+= 'Please fill passport number for adult guest '+i+'!</br>\n';
+                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+                error_log+= 'Please fill passport expired date for adult guest '+i+'!</br>\n';
+                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
+                error_log+= 'Please fill country of issued for adult guest '+i+'!</br>\n';
+                $("#adult_country_of_issued"+i+"_id").each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+            }else{
+                $("#adult_country_of_issued"+i+"_id").each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                });
+            }
+
+            if(document.getElementById('adult_identity_first_name'+i).value != '')
+            {
+                if(check_name(document.getElementById('adult_title'+i).value,
+                    document.getElementById('adult_identity_first_name'+i).value,
+                    document.getElementById('adult_identity_last_name'+i).value,
+                    length_name) == false){
+                    error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                    document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                    document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+                    document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+                    document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+            }
        }if(document.getElementById('adult_cp'+i).checked == true){
             if(check_email(document.getElementById('adult_email'+i).value)==false){
                 error_log+= 'Invalid Contact person email!</br>\n';
@@ -1568,28 +1590,51 @@ function check_passenger(adult, senior, child, infant){
        }else{
            document.getElementById('senior_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }if(document.getElementById('senior_passport_number'+i).value != '' ||
-          document.getElementById('senior_passport_expired_date'+i).value != '' ||
-          document.getElementById('senior_country_of_issued'+i+'_id').value != ''){
-           if(document.getElementById('senior_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for senior guest '+i+'!</br>\n';
-               document.getElementById('senior_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('senior_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('senior_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for senior guest '+i+'!</br>\n';
-               document.getElementById('senior_passport_expired_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('senior_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('senior_country_of_issued'+i+'_id').value == ''){
-               error_log+= 'Please fill country of issued for senior guest '+i+'!</br>\n';
-               $("#senior_country_of_issued"+i+"_id").each(function() {
-                 $(this).siblings(".select2-container").css('border', '1px solid red');
-               });
-           }else{
-               $("#senior_country_of_issued"+i+"_id").each(function() {
-                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-               });
-           }
+            document.getElementById('senior_passport_expired_date'+i).value != '' ||
+            document.getElementById('senior_country_of_issued'+i+'_id').value != ''){
+            if(document.getElementById('senior_passport_number'+i).value == ''){
+                error_log+= 'Please fill passport number for senior guest '+i+'!</br>\n';
+                document.getElementById('senior_passport_number'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('senior_passport_number'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('senior_passport_expired_date'+i).value == ''){
+                error_log+= 'Please fill passport expired date for senior guest '+i+'!</br>\n';
+                document.getElementById('senior_passport_expired_date'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('senior_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('senior_country_of_issued'+i+'_id').value == ''){
+                error_log+= 'Please fill country of issued for senior guest '+i+'!</br>\n';
+                $("#senior_country_of_issued"+i+"_id").each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+            }else{
+                $("#senior_country_of_issued"+i+"_id").each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                });
+            }
+
+
+
+            if(document.getElementById('senior_identity_first_name'+i).value != '')
+            {
+                if(check_name(document.getElementById('senior_title'+i).value,
+                    document.getElementById('senior_identity_first_name'+i).value,
+                    document.getElementById('senior_identity_last_name'+i).value,
+                    length_name) == false){
+                    error_log+= 'Total of senior '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                    document.getElementById('senior_identity_first_name'+i).style['border-color'] = 'red';
+                    document.getElementById('senior_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('senior_identity_first_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity first name of senior passenger '+i+'!</br>\n';
+                    document.getElementById('senior_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('senior_identity_last_name'+i).value != '' && check_word(document.getElementById('senior_identity_last_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity last name of senior passenger '+i+'!</br>\n';
+                    document.getElementById('senior_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('senior_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    document.getElementById('senior_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+            }
        }
        perpax_count = 1
        for(j in detail.perPax){
@@ -1790,6 +1835,29 @@ function check_passenger(adult, senior, child, infant){
                  $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                });
            }
+
+
+            if(document.getElementById('child_identity_first_name'+i).value != '')
+            {
+                if(check_name(document.getElementById('child_title'+i).value,
+                    document.getElementById('child_identity_first_name'+i).value,
+                    document.getElementById('child_identity_last_name'+i).value,
+                    length_name) == false){
+                    error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                    document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                    document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
+                    document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
+                    document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+            }
+
        }
        perpax_count = 1
        for(j in detail.perPax){
@@ -1990,6 +2058,27 @@ function check_passenger(adult, senior, child, infant){
                  $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                });
            }
+
+            if(document.getElementById('infant_identity_first_name'+i).value != '')
+            {
+                if(check_name(document.getElementById('infant_title'+i).value,
+                    document.getElementById('infant_identity_first_name'+i).value,
+                    document.getElementById('infant_identity_last_name'+i).value,
+                    length_name) == false){
+                    error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                    document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                    document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+                    document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+                    error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+                    document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+            }
        }
 
    }

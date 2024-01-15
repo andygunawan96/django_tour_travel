@@ -505,12 +505,16 @@ def update_passengers(request):
                     "identity_number": pax.pop('identity_number'),
                     "identity_type": pax.pop('identity_type'),
                     "identity_image": pax.pop('identity_image'),
+                    "identity_first_name": pax.pop('identity_first_name'),
+                    "identity_last_name": pax.pop('identity_last_name'),
                 }
             else:
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 pax.pop('identity_image')
+                pax.pop('identity_first_name')
+                pax.pop('identity_last_name')
             passenger.append(pax)
 
         for pax in file['senior']:
@@ -532,12 +536,16 @@ def update_passengers(request):
                     "identity_number": pax.pop('identity_number'),
                     "identity_type": pax.pop('identity_type'),
                     "identity_image": pax.pop('identity_image'),
+                    "identity_first_name": pax.pop('identity_first_name'),
+                    "identity_last_name": pax.pop('identity_last_name'),
                 }
             else:
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 pax.pop('identity_image')
+                pax.pop('identity_first_name')
+                pax.pop('identity_last_name')
             passenger.append(pax)
 
         for pax in file['child']:
@@ -558,12 +566,16 @@ def update_passengers(request):
                     "identity_number": pax.pop('identity_number'),
                     "identity_type": pax.pop('identity_type'),
                     "identity_image": pax.pop('identity_image'),
+                    "identity_first_name": pax.pop('identity_first_name'),
+                    "identity_last_name": pax.pop('identity_last_name'),
                 }
             else:
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 pax.pop('identity_image')
+                pax.pop('identity_first_name')
+                pax.pop('identity_last_name')
             passenger.append(pax)
 
         for pax in file['infant']:
@@ -584,12 +596,16 @@ def update_passengers(request):
                     "identity_number": pax.pop('identity_number'),
                     "identity_type": pax.pop('identity_type'),
                     "identity_image": pax.pop('identity_image'),
+                    "identity_first_name": pax.pop('identity_first_name'),
+                    "identity_last_name": pax.pop('identity_last_name'),
                 }
             else:
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 pax.pop('identity_image')
+                pax.pop('identity_first_name')
+                pax.pop('identity_last_name')
             passenger.append(pax)
     try:
         data = {
