@@ -1999,7 +1999,7 @@ function get_reservation_issued_request(request_number)
                 }
                 else
                 {
-                    if (req_obj.state == 'cancel' || req_obj.state == 'approved' || req_obj.state == 'rejected' || user_login.co_hierarchy_sequence >= req_obj.current_approval_sequence || is_user_exist == true)
+                    if (req_obj.state == 'cancel' || req_obj.state == 'approved' || req_obj.state == 'rejected' || user_login.co_job_position_sequence >= req_obj.current_approval_sequence || is_user_exist == true)
                     {
                         btn_text = `
                         <button class="primary-btn issued_booking_btn" id="disabled_request_btn" type="button" style="width:100%;" onclick="" disabled>
