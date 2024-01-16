@@ -4600,6 +4600,7 @@ function hotel_check_refund_amount(){
 function hotel_cancel(){
     Swal.fire({
       title: 'Are you sure want to Refund this booking?',
+      html: '<h4>With refunded amount: <span style="color:red;">' + currency+ ' ' + getrupiah(check_refund_amount.result.response.refund_amount) + '</span></h4>',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
