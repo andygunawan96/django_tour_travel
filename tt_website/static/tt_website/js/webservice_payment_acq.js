@@ -16,12 +16,12 @@ total_price_payment_acq = 100000000;
 function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name, is_agent=true){
     order_number_id = order_number;
     $.ajax({
-       type: "POST",
-       url: "/webservice/payment",
-       headers:{
+        type: "POST",
+        url: "/webservice/payment",
+        headers:{
             'action': 'get_payment_acquirer',
-       },
-       data: {
+        },
+        data: {
             'order_number': order_number,
             'booker_seq_id': booker_seq_id,
             'transaction_type': transaction_type,
@@ -29,8 +29,8 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             'type': type,
             'agent_seq_id': agent_seq_id,
             'top_up_name': top_up_name
-       },
-       success: function(msg) {
+        },
+        success: function(msg) {
             payment_acq2 = {};
             type_render = type
             val_render = val;
@@ -64,11 +64,13 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                 console.log(err);
                 total_commission_payment_acquirer = 0;
             }
-            render_payment();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            setTimeout(function() {
+                render_payment();
+            },500);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment acq');
-       },timeout: 60000
+        },timeout: 60000
     });
 }
 function render_payment(){
@@ -1762,11 +1764,9 @@ function get_va_number(){
                     text+=`
                 </div>`;
             document.getElementById('top_up_method_div').innerHTML = text + document.getElementById('top_up_method_div').innerHTML;
-            if(msg.result.response.hasOwnProperty('va') && msg.result.response.va.length > 0 || msg.result.response.is_ho_have_open_top_up){
+            try{
                 document.getElementsByName('top_up_radio')[0].checked = true;
-            }else if(is_show_manual_top_up != 'false'){
-                document.getElementsByName('top_up_radio')[1].checked = true;
-            }
+            }catch(err){console.log(err);}
             change_top_up_method();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
