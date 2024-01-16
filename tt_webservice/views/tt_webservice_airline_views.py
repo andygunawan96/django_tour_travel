@@ -5782,8 +5782,7 @@ def parser_schedule_mobile(request, res):
                 for search_banner_dict in journey['search_banner']:
                     if search_banner_dict['active'] == True:
                         max_banner_date = datetime.now() - timedelta(
-                            days=int(search_banner_dict['minimum_days']) if search_banner_dict[
-                                                                                'minimum_days'] != '' else 0)
+                            days=int(search_banner_dict['minimum_days']) if search_banner_dict['minimum_days'] != '' else 0)
                         selected_banner_date = datetime.strptime(journey['departure_date'].split(' ')[0], '%Y-%m-%d')
                         if selected_banner_date >= max_banner_date:
                             journey['search_banner_show'].append(search_banner_dict)
@@ -5871,6 +5870,7 @@ def parser_schedule_mobile(request, res):
                 journey['elapsed_time_in_sec'] = (int(elapsed_time[0]) * 86400) + (int(elapsed_time[1]) * 3600) + (
                             int(elapsed_time[2]) * 60) + int(elapsed_time[3])
                 elapsed_time_transit_duration_in_sec = 0
+                is_journey_include_tax = False
                 for idy, segment in enumerate(journey['segments']):
                     if segment['transit_duration'] != '':
                         elapsed_time_transit_duration = segment['transit_duration'].split(':')
@@ -5969,6 +5969,7 @@ def parser_schedule_mobile(request, res):
 
                     choose_fare = True
                     for idz, fare in enumerate(segment['fares']):
+                        is_include_tax = False
                         if fare['cabin_class'] == 'Y':
                             fare['cabin_class_name'] = 'Economy'
                         elif fare['cabin_class'] == 'W' and segment['carrier_code'] == 'QG':
@@ -6005,6 +6006,8 @@ def parser_schedule_mobile(request, res):
                                         if svc['charge_type'] != 'RAC':
                                             if svc['charge_type'] != 'DISC':
                                                 totalprice += svc['total'] / svc['pax_count']
+                                            if svc['charge_type'] == 'TAX':
+                                                is_journey_include_tax = True
                                             total_price_with_discount += svc['total'] / svc['pax_count']
                                             if journey.get('currency') == None:
                                                 journey['currency'] = svc['currency']
@@ -6030,7 +6033,12 @@ def parser_schedule_mobile(request, res):
                                 for svc in svc_summary['service_charges']:
                                     if svc['charge_type'] != 'RAC' and svc['charge_type'] != 'DISC':
                                         total_price_fare += svc['total'] / svc['pax_count']
-                                fare['total_price'] = total_price_fare
+                                        if svc['charge_type'] == 'TAX':
+                                            is_include_tax = True
+                                if is_include_tax:
+                                    fare['total_price'] = total_price_fare
+                                else:
+                                    fare['total_price'] = 0
                         fare['show'] = True
                         fare['segments_sequence'] = segment['sequence']
                         fare['journey_code'] = journey['journey_code']
@@ -6043,20 +6051,27 @@ def parser_schedule_mobile(request, res):
                         totalprice = math.ceil(totalprice)
                     if total_price_with_discount % 1 != 0:
                         total_price_with_discount = math.ceil(total_price_with_discount)
-                    journey['totalprice'] = totalprice
-                    journey['totalprice_show'] = getrupiah(totalprice)
-                    journey['totalprice_with_discount'] = total_price_with_discount
-                    journey['totalprice_with_discount_show'] = getrupiah(total_price_with_discount)
-                    if (totalprice == total_price_with_discount):
-                        journey['show_discount'] = False
+                    if is_journey_include_tax:
+                        journey['totalprice'] = totalprice
+                        journey['totalprice_show'] = getrupiah(totalprice)
+                        journey['totalprice_with_discount'] = total_price_with_discount
+                        journey['totalprice_with_discount_show'] = getrupiah(total_price_with_discount)
+                        if(totalprice == total_price_with_discount):
+                            journey['show_discount'] = False
+                        else:
+                            journey['show_discount'] = True
                     else:
-                        journey['show_discount'] = True
+                        journey['totalprice'] = 0
+                        journey['totalprice_show'] = '0'
+                        journey['totalprice_with_discount'] = 0
+                        journey['totalprice_with_discount_show'] = '0'
+                        if(totalprice == total_price_with_discount):
+                            journey['show_discount'] = False
                     journey['sold_out'] = False
                     journey['share_journey'] = False
 
                     for available in available_count:
-                        if (
-                                available_seat > available or available > available_seat and available_seat == 100):  ##kalau lebih dari default awal tetap simpan
+                        if (available_seat > available or available > available_seat and available_seat == 100):  ##kalau lebih dari default awal tetap simpan
                             available_seat = available
 
                         if (available_seat == 100):  ## kalau available masih default berarti kosong

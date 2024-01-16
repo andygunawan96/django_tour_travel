@@ -4055,6 +4055,7 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
     }
     currency = '';
     for(i in airline_data_filter[journey].segments){
+        var is_include_tax = false;
         var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
 
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -4082,6 +4083,8 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
                         if(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'RAC'){
                             if(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'DISC'){
                                 price += airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
+                                if(airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type == 'TAX')
+                                    is_include_tax = true;
                             }
                             price_discount += airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
                         }
@@ -4097,20 +4100,18 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
         else
             document.getElementById('airline_seat_left'+journey).innerHTML = seat_left + ' seats left';
     if(isNaN(parseInt(price)) == false){
-        document.getElementById('fare'+journey).innerHTML = currency + ' ' + getrupiah(price_discount.toString());
         if(price != price_discount)
             document.getElementById('fare_no_discount'+journey).innerHTML = currency+' ' + getrupiah(price.toString());
-        if(price_discount != 0){
-            document.getElementById('fare'+journey).innerHTML = currency + ' ' + getrupiah(price_discount.toString());
-            if(document.getElementById('fare_fd'+journey))
-                document.getElementById('fare_fd'+journey).innerHTML = currency + ' ' + getrupiah(price_discount.toString());
-
-        }else{
+        if(price_discount == 0 || !is_include_tax){
             document.getElementById('fare'+journey).innerHTML = 'Choose to view price';
             if(document.getElementById('fare_fd'+journey))
                 document.getElementById('fare_fd'+journey).innerHTML = 'Choose to view price';
+        }else{
+            document.getElementById('fare'+journey).innerHTML = currency + ' ' + getrupiah(price_discount.toString());
+            if(document.getElementById('fare_fd'+journey))
+                document.getElementById('fare_fd'+journey).innerHTML = currency + ' ' + getrupiah(price_discount.toString());
         }
-        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price && !is_include_tax){
             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                     try{
@@ -5470,10 +5471,13 @@ function draw_get_price_itinerary(){
                                                                             currency = '';
                                                                             text_seat_name = '';
                                                                             total_price_fare = 0;
+                                                                            var is_include_tax = false;
                                                                             if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
                                                                                 for(m in family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
                                                                                     if(!['CHD', 'INF'].includes(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type)){
                                                                                         total_price_fare = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price;
+                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax)
+                                                                                            is_include_tax = true;
                                                                                         if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges && currency == ''){
                                                                                             for(n in family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                                                                                 currency = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
@@ -5529,12 +5533,12 @@ function draw_get_price_itinerary(){
                                                                                         }
                                                                                         text_family_fare+=`
                                                                                         <div style="width:100%; text-align:right; right: 10px; bottom: 10px; position: absolute;">`;
-                                                                                        if(total_price_fare != 0){
-                                                                                            text_family_fare+=`
-                                                                                            <span class="price_template">`+currency+` `+getrupiah(total_price_fare)+`</span>`;
-                                                                                        }else{
+                                                                                        if(total_price_fare == 0 || !is_include_tax){
                                                                                             text_family_fare+=`
                                                                                             <span class="price_template">Choose to view price</span>`;
+                                                                                        }else{
+                                                                                            text_family_fare+=`
+                                                                                            <span class="price_template">`+currency+` `+getrupiah(total_price_fare)+`</span>`;
                                                                                         }
                                                                                         text_family_fare+=`
                                                                                         </div>
