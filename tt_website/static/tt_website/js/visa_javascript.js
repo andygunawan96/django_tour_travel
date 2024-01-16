@@ -3287,42 +3287,47 @@ function check_on_off_radio(pax_type,number,value){
                         other_currency_rate.innerHTML = text_currency;
                 }
                 text_requirements = '';
-                text_requirements+=`<div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h6>Document</h6><br/></div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Original</h6><br/></div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Copy</h6><br/></div>`;
+                text_requirements+=`
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h6>Document</h6><br/></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Original</h6><br/></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Copy</h6><br/></div>
+                </div>`;
                 if(sell_visa['search_data'][i].requirements.length != 0){
                     for(j in sell_visa['search_data'][i].requirements){
 //                    if(sell_visa['search_data'][i].requirements[j].required == true){
-                        if(template == 1){
-                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
-                        }else if(template == 2 || template == 3){
-                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
-                        }else if(template == 4 || template == 5 || template == 6){
-                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
-                        }
                         text_requirements += `
-                            <label class="check_box_custom" style="padding-left:unset;">
-                                <span style="font-size:13px;">`+sell_visa['search_data'][i].requirements[j].name+` </span>`;
-                                    if(sell_visa['search_data'][i].requirements[j].required == true){
-                                        text_requirements +=`<span style="color:red; font-weight:500; font-size:16px;">*</span>`;
-                                    }
-                                text_requirements +=`
-                            </label>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label class="check_box_custom">
-                                <span style="font-size:13px;"></span>
-                                <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label class="check_box_custom">
-                                <span style="font-size:13px;"></span>
-                                <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_copy"/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
+                        <div class="row">`;
+                            if(template == 1){
+                                text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
+                            }else if(template == 2 || template == 3){
+                                text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
+                            }else if(template == 4 || template == 5 || template == 6){
+                                text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                            }
+                            text_requirements += `
+                                <label class="check_box_custom" style="padding-left:unset;padding-top:8px;">
+                                    <span style="font-size:13px;">`+sell_visa['search_data'][i].requirements[j].name+` </span>`;
+                                        if(sell_visa['search_data'][i].requirements[j].required == true){
+                                            text_requirements +=`<span style="color:red; font-weight:500; font-size:16px;">*</span>`;
+                                        }
+                                    text_requirements +=`
+                                </label>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="check_box_custom">
+                                    <span style="font-size:13px;"></span>
+                                    <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label class="check_box_custom">
+                                    <span style="font-size:13px;"></span>
+                                    <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_copy"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
                         </div>`;
 //                    }
                 }
