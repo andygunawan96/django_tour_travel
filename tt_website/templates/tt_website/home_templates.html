@@ -53,6 +53,7 @@
     signature = `{{signature}}`;
 
     terms_value = {{terms_value}};
+    policy_value = {{policy_value}};
     promotion_banner_value = '{{promotion_banner_value}}';
 
     static_path_url_server = '{{static_path_url_server}}'
@@ -1200,6 +1201,8 @@
         {% endif %}
 
         {% if terms_value == 1 and promotion_banner_value == 1%}
+        get_term_and_condition('home');
+        {% elif terms_value == 1 %}
         get_term_and_condition('home');
         {% else %}
         get_banner('promotion','home');
