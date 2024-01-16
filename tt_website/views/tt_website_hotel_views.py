@@ -596,6 +596,12 @@ def review(request, signature):
                     "work_phone": request.POST['booker_phone_code_id'] + mobile,
                     'booker_seq_id': request.POST['booker_id']
                 }
+
+                try:
+                    img_list_data = json.loads(request.POST['image_list_data'])
+                except:
+                    img_list_data = []
+
                 for i in range(int(hotel_request['adult'])):
                     if request.POST['adult_first_name' + str(i + 1)] == '':
                         continue
@@ -613,6 +619,22 @@ def review(request, signature):
                     if request.POST.get('adult_description_' + str(i + 1)):
                         description = request.POST['adult_description_' + str(i + 1)]
 
+                    passport_number = ''
+                    passport_first_name = ''
+                    passport_last_name = ''
+                    passport_ed = ''
+                    passport_country_of_issued = ''
+                    identity_type = ''
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+                    if request.POST.get('adult_id_type' + str(i + 1)):
+                        passport_number = request.POST.get('adult_passport_number' + str(i + 1))
+                        passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                        passport_first_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_first_name' + str(i + 1), '')).replace(':', '').strip()
+                        passport_last_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
+                        passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
+                        passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1) + '_id')
+                        identity_type = request.POST.get('adult_id_type' + str(i + 1))
+
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": first_name,
@@ -623,7 +645,14 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                         "room_number": '1',
                         "behaviors": behaviors,
-                        "description": description
+                        "description": description,
+                        "identity_image": img_identity_data,
+                        "identity_country_of_issued_code": passport_country_of_issued,
+                        "identity_expdate": passport_ed,
+                        "identity_number": passport_number,
+                        "identity_first_name": passport_first_name,
+                        "identity_last_name": passport_last_name,
+                        "identity_type": identity_type,
                     })
                     printout_paxs.append({
                         "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
@@ -702,6 +731,24 @@ def review(request, signature):
                     if request.POST.get('child_description_' + str(i + 1)):
                         description = request.POST['child_description_' + str(i + 1)]
 
+                    passport_number = ''
+                    passport_first_name = ''
+                    passport_last_name = ''
+                    passport_ed = ''
+                    passport_country_of_issued = ''
+                    identity_type = ''
+
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
+
+                    if request.POST.get('adult_id_type' + str(i + 1)):
+                        passport_number = request.POST.get('adult_passport_number' + str(i + 1))
+                        passport_number = re.sub(r'\s', ' ', passport_number).replace(':', '').strip()
+                        passport_first_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_first_name' + str(i + 1), '')).replace(':', '').strip()
+                        passport_last_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
+                        passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
+                        passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1) + '_id')
+                        identity_type = request.POST.get('adult_id_type' + str(i + 1))
+
                     child.append({
                         "pax_type": "CHD",
                         "first_name": first_name,
@@ -712,7 +759,14 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "room_number": '1',
                         "behaviors": behaviors,
-                        "description": description
+                        "description": description,
+                        "identity_image": img_identity_data,
+                        "identity_country_of_issued_code": passport_country_of_issued,
+                        "identity_expdate": passport_ed,
+                        "identity_number": passport_number,
+                        "identity_first_name": passport_first_name,
+                        "identity_last_name": passport_last_name,
+                        "identity_type": identity_type,
                     })
                     printout_paxs.append({
                         "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],

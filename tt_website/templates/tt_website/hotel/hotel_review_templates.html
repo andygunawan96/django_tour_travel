@@ -143,7 +143,11 @@
                                             <div class="col-lg-12" style="border-top: 1px solid #cdcdcd;">
                                                 <h5 class="mt-3">
                                             {% endif %}
-                                                    {{adult.title}} {{adult.first_name}} {{adult.last_name}}
+                                                    {% if adult.identity_first_name %}
+                                                        {{adult.title}} {{adult.identity_first_name}} {{adult.identity_last_name}}
+                                                    {% else %}
+                                                        {{adult.title}} {{adult.first_name}} {{adult.last_name}}
+                                                    {% endif %}
                                                     <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
                                                         Adult
                                                     </b>
