@@ -95,6 +95,22 @@ def check_terms_condition(request):
         _logger.error(str(e) + traceback.format_exc())
     return check_terms
 
+def check_privacy_policy(request):
+    check_terms = 0
+    read_cache("privacy_policy", 'cache_web', request, 90911)
+    try:
+        file = read_cache("privacy_policy", 'cache_web', request, 90911)
+        if file:
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 2:
+                    active = line.split('\n')[0]
+
+            if active == 'active':
+                check_policy = 1
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
+    return check_policy
+
 def check_captcha(request):
     try:
         secret_key = ''
@@ -378,6 +394,7 @@ def index(request):
                     'static_path_url_server': get_url_static_path(),
                     'signature': request.session['signature'],
                     'terms_value': check_terms_condition(request),
+                    'policy_value': check_privacy_policy(request),
 
                     'big_banner_value': check_banner('home', 'big_banner', request),
                     'small_banner_value': check_banner('home', 'small_banner', request),
@@ -658,6 +675,7 @@ def login(request):
             'promotion_banner_value': check_banner('home', 'promotion', request),
             'dynamic_page_value': check_banner('', 'dynamic_page', request),
             'terms_value': check_terms_condition(request),
+            'policy_value': check_privacy_policy(request),
             'username': {'co_user_login': ''}
         })
     except Exception as e:
@@ -694,6 +712,7 @@ def redirect_login(request):
             'promotion_banner_value': check_banner('home', 'promotion', request),
             'dynamic_page_value': check_banner('', 'dynamic_page', request),
             'terms_value': check_terms_condition(request),
+            'policy_value': check_privacy_policy(request),
             'username': {'co_user_login': ''}
         })
     except Exception as e:

@@ -1542,8 +1542,8 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 
 .primary-btn-sticky-hotel:hover {
-  background: #205B95;
-  color:white;
+  border-bottom: 3px solid #205B95;
+  color: #205B95;
 }
 
 
@@ -3871,8 +3871,9 @@ for better animation effect */
 
 
 .sticky-hotel-active{
-  background: #205B95;
-  color:white;
+    border-bottom: 3px solid #205B95;
+    color: #205B95;
+    font-weight: bold;
 }
 .sticky-event-active{
   background: #205B95;
@@ -5383,7 +5384,7 @@ ul.progress_tabs li.current .image-rounded-icon{
         top:unset !important;
     }
     .nav-hotel{
-        top:0px !important;
+        top:-2px !important;
     }
 
     .myticket_static_detail{
@@ -7256,6 +7257,9 @@ text-align: center;
     .sticky_time_fs{
         position: unset !important;
     }
+    .sticky_ru_fs{
+        position: unset !important;
+    }
 
 }
 
@@ -7462,6 +7466,12 @@ text-align: center;
     position: sticky;
     top: -1px;
     z-index: 99;
+}
+
+.sticky_ru_fs{
+    position: sticky;
+    top: 51px;
+    z-index: 23;
 }
 
 .btn-group, .btn-group-vertical {

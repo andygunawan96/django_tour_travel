@@ -1010,6 +1010,8 @@ function hotel_facility_request_1(hotel_facilities){
 function hotel_facility_request(hotel_facilities){
     getToken();
     var facility_image_html = '';
+    var facility_image_modal = '';
+    var facility_image_more = '';
     try{
         hotel_facilities = $.parseJSON(hotel_facilities);
         for (rec in hotel_facilities){
@@ -1021,17 +1023,31 @@ function hotel_facility_request(hotel_facilities){
                 var fac_name = hotel_facilities[rec];
             }
             facility_image_html += `
-                    <div class="col-md-3 col-xs-6" style="width:25%; padding-bottom:15px;">
-                        <i class="fas fa-circle" style="font-size:9px;"></i>
-                        <span style="font-weight:500;"> `+ fac_name +`</span>
-                    </div>`;
+            <div class="col-lg-6 col-md-6">
+                <span style="font-weight:500;">• `+ fac_name +`</span>
+            </div>`;
+            facility_image_modal += `
+            <div class="col-lg-4 col-md-6">
+                <span style="font-weight:500;">• `+ fac_name +`</span>
+            </div>`;
         }
         document.getElementById("js_image_facility").innerHTML = facility_image_html;
+        document.getElementById("myModalContentFacility").innerHTML = facility_image_modal;
+
+        if(hotel_facilities)
+        facility_image_more += `
+        <span type="button" class="span_link_cl" onclick="$('#myModalDetailFacility').modal('show');">
+            See More <i class="fas fa-chevron-right"></i>
+        </span>`;
+        document.getElementById("js_image_facility_more").innerHTML = facility_image_more;
+
     }catch(err){
         facility_image_html += `
-        <div class="col-md-3 col-xs-6" style="width:25%; padding-bottom:15px;">
-            <i class="fas fa-circle" style="font-size:9px;"></i>
-            <span style="font-weight:500;">No Facility to show right now</span>
+        <div class="row">
+            <div class="col-lg-12">
+                <span style="font-weight:500;font-size:18px;">•</span>
+                <span style="font-weight:500;">No Facility to show right now</span>
+            </div>
         </div>`;
         document.getElementById("js_image_facility").innerHTML = facility_image_html;
     }
@@ -1312,6 +1328,7 @@ function hotel_detail_request(checkin_date, checkout_date){
     is_first_render_room_hotel = true;
     hotel_room_detail_pick = null;
     document.getElementById("badge-hotel-notif").innerHTML = "0";
+    document.getElementById("badge-hotel-notif2").innerHTML = "0";
     is_hotel_search_done = false;
     hotel_get_current_search_detail(checkin_date, checkout_date);
     myVar = setTimeout(function() {
@@ -1343,6 +1360,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 text='';
                 text2='';
                 text_filter = '';
+                text_filter2 = '';
                 var node2 = document.createElement("div");
                 if(typeof result.prices === "undefined"){
                     //alert("There's no room in this hotel!");
@@ -1359,19 +1377,6 @@ function hotel_detail_request(checkin_date, checkout_date){
                         if(provider_list.includes(result.prices[i].provider) == false)
                             provider_list.push(result.prices[i].provider);
                     }
-                    text_filter+=`
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h6 class="mb-2">Show All</h6>
-                            <div class="checkbox-inline1">
-                               <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
-                                    <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('','');">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>`;
 
                     text_filter+=`
                     <div class="row">
@@ -1381,14 +1386,14 @@ function hotel_detail_request(checkin_date, checkout_date){
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Room Only</span>
-                                    <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal',false);">
+                                    <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal',false); checkbox_room_hotel('checkbox_room_only', '1');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Breakfast</span>
-                                    <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal',true);">
+                                    <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal',true); checkbox_room_hotel('checkbox_breakfast', '1');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
@@ -1403,35 +1408,119 @@ function hotel_detail_request(checkin_date, checkout_date){
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Single</span>
-                                    <input type="checkbox" id="checkbox_single" onclick="filter_room_hotel('room','single');">
+                                    <input type="checkbox" id="checkbox_single" onclick="filter_room_hotel('room','single'); checkbox_room_hotel('checkbox_single', '1');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Twin</span>
-                                    <input type="checkbox" id="checkbox_twin" onclick="filter_room_hotel('room','twin');">
+                                    <input type="checkbox" id="checkbox_twin" onclick="filter_room_hotel('room','twin'); checkbox_room_hotel('checkbox_twin', '1');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Double</span>
-                                    <input type="checkbox" id="checkbox_double" onclick="filter_room_hotel('room','double');">
+                                    <input type="checkbox" id="checkbox_double" onclick="filter_room_hotel('room','double'); checkbox_room_hotel('checkbox_double', '1');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Queen</span>
-                                    <input type="checkbox" id="checkbox_queen" onclick="filter_room_hotel('room','queen');">
+                                    <input type="checkbox" id="checkbox_queen" onclick="filter_room_hotel('room','queen'); checkbox_room_hotel('checkbox_queen', '1');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">King</span>
-                                    <input type="checkbox" id="checkbox_king" onclick="filter_room_hotel('room','king');">
+                                    <input type="checkbox" id="checkbox_king" onclick="filter_room_hotel('room','king'); checkbox_room_hotel('checkbox_king', '1');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                        </div>
+                    </div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                        text_filter+=`
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr/>
+                                <h6 class="mb-2">Provider</h6>`;
+                                for(i in provider_list){
+                                    text_filter+=`
+                                    <div class="checkbox-inline1">
+                                       <label class="check_box_custom">
+                                            <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
+                                            <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`'); checkbox_room_hotel('checkbox_provider`+i+`', '1');">
+                                            <span class="check_box_span_custom"></span>
+                                        </label><br>
+                                    </div>`;
+                                }
+                            text_filter+=`
+                            </div>
+                        </div>`;
+                    }
+
+                    text_filter2+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Meal Type</h6>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Room Only</span>
+                                    <input type="checkbox" id="checkbox_room_only2" onclick="filter_room_hotel('meal',false); checkbox_room_hotel('checkbox_room_only', '2');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Breakfast</span>
+                                    <input type="checkbox" id="checkbox_breakfast2" onclick="filter_room_hotel('meal',true); checkbox_room_hotel('checkbox_breakfast', '2');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <hr/>
+                        </div>
+                    </div>`;
+
+                    text_filter2+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Room Type</h6>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Single</span>
+                                    <input type="checkbox" id="checkbox_single2" onclick="filter_room_hotel('room','single'); checkbox_room_hotel('checkbox_single', '2');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Twin</span>
+                                    <input type="checkbox" id="checkbox_twin2" onclick="filter_room_hotel('room','twin'); checkbox_room_hotel('checkbox_twin', '2');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Double</span>
+                                    <input type="checkbox" id="checkbox_double2" onclick="filter_room_hotel('room','double'); checkbox_room_hotel('checkbox_double', '2');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Queen</span>
+                                    <input type="checkbox" id="checkbox_queen2" onclick="filter_room_hotel('room','queen'); checkbox_room_hotel('checkbox_queen', '2');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">King</span>
+                                    <input type="checkbox" id="checkbox_king2" onclick="filter_room_hotel('room','king'); checkbox_room_hotel('checkbox_king', '2');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
@@ -1439,24 +1528,25 @@ function hotel_detail_request(checkin_date, checkout_date){
                         </div>
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                        text_filter+=`
+                        text_filter2+=`
                         <div class="row">
                             <div class="col-lg-12">
                                 <h6 class="mb-2">Provider</h6>`;
                             for(i in provider_list){
-                                text_filter+=`
+                                text_filter2+=`
                                 <div class="checkbox-inline1">
                                    <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
-                                        <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`');">
+                                        <input type="checkbox" id="checkbox_provider`+i+`2" onclick="filter_room_hotel('provider','`+provider_list[i]+`'); checkbox_room_hotel('checkbox_provider`+i+`', '2');">
                                         <span class="check_box_span_custom"></span>
                                     </label><br>
                                 </div>`;
                             }
-                            text_filter+=`
+                            text_filter2+=`
                             </div>
                         </div>`;
                     }
+
                     if(document.getElementById("select_copy_div") == null){
                         text2+=`
                         <div class="row">
@@ -1479,6 +1569,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                     node2 = document.createElement("div");
 
                     document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
+                    document.getElementById("filterRoom_generalShow2").innerHTML = text_filter2;
 
                     result_room_detail = result;
 
@@ -1559,6 +1650,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 document.getElementById("pagination-container").innerHTML = '';
                 document.getElementById("pagination-container2").innerHTML = '';
                 document.getElementById("filterRoom_generalShow").innerHTML = 'Not Found';
+                document.getElementById("filterRoom_generalShow2").innerHTML = 'Not Found';
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1575,6 +1667,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 document.getElementById("pagination-container").innerHTML = '';
                 document.getElementById("pagination-container2").innerHTML = '';
                 document.getElementById("filterRoom_generalShow").innerHTML = 'Not Found';
+                document.getElementById("filterRoom_generalShow2").innerHTML = 'Not Found';
            },timeout: 180000
         });
     },500);
@@ -1602,6 +1695,7 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                             text='';
                             text2='';
                             text_filter = '';
+                            text_filter2 = '';
                             var node2 = document.createElement("div");
                             if(result.prices.length > 0){
                                 provider_list = [];
@@ -1612,33 +1706,19 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                                 text_filter+=`
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <h6 class="mb-2">Show All</h6>
-                                        <div class="checkbox-inline1">
-                                           <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
-                                                <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('','');">
-                                                <span class="check_box_span_custom"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>`;
-
-                                text_filter+=`
-                                <div class="row">
-                                    <div class="col-lg-12">
                                         <hr/>
                                         <h6 class="mb-2">Meal Type</h6>
                                         <div class="checkbox-inline1">
                                            <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:black;">Room Only</span>
-                                                <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal',false);">
+                                                <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal',false); checkbox_room_hotel('checkbox_room_only', '1');">
                                                 <span class="check_box_span_custom"></span>
                                             </label><br>
                                         </div>
                                         <div class="checkbox-inline1">
                                            <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:black;">Breakfast</span>
-                                                <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal',true);">
+                                                <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal',true); checkbox_room_hotel('checkbox_breakfast', '1');">
                                                 <span class="check_box_span_custom"></span>
                                             </label><br>
                                         </div>
@@ -1653,35 +1733,35 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                                         <div class="checkbox-inline1">
                                            <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:black;">Single</span>
-                                                <input type="checkbox" id="checkbox_single" onclick="filter_room_hotel('room','single');">
+                                                <input type="checkbox" id="checkbox_single" onclick="filter_room_hotel('room','single'); checkbox_room_hotel('checkbox_single', '1');">
                                                 <span class="check_box_span_custom"></span>
                                             </label><br>
                                         </div>
                                         <div class="checkbox-inline1">
                                            <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:black;">Twin</span>
-                                                <input type="checkbox" id="checkbox_twin" onclick="filter_room_hotel('room','twin');">
+                                                <input type="checkbox" id="checkbox_twin" onclick="filter_room_hotel('room','twin'); checkbox_room_hotel('checkbox_twin', '1');">
                                                 <span class="check_box_span_custom"></span>
                                             </label><br>
                                         </div>
                                         <div class="checkbox-inline1">
                                            <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:black;">Double</span>
-                                                <input type="checkbox" id="checkbox_double" onclick="filter_room_hotel('room','double');">
+                                                <input type="checkbox" id="checkbox_double" onclick="filter_room_hotel('room','double'); checkbox_room_hotel('checkbox_double', '1');">
                                                 <span class="check_box_span_custom"></span>
                                             </label><br>
                                         </div>
                                         <div class="checkbox-inline1">
                                            <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:black;">Queen</span>
-                                                <input type="checkbox" id="checkbox_queen" onclick="filter_room_hotel('room','queen');">
+                                                <input type="checkbox" id="checkbox_queen" onclick="filter_room_hotel('room','queen'); checkbox_room_hotel('checkbox_queen', '1');">
                                                 <span class="check_box_span_custom"></span>
                                             </label><br>
                                         </div>
                                         <div class="checkbox-inline1">
                                            <label class="check_box_custom">
                                                 <span class="span-search-ticket" style="color:black;">King</span>
-                                                <input type="checkbox" id="checkbox_king" onclick="filter_room_hotel('room','king');">
+                                                <input type="checkbox" id="checkbox_king" onclick="filter_room_hotel('room','king'); checkbox_room_hotel('checkbox_king', '1');">
                                                 <span class="check_box_span_custom"></span>
                                             </label><br>
                                         </div>
@@ -1698,12 +1778,97 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                                             <div class="checkbox-inline1">
                                                <label class="check_box_custom">
                                                     <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
-                                                    <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`');">
+                                                    <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`'); checkbox_room_hotel('checkbox_provider`+i+`', '1');">
                                                     <span class="check_box_span_custom"></span>
                                                 </label><br>
                                             </div>`;
                                         }
                                         text_filter+=`
+                                        </div>
+                                    </div>`;
+                                }
+
+                                text_filter2+=`
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <hr/>
+                                        <h6 class="mb-2">Meal Type</h6>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Room OnlyD</span>
+                                                <input type="checkbox" id="checkbox_room_only2" onclick="filter_room_hotel('meal',false); checkbox_room_hotel('checkbox_room_only', '2');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">BreakfastD</span>
+                                                <input type="checkbox" id="checkbox_breakfast2" onclick="filter_room_hotel('meal',true); checkbox_room_hotel('checkbox_breakfast', '2');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>`;
+
+                                text_filter2+=`
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6 class="mb-2">Room Type</h6>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Single</span>
+                                                <input type="checkbox" id="checkbox_single2" onclick="filter_room_hotel('room','single'); checkbox_room_hotel('checkbox_single', '2');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Twin</span>
+                                                <input type="checkbox" id="checkbox_twin2" onclick="filter_room_hotel('room','twin'); checkbox_room_hotel('checkbox_twin', '2');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Double</span>
+                                                <input type="checkbox" id="checkbox_double2" onclick="filter_room_hotel('room','double'); checkbox_room_hotel('checkbox_double', '2');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">Queen</span>
+                                                <input type="checkbox" id="checkbox_queen2" onclick="filter_room_hotel('room','queen'); checkbox_room_hotel('checkbox_queen', '2');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <div class="checkbox-inline1">
+                                           <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">King</span>
+                                                <input type="checkbox" id="checkbox_king2" onclick="filter_room_hotel('room','king'); checkbox_room_hotel('checkbox_king', '2');">
+                                                <span class="check_box_span_custom"></span>
+                                            </label><br>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>`;
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                    text_filter2+=`
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 class="mb-2">Provider</h6>`;
+                                        for(i in provider_list){
+                                            text_filter2+=`
+                                            <div class="checkbox-inline1">
+                                               <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
+                                                    <input type="checkbox" id="checkbox_provider`+i+`2" onclick="filter_room_hotel('provider','`+provider_list[i]+`'); checkbox_room_hotel('checkbox_provider`+i+`', '2');">
+                                                    <span class="check_box_span_custom"></span>
+                                                </label><br>
+                                            </div>`;
+                                        }
+                                        text_filter2+=`
                                         </div>
                                     </div>`;
                                 }
@@ -1727,9 +1892,9 @@ function hotel_get_current_search_detail(checkin_date, checkout_date){
                                     node2.innerHTML = text2;
 
                                     document.getElementById("select_copy_all").appendChild(node2);
-
-                                    document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
                                 }
+                                document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
+                                document.getElementById("filterRoom_generalShow2").innerHTML = text_filter2;
 
                                 result_room_detail = result;
 
@@ -1785,29 +1950,30 @@ function create_detail_room(i, data){
                 for(k in data.prices[i].rooms[j].images){
                 detail_room_txt+=`
                     <div class="item" style="cursor:zoom-in; float:none; display:inline-block; text-align:center;">
-                    <img class="owl-lazy img-hotel-detail zoom-img" data-src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';" style="margin: auto; max-height:300px; width:unset;">
+                    <img class="owl-lazy img-hotel-detail zoom-img" data-src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpeg';" style="margin: auto; max-height:300px; width:unset;">
                     </div>`;
                }
             detail_room_txt+=`</div>`;
         }
         else{
-            detail_room_txt+=`<center><img src="/static/tt_website/images/no_found/no-image-hotel.jpeg" style="height:200px; width:auto; border:1px solid #cdcdcd;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel.jpeg';"></center>`;
+            detail_room_txt+=`<center><img src="/static/tt_website/images/no_found/no-image-hotel.jpeg" style="height:200px; width:auto; border:1px solid #cdcdcd;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpeg';"></center>`;
         }
         detail_room_txt+=`</div>`;
 
 
-        detail_room_txt+=`<div class="col-lg-8">`;
-        detail_room_txt+= '<h5 class="name_room" style="margin-bottom:5px;" + title=' + data.prices[i].rooms[j].description + '><span style="color:' +color+ ';">' + 'Room#'+ rm_number +'</span> - ' + data.prices[i].rooms[j].description + '</h5>';
+        detail_room_txt+=`<div class="col-lg-8">
+        <div style="background:aliceblue; border-radius:5px; padding:15px; height:auto; min-height:200px;">`;
+        detail_room_txt+= '<h5 class="name_room" style="margin-bottom:5px;" + title=' + data.prices[i].rooms[j].description + '><span style="color:' +color+ ';"><i class="fas fa-bed"></i> ' + 'Room#'+ rm_number +'</span><br/>' + data.prices[i].rooms[j].description + '</h5>';
         if(data.prices[i].rooms[j].hasOwnProperty('category') && data.prices[i].rooms[j].category != ""){
-            detail_room_txt+= `<span>`+data.prices[i].rooms[j].category+`</span><br/>`;
+            detail_room_txt+= `<span style="font-weight:500;font-size:18px;">•</span> <span>`+data.prices[i].rooms[j].category+`</span><br/>`;
         }
         if(data.prices[i].hasOwnProperty('meal_type') && data.prices[i].meal_type != "" && data.prices[i].meal_type != undefined){
-            detail_room_txt+= '<span class="meal_room"><b>Meal Type:</b> <span>' + data.prices[i].meal_type+'</span></span><br/>';
+            detail_room_txt+= '<i class="fas fa-utensils"></i> <span class="meal_room"><b>Meal Type:</b> <span>' + data.prices[i].meal_type+'</span></span><br/>';
         }
 
         if(data.prices[i].rooms[j].hasOwnProperty('room_size') == true){
             if(data.prices[i].rooms[j].room_size.size != ''){
-                detail_room_txt+=`<span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size;
+                detail_room_txt+=`<span style="font-weight:500;font-size:18px;">•</span> <span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size;
                 if(data.prices[i].rooms[j].room_size.unit != ''){
                     detail_room_txt += data.prices[i].rooms[j].room_size.unit;
                 }
@@ -1816,7 +1982,7 @@ function create_detail_room(i, data){
         }
 
         if(data.prices[i].rooms[j].supplements.length != 0)
-            detail_room_txt+= '<span class="suplement"><b>Suplement(s): </b></span><ul>';
+            detail_room_txt+= '<i class="fas fa-angle-right"></i> <span class="suplement"><b>Suplement(s): </b></span><ul style="padding-inline-start: 15px;">';
             for(l in data.prices[i].rooms[j].supplements){
                 detail_room_txt+= '<li>'+ data.prices[i].rooms[j].supplements[l].name + ': '+ data.prices[i].rooms[j].supplements[l].price + ' ' + data.prices[i].rooms[j].supplements[l].currency + ' (' + data.prices[i].rooms[j].supplements[l].type +  ')' + '</li>'
             }
@@ -1831,12 +1997,17 @@ function create_detail_room(i, data){
                 <div class="show-more`+i+``+j+` mb-2" style="color:`+color+`; cursor:pointer; font-weight:800; font-size:14px;" onclick="show_less_notes(`+i+`, `+j+`);">Show More</div>
             </div>`;
         }
-        detail_room_txt+=`</div>
-        <div class="col-lg-12"><hr/></div></div>`;
+        detail_room_txt+=`</div>`;
+        if(j != 0 && j != data.prices[i].rooms.length){
+            detail_room_txt+=`<div class="col-lg-12"><hr/></div>`;
+        }
+
+        detail_room_txt+=`</div></div>`;
 
         detail_price_txt += `<div class="row">
         <div class="col-lg-12">
-            <h6 style="color:`+color+`;">Room #`+rm_number+`</h6>
+            <h5 style="color:`+color+`;"><i class="fas fa-bed"></i> Room #`+rm_number+`</h5>
+            <span style="font-size:16px; font-weight:bold;">`+data.prices[i].rooms[j].description+`</span>
         </div>`;
         for(np in data.prices[i].rooms[j].nightly_prices){
             date_np = new Date(data.prices[i].rooms[j].nightly_prices[np].date).toString().split(' ');
@@ -1945,7 +2116,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 var result = msg.result.response;
                 if (view_type == '0'){
                     // each Room Picking
-                    text = '<ul style="list-style-type: disc; margin: 0 15px;">';
+                    text = '<ul style="padding-inline-start: 15px;">';
                     //$text2 += 'Cancellation Policy: \n';
                     if(result.policies.length != 0){
                         for(i in result.policies){
@@ -1956,10 +2127,10 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                                 // text += '<li style="list-style: unset;">No Cancellation after: ' + result.policies[i].date;
                                 //$text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
                             // }
-                            text += '<li style="list-style: unset;">' + result.policies[i].cancellation_string + '</li>';
+                            text += '<li style="list-style: unset; color:`+color+`;">' + result.policies[i].cancellation_string + '</li>';
                         }
                     } else {
-                        text += '<li style="list-style: unset;">Not Refundable</li>';
+                        text += '<li style="list-style: unset; color:`+color+`;">Not Refundable</li>';
 //                        text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
                         //$text2 += 'No Cancellation Policy Provided \n';
                     }
@@ -1970,6 +2141,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                     $('.hold-seat-booking-train').removeClass("running");
 
                     document.getElementById("badge-hotel-notif").innerHTML = "1";
+                    document.getElementById("badge-hotel-notif2").innerHTML = "1";
 //                    hotel_room_pick_button();
                 } else if (view_type == '1'){
                     // Passenger Page
@@ -2004,7 +2176,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                     text += '</ul>';
                     document.getElementById('cancellation_policy').innerHTML = text;
                 } else {
-                    text = '<ul style="list-style-type: disc; margin: 0 15px;">';
+                    text = '';
                     if(result.policies.length != 0){
                         for(i in result.policies){
                             text += '<li style="color:'+color+'; list-style: unset;">' + result.policies[i].cancellation_string +'</li>'
@@ -2018,7 +2190,6 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                         text += '<li style="color:'+color+'; list-style: unset;">Not Refundable</li>';
 //                        text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
                     };
-                    text += '</ul>';
                     document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
                 }
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -2040,8 +2211,8 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
 //                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
                 document.getElementById('cancellation_policy').innerHTML = text;
             } else {
-                var text = '<ul style="list-style-type: circle; margin: 0 15px;">';
-                text += '<li style="list-style: unset;">Not Refundable</li></ul>';
+                var text = '';
+                text += '<li style="list-style: unset;">Not Refundable</li>';
 //                text += '<li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
                 document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
             }
@@ -4170,12 +4341,12 @@ function hotel_get_booking(data){
 
 function checkboxCopyRoom(){
     var count_copy = $(".copy_result:checked").length;
-    if(count_copy == 0){
-        $('#button_copy_hotel').hide();
-    }
-    else{
-        $('#button_copy_hotel').show();
-    }
+//    if(count_copy == 0){
+//        $('#button_copy_hotel').hide();
+//    }
+//    else{
+//        $('#button_copy_hotel').show();
+//    }
     document.getElementById("badge-copy-notif").innerHTML = count_copy;
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }
