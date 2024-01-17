@@ -96,7 +96,7 @@ def check_terms_condition(request):
     return check_terms
 
 def check_privacy_policy(request):
-    check_terms = 0
+    check_policy = 0
     read_cache("privacy_policy", 'cache_web', request, 90911)
     try:
         file = read_cache("privacy_policy", 'cache_web', request, 90911)
