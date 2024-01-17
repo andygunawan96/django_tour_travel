@@ -800,8 +800,11 @@ def review(request, signature=''):
                     if request.POST.get('adult_description_' + str(i + 1)):
                         description = request.POST['adult_description_' + str(i + 1)]
 
-                    passport_first_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_first_name' + str(i + 1),'')).replace(':', '').strip()
-                    passport_last_name = re.sub(r'\s', ' ',request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
+                    passport_first_name = ''
+                    passport_last_name = ''
+                    if passport_number:
+                        passport_first_name = re.sub(r'\s', ' ', request.POST.get('adult_identity_first_name' + str(i + 1),'')).replace(':', '').strip()
+                        passport_last_name = re.sub(r'\s', ' ',request.POST.get('adult_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
                     adult.append({
                         "first_name": first_name,
@@ -1067,8 +1070,11 @@ def review(request, signature=''):
                     if request.POST.get('senior_description_' + str(i + 1)):
                         description = request.POST['senior_description_' + str(i + 1)]
 
-                    passport_first_name = re.sub(r'\s', ' ', request.POST.get('senior_identity_first_name' + str(i + 1),'')).replace(':', '').strip()
-                    passport_last_name = re.sub(r'\s', ' ',request.POST.get('senior_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
+                    passport_first_name = ''
+                    passport_last_name = ''
+                    if passport_number:
+                        passport_first_name = re.sub(r'\s', ' ', request.POST.get('senior_identity_first_name' + str(i + 1),'')).replace(':', '').strip()
+                        passport_last_name = re.sub(r'\s', ' ',request.POST.get('senior_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
                     senior.append({
                         "first_name": first_name,
@@ -1275,8 +1281,11 @@ def review(request, signature=''):
                     if request.POST.get('child_description_' + str(i + 1)):
                         description = request.POST['child_description_' + str(i + 1)]
 
-                    passport_first_name = re.sub(r'\s', ' ', request.POST.get('child_identity_first_name' + str(i + 1),'')).replace(':', '').strip()
-                    passport_last_name = re.sub(r'\s', ' ', request.POST.get('child_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
+                    passport_first_name = ''
+                    passport_last_name = ''
+                    if passport_number:
+                        passport_first_name = re.sub(r'\s', ' ', request.POST.get('child_identity_first_name' + str(i + 1),'')).replace(':', '').strip()
+                        passport_last_name = re.sub(r'\s', ' ', request.POST.get('child_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
                     child.append({
                         "first_name": first_name,
@@ -1483,8 +1492,11 @@ def review(request, signature=''):
                     if request.POST.get('infant_description_' + str(i + 1)):
                         description = request.POST['infant_description_' + str(i + 1)]
 
-                    passport_first_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_first_name' + str(i + 1), '')).replace(':', '').strip()
-                    passport_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
+                    passport_first_name = ''
+                    passport_last_name = ''
+                    if passport_number:
+                        passport_first_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_first_name' + str(i + 1), '')).replace(':', '').strip()
+                        passport_last_name = re.sub(r'\s', ' ', request.POST.get('infant_identity_last_name' + str(i + 1), '')).replace(':', '').strip()
 
                     infant.append({
                         "first_name": first_name,

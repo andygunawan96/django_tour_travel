@@ -26,8 +26,9 @@
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
-                {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b %}
+                {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b or terms_value == 1 or policy_value == 1%}
                 <h6 style="color:black;">{% trans 'About' %} {{name}}</h6>
+                {% endif %}
                 <div class="single-footer-widget">
                     <ul id="about_ul" style="padding-inline-start: 0px;">
                         {% if is_have_page_about_us %}
@@ -40,11 +41,10 @@
                         <li><a href="/faq">FAQ</a></li>
                         {% endif %}
                         {% if is_register_b2b %}
-                        <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register As Agent' %}</a></li>
+                        <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register as Agent' %}</a></li>
                         {% endif %}
                     </ul>
                 </div>
-                {% endif %}
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <h6 style="color:black;">{% trans 'Our Product' %}</h6>
@@ -223,15 +223,21 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                     <div class="single-footer-widget mb-30">
-                        {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b %}
+                        {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b or terms_value == 1 or policy_value == 1%}
                         <h5 class="widget-title" style="color:black;">{% trans 'About' %} {{name}}</h5>
                         <div class="single-footer-widget">
                             <ul class="footer-nav" id="about_ul">
+                                {% if is_have_page_about_us %}
                                 <li><a href="/about_us">{% trans 'About Us' %}</a></li>
+                                {% endif %}
+                                {% if is_have_page_contact_us %}
                                 <li><a href="/contact_us">{% trans 'Contact Us' %}</a></li>
+                                {% endif %}
+                                {% if is_have_page_faq %}
                                 <li><a href="/faq">FAQ</a></li>
-                                {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
-                                <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register' %}</a></li>
+                                {% endif %}
+                                {% if is_register_b2b %}
+                                <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register as Agent' %}</a></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -423,15 +429,21 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
-                    {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b %}
+                    {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b or terms_value == 1 or policy_value == 1%}
                     <h6 style="color:black;">{% trans 'About' %} {{name}}</h6>
                     <div class="single-footer-widget">
                         <ul class="footer-nav" id="about_ul">
+                            {% if is_have_page_about_us %}
                             <li><a href="/about_us">{% trans 'About Us' %}</a></li>
+                            {% endif %}
+                            {% if is_have_page_contact_us %}
                             <li><a href="/contact_us">{% trans 'Contact Us' %}</a></li>
+                            {% endif %}
+                            {% if is_have_page_faq %}
                             <li><a href="/faq">FAQ</a></li>
-                            {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
-                            <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register' %}</a></li>
+                            {% endif %}
+                            {% if is_register_b2b %}
+                            <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register as Agent' %}</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -607,15 +619,21 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
-                        {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b %}
+                        {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b or terms_value == 1 or policy_value == 1%}
                         <h2 class="footer-heading mb-4" style="color:black;">{% trans 'About' %} {{name}}</h2>
                         <div class="single-footer-widget">
                             <ul class="footer-nav" id="about_ul">
+                                {% if is_have_page_about_us %}
                                 <li><a href="/about_us">{% trans 'About Us' %}</a></li>
+                                {% endif %}
+                                {% if is_have_page_contact_us %}
                                 <li><a href="/contact_us">{% trans 'Contact Us' %}</a></li>
+                                {% endif %}
+                                {% if is_have_page_faq %}
                                 <li><a href="/faq">FAQ</a></li>
-                                {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
-                                <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register' %}</a></li>
+                                {% endif %}
+                                {% if is_register_b2b %}
+                                <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register as Agent' %}</a></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -795,15 +813,21 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                 <div class="single-footer-widget">
-                    {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b %}
+                    {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b or terms_value == 1 or policy_value == 1%}
                     <h4 style="color:black;">{% trans 'About' %} {{name}}</h4><br/>
                     <div class="footer-social d-flex align-items-center">
                         <ul class="footer-nav" id="about_ul">
+                            {% if is_have_page_about_us %}
                             <li><a href="/about_us">{% trans 'About Us' %}</a></li>
+                            {% endif %}
+                            {% if is_have_page_contact_us %}
                             <li><a href="/contact_us">{% trans 'Contact Us' %}</a></li>
+                            {% endif %}
+                            {% if is_have_page_faq %}
                             <li><a href="/faq">FAQ</a></li>
-                            {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
-                            <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register' %}</a></li>
+                            {% endif %}
+                            {% if is_register_b2b %}
+                            <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register as Agent' %}</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -987,19 +1011,25 @@
                 </div>
 
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 mb-5">
-                    {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b %}
-                    <h4 style="color:black; margin-bottom:15px;">{% trans 'About' %} {{name}}</h4>
+                    {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b or terms_value == 1 or policy_value == 1%}
+                    {% trans 'About' %} {{name}}
+                    {% endif %}
+                    {% if is_have_page_about_us %}
                     <a class="footer_a" href="/about_us">{% trans 'About Us' %}</a><br/>
+                    {% endif %}
+                    {% if is_have_page_contact_us %}
                     <a class="footer_a" href="/contact_us">{% trans 'Contact Us' %}</a><br/>
+                    {% endif %}
+                    {% if is_have_page_faq %}
                     <a class="footer_a" href="/faq">FAQ</a><br/>
-                    {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
-                    <a class="footer_a" href="#" style="cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register As Agent' %}</a><br/>
+                    {% endif %}
+                    {% if is_register_b2b %}
+                    <a class="footer_a" href="#" style="cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register as Agent' %}</a><br/>
                     {% endif %}
                     <div id="about_ul">
 
                     </div>
                     <hr/>
-                    {% endif %}
                 </div>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 footer-left mb-5">
                     <h4 style="color:black; margin-bottom:15px;">{% trans 'Our Product' %}</h4>
@@ -1181,17 +1211,23 @@
                 <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
                     <div class="single-footer-caption mb-50">
                         <div class="footer-tittle">
-                            {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b %}
+                            {% if is_have_page_about_us or is_have_page_contact_us or is_have_page_faq or is_register_b2b or terms_value == 1 or policy_value == 1%}
                             <h4>{% trans 'About' %} {{name}}</h4>
+                            {% endif %}
                             <ul id="about_ul">
+                                {% if is_have_page_about_us %}
                                 <li><a href="/about_us">{% trans 'About Us' %}</a></li>
+                                {% endif %}
+                                {% if is_have_page_contact_us %}
                                 <li><a href="/contact_us">{% trans 'Contact Us' %}</a></li>
+                                {% endif %}
+                                {% if is_have_page_faq %}
                                 <li><a href="/faq">FAQ</a></li>
-                                {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}
+                                {% endif %}
+                                {% if is_register_b2b %}
                                 <li><a style="color:black;cursor:pointer;" onclick="window.location='{% url 'tt_website:registration' %}'"> {% trans 'Register As Agent' %}</a></li>
                                 {% endif %}
                             </ul>
-                            {% endif %}
                         </div>
                     </div>
                 </div>

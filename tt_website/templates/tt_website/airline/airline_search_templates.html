@@ -399,7 +399,7 @@
                                     <i class="fas fa-plane"></i> Recommendation Flight
                                 </button>
                             </div>
-                            <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_change_search();">
+                            <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_change_search('section_change_search');">
                                 <i class="fas fa-search"></i> Change Search
                             </button>
                             <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_element('change_date_search', 50)">
@@ -427,7 +427,7 @@
                                 <h5 style="color:{{text_color}};">{% trans 'Change Search' %}</h5>
                             </div>
                             <div class="col-xs-3" style="margin:auto; text-align:right;">
-                                <i class="fas fa-times" onclick="go_to_change_search();" style="font-size:20px; color:{{text_color}}; cursor:pointer;"></i>
+                                <i class="fas fa-times" onclick="go_to_change_search('section_change_search');" style="font-size:20px; color:{{text_color}}; cursor:pointer;"></i>
                             </div>
                         </div>
                     </div>
@@ -1169,7 +1169,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-5 txt-right-left">
-                                <button class="primary-btn-custom" type="button" onclick="go_to_change_search();">
+                                <button class="primary-btn-custom" type="button" onclick="go_to_change_search('section_change_search');">
                                     <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
                                 </button>
                                 <button class="primary-btn-custom" id="button_copy_airline" style="text-align:left; margin-bottom:0px;" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_result();">

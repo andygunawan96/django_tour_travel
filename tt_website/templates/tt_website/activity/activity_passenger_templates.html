@@ -484,7 +484,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
@@ -877,7 +877,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" class="form-control" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('senior_last_name{{forloop.counter}}');" class="form-control" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
@@ -1270,7 +1270,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
@@ -1634,7 +1634,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
@@ -2271,7 +2271,7 @@
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
                                                 <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
@@ -2654,7 +2654,7 @@
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" class="form-control" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('senior_last_name{{forloop.counter}}');" class="form-control" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
                                                 <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
@@ -3039,7 +3039,7 @@
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                             </div>
@@ -3395,7 +3395,7 @@
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                             </div>
@@ -4039,7 +4039,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -4436,7 +4436,7 @@
                                                     <br/>
                                                     <label>{% trans 'Last name' %}</label>
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                        <input type="text" style="margin-bottom:0px;" class="form-control" onchange="capitalizeInput('senior_last_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                     </div>
                                                     <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                                 </div>
@@ -4835,7 +4835,7 @@
                                                             <br/>
                                                             <label>{% trans 'Last name' %}</label>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                             </div>
                                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                                         </div>
@@ -5204,7 +5204,7 @@
                                                                     <br/>
                                                                     <label>{% trans 'Last name' %}</label>
                                                                     <div class="form-group">
-                                                                        <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                                        <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                                     </div>
                                                                     <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                                                 </div>
@@ -5847,7 +5847,7 @@
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                     </div>
@@ -6238,7 +6238,7 @@
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" class="form-control" onchange="capitalizeInput('senior_last_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                     </div>
@@ -6631,7 +6631,7 @@
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                     </div>
@@ -6995,7 +6995,7 @@
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                     </div>
@@ -7634,7 +7634,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -8025,7 +8025,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" class="form-control" onchange="capitalizeInput('senior_last_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -8418,7 +8418,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -8782,7 +8782,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -9424,7 +9424,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -9816,7 +9816,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" class="form-control" onchange="capitalizeInput('senior_last_name{{forloop.counter}}');" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -10209,7 +10209,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
@@ -10573,7 +10573,7 @@
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('infant_last_name{{forloop.counter}}');" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>

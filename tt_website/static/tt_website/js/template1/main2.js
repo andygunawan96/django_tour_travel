@@ -441,8 +441,8 @@ $(document).ready(function() {
        $('.owl-carousel-hotel-img').data("owl.carousel").to(number, 500, true);
        $('.owl-carousel-hotel-img-modal').data("owl.carousel").to(number, 500, true);
        $(this).addClass("owl-bg-border");
-       document.getElementById("total_image_hotel").innerHTML = number+1 + "/" + $lengthimg;
-       document.getElementById("total_image_hotel-modal").innerHTML = number+1 + "/" + $lengthimg;
+       document.getElementById("total_image_hotel").innerHTML = number+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = number+1 + " of " + $lengthimg;
      });
 
     $('.owl-carousel-hotel-img-modal').on('changed.owl.carousel',function(property){
@@ -464,8 +464,8 @@ $(document).ready(function() {
        });
        $('.owl-carousel-hotel-modal').find('.owl-item').eq(current).addClass('owl-bg-border');
        $('.owl-carousel-hotel-img').trigger('to.owl.carousel', current);
-       document.getElementById("total_image_hotel").innerHTML = current+1 + "/" + $lengthimg;
-       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + "/" + $lengthimg;
+       document.getElementById("total_image_hotel").innerHTML = current+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + " of " + $lengthimg;
     });
 
     $('.owl-carousel-hotel-img').on('changed.owl.carousel',function(property){
@@ -487,8 +487,8 @@ $(document).ready(function() {
        });
        $('.owl-carousel-hotel-modal').find('.owl-item').eq(current).addClass('owl-bg-border');
        $('.owl-carousel-hotel-img-modal').trigger('to.owl.carousel', current);
-       document.getElementById("total_image_hotel").innerHTML = current+1 + "/" + $lengthimg;
-       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + "/" + $lengthimg;
+       document.getElementById("total_image_hotel").innerHTML = current+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + " of " + $lengthimg;
     });
 
     //    $('.owl-carousel-hotel').find('.owl-item').eq(current).addClass('owl-bg-border');
@@ -700,7 +700,7 @@ function go_to_owl_carousel(counter){
         }
     }
 
-    document.getElementById("total_image_hotel").innerHTML = counter + "/" + $lengthimg;
+    document.getElementById("total_image_hotel").innerHTML = counter + " of " + $lengthimg;
 }
 
 

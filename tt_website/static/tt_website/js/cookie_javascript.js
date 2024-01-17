@@ -55,7 +55,7 @@ function checkCookie(type, check, page, version) {
             cookie_tac = getCookie("modal_tac"); //load content
             if(check == 'load'){ //first load page
                 new_version = parseInt(version);
-                if(cookie_tac != ''){ //cookie data
+                if(cookie_tac){ //cookie data
                     const myArrayTac = cookie_tac.split(".");
                     if(typeof myArrayTac[1] === "undefined"){
                         old_version = 0;

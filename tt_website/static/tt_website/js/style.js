@@ -1551,25 +1551,11 @@ $(document).ready(function(){
         }
     });
 
-    $('#photo-hotel').click(function(e){
+    $('#overview-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-photo-hotel").offset().top - 50
+            scrollTop: $("div.div-overview-hotel").offset().top - 50
         }, 500);
-        active_sticky_hotel("photo");
-    });
-
-    $('#facility-hotel').click(function(e){
-        $('html, body').animate({
-            scrollTop: $("div.div-facility-hotel").offset().top - 50
-        }, 500);
-        active_sticky_hotel("facility");
-    });
-
-    $('#location-hotel').click(function(e){
-        $('html, body').animate({
-            scrollTop: $("div.div-location-hotel").offset().top - 50
-        }, 500);
-        active_sticky_hotel("location");
+        active_sticky_hotel("overview");
     });
 
     $('#select-room-hotel').click(function(e){
@@ -1577,20 +1563,6 @@ $(document).ready(function(){
             scrollTop: $("div.div-select-room-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("select");
-    });
-
-    $('#description-hotel').click(function(e){
-        $('html, body').animate({
-            scrollTop: $("div.div-description-hotel").offset().top - 50
-        }, 500);
-        active_sticky_hotel("description");
-    });
-
-    $('#review-hotel').click(function(e){
-        $('html, body').animate({
-            scrollTop: $("div.div-review-hotel").offset().top - 50
-        }, 500);
-        active_sticky_hotel("review");
     });
 
     $('#information-event').click(function(e){
@@ -2567,8 +2539,8 @@ function show_hide_change_search(){
     }
 }
 
-function go_to_change_search(){
-    var change_search_box = document.getElementById("section_change_search");
+function go_to_change_search(id_div){
+    var change_search_box = document.getElementById(id_div);
 
     if (change_search_box.style.display === "none") {
         change_search_box.style.display = "block";
@@ -2821,25 +2793,13 @@ function capitalizeInput(id){
 }
 
 function active_sticky_hotel(type){
-    if(type == "photo"){
+    if(type == "overview"){
         $(".content-hotel").removeClass("sticky-hotel-active");
-        $("#photo-hotel").addClass("sticky-hotel-active");
-    }
-    else if(type == "facility"){
-        $(".content-hotel").removeClass("sticky-hotel-active");
-        $("#facility-hotel").addClass("sticky-hotel-active");
-    }
-    else if(type == "location"){
-        $(".content-hotel").removeClass("sticky-hotel-active");
-        $("#location-hotel").addClass("sticky-hotel-active");
+        $("#overview-hotel").addClass("sticky-hotel-active");
     }
     else if(type == "select"){
         $(".content-hotel").removeClass("sticky-hotel-active");
         $("#select-room-hotel").addClass("sticky-hotel-active");
-    }
-    else if(type == "description"){
-        $(".content-hotel").removeClass("sticky-hotel-active");
-        $("#description-hotel").addClass("sticky-hotel-active");
     }
     //else if(type == "review"){
     //    $(".content-hotel").removeClass("sticky-hotel-active");
