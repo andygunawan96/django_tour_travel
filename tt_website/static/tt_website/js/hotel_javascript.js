@@ -3477,7 +3477,7 @@ function change_image_hotel_detail(numb){
                                             currency_breakdown = hotel_price[i].rooms[j].nightly_prices[k].service_charges[l].currency;
                                         }
                                     }
-                                    for(l in hotel_price.rooms[j].nightly_prices[k].service_charge_summary){
+                                    for(l in hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary){
                                         if(!price_breakdown.hasOwnProperty('FARE'))
                                             price_breakdown['FARE'] = 0;
                                         if(!price_breakdown.hasOwnProperty('TAX'))
@@ -3503,20 +3503,20 @@ function change_image_hotel_detail(numb){
                                         if(!price_breakdown.hasOwnProperty('COMMISSION HO') && user_login.co_agent_frontend_security.includes('agent_ho'))
                                             price_breakdown['COMMISSION HO'] = 0;
 
-                                        price_breakdown['FARE'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_fare;
-                                        price_breakdown['TAX'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_tax;
+                                        price_breakdown['FARE'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_fare;
+                                        price_breakdown['TAX'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_tax;
                                         price_breakdown['BREAKDOWN'] = 0;
-                                        price_breakdown['UPSELL'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_upsell;
+                                        price_breakdown['UPSELL'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_upsell;
                                         if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-                                            price_breakdown['COMMISSION'] += (hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
-                                        price_breakdown['NTA HOTEL'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_nta_vendor;
-                                        price_breakdown['SERVICE FEE'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_fee_ho;
-                                        price_breakdown['VAT'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_vat_ho;
-                                        price_breakdown['OTT'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_price_ott;
-                                        price_breakdown['TOTAL PRICE'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_price;
-                                        price_breakdown['NTA AGENT'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_nta;
+                                            price_breakdown['COMMISSION'] += (hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_vendor * -1);
+                                        price_breakdown['NTA HOTEL'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_nta_vendor;
+                                        price_breakdown['SERVICE FEE'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_fee_ho;
+                                        price_breakdown['VAT'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_vat_ho;
+                                        price_breakdown['OTT'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_price_ott;
+                                        price_breakdown['TOTAL PRICE'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_price;
+                                        price_breakdown['NTA AGENT'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_nta;
                                         if(user_login.co_agent_frontend_security.includes('agent_ho'))
-                                            price_breakdown['COMMISSION HO'] += hotel_price.rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_ho * -1;
+                                            price_breakdown['COMMISSION HO'] += hotel_price[i].rooms[j].nightly_prices[k].service_charge_summary[l].total_commission_ho * -1;
                                     }
                                 }
                             }
