@@ -4094,19 +4094,22 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     $('#adult_identity_type'+passenger_number).niceSelect('update');
                 }
                 document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-                if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_first_name'))
+                if(document.getElementById('adult_identity_first_name'+passenger_number) !== null && document.getElementById('adult_identity_last_name'+passenger_number) !== null)
                 {
-                    document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_first_name;
-                    if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_last_name'))
+                    if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_first_name'))
                     {
-                        document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
+                        document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_first_name;
+                        if(passenger_data[sequence].identities.passport.hasOwnProperty('identity_last_name'))
+                        {
+                            document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].identities.passport.identity_last_name;
+                        }
+                        show_hide_id_name_div('adult', passenger_number.toString(), true)
                     }
-                    show_hide_id_name_div('adult', passenger_number.toString(), true)
-                }
-                else
-                {
-                    document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
-                    document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                    else
+                    {
+                        document.getElementById('adult_identity_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                        document.getElementById('adult_identity_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                    }
                 }
                 if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                     $('#adult_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence].identities.passport.identity_country_of_issued_code).trigger('change');
