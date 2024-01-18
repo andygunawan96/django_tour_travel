@@ -2043,6 +2043,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--            window.scrollTo(0, 0);-->
 <!--        };-->
 <!--    </script>-->
+    {% include 'tt_website/plugin_live_chat.html' %}
 </head>
 <script>
     color = `{{color}}`;
@@ -2330,8 +2331,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 {% endif %}
 
 {% include 'tt_website/html_include/b2c_signup.html' %}
-
-{% include 'tt_website/plugin_live_chat.html' %}
 
 <div class="adminActions" id="divBtnAdminAct">
 	<input type="checkbox" name="adminToggle" class="adminToggle" />
