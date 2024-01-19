@@ -568,7 +568,6 @@ function get_banner(type,page){
                             })
                         }
                     }
-
                     else{
                         if(type == 'big_banner'){
                             $('.owl-carousel-banner').owlCarousel({

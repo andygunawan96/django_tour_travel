@@ -1060,7 +1060,7 @@ function hotel_detail_request(checkin_date, checkout_date){
     // Remove Copy dan Next button waktu ganti tanggal END
     document.getElementById('hotel_detail_table').innerHTML = '';
     document.getElementById("detail_room_pick").innerHTML = `
-    <div class="detail-hotel-box">
+    <div class="div_box_default">
         <div class="row" style="margin-bottom:15px;">
             <div class="col-lg-12 mb-2">
                 <div class="stripe_checkbox" style="float:right;">
@@ -1137,7 +1137,7 @@ function hotel_detail_request(checkin_date, checkout_date){
             </div>
         </div>
     </div>
-    <div class="detail-hotel-box">
+    <div class="div_box_default">
         <div class="row" style="margin-bottom:15px;">
             <div class="col-lg-12 mb-2">
                 <div class="stripe_checkbox" style="float:right;">
@@ -1214,7 +1214,7 @@ function hotel_detail_request(checkin_date, checkout_date){
             </div>
         </div>
     </div>
-    <div class="detail-hotel-box">
+    <div class="div_box_default">
         <div class="row" style="margin-bottom:15px;">
             <div class="col-lg-12 mb-2">
                 <div class="stripe_checkbox" style="float:right;">
@@ -1950,64 +1950,88 @@ function create_detail_room(i, data){
                 for(k in data.prices[i].rooms[j].images){
                 detail_room_txt+=`
                     <div class="item" style="cursor:zoom-in; float:none; display:inline-block; text-align:center;">
-                    <img class="owl-lazy img-hotel-detail zoom-img" data-src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpeg';" style="margin: auto; max-height:300px; width:unset;">
+                    <img class="owl-lazy img-hotel-detail zoom-img" data-src="`+data.prices[i].rooms[j].images[k].url+`" style="border:1px solid #cdcdcd; height:200px; margin:auto; width:auto;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpg';" style="margin: auto; max-height:300px; width:unset;">
                     </div>`;
                }
             detail_room_txt+=`</div>`;
         }
         else{
-            detail_room_txt+=`<center><img src="/static/tt_website/images/no_found/no-image-hotel.jpeg" style="height:200px; width:auto; border:1px solid #cdcdcd;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpeg';"></center>`;
+            detail_room_txt+=`<center><img src="/static/tt_website/images/no_found/no-image-hotel.jpeg" style="height:200px; width:auto; border:1px solid #cdcdcd;" alt="Room Hotel" onerror="this.src='/static/tt_website/images/no_found/no-image-hotel2.jpg';"></center>`;
         }
         detail_room_txt+=`</div>`;
 
 
-        detail_room_txt+=`<div class="col-lg-8">
-        <div style="background:aliceblue; border-radius:5px; padding:15px; height:auto; min-height:200px;">`;
-        detail_room_txt+= '<h5 class="name_room" style="margin-bottom:5px;" + title=' + data.prices[i].rooms[j].description + '><span style="color:' +color+ ';"><i class="fas fa-bed"></i> ' + 'Room#'+ rm_number +'</span><br/>' + data.prices[i].rooms[j].description + '</h5>';
-        if(data.prices[i].rooms[j].hasOwnProperty('category') && data.prices[i].rooms[j].category != ""){
-            detail_room_txt+= `<span style="font-weight:500;font-size:18px;">•</span> <span>`+data.prices[i].rooms[j].category+`</span><br/>`;
-        }
-        if(data.prices[i].hasOwnProperty('meal_type') && data.prices[i].meal_type != "" && data.prices[i].meal_type != undefined){
-            detail_room_txt+= '<i class="fas fa-utensils"></i> <span class="meal_room"><b>Meal Type:</b> <span>' + data.prices[i].meal_type+'</span></span><br/>';
-        }
-
-        if(data.prices[i].rooms[j].hasOwnProperty('room_size') == true){
-            if(data.prices[i].rooms[j].room_size.size != ''){
-                detail_room_txt+=`<span style="font-weight:500;font-size:18px;">•</span> <span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size;
-                if(data.prices[i].rooms[j].room_size.unit != ''){
-                    detail_room_txt += data.prices[i].rooms[j].room_size.unit;
-                }
-                detail_room_txt+=`</span></span><br/>`;
-            }
-        }
-
-        if(data.prices[i].rooms[j].supplements.length != 0)
-            detail_room_txt+= '<i class="fas fa-angle-right"></i> <span class="suplement"><b>Suplement(s): </b></span><ul style="padding-inline-start: 15px;">';
-            for(l in data.prices[i].rooms[j].supplements){
-                detail_room_txt+= '<li>'+ data.prices[i].rooms[j].supplements[l].name + ': '+ data.prices[i].rooms[j].supplements[l].price + ' ' + data.prices[i].rooms[j].supplements[l].currency + ' (' + data.prices[i].rooms[j].supplements[l].type +  ')' + '</li>'
-            }
-            detail_room_txt+= '</ul>';
-        if(data.prices[i].rooms[j].notes != undefined && data.prices[i].rooms[j].notes != ""){
-            detail_room_txt+= '<span class="note"><b>Notes:</b><br/>';
-            detail_room_txt+=`
-            <div class="notes-description">
-                <div class="text show-more-height" id="notes_div`+i+``+j+`">
-                    `+data.prices[i].rooms[j].notes+`
+        detail_room_txt+=`
+        <div class="col-lg-8">
+            <div style="background:aliceblue; border-radius:5px; padding:15px; height:auto; min-height:200px; margin-bottom:15px;">
+                <div style="display:flex;">
+                    <div style="display:inline-block; padding-right:5px;">
+                        <i class="fas fa-bed" style="font-size:14px"></i>
+                    </div>
+                    <div style="display:inline-block;" title='`+data.prices[i].rooms[j].description+`'>
+                        <div style="display:grid;">
+                            <h5>Room #`+rm_number+`</h5>
+                        </div>
+                        <div style="display:grid;">
+                            <span style="font-size:16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;">`+data.prices[i].rooms[j].description+`</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="show-more`+i+``+j+` mb-2" style="color:`+color+`; cursor:pointer; font-weight:800; font-size:14px;" onclick="show_less_notes(`+i+`, `+j+`);">Show More</div>
-            </div>`;
-        }
-        detail_room_txt+=`</div>`;
-        if(j != 0 && j != data.prices[i].rooms.length){
-            detail_room_txt+=`<div class="col-lg-12"><hr/></div>`;
-        }
+                <hr/>`;
 
-        detail_room_txt+=`</div></div>`;
+                if(data.prices[i].rooms[j].hasOwnProperty('category') && data.prices[i].rooms[j].category != ""){
+                    detail_room_txt+= `<span style="font-weight:500;">• `+data.prices[i].rooms[j].category+`</span><br/>`;
+                }
+                if(data.prices[i].hasOwnProperty('meal_type') && data.prices[i].meal_type != "" && data.prices[i].meal_type != undefined){
+                    detail_room_txt+= '<i class="fas fa-utensils"></i> <span class="meal_room"><b>Meal Type:</b> <span>' + data.prices[i].meal_type+'</span></span><br/>';
+                }
+
+                if(data.prices[i].rooms[j].hasOwnProperty('room_size') == true){
+                    if(data.prices[i].rooms[j].room_size.size != ''){
+                        detail_room_txt+=`<span style="font-weight:500;">• <span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size;
+                        if(data.prices[i].rooms[j].room_size.unit != ''){
+                            detail_room_txt += data.prices[i].rooms[j].room_size.unit;
+                        }
+                        detail_room_txt+=`</span></span><br/>`;
+                    }
+                }
+
+                if(data.prices[i].rooms[j].supplements.length != 0)
+                    detail_room_txt+= '<i class="fas fa-angle-right"></i> <span class="suplement"><b>Suplement(s): </b></span><ul style="padding-inline-start: 15px;">';
+                    for(l in data.prices[i].rooms[j].supplements){
+                        detail_room_txt+= '<li>'+ data.prices[i].rooms[j].supplements[l].name + ': '+ data.prices[i].rooms[j].supplements[l].price + ' ' + data.prices[i].rooms[j].supplements[l].currency + ' (' + data.prices[i].rooms[j].supplements[l].type +  ')' + '</li>'
+                    }
+                    detail_room_txt+= '</ul>';
+                if(data.prices[i].rooms[j].notes != undefined && data.prices[i].rooms[j].notes != ""){
+                    detail_room_txt+= '<span class="note"><b>Notes:</b><br/>';
+                    detail_room_txt+=`
+                    <div class="notes-description">
+                        <div class="text show-more-height" id="notes_div`+i+``+j+`">
+                            `+data.prices[i].rooms[j].notes+`
+                        </div>
+                        <div class="show-more`+i+``+j+` mb-2" style="color:`+color+`; cursor:pointer; font-weight:800; font-size:14px;" onclick="show_less_notes(`+i+`, `+j+`);">Show More</div>
+                    </div>`;
+                }
+                detail_room_txt+=`
+                </div>
+            </div>
+        </div>`;
 
         detail_price_txt += `<div class="row">
         <div class="col-lg-12">
-            <h5 style="color:`+color+`;"><i class="fas fa-bed"></i> Room #`+rm_number+`</h5>
-            <span style="font-size:16px; font-weight:bold;">`+data.prices[i].rooms[j].description+`</span>
+            <div style="display:flex;">
+                <div style="display:inline-block; padding-right:5px;">
+                    <i class="fas fa-bed" style="font-size:14px"></i>
+                </div>
+                <div style="display:inline-block;" title='`+data.prices[i].rooms[j].description+`'>
+                    <div style="display:grid;">
+                        <h5>Room #`+rm_number+`</h5>
+                    </div>
+                    <div style="display:grid;">
+                        <span style="font-size:16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;">`+data.prices[i].rooms[j].description+`</span>
+                    </div>
+                </div>
+            </div>
         </div>`;
         for(np in data.prices[i].rooms[j].nightly_prices){
             date_np = new Date(data.prices[i].rooms[j].nightly_prices[np].date).toString().split(' ');
@@ -2146,14 +2170,14 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 } else if (view_type == '1'){
                     // Passenger Page
                     var text = '';
-                    text += `
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-ban"></i> Cancellation Policy</h4>
-                            <h6 class="mb-3" id="js_hotel_name">`+result.hotel_name+`</h6>
-                        </div>
-                    </div>`;
-                    text += '<ul style="list-style-type: disc; margin: 0 15px;">';
+//                    text += `
+//                    <div class="row">
+//                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+//                            <h4 class="mb-3"><i class="fas fa-ban"></i> Cancellation Policy</h4>
+//                            <h6 class="mb-3" id="js_hotel_name">`+result.hotel_name+`</h6>
+//                        </div>
+//                    </div>`;
+                    text += '<ul style="padding-inline-start: 15px;">';
                     //$text2 += '\n Cancellation Policy: \n';
                     if(result.policies.length != 0){
                         for(i in result.policies){

@@ -656,7 +656,7 @@
                                 </div>
                                 {% if response.description != '' %}
                                 <div style="padding-top:15px; text-align:right;">
-                                    <span class="span_link_cl" type="button" onclick="content_modal_custom('myModalDetail','myModalContent', 'Description', '{% autoescape off %}{{response.description}}{% endautoescape %}');">
+                                    <span class="span_link_cl" type="button" onclick="content_read_more_des();">
                                         Read <i class="fas fa-chevron-right"></i>
                                     </span>
                                 </div>
@@ -837,7 +837,7 @@
                                             <div class="col-lg-6">
                                                 <span style="float:left; font-weight:700;"><i class="fas fa-calendar-alt"></i> {% trans 'Change Date' %}</span>
                                                 <div class="input-container-search-ticket">
-                                                    <input class="form-control" type="text" style="margin-bottom:0px !important;" name="hotel_checkin_checkout2" id="hotel_checkin_checkout2" placeholder="{% trans 'Check-In - Check-Out Date' %} " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                                    <input class="form-control" type="text" style="margin-bottom:0px !important; background:white;" name="hotel_checkin_checkout2" id="hotel_checkin_checkout2" placeholder="{% trans 'Check-In - Check-Out Date' %} " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                                     <i class="fas fa-moon" id="total_night_search2" style="padding: 15px 10px 15px 10px;">1</i>
                                                     <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
                                                     <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
@@ -904,7 +904,7 @@
                                 </div>
                             </div>
                             <div id="detail_room_pick">
-                                <div class="detail-hotel-box">
+                                <div class="div_box_default">
                                     <div class="row" style="margin-bottom:15px;">
                                         <div class="col-lg-12 mb-2">
                                             <div class="stripe_checkbox" style="float:right;">
@@ -983,7 +983,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="detail-hotel-box">
+                                <div class="div_box_default">
                                     <div class="row" style="margin-bottom:15px;">
                                         <div class="col-lg-12 mb-2">
                                             <div class="stripe_checkbox" style="float:right;">
@@ -1062,7 +1062,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="detail-hotel-box">
+                                <div class="div_box_default">
                                     <div class="row" style="margin-bottom:15px;">
                                         <div class="col-lg-12 mb-2">
                                             <div class="stripe_checkbox" style="float:right;">
@@ -1735,6 +1735,13 @@
     }catch(err){
         console.log(err);
     }
+
+    function content_read_more_des(){
+        document.getElementById('myModalContent').innerHTML = `{% autoescape off %}{{response.description}}{% endautoescape %}`;
+        document.getElementById('myModalContent'+'_header').innerHTML = `Description`;
+        $('#myModalDetail').modal('show');
+    }
+
 </script>
 {% endblock %}
 

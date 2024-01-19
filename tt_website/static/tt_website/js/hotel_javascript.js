@@ -1605,23 +1605,9 @@ function hotel_room_pick(key, key2){
     text += `
         <div class="row" id="loading-detail-hotel-room">
             <div class="col-lg-12">
-                <div class="sk-circle">
-                    <div class="sk-circle1 sk-child"></div>
-                    <div class="sk-circle2 sk-child"></div>
-                    <div class="sk-circle3 sk-child"></div>
-                    <div class="sk-circle4 sk-child"></div>
-                    <div class="sk-circle5 sk-child"></div>
-                    <div class="sk-circle6 sk-child"></div>
-                    <div class="sk-circle7 sk-child"></div>
-                    <div class="sk-circle8 sk-child"></div>
-                    <div class="sk-circle9 sk-child"></div>
-                    <div class="sk-circle10 sk-child"></div>
-                    <div class="sk-circle11 sk-child"></div>
-                    <div class="sk-circle12 sk-child"></div>
-                </div>
-                <div style="text-align:center">
-                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
-                </div>
+                <ul style="padding-inline-start: 15px;">
+                    <li style="color:{{color}}; cursor:pointer; list-style-type:unset; font-weight:400;"><span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span></li>
+                </ul>
             </div>
         </div>`;
     document.getElementById('not_room_select').style.display = 'none';
@@ -1629,48 +1615,65 @@ function hotel_room_pick(key, key2){
     text += '</div>';
 
     text += `<div>
-        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>`;
-    text += `<div id="price_detail_hotel_div" style="display:none;">`;
+    text += `<div id="price_detail_hotel_div" style="display:block">`;
     discount_hotel = 0;
     for(i in hotel_room.rooms){
-        text += '<h6><span style="color:' +color+ ';"><i class="fas fa-bed"></i> Room #'+ (parseInt(i)+1) + ' </span><br/>'+ hotel_room.rooms[i].description + '</h6>';
         //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
         //text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
+        text += `
+        <div style="background:aliceblue; padding:15px; border-radius:5px; margin-bottom:15px;">
+            <div style="display:flex;">
+                <div style="display:inline-block; padding-right:5px;">
+                    <i class="fas fa-bed" style="font-size:14px"></i>
+                </div>
+                <div style="display:inline-block;" title='`+hotel_room.rooms[i].description+`'>
+                    <div style="display:grid;">
+                        <h5>Room #`+(parseInt(i)+1)+`</h5>
+                    </div>
+                    <div style="display:grid;">
+                        <span style="font-size:16px;">`+hotel_room.rooms[i].description+`</span>
+                    </div>
+                </div>
+            </div>
+            <hr/>`;
 
-        if(hotel_room.meal_type != false){
-            text += '<i class="fas fa-utensils"></i> <b>Meal Type: ' + hotel_room.meal_type +'</b/><br/>';
-        }
-        //text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
-
-        //$text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
-        $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_room.rooms[i].description +'\n';
-        //$text2 += hotel_room.rooms[i].qty +' room(s) \n';
-        $text2 += 'Meal Type: '+ hotel_room.meal_type +'\n \n';
-        response = hotel_get_cancellation_policy(hotel_room.price_code, key, '0');
-
-        text += `<div class="row">`;
-        for(j in hotel_room.rooms[i].nightly_prices){
-            date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
-            text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price)+'<span/></div>';
-            for(k in hotel_room.rooms[i].nightly_prices[j].service_charges){
-                if(hotel_room.rooms[i].nightly_prices[j].service_charges[k].charge_type == 'DISC'){
-                    discount_hotel += hotel_room.rooms[i].nightly_prices[j].service_charges[k].total;
-                }
+            if(hotel_room.meal_type != false){
+                text += '<i class="fas fa-utensils"></i> <b>Meal Type: ' + hotel_room.meal_type +'</b/><br/>';
             }
-//            $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
-        }
-        var total_room = document.getElementById("hotel_room").value;
-        var total_night = document.getElementById("total_night_search").textContent;
+            //text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
 
-        text += `<div class="col-lg-6">
-            <span style="font-weight:bold;">Total</span>
-        </div>
-        <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">`+hotel_room.currency+` `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
-            <span style="font-weight:500;">(for 1 room, `+total_night+` night)</span>
+            //$text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
+            $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_room.rooms[i].description +'\n';
+            //$text2 += hotel_room.rooms[i].qty +' room(s) \n';
+            $text2 += 'Meal Type: '+ hotel_room.meal_type +'\n \n';
+            response = hotel_get_cancellation_policy(hotel_room.price_code, key, '0');
+
+            text += `<div class="row">`;
+            for(j in hotel_room.rooms[i].nightly_prices){
+                date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
+                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price)+'<span/></div>';
+                for(k in hotel_room.rooms[i].nightly_prices[j].service_charges){
+                    if(hotel_room.rooms[i].nightly_prices[j].service_charges[k].charge_type == 'DISC'){
+                        discount_hotel += hotel_room.rooms[i].nightly_prices[j].service_charges[k].total;
+                    }
+                }
+    //            $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
+            }
+            var total_room = document.getElementById("hotel_room").value;
+            var total_night = document.getElementById("total_night_search").textContent;
+
+            text += `
+                <div class="col-lg-6">
+                    <span style="font-weight:bold;">Total</span>
+                </div>
+                <div class="col-lg-6" style="text-align:right;">
+                    <span style="font-weight:bold;">`+hotel_room.currency+` `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
+                    <span style="font-weight:500;">(for 1 room, `+total_night+` night)</span>
+                </div>
+            </div>
         </div>`;
-        text += `<div class="col-lg-12"><hr/></div></div>`;
         total_price_hotel += hotel_room.rooms[i].price_total;
 //        $text2 += '\nTotal: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
 //        $text2 += '(for 1 room, ' +total_night+ ' night) \n';
@@ -1678,7 +1681,7 @@ function hotel_room_pick(key, key2){
     text += `</div>`;
 
     text += `<div>
-        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer; margin-top:15px" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
 
     $text2 += 'Grand Total: '+hotel_room.currency+' '+getrupiah(total_price_hotel + discount_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
@@ -1791,12 +1794,12 @@ function hotel_room_pick(key, key2){
 
     document.getElementById('hotel_detail_button').innerHTML = text_pick_footer;
 
-    document.getElementById('hotel_detail_button_loading').innerHTML = `
-    <div class="stripe_2row_small">
-        <div class="div_stripe">
-            <div class="loading_stripe"></div>
-        </div>
-    </div>`;
+//    document.getElementById('hotel_detail_button_loading').innerHTML = `
+//    <div class="stripe_2row_small">
+//        <div class="div_stripe">
+//            <div class="loading_stripe"></div>
+//        </div>
+//    </div>`;
 
     if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};
@@ -2597,9 +2600,9 @@ function hotel_detail(old_cancellation_policy){
     text+=`<h5>`+show_name_room+`</h5>`;
 
     text += `<div class="mt-3">
-        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>`;
-    text += `<div id="price_detail_hotel_div" style="display:none;">`;
+    text += `<div id="price_detail_hotel_div" style="display:block;">`;
     total_room_night = 0;
     for(i in hotel_price.rooms){
         total_room_night += hotel_price.rooms[i].nightly_prices.length;
@@ -2607,74 +2610,92 @@ function hotel_detail(old_cancellation_policy){
     discount_hotel = 0;
     for(i in hotel_price.rooms){
         var idx_room = parseInt(i)+1;
-        text += '<h6><span style="color:'+color+';">Room #'+ idx_room + ' </span>'+ hotel_price.rooms[i].description + '</h6>';
-        //text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
-        //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
-        text += '<span>Meal Type: ' + hotel_price.meal_type + '</span/><br/><br/>';
+        text += `
+        <div style="background:aliceblue; border-radius:5px; padding:15px; margin-bottom:15px;">
+            <div style="display:flex;">
+                <div style="display:inline-block; padding-right:5px;">
+                    <i class="fas fa-bed" style="font-size:14px"></i>
+                </div>
+                <div style="display:inline-block;" title='`+hotel_price.rooms[i].description+`'>
+                    <div style="display:grid;">
+                        <h5>Room #`+idx_room+`</h5>
+                    </div>
+                    <div style="display:grid;">
+                        <span style="font-size:16px;">`+hotel_price.rooms[i].description+`</span>
+                    </div>
+                </div>
+            </div>
+            <hr/>`;
 
-        //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
-        $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_price.rooms[i].description +'\n';
-        //$text2 += hotel_price.rooms[i].qty +' room(s) \n';
-//        $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
-        $text2 += 'Meal Type: '+ hotel_price.meal_type + '\n';
-        if(hotel_price.rooms[i].hasOwnProperty('room_size')){
-            text+= '<span class="meal_room"><b>Room Size:</b> <span>' + hotel_price.rooms[i].room_size.size+' '+hotel_price.rooms[i].room_size.unit+'</span></span><br/>';
-            $text2 += 'Room Size: ' + hotel_price.rooms[i].room_size.size+' '+hotel_price.rooms[i].room_size.unit + '\n';
-        }
-        text += `<div class="row">`;
-        for(j in hotel_price.rooms[i].nightly_prices){
-            date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
-            if (typeof upsell_price !== 'undefined'){
-                last_day_price = hotel_price.rooms[i].nightly_prices[j].price + Math.ceil(upsell_price / total_room_night);
-                if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
-                    text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((last_day_price))+'<span/></div>';
-                    //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+            //text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
+            //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
+            text += '<i class="fas fa-utensils"></i> <b>Meal Type:</b><span> ' + hotel_price.meal_type + '</span/><br/>';
+
+            //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
+            $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_price.rooms[i].description +'\n';
+            //$text2 += hotel_price.rooms[i].qty +' room(s) \n';
+    //        $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
+            $text2 += 'Meal Type: '+ hotel_price.meal_type + '\n';
+            if(hotel_price.rooms[i].hasOwnProperty('room_size')){
+                text+= '<span class="meal_room"><b>Room Size:</b> <span>' + hotel_price.rooms[i].room_size.size+' '+hotel_price.rooms[i].room_size.unit+'</span></span><br/>';
+                $text2 += 'Room Size: ' + hotel_price.rooms[i].room_size.size+' '+hotel_price.rooms[i].room_size.unit + '\n';
+            }
+            text += `<div class="row">`;
+            for(j in hotel_price.rooms[i].nightly_prices){
+                date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
+                if (typeof upsell_price !== 'undefined'){
+                    last_day_price = hotel_price.rooms[i].nightly_prices[j].price + Math.ceil(upsell_price / total_room_night);
+                    if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((last_day_price))+'<span/></div>';
+                        //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                    }else{
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(last_day_price)+'<span/></div>';
+                        //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                    }
                 }else{
-                    text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(last_day_price)+'<span/></div>';
-                    //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                    if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                        //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                    }else{
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price)+'<span/></div>';
+                        //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                    }
                 }
-            }else{
-                if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
-                    text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                    //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
-                }else{
-                    text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price)+'<span/></div>';
-                    //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                for(k in hotel_price.rooms[i].nightly_prices[j].service_charges){
+                    if(hotel_price.rooms[i].nightly_prices[j].service_charges[k].charge_type == 'DISC'){
+                        discount_hotel += hotel_price.rooms[i].nightly_prices[j].service_charges[k].total;
+                    }
                 }
             }
-            for(k in hotel_price.rooms[i].nightly_prices[j].service_charges){
-                if(hotel_price.rooms[i].nightly_prices[j].service_charges[k].charge_type == 'DISC'){
-                    discount_hotel += hotel_price.rooms[i].nightly_prices[j].service_charges[k].total;
-                }
+            try{
+                grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
+                total_price_hotel += grand_total_price;
+                commission += parseInt(hotel_price.rooms[i].commission) *-1;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
             }
-        }
-        try{
-            grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
-            total_price_hotel += grand_total_price;
-            commission += parseInt(hotel_price.rooms[i].commission) *-1;
-        }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-        }
 
-        text += `<div class="col-lg-6">
-            <span style="font-weight:bold;">Total</span>
+            text += `<div class="col-lg-6">
+                <span style="font-weight:bold;">Total</span>
+            </div>`;
+            if(typeof upsell_price !== 'undefined' && upsell_price != 0)
+                text+=`
+            <div class="col-lg-6" style="text-align:right;">
+                <span style="font-weight:bold;">`+hotel_price.currency+` `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price ) +`</span>
+            </div>`;
+            else
+                text+=`
+            <div class="col-lg-6" style="text-align:right;">
+                <span style="font-weight:bold;">`+hotel_price.currency+` `+ getrupiah(hotel_price.rooms[i].price_total ) +`</span>
+            </div>`;
+
+            if(typeof upsell_price !== 'undefined' && upsell_price != 0)
+                $text2 += 'Total: '+hotel_price.currency+' ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price ) + '\n\n';
+            else
+                $text2 += 'Total: '+hotel_price.currency+' ' + getrupiah(hotel_price.rooms[i].price_total + discount_hotel) + '\n\n';
+            text += `
+            </div>
         </div>`;
-        if(typeof upsell_price !== 'undefined' && upsell_price != 0)
-            text+=`
-        <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">`+hotel_price.currency+` `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price ) +`</span>
-        </div>`;
-        else
-            text+=`
-        <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">`+hotel_price.currency+` `+ getrupiah(hotel_price.rooms[i].price_total ) +`</span>
-        </div>`;
-        text += `<div class="col-lg-12"><hr/></div>`;
-        if(typeof upsell_price !== 'undefined' && upsell_price != 0)
-            $text2 += 'Total: '+hotel_price.currency+' ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price ) + '\n\n';
-        else
-            $text2 += 'Total: '+hotel_price.currency+' ' + getrupiah(hotel_price.rooms[i].price_total + discount_hotel) + '\n\n';
-        text += `</div>`;
     }
 
     if(typeof(special_request) !== 'undefined'){
@@ -2707,7 +2728,7 @@ function hotel_detail(old_cancellation_policy){
     text += `</div>`;
 
     text += `<div>
-        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
 
     text += `<div class="row">
@@ -2786,32 +2807,40 @@ function hotel_detail(old_cancellation_policy){
         text+= print_commission(commission,'show_commission', hotel_price.currency)
     }
 
-    text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
-        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-        share_data2();
-        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-            text+=`
-                <a href="https://wa.me/?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                <a href="line://msg/text/`+ $text_share2 +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-        } else {
-            text+=`
-                <a href="https://web.whatsapp.com/send?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share2 +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share2" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-        }
-    text +=`</div></div><div class="row">`;
+    text += `
+    <div class="row">
+        <div class="col-lg-12" style="padding-bottom:15px;">
+            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+            share_data2();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`
+                    <a href="https://wa.me/?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                    <a href="line://msg/text/`+ $text_share2 +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                    <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+            } else {
+                text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share2 +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share2" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                    <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+            }
+            text +=`
+            <div style="float:right">
+                <button class="btn_standard_sm" type="button" onclick="copy_data2();">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">`;
 //    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //        text += `<div class="col-lg-12">
 //            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show YPM"/>
 //        </div>`;
     text += `
-    <div class="col-lg-12" style="padding-top:10px;">
-        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
-    </div></div>`;
+    </div>`;
 
 
     text += `</div>`;
