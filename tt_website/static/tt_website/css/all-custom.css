@@ -1312,12 +1312,6 @@ ul.popular2_tabs li.current .image-rounded-icon{
     z-index: 2;
 }
 
-.sorting-search-hotel{
-    position:sticky;
-    top: 66px;
-    z-index: 2;
-}
-
 .sticky-sort-filter {
    position: fixed;
    left: 0;
@@ -2878,9 +2872,6 @@ th input {
     font-weight:600;
     cursor:pointer;
     font-size:14px;
-    color:#205B95;
-}
-.span_link_cl:hover{
     color:#205B95;
 }
 

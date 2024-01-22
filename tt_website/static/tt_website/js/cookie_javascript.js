@@ -115,10 +115,12 @@ function checkCookie(type, check, page, version) {
                     }
                     else{
                         modal_promo = 'show';
-                        if(template != 2){
-                            $("#myModalPromotion").modal('show');
-                        }else{
-                            $("#myModalPromotion").modal();
+                        if(promotion_banner_value == 1){
+                            if(template != 2){
+                                $("#myModalPromotion").modal('show');
+                            }else{
+                                $("#myModalPromotion").modal();
+                            }
                         }
                     }
                 }else{
@@ -137,7 +139,11 @@ function checkCookie(type, check, page, version) {
                     modal_promo = 'show';
                 }
             }
-            setCookie("modal_promotion", modal_promo, 'promotion');
+            if(promotion_banner_value == 1){
+                setCookie("modal_promotion", modal_promo, 'promotion');
+            }else{
+                deleteCookie("modal_promotion", 'hide', 'promotion');
+            }
         }
     }
 }
@@ -165,4 +171,16 @@ function get_data_url(){
         }
     }
     return urlp;
+}
+
+function deleteCookie(cname, cvalue, type) {
+    if(type == 'promotion'){
+        end_second_del = moment().subtract(6, 'months').endOf('day').diff(moment(), 'seconds');
+    }
+
+    const del_date = new Date();
+    del_date.setTime(del_date.getTime() + (end_second_del*1000));
+    let expires = "expires="+del_date.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+
 }
