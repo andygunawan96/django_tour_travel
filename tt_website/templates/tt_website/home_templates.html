@@ -1200,12 +1200,12 @@
         get_dynamic_page('home');
         {% endif %}
 
-        {% if terms_value == 1 and promotion_banner_value == 1%}
-        get_term_and_condition('home');
-        {% elif terms_value == 1 %}
+        {% if terms_value == 1 %}
         get_term_and_condition('home');
         {% else %}
+        {% if promotion_banner_value == 1 %}
         get_banner('promotion','home');
+        {% endif %}
         {% endif %}
 
         var now = moment().format('DD MMM YYYY');

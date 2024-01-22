@@ -108,7 +108,9 @@ function get_term_and_condition(type){
                         document.getElementById('tac_text').innerHTML = "I Agree with the "+msg.result.response[0].title;
                         if(msg.result.response[0].active == 'active'){
                             checkCookie('tac', 'load', 'home', msg.result.response[0].version);
-                            get_banner('promotion','home');
+                            if(promotion_banner_value == 1){
+                                get_banner('promotion','home');
+                            }
                         }
                     }else if(type == 'footer'){
                         document.getElementById('about_ul').innerHTML += `<li style="margin-top:10px;"><a href="/terms">`+msg.result.response[0].title+`</a></li>`;
