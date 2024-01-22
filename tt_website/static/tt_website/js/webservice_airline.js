@@ -10630,6 +10630,16 @@ function airline_get_booking(data, sync=false){
                             }
                             text_print_booking += `</div>`;
                         }
+
+                        text_print_booking+=`
+                                <div class="col-lg-12">`;
+                                    text_print_booking+=`
+                                    <button type="button" id="button-print-ori-request" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:5px;" onclick="check_eligibility('`+msg.result.response.order_number+`');">
+                                        <i class="fas fa-print"></i> Check Eligibility
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </div>`;
+
                         text_print_booking+=`
                         </div>
                     </div>
@@ -19952,6 +19962,47 @@ function get_post_seat_availability_v2(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline seat availability');
+            $('.loader-rodextrip').fadeOut();
+            $('#show_loading_booking_airline').hide();
+            hide_modal_waiting_transaction();
+            $('.payment_method').prop('disabled', false).niceSelect('update');
+            $('#reissued_btn_dsb').prop('disabled', false);
+            $('#reissued_req_btn').prop('disabled', false);
+       },timeout: 300000
+    });
+}
+
+function check_eligibility(order_number){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'check_eligibility',
+       },
+       data: {
+            'signature': signature,
+            'order_number': order_number
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                // tambah disini
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline check_eligibility </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+                $('#show_loading_booking_airline').hide();
+                hide_modal_waiting_transaction();
+                $('.payment_method').prop('disabled', false).niceSelect('update');
+                $('#reissued_btn_dsb').prop('disabled', false);
+                $('#reissued_req_btn').prop('disabled', false);
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline check_eligibility');
             $('.loader-rodextrip').fadeOut();
             $('#show_loading_booking_airline').hide();
             hide_modal_waiting_transaction();
