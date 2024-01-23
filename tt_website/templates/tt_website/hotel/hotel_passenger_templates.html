@@ -1230,7 +1230,7 @@
         }
 
         for (var i = 1; i <= child; i++){
-            document.addEventListener("DOMContentLoaded", init_upload('child','{{forloop.counter}}'), false);
+            document.addEventListener("DOMContentLoaded", init_upload('child',i), false);
             document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
                 if (event.keyCode === 13) {
                     event.preventDefault();
