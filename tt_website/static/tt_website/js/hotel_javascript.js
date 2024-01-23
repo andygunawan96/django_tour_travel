@@ -1606,7 +1606,7 @@ function hotel_room_pick(key, key2){
         <div class="row" id="loading-detail-hotel-room">
             <div class="col-lg-12">
                 <ul style="padding-inline-start: 15px;">
-                    <li style="color:{{color}}; cursor:pointer; list-style-type:unset; font-weight:400;"><span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span></li>
+                    <li style="color:`+color+`; cursor:pointer; list-style-type:unset; font-weight:400;"><span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span></li>
                 </ul>
             </div>
         </div>`;
