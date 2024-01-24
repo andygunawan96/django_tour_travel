@@ -2587,9 +2587,8 @@ function airline_get_provider_list(type, data=''){
                 check_ff = 0;
                 is_wheelchair = 0
                 is_email_agent_to_vendor = 1;
-                email = '';
+                default_email = '';
                 calling_code = '';
-                calling_number = '';
                 for(i in airline_pick){
                     if(provider_list_data[airline_pick[i].provider].is_pre_frequent_flyer == true)
                         check_ff = 1;
@@ -2598,11 +2597,7 @@ function airline_get_provider_list(type, data=''){
                     if(provider_list_data[airline_pick[i].provider].hasOwnProperty('is_email_agent_to_vendor') && provider_list_data[airline_pick[i].provider].is_email_agent_to_vendor == false){
                         is_email_agent_to_vendor = 0;
                         if(provider_list_data[airline_pick[i].provider].email)
-                            email = provider_list_data[airline_pick[i].provider].email;
-                        if(provider_list_data[airline_pick[i].provider].phone){
-                            calling_code = provider_list_data[airline_pick[i].provider].phone.calling_code;
-                            calling_number = provider_list_data[airline_pick[i].provider].phone.calling_number;
-                        }
+                            default_email = provider_list_data[airline_pick[i].provider].email;
                     }
                 }
                 if(is_wheelchair == 1){
@@ -2842,14 +2837,34 @@ function airline_get_provider_list(type, data=''){
                     }
                 }
                 if(is_email_agent_to_vendor == 0){
-                    if(email){
+                    if(default_email){
                         document.getElementById('booker_email_div').style.display = 'none';
-                        document.getElementById('booker_email').value = email;
+                        document.getElementById('booker_email').value = default_email;
                     }
-                    if(calling_code && calling_number){
-                        $('#booker_phone_code_id').val(calling_code).trigger('change');
-                        document.getElementById('booker_phone').value = calling_number;
-                        document.getElementById('booker_phone_div').style.display = 'none';
+                    for(i=1;i<=adult;i++){
+                        document.getElementById('adult_email'+i).value = default_email;
+
+                    }
+                    for(i=1;i<=child;i++){
+                        document.getElementById('child_email'+i).value = default_email;
+                    }
+                    for(i=1;i<=infant;i++){
+                        document.getElementById('infant_email'+i).value = default_email;
+                    }
+                    if(typeof(student) === 'undefined'){
+                        for(i=1;i<=student;i++){
+                            document.getElementById('student_email'+i).value = default_email;
+                        }
+                    }
+                    if(typeof(labour) === 'undefined'){
+                        for(i=1;i<=labour;i++){
+                            document.getElementById('labour_email'+i).value = default_email;
+                        }
+                    }
+                    if(typeof(seaman) === 'undefined'){
+                        for(i=1;i<=seaman;i++){
+                            document.getElementById('seaman_email'+i).value = default_email;
+                        }
                     }
                 }
                 $(function() {
