@@ -5570,7 +5570,10 @@ function draw_get_price_itinerary(){
                                                                                             for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
                                                                                                 text_family_fare += `<span style="font-size:13px; display:block;"><i class="fas fa-caret-right"></i> `+family_provider_list[i].journeys[j].segments[k].fares[l].description[m]+`</span>`;
                                                                                             }
-                                                                                            text_family_fare += `<br/>`;
+                                                                                            text_family_fare+=`<br/>`;
+                                                                                        }
+                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].available_count > airline_request.adult + airline_request.child){
+                                                                                            text_family_fare+=`Seat left: `+family_provider_list[i].journeys[j].segments[k].fares[l].available_count;
                                                                                         }
                                                                                         text_family_fare+=`
                                                                                         <div style="width:100%; text-align:right; right: 10px; bottom: 10px; position: absolute;">`;
