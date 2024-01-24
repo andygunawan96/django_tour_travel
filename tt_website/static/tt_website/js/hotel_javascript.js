@@ -1623,7 +1623,7 @@ function hotel_room_pick(key, key2){
         //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
         //text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
         text += `
-        <div style="background:aliceblue; padding:15px; border-radius:5px; margin-bottom:15px;">
+        <div style="border:1px solid #cdcdcd; padding:15px; border-radius:5px; margin-bottom:15px;">
             <div style="display:flex;">
                 <div style="display:inline-block; padding-right:5px;">
                     <i class="fas fa-bed" style="font-size:14px"></i>
@@ -2611,7 +2611,7 @@ function hotel_detail(old_cancellation_policy){
     for(i in hotel_price.rooms){
         var idx_room = parseInt(i)+1;
         text += `
-        <div style="background:aliceblue; border-radius:5px; padding:15px; margin-bottom:15px;">
+        <div style="border:1px solid #cdcdcd; border-radius:5px; padding:15px; margin-bottom:15px;">
             <div style="display:flex;">
                 <div style="display:inline-block; padding-right:5px;">
                     <i class="fas fa-bed" style="font-size:14px"></i>

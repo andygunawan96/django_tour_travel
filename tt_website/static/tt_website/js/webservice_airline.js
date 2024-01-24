@@ -10584,7 +10584,7 @@ function airline_get_booking(data, sync=false){
                                 text_print_booking+=`
                                 <div class="col-lg-12">`;
                                     text_print_booking+=`
-                                    <button type="button" id="button-print-ori-request" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:5px;" onclick="get_new_ori_ticket_printout('`+msg.result.response.order_number+`');">
+                                    <button type="button" id="button-print-ori-request" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:15px;" onclick="get_new_ori_ticket_printout('`+msg.result.response.order_number+`');">
                                         <i class="fas fa-print"></i> Request New Ori Ticket
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>

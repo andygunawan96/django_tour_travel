@@ -97,8 +97,8 @@
                             <span><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <button id="show_total_pax_hotel_wizard" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                <ul class="dropdown-menu" role="menu" style="z-index:5;">
-                                    <div class="row" style="padding:10px;">
+                                <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                    <div class="row">
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                             <div style="float:left;">
                                                 <label>
@@ -235,10 +235,14 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.code == "hotel" %}
-<section class="pt-3 pb-3">
+<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <h1 class="mb-3">
+                    <img class="prd_img" src="/static/tt_website/images/icon/product/c-hotel.png" alt="Hotel Icon">
+                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                </h1>
                 <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
                     {{greeting_login.greeting}} <span style="color:{{color}};">{{greeting_login.website_name}}</span>
@@ -246,18 +250,6 @@
                     {{greeting_b2c}}
                     {% endif %}
                 </span>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>
-                    <img class="prd_img" src="/static/tt_website/images/icon/product/c-hotel.png" alt="Hotel Icon">
-                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                </h1>
             </div>
         </div>
     </div>
@@ -294,8 +286,8 @@
                                         <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                            <ul class="dropdown-menu" role="menu" style="z-index:5;">
-                                                <div class="row" style="padding:10px;">
+                                            <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                                <div class="row">
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                         <div style="float:left;">
                                                             <label>
@@ -438,7 +430,7 @@
                     </div>
                 </div>
                 {% elif template == 2 %}
-                <div class="hotel-search-form-area" style="position:relative; bottom:unset; padding-left: unset; padding-right:unset;">
+                <div class="hotel-search-form-area" style="position:relative; bottom:unset; padding-left: unset; padding-right:unset; z-index:999;">
                     <div class="hotel-search-form">
                         <div class="tab_body" style="min-height:300px; border:2px solid #cdcdcd;">
                             <div id="tab-hotel" class="tab-content current">
@@ -464,8 +456,8 @@
                                         <div class="col-lg-6 col-md-6">
                                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                             <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                            <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset;">
-                                                <div class="row" style="padding:10px;">
+                                            <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset; padding:15px;">
+                                                <div class="row">
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                         <div style="float:left;">
                                                             <label>
@@ -643,8 +635,8 @@
                                         <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                         <div class="form-group">
                                             <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                            <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset;">
-                                                <div class="row" style="padding:10px;">
+                                            <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset; padding:15px;">
+                                                <div class="row">
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                         <div style="float:left;">
                                                             <label>
@@ -824,8 +816,8 @@
                                                         <div class="input-container-search-ticket btn-group">
                                                             <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                             <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                                            <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset;">
-                                                                <div class="row" style="padding:10px;">
+                                                            <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset; padding:15px;">
+                                                                <div class="row">
                                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                                         <div style="float:left;">
                                                                             <label>
@@ -1006,8 +998,8 @@
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
                                                         <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                                        <ul class="dropdown-menu" role="menu" style="z-index:5; overflow:unset; ">
-                                                            <div class="row" style="padding:10px;">
+                                                        <ul class="dropdown-menu" role="menu" style="z-index:5; overflow:unset; padding:15px;">
+                                                            <div class="row">
                                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                                     <div style="float:left;">
                                                                         <label>
@@ -1184,8 +1176,8 @@
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
                                                         <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                                        <ul class="dropdown-menu" role="menu" style="z-index:9;">
-                                                            <div class="row" style="padding:10px;">
+                                                        <ul class="dropdown-menu" role="menu" style="z-index:9; padding:15px;">
+                                                            <div class="row">
                                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                                     <div style="float:left;">
                                                                         <label>
@@ -1362,8 +1354,8 @@
                                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                                <ul class="dropdown-menu" role="menu" style="z-index:9;">
-                                                    <div class="row" style="padding:10px;">
+                                                <ul class="dropdown-menu" role="menu" style="z-index:9; padding:15px;">
+                                                    <div class="row">
                                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                             <div style="float:left;">
                                                                 <label>
@@ -1781,12 +1773,12 @@
 
             try{
                 {% if cache.hotel.checkout %}
-                    hotel_checkin = cache.hotel.checkout;
+                    hotel_checkout = cache.hotel.checkout;
                 {% else %}
-                    hotel_checkin = moment().subtract(-2, 'days').format('DD MMM YYYY');
+                    hotel_checkout = moment().subtract(-2, 'days').format('DD MMM YYYY');
                 {% endif %}
             }catch(err){
-                hotel_checkin = moment().subtract(-2, 'days').format('DD MMM YYYY');
+                hotel_checkout = moment().subtract(-2, 'days').format('DD MMM YYYY');
             }
 
             var oneDay = 24*60*60*1000;
