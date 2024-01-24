@@ -5753,7 +5753,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     $('#booker_nationality_id').val(passenger_data[sequence].nationality_code).trigger('change');
                     $('#booker_nationality_id').select2({"disabled":true});
                 }
-                document.getElementById('booker_email').value = passenger_data[sequence].email;
+                if(passenger_data[sequence].email)
+                    document.getElementById('booker_email').value = passenger_data[sequence].email;
                 try{
                     var phone = document.getElementById('phone_chosen'+sequence).value;
                     if(phone != false){

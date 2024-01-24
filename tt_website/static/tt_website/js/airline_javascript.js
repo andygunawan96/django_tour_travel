@@ -12196,7 +12196,10 @@ function update_contact_cp(val){
         temp++;
     }
     if(document.getElementById('adult_cp'+val.toString()).checked == true){
-        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        if(typeof(default_email) !== 'undefined' && default_email)
+            document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        else
+            document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
     }else{
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
