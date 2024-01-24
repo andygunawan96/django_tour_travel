@@ -606,7 +606,12 @@ function render_corbooker_list(prov_type){
     document.getElementById(prov_type+'_corpor_select_post').value = cor_sel_value;
     text = ``;
     for(i in agent_corpor_data[cor_sel_value].booker_data){
-        text += `<option value="`+i+`">`+agent_corpor_data[cor_sel_value].booker_data[i].name+`</option>`;
+        text += `<option value="`+i+`">`+agent_corpor_data[cor_sel_value].booker_data[i].name;
+        if(agent_corpor_data[cor_sel_value].booker_data[i].job_position_name != '')
+        {
+            text += ` (`+agent_corpor_data[cor_sel_value].booker_data[i].job_position_name+`)`;
+        }
+        text += `</option>`;
     }
     document.getElementById(prov_type+'_corbooker_select').innerHTML = text;
     $('#'+prov_type+'_corbooker_select').select2();
