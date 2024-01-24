@@ -287,13 +287,15 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 mb-3">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans 'Contact Email Address' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" style="margin-bottom:0px;" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('airline');">
+                                        <div class="col-lg-6 mb-3" >
+                                            <div id="booker_email_div">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'Contact Email Address' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" style="margin-bottom:0px;" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('airline');">
+                                                </div>
+                                                <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                             </div>
-                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                         </div>
 
                                         <div class="col-lg-6">
@@ -722,13 +724,15 @@
                                                 {% endif %}
                                                 {% endfor %}
 
-                                                <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
-                                                    <label style="color:red">*</label>
-                                                    <label>{% trans 'Contact Email Address' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" style="margin-bottom:0px;" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                <div class="col-lg-6 mb-3">
+                                                    <div id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                                        <label style="color:red">*</label>
+                                                        <label>{% trans 'Contact Email Address' %}</label>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control" style="margin-bottom:0px;" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                        </div>
+                                                        <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                                     </div>
-                                                    <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                                 </div>
                                                 <div class="col-lg-6"></div>
                                                 <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
