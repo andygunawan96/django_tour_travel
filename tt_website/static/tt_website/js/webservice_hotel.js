@@ -966,7 +966,7 @@ function hotel_facility_request_1(hotel_facilities){
                             new_html = `
                             <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
                                 <i class="fas fa-circle" style="font-size:9px;"></i>
-                                <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
+                                <span style="font-weight:500;">• `+ hotel_facilities[rec].facility_name +`</span>
                             </div>`;
                             break;
                         }
@@ -974,7 +974,7 @@ function hotel_facility_request_1(hotel_facilities){
                             new_html = `
                             <div class="col-md-3 col-sm-4 col-xs-6" style="width:25%; padding-bottom:15px;">
                                 <i class="fas fa-circle" style="font-size:9px;"></i>
-                                <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
+                                <span style="font-weight:500;">• `+ hotel_facilities[rec].facility_name +`</span>
                             </div>`;
                             break;
                         }
@@ -982,8 +982,7 @@ function hotel_facility_request_1(hotel_facilities){
                     if (new_html === '' || facility_image[i].facility_image == false){
                         new_html = `
                         <div class="col-md-3 col-sm-4 col-xs-6" style="width:25%; padding-bottom:15px;">
-                            <i class="fas fa-circle" style="font-size:9px;"></i>
-                            <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
+                            <span style="font-weight:500;">• `+ hotel_facilities[rec].facility_name +`</span>
                         </div>`;
                     }
                     facility_image_html += new_html;
@@ -1043,11 +1042,8 @@ function hotel_facility_request(hotel_facilities){
 
     }catch(err){
         facility_image_html += `
-        <div class="row">
-            <div class="col-lg-12">
-                <span style="font-weight:500;font-size:18px;">•</span>
-                <span style="font-weight:500;">No Facility to show right now</span>
-            </div>
+        <div class="col-lg-12">
+            <span style="font-weight:500;">• No Facility to show right now</span>
         </div>`;
         document.getElementById("js_image_facility").innerHTML = facility_image_html;
     }
@@ -3404,129 +3400,122 @@ function hotel_get_booking(data){
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
                     $text += msg.result.response.state + '\n';
                     text = `
-                    <div class="row">
-                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`</h4>
-                        </div>
-                    </div>`;
-                    if(msg.result.response.hotel_name != false){
-                        text+=`
-                        <h4>`+msg.result.response.hotel_name+`</h4>`;
-                    }
-                    if(msg.result.response.hotel_address != false){
-                        text+=`<b>Address: </b><i>`+msg.result.response.hotel_address+`</i><br/>`;
-                    }
-
-                    if(msg.result.response.hotel_phone != false){
-                        text+=`<b>Phone: </b><i>`+msg.result.response.hotel_phone+`</i><br/>`;
-                    }
-
-                    text+=`<b>Check In: </b><i>`+msg.result.response.checkin_date+`</i><br/>`;
-                    text+=`<b>Check Out: </b><i>`+msg.result.response.checkout_date+`</i><hr/>`;
-
-                    text+=`
-                    <table style="width:100%;">
-                        <tr>
-                            <th style="font-size:14px;"><b>Booking Code</b></th>
-                            <th style="font-size:14px;"><b>Status</b></th>
-                        </tr>`;
-                        for(i in msg.result.response.hotel_rooms){
-                            if(list_pnr.includes(msg.result.response.hotel_rooms[i].prov_issued_code) == false){
-                                text+=`
-                                    <tr>`;
-                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                    text+=`
-                                        <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
-                                else
-                                    text+= `<td> - </td>`;
-                                text+=`<td>`;
-
-                                if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Expired' ||
-                                    msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Cancel2' ||
-                                    msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Fail_issued'){
-                                    text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
-                                }
-                                else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Booked'){
-                                    text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
-                                }
-                                else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Issued'){
-                                    text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
-                                }
-                                else{
-                                    text+=`<span>`;
-                                }
-
-                                text+=``+msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase()+`
-                                        </span>
-                                    </td>
-                                </tr>`;
-                                list_pnr.push(msg.result.response.hotel_rooms[i].prov_issued_code);
-                            }
-                        }
-                    text+=`
-                    </table>
-                    <hr/>`;
-
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                        text+=`
-                        <div class="row mb-3">
-                            <div class="col-lg-6">
-                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
-                            </div>`;
-                        if(msg.result.response.customer_parent_name){
-                            text+=`
-                            <div class="col-lg-6">
-                                <b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>
-                            </div>`;
-                        }
-                        text+= `</div>`;
-                    }
-                    text+=`
-                    <div class="row">
-                        <div class="col-lg-3 mb-3">
-                            <span>
-                                <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
-                            </span>
-                        </div>
-                        <div class="col-lg-5 mb-3">
-                            <span>
-                                <b>Booked Date: </b><br>
-                                <i>`;
-                                if(msg.result.response.booked_date != ""){
-                                    text+=``+msg.result.response.booked_date+``;
-                                }else{
-                                    text+=`-`;
-                                }
-                                text+=`
-                                </i>
-                            </span>
-                        </div>
-                    </div>`;
-                    if(msg.result.response.state == 'issued'){
-                        text+=`
+                    <div class="div_box_default">
                         <div class="row">
-                            <div class="col-lg-3 mb-3">
-                                <span>
-                                    <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
-                                </span>
-                            </div>
-                            <div class="col-lg-5 mb-3">
-                                <span>
-                                    <b>Issued Date: </b><br>
-                                    <i>`;
-                                    if(msg.result.response.issued_date != ""){
-                                        text+=``+msg.result.response.issued_date+``;
-                                    }else{
-                                        text+=`-`;
-                                    }
-                                    text+=`
-                                    </i>
-                                </span>
+                            <div class="col-lg-12">
+                                <h4 class="mb-3"><i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`</h4>
                             </div>
                         </div>`;
-                    }
+
+                        text+=`
+                        <table class="list-of-table mb-3" style="width:100%; background:white;">
+                            <tr>
+                                <th style="font-size:14px;"><b>Booking Code</b></th>
+                                <th style="font-size:14px;"><b>Status</b></th>
+                            </tr>`;
+                            for(i in msg.result.response.hotel_rooms){
+                                if(list_pnr.includes(msg.result.response.hotel_rooms[i].prov_issued_code) == false){
+                                    text+=`
+                                        <tr>`;
+                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                        text+=`
+                                            <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
+                                    else
+                                        text+= `<td> - </td>`;
+                                    text+=`<td>`;
+
+                                    if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Expired' ||
+                                        msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Cancel2' ||
+                                        msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Fail_issued'){
+                                        text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                    }
+                                    else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Booked'){
+                                        text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                    }
+                                    else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Issued'){
+                                        text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                    }
+                                    else{
+                                        text+=`<span>`;
+                                    }
+
+                                    text+=``+msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase()+`
+                                            </span>
+                                        </td>
+                                    </tr>`;
+                                    list_pnr.push(msg.result.response.hotel_rooms[i].prov_issued_code);
+                                }
+                            }
+                        text+=`
+                        </table>
+                        <div class="row">`;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                text+=`
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                        </div>
+                                        <div class="col-lg-6">`;
+                                            if(msg.result.response.customer_parent_name){
+                                                text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                            }
+                                        text+=`
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                            text+=`
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <span>
+                                            <b>Booked by: </b><i>`+msg.result.response.booked_by+`</i>
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <span>
+                                            <b>Booked Date: </b>`;
+                                            if(msg.result.response.booked_date != ""){
+                                                text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                                            }else{
+                                                text+=`-`;
+                                            }
+                                        text+=`
+                                        </span><br/>
+                                    </div>
+                                </div>
+                            </div>`;
+
+                            if(msg.result.response.state == 'issued'){
+                                text+=`
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span>
+                                                <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span>
+                                                <b>Issued Date: </b>`;
+                                                if(msg.result.response.issued_date != ""){
+                                                    text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                                }else{
+                                                    text+=`-`;
+                                                }
+                                            text+=`
+                                            </span><br/>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                        text+=`
+                        </div>
+                    </div>`;
 
                    document.getElementById('hotel_booking').innerHTML = text;
+
                    if(can_issued){
                        if(msg.result.response.state != 'issued'){
                            if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
@@ -3547,106 +3536,167 @@ function hotel_get_booking(data){
                        }
                    }
                    text = `
-                   <div class="row">
-                       <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                          <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-hotel.png" alt="hotel" style="width:20px; height:20px;"> List of Room</h4>
-                       </div>
-                   </div>`;
+                   <div class="div_box_default mb-3">
+                       <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><img src="/static/tt_website/images/icon/product/b-hotel.png" alt="Hotel" style="width:20px; height:20px;"> Hotel Detail</h4>
+                                    </div>
+                                </div>`;
 
-                   for(i in msg.result.response.hotel_rooms){
-                        var num_rooms = parseInt(i)+1;
-                        if(num_rooms == 1){
-                            text+=`<div class="mb-3">
-                            <div class="row">`;
-                        }else{
-                            text+=`<div style="border-top:1px solid #cdcdcd;">
-                            <div class="row mt-3">`;
-                        }
+                                if(msg.result.response.hotel_name != false){
+                                    text+=`<h4>`+msg.result.response.hotel_name+`</h4>`;
+                                }
 
-                        text+=`
-                                <div class="col-lg-2">
-                                    <h5 class="single_border_custom_left" style="padding-left:5px;">#`+ num_rooms +`</h5>
-                                </div>
-                                <div class="col-lg-10">
-                                    <h5>
-                                        `+msg.result.response.hotel_rooms[i].room_name;
-                                        if(msg.result.response.hotel_rooms[i].room_type != '')
-                                           text+=`<br/>`+msg.result.response.hotel_rooms[i].room_type;
-                                    text+=`
-                                    </h5>
-                                    <span><b>Room: </b>1</span><br/>
-                                    <span><b>Max Person: </b><i>`+msg.result.response.hotel_rooms[i].person+` Adult</i></span><br/>
-                                </div>
-                                <div class="col-lg-12 mt-2">`;
-                                    text+=`
-                                    <span><b>Date: </b></span><br/>`;
-                                    total_room_night = 0;
-                                    for(j in msg.result.response.hotel_rooms[i].dates){
-                                        total_room_night += msg.result.response.hotel_rooms[i].dates.length;
-                                    }
-                                    for(j in msg.result.response.hotel_rooms[i].dates){
-                                        if(j > 0){
-                                            text+=`<div class="mb-2"></div>`;
-                                        }
-                                        text+=`
-                                        <i>`+msg.result.response.hotel_rooms[i].dates[j].date+`</i><br/>
-                                        Meal type:
-                                        <i>`+msg.result.response.hotel_rooms[i].dates[j].meal_type+`</i><br/>`;
-                                        total_price_print = msg.result.response.hotel_rooms[i].dates[j].sale_price;
-                                        if(csc)
-                                            total_price_print += Math.ceil(csc/total_room_night);
-                                        text+=`Rate: <i>`+msg.result.response.hotel_rooms[i].currency+` `+getrupiah(total_price_print)+`</i>`;
-                                    }
+                                if(msg.result.response.hotel_rating == 0){
+                                    text+=`<span>(Unrated)</span><br/>`;
+                                }else{
+                                    text+=`<i class="fas fa-star" style="color:#FFC44D;"></i><br/>`;
+                                }
+
+                                if(msg.result.response.hotel_address != false){
+                                    text+=`<i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `+msg.result.response.hotel_address+`</i><br/>`;
+                                }
+
+                                if(msg.result.response.hotel_phone != false){
+                                    text+=`<i class="fas fa-phone"></i> <i>`+msg.result.response.hotel_phone+`</i><br/>`;
+                                }
+
                                 text+=`
+                                <i class="fas fa-calendar-alt"></i> <i>`+msg.result.response.checkin_date+` - `+msg.result.response.checkout_date+`</i>
+                            </div>
+                            <div class="col-lg-12 pt-3 mt-3" style="border-top:1px solid #cdcdcd;">
+                                <h4 class="mb-3">
+                                    List of Rooms
+                                </h4>
+                            </div>
+                       </div>`;
+
+                       for(i in msg.result.response.hotel_rooms){
+                            var num_rooms = parseInt(i)+1;
+                            text+=`
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div style="background:aliceblue; border-radius:5px; padding:15px;">
+                                        <div class="row">
+                                            <div class="col-lg-12" style="margin-bottom:10px;">
+                                                <div style="display:flex;">
+                                                    <div style="display:inline-block; padding-right:5px;">
+                                                        <i class="fas fa-bed" style="font-size:14px"></i>
+                                                    </div>
+                                                    <div style="display:inline-block;" title="`+msg.result.response.hotel_rooms[i].room_name+`">
+                                                        <h5>Room #`+ num_rooms +`</h5>
+                                                        <span style="font-size:16px;">`+msg.result.response.hotel_rooms[i].room_name+`</span><br/>`;
+                                                        if(msg.result.response.hotel_rooms[i].room_type != '')
+                                                           text+=msg.result.response.hotel_rooms[i].room_type+`, `;
+                                                       text+=`
+                                                        <span><b>Room: </b>1</span>,
+                                                        <span><b>Max Person: </b>`+msg.result.response.hotel_rooms[i].person+` Adult</span>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                            total_room_night = 0;
+                                            for(j in msg.result.response.hotel_rooms[i].dates){
+                                                total_room_night += msg.result.response.hotel_rooms[i].dates.length;
+                                            }
+                                            for(j in msg.result.response.hotel_rooms[i].dates){
+                                                text+=`
+                                                <div class="col-lg-4 col-md-6">
+                                                    <div style="border:1px solid #cdcdcd; padding:10px; border-radius:5px;">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                    <i>`+msg.result.response.hotel_rooms[i].dates[j].date+`</i><br/>
+                                                    <i class="fas fa-utensils"></i> Meal type:
+                                                    <i>`+msg.result.response.hotel_rooms[i].dates[j].meal_type+`</i><br/>`;
+                                                    total_price_print = msg.result.response.hotel_rooms[i].dates[j].sale_price;
+                                                    if(csc)
+                                                        total_price_print += Math.ceil(csc/total_room_night);
+                                                    text+=`Rate: <i>`+msg.result.response.hotel_rooms[i].currency+` `+getrupiah(total_price_print)+`</i>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                    text+=`
                                     </div>
                                 </div>
                              </div>
                         </div>`;
                     }
-
+                    text+=`</div>`;
 
                     document.getElementById('hotel_list_room').innerHTML = text;
 
                     text = '';
                     text +=`
                     <div class="row">
-                       <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Guest</h4>
+                        <div class="col-lg-12">
+                            <div class="div_box_default mb-3">
+                                <div class="row">
+                                   <div class="col-lg-12" style="border-bottom:1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-users"></i> List of Guest</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12" style="padding:0px;">`;
+                                        for(i in msg.result.response.passengers){
+                                            var new_int = parseInt(i)+1;
+                                            text+=`
+                                            <div style="background: aliceblue; padding:15px; border-bottom:1px solid #cdcdcd;">
+                                                <div class="row">
+                                                   <div class="col-lg-12">
+                                                       <h5 style="padding-top:10px;">
+                                                           Adult #`+ new_int +`
+                                                       </h5>
+                                                       <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                                           <div>`;
+                                                           if(msg.result.response.passengers[i].title == 'MR'){
+                                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                                           }
+                                                           else if(msg.result.response.passengers[i].title == 'MRS'){
+                                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                                           }
+                                                           else if(msg.result.response.passengers[i].title == 'MS'){
+                                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                                           }
+                                                           else if(msg.result.response.passengers[i].title == 'MSTR'){
+                                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">`;
+                                                           }
+                                                           else if(msg.result.response.passengers[i].title == 'MISS'){
+                                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                                           }
+                                                           text+=`
+                                                           </div>
+                                                           <div style="margin-left:10px;">
+                                                               <h5>
+                                                                   `+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name;
+                                                                   if(msg.result.response.passengers[i].title == 'MR' || msg.result.response.passengers[i].title == 'MRS' || msg.result.response.passengers[i].title == 'MS' ){
+                                                                       text+=`
+                                                                       <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">
+                                                                           Adult
+                                                                       </b>`;
+                                                                   }else{
+                                                                       text+=`
+                                                                       <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">
+                                                                           Child
+                                                                       </b>`;
+                                                                   }
+                                                               text+=`
+                                                               </h5>`;
+                                                               if(msg.result.response.passengers[i].birth_date){
+                                                                    text+=`<b>Birth Date:</b> <i>`+msg.result.response.passengers[i].birth_date+`</i>`;
+                                                               }
+                                                               text+=`
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                            </div>`;
+                                        }
+                                        text+=`
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>`;
-
-                    for(i in msg.result.response.passengers){
-                        var new_int = parseInt(i)+1;
-                        if(new_int == 1){
-                            text+=`<div style="padding: 10px 0px;">`;
-                        }else{
-                            text+=`<div style="border-top:1px solid #cdcdcd; padding: 10px 0px;">`;
-                        }
-
-                        text+=`
-                             <div class="row">
-                                <div class="col-lg-2">
-                                    <h5 class="single_border_custom_left" style="padding-left:5px;">#`+ new_int +`</h5>
-                                </div>
-                                <div class="col-lg-9">
-                                    <h5>`+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`
-                                    <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">`;
-                                        if(msg.result.response.passengers[i].title == 'MR' || msg.result.response.passengers[i].title == 'MRS' || msg.result.response.passengers[i].title == 'MS' ){
-                                            text+=`Adult`;
-                                        }else{
-                                            text+=`Child`;
-                                        }
-                                    text+=`
-                                    </b>
-                                    </h5>`;
-                                    if(msg.result.response.passengers[i].birth_date)
-                                        text+=`
-                                    <span><b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i></span>`;
-                                    text+=`
-                                </div>
-                             </div>
-                        </div>`;
-                    }
 
                     document.getElementById('hotel_passenger').innerHTML = text;
                     if(msg.result.response.state == 'issued' || msg.result.response.state == 'booked'){
@@ -3659,135 +3709,131 @@ function hotel_get_booking(data){
                             <div class="row">`;
                         if (msg.result.response.state == 'issued'){
                             text+=`
-                                <div class="col-lg-6">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
-                                        <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>`;
+                            <div class="col-lg-12">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
                         }
                         text+=`
-                                <div class="col-lg-6">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">Force get new printout</span>
-                                        <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>`;
+                            <div class="col-lg-12">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Force get new printout</span>
+                                    <input type="checkbox" id="is_force_get_new_printout" name="is_force_get_new_printout"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
                         text += `
                             </div>`;
 
                         document.getElementById('hotel_hide_logo_opt_cont').innerHTML = text;
 
-                        text=`
-                                <div class="col-sm-6">`;
-
+                        text=`<div class="col-sm-12">`;
                         if (msg.result.response.state == 'issued'){
                             text+=`
-                                    <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','hotel');">
-                                        <i class="fas fa-print"></i> Print Voucher
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>`;
+                            <button type="button" id="button-choose-print" style="text-align:left; width:100%;" class="primary-btn-white ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','hotel');">
+                                <i class="fas fa-print"></i> Print Voucher
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
                         }else if(msg.result.response.state == 'booked'){
                             text+=`
-                                    <button type="button" id="button-print-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','hotel');">
-                                        <i class="fas fa-print"></i> Print Form
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>`;
+                            <button type="button" id="button-print-print" style="text-align:left; width:100%;" class="primary-btn-white ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','hotel');">
+                                <i class="fas fa-print"></i> Print Form
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
                         }
-                        text+=`
-                               </div>`;
-                        text+=`
-                            <div class="col-sm-6">`;
-
+                        text+=`</div>
+                        <div class="col-lg-12">`;
                         if (msg.result.response.state == 'issued'){
                             text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                    <button type="button" class="primary-btn-white" style="text-align:left; width:100%;" data-toggle="modal" data-target="#printInvoice">
+                                        <i class="fas fa-print"></i> Print Invoice
+                                    </button>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </a>`;
                             // modal invoice
                             text+=`
-                                <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                    <div class="modal-dialog">
+                            <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
 
-                                      <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Invoice</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Invoice</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                    <span class="control-label" for="Name">Name</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                    <span class="control-label" for="Additional Information">Additional Information</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                    <span class="control-label" for="Address">Address</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                        <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="modal-body">
-                                                <div class="row">
+
+                                            <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                        <span class="control-label" for="Name">Name</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                        <span class="control-label" for="Additional Information">Additional Information</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <textarea style="width:100%; resize: none;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                                        <span class="control-label" for="Address">Address</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <textarea style="width:100%; resize: none;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                            <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                        </div>
-                                                    </div>
+                                                        <span class="control-label" for="Name">Included Rooms</span>
+                                                        <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
+                                                        for (resv_pax in hotel_get_detail.result.response.hotel_rooms)
+                                                        {
+                                                            text += `
+                                                            <tr>
+                                                                <td>
+                                                                    <span id="resv_pax_value`+resv_pax+`">`+hotel_get_detail.result.response.hotel_rooms[resv_pax].room_name+` (`+hotel_get_detail.result.response.hotel_rooms[resv_pax].meal_type+`) </span>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="check_box_custom cblabel">
+                                                                        <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
+                                                                        <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>`;
+                                                        }
+                                           text += `</table></div>
                                                 </div>
 
-                                                <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                            <span class="control-label" for="Name">Included Rooms</span>
-                                                            <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
-                                                            for (resv_pax in hotel_get_detail.result.response.hotel_rooms)
-                                                            {
-                                                                text += `
-                                                                <tr>
-                                                                    <td>
-                                                                        <span id="resv_pax_value`+resv_pax+`">`+hotel_get_detail.result.response.hotel_rooms[resv_pax].room_name+` (`+hotel_get_detail.result.response.hotel_rooms[resv_pax].meal_type+`) </span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="check_box_custom cblabel">
-                                                                            <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
-                                                                            <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
-                                                                        </label>
-                                                                    </td>
-                                                                </tr>`;
-                                                            }
-                                               text += `</table></div>
-                                                    </div>
-
+                                            <br/>
+                                            <div style="text-align:right;">
+                                                <span>Don't want to edit? just submit</span>
                                                 <br/>
-                                                <div style="text-align:right;">
-                                                    <span>Don't want to edit? just submit</span>
-                                                    <br/>
-                                                    <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','hotel');">
-                                                        Submit
-                                                        <div class="ld ld-ring ld-cycle"></div>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','hotel');">
+                                                    Submit
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
                                             </div>
                                         </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
-                                </div>`;
+                                </div>
+                            </div>`;
                         }else if(msg.result.response.state == 'booked'){
                             text+=`
-                                    <button type="button" id="button-print-itin-price" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','hotel');">
-                                        <i class="fas fa-print"></i> Print Form (Price)
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>`;
+                            <button type="button" id="button-print-itin-price" style="text-align:left; width:100%;" class="primary-btn-white ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','hotel');">
+                                <i class="fas fa-print"></i> Print Form (Price)
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
                         }
-                        text+=`
-                            </div>`;
+                        text+=`</div>`;
                         document.getElementById('hotel_btn_printout').innerHTML = text;
                     }
 
@@ -3803,7 +3849,7 @@ function hotel_get_booking(data){
                     currency = '';
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_detail=`
-                    <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                    <div class="div_box_default mb-3">
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                <h4 class="mb-3">Price Detail</h4>
@@ -3813,10 +3859,10 @@ function hotel_get_booking(data){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                         if(msg.result.response.hotel_rooms)
                             text_detail+=`
-                                <div style="text-align:left">
-                                    <span style="font-weight:700; font-size:14px;">Booking Code / PNR:<span><br/>
-                                    <span style="font-weight:400; font-size:14px;">`+msg.result.response.hotel_rooms[0].prov_issued_code+` </span>
-                                </div>`;
+                            <div style="text-align:left; margin-bottom:10px;">
+                                <span style="font-weight:700; font-size:14px;">Booking Code / PNR<span><br/>
+                                <span style="font-weight:400; font-size:14px;"><i>`+msg.result.response.hotel_rooms[0].prov_issued_code+`</i></span>
+                            </div>`;
 
                     var idx = 0;
                     var pnr_dict = []; //description
@@ -3868,10 +3914,11 @@ function hotel_get_booking(data){
 
                     $text += '\nPrice:\n';
 
-                    text_detail += `<div class="mt-3">
-                        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
+                    text_detail += `
+                    <div class="mt-3">
+                        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div_hotel('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
                     </div>`;
-                    text_detail += `<div id="price_detail_hotel_div" style="display:none;">`;
+                    text_detail += `<div id="price_detail_hotel_div" style="display:block;">`;
                     csc = 0;
                     for(i in msg.result.response.hotel_rooms){
                         try{
@@ -3967,37 +4014,43 @@ function hotel_get_booking(data){
                         try{
                             var idx_room = parseInt(i)+1;
                             text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <h6><span style="color:`+color+`;">Room #`+idx_room+` </span>`+msg.result.response.hotel_rooms[i].room_name+`</h6>
-                                    <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].room_type+`</span><br/>`;
-                                    for(j in msg.result.response.hotel_rooms[i].dates){
-                                        text_detail+=`<span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].dates[j].date+`</span><br/>`;
-                                    }
-                                text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <br/>`;
-                                    for(j in msg.result.response.hotel_rooms[i].dates){
-                                        text_detail+=`<br/>`;
-                                    }
-                                    try{
-                                    var total_per_room = parseInt(0);
-                                    total_room = msg.result.response.hotel_rooms.length;
+                            <div style="border:1px solid #cdcdcd; border-radius:5px; padding:15px; margin-bottom:15px;">
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-12" style="border-bottom:1px solid #cdcdcd; padding-bottom:10px; margin-bottom:10px;">
+                                        <div style="display:flex;">
+                                            <div style="display:inline-block; padding-right:5px;">
+                                                <i class="fas fa-bed" style="font-size:14px"></i>
+                                            </div>
+                                            <div style="display:inline-block;" title="`+msg.result.response.hotel_rooms[i].room_name+`">
+                                                <h5>Room #`+idx_room+`</h5>
+                                                <span style="font-size:16px;">`+msg.result.response.hotel_rooms[i].room_name+`</span><br/>
+                                                <span>`+msg.result.response.hotel_rooms[i].room_type+`</span><br/>`;
+                                                text_detail+=`
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">`;
+                                        for(j in msg.result.response.hotel_rooms[i].dates){
+                                            text_detail+=`<span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].dates[j].date+`</span><br/>`;
+                                        }
+                                        try{
+                                            var total_per_room = parseInt(0);
+                                            total_room = msg.result.response.hotel_rooms.length;
 
-                                    for(j in msg.result.response.hotel_rooms[i].dates){
-                                        total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
-                                    }
-                                    if(csc)
-                                        total_per_room += Math.ceil(csc/total_room);
+                                            for(j in msg.result.response.hotel_rooms[i].dates){
+                                                total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
+                                            }
+                                            if(csc)
+                                                total_per_room += Math.ceil(csc/total_room);
+                                                text_detail+=`<span style="font-size:13px; font-weight:700; float:right;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
+                                        }catch(err){
+                                            console.log(err); // error kalau ada element yg tidak ada
+                                        }
                                         text_detail+=`
-                                    <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
-                                    }catch(err){
-                                        console.log(err); // error kalau ada element yg tidak ada
-                                    }
-                                    text_detail+=`
+                                    </div>
                                 </div>
                             </div>`;
-                            text_detail += `<div class="row"><div class="col-lg-12"><hr/></div></div>`;
+
                             try{
                                 for(j in msg.result.response.hotel_rooms[i].dates){
                                     $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
@@ -4012,8 +4065,9 @@ function hotel_get_booking(data){
                         }catch(err){console.log(err);}
                     }
                     text_detail += `</div>`;
-                    text_detail += `<div>
-                        <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
+                    text_detail += `
+                    <div>
+                        <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div_hotel('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
                     </div>`;
 
                     try{
@@ -4122,6 +4176,11 @@ function hotel_get_booking(data){
                             }
 
                         text_detail+=`
+                                <div style="float:right">
+                                    <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
                             </div>
                         </div>`;
                         if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes('b2c_limitation') && !user_login.co_agent_frontend_security.includes("corp_limitation")){
@@ -4167,13 +4226,7 @@ function hotel_get_booking(data){
                                 </div>
                             </div>`;
                         }
-                        text_detail+=`<center>
-
-                        <div style="padding-bottom:10px;">
-                            <center>
-                                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                            </center>
-                        </div>`;
+                        text_detail+=`<center>`;
 //                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                            text_detail+=`
 //                            <div style="margin-bottom:5px;">
@@ -4182,6 +4235,7 @@ function hotel_get_booking(data){
                         text_detail+=`
                     </div>`;
                 }catch(err){console.log(err)}
+
                 document.getElementById('hotel_detail').innerHTML = text_detail;
                 if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
                     var price_breakdown = {};
@@ -4278,25 +4332,26 @@ function hotel_get_booking(data){
                     });
                 }
                 text_cancellation_policy = `
-                    <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                        <div class="row">
-                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                <h4 class="mb-3"><i class="fas fa-ban"></i> Cancellation Policy</h4>
-                            </div>
+                <div class="div_box_default mb-3" style="border:1px solid #cdcdcd;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-exclamation-circle"></i> Cancellation Policy</h4>
                         </div>
-                        <ul style="list-style-type: disc; margin: 0 15px;">`;
+                    </div>
+                    <ul style="padding-inline-start: 15px;">`;
 
-                //cancellation policy
-                if(msg.result.response.hasOwnProperty('cancellation_policy_str'))
-                    cancellation_policy_list = msg.result.response.cancellation_policy_str.split(';;');
-                else
-                    cancellation_policy_list = [];
-                for(i in cancellation_policy_list)
-                    text_cancellation_policy += '<li style="list-style: unset;">' + cancellation_policy_list[i] + '</li>';
-                if(cancellation_policy_list.length == 0)
-                    text_cancellation_policy += '<li style="list-style: unset;">No Cancellation</li>';
-                text_cancellation_policy += '</ul></div>';
-                document.getElementById('hotel_cancellation_policy_div').innerHTML = text_cancellation_policy;
+                    //cancellation policy
+                    if(msg.result.response.hasOwnProperty('cancellation_policy_str'))
+                        cancellation_policy_list = msg.result.response.cancellation_policy_str.split(';;');
+                    else
+                        cancellation_policy_list = [];
+                    for(i in cancellation_policy_list)
+                        text_cancellation_policy += '<li style="list-style: unset;">' + cancellation_policy_list[i] + '</li>';
+                    if(cancellation_policy_list.length == 0)
+                        text_cancellation_policy += '<li style="list-style: unset;">No Cancellation</li>';
+
+                    text_cancellation_policy += '</ul></div>';
+                    document.getElementById('hotel_cancellation_policy_div').innerHTML = text_cancellation_policy;
                 //cancellation policy
 
                 //refund

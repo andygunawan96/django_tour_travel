@@ -33,41 +33,60 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-4 col-xs-5">
-                {% if username.co_user_login != default_user %}
-                <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="go_back_to_reservation()"> <i class="fas fa-arrow-left"></i> Back to Reservation</button>
-                {% endif %}
-                <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
-                    <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+            <div class="col-md-12 mb-4">
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" id="button-home" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i> {% trans 'Home' %}
                 </button>
-                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="go_back_to_reservation()"> <i class="fas fa-arrow-left"></i></button>
-                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" id="button-home-mb" onclick="window.location.href='/'" hidden>
                     <i class="fas fa-home"></i>
                 </button>
+                {% if username.co_user_login != default_user %}
+                <button type="button" class="primary-btn-white mb-2 mr-1" onclick="go_back_to_reservation()"> <i class="fas fa-scroll"></i> My Reservation</button>
+                {% endif %}
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7" style="text-align:right;">
+
+            <div class="col-md-12">
+                <div class="mb-2" id="show_title_hotel" hidden>
+                    <div class="row">
+                        <div class="col-lg-12" style="margin:auto;">
+                            <div style="display:inline-flex;">
+                                <div style="display:inline-block; margin-right:10px;">
+                                    <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airlines Icon">
+                                </div>
+                                <div style="display:inline-block;">
+                                    <span style="margin-top:15px; font-size:20px; font-weight:bold; border-bottom:2px solid #cdcdcd;">{% trans 'Please Review Your Booking' %}</span><br>
+                                    <span style="margin-top:15px; font-size:16px; font-weight:bold;">{% trans 'Prices may changes at any time' %}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="alert-state">
+
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <button type="button" class="primary-btn-white mb-2 mr-1" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                    <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
+                </button>
+                <div id="reorder_div" style="display:inline-block;">
+
+                </div>
+                <div id="div_sync_status" class="mr-1" style="display:inline-block;" hidden>
+                    <button type="button" class="primary-btn-white" id="button-sync-status" onclick="please_wait_transaction();airline_get_booking('{{order_number}}',true)">
+                        <i class="fas fa-sync-alt"></i> Sync Status
+                    </button>
+                </div>
+
                 <div id="button_new_offline" style="display:inline-block;margin-left:5px;" hidden>
                     <button type="button" class="primary-btn-white" onclick="document.getElementById('offline_form').submit();">
                         <i class="fas fa-book-open"></i> Create Issued Offline
                     </button>
                 </div>
-                <button type="button" class="primary-btn-white mb-2" id="button-new-reservation" style="font-size:13px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
-                    <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
-                </button>
             </div>
-            <div class="col-lg-12 mt-3">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div id="show_title_hotel" hidden>
-                            <h3>{% trans 'Please Review Your Booking' %}</h3>
-                            <h4>{% trans 'Prices may changes at any time' %}</h4>
-                            <br/>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-2" id="div_sync_status" style="text-align:right;" hidden>
-                        <input type="button" class="primary-btn" id="button-sync-status" value="Sync Status" onclick="hotel_get_booking('{{order_number}}')">
-                    </div>
-                </div>
+
+            <div class="col-lg-12">
                 <div class="col-lg-12" id="show_loading_booking_airline">
                     <div class="center-div">
                         <div>
@@ -82,54 +101,28 @@
                     <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
                 </div>
             </div>
-            <div class="col-lg-12" id="show_loading_booking_airline" style="display:none;">
-                <div class="sk-circle">
-                    <div class="sk-circle1 sk-child"></div>
-                    <div class="sk-circle2 sk-child"></div>
-                    <div class="sk-circle3 sk-child"></div>
-                    <div class="sk-circle4 sk-child"></div>
-                    <div class="sk-circle5 sk-child"></div>
-                    <div class="sk-circle6 sk-child"></div>
-                    <div class="sk-circle7 sk-child"></div>
-                    <div class="sk-circle8 sk-child"></div>
-                    <div class="sk-circle9 sk-child"></div>
-                    <div class="sk-circle10 sk-child"></div>
-                    <div class="sk-circle11 sk-child"></div>
-                    <div class="sk-circle12 sk-child"></div>
-                </div>
-                <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
-            </div>
+
+
             <div class="col-lg-8" id="hotel_resv_left">
 
-                <div class="row">
-                    <div class="col-lg-12" id="alert-state">
+                <div class="row review-header mb-3">
+                    <div class="col-lg-12" id="hotel_booking">
 
                     </div>
                 </div>
 
-                <div class="row review-header" style="padding:0px 15px 15px 15px;">
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;" id="hotel_booking">
+                <div class="row review-detail">
+                    <div class="col-lg-12" id="hotel_list_room">
+
+                    </div>
+                    <div class="col-lg-12" id="hotel_cancellation_policy_div">
 
                     </div>
                 </div>
-
-                <div class="row review-detail" style="padding:15px;">
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;" id="hotel_list_room">
-
-                    </div>
-                </div>
-                <div class="row review-detail" style="padding:15px;">
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;" id="hotel_passenger">
+                <div class="row review-detail">
+                    <div class="col-lg-12" id="hotel_passenger">
 
                     </div>
-                </div>
-                <div class="row review-detail" style="padding:15px;" id="hotel_hide_agent_logo_opt">
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;" id="hotel_hide_logo_opt_cont">
-                    </div>
-
-                </div>
-                <div class="row review-detail" id="hotel_btn_printout">
-
                 </div>
             </div>
             <div class="col-lg-4" style="padding-bottom:20px;">
@@ -139,10 +132,22 @@
                 <div id="hotel_detail">
 
                 </div>
+                <div class="div_box_default">
+                    <h4 class="mb-3">Print</h4>
+                    <div class="row">
+                        <div class="col-lg-12" style="padding-bottom:10px;">
+                            <div class="row review-detail" id="hotel_hide_agent_logo_opt">
+                                <div class="col-lg-12" id="hotel_hide_logo_opt_cont">
 
-                <div id="hotel_cancellation_policy_div">
+                                </div>
+                            </div>
+                            <div class="row review-detail" id="hotel_btn_printout">
 
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
 
                 <div id="hotel_refund_div">
 
