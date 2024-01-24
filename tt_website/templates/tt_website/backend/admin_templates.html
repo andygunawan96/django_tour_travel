@@ -101,9 +101,9 @@
                             <i class="fas fa-clipboard-check"></i> Terms & Policy
                         </h5>
                     </li>
-                    <li class="main_menu_link" id="tab-printout-li" data-tab="tab-printout">
+                    <li class="main_menu_link" id="tab-backend-li" data-tab="tab-backend">
                         <h5>
-                            <i class="fas fa-print"></i> Printout
+                            <i class="fas fa-home"></i> Backend Data
                         </h5>
                     </li>
                     {% endif %}
@@ -1981,31 +1981,6 @@
                             <div style="display:inline-flex">
                                 <i class="fas fa-clipboard-check" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
-                                    Top up term<br/>
-                                    <span style="font-weight:500; font-size:12px;">Top up term and condition.</span>
-                                </h6>
-                            </div>
-                        </button>
-                        <div class="accordion-content">
-                            <div class="row" style="text-align:left;">
-                                <div class="col-lg-12 mt-3 mb-3">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h6 style="margin-bottom:10px;">Content</h6>
-                                            <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-3 mb-3">
-                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="button" class="accordion" data-tab="tab-terms-policy">
-                            <div style="display:inline-flex">
-                                <i class="fas fa-clipboard-check" style="padding-top:5px;font-size:18px;"></i>
-                                <h6 style="padding-left:10px;">
                                     Term and Condition COR<br/>
                                     <span style="font-weight:500; font-size:12px;">Term and condition COR.</span>
                                 </h6>
@@ -2028,8 +2003,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tab-printout" class="main_menu_content">
-                        <button type="button" class="accordion" data-tab="tab-printout">
+                    <div id="tab-backend" class="main_menu_content">
+                        <button type="button" class="accordion" data-tab="tab-backend">
                             <div style="display:inline-flex">
                                 <i class="fas fa-print" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -2064,7 +2039,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="accordion" data-tab="tab-printout">
+                        <button type="button" class="accordion" data-tab="tab-backend">
                             <div style="display:inline-flex">
                                 <i class="fas fa-palette" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
@@ -2089,6 +2064,31 @@
                                 </div>
                                 <div class="col-lg-12 mb-3">
                                     <button type="button" class="primary-btn update_banner_btn" onclick="update_printout_color();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="accordion" data-tab="tab-backend">
+                            <div style="display:inline-flex">
+                                <i class="fas fa-clipboard-check" style="padding-top:5px;font-size:18px;"></i>
+                                <h6 style="padding-left:10px;">
+                                    Top up term<br/>
+                                    <span style="font-weight:500; font-size:12px;">Top up term and condition.</span>
+                                </h6>
+                            </div>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="row" style="text-align:left;">
+                                <div class="col-lg-12 mt-3 mb-3">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 style="margin-bottom:10px;">Content</h6>
+                                            <textarea class="ckeditor" name="top_up_term" id="top_up_term">{{top_up_term}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-3 mb-3">
+                                    <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">{% trans 'Save Changes' %} <i class="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
