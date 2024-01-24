@@ -2586,11 +2586,24 @@ function airline_get_provider_list(type, data=''){
            else if(type == 'passenger'){
                 check_ff = 0;
                 is_wheelchair = 0
+                is_email_agent_to_vendor = 1;
+                email = '';
+                calling_code = '';
+                calling_number = '';
                 for(i in airline_pick){
                     if(provider_list_data[airline_pick[i].provider].is_pre_frequent_flyer == true)
                         check_ff = 1;
                     if(provider_list_data[airline_pick[i].provider].is_pre_wheelchair == true)
                         is_wheelchair = 1;
+                    if(provider_list_data[airline_pick[i].provider].hasOwnProperty('is_email_agent_to_vendor') && provider_list_data[airline_pick[i].provider].is_email_agent_to_vendor == false){
+                        is_email_agent_to_vendor = 0;
+                        if(provider_list_data[airline_pick[i].provider].email)
+                            email = provider_list_data[airline_pick[i].provider].email;
+                        if(provider_list_data[airline_pick[i].provider].phone){
+                            calling_code = provider_list_data[airline_pick[i].provider].phone.calling_code;
+                            calling_number = provider_list_data[airline_pick[i].provider].phone.calling_number;
+                        }
+                    }
                 }
                 if(is_wheelchair == 1){
                     //kalau wheelchair di setting dari gateway check apakah ada ssr wheelchair kalau ada print
@@ -2826,6 +2839,17 @@ function airline_get_provider_list(type, data=''){
                                 </div>`;
                             }catch(err){console.log(err)}
                         }
+                    }
+                }
+                if(is_email_agent_to_vendor == 0){
+                    if(email){
+                        document.getElementById('booker_email_div').style.display = 'none';
+                        document.getElementById('booker_email').value = email;
+                    }
+                    if(calling_code && calling_number){
+                        $('#booker_phone_code_id').val(calling_code).trigger('change');
+                        document.getElementById('booker_phone').value = calling_number;
+                        document.getElementById('booker_phone_div').style.display = 'none';
                     }
                 }
                 $(function() {

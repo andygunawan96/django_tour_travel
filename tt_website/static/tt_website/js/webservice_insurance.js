@@ -2995,6 +2995,13 @@ function insurance_get_booking(data, sync=false){
                                     `+msg.result.response.provider_bookings[i].state_description+`</span>
                                 </div>
                                 <div class="col-lg-12">`;
+                                    //pnr
+                                    if(msg.result.response.provider_bookings[i].destination){
+                                        text+=`
+                                        <b>PNR: </b>
+                                        <i>`+msg.result.response.provider_bookings[i].pnr+`</i><br/>`;
+                                        $text += 'Pnr: '+msg.result.response.provider_bookings[i].pnr+'\n';
+                                    }
                                     //destination
                                     if(msg.result.response.provider_bookings[i].destination){
                                         text+=`
