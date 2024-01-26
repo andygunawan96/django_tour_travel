@@ -5570,7 +5570,10 @@ function draw_get_price_itinerary(){
                                                                                             for(m in family_provider_list[i].journeys[j].segments[k].fares[l].description){
                                                                                                 text_family_fare += `<span style="font-size:13px; display:block;"><i class="fas fa-caret-right"></i> `+family_provider_list[i].journeys[j].segments[k].fares[l].description[m]+`</span>`;
                                                                                             }
-                                                                                            text_family_fare += `<br/>`;
+                                                                                            text_family_fare+=`<br/>`;
+                                                                                        }
+                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].available_count > airline_request.adult + airline_request.child){
+                                                                                            text_family_fare+=`Seat left: `+family_provider_list[i].journeys[j].segments[k].fares[l].available_count;
                                                                                         }
                                                                                         text_family_fare+=`
                                                                                         <div style="width:100%; text-align:right; right: 10px; bottom: 10px; position: absolute;">`;
@@ -10581,7 +10584,7 @@ function airline_get_booking(data, sync=false){
                                 text_print_booking+=`
                                 <div class="col-lg-12">`;
                                     text_print_booking+=`
-                                    <button type="button" id="button-print-ori-request" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:5px;" onclick="get_new_ori_ticket_printout('`+msg.result.response.order_number+`');">
+                                    <button type="button" id="button-print-ori-request" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%; margin-bottom:15px;" onclick="get_new_ori_ticket_printout('`+msg.result.response.order_number+`');">
                                         <i class="fas fa-print"></i> Request New Ori Ticket
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>

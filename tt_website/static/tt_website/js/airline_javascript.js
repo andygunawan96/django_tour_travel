@@ -4421,7 +4421,7 @@ function unlink_pick_fares(journey){
 }
 
 
-function change_departure(val){
+function change_departure(val, disable_btn=true){
     document.getElementById("badge-copy-notif").innerHTML = "0";
     document.getElementById("badge-copy-notif2").innerHTML = "0";
 //    $('#button_copy_airline').hide();
@@ -4469,7 +4469,10 @@ function change_departure(val){
     counter_search = val;
     change_date_next_prev(counter_search-1);
     text = '';
-    airline_pick_mc('no_button');
+    if(disable_btn)
+        airline_pick_mc('no_button');
+    else
+        airline_pick_mc('all');
     document.getElementById("airline_detail").innerHTML = '';
     filtering('filter');
 
@@ -5367,7 +5370,7 @@ function airline_pick_mc(type){
                                                              if(airline_pick_list[i].segments[j].fares[k].fare_name)
                                                                  text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span>`;
                                                              if(airline_pick_list[i].segments[j].fares[k].fare_basis_code)
-                                                                 text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_basis_code+`</span>`;
+                                                                 text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_basis_code+`</span><br/>`;
 
                                                              if(airline_pick_list[i].segments[j].fares[k].description.length != 0){
                                                                   for(l in airline_pick_list[i].segments[j].fares[k].description){
@@ -5376,8 +5379,7 @@ function airline_pick_mc(type){
                                                                   text+=`<br/>`;
                                                              }
 
-                                                             if(airline_request.adult + airline_request.child > airline_pick_list[i].segments[j].fares[k].available_count){
-                                                             }else{
+                                                             if(airline_pick_list[i].segments[j].fares[k].available_count > airline_request.adult + airline_request.child){
                                                                 text+=`Seat left: `+airline_pick_list[i].segments[j].fares[k].available_count;
                                                              }
 
@@ -5852,7 +5854,7 @@ function change_fare_airline_pick_list(journey_key, segment_key, fare_key){
     if(airline_pick_list.length == airline_request.origin.length){
         set_automatic_combo_price();
     }else{
-        change_departure(airline_pick_list[journey_key].airline_pick_sequence+1);
+        change_departure(airline_pick_list[journey_key].airline_pick_sequence+1, false);
         change_search_to_api(airline_pick_list[journey_key].airline_pick_sequence);
     }
 
