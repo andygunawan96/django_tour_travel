@@ -28,6 +28,7 @@ app_name = 'tt_website'
 urlpatterns = []
 
 
+urlpatterns.append(path('signature/<str:signature>/<str:product_type>/<str:page>/<str:order_number>', view.login_by_signature, name="login_by_signature_bypass_page"))
 urlpatterns.append(path('signature/<str:signature>/<str:product_type>/<str:page>', view.login_by_signature, name="login_by_signature_bypass_page"))
 urlpatterns.append(path('signature/<str:signature>/<str:product_type>', view.login_by_signature, name="login_by_signature_with_product"))
 urlpatterns.append(path('signature/<str:signature>', view.login_by_signature, name="login_by_signature"))

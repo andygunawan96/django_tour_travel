@@ -2546,7 +2546,7 @@ function sort(value){
     if(sorting_value == ''){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j <data_filter.length; j++) {
-                if (data_filter[i].can_book_three_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult) && data_filter[j].can_book_three_hours == true && data_filter[j].can_book_check_arrival_on_next_departure == true){
+                if (data_filter[i].can_book_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult) && data_filter[j].can_book_three_hours == true && data_filter[j].can_book_check_arrival_on_next_departure == true){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -2555,9 +2555,9 @@ function sort(value){
         }
     }else{
         for(var i = data_filter.length-1; i >= 0; i--) {
-            if(data_filter[i].can_book_three_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult)){
+            if(data_filter[i].can_book_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult)){
                 for(j=i;j<data_filter.length-1;j++){
-                    if(data_filter[j+1].can_book_three_hours == false && journeys.length == 0 || data_filter[j+1].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[j+1].available_count < parseInt(passengers.adult)){
+                    if(data_filter[j+1].can_book_hours == false && journeys.length == 0 || data_filter[j+1].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[j+1].available_count < parseInt(passengers.adult)){
                         break;
                     }else{
                         temp = data_filter[j];
@@ -2581,7 +2581,7 @@ function sort(value){
             if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
                 total_train_count++;
 
-                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
+                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
                     response+=`<div class="sorting-box mb-3">`;
                     ticket_count++;
                 }
@@ -2610,7 +2610,7 @@ function sort(value){
                         response+=`
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-3">`;
-                           if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
+                           if(data_filter[i].available_count > 0 && data_filter[i].can_book_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
                                response+=`
                                <label class="check_box_custom" style="float:right;">
                                    <span class="span-search-ticket"></span>
@@ -2704,9 +2704,9 @@ function sort(value){
                                     else if(data_filter[i].available_count<=1 )
                                         response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
 
-                                    if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
+                                    if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                         response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px;" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
-                                    else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
+                                    else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_hours == false)
                                         response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px; background:#E5E5E5; color:`+color+`;border:1px solid black;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
                                     else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                         response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px;" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
