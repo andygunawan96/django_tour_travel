@@ -598,11 +598,11 @@ function train_search(provider, signature, type){
     });
 }
 
-function check_elapse_time_three_hours(departure){
+function check_elapse_time_hours(departure){
   today = moment();
   dep = moment(departure);
   var diff = dep.diff(today, 'hours');
-  if(diff >= 3)
+  if(diff >= 1)
     return true;
   else
     return false;
@@ -625,7 +625,7 @@ function datasearch2(train){
            else if(train.schedules[i].journeys[j].cabin_class == 'B')
                 train.schedules[i].journeys[j].cabin_class = ['B', 'Business']
            date = moment(train.schedules[i].journeys[j].departure_date,'DD MMM YYYY - HH:mm').format('YYYY-MM-DD HH:mm');
-           train.schedules[i].journeys[j].can_book_three_hours = check_elapse_time_three_hours(date);
+           train.schedules[i].journeys[j].can_book_hours = check_elapse_time_hours(date);
            train.schedules[i].journeys[j].can_book_check_arrival_on_next_departure = true;
            train.schedules[i].journeys[j].departure_date = train.schedules[i].journeys[j].departure_date.split(' - ');
            train.schedules[i].journeys[j].arrival_date = train.schedules[i].journeys[j].arrival_date.split(' - ');
@@ -2588,8 +2588,8 @@ function re_order_find_journey(){
             if(journey_list_copy[i].journey_code == train_data_reorder[x].journey_code && journey_list_copy[i].fare_code == train_data_reorder[x].fares[0].fare_code){
                 if(journey_list_copy[i].available_count < train_request.adult){
                     error_log += `Journey `+parseInt(parseInt(i)+1)+` not available<br/>`;
-                }else if(check_elapse_time_three_hours(moment(train_data_reorder[x].departure_date, 'DD MMM YYYY - HH:mm').format("YYYY MMM DD HH:mm")) == false)
-                    error_log += `Departure time < 3 hours!<br/>`;
+                }else if(check_elapse_time_hours(moment(train_data_reorder[x].departure_date, 'DD MMM YYYY - HH:mm').format("YYYY MMM DD HH:mm")) == false)
+                    error_log += `Departure time < 1 hours!<br/>`;
                 else
                     journey.push(train_data_reorder[x]);
                 break;
