@@ -2251,6 +2251,13 @@ function show_loading(){
     $(".payment_acq *").prop('disabled',true);
 }
 
+function hide_loading(){
+    $('.next-loading').removeClass("running");
+    $('.next-loading').prop('disabled', false);
+    $('.payment_method').prop('disabled', false).niceSelect('update');
+    $(".payment_acq *").prop('disabled',false);
+}
+
 function show_loading_booking(){
     $('.next-loading-booking').addClass("running");
     $('.next-loading-booking').prop('disabled', true);
