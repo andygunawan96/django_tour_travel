@@ -1470,6 +1470,11 @@
         }catch(err){
             hotel_checkout = moment().subtract(-2, 'days').format('DD MMM YYYY');
         }
+        try{
+            {% if cache.hotel.destination %}
+                document.getElementById('hotel_id_destination').value = `{{cache.hotel.destination}}`;
+            {% endif %}
+        }catch(err){}
 
         var oneDay = 24*60*60*1000;
         $("#hotel_checkin").val(hotel_checkin);

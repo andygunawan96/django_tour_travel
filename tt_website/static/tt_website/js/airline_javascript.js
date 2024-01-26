@@ -1251,7 +1251,7 @@ function plus_min_passenger_airline_btn(){
     if(typeof(quantity_seaman_flight) !== 'undefined')
         quantity_total_pax += parseInt(document.getElementById('seaman_flight').value);
     // tombol add
-    if(quantity_total_pax == max_pax){
+    if(quantity_total_pax == max_pax && total_max_pax == 0 || quantity_total_pax == total_max_pax){
         document.getElementById("right-plus-adult-flight").disabled = true;
         if(document.getElementById("right-plus-adult-flight1"))
             document.getElementById("right-plus-adult-flight1").disabled = true;
@@ -1804,13 +1804,13 @@ function airline_set_passenger_plus(type, val){
         quantity_total_pax += parseInt(document.getElementById('seaman_flight').value);
     if(type == 'adult'){
         var quantity = parseInt($('#adult_flight'+val).val());
-        if(quantity_total_pax < 9){
+        if(quantity_total_pax < 9 && total_max_pax == 0 || quantity_adult_flight < total_max_pax){
             $('#adult_flight').val(quantity + 1);
             $('#adult_flight1').val(quantity + 1);
         }
     }else if(type == 'child'){
         var quantity = parseInt($('#child_flight').val());
-        if(quantity_total_pax < 9){
+        if(quantity_total_pax < 9 && total_max_pax == 0 || quantity_adult_flight < total_max_pax){
             $('#child_flight').val(quantity + 1);
             $('#child_flight1').val(quantity + 1);
         }
@@ -1822,19 +1822,19 @@ function airline_set_passenger_plus(type, val){
         }
     }else if(type == 'student'){
         var quantity = parseInt($('#student_flight').val());
-        if(quantity_total_pax < 9){
+        if(quantity_total_pax < 9 && total_max_pax == 0 || quantity_adult_flight < total_max_pax){
             $('#student_flight').val(quantity + 1);
             $('#student_flight1').val(quantity + 1);
         }
     }else if(type == 'labour'){
         var quantity = parseInt($('#labour_flight').val());
-        if(quantity_total_pax < 9){
+        if(quantity_total_pax < 9 && total_max_pax == 0 || quantity_adult_flight < total_max_pax){
             $('#labour_flight').val(quantity + 1);
             $('#labour_flight1').val(quantity + 1);
         }
     }else if(type == 'seaman'){
         var quantity = parseInt($('#seaman_flight').val());
-        if(quantity_total_pax < 9){
+        if(quantity_total_pax < 9 && total_max_pax == 0 || quantity_adult_flight < total_max_pax){
             $('#seaman_flight').val(quantity + 1);
             $('#seaman_flight1').val(quantity + 1);
             quantity_child_flight = quantity + 1;
