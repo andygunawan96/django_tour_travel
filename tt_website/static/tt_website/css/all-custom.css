@@ -7404,9 +7404,9 @@ text-align: center;
 }
 
 .dropdown-toggle::after{
-    margin-top: 12px;
     font-size: 18px;
     color:white;
+    display:none;
 }
 
 .drop_inline{

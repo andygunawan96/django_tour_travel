@@ -85,10 +85,14 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.code == "activity" %}
-<section class="pt-3 pb-3">
+<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <h1 class="mb-3">
+                    <img class="prd_img" src="/static/tt_website/images/icon/product/c-activity.png" alt="Activity Icon">
+                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
+                </h1>
                 <span class="title_cst_sub">
                     {% if username.co_user_login != default_user %}
                     {{greeting_login.greeting}} <span style="color:{{color}};">{{greeting_login.website_name}}</span>
@@ -100,19 +104,8 @@
         </div>
     </div>
 </section>
-<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>
-                    <img class="prd_img" src="/static/tt_website/images/icon/product/c-activity.png" alt="Activity Icon">
-                    {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                </h1>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="pt-4 pb-5">
+
+<section class="pt-4 pb-5" style="background:white;">
     <div class="container">
         <div class="row">
             <div id="overlay-search-box" onclick="off_overlay()"></div>
@@ -204,11 +197,14 @@
                                 <div class="row">
                                     <br/>
                                     <div class="col-lg-12" style="text-align:left;">
-                                        <label class="check_box_custom mt-2">
-                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                            <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
-                                            <span class="check_box_span_custom"></span>
-                                        </label><span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                        <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                            <label class="check_box_custom cblabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                                <span class="check_box_span_custom cbspan"></span>
+                                            </label>
+                                            <span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
                                         <div class="row">
@@ -336,11 +332,14 @@
                             <div class="row">
                                 <br/>
                                 <div class="col-lg-12" style="text-align:left;">
-                                    <label class="check_box_custom mt-2">
-                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                        <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
-                                        <span class="check_box_span_custom"></span>
-                                    </label><span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                    <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                        <label class="check_box_custom cblabel">
+                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                            <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                            <span class="check_box_span_custom cbspan"></span>
+                                        </label>
+                                        <span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
                                     <div class="row">
@@ -474,11 +473,14 @@
                                 <div class="row">
                                     <br/>
                                     <div class="col-lg-12" style="text-align:left;">
-                                        <label class="check_box_custom mt-2">
-                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                            <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
-                                            <span class="check_box_span_custom"></span>
-                                        </label><span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                        <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                            <label class="check_box_custom cblabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                                <span class="check_box_span_custom cbspan"></span>
+                                            </label>
+                                            <span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
                                         <div class="row">
@@ -613,11 +615,14 @@
                                         <div class="row">
                                             <br/>
                                             <div class="col-lg-12" style="text-align:left;">
-                                                <label class="check_box_custom mt-2">
-                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                    <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
-                                                    <span class="check_box_span_custom"></span>
-                                                </label><span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                                    <label class="check_box_custom cblabel">
+                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                        <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                                        <span class="check_box_span_custom cbspan"></span>
+                                                    </label>
+                                                    <span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                </div>
                                             </div>
                                             <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
                                                 <div class="row">
@@ -751,11 +756,14 @@
                                             <div class="row">
                                                 <br/>
                                                 <div class="col-lg-12" style="text-align:left;">
-                                                    <label class="check_box_custom mt-2">
-                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                        <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label><span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                            <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                        <span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
                                                     <div class="row">
@@ -889,11 +897,14 @@
                                             <div class="row">
                                                 <br/>
                                                 <div class="col-lg-12" style="text-align:left;">
-                                                    <label class="check_box_custom mt-2">
-                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                        <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label><span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                            <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                        <span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
                                                     <div class="row">

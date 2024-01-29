@@ -123,8 +123,8 @@
 </section>
 
 {% if username.co_user_login != '' %}
-    {% for rec in provider_types_sequence %}
-        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
+{% for rec in provider_types_sequence %}
+{% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.code == "airline" %}
 <section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
     <div class="container">
         <div class="row">
