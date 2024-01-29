@@ -1251,7 +1251,8 @@ function plus_min_passenger_airline_btn(){
     if(typeof(quantity_seaman_flight) !== 'undefined')
         quantity_total_pax += parseInt(document.getElementById('seaman_flight').value);
     // tombol add
-    if(quantity_total_pax == max_pax && total_max_pax == 0 || quantity_total_pax == total_max_pax){
+    // DEFAULT OR USE LIMITATION
+    if(quantity_total_pax == max_pax && total_max_pax == 0 || quantity_total_pax == total_max_pax && total_max_pax != 0){
         document.getElementById("right-plus-adult-flight").disabled = true;
         if(document.getElementById("right-plus-adult-flight1"))
             document.getElementById("right-plus-adult-flight1").disabled = true;
