@@ -439,7 +439,7 @@ $(document).ready(function(){
         var quantity = parseInt($('#train_adult').val());
 
         // If is not undefined
-        if(quantity < 4){
+        if(quantity < 4 && total_max_pax == 0 || quantity < total_max_pax){
             $('#train_adult').val(quantity + 1);
             quantity_adult_train = quantity + 1;
 
@@ -447,7 +447,7 @@ $(document).ready(function(){
             $('#show_total_pax_train').text(quantity_adult_train+quantity_infant_train+ ' Passengers');
         }
 
-        if (quantity_adult_train == 4){
+        if (quantity_adult_train == 4 && total_max_pax == 0 || quantity == total_max_pax){
             document.getElementById("left-minus-adult-train").disabled = false;
             document.getElementById("right-plus-adult-train").disabled = true;
         }
@@ -1372,7 +1372,7 @@ $(document).ready(function(){
         // Get the field name
         var quantity = parseInt($('#hotel_room').val());
 
-        if(quantity < 9){
+        if(quantity < 9 && total_max_pax == 0 || quantity < total_max_pax){
             $('#hotel_room').val(quantity + 1);
             $('#hotel_adult').val(((quantity+1)*2) > 9 ? 9 : ((quantity+1)*2));
             quantity_room_hotel = quantity + 1;
@@ -1381,7 +1381,7 @@ $(document).ready(function(){
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
         }
 
-        if (quantity_room_hotel >= 9){
+        if (quantity_room_hotel >= 9 && total_max_pax == 0 || quantity_room_hotel >= total_max_pax){
             document.getElementById("right-plus-room-hotel").disabled = true;
             document.getElementById("left-minus-room-hotel").disabled = false;
             document.getElementById("right-plus-adult-hotel").disabled = true;

@@ -286,7 +286,7 @@ def index(request):
                         'direction': file['direction']
                     }
                     for rec in cache['train']['departure']:
-                        if rec == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now())[:10]) > rec:
+                        if rec == 'Invalid date' or str(datetime.now())[:10] > parse_date_time_to_server(rec):
                             cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
 
                 # if request.session['train_request']['origin'][0].split('-')[1] != ' ':
@@ -303,9 +303,10 @@ def index(request):
                 if file:
                     cache['hotel'] = {
                         'checkin': file['checkin_date'],
-                        'checkout': file['checkou_date']
+                        'checkout': file['checkout_date'],
+                        'destination': file['destination']
                     }
-                    if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date' or convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=1))[:10]) > cache['hotel']['checkin']:
+                    if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date' or str(datetime.now() + relativedelta(days=1))[:10] > parse_date_time_to_server(cache['hotel']['checkin']):
                         cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=1))[:10])
                         cache['hotel']['checkout'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=2))[:10])
                 # cache['hotel'] = {
@@ -1619,11 +1620,11 @@ def create_cor_request(request, signature):
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/create_cor_agent_templates.html', values)
 
-def login_by_signature(request, signature, product_type=False, page=False):
+def login_by_signature(request, signature, product_type=False, page=False, order_number=False):
     try:
         update_context_machine_otp_pin_api(request, signature, True, True)
         language = request.session['_language']
-    except:
+    except Exception as e:
         language = ''
     next_url = "/".join(request.META['PATH_INFO'].split('/')[3:])
     if request.META['QUERY_STRING']:

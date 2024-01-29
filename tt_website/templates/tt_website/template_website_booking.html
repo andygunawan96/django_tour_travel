@@ -2214,6 +2214,13 @@ junction_font.load().then(function(loaded_face) {
                         render_provider_type_reservation();
                 }
                 error_log = '';
+                total_max_pax = 0;
+                if(user_login.hasOwnProperty('co_passenger_seq_id')){
+                    for(key in user_login.co_passenger_seq_id){
+                        total_max_pax += user_login.co_passenger_seq_id[key].length
+                    }
+                }
+
                 if(user_login.co_user_login != '{{default_user}}'){
                     if(['notification', 'required'].includes(user_login.co_ho_is_using_otp) && !user_login.co_is_using_otp && ['notification', 'required'].includes(user_login.co_ho_is_using_pin) && !user_login.co_is_using_pin){
                         error_log = 'Please Activate your PIN & OTP';
