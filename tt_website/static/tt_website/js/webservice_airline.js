@@ -2031,6 +2031,12 @@ function get_carrier_code_list(type, val){
                     }
                 }
            }
+
+           if(user_login.co_agent_frontend_security.includes("b2c_limitation")){
+               if(document.getElementById('airline_carrier_code_div')){
+                    document.getElementById('airline_carrier_code_div').hidden = true;
+               }
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             console.log('Error airline carrier code list')
