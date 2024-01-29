@@ -132,7 +132,7 @@
                 <div id="hotel_detail">
 
                 </div>
-                <div class="div_box_default">
+                <div class="div_box_default mb-3">
                     <h4 class="mb-3">Print</h4>
                     <div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
@@ -148,7 +148,6 @@
                     </div>
                 </div>
 
-
                 <div id="hotel_refund_div">
 
                 </div>
@@ -158,7 +157,7 @@
                 </div>
                 {% if 'issued_reservation' in username.co_agent_frontend_security %}
                 <button id="hotel_issued_btn" class="primary-btn issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
-                     {% trans 'Issued Booking' %}
+                     <i class="fas fa-check"></i> {% trans 'Issued Booking' %}
                 </button>
                 {% endif %}
 

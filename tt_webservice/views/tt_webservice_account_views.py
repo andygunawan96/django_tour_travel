@@ -235,14 +235,17 @@ def signin(request):
     return res
 
 def signout(request):
-    url_request = get_url_gateway('session')
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "signout",
-        "signature": request.session['master_signature']
-    }
-    res = send_request_api(request, url_request, headers, {}, 'POST', 10)
+    if request.session.get('master_signature'):
+        url_request = get_url_gateway('session')
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "signout",
+            "signature": request.session['master_signature']
+        }
+        res = send_request_api(request, url_request, headers, {}, 'POST', 10)
+    else:
+        res = {}
     request.session.flush()
     return res
 

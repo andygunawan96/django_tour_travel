@@ -382,16 +382,18 @@
                                             <span class="check_box_span_custom cbspan"></span>
                                         </label>
                                         <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                        <div class="div-dropdown-txt btn-group" style="margin-left:15px;">
+                                            <label class="check_box_custom cblabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                <span class="check_box_span_custom cbspan"></span>
+                                            </label>
+                                            <span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                    <br/>
-                                    <div class="col-lg-12" style="text-align:left;">
-                                        <label class="check_box_custom mt-2">
-                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                            <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
-                                            <span class="check_box_span_custom"></span>
-                                        </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                    </div>
                                     <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -551,16 +553,18 @@
                                                 <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                             <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                            <div class="div-dropdown-txt btn-group" style="margin-left:15px;">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                    <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                                <span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <br/>
-                                        <div class="col-lg-12" style="text-align:left;">
-                                            <label class="check_box_custom mt-2">
-                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
-                                                <span class="check_box_span_custom"></span>
-                                            </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                        </div>
                                         <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -733,16 +737,18 @@
                                             </label>
                                             <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                                         </div>
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                        <div class="div-dropdown-txt btn-group" style="margin-left:15px;">
+                                            <label class="check_box_custom cblabel">
+                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                <span class="check_box_span_custom cbspan"></span>
+                                            </label>
+                                            <span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                    <br/>
-                                    <div class="col-lg-12" style="text-align:left;">
-                                        <label class="check_box_custom mt-2">
-                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                            <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
-                                            <span class="check_box_span_custom"></span>
-                                        </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                    </div>
                                     <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -915,16 +921,18 @@
                                                             <span class="check_box_span_custom cbspan"></span>
                                                         </label>
                                                         <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                        <div class="div-dropdown-txt btn-group" style="margin-left:15px;">
+                                                            <label class="check_box_custom cblabel">
+                                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                                <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                                <span class="check_box_span_custom cbspan"></span>
+                                                            </label>
+                                                            <span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                        </div>
+                                                        {% endif %}
                                                     </div>
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                                    <br/>
-                                                    <div class="col-lg-12" style="text-align:left;">
-                                                        <label class="check_box_custom mt-2">
-                                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                            <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                                    </div>
                                                     <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1094,16 +1102,18 @@
                                                         <span class="check_box_span_custom cbspan"></span>
                                                     </label>
                                                     <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                    <div class="div-dropdown-txt btn-group" style="margin-left:15px;">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                            <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                        <span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                                <br/>
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <label class="check_box_custom mt-2">
-                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                        <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                                </div>
                                                 <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1272,16 +1282,18 @@
                                                         <span class="check_box_span_custom cbspan"></span>
                                                     </label>
                                                     <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                                    <div class="div-dropdown-txt btn-group" style="margin-left:15px;">
+                                                        <label class="check_box_custom cblabel">
+                                                            <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                            <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                            <span class="check_box_span_custom cbspan"></span>
+                                                        </label>
+                                                        <span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                                <br/>
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <label class="check_box_custom mt-2">
-                                                        <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                        <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                                </div>
                                                 <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1450,16 +1462,18 @@
                                                 <span class="check_box_span_custom cbspan"></span>
                                             </label>
                                             <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                            <div class="div-dropdown-txt btn-group" style="margin-left:15px;">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                    <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                                <span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <br/>
-                                        <div class="col-lg-12" style="text-align:left;">
-                                            <label class="check_box_custom mt-2">
-                                                <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
-                                                <input type="checkbox" id="checkbox_corpor_mode_hotel" name="checkbox_corpor_mode_hotel" onclick="toggle_corpor_mode_div('hotel');"/>
-                                                <span class="check_box_span_custom"></span>
-                                            </label><span id="corpor_list_loading_hotel" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
-                                        </div>
                                         <div class="col-lg-12" id="div_corpor_mode_hotel" style="display:none;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">

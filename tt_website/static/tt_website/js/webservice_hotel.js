@@ -4148,9 +4148,11 @@ function hotel_get_booking(data){
                         }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
                             for(k in msg.result.response.estimated_currency.other_currency){
                                 text_detail+=`
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
-                                            </div>`;
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:right;">
+                                        <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                    </div>
+                                </div>`;
                             }
                         }
                         if(msg.result.response.state != 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -4360,8 +4362,8 @@ function hotel_get_booking(data){
                     now = moment();
                     if(checkin_date > now && msg.result.response.state == 'issued'){
                         document.getElementById('hotel_refund_div').innerHTML = `
-                        <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="hotel_check_refund_amount();">
-                            Refund
+                        <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn-white ld-ext-right" onclick="hotel_check_refund_amount();">
+                            <i class="fas fa-undo"></i> Refund
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else{
@@ -4813,6 +4815,8 @@ function hotel_check_refund_amount(){
       confirmButtonText: 'Yes'
     }).then((result) => {
         if (result.value) {
+           show_loading();
+           please_wait_transaction();
             $.ajax({
                 type: "POST",
                 url: "/webservice/hotel",
@@ -4826,9 +4830,13 @@ function hotel_check_refund_amount(){
                 success: function(msg) {
                    console.log(msg);
                    if(msg.result.error_code == 0){
-                        hotel_cancel();
+                        hotel_cancel(msg);
+                        hide_loading();
+                        hide_modal_waiting_transaction();
                    }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                         auto_logout();
+                        hide_loading();
+                        hide_modal_waiting_transaction();
                    }else{
                         Swal.fire({
                           type: 'error',
@@ -4836,6 +4844,8 @@ function hotel_check_refund_amount(){
                           html: '<span style="color: #ff9900;">Error hotel refund</span>' + msg.result.error_msg,
                         })
                         $('.loader-rodextrip').fadeOut();
+                        hide_loading();
+                        hide_modal_waiting_transaction();
                    }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -4847,7 +4857,7 @@ function hotel_check_refund_amount(){
     })
 }
 
-function hotel_cancel(){
+function hotel_cancel(check_refund_amount){
     Swal.fire({
       title: 'Are you sure want to Refund this booking?',
       html: '<h4>With refunded amount: <span style="color:red;">' + currency+ ' ' + getrupiah(check_refund_amount.result.response.refund_amount) + '</span></h4>',
@@ -4858,6 +4868,8 @@ function hotel_cancel(){
       confirmButtonText: 'Yes'
     }).then((result) => {
         if (result.value) {
+           show_loading();
+           please_wait_transaction();
             $.ajax({
                 type: "POST",
                 url: "/webservice/hotel",

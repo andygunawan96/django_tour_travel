@@ -340,7 +340,7 @@
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and not username.co_job_position_is_request_required %}
                                 <button class="primary-btn issued_booking_btn mt-3" type="button" style="width:100%;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert(1);">
-                                    {% trans 'Issued Booking' %}
+                                    <i class="fas fa-check"></i> {% trans 'Issued Booking' %}
                                 </button>
                                 {% endif %}
                             {% endif %}
