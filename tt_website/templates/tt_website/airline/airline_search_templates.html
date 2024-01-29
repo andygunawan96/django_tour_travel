@@ -609,7 +609,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="drop_inline">
+                                        <div class="drop_inline" id="airline_carrier_code_div">
                                             <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
                                                 <button type="button" class="btn-dropdown-txt">
                                                     <i class="fas fa-plane"></i> <span id="show_provider_airline">All airline</span>
@@ -2340,6 +2340,13 @@
     }catch(err){
         console.log(err);
     }
+    try{
+        if(typeof('user_login') !== 'undefined'){
+            if(document.getElementById("airline_carrier_code_div")){
+                document.getElementById("airline_carrier_code_div").hidden = true;
+            }
+        }
+    }catch(err){}
 </script>
 
 

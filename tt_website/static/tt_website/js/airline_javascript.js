@@ -753,7 +753,7 @@ function add_multi_city(type){
                 </div>
             </div>
             <div class="drop_inline">
-                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">`;
+                <div class="dropdown-toggle div-dropdown-txt btn-group" id="airline_carrier_code_div1" data-toggle="dropdown">`;
                     try{
                         text_paxs += `
                         <button id="show_provider_airline`+counter_airline_search+`" type="button" class="btn-dropdown-txt" style="text-align:left; cursor:pointer;">
@@ -996,6 +996,14 @@ function add_multi_city(type){
         node.setAttribute('id', 'mc_airline_add'+counter_airline_search);
         document.getElementById("mc_airline_add").appendChild(node);
         $("airline_departure"+counter_airline_search).val(moment().format('DD MMM YYYY'));
+
+        if(counter_airline_search == 1){
+            if(user_login.co_agent_frontend_security.includes("b2c_limitation")){
+               if(document.getElementById('airline_carrier_code_div1')){
+                    document.getElementById('airline_carrier_code_div1').hidden = true;
+               }
+            }
+        }
         if(type == 'search'){
             //check lagi
             var counter = counter_airline_search-1;
