@@ -8121,7 +8121,7 @@ function check_passenger(adult, child, infant, type=''){
             document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
         }if(check_phone_number(document.getElementById('booker_phone').value)==false){
             if(check_phone_number(document.getElementById('booker_phone').value) == false)
-                error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
+                error_log+= 'Phone number Booker must contain 8 - 12 digits of number!</br>\n';
             document.getElementById('booker_phone').style['border-color'] = 'red';
         }else{
             document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
@@ -8237,31 +8237,30 @@ function check_passenger(adult, child, infant, type=''){
                 }
             document.getElementById('adult_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
         }
-        if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
-            if(document.getElementById('adult_id_type'+i).value != ''){
-                $("#adult_id_type"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                });
-                if(document.getElementById('adult_identity_first_name'+i).value != '')
-                {
-                    if(check_name(document.getElementById('adult_title'+i).value,
-                        document.getElementById('adult_identity_first_name'+i).value,
-                        document.getElementById('adult_identity_last_name'+i).value,
-                        length_name) == false){
-                       error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
-                    }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
-                       error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                    }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
-                       error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
-                       document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
-                    }else{
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                       document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                    }
+        if(document.getElementById('adult_id_type'+i).value != ''){
+            $("#adult_id_type"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+            });
+            if(document.getElementById('adult_identity_first_name'+i).value != '')
+            {
+                if(check_name(document.getElementById('adult_title'+i).value,
+                    document.getElementById('adult_identity_first_name'+i).value,
+                    document.getElementById('adult_identity_last_name'+i).value,
+                    length_name) == false){
+                   error_log+= 'Total of adult '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('adult_identity_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity first name of adult passenger '+i+'!</br>\n';
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('adult_identity_last_name'+i).value != '' && check_word(document.getElementById('adult_identity_last_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity last name of adult passenger '+i+'!</br>\n';
+                   document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('adult_identity_first_name'+i).style['border-color'] = '#EFEFEF';
                 }
+            }
 
 //               if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
@@ -8272,7 +8271,7 @@ function check_passenger(adult, child, infant, type=''){
 //                        });
 //                        document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
 //                        if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
 //                        }else{
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8292,7 +8291,7 @@ function check_passenger(adult, child, infant, type=''){
 //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
 //                       });
 //                       if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger adult '+i+'!</br>\n';
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
 //                       }else{
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8340,7 +8339,7 @@ function check_passenger(adult, child, infant, type=''){
 //                   });
 //                   if(document.getElementById('adult_id_type'+i).value == 'passport'){
 //                       if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger adult '+i+'!</br>\n';
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
 //                       }else{
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8371,92 +8370,91 @@ function check_passenger(adult, child, infant, type=''){
 //                       error_log+= 'Please change identity type to Passport for passenger adult '+i+'!</br>\n';
 //                   }
 //               }
-               // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
-               if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false'){
-                    document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                    $("#adult_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '0px solid red');
-                    });
-                    document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
-                    if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-                    }else{
-                       document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                    }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
-                       error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                       $("#adult_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid red');
-                       });
-                    }else{
-                       $("#adult_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                       });
-                    }
-               }
-               else if(document.getElementById('adult_id_type'+i).value == 'passport'){
-                   $("#adult_id_type"+i).each(function() {
-                       $(this).parent().find('.nice-select').css('border', '0px solid red');
+           // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+           if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false'){
+                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                $("#adult_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+                });
+                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
+                if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
+                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+                   $("#adult_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
-                   if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-                   }else{
-                       document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-                   }
-                   if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-                       error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-                   }else{
-                       duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
-                       //CHECK EXPIRED
-                       if(duration._milliseconds < 0 ){
-                            list_identity_need_update.push('adult_'+i);
+                }else{
+                   $("#adult_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
+                }
+           }
+           else if(document.getElementById('adult_id_type'+i).value == 'passport'){
+               $("#adult_id_type"+i).each(function() {
+                   $(this).parent().find('.nice-select').css('border', '0px solid red');
+               });
+               if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+                   error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+               }else{
+                   duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
+                   //CHECK EXPIRED
+                   if(duration._milliseconds < 0 ){
+                        list_identity_need_update.push('adult_'+i);
 //                                error_log+= 'Please update passport expired date for passenger adult '+i+'!</br>\n';
 //                                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else
-                            document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                   }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
-                       error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                        $("#adult_country_of_issued"+i+"_id").each(function() {
-                          $(this).siblings(".select2-container").css('border', '1px solid red');
-                        });
-                   }else{
-                        $("#adult_country_of_issued"+i+"_id").each(function() {
-                          $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                        });
-                   }
-
-               }
-               else if(is_international == 'true'){
-                    error_log += 'Please change identity to Passport for passenger adult '+i+'!</br>\n';
-                    $("#adult_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-               }
-           }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger adult '+i+'!</br>\n';
-                    $("#adult_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-           }else{
-                if(document.getElementById('adult_passport_number'+i).value != ''){
-                    error_log+= 'Please choose identity type for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-                    document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
-                    document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
-                    document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-                    $("#adult_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-
+                   }else
+                        document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_country_of_issued'+i+'_id').value == ''){
+                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                     $("#adult_country_of_issued"+i+"_id").each(function() {
                       $(this).siblings(".select2-container").css('border', '1px solid red');
                     });
-                }
-                if(check_valid_identity_checked('adult', i) === true)
-                    list_identity_need_update.push('adult_'+i)
+               }else{
+                    $("#adult_country_of_issued"+i+"_id").each(function() {
+                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                    });
+               }
+
            }
+           else if(is_international == 'true'){
+                error_log += 'Please change identity to Passport for passenger adult '+i+'!</br>\n';
+                $("#adult_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+           }
+       }else if(is_need_valid_identity == 'true'){
+            error_log += 'Identity required please change identity Passport for passenger adult '+i+'!</br>\n';
+                $("#adult_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+       }else{
+            if(document.getElementById('adult_passport_number'+i).value != ''){
+                error_log+= 'Please choose identity type for passenger adult '+i+'!</br>\n';
+                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+                document.getElementById('adult_identity_first_name'+i).style['border-color'] = 'red';
+                document.getElementById('adult_identity_last_name'+i).style['border-color'] = 'red';
+                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+                $("#adult_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+
+                $("#adult_country_of_issued"+i+"_id").each(function() {
+                  $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+            }
+            if(is_identity_required == 'true' && check_valid_identity_checked('adult', i) === true)
+                list_identity_need_update.push('adult_'+i)
        }
 
        if(document.getElementById('adult_cp'+i).checked == true){
@@ -8467,7 +8465,7 @@ function check_passenger(adult, child, infant, type=''){
                 document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
             }
             if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
-                error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                error_log+= 'Phone number Contact person must contain 8 - 12 digits of number!</br>\n';
                 document.getElementById('adult_phone'+i).style['border-color'] = 'red';
             }else
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
@@ -8607,29 +8605,28 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
-           if(document.getElementById('child_id_type'+i).value != ''){
-               document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
-               if(document.getElementById('child_identity_first_name'+i).value != '')
-               {
-                    if(check_name(document.getElementById('child_title'+i).value,
-                        document.getElementById('child_identity_first_name'+i).value,
-                        document.getElementById('child_identity_last_name'+i).value,
-                        length_name) == false){
-                       error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
-                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
-                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
-                    }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
-                       error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
-                       document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
-                    }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
-                       error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
-                       document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
-                    }else{
-                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                       document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                    }
-               }
+       if(document.getElementById('child_id_type'+i).value != ''){
+           document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
+           if(document.getElementById('child_identity_first_name'+i).value != '')
+           {
+                if(check_name(document.getElementById('child_title'+i).value,
+                    document.getElementById('child_identity_first_name'+i).value,
+                    document.getElementById('child_identity_last_name'+i).value,
+                    length_name) == false){
+                   error_log+= 'Total of child '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('child_identity_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity first name of child passenger '+i+'!</br>\n';
+                   document.getElementById('child_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('child_identity_last_name'+i).value != '' && check_word(document.getElementById('child_identity_last_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity last name of child passenger '+i+'!</br>\n';
+                   document.getElementById('child_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('child_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+           }
 //               if(document.getElementById('child_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -8638,7 +8635,7 @@ function check_passenger(adult, child, infant, type=''){
 //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
 //                        });
 //                        if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+i+'!</br>\n';
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
 //                        }else{
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8658,7 +8655,7 @@ function check_passenger(adult, child, infant, type=''){
 //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
 //                       });
 //                       if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger child '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger child '+i+'!</br>\n';
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
 //                       }else{
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8707,7 +8704,7 @@ function check_passenger(adult, child, infant, type=''){
 //                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
 //                       });
 //                       if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger child '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger child '+i+'!</br>\n';
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
 //                       }else{
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8740,91 +8737,90 @@ function check_passenger(adult, child, infant, type=''){
 //                       error_log+= 'Please change identity type to Passport for passenger child '+i+'!</br>\n';
 //                   }
 //               }
-               // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
-               if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
-                    document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                    $("#child_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-                    if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
-                       document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
-                    }else{
-                       document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
-                    }if(document.getElementById('child_country_of_issued'+i+'_id').value == ''){
-                       error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
-                       $("#child_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid red');
-                       });
-                    }else{
-                       $("#child_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                       });
-                    }
-               }
-               else if(document.getElementById('child_id_type'+i).value == 'passport'){
-                   $("#child_id_type"+i).each(function() {
-                       $(this).parent().find('.nice-select').css('border', '0px solid red');
+           // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+           if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
+                document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                $("#child_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+                if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+i+'!</br>\n';
+                   document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('child_country_of_issued'+i+'_id').value == ''){
+                   error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
+                   $("#child_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
-                   if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger child '+i+'!</br>\n';
-                       document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
-                   }else{
-                       document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
-                   }
-                   if(document.getElementById('child_passport_expired_date'+i).value == ''){
-                       error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
-                       document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
-                   }else{
-                       duration = moment.duration(moment(document.getElementById('child_passport_expired_date'+i).value).diff(last_departure_date));
-                       //CHECK EXPIRED
-                       if(duration._milliseconds < 0 ){
-                            list_identity_need_update.push('child_'+i);
+                }else{
+                   $("#child_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
+                }
+           }
+           else if(document.getElementById('child_id_type'+i).value == 'passport'){
+               $("#child_id_type"+i).each(function() {
+                   $(this).parent().find('.nice-select').css('border', '0px solid red');
+               });
+               if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger child '+i+'!</br>\n';
+                   document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('child_passport_expired_date'+i).value == ''){
+                   error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
+                   document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+               }else{
+                   duration = moment.duration(moment(document.getElementById('child_passport_expired_date'+i).value).diff(last_departure_date));
+                   //CHECK EXPIRED
+                   if(duration._milliseconds < 0 ){
+                        list_identity_need_update.push('child_'+i);
 //                                error_log+= 'Please update passport expired date for passenger child '+i+'!</br>\n';
 //                                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else
-                            document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                   }if(document.getElementById('child_country_of_issued'+i+'_id').value == ''){
-                       error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
-                       $("#child_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid red');
-                       });
+                   }else
+                        document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('child_country_of_issued'+i+'_id').value == ''){
+                   error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
+                   $("#child_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
 
-                   }else{
-                       $("#child_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                       });
+               }else{
+                   $("#child_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
 
-                   }
                }
-               else if(is_international == 'true'){
-                    error_log += 'Please change identity to Passport for passenger child '+i+'!</br>\n';
-                    $("#child_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-               }
-           }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger child '+i+'!</br>\n';
-                    $("#child_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-           }else{
-                if(document.getElementById('child_passport_number'+i).value != ''){
-                    error_log+= 'Please choose identity type for passenger child '+i+'!</br>\n';
-
-                    document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
-                    document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
-                    $("#child_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-
-                    $("#child_country_of_issued"+i+"_id").each(function() {
-                        $(this).siblings(".select2-container").css('border', '1px solid red');
-                    });
-                }
-                if(check_valid_identity_checked('child', i) === true)
-                    list_identity_need_update.push('child_'+i)
            }
+           else if(is_international == 'true'){
+                error_log += 'Please change identity to Passport for passenger child '+i+'!</br>\n';
+                $("#child_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+           }
+       }else if(is_need_valid_identity == 'true'){
+            error_log += 'Identity required please change identity Passport for passenger child '+i+'!</br>\n';
+                $("#child_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+       }else{
+            if(document.getElementById('child_passport_number'+i).value != ''){
+                error_log+= 'Please choose identity type for passenger child '+i+'!</br>\n';
+
+                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
+                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+                $("#child_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+
+                $("#child_country_of_issued"+i+"_id").each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+            }
+            if(is_identity_required == 'true' && check_valid_identity_checked('child', i) === true)
+                list_identity_need_update.push('child_'+i)
        }
        if(typeof ff_request !== 'undefined'){
            if(ff_request.length != 0 && check_ff == 1){
@@ -8960,29 +8956,28 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
        }
 
-       if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
-           if(document.getElementById('infant_id_type'+i).value != ''){
-               document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
-               if(document.getElementById('infant_identity_first_name'+i).value != '')
-               {
-                    if(check_name(document.getElementById('infant_title'+i).value,
-                        document.getElementById('infant_identity_first_name'+i).value,
-                        document.getElementById('infant_identity_last_name'+i).value,
-                        length_name) == false){
-                       error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
-                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
-                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
-                    }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
-                       error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
-                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
-                    }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
-                       error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
-                       document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
-                    }else{
-                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                       document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                    }
-               }
+       if(document.getElementById('infant_id_type'+i).value != ''){
+           document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
+           if(document.getElementById('infant_identity_first_name'+i).value != '')
+           {
+                if(check_name(document.getElementById('infant_title'+i).value,
+                    document.getElementById('infant_identity_first_name'+i).value,
+                    document.getElementById('infant_identity_last_name'+i).value,
+                    length_name) == false){
+                   error_log+= 'Total of infant '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                }else if(check_word(document.getElementById('infant_identity_first_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity first name of infant passenger '+i+'!</br>\n';
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = 'red';
+                }else if(document.getElementById('infant_identity_last_name'+i).value != '' && check_word(document.getElementById('infant_identity_last_name'+i).value) == false){
+                   error_log+= 'Please use alpha characters identity last name of infant passenger '+i+'!</br>\n';
+                   document.getElementById('infant_identity_last_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('infant_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+           }
 //               if(document.getElementById('infant_nationality'+i).value == 'Indonesia'){
 //                   //indonesia
 //                   if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
@@ -8991,7 +8986,7 @@ function check_passenger(adult, child, infant, type=''){
 //                            $(this).parent().find('.nice-select').css('border', '0px solid red');
 //                        });
 //                        if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger infant '+i+'!</br>\n';
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
 //                        }else{
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9010,7 +9005,7 @@ function check_passenger(adult, child, infant, type=''){
 //                            $(this).parent().find('.nice-select').css('border', '0px solid red');
 //                       });
 //                       if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger infant '+i+'!</br>\n';
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
 //                       }else{
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9056,7 +9051,7 @@ function check_passenger(adult, child, infant, type=''){
 //                            $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
 //                       });
 //                       if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger infant '+i+'!</br>\n';
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
 //                       }else{
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9087,89 +9082,88 @@ function check_passenger(adult, child, infant, type=''){
 //                        error_log+= 'Please change identity type to Passport for passenger infant '+i+'!</br>\n';
 //                   }
 //               }
-               // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
-               if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
-                    document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                    $("#infant_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '0px solid red');
-                    });
-                    if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
-                       document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-                    }else{
-                       document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
-                    }if(document.getElementById('infant_country_of_issued'+i+'_id').value == ''){
-                       error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-                       $("#infant_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid red');
-                       });
-                    }else{
-                       $("#infant_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                       });
-                    }
-               }
-               else if(document.getElementById('infant_id_type'+i).value == 'passport'){
-                   $("#infant_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '0px solid red');
+           // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+           if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
+                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                $("#infant_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+                });
+                if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, nik must be 16 digits for passenger infant '+i+'!</br>\n';
+                   document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('infant_country_of_issued'+i+'_id').value == ''){
+                   error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+                   $("#infant_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
-                   if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
-                       document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-                   }else{
-                       document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
-                   }
-                   if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-                       error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
-                       document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-                   }else{
-                       duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
-                       //CHECK EXPIRED
-                       if(duration._milliseconds < 0 ){
-                            list_identity_need_update.push('infant_'+i);
+                }else{
+                   $("#infant_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
+                }
+           }
+           else if(document.getElementById('infant_id_type'+i).value == 'passport'){
+               $("#infant_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+               });
+               if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger infant '+i+'!</br>\n';
+                   document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('infant_passport_expired_date'+i).value == ''){
+                   error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
+                   document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+               }else{
+                   duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
+                   //CHECK EXPIRED
+                   if(duration._milliseconds < 0 ){
+                        list_identity_need_update.push('infant_'+i);
 //                                error_log+= 'Please update passport expired date for passenger infant '+i+'!</br>\n';
 //                                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else
-                            document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                   }if(document.getElementById('infant_country_of_issued'+i+'_id').value == ''){
-                       error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-                       $("#infant_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid red');
-                       });
-                   }else{
-                       $("#infant_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                       });
-                   }
+                   }else
+                        document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('infant_country_of_issued'+i+'_id').value == ''){
+                   error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+                   $("#infant_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+               }else{
+                   $("#infant_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
                }
-               else if(is_international == 'true'){
-                    error_log += 'Please change identity to Passport for passenger infant '+i+'!</br>\n';
-                    $("#infant_id_type"+i).each(function() {
-                         $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-               }
-           }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger infant '+i+'!</br>\n';
-                    $("#infant_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-           }else{
-                if(document.getElementById('infant_passport_number'+i).value != ''){
-                    error_log+= 'Please choose identity type for passenger infant '+i+'!</br>\n';
-
-                    document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-                    document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-                    $("#infant_id_type"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-
-                    $("#infant_country_of_issued"+i+"_id").each(function() {
-                        $(this).siblings(".select2-container").css('border', '1px solid red');
-                    });
-                }
-                if(check_valid_identity_checked('infant', i) === true)
-                    list_identity_need_update.push('infant_'+i)
            }
+           else if(is_international == 'true'){
+                error_log += 'Please change identity to Passport for passenger infant '+i+'!</br>\n';
+                $("#infant_id_type"+i).each(function() {
+                     $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+           }
+       }else if(is_need_valid_identity == 'true'){
+            error_log += 'Identity required please change identity Passport for passenger infant '+i+'!</br>\n';
+                $("#infant_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+       }else{
+            if(document.getElementById('infant_passport_number'+i).value != ''){
+                error_log+= 'Please choose identity type for passenger infant '+i+'!</br>\n';
+
+                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+                $("#infant_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+
+                $("#infant_country_of_issued"+i+"_id").each(function() {
+                    $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+            }
+            if(is_identity_required == 'true' && check_valid_identity_checked('infant', i) === true)
+                list_identity_need_update.push('infant_'+i)
        }
    }
 //   if(error_log != ''){
@@ -9266,224 +9260,222 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('student_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
-               if(document.getElementById('student_id_type'+i).value != ''){
-                   document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
-                   if(document.getElementById('student_identity_first_name'+i).value != '')
-                   {
-                        if(check_name(document.getElementById('student_title'+i).value,
-                            document.getElementById('student_identity_first_name'+i).value,
-                            document.getElementById('student_identity_last_name'+i).value,
-                            length_name) == false){
-                           error_log+= 'Total of student '+i+' identity name maximum '+length_name+' characters!</br>\n';
-                           document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
-                           document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
-                        }else if(check_word(document.getElementById('student_identity_first_name'+i).value) == false){
-                           error_log+= 'Please use alpha characters identity first name of student passenger '+i+'!</br>\n';
-                           document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
-                        }else if(document.getElementById('student_identity_last_name'+i).value != '' && check_word(document.getElementById('student_identity_last_name'+i).value) == false){
-                           error_log+= 'Please use alpha characters identity last name of student passenger '+i+'!</br>\n';
-                           document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
-                        }else{
-                           document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                           document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                        }
-                   }
-    //               if(document.getElementById('student_nationality'+i).value == 'Indonesia'){
-    //                   //indonesia
-    //                   if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
-    //                        document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                        $("#student_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                        if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger student '+i+'!</br>\n';
-    //                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
-    //                        }else{
-    //                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                        }if(document.getElementById('student_country_of_issued'+i).value == '' || document.getElementById('student_country_of_issued'+i).value == 'Country of Issued'){
-    //                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
-    //                           $("#student_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //                        }else{
-    //                           $("#student_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //                        }
-    //                   }
-    //                   else if(document.getElementById('student_id_type'+i).value == 'passport' && is_international == 'true'){
-    //                       $("#student_id_type"+i).each(function() {
-    //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
-    //                       });
-    //                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger student '+i+'!</br>\n';
-    //                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                       }
-    //                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
-    //                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
-    //                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
-    //                           //CHECK EXPIRED
-    //                           if(duration._milliseconds < 0 ){
-    //                                list_identity_need_update.push('student_'+i);
-    ////                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
-    ////                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-    //                           }else
-    //                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                       }if(document.getElementById('student_country_of_issued'+i).value == '' || document.getElementById('student_country_of_issued'+i).value == 'Country of Issued'){
-    //                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
-    //                           $("#student_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //
-    //                       }else{
-    //                           $("#student_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //
-    //                       }
-    //                   }
-    //                   else if(is_international == 'false'){
-    //                        error_log += 'Please change identity to NIK for passenger student '+i+'!</br>\n';
-    //                        $("#student_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                   }else if(is_international == 'true'){
-    //                        error_log += 'Please change identity to Passport for passenger student '+i+'!</br>\n';
-    //                        $("#student_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                   }
-    //               }
-    //               else{
-    //                   //foreign
-    //                   if(document.getElementById('student_id_type'+i).value == 'passport'){
-    //                       $("#student_id_type"+i).each(function() {
-    //                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-    //                       });
-    //                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger student '+i+'!</br>\n';
-    //                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                       }
-    //                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
-    //                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
-    //                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
-    //                           //CHECK EXPIRED
-    //                           if(duration._milliseconds < 0 ){
-    //                                list_identity_need_update.push('student_'+i);
-    ////                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
-    ////                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-    //                           }else
-    //                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                       }if(document.getElementById('student_country_of_issued'+i).value == ''){
-    //                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
-    //                           $("#student_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //
-    //                       }else{
-    //                           $("#student_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //
-    //                       }
-    //                   }else{
-    //                       error_log+= 'Please change identity type to Passport for passenger student '+i+'!</br>\n';
-    //                   }
-    //               }
-                   // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
-                   if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
-                        document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                        $("#student_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-                        if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger student '+i+'!</br>\n';
-                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
-                        }else{
-                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
-                        }if(document.getElementById('student_country_of_issued'+i+'_id').value == ''){
-                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
-                           $("#student_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                        }else{
-                           $("#student_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                        }
-                   }
-                   else if(document.getElementById('student_id_type'+i).value == 'passport'){
-                       $("#student_id_type"+i).each(function() {
-                           $(this).parent().find('.nice-select').css('border', '0px solid red');
-                       });
-                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger student '+i+'!</br>\n';
-                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
-                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                list_identity_need_update.push('student_'+i);
-    //                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
-    //                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('student_country_of_issued'+i+'_id').value == ''){
-                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
-                           $("#student_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-
-                       }else{
-                           $("#student_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-
-                       }
-                   }
-                   else if(is_international == 'true'){
-                        error_log += 'Please change identity to Passport for passenger student '+i+'!</br>\n';
-                        $("#student_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-                   }
-               }else if(is_need_valid_identity == 'true'){
-                    error_log += 'Identity required please change identity Passport for passenger student '+i+'!</br>\n';
-                        $("#student_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-               }else{
-                   if(document.getElementById('student_passport_number'+i).value != ''){
-                        error_log+= 'Please choose identity type for passenger student '+i+'!</br>\n';
-
-                        document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
-                        document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
-                        $("#student_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-
-                        $("#student_country_of_issued"+i+"_id").each(function() {
-                            $(this).siblings(".select2-container").css('border', '1px solid red');
-                        });
-                   }
-                   if(check_valid_identity_checked('student', i) === true)
-                        list_identity_need_update.push('student_'+i)
+           if(document.getElementById('student_id_type'+i).value != ''){
+               document.getElementById('student_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('student_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('student_title'+i).value,
+                        document.getElementById('student_identity_first_name'+i).value,
+                        document.getElementById('student_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of student '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('student_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of student passenger '+i+'!</br>\n';
+                       document.getElementById('student_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('student_identity_last_name'+i).value != '' && check_word(document.getElementById('student_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of student passenger '+i+'!</br>\n';
+                       document.getElementById('student_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('student_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
                }
+//               if(document.getElementById('student_nationality'+i).value == 'Indonesia'){
+//                   //indonesia
+//                   if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
+//                        document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                        $("#student_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                        if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger student '+i+'!</br>\n';
+//                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+//                        }else{
+//                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                        }if(document.getElementById('student_country_of_issued'+i).value == '' || document.getElementById('student_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+//                           $("#student_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//                        }else{
+//                           $("#student_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//                        }
+//                   }
+//                   else if(document.getElementById('student_id_type'+i).value == 'passport' && is_international == 'true'){
+//                       $("#student_id_type"+i).each(function() {
+//                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+//                       });
+//                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger student '+i+'!</br>\n';
+//                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
+//                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                list_identity_need_update.push('student_'+i);
+////                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
+////                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('student_country_of_issued'+i).value == '' || document.getElementById('student_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+//                           $("#student_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//
+//                       }else{
+//                           $("#student_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//
+//                       }
+//                   }
+//                   else if(is_international == 'false'){
+//                        error_log += 'Please change identity to NIK for passenger student '+i+'!</br>\n';
+//                        $("#student_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                   }else if(is_international == 'true'){
+//                        error_log += 'Please change identity to Passport for passenger student '+i+'!</br>\n';
+//                        $("#student_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                   }
+//               }
+//               else{
+//                   //foreign
+//                   if(document.getElementById('student_id_type'+i).value == 'passport'){
+//                       $("#student_id_type"+i).each(function() {
+//                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+//                       });
+//                       if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger student '+i+'!</br>\n';
+//                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('student_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
+//                           document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                list_identity_need_update.push('student_'+i);
+////                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
+////                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('student_country_of_issued'+i).value == ''){
+//                           error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+//                           $("#student_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//
+//                       }else{
+//                           $("#student_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//
+//                       }
+//                   }else{
+//                       error_log+= 'Please change identity type to Passport for passenger student '+i+'!</br>\n';
+//                   }
+//               }
+               // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+               if(document.getElementById('student_id_type'+i).value == 'ktp' && is_international == 'false'){
+                    document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                    $("#student_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+                    if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, nik must be 16 digits for passenger student '+i+'!</br>\n';
+                       document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+                    }if(document.getElementById('student_country_of_issued'+i+'_id').value == ''){
+                       error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+                       $("#student_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
+                    }else{
+                       $("#student_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
+                    }
+               }
+               else if(document.getElementById('student_id_type'+i).value == 'passport'){
+                   $("#student_id_type"+i).each(function() {
+                       $(this).parent().find('.nice-select').css('border', '0px solid red');
+                   });
+                   if(document.getElementById('student_id_type'+i).value == 'passport' && check_passport(document.getElementById('student_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger student '+i+'!</br>\n';
+                       document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
+                   }
+                   if(document.getElementById('student_passport_expired_date'+i).value == ''){
+                       error_log+= 'Please fill passport expired date for passenger student '+i+'!</br>\n';
+                       document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+                   }else{
+                       duration = moment.duration(moment(document.getElementById('student_passport_expired_date'+i).value).diff(last_departure_date));
+                       //CHECK EXPIRED
+                       if(duration._milliseconds < 0 ){
+                            list_identity_need_update.push('student_'+i);
+//                                error_log+= 'Please update passport expired date for passenger student '+i+'!</br>\n';
+//                                document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else
+                            document.getElementById('student_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                   }if(document.getElementById('student_country_of_issued'+i+'_id').value == ''){
+                       error_log+= 'Please fill country of issued for passenger student '+i+'!</br>\n';
+                       $("#student_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
+
+                   }else{
+                       $("#student_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
+
+                   }
+               }
+               else if(is_international == 'true'){
+                    error_log += 'Please change identity to Passport for passenger student '+i+'!</br>\n';
+                    $("#student_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+               }
+           }else if(is_need_valid_identity == 'true'){
+                error_log += 'Identity required please change identity Passport for passenger student '+i+'!</br>\n';
+                    $("#student_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+           }else{
+               if(document.getElementById('student_passport_number'+i).value != ''){
+                    error_log+= 'Please choose identity type for passenger student '+i+'!</br>\n';
+
+                    document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
+                    document.getElementById('student_passport_expired_date'+i).style['border-color'] = 'red';
+                    $("#student_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+
+                    $("#student_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
+               }
+               if(is_identity_required == 'true' && check_valid_identity_checked('student', i) === true)
+                    list_identity_need_update.push('student_'+i)
            }
            if(typeof ff_request !== 'undefined'){
                if(ff_request.length != 0 && check_ff == 1){
@@ -9623,224 +9615,222 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('seaman_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
-               if(document.getElementById('seaman_id_type'+i).value != ''){
-                   document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
-                   if(document.getElementById('seaman_identity_first_name'+i).value != '')
-                   {
-                        if(check_name(document.getElementById('seaman_title'+i).value,
-                            document.getElementById('seaman_identity_first_name'+i).value,
-                            document.getElementById('seaman_identity_last_name'+i).value,
-                            length_name) == false){
-                           error_log+= 'Total of seaman '+i+' identity name maximum '+length_name+' characters!</br>\n';
-                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
-                           document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
-                        }else if(check_word(document.getElementById('seaman_identity_first_name'+i).value) == false){
-                           error_log+= 'Please use alpha characters identity first name of seaman passenger '+i+'!</br>\n';
-                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
-                        }else if(document.getElementById('seaman_identity_last_name'+i).value != '' && check_word(document.getElementById('seaman_identity_last_name'+i).value) == false){
-                           error_log+= 'Please use alpha characters identity last name of seaman passenger '+i+'!</br>\n';
-                           document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
-                        }else{
-                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                           document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                        }
-                   }
-    //               if(document.getElementById('seaman_nationality'+i).value == 'Indonesia'){
-    //                   //indonesia
-    //                   if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
-    //                        document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                        $("#seaman_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                        if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger seaman '+i+'!</br>\n';
-    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
-    //                        }else{
-    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                        }if(document.getElementById('seaman_country_of_issued'+i).value == '' || document.getElementById('seaman_country_of_issued'+i).value == 'Country of Issued'){
-    //                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
-    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //                        }else{
-    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //                        }
-    //                   }
-    //                   else if(document.getElementById('seaman_id_type'+i).value == 'passport' && is_international == 'true'){
-    //                       $("#seaman_id_type"+i).each(function() {
-    //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
-    //                       });
-    //                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger seaman '+i+'!</br>\n';
-    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                       }
-    //                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
-    //                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
-    //                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
-    //                           //CHECK EXPIRED
-    //                           if(duration._milliseconds < 0 ){
-    //                                list_identity_need_update.push('seaman_'+i);
-    ////                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
-    ////                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-    //                           }else
-    //                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                       }if(document.getElementById('seaman_country_of_issued'+i).value == '' || document.getElementById('seaman_country_of_issued'+i).value == 'Country of Issued'){
-    //                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
-    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //
-    //                       }else{
-    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //
-    //                       }
-    //                   }
-    //                   else if(is_international == 'false'){
-    //                        error_log += 'Please change identity to NIK for passenger seaman '+i+'!</br>\n';
-    //                        $("#seaman_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                   }else if(is_international == 'true'){
-    //                        error_log += 'Please change identity to Passport for passenger seaman '+i+'!</br>\n';
-    //                        $("#seaman_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                   }
-    //               }
-    //               else{
-    //                   //foreign
-    //                   if(document.getElementById('seaman_id_type'+i).value == 'passport'){
-    //                       $("#seaman_id_type"+i).each(function() {
-    //                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-    //                       });
-    //                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger seaman '+i+'!</br>\n';
-    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                       }
-    //                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
-    //                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
-    //                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
-    //                           //CHECK EXPIRED
-    //                           if(duration._milliseconds < 0 ){
-    //                                list_identity_need_update.push('seaman_'+i);
-    ////                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
-    ////                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-    //                           }else
-    //                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                       }if(document.getElementById('seaman_country_of_issued'+i).value == ''){
-    //                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
-    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //
-    //                       }else{
-    //                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //
-    //                       }
-    //                   }else{
-    //                       error_log+= 'Please change identity type to Passport for passenger seaman '+i+'!</br>\n';
-    //                   }
-    //               }
-                   // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
-                   if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
-                        document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                        $("#seaman_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-                        if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger seaman '+i+'!</br>\n';
-                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
-                        }else{
-                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
-                        }if(document.getElementById('seaman_country_of_issued'+i+'_id').value == ''){
-                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
-                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                        }else{
-                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                        }
-                   }
-                   else if(document.getElementById('seaman_id_type'+i).value == 'passport'){
-                       $("#seaman_id_type"+i).each(function() {
-                           $(this).parent().find('.nice-select').css('border', '0px solid red');
-                       });
-                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger seaman '+i+'!</br>\n';
-                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
-                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                list_identity_need_update.push('seaman_'+i);
-    //                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
-    //                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('seaman_country_of_issued'+i+'_id').value == ''){
-                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
-                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-
-                       }else{
-                           $("#seaman_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-
-                       }
-                   }
-                   else if(is_international == 'true'){
-                        error_log += 'Please change identity to Passport for passenger seaman '+i+'!</br>\n';
-                        $("#seaman_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-                   }
-               }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger seaman '+i+'!</br>\n';
+           if(document.getElementById('seaman_id_type'+i).value != ''){
+               document.getElementById('seaman_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('seaman_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('seaman_title'+i).value,
+                        document.getElementById('seaman_identity_first_name'+i).value,
+                        document.getElementById('seaman_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of seaman '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('seaman_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of seaman passenger '+i+'!</br>\n';
+                       document.getElementById('seaman_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('seaman_identity_last_name'+i).value != '' && check_word(document.getElementById('seaman_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of seaman passenger '+i+'!</br>\n';
+                       document.getElementById('seaman_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('seaman_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
+//               if(document.getElementById('seaman_nationality'+i).value == 'Indonesia'){
+//                   //indonesia
+//                   if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
+//                        document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                        $("#seaman_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                        if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger seaman '+i+'!</br>\n';
+//                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+//                        }else{
+//                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                        }if(document.getElementById('seaman_country_of_issued'+i).value == '' || document.getElementById('seaman_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+//                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//                        }else{
+//                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//                        }
+//                   }
+//                   else if(document.getElementById('seaman_id_type'+i).value == 'passport' && is_international == 'true'){
+//                       $("#seaman_id_type"+i).each(function() {
+//                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+//                       });
+//                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger seaman '+i+'!</br>\n';
+//                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
+//                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                list_identity_need_update.push('seaman_'+i);
+////                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
+////                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('seaman_country_of_issued'+i).value == '' || document.getElementById('seaman_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+//                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//
+//                       }else{
+//                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//
+//                       }
+//                   }
+//                   else if(is_international == 'false'){
+//                        error_log += 'Please change identity to NIK for passenger seaman '+i+'!</br>\n';
+//                        $("#seaman_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                   }else if(is_international == 'true'){
+//                        error_log += 'Please change identity to Passport for passenger seaman '+i+'!</br>\n';
+//                        $("#seaman_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                   }
+//               }
+//               else{
+//                   //foreign
+//                   if(document.getElementById('seaman_id_type'+i).value == 'passport'){
+//                       $("#seaman_id_type"+i).each(function() {
+//                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+//                       });
+//                       if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger seaman '+i+'!</br>\n';
+//                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
+//                           document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                list_identity_need_update.push('seaman_'+i);
+////                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
+////                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('seaman_country_of_issued'+i).value == ''){
+//                           error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+//                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//
+//                       }else{
+//                           $("#seaman_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//
+//                       }
+//                   }else{
+//                       error_log+= 'Please change identity type to Passport for passenger seaman '+i+'!</br>\n';
+//                   }
+//               }
+               // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+               if(document.getElementById('seaman_id_type'+i).value == 'ktp' && is_international == 'false'){
+                    document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                     $("#seaman_id_type"+i).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
-                }else{
-                    if(document.getElementById('seaman_passport_number'+i).value != ''){
-                        error_log+= 'Please choose identity type for passenger seaman '+i+'!</br>\n';
-
-                        document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
-                        document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
-                        $("#seaman_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-
-                        $("#seaman_country_of_issued"+i+"_id").each(function() {
-                            $(this).siblings(".select2-container").css('border', '1px solid red');
-                        });
+                    if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, nik must be 16 digits for passenger seaman '+i+'!</br>\n';
+                       document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+                    }if(document.getElementById('seaman_country_of_issued'+i+'_id').value == ''){
+                       error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+                       $("#seaman_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
+                    }else{
+                       $("#seaman_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
                     }
-                    if(check_valid_identity_checked('seaman', i) === true)
-                        list_identity_need_update.push('seaman_'+i)
                }
+               else if(document.getElementById('seaman_id_type'+i).value == 'passport'){
+                   $("#seaman_id_type"+i).each(function() {
+                       $(this).parent().find('.nice-select').css('border', '0px solid red');
+                   });
+                   if(document.getElementById('seaman_id_type'+i).value == 'passport' && check_passport(document.getElementById('seaman_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger seaman '+i+'!</br>\n';
+                       document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
+                   }
+                   if(document.getElementById('seaman_passport_expired_date'+i).value == ''){
+                       error_log+= 'Please fill passport expired date for passenger seaman '+i+'!</br>\n';
+                       document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+                   }else{
+                       duration = moment.duration(moment(document.getElementById('seaman_passport_expired_date'+i).value).diff(last_departure_date));
+                       //CHECK EXPIRED
+                       if(duration._milliseconds < 0 ){
+                            list_identity_need_update.push('seaman_'+i);
+//                                error_log+= 'Please update passport expired date for passenger seaman '+i+'!</br>\n';
+//                                document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else
+                            document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                   }if(document.getElementById('seaman_country_of_issued'+i+'_id').value == ''){
+                       error_log+= 'Please fill country of issued for passenger seaman '+i+'!</br>\n';
+                       $("#seaman_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
+
+                   }else{
+                       $("#seaman_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
+
+                   }
+               }
+               else if(is_international == 'true'){
+                    error_log += 'Please change identity to Passport for passenger seaman '+i+'!</br>\n';
+                    $("#seaman_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+               }
+           }else if(is_need_valid_identity == 'true'){
+            error_log += 'Identity required please change identity Passport for passenger seaman '+i+'!</br>\n';
+                $("#seaman_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+            }else{
+                if(document.getElementById('seaman_passport_number'+i).value != ''){
+                    error_log+= 'Please choose identity type for passenger seaman '+i+'!</br>\n';
+
+                    document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
+                    document.getElementById('seaman_passport_expired_date'+i).style['border-color'] = 'red';
+                    $("#seaman_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+
+                    $("#seaman_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
+                }
+                if(is_identity_required == 'true' && check_valid_identity_checked('seaman', i) === true)
+                    list_identity_need_update.push('seaman_'+i)
            }
            if(typeof ff_request !== 'undefined'){
                if(ff_request.length != 0 && check_ff == 1){
@@ -9980,224 +9970,222 @@ function check_passenger(adult, child, infant, type=''){
                document.getElementById('labour_nationality'+i+'_id').style['border-color'] = '#EFEFEF';
            }
 
-           if(is_identity_required == 'true' || is_need_valid_identity == 'true'){
-               if(document.getElementById('labour_id_type'+i).value != ''){
-                   document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
-                   if(document.getElementById('labour_identity_first_name'+i).value != '')
-                   {
-                        if(check_name(document.getElementById('labour_title'+i).value,
-                            document.getElementById('labour_identity_first_name'+i).value,
-                            document.getElementById('labour_identity_last_name'+i).value,
-                            length_name) == false){
-                           error_log+= 'Total of labour '+i+' identity name maximum '+length_name+' characters!</br>\n';
-                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
-                           document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
-                        }else if(check_word(document.getElementById('labour_identity_first_name'+i).value) == false){
-                           error_log+= 'Please use alpha characters identity first name of labour passenger '+i+'!</br>\n';
-                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
-                        }else if(document.getElementById('labour_identity_last_name'+i).value != '' && check_word(document.getElementById('labour_identity_last_name'+i).value) == false){
-                           error_log+= 'Please use alpha characters identity last name of labour passenger '+i+'!</br>\n';
-                           document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
-                        }else{
-                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                           document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
-                        }
-                   }
-    //               if(document.getElementById('labour_nationality'+i).value == 'Indonesia'){
-    //                   //indonesia
-    //                   if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
-    //                        document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                        $("#labour_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                        if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger labour '+i+'!</br>\n';
-    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
-    //                        }else{
-    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                        }if(document.getElementById('labour_country_of_issued'+i).value == '' || document.getElementById('labour_country_of_issued'+i).value == 'Country of Issued'){
-    //                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
-    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //                        }else{
-    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //                        }
-    //                   }
-    //                   else if(document.getElementById('labour_id_type'+i).value == 'passport' && is_international == 'true'){
-    //                       $("#labour_id_type"+i).each(function() {
-    //                           $(this).parent().find('.nice-select').css('border', '0px solid red');
-    //                       });
-    //                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger labour '+i+'!</br>\n';
-    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                       }
-    //                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
-    //                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
-    //                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
-    //                           //CHECK EXPIRED
-    //                           if(duration._milliseconds < 0 ){
-    //                                list_identity_need_update.push('labour_'+i);
-    ////                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
-    ////                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-    //                           }else
-    //                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                       }if(document.getElementById('labour_country_of_issued'+i).value == '' || document.getElementById('labour_country_of_issued'+i).value == 'Country of Issued'){
-    //                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
-    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //
-    //                       }else{
-    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //
-    //                       }
-    //                   }
-    //                   else if(is_international == 'false'){
-    //                        error_log += 'Please change identity to NIK for passenger labour '+i+'!</br>\n';
-    //                        $("#labour_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                   }else if(is_international == 'true'){
-    //                        error_log += 'Please change identity to Passport for passenger labour '+i+'!</br>\n';
-    //                        $("#labour_id_type"+i).each(function() {
-    //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-    //                        });
-    //                   }
-    //               }
-    //               else{
-    //                   //foreign
-    //                   if(document.getElementById('labour_id_type'+i).value == 'passport'){
-    //                       $("#labour_id_type"+i).each(function() {
-    //                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-    //                       });
-    //                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger labour '+i+'!</br>\n';
-    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
-    //                       }
-    //                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
-    //                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
-    //                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-    //                       }else{
-    //                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
-    //                           //CHECK EXPIRED
-    //                           if(duration._milliseconds < 0 ){
-    //                                list_identity_need_update.push('labour_'+i);
-    ////                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
-    ////                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-    //                           }else
-    //                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-    //                       }if(document.getElementById('labour_country_of_issued'+i).value == ''){
-    //                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
-    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid red');
-    //                           });
-    //
-    //                       }else{
-    //                           $("#labour_country_of_issued"+i+"_id").each(function() {
-    //                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-    //                           });
-    //
-    //                       }
-    //                   }else{
-    //                       error_log+= 'Please change identity type to Passport for passenger labour '+i+'!</br>\n';
-    //                   }
-    //               }
-                   // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
-                   if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
-                        document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                        $("#labour_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-                        if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger labour '+i+'!</br>\n';
-                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
-                        }else{
-                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
-                        }if(document.getElementById('labour_country_of_issued'+i+'_id').value == ''){
-                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
-                           $("#labour_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                        }else{
-                           $("#labour_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                        }
-                   }
-                   else if(document.getElementById('labour_id_type'+i).value == 'passport'){
-                       $("#labour_id_type"+i).each(function() {
-                           $(this).parent().find('.nice-select').css('border', '0px solid red');
-                       });
-                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger labour '+i+'!</br>\n';
-                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
-                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                list_identity_need_update.push('labour_'+i);
-    //                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
-    //                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('labour_country_of_issued'+i+'_id').value == ''){
-                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
-                           $("#labour_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-
-                       }else{
-                           $("#labour_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-
-                       }
-                   }
-                   else if(is_international == 'true'){
-                        error_log += 'Please change identity to Passport for passenger labour '+i+'!</br>\n';
-                        $("#labour_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-                   }
-               }else if(is_need_valid_identity == 'true'){
-                error_log += 'Identity required please change identity Passport for passenger labour '+i+'!</br>\n';
+           if(document.getElementById('labour_id_type'+i).value != ''){
+               document.getElementById('labour_id_type'+i).style['border-color'] = '#EFEFEF';
+               if(document.getElementById('labour_identity_first_name'+i).value != '')
+               {
+                    if(check_name(document.getElementById('labour_title'+i).value,
+                        document.getElementById('labour_identity_first_name'+i).value,
+                        document.getElementById('labour_identity_last_name'+i).value,
+                        length_name) == false){
+                       error_log+= 'Total of labour '+i+' identity name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
+                    }else if(check_word(document.getElementById('labour_identity_first_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity first name of labour passenger '+i+'!</br>\n';
+                       document.getElementById('labour_identity_first_name'+i).style['border-color'] = 'red';
+                    }else if(document.getElementById('labour_identity_last_name'+i).value != '' && check_word(document.getElementById('labour_identity_last_name'+i).value) == false){
+                       error_log+= 'Please use alpha characters identity last name of labour passenger '+i+'!</br>\n';
+                       document.getElementById('labour_identity_last_name'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('labour_identity_first_name'+i).style['border-color'] = '#EFEFEF';
+                    }
+               }
+//               if(document.getElementById('labour_nationality'+i).value == 'Indonesia'){
+//                   //indonesia
+//                   if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
+//                        document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                        $("#labour_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                        if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger labour '+i+'!</br>\n';
+//                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+//                        }else{
+//                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                        }if(document.getElementById('labour_country_of_issued'+i).value == '' || document.getElementById('labour_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+//                           $("#labour_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//                        }else{
+//                           $("#labour_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//                        }
+//                   }
+//                   else if(document.getElementById('labour_id_type'+i).value == 'passport' && is_international == 'true'){
+//                       $("#labour_id_type"+i).each(function() {
+//                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+//                       });
+//                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger labour '+i+'!</br>\n';
+//                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
+//                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                list_identity_need_update.push('labour_'+i);
+////                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
+////                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('labour_country_of_issued'+i).value == '' || document.getElementById('labour_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+//                           $("#labour_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//
+//                       }else{
+//                           $("#labour_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//
+//                       }
+//                   }
+//                   else if(is_international == 'false'){
+//                        error_log += 'Please change identity to NIK for passenger labour '+i+'!</br>\n';
+//                        $("#labour_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                   }else if(is_international == 'true'){
+//                        error_log += 'Please change identity to Passport for passenger labour '+i+'!</br>\n';
+//                        $("#labour_id_type"+i).each(function() {
+//                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                        });
+//                   }
+//               }
+//               else{
+//                   //foreign
+//                   if(document.getElementById('labour_id_type'+i).value == 'passport'){
+//                       $("#labour_id_type"+i).each(function() {
+//                           $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+//                       });
+//                       if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger labour '+i+'!</br>\n';
+//                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('labour_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
+//                           document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                list_identity_need_update.push('labour_'+i);
+////                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
+////                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('labour_country_of_issued'+i).value == ''){
+//                           error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+//                           $("#labour_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//
+//                       }else{
+//                           $("#labour_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//
+//                       }
+//                   }else{
+//                       error_log+= 'Please change identity type to Passport for passenger labour '+i+'!</br>\n';
+//                   }
+//               }
+               // IVAN 17 okt 2022 open all passenger nationality, kalau inter harus passport
+               if(document.getElementById('labour_id_type'+i).value == 'ktp' && is_international == 'false'){
+                    document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                     $("#labour_id_type"+i).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
-                }else{
-                    if(document.getElementById('labour_passport_number'+i).value != ''){
-                        error_log+= 'Please choose identity type for passenger labour '+i+'!</br>\n';
-
-                        document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
-                        document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
-                        $("#labour_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '1px solid red');
-                        });
-
-                        $("#labour_country_of_issued"+i+"_id").each(function() {
-                            $(this).siblings(".select2-container").css('border', '1px solid red');
-                        });
+                    if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, nik must be 16 digits for passenger labour '+i+'!</br>\n';
+                       document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+                    }else{
+                       document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+                    }if(document.getElementById('labour_country_of_issued'+i+'_id').value == ''){
+                       error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+                       $("#labour_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
+                    }else{
+                       $("#labour_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
                     }
-                    if(check_valid_identity_checked('labour', i) === true)
-                        list_identity_need_update.push('labour_'+i)
                }
+               else if(document.getElementById('labour_id_type'+i).value == 'passport'){
+                   $("#labour_id_type"+i).each(function() {
+                       $(this).parent().find('.nice-select').css('border', '0px solid red');
+                   });
+                   if(document.getElementById('labour_id_type'+i).value == 'passport' && check_passport(document.getElementById('labour_passport_number'+i).value) == false){
+                       error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger labour '+i+'!</br>\n';
+                       document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+                   }else{
+                       document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
+                   }
+                   if(document.getElementById('labour_passport_expired_date'+i).value == ''){
+                       error_log+= 'Please fill passport expired date for passenger labour '+i+'!</br>\n';
+                       document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+                   }else{
+                       duration = moment.duration(moment(document.getElementById('labour_passport_expired_date'+i).value).diff(last_departure_date));
+                       //CHECK EXPIRED
+                       if(duration._milliseconds < 0 ){
+                            list_identity_need_update.push('labour_'+i);
+//                                error_log+= 'Please update passport expired date for passenger labour '+i+'!</br>\n';
+//                                document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+                       }else
+                            document.getElementById('labour_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                   }if(document.getElementById('labour_country_of_issued'+i+'_id').value == ''){
+                       error_log+= 'Please fill country of issued for passenger labour '+i+'!</br>\n';
+                       $("#labour_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
+
+                   }else{
+                       $("#labour_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
+
+                   }
+               }
+               else if(is_international == 'true'){
+                    error_log += 'Please change identity to Passport for passenger labour '+i+'!</br>\n';
+                    $("#labour_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+               }
+           }else if(is_need_valid_identity == 'true'){
+            error_log += 'Identity required please change identity Passport for passenger labour '+i+'!</br>\n';
+                $("#labour_id_type"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+            }else{
+                if(document.getElementById('labour_passport_number'+i).value != ''){
+                    error_log+= 'Please choose identity type for passenger labour '+i+'!</br>\n';
+
+                    document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
+                    document.getElementById('labour_passport_expired_date'+i).style['border-color'] = 'red';
+                    $("#labour_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+
+                    $("#labour_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
+                }
+                if(is_identity_required == 'true' && check_valid_identity_checked('labour', i) === true)
+                    list_identity_need_update.push('labour_'+i)
            }
            if(typeof ff_request !== 'undefined'){
                if(ff_request.length != 0 && check_ff == 1){
@@ -10405,7 +10393,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
             document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
         }if(check_phone_number(document.getElementById('booker_phone').value)==false){
             if(check_phone_number(document.getElementById('booker_phone').value) == false)
-                error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
+                error_log+= 'Phone number Booker must contain 8 - 12 digits of number!</br>\n';
             document.getElementById('booker_phone').style['border-color'] = 'red';
         }else{
             document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
@@ -10546,7 +10534,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                         });
                         document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
                         if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10565,7 +10553,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            $(this).parent().find('.nice-select').css('border', '0px solid red');
                        });
                        if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10610,7 +10598,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                    });
                    if(document.getElementById('adult_id_type'+i).value == 'passport'){
                        if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10653,7 +10641,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                 document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
             }
             if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
-                error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                error_log+= 'Phone number Contact person must contain 8 - 12 digits of number!</br>\n';
                 document.getElementById('adult_phone'+i).style['border-color'] = 'red';
             }else
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
@@ -10786,7 +10774,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                         if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+i+'!</br>\n';
                            document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10805,7 +10793,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            $(this).parent().find('.nice-select').css('border', '0px solid red');
                        });
                        if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger child '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger child '+i+'!</br>\n';
                            document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10851,7 +10839,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                            $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                        });
                        if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger child '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger child '+i+'!</br>\n';
                            document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -11012,7 +11000,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '0px solid red');
                         });
                         if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger infant '+i+'!</br>\n';
                            document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -11031,7 +11019,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '0px solid red');
                        });
                        if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger infant '+i+'!</br>\n';
                            document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -11075,7 +11063,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                        });
                        if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, passport must contain more than 6 digits for passenger infant '+i+'!</br>\n';
                            document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
                        }else{
                            document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';

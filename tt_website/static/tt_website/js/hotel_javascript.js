@@ -2210,7 +2210,7 @@ function check_passenger(adult, child, room){
                     });
                     document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
                     if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-                        error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+                        error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
                         document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                     }else{
                         document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -2361,7 +2361,7 @@ function check_passenger(adult, child, room){
                     });
                     document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
                     if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
-                        error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
+                        error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+i+'!</br>\n';
                         document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
                     }else{
                         document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';

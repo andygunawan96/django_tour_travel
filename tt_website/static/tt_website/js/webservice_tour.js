@@ -581,6 +581,7 @@ function tour_search(){
                for(i in tour_data){
                    content_pop_date = '';
                    content_pop_question = '';
+                   content_pop_flight = '';
                    title_pop_date = '';
                    content_pop_question+=`<b>`+tour_data[i].tour_type.name+`: </b>`+tour_data[i].tour_type.description;
 
@@ -629,6 +630,39 @@ function tour_search(){
                             },
                             onClose: function () {
                               this.source.removeClass('active').html('See Date');
+                            }
+                        });
+                    }
+
+                    if(tour_data[i].flight_carriers.length > 0){
+                        for (j in tour_data[i].flight_carriers){
+                            content_pop_flight += `<span><img src="`+static_path_url_server+`/public/airline_logo/`+tour_data[i].flight_carriers[j].code+`.png"/> `+tour_data[i].flight_carriers[j].name+`</span><hr/>`;
+                        }
+
+                        new jBox('Tooltip', {
+                            attach: '#pop_flight'+i,
+                            target: '#pop_flight'+i,
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'top'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: content_pop_flight,
+                            onOpen: function () {
+                              this.source.addClass('active').html('Close');
+                            },
+                            onClose: function () {
+                              this.source.removeClass('active').html('<i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info');
                             }
                         });
                     }

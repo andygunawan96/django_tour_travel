@@ -2216,7 +2216,7 @@ function check_passenger(){
         if(document.getElementById('adult_id_type'+i).style.display == 'block'){
             if(document.getElementById('adult_id_type'+i).value == 'ktp'){
                 if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-                    error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+                    error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -2422,7 +2422,7 @@ function check_passenger(){
                 });
                 document.getElementById('Adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#cdcdcd';
                 if(check_ktp(document.getElementById('Adult_relation'+i+'_passport_number'+counter).value) == false){
-                   error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+counter_passenger+'!</br>\n';
+                   error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+counter_passenger+'!</br>\n';
                    document.getElementById('Adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
                 }else{
                    document.getElementById('Adult_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
@@ -2548,7 +2548,7 @@ function check_passenger(){
                 });
                 document.getElementById('Child_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#cdcdcd';
                 if(check_ktp(document.getElementById('Child_relation'+i+'_passport_number'+counter).value) == false){
-                   error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+counter_passenger+'!</br>\n';
+                   error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+counter_passenger+'!</br>\n';
                    document.getElementById('Child_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
                 }else{
                    document.getElementById('Child_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
@@ -2607,7 +2607,7 @@ function check_passenger(){
             //CHECK KTP
             if(document.getElementById('Adult_relation_beneficiary_id_type'+i).value == 'ktp'){
                 if(check_ktp(document.getElementById('Adult_relation_beneficiary_passport_number'+i).value) == false){
-                   error_log+= 'Please fill id number, nik only contain 16 digits for beneficiary customer '+i+'!</br>\n';
+                   error_log+= 'Please fill id number, nik must be 16 digits for beneficiary customer '+i+'!</br>\n';
                    document.getElementById('Adult_relation_beneficiary_passport_number'+i).style['border-color'] = 'red';
                 }else{
                    document.getElementById('Adult_relation_beneficiary_passport_number'+i).style['border-color'] = '#EFEFEF';

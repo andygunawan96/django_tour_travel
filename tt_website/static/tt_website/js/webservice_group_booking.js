@@ -2546,7 +2546,7 @@ function group_booking_update_passenger(){
                    if(document.getElementById('adult_identity_type'+i).value == 'ktp'){
                         document.getElementById('adult_identity_expired_date'+i).style['border-color'] = '#cdcdcd';
                         if(check_ktp(document.getElementById('adult_identity_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger '+pax_counter+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger '+pax_counter+'!</br>\n';
                            document.getElementById('adult_identity_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('adult_identity_number'+i).style['border-color'] = '#EFEFEF';
