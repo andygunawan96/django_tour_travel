@@ -2213,6 +2213,11 @@ junction_font.load().then(function(loaded_face) {
                     if(window.render_provider_type_reservation != undefined)
                         render_provider_type_reservation();
                 }
+                if(user_login.co_agent_frontend_security.includes("b2c_limitation")){
+                    if(document.getElementById('airline_carrier_code_div')){
+                        document.getElementById('airline_carrier_code_div').hidden = true;
+                    }
+                }
                 error_log = '';
                 total_max_pax = 0;
                 if(user_login.hasOwnProperty('co_passenger_seq_id')){

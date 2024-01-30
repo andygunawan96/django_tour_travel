@@ -1245,8 +1245,6 @@ def admin(request):
                     text = ''
                     if request.POST.get('is_register_agent'):
                         text += 'true'
-                    elif data_cache.get('register_agent'):
-                        text += data_cache['register_agent']
                     else:
                         text += 'false'
                     write_cache(text, "register_agent", request, 'cache_web')
@@ -1259,8 +1257,6 @@ def admin(request):
                     text = ''
                     if request.POST.get('is_register_b2c'):
                         text += 'true'
-                    elif data_cache.get('register_b2c'):
-                        text += data_cache['register_b2c']
                     else:
                         text += 'false'
                     write_cache(text, "register_b2c", request, 'cache_web')
