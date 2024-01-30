@@ -1863,7 +1863,9 @@ function sort(tour_dat, exist_check){
                                                 <div class="card-body">
                                                     <div class="row details">
                                                         <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
-                                                            <h6 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>`;
+                                                            <h6 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                            <span style="font-size:13px;font-weight:500;"><i class="fas fa-clock" style="padding:0px 5px;font-size:16px;"></i>`+tour_dat[i].duration+` Days</span>`;
+                                                            text+=`<br/>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(!tour_dat[i].tour_type.is_open_date){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
@@ -1883,8 +1885,12 @@ function sort(tour_dat, exist_check){
                                                             text+=`
                                                                 </div>
                                                                 <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                            </div>
-                                                        </div>
+                                                            </div>`;
+                                                            if(tour_dat[i].flight_carriers.length > 0)
+                                                            {
+                                                                text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                            }
+                                                        text+=`</div>
                                                         <div class="col-lg-12 mb-2">
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
@@ -1956,8 +1962,12 @@ function sort(tour_dat, exist_check){
                                                         text+=`
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>
-                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                        </div>`;
+                                                        if(tour_dat[i].flight_carriers.length > 0)
+                                                        {
+                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                        }
+                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -2006,8 +2016,12 @@ function sort(tour_dat, exist_check){
                                                         text+=`
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>
-                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                        </div>`;
+                                                        if(tour_dat[i].flight_carriers.length > 0)
+                                                        {
+                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                        }
+                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -2056,8 +2070,12 @@ function sort(tour_dat, exist_check){
                                                         text+=`
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>
-                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                        </div>`;
+                                                        if(tour_dat[i].flight_carriers.length > 0)
+                                                        {
+                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                        }
+                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -2105,8 +2123,12 @@ function sort(tour_dat, exist_check){
                                                         text+=`
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>
-                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                        </div>`;
+                                                        if(tour_dat[i].flight_carriers.length > 0)
+                                                        {
+                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                        }
+                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -2155,8 +2177,12 @@ function sort(tour_dat, exist_check){
                                                         text+=`
                                                             </div>
                                                             <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>
-                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
+                                                        </div>`;
+                                                        if(tour_dat[i].flight_carriers.length > 0)
+                                                        {
+                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                        }
+                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12">
@@ -2204,6 +2230,7 @@ function sort(tour_dat, exist_check){
        for(i in tour_dat){
            content_pop_date = '';
            content_pop_question = '';
+           content_pop_flight = '';
            title_pop_date = '';
            content_pop_question+=`<b>`+tour_dat[i].tour_type.name+`: </b>`+tour_dat[i].tour_type.description;
 
@@ -2252,6 +2279,39 @@ function sort(tour_dat, exist_check){
                     },
                     onClose: function () {
                       this.source.removeClass('active').html('See Date');
+                    }
+                });
+            }
+
+            if(tour_dat[i].flight_carriers.length > 0){
+                for (j in tour_dat[i].flight_carriers){
+                    content_pop_flight += `<span><img src="`+static_path_url_server+`/public/airline_logo/`+tour_dat[i].flight_carriers[j].code+`.png"/> `+tour_dat[i].flight_carriers[j].name+`</span><hr/>`;
+                }
+
+                new jBox('Tooltip', {
+                    attach: '#pop_flight'+i,
+                    target: '#pop_flight'+i,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: content_pop_flight,
+                    onOpen: function () {
+                      this.source.addClass('active').html('Close');
+                    },
+                    onClose: function () {
+                      this.source.removeClass('active').html('<i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info');
                     }
                 });
             }

@@ -8263,7 +8263,7 @@ function check_passenger(adult, child, infant, type=''){
 //                        });
 //                        document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
 //                        if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
 //                        }else{
 //                           document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8370,7 +8370,7 @@ function check_passenger(adult, child, infant, type=''){
                     });
                     document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
                     if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+                       error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
                        document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8629,7 +8629,7 @@ function check_passenger(adult, child, infant, type=''){
 //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
 //                        });
 //                        if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+i+'!</br>\n';
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
 //                        }else{
 //                           document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8738,7 +8738,7 @@ function check_passenger(adult, child, infant, type=''){
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
                     if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
+                       error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+i+'!</br>\n';
                        document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -8982,7 +8982,7 @@ function check_passenger(adult, child, infant, type=''){
 //                            $(this).parent().find('.nice-select').css('border', '0px solid red');
 //                        });
 //                        if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
-//                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
+//                           error_log+= 'Please fill id number, nik must be 16 digits for passenger infant '+i+'!</br>\n';
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
 //                        }else{
 //                           document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9085,7 +9085,7 @@ function check_passenger(adult, child, infant, type=''){
                         $(this).parent().find('.nice-select').css('border', '0px solid red');
                     });
                     if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
+                       error_log+= 'Please fill id number, nik must be 16 digits for passenger infant '+i+'!</br>\n';
                        document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
                     }else{
                        document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9288,7 +9288,7 @@ function check_passenger(adult, child, infant, type=''){
     //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
     //                        });
     //                        if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger student '+i+'!</br>\n';
+    //                           error_log+= 'Please fill id number, nik must be 16 digits for passenger student '+i+'!</br>\n';
     //                           document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
     //                        }else{
     //                           document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9397,7 +9397,7 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                         if(check_ktp(document.getElementById('student_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger student '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger student '+i+'!</br>\n';
                            document.getElementById('student_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('student_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9645,7 +9645,7 @@ function check_passenger(adult, child, infant, type=''){
     //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
     //                        });
     //                        if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger seaman '+i+'!</br>\n';
+    //                           error_log+= 'Please fill id number, nik must be 16 digits for passenger seaman '+i+'!</br>\n';
     //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
     //                        }else{
     //                           document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -9754,7 +9754,7 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                         if(check_ktp(document.getElementById('seaman_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger seaman '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger seaman '+i+'!</br>\n';
                            document.getElementById('seaman_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('seaman_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10002,7 +10002,7 @@ function check_passenger(adult, child, infant, type=''){
     //                            $(this).parent().find('.nice-select').css('border', '1px solid red');
     //                        });
     //                        if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
-    //                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger labour '+i+'!</br>\n';
+    //                           error_log+= 'Please fill id number, nik must be 16 digits for passenger labour '+i+'!</br>\n';
     //                           document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
     //                        }else{
     //                           document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10111,7 +10111,7 @@ function check_passenger(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                         if(check_ktp(document.getElementById('labour_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger labour '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger labour '+i+'!</br>\n';
                            document.getElementById('labour_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('labour_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10537,7 +10537,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                         });
                         document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
                         if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -10777,7 +10777,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                         if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger child '+i+'!</br>\n';
                            document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -11003,7 +11003,7 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                             $(this).parent().find('.nice-select').css('border', '0px solid red');
                         });
                         if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
+                           error_log+= 'Please fill id number, nik must be 16 digits for passenger infant '+i+'!</br>\n';
                            document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
                         }else{
                            document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
