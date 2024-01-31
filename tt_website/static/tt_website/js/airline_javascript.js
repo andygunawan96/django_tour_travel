@@ -999,7 +999,7 @@ function add_multi_city(type){
 
         if(counter_airline_search == 1){
             if(user_login.co_agent_frontend_security.includes("b2c_limitation")){
-               if(document.getElementById('airline_carrier_code_div1')){
+               if(document.getElementById('airline_carrier_code_div1') || user_login.co_user_login == default_user){
                     document.getElementById('airline_carrier_code_div1').hidden = true;
                }
             }
