@@ -2213,7 +2213,7 @@ junction_font.load().then(function(loaded_face) {
                     if(window.render_provider_type_reservation != undefined)
                         render_provider_type_reservation();
                 }
-                if(user_login.co_agent_frontend_security.includes("b2c_limitation")){
+                if(user_login.co_agent_frontend_security.includes("b2c_limitation") || user_login.co_user_login == '{{default_user}}'){
                     if(document.getElementById('airline_carrier_code_div')){
                         document.getElementById('airline_carrier_code_div').hidden = true;
                     }
