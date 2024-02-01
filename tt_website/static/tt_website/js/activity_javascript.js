@@ -2415,7 +2415,7 @@ function activity_filter_render(){
         <h6 style="display: inline;">Sort by</h6>
     </div>
     <div class="drop_inline" style="width:100%;">
-        <div class="dropdown-toggle div-dropdown-txt primary-btn-white" data-toggle="dropdown" style="width:100%; line-height:unset; padding:10px">
+        <div class="dropdown-toggle remove-arrow-dt div-dropdown-txt primary-btn-white" data-toggle="dropdown" style="width:100%; line-height:unset; padding:10px">
             <span type="button" style=" cursor:pointer; margin-bottom:0px !important; text-align:left;">
                 <span id="sort_by_span">---Sort by---</span>
             </span>
