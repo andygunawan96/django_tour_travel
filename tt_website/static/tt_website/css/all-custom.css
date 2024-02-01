@@ -1817,7 +1817,6 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 .primary-btn:disabled {
   cursor:not-allowed;
-  border: 1px solid #999999 !important;
   background: #cccccc !important;
   color: #666666;
 }
@@ -1965,7 +1964,6 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 .primary-btn-white:disabled {
   cursor:not-allowed;
-  border: 1px solid #999999 !important;
   background: #cccccc !important;
   color: #666666 !important;
 }
