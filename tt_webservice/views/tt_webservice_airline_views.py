@@ -61,6 +61,24 @@ cabin_class_list = {
     'First': 'F',
 }
 
+sqtf_fare_basis_code_list = [
+    'UT4IAOL1','DT6IAOL1','UT4IAOL2','DT6IAOL2','UT4IARL1','DT6IARL1','VT6IARL1','KT6IARL1',
+    'UT4IARL2','DT6IARL2','VT6IARL2','KT6IARL2','UT4IAOH1','DT6IAOH1','UT4IAOH2','DT6IAOH2',
+    'UT4IARH1','DT6IARH1','VT6IARH1','KT6IARH1','UT4IARH2','DT6IARH2','VT6IARH2','KT6IARH2',
+    'UT4IAOLA','DT6IAOLA','LT4IAOLA','RT6IAOLA','UT4IARLA','DT6IARLA','LT4IARLA','RT6IARLA',
+    'VT6IARLA','KT6IARLA','UT4IAOHA','DT6IAOHA','LT4IAOHA','RT6IAOHA','UT4IARHA','DT6IARHA',
+    'LT4IARHA','RT6IARHA','VT6IARHA','KT6IARHA','UT4IAOLB','DT6IAOLB','LT4IAOLB','RT6IAOLB',
+    'VT6IAOLB','UT4IARLB','DT6IARLB','LT4IARLB','RT6IARLB','VT6IARLB','KT6IARLB','VT6IARLC',
+    'KT6IARLC','UT4IAOHB','DT6IAOHB','LT4IAOHB','RT6IAOHB','VT6IAOHB','UT4IARHB','DT6IARHB',
+    'LT4IARHB','RT6IARHB','VT6IARHB','KT6IARHB','VT6IARHC','KT6IARHC','VV6IARLA','KV6IARLA',
+    'VV6IARHA','KV6IARHA','UW4IAOLA','DW6IAOLA','LW4IAOLA','RW6IAOLA','UW4IARLA','DW6IARLA',
+    'LW4IARLA','RW6IARLA','VW6IARLA','KW6IARLA','UW4IAOHA','DW6IAOHA','LW4IAOHA','RW6IAOHA',
+    'UW4IARHA','DW6IARHA','LW4IARHA','RW6IARHA','VW6IARHA','KW6IARHA','UW4IAOLB','DW6IAOLB',
+    'LW4IAOLB','RW6IAOLB','VW6IAOLB','UW4IARLB','DW6IARLB','LW4IARLB','RW6IARLB','VW6IARLB',
+    'KW6IARLB','VW6IARLC','KW6IARLC','UW4IAOHB','DW6IAOHB','LW4IAOHB','RW6IAOHB','VW6IAOHB',
+    'UW4IARHB','DW6IARHB','LW4IARHB','RW6IARHB','VW6IARHB','KW6IARHB','VW6IARHC','KW6IARHC'
+]
+
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -1432,6 +1450,10 @@ def search2(request):
                                     })
                                     break
 
+                        for fare in segment['fares']:
+                            if fare['fare_basis_code'] in sqtf_fare_basis_code_list:
+                                fare['fare_basis_code'] += ' - SQTF'
+                        ## SORTING HARGA RECOM
                         if index_segment == 0 and index_schedule == 0 and res['result']['response'].get('recommendations') and len(res['result']['response']['recommendations']) != 0:
                             is_need_sort = False
                             for fare in segment['fares']:
@@ -6054,6 +6076,9 @@ def parser_schedule_mobile(request, res):
 
                         else:
                             fare['pick'] = False
+
+                        if fare['fare_basis_code'] in sqtf_fare_basis_code_list:
+                            fare['fare_basis_code'] += ' - SQTF'
 
                         for svc_summary in fare['service_charge_summary']:
                             if not svc_summary['pax_type'] in ['CHD', 'INF']:
