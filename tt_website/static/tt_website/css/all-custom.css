@@ -1657,19 +1657,17 @@ ul.popular2_tabs li.current .image-rounded-icon{
     cursor:pointer;
     padding:10px;
     text-align:left;
-    border:2px solid #cdcdcd;
     background:white;
-    margin-bottom:15px;
+    border:1px solid #cdcdcd;
     font-size:13px;
+    border-radius:5px;
     font-weight:500;
-    width: 200px;
-    min-height: 150px;
+    width: 250px;
+    min-height: 120px;
     height:auto;
     position: relative;
 }
 .radio-label100 > .div_label100:hover{
-    background: #205B95;
-    color: white;
 }
 
 .radio-label100  > .div_label100 > .check_label100{
@@ -1680,17 +1678,15 @@ ul.popular2_tabs li.current .image-rounded-icon{
     padding:5px;
     border-radius: 5px;
     font-size: 13px;
-    background: white;
-    color: #205B95;
+    background: #205B95;
+    color: white;
 }
 
 .radio-label100 > input:checked + .div_label100{
-  background:2px solid #205B95 !important;
-  color: white !important;
+  border:1px solid #205B95 !important;
 }
 
 .radio-label100 > input:checked + .div_label100 > div > .price_template{
-  color: white !important;
 }
 
 .radio-label100 > input:checked + .div_label100 > .check_label100{
@@ -7401,10 +7397,14 @@ text-align: center;
     left: -30px !important;
 }
 
+.dropdown-toggle.remove-arrow-dt::after{
+    display:none;
+}
+
 .dropdown-toggle::after{
+    margin-top: 13px;
     font-size: 18px;
     color:white;
-    display:none;
 }
 
 .drop_inline{

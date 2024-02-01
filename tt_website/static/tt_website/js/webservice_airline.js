@@ -5248,7 +5248,7 @@ function draw_get_price_itinerary(){
                                 <div class="col-lg-12" style="display:block; margin-bottom:10px;" id="flight_div_sh`+flight_count+`">
                                     <div class="row">
                                         <div class="col-lg-12">`;
-                                            text+=`<div style="padding-top:15px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; background:white;">`;
+                                            text+=`<div style="padding-top:15px; border-top:1px solid #cdcdcd; background:white;">`;
 
                                             if(i == 0 && j == 0 && get_price_airline_response.result.response.is_combo_price == true && journey.length > 1){
                                                 //text += `<marquee direction="down" behavior="alternate" height="50">
@@ -5592,17 +5592,18 @@ function draw_get_price_itinerary(){
                                                                                             }
                                                                                             text_family_fare+=`<br/>`;
                                                                                         }
-                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].available_count > airline_request.adult + airline_request.child){
-                                                                                            text_family_fare+=`Seat left: `+family_provider_list[i].journeys[j].segments[k].fares[l].available_count;
-                                                                                        }
                                                                                         text_family_fare+=`
-                                                                                        <div style="width:100%; text-align:right; right: 10px; bottom: 10px; position: absolute;">`;
+                                                                                        <div style="margin-bottom:10px;"></div>
+                                                                                        <div style="width:100%; text-align:left; left: 10px; bottom: 10px; position: absolute;">`;
                                                                                         if(total_price_fare == 0 || !is_include_tax){
                                                                                             text_family_fare+=`
                                                                                             <span class="price_template">Choose to view price</span>`;
                                                                                         }else{
                                                                                             text_family_fare+=`
                                                                                             <span class="price_template">`+currency+` `+getrupiah(total_price_fare)+`</span>`;
+                                                                                        }
+                                                                                        if(family_provider_list[i].journeys[j].segments[k].fares[l].available_count > airline_request.adult + airline_request.child){
+                                                                                            text_family_fare+=`<b>/ seat left: `+family_provider_list[i].journeys[j].segments[k].fares[l].available_count+`</b>`;
                                                                                         }
                                                                                         text_family_fare+=`
                                                                                         </div>
@@ -6208,23 +6209,25 @@ function change_airline_pick(journey_idx, segment_idx, fare_idx, fare_code,group
 function render_price_in_get_price(text, $text, $text_share){
 
     text+=`
-    <div class="col-lg-12" id="rules`+rules+`">
-        <div style="padding:15px; border:1px solid #cdcdcd; background:white;">
-            <span class="carrier_code_template"> Term and Condition </span><br/>
-            <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
-            <div class="sk-circle">
-                <div class="sk-circle1 sk-child"></div>
-                <div class="sk-circle2 sk-child"></div>
-                <div class="sk-circle3 sk-child"></div>
-                <div class="sk-circle4 sk-child"></div>
-                <div class="sk-circle5 sk-child"></div>
-                <div class="sk-circle6 sk-child"></div>
-                <div class="sk-circle7 sk-child"></div>
-                <div class="sk-circle8 sk-child"></div>
-                <div class="sk-circle9 sk-child"></div>
-                <div class="sk-circle10 sk-child"></div>
-                <div class="sk-circle11 sk-child"></div>
-                <div class="sk-circle12 sk-child"></div>
+    <div class="row">
+        <div class="col-lg-12" id="rules`+rules+`">
+            <div style="padding:15px; border:1px solid #cdcdcd; background:white;">
+                <span class="carrier_code_template"> Term and Condition </span><br/>
+                <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
+                <div class="sk-circle">
+                    <div class="sk-circle1 sk-child"></div>
+                    <div class="sk-circle2 sk-child"></div>
+                    <div class="sk-circle3 sk-child"></div>
+                    <div class="sk-circle4 sk-child"></div>
+                    <div class="sk-circle5 sk-child"></div>
+                    <div class="sk-circle6 sk-child"></div>
+                    <div class="sk-circle7 sk-child"></div>
+                    <div class="sk-circle8 sk-child"></div>
+                    <div class="sk-circle9 sk-child"></div>
+                    <div class="sk-circle10 sk-child"></div>
+                    <div class="sk-circle11 sk-child"></div>
+                    <div class="sk-circle12 sk-child"></div>
+                </div>
             </div>
         </div>
     </div>`;
@@ -6245,122 +6248,127 @@ function render_price_in_get_price(text, $text, $text_share){
         }
     }
     text+=`
-    <div class="col-lg-12" id="div-subtotal`+subtotal_div+`">
-        <div class="row">
-            <div class="col-lg-12">
-                <div style="padding-top:15px; border-top:1px solid #cdcdcd; background:white;">
-                    <div class="row">
-                        <div class="col-lg-6 col-xs-6">
-
-                        </div>
-                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span id="span-subtotal-down`+subtotal_div+`" style="color:`+color+`; display:block; font-weight:bold; cursor:pointer;" onclick="show_hide_subtotal(`+subtotal_div+`)">Hide Detail <i class="fas fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-            for(pax_type in airline_price[price_counter]){
-                pax_count = 0;
-                pax_type_name = '';
-                if(pax_type == 'ADT'){
-                    pax_count = airline_request.adult;
-                    pax_type_name = 'Adult';
-                }else if(pax_type == 'CHD'){
-                    pax_count = airline_request.child;
-                    pax_type_name = 'Child';
-                }else if(pax_type == 'INF'){
-                    pax_count = airline_request.infant;
-                    pax_type_name = 'Infant';
-                }else if(pax_type == 'STU'){
-                    pax_count = airline_request.student;
-                    pax_type_name = 'Student';
-                }else if(pax_type == 'LBR'){
-                    pax_count = airline_request.labour;
-                    pax_type_name = 'Labour';
-                }else if(pax_type == 'SEA'){
-                    pax_count = airline_request.seaman;
-                    pax_type_name = 'Seaman';
-                }
-                try{// PRINT PRICE
-                    try{
-                        if(airline_price[price_counter][pax_type]['roc'] != null)
-                            price = airline_price[price_counter][pax_type]['roc'];
-                        if(airline_price[price_counter][pax_type].tax != null)
-                            price += airline_price[price_counter][pax_type].tax;
-                    }catch(err){}
-                    commission = 0;
-                    if(airline_price[price_counter][pax_type]['rac'] != null)
-                        commission = airline_price[price_counter][pax_type]['rac']
-                    commission_price += commission;
-                    total_price += (pax_count * airline_price[price_counter][pax_type]['fare']) + price;
-                    if(airline_price[price_counter][pax_type].hasOwnProperty('disc')){
-                        total_discount += airline_price[price_counter][pax_type]['disc'];
-                        discount += airline_price[price_counter][pax_type]['disc'];
-                    }
-                    text+=`
-                    <div class="col-lg-12">
-                        <div style="padding-top:15px; background:white;">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;"><b>`+pax_count+`x</b> `+pax_type_name+` Fare @ `+airline_price[price_counter][pax_type].currency +' '+getrupiah(airline_price[price_counter][pax_type].fare)+`</span><br/>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(airline_price[price_counter][pax_type].fare * pax_count)+`</span>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(price)+`</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                    sub_total_count += (airline_price[price_counter][pax_type].fare * pax_count) + price;
-
-                    $text_price+= 'Price\n';
-                    $text_price += pax_count + ' '+pax_type_name+' @'+ airline_price[price_counter][pax_type].currency +' '+getrupiah((airline_price[price_counter][pax_type].fare) + (price/pax_count))+'\n';
-        //            $text_price += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(price)+'\n';
-                    price = 0;
-                }catch(err){
-
-                }
-            }
-            if(discount != 0){
-                text += `
+    <div class="row">
+        <div class="col-lg-12" id="div-subtotal`+subtotal_div+`">
+            <div class="row">
                 <div class="col-lg-12">
-                    <div style="background:white;">
+                    <div style="padding-top:15px; border-top:1px solid #cdcdcd; background:white;">
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:500;">Discount</span>
+                            <div class="col-lg-6 col-xs-6">
+
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px; color:#e04022; font-weight:500;">`+currency+` `+getrupiah(discount)+`</span>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span id="span-subtotal-down`+subtotal_div+`" style="color:`+color+`; display:block; font-weight:bold; cursor:pointer;" onclick="show_hide_subtotal(`+subtotal_div+`)">Hide Detail <i class="fas fa-chevron-down"></i></span>
                             </div>
                         </div>
                     </div>
                 </div>`;
-                $text_price += 'Discount ' + getrupiah(discount) + '\n';
-            }
+                for(pax_type in airline_price[price_counter]){
+                    pax_count = 0;
+                    pax_type_name = '';
+                    if(pax_type == 'ADT'){
+                        pax_count = airline_request.adult;
+                        pax_type_name = 'Adult';
+                    }else if(pax_type == 'CHD'){
+                        pax_count = airline_request.child;
+                        pax_type_name = 'Child';
+                    }else if(pax_type == 'INF'){
+                        pax_count = airline_request.infant;
+                        pax_type_name = 'Infant';
+                    }else if(pax_type == 'STU'){
+                        pax_count = airline_request.student;
+                        pax_type_name = 'Student';
+                    }else if(pax_type == 'LBR'){
+                        pax_count = airline_request.labour;
+                        pax_type_name = 'Labour';
+                    }else if(pax_type == 'SEA'){
+                        pax_count = airline_request.seaman;
+                        pax_type_name = 'Seaman';
+                    }
+                    try{// PRINT PRICE
+                        try{
+                            if(airline_price[price_counter][pax_type]['roc'] != null)
+                                price = airline_price[price_counter][pax_type]['roc'];
+                            if(airline_price[price_counter][pax_type].tax != null)
+                                price += airline_price[price_counter][pax_type].tax;
+                        }catch(err){}
+                        commission = 0;
+                        if(airline_price[price_counter][pax_type]['rac'] != null)
+                            commission = airline_price[price_counter][pax_type]['rac']
+                        commission_price += commission;
+                        total_price += (pax_count * airline_price[price_counter][pax_type]['fare']) + price;
+                        if(airline_price[price_counter][pax_type].hasOwnProperty('disc')){
+                            total_discount += airline_price[price_counter][pax_type]['disc'];
+                            discount += airline_price[price_counter][pax_type]['disc'];
+                        }
+                        text+=`
+                        <div class="col-lg-12">
+                            <div style="padding-top:15px; background:white;">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px; font-weight:500;"><b>`+pax_count+`x</b> `+pax_type_name+` Fare @ `+airline_price[price_counter][pax_type].currency +' '+getrupiah(airline_price[price_counter][pax_type].fare)+`</span><br/>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(airline_price[price_counter][pax_type].fare * pax_count)+`</span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter][pax_type].currency+` `+getrupiah(price)+`</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                        sub_total_count += (airline_price[price_counter][pax_type].fare * pax_count) + price;
 
-    text+=`</div>
+                        $text_price+= 'Price\n';
+                        $text_price += pax_count + ' '+pax_type_name+' @'+ airline_price[price_counter][pax_type].currency +' '+getrupiah((airline_price[price_counter][pax_type].fare) + (price/pax_count))+'\n';
+            //            $text_price += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(price)+'\n';
+                        price = 0;
+                    }catch(err){
+
+                    }
+                }
+                if(discount != 0){
+                    text += `
+                    <div class="col-lg-12">
+                        <div style="background:white;">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:500;">Discount</span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; color:#e04022; font-weight:500;">`+currency+` `+getrupiah(discount)+`</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                    $text_price += 'Discount ' + getrupiah(discount) + '\n';
+                }
+
+            text+=`
+            </div>
+        </div>
     </div>`;
 
     sub_total_count += discount;
 
     text += `
-    <div class="col-lg-12 mb-3" id="sub_total_div`+subtotal_div+`">
-        <div style="background:white;">
-            <div class="row">
-                <div class="col-lg-12" style="text-align:right;">
-                    <span id="span-subtotal-up`+subtotal_div+`" style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" onclick="show_hide_subtotal(`+subtotal_div+`)">View Detail <i class="fas fa-chevron-up"></i></span>
-                </div>
+    <div class="row">
+        <div class="col-lg-12 mb-3" id="sub_total_div`+subtotal_div+`">
+            <div style="background:white;">
+                <div class="row">
+                    <div class="col-lg-12" style="text-align:right;">
+                        <span id="span-subtotal-up`+subtotal_div+`" style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" onclick="show_hide_subtotal(`+subtotal_div+`)">View Detail <i class="fas fa-chevron-up"></i></span>
+                    </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                    <span style="font-size:13px; font-weight:bold;">Subtotal</span>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <span id="sub_total_price_`+subtotal_div+`" style="font-size:13px; font-weight:bold;cursor:pointer;">`+currency+` `+getrupiah(sub_total_count)+`<i class="fas fa-caret-down"></i></span>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px; font-weight:bold;">Subtotal</span>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                        <span id="sub_total_price_`+subtotal_div+`" style="font-size:13px; font-weight:bold;cursor:pointer;">`+currency+` `+getrupiah(sub_total_count)+`<i class="fas fa-caret-down"></i></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -15387,16 +15395,18 @@ function render_ticket_reissue(){
                                                                                          }
                                                                                          text+=`<br/>`;
                                                                                     }
-                                                                                    text+=`Seat left: `+airline[i].segments[j].fares[k].available_count;
                                                                                     fare_check = 1;
                                                                                     id_price_segment = `journey`+i+`segment`+j+`fare`+k;
 
-                                                                                    text+=`<div style="width:100%; text-align:right; right: 10px; bottom: 10px; position: absolute; margin-top:15px;">`;
+                                                                                    text+=`
+                                                                                    <div style="margin-bottom:10px;"></div>
+                                                                                    <div style="width:100%; text-align:left; left: 10px; bottom: 10px; position: absolute; margin-top:15px;">`;
                                                                                     if(total_price == 0){
                                                                                         text+=`<span id="`+id_price_segment+`" class="price_template">Choose to view price</span><br/>`;
                                                                                     }else{
                                                                                         text+=`<span id="`+id_price_segment+`" class="price_template">`+airline[i].currency+` `+getrupiah(total_price)+`</span>`;
                                                                                     }
+                                                                                    text+=`<b>/ seat left: `+airline[i].segments[j].fares[k].available_count`+</b>`;
                                                                                     text+=`
                                                                                     </div>
                                                                                 </div>
@@ -16662,42 +16672,38 @@ function get_chosen_ticket(type='all'){
                                                                 text+=`<br/>`;
                                                             }
 
-                                                            if(airline_get_detail.result.response.ADT + airline_get_detail.result.response.CHD > airline_pick_list[i].segments[j].fares[k].available_count){
-                                                            }else{
-                                                                text+=`Seat left: `+airline_pick_list[i].segments[j].fares[k].available_count;
-                                                            }
-
-                                                            var total_price = 0;
-                                                            if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
-                                                                check = 0;
-                                                                for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
-                                                                    try{
-                                                                        if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
-                                                                            check = 1;
-                                                                    }catch(err){
-                                                                        console.log(err); // error kalau ada element yg tidak ada
-                                                                    }
-                                                                }
-                                                                if(check == 1){
-                                                                    if(j == airline_pick_list[i].segments.length - 1){
-                                                                        for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
-                                                                            if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
-                                                                                total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
+                                                             var total_price = 0;
+                                                             if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
+                                                                    check = 0;
+                                                                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
+                                                                        try{
+                                                                            if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
+                                                                                check = 1;
+                                                                        }catch(err){
+                                                                            console.log(err); // error kalau ada element yg tidak ada
                                                                         }
-                                                                        total_price -= total_price_pick;
                                                                     }
-                                                                }else{
-                                                                    for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
-                                                                        if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
-                                                                            for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                                                                if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
-                                                                                    total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                                                            break;
+                                                                    if(check == 1){
+                                                                        if(j == airline_pick_list[i].segments.length - 1){
+                                                                            for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary){
+                                                                                if(!['CHD', 'INF'].includes(airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_type))
+                                                                                    total_price = airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].total_price / airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].service_charge_summary[l].pax_count;
+                                                                            }
+                                                                            total_price -= total_price_pick;
+                                                                        }
+                                                                    }
+                                                                    else{
+                                                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+                                                                            if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
+                                                                                for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                                                        total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                                                break;
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
-                                                            else if(i != airline_get_detail.result.response.origin.length-1 || airline_get_detail.result.response.origin.length == 1){
+                                                             else if(i != airline_get_detail.result.response.origin.length-1 || airline_get_detail.result.response.origin.length == 1){
                                                                 for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
                                                                     if(!['CHD', 'INF'].includes(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                                         for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
@@ -16706,7 +16712,7 @@ function get_chosen_ticket(type='all'){
                                                                         break;
                                                                     }
                                                                 }
-                                                            }
+                                                             }
 //
 //                                                            var total_price = 0;
 //                                                            for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
@@ -16718,7 +16724,9 @@ function get_chosen_ticket(type='all'){
 //                                                                }
 //                                                            }
 
-                                                             text+=`<div style="width:100%; text-align:right; right: 10px; bottom: 10px; position: absolute; margin-top:15px;">`;
+                                                             text+=`
+                                                             <div style="margin-bottom:10px;"></div>
+                                                             <div style="width:100%; text-align:left; left: 10px; bottom: 10px; position: absolute; margin-top:15px;">`;
                                                              if(total_price == 0){
                                                                 if(airline_get_detail.result.response.ADT + airline_get_detail.result.response.CHD > airline_pick_list[i].segments[j].fares[k].available_count){
                                                                      text+=`<span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold; color:#cdcdcd;">SOLD OUT</span>`;
@@ -16738,6 +16746,11 @@ function get_chosen_ticket(type='all'){
                                                                      text+=`<span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold; color:#cdcdcd;">`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`<br/>Change first to choose</span>`;
                                                                }
                                                             }
+                                                             if(airline_get_detail.result.response.ADT + airline_get_detail.result.response.CHD > airline_pick_list[i].segments[j].fares[k].available_count){
+                                                             }else{
+                                                                text+=`<b>/ seat left: `+airline_pick_list[i].segments[j].fares[k].available_count+`</b>`;
+                                                             }
+
                                                             text+=`
                                                             </div>
                                                          </div>
