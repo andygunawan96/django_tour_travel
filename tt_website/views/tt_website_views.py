@@ -1269,8 +1269,6 @@ def admin(request):
                     text = ''
                     if request.POST.get('is_show_manual_top_up'):
                         text += 'true'
-                    elif data_cache.get('is_show_manual_top_up'):
-                        text += data_cache['is_show_manual_top_up']
                     else:
                         text += 'false'
                     write_cache(text, "manual_top_up", request, 'cache_web')
