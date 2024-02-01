@@ -3362,9 +3362,13 @@ function sort(){
                                                                                         <span style="font-weight:bold; font-size:15px;">`+airline[i].segments[j].fares[k].class_of_service+` `+text_seat_name+`</span><br/>`;
                                                                                         if(airline[i].segments[j].fares[k].fare_name)
                                                                                             text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_name+`</span><br/>`;
-                                                                                        if(airline[i].segments[j].fares[k].fare_basis_code)
-                                                                                            text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code+`</span>`;
-
+                                                                                        if(airline[i].segments[j].fares[k].fare_basis_code){
+                                                                                            text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[0]+`</span>`;
+                                                                                            if(airline[i].segments[j].fares[k].fare_basis_code.split(' - ').length > 1){
+                                                                                                text+=`<span style="font-size:13px;"> - </span>`;
+                                                                                                text+=`<span style="font-size:13px;font-weight:bold;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
+                                                                                            }
+                                                                                        }
                                                                                         text+=`
                                                                                         <div class="center_vh">
                                                                                             <img src="/static/tt_website/images/no_found/sold-out.png"/>
@@ -3395,9 +3399,14 @@ function sort(){
                                                                                         <span style="font-weight:bold; font-size:15px;">`+airline[i].segments[j].fares[k].class_of_service+` `+text_seat_name+`</span><br/>`;
                                                                                         if(airline[i].segments[j].fares[k].fare_name)
                                                                                             text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_name+`</span><br/>`;
-                                                                                        if(airline[i].segments[j].fares[k].fare_basis_code)
-                                                                                            text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code+`</span><br/>`;
-
+                                                                                        if(airline[i].segments[j].fares[k].fare_basis_code){
+                                                                                            text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[0]+`</span>`;
+                                                                                            if(airline[i].segments[j].fares[k].fare_basis_code.split(' - ').length > 1){
+                                                                                                text+=`<span style="font-size:13px;"> - </span>`;
+                                                                                                text+=`<span style="font-size:13px;font-weight:bold;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
+                                                                                            }
+                                                                                            text += `<br/>`
+                                                                                        }
                                                                                         if(airline[i].segments[j].fares[k].description.length != 0){
                                                                                              for(l in airline[i].segments[j].fares[k].description){
                                                                                                  text += `<span style="font-size:13px; display:block;"><i class="fas fa-caret-right"></i> `+airline[i].segments[j].fares[k].description[l]+`</span>`;
@@ -3465,9 +3474,13 @@ function sort(){
                                                                                     <span style="font-weight:bold; font-size:15px;">`+airline[i].segments[j].fares[k].class_of_service+` `+text_seat_name+`</span><br/>`;
                                                                                     if(airline[i].segments[j].fares[k].fare_name)
                                                                                         text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_name+`</span><br/>`;
-                                                                                    if(airline[i].segments[j].fares[k].fare_basis_code)
-                                                                                        text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code+`</span>`;
-
+                                                                                    if(airline[i].segments[j].fares[k].fare_basis_code){
+                                                                                        text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[0]+`</span>`;
+                                                                                        if(airline[i].segments[j].fares[k].fare_basis_code.split(' - ').length > 1){
+                                                                                            text+=`<span style="font-size:13px;"> - </span>`;
+                                                                                            text+=`<span style="font-size:13px;font-weight:bold;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
+                                                                                        }
+                                                                                    }
                                                                                     text+=`
                                                                                     <div class="center_vh">
                                                                                         <img src="/static/tt_website/images/no_found/sold-out.png"/>
@@ -3497,17 +3510,23 @@ function sort(){
                                                                                    <i class="fas fa-check check_label100"></i>
                                                                                    <span style="font-weight:bold; font-size:15px;">`+airline[i].segments[j].fares[k].class_of_service+` `+text_seat_name+`</span><br/>`;
 
-                                                                                   if(airline[i].segments[j].fares[k].fare_name)
-                                                                                       text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_name+`</span><br/>`;
-                                                                                   if(airline[i].segments[j].fares[k].fare_basis_code)
-                                                                                       text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code+`</span><br/>`;
+                                                                                    if(airline[i].segments[j].fares[k].fare_name)
+                                                                                        text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_name+`</span><br/>`;
+                                                                                    if(airline[i].segments[j].fares[k].fare_basis_code){
+                                                                                        text+=`<span style="font-size:13px;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[0]+`</span>`;
+                                                                                        if(airline[i].segments[j].fares[k].fare_basis_code.split(' - ').length > 1){
+                                                                                            text+=`<span style="font-size:13px;"> - </span>`;
+                                                                                            text+=`<span style="font-size:13px;font-weight:bold;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
+                                                                                        }
+                                                                                        text += `<br/>`;
+                                                                                    }
 
-                                                                                   if(airline[i].segments[j].fares[k].description.length != 0){
+                                                                                    if(airline[i].segments[j].fares[k].description.length != 0){
                                                                                         for(l in airline[i].segments[j].fares[k].description){
                                                                                             text += `<span style="font-size:13px; display:block;"><i class="fas fa-caret-right"></i> `+airline[i].segments[j].fares[k].description[l]+`</span>`;
                                                                                         }
                                                                                         text+=`<br/>`;
-                                                                                   }
+                                                                                    }
 
                                                                                    text+=`Seat left: `+airline[i].segments[j].fares[k].available_count;
 
@@ -5376,24 +5395,29 @@ function airline_pick_mc(type){
                                                         text+=`
                                                              <i class="fas fa-check check_label100"></i>
                                                              <span style="font-weight:bold; font-size:15px;">`+airline_pick_list[i].segments[j].fares[k].class_of_service+` `+text_seat_name_pick+`</span><br/>`;
-                                                             if(airline_pick_list[i].segments[j].fares[k].fare_name)
-                                                                 text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span>`;
-                                                             if(airline_pick_list[i].segments[j].fares[k].fare_basis_code)
-                                                                 text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_basis_code+`</span><br/>`;
+                                                            if(airline_pick_list[i].segments[j].fares[k].fare_name)
+                                                                text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span>`;
+                                                            if(airline_pick_list[i].segments[j].fares[k].fare_basis_code){
+                                                                text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_basis_code.split(' - ')[0]+`</span>`;
+                                                                if(airline_pick_list[i].segments[j].fares[k].fare_basis_code.split(' - ').length > 1){
+                                                                    text+=`<span style="font-size:13px;"> - </span>`;
+                                                                    text+=`<span style="font-size:13px;font-weight:bold;">`+airline_pick_list[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
+                                                                }
+                                                                text+= `<br/>`;
+                                                            }
+                                                            if(airline_pick_list[i].segments[j].fares[k].description.length != 0){
+                                                                for(l in airline_pick_list[i].segments[j].fares[k].description){
+                                                                    text += `<span style="font-size:13px; display:block;"><i class="fas fa-caret-right"></i> `+airline_pick_list[i].segments[j].fares[k].description[l]+`</span>`;
+                                                                }
+                                                                text+=`<br/>`;
+                                                            }
 
-                                                             if(airline_pick_list[i].segments[j].fares[k].description.length != 0){
-                                                                  for(l in airline_pick_list[i].segments[j].fares[k].description){
-                                                                      text += `<span style="font-size:13px; display:block;"><i class="fas fa-caret-right"></i> `+airline_pick_list[i].segments[j].fares[k].description[l]+`</span>`;
-                                                                  }
-                                                                  text+=`<br/>`;
-                                                             }
-
-                                                             if(airline_pick_list[i].segments[j].fares[k].available_count > airline_request.adult + airline_request.child){
+                                                            if(airline_pick_list[i].segments[j].fares[k].available_count > airline_request.adult + airline_request.child){
                                                                 text+=`Seat left: `+airline_pick_list[i].segments[j].fares[k].available_count;
-                                                             }
+                                                            }
 
-                                                             var total_price = 0;
-                                                             if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
+                                                            var total_price = 0;
+                                                            if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
                                                                 check = 0;
                                                                 for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
                                                                     try{
