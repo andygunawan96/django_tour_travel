@@ -3888,6 +3888,7 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
     for (var j = 0, length = change_radios.length; j < length; j++) {
         if (change_radios[j].checked) {
             fare_value = j
+            airline_data_filter[journey].segments[segment].fare_pick = j;
             break;
         }
     }
@@ -3939,6 +3940,7 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
                                         temp_seat_name += ' - '+airline_data_filter[journey].currency + ' ' + getrupiah(temporary_total_price);
                                     }
                                 }
+                                airline_data_filter[journey].segments[j].fare_pick = k;
                                 change_seat_span(journey,j, temp_seat_name);
                                 change_seat_fare_span(journey,j, fare_seat_name);
                                 break;
@@ -4010,6 +4012,7 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
                                     temp_seat_name += ' - '+airline_data_filter[journey].currency + ' ' + getrupiah(temporary_total_price);
                                 }
                             }
+                            airline_data_filter[journey].segments[j].fare_pick = k;
                             change_seat_span(journey,j, temp_seat_name);
                             change_seat_fare_span(journey,j, fare_seat_name);
                             break;
@@ -4062,6 +4065,7 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
                                         temp_seat_name += ' - '+airline[journey].currency + ' ' + getrupiah(temporary_total_price);
                                     }
                                 }
+                                airline_data_filter[journey].segments[i].fare_pick = j;
                                 change_seat_span(journey,i, temp_seat_name)
                                 change_seat_fare_span(journey,i, fare_seat_name);
                                 break;
@@ -4104,20 +4108,20 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
     for(i in airline_data_filter[journey].segments){
         var is_include_tax = false;
         var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
-
-        for (var j = 0, length = radios.length; j < length; j++) {
-            if (radios[j].checked) {
-                // do whatever you want with the checked radio
-//                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
-//                price += parseInt(temp.replace( /[^\d.]/g, '' ));
-                for(x in airline_data_filter[journey].segments[i].fares){
-                    if(airline_data_filter[journey].segments[i].fares[x].fare_code == radios[j].value){
-                        airline_data_filter[journey].segments[i].fare_pick = x;
-                        break;
-                    }
-                }
-            }
-        }
+        radios[airline_data_filter[journey].segments[i].fare_pick].checked = true;
+//        for (var j = 0, length = radios.length; j < length; j++) {
+//            if (radios[j].checked) {
+//                // do whatever you want with the checked radio
+////                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
+////                price += parseInt(temp.replace( /[^\d.]/g, '' ));
+//                for(x in airline_data_filter[journey].segments[i].fares){
+//                    if(airline_data_filter[journey].segments[i].fares[x].fare_code == radios[j].value){
+//                        airline_data_filter[journey].segments[i].fare_pick = x;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
         //hitung ulang price & jika ada fare yg sudah terpilih
         if(airline_data_filter[journey].segments[i].hasOwnProperty('fare_pick')){
             for(j in airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary){
