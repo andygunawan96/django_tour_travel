@@ -199,6 +199,7 @@ function auto_complete_activity(type, current_opt=0){
     {
         set_sub_category(temp_obj_id, current_opt);
     }
+    auto_complete_text_activity(type);
 }
 
 function triggered(){
@@ -2343,18 +2344,18 @@ function price_update(filter, type){
 
 function activity_filter_render(){
 
-    var node = document.createElement("div");
-    text = '';
-    text+= `
-    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
-    <hr/>
-    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>`;
-
-    node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("session_timer").appendChild(node);
-    node = document.createElement("div");
-
+//    var node = document.createElement("div");
+//    text = '';
+//    text+= `
+//    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+//    <hr/>
+//    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>`;
+//
+//    node = document.createElement("div");
+//    node.innerHTML = text;
+//    document.getElementById("session_timer").appendChild(node);
+//    node = document.createElement("div");
+    document.getElementById("filter").innerHTML = '';
     var node = document.createElement("div");
     text = '';
     text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
@@ -2407,15 +2408,31 @@ function activity_filter_render(){
     node = document.createElement("div");
 
     text='';
-    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
+    document.getElementById("sorting-flight").innerHTML = '';
 
-    for(i in sorting_list2){
-        text+=`
-        <button class="primary-btn-sorting" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list2[i].value.toLowerCase()+`');" value="`+sorting_list2[i].value+`">
-            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
-            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
-        </button>`;
-    }
+    text+=`
+    <div style="margin-bottom:10px;">
+        <h6 style="display: inline;">Sort by</h6>
+    </div>
+    <div class="drop_inline" style="width:100%;">
+        <div class="dropdown-toggle div-dropdown-txt primary-btn-white" data-toggle="dropdown" style="width:100%; line-height:unset; padding:10px">
+            <span type="button" style=" cursor:pointer; margin-bottom:0px !important; text-align:left;">
+                <span id="sort_by_span">---Sort by---</span>
+            </span>
+            <ul class="dropdown-menu" role="menu" style="padding:15px;">`;
+            for(i in sorting_list){
+                text+=`
+                <label class="radio-button-custom">
+                    <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                    <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`', '`+i+`');" value="`+sorting_list[i].value+`">
+                    <span class="checkmark-radio"></span>
+                </label></br>`;
+            }
+            text+=`
+            </ul>
+        </div>
+    </div>`;
+
     node = document.createElement("div");
     node.className = 'sorting-box';
     node.innerHTML = text;
@@ -2423,8 +2440,8 @@ function activity_filter_render(){
 
     var node2 = document.createElement("div");
     text = '';
-    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
-            <hr/>
+    text+= `<a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+            <br/>
             <h6 style="padding-bottom:10px;">Activity Name</h6>`;
             if(template == 1){
                 text+=`<div class="banner-right">`;
@@ -2469,14 +2486,11 @@ function activity_filter_render(){
     document.getElementById("filter2").appendChild(node2);
 
     text='';
-    text+=`<h4>Sorting</h4>
-            <hr/>`;
-
     for(i in sorting_list){
         text+=`
         <label class="radio-button-custom">
             <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
-            <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+            <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting2" onclick="sort_button('`+sorting_list[i].value+`', '`+i+`');" value="`+sorting_list[i].value+`">
             <span class="checkmark-radio"></span>
         </label></br>`;
     }
@@ -2485,42 +2499,47 @@ function activity_filter_render(){
     document.getElementById("sorting-flight2").appendChild(node2);
 }
 
-function sort_button(value){
-    if(value == 'name'){
-       if(sorting_value == '' || sorting_value == 'Name A-Z'){
-           sorting_value = 'Name Z-A';
-           document.getElementById("img-sort-down-name").style.display = "none";
-           document.getElementById("img-sort-up-name").style.display = "block";
-       }else{
-           sorting_value = 'Name A-Z';
-           document.getElementById("img-sort-down-name").style.display = "block";
-           document.getElementById("img-sort-up-name").style.display = "none";
-       }
-   }else if(value == 'price'){
-       if(sorting_value == '' || sorting_value == 'Lowest Price'){
-           sorting_value = 'Highest Price';
-           document.getElementById("img-sort-down-price").style.display = "none";
-           document.getElementById("img-sort-up-price").style.display = "block";
-       }else{
-           sorting_value = 'Lowest Price';
-           document.getElementById("img-sort-down-price").style.display = "block";
-           document.getElementById("img-sort-up-price").style.display = "none";
-       }
+function sort_button(value, id){
+//    if(value == 'name'){
+//       if(sorting_value == '' || sorting_value == 'Name A-Z'){
+//           sorting_value = 'Name Z-A';
+//           document.getElementById("img-sort-down-name").style.display = "none";
+//           document.getElementById("img-sort-up-name").style.display = "block";
+//       }else{
+//           sorting_value = 'Name A-Z';
+//           document.getElementById("img-sort-down-name").style.display = "block";
+//           document.getElementById("img-sort-up-name").style.display = "none";
+//       }
+//   }else if(value == 'price'){
+//       if(sorting_value == '' || sorting_value == 'Lowest Price'){
+//           sorting_value = 'Highest Price';
+//           document.getElementById("img-sort-down-price").style.display = "none";
+//           document.getElementById("img-sort-up-price").style.display = "block";
+//       }else{
+//           sorting_value = 'Lowest Price';
+//           document.getElementById("img-sort-down-price").style.display = "block";
+//           document.getElementById("img-sort-up-price").style.display = "none";
+//       }
+//
+//   }else if(value == 'score'){
+//       if(sorting_value == '' || sorting_value == 'Lowest Score'){
+//           sorting_value = 'Highest Score';
+//           document.getElementById("img-sort-down-score").style.display = "none";
+//           document.getElementById("img-sort-up-score").style.display = "block";
+//       }else{
+//           sorting_value = 'Lowest Score';
+//           document.getElementById("img-sort-down-score").style.display = "block";
+//           document.getElementById("img-sort-up-score").style.display = "none";
+//       }
+//   }else{
+//       sorting_value = value;
+//   }
 
-   }else if(value == 'score'){
-       if(sorting_value == '' || sorting_value == 'Lowest Score'){
-           sorting_value = 'Highest Score';
-           document.getElementById("img-sort-down-score").style.display = "none";
-           document.getElementById("img-sort-up-score").style.display = "block";
-       }else{
-           sorting_value = 'Lowest Score';
-           document.getElementById("img-sort-down-score").style.display = "block";
-           document.getElementById("img-sort-up-score").style.display = "none";
-       }
-   }else{
-       sorting_value = value;
-   }
-   filtering('filter', 1);
+    sorting_value = value;
+    $('#sort_by_span').text(value);
+    document.getElementById('radio_sorting'+id).checked = true;
+    document.getElementById('radio_sorting2'+id).checked = true;
+    filtering('filter', 1);
 }
 
 function filter_name(name_num){
@@ -2658,59 +2677,62 @@ function sort(activity_dat, check){
                }
 
                text+=`
-               <div class="col-lg-6 col-md-6 activity_box" style="min-height:unset;">
+               <div class="col-lg-12 activity_box" style="min-height:unset; margin-bottom:5px;">
                    <form action='/activity/detail/`+activity_dat[i].uuid+`' method=POST id='myForm`+activity_dat[i].sequence+`'>
-                   <div id='csrf`+activity_dat[i].sequence+`'></div>
-                   <input type='hidden' value='`+JSON.stringify(activity_dat[i]).replace(/[']/g, /["]/g)+`'/>
-                   <input id='uuid`+activity_dat[i].sequence+`' name='uuid' type=hidden value='`+activity_dat[i].uuid+`'/>
-                   <input id='sequence`+activity_dat[i].sequence+`' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>`;
+                       <div id='csrf`+activity_dat[i].sequence+`'></div>
+                       <input type='hidden' value='`+JSON.stringify(activity_dat[i]).replace(/[']/g, /["]/g)+`'/>
+                       <input id='uuid`+activity_dat[i].sequence+`' name='uuid' type=hidden value='`+activity_dat[i].uuid+`'/>
+                       <input id='sequence`+activity_dat[i].sequence+`' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>`;
 
-                   temp_arr_loc = [];
-                   temp_arr_ctg = [];
-                   for(j in activity_dat[i].locations){
-                       temp_arr_loc.push(activity_dat[i].locations[j].country_name);
-                   }
-                   for(j in activity_dat[i].categories){
-                       temp_arr_ctg.push(activity_dat[i].categories[j].category_name);
-                   }
-                   temp_arr_loc = get_unique_list_data(temp_arr_loc);
+                       temp_arr_loc = [];
+                       temp_arr_ctg = [];
+                       for(j in activity_dat[i].locations){
+                           temp_arr_loc.push(activity_dat[i].locations[j].country_name);
+                       }
+                       for(j in activity_dat[i].categories){
+                           temp_arr_ctg.push(activity_dat[i].categories[j].category_name);
+                       }
+                       temp_arr_loc = get_unique_list_data(temp_arr_loc);
 
-                   if(template == 1){
                         text+=`
-                            <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
-                                <div class="single-destination relative">`;
+                        <div class="single-recent-blog-post item div_box_default" style="padding:0px 15px;">
+                            <div class="single-destination relative">
+                                <div class="row">`;
                                     if(img_src){
-                                        text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
+                                        text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: url('`+img_src+`'), url('/static/tt_website/images/no_found/no-image-activity.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')"></div>`;
                                     }else{
-                                        text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
+                                        text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')"></div>`;
                                     }
                                     text+=`
-                                        <div class="overlay overlay-bg"></div>
-                                    </div>
-                                    <div class="card card-effect-promotion" style="border:unset;">
-                                    <div class="card-body">
+                                    <div class="col-lg-9 col-md-8">
                                         <div class="row details">
-                                            <div class="col-lg-12" style="text-align:left; height:90px;">
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <div style="padding-top:15px">
+                                                    <h5 style="padding-bottom:5px;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8" style="text-align:left;">
                                                 <div class="row">
-                                                    <div class="col-lg-6" style="text-align:left;">`;
-                                                    if(activity_dat[i].reviewCount != 0){
-                                                        text+=`<span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span><br/>`;
-                                                    }else{
-                                                        text+=`<span style="font-size:13px;"><i style="color:#FFC801 !important;" class="fas fa-star"></i> No Rating</span><br/>`;
-                                                    }
-                                                text+=`
-                                                    </div>
-                                                    <div class="col-lg-6" style="text-align:right;">
-                                                        <span style="font-size:12px; font-weight:600; cursor:pointer;"> <i class="fas fa-tags"></i>`;
-                                                        text+=`<span id="pop_ctg`+i+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_ctg.length+` Category</span>`;
-                                                        text+=`
-                                                        </span>
-                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:left; margin-bottom:5px;">`;
+                                                        if(activity_dat[i].reviewCount != 0){
+                                                            text+=`<span class="span-activity-desc" style="font-size:14px; font-weight:bold; padding:2px 5px; border:2px solid `+color+`; color:`+color+`; border-radius:5px;">`+activity_dat[i].reviewAverageScore+`/5</span><span><i style="color:#FFC801 !important; padding-left:5px; font-size:16px;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span><br/>`;
+                                                        }else{
+                                                            text+=`<span class="span-activity-desc" style="font-size:14px; font-weight:bold; padding:2px 5px; border:2px solid `+color+`; color:`+color+`; border-radius:5px;">No rating</span><span><i style="color:#FFC801 !important; padding-left:5px; font-size:16px;" class="fas fa-star"></i></span><br/>`;
+                                                        }
+                                                    text+=`
+                                                    </div>`;
+//                                                        text+=`
+//                                                        <div class="col-lg-6" style="text-align:right;">
+//                                                            <span style="font-size:14px; font-weight:600; cursor:pointer;"> <i class="fas fa-tags"></i>
+//                                                            <span id="pop_ctg`+i+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_ctg.length+` Category</span>
+//                                                            </span>
+//                                                        </div>`;
+
+                                                    text+=`
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-12" style="height:30px;">
-                                                        <span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
+                                                    <div class="col-lg-12">
+                                                        <span style="font-size:14px; font-weight:600; cursor:pointer;"><i class="fas fa-map-marker-alt" style="font-size:16px;"></i>`;
                                                         for(ct in temp_arr_loc){
                                                             if(ct == 0){
                                                                 text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
@@ -2720,93 +2742,44 @@ function sort(activity_dat, check){
                                                         }
                                                         text+=`
                                                         </span>
+                                                    </div>`;
+                                                    text+=`
+                                                    <div class="col-lg-12">
+                                                        <span style="font-size:13px; cursor:pointer;">
+                                                            <span class="span-activity-desc"> <i class="fas fa-tags" style="padding-right:5px;"></i>`;
+                                                                for(j in activity_dat[i].categories){
+                                                                    text+=activity_dat[i].categories[j].category_name;
+                                                                    if(j > 0 && j != activity_dat[i].categories.length-1){
+                                                                        text+=` | `;
+                                                                    }
+                                                                }
+                                                            text+=`
+                                                            </span>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12" style="text-align:right;">`;
-                                            if(activity_data[i].activity_price > 0)
-                                            {
-                                                text += `<span style="float:left; font-size:16px;font-weight:bold;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`</span>`;
-                                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
+                                            <div class="col-lg-4 col-md-4" style="text-align:right;">`;
+                                            if(activity_dat[i].activity_price > 0){
+                                                text+=`<span style="font-size:15px;font-weight:bold; color:`+color+`;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`  </span>`;
+                                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_dat[i].activity_price){
                                                     if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                                        for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                            try{
-                                                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == activity_dat[i].currency_code){
-                                                                    price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                                                    if(price_convert%1 == 0)
-                                                                        price_convert = parseInt(price_convert);
-                                                                    text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
-                                                                }
-                                                            }catch(err){
-                                                                console.log(err);
-                                                            }
-                                                        }
+                                                        text+=`<br/><span class="span_link" id="estimated_popup_activity`+i+`" style="color:`+color+` !important; font-size:13px;">Estimated <i class="fas fa-coins"></i></span>`;
                                                     }
                                                 }
                                             }
                                             else{
-                                                text+=`<span style="float:left; font-size:16px;font-weight:bold;">No Estimated Price</span>`;
+                                                text+=`<span style="font-size:14px;font-weight:bold;">No Estimated Price</span>`;
                                             }
 
                                             text+=`
-                                                <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
+                                                <br/><button style="width:100%; margin-top:10px; margin-bottom:15px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>`;
-                   }else{
-                        if(template == 5){
-                            text+=`<div class="single-post-area" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
-                        }else{
-                            text+=`<div class="single-post-area" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
-                        }
-                        text+=`
-                            <div class="single-destination avail-sd relative">`;
-                                if(img_src){
-                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
-                                }else{
-                                    text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
-                                }
-                                if(template != 5 && template != 6){
-                                    text+=`<div class="overlay overlay-bg"></div>`;
-                                }
-                                text+=`
-                                </div>
-                                <div class="card card-effect-promotion" style="border:unset;">
-                                    <div class="card-body" style="padding:10px; border:unset;">
-                                        <div class="row details">
-                                            <div class="col-lg-12" style="text-align:left; height:90px;">
-                                                <span>SIM CARD</span>
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>`;
-                                                if(activity_dat[i].reviewCount != 0){
-                                                    text+=`<span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+` reviews)</span><br/>`;
-                                                }else{
-                                                    text+=`<span style="font-size:13px;"><i style="color:#FFC801 !important;" class="fas fa-star"></i> No Rating</span><br/>`;
-                                                }
-                                                text+=`<span style="font-size:12px; font-weight:600; color:`+color+`; cursor:pointer;"> <i style="color:`+color+` !important;" class="fas fa-map-marker-alt"></i>`;
-                                                for(ct in temp_arr_loc){
-                                                    if(ct == 0){
-                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
-                                                    }else{
-                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
-                                                    }
-                                                }
-                                                text+=`</span><br/>`;
-                                            text+=`
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <span style="float:left; font-size:13px;font-weight:bold;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`  </span>
-                                                <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-                   }
-                   text+=`
+                        </div>
                    </form>
                </div>`;
            }
@@ -2993,4 +2966,29 @@ function reset_filter(){
     filter_name(1);
     price_update(1, 1);
     price_slider_true(1, 1);
+}
+
+function auto_complete_text_activity(type){
+    sel_objs_act = $('#'+type).select2('data');
+    if (type == 'activity_countries'){
+        document.getElementById('show_country_activity').innerHTML = sel_objs_act[0].text;
+        if(sel_objs_act[0].text == 'All Countries'){
+            document.getElementById('show_city_activity').innerHTML = 'All Cities';
+        }
+    }
+    else if (type == 'activity_cities'){
+        document.getElementById('show_city_activity').innerHTML = sel_objs_act[0].text;
+    }
+    else if (type == 'activity_type'){
+        document.getElementById('show_type_activity').innerHTML = sel_objs_act[0].text;
+    }
+    else if (type == 'activity_category'){
+        document.getElementById('show_category_activity').innerHTML = sel_objs_act[0].text;
+        if(sel_objs_act[0].text == 'All Categories'){
+            document.getElementById('show_sub_category_activity').innerHTML = 'All Sub Categories';
+        }
+    }
+    else if (type == 'activity_sub_category'){
+        document.getElementById('show_sub_category_activity').innerHTML = sel_objs_act[0].text;
+    }
 }

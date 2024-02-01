@@ -1050,62 +1050,83 @@
                                                 </div>
                                             </div>
                                             <div class="row" id="activity_advanced_search" style="display:none;">
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                                    <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-select">
-                                                                <div id="temp_activity_cities">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                                        <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                                    </select>
+                                                <div class="col-lg-6 mb-2">
+                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                            <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <h6>Country</h6>
+                                                                    <div class="form-select">
+                                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
+                                                                            <option value="" selected="">{% trans 'All Countries' %}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <h6>City</h6>
+                                                                    <div class="form-select">
+                                                                        <div id="temp_activity_cities">
+                                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
+                                                                                <option value="" selected="">{% trans 'All Cities' %}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12" style="text-align:right;">
+                                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('activity','country');">Done</button>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </ul>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                                    <option value="0" selected="">{% trans 'All Types' %}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                                    <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4">
-                                                            <div class="form-select">
-                                                                <div id="temp_activity_sub_category">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                                        <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                                    </select>
+                                                <div class="col-lg-6 mb-2">
+                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                            <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12">
+                                                                            <h6>Type</h6>
+                                                                            <div class="form-select">
+                                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                                                    <option value="0" selected="">{% trans 'All Types' %}</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <h6>Category</h6>
+                                                                            <div class="form-select">
+                                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
+                                                                                    <option value="0" selected="">{% trans 'All Categories' %}</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <h6>Sub Category</h6>
+                                                                            <div class="form-select">
+                                                                                <div id="temp_activity_sub_category">
+                                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                                                        <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-12" style="text-align:right;">
+                                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('activity','type');">Done</button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>

@@ -39,56 +39,103 @@
 {% include 'tt_website/plugin_passenger.html' %}
 {% include 'tt_website/notification_box.html' %}
 
-{%if template == 1%}
-<section class="destinations-area change_search_area">
+<div class="modal fade" id="myModalFilter" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Filter</i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                    <div class="col-lg-12">
+                        <div id="filter2">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalSort" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Sort </i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                    <div class="col-lg-12">
+                        <div id="sorting-flight2">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:92px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>
+</button>
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:92px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">{% trans 'Filter' %}</span>  </span>
+</button>
+
+<section class="destinations-area my_button_sticky mt-3" style="background:transparent;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
-                    <span id="search_type_name">
-                        {% trans 'All Types' %}
-                    </span>,
-                    <span id="search_category_name">
-                        {% trans 'All Categories' %}
-                    </span>,
-                    <span id="search_sub_category_name">
-                        {% trans 'All Sub Categories' %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-            <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
+            <div class="col-lg-12">
+                <div class="drop_inline">
+                    <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown" style="margin-bottom:0px;">
+                        <button type="button" class="primary-btn" style="line-height: 1.5; height:42px; width:200px;">
+                            Quick Action
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-w" role="menu" style="padding:15px;">
+                            <button type="button" class="primary-btn-white-short" style="margin-bottom:15px; width:100%; text-align:left;" onclick="go_to_change_search('section_change_search');">
+                                <i class="fas fa-search"></i> Change Search
+                            </button>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
+
+<section id="section_change_search" class="change-search-area-pcw" style="display:none;">
+    <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="padding:0px;">
-                <div class="banner-right">
-                    <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+            <div class="col-lg-12">
+                <div id="div-search-overlay">
+                    <div style="background:{{color}}; padding: 5px 10px; box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                        <div class="row">
+                            <div class="col-xs-9" style="margin:auto;">
+                                <h5 style="color:{{text_color}};">{% trans 'Change Search' %}</h5>
+                            </div>
+                            <div class="col-xs-3" style="margin:auto; text-align:right;">
+                                <i class="fas fa-times" onclick="go_to_change_search('section_change_search');" style="font-size:20px; color:{{text_color}}; cursor:pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="change_search_box_bg">
+                        <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-10 col-md-9" style="padding:0px;">
+                            <div class="col-lg-12">
                                 <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                                <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" value="{{query}}" style="margin-bottom:0px;"/>
                             </div>
-                            <div class="col-lg-2 col-md-3" style="padding:0px;">
-                                <span class="span-search-ticket">&nbsp;</span>
+                            <div class="col-lg-8">
+                                <div class="input-container-search-ticket">
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" value="{{query}}" style="margin-bottom:0px;"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="input-container-search-ticket">
                                     <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                     <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -96,60 +143,83 @@
                             </div>
                         </div>
                         <div class="row" id="activity_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                        <div class="form-select" id="default-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                <option value="" selected="">{% trans 'All Countries' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                        <div class="form-select">
-                                            <div id="temp_activity_cities">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                    <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                </select>
+                            <div class="col-lg-6 mb-2">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                        <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h6>Country</h6>
+                                                <div class="form-select" id="default-select">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
+                                                        <option value="" selected="">{% trans 'All Countries' %}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <h6>City</h6>
+                                                <div class="form-select">
+                                                    <div id="temp_activity_cities">
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
+                                                            <option value="" selected="">{% trans 'All Cities' %}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('activity','country');">Done</button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </ul>
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-12 search_type">
-                                        <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 search_type">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                <option value="0" selected="">{% trans 'All Types' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4" style="padding:0px;">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4" style="padding:0px;">
-                                        <div class="form-select">
-                                            <div id="temp_activity_sub_category">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                    <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                </select>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                        <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h6>Type</h6>
+                                                        <div class="form-select">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                                <option value="0" selected="">{% trans 'All Types' %}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h6>Category</h6>
+                                                        <div class="form-select">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
+                                                                <option value="0" selected="">{% trans 'All Categories' %}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h6>Sub Category</h6>
+                                                        <div class="form-select">
+                                                            <div id="temp_activity_sub_category">
+                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                                    <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('activity','type');">Done</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -160,745 +230,418 @@
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{%elif template == 2 %}
-<section class="destinations-area change_search_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
-                    <span id="search_type_name">
-                        {% trans 'All Types' %}
-                    </span>,
-                    <span id="search_category_name">
-                        {% trans 'All Categories' %}
-                    </span>,
-                    <span id="search_sub_category_name">
-                        {% trans 'All Sub Categories' %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-            <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn-custom" style="padding-top:3px;" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:98; position:relative; display:none;">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
-                        <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" method="post">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-lg-10 col-md-9">
-                                    <span style="color:{{text_color}};"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" style="margin-bottom:0px;" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" value="{{query}}"/>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <span style="color:{{text_color}};">&nbsp;</span>
-                                    <div class="input-container-search-ticket">
-                                        <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                        <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" id="activity_advanced_search" style="display:none;">
-                                <div class="col-lg-6 mb-3">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-select" id="default-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                    <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-select">
-                                                <div id="temp_activity_cities">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                        <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <span style="color:{{text_color}};"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                    <option value="0" selected="">{% trans 'All Types' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                    <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4">
-                                            <div class="form-select">
-                                                <div id="temp_activity_sub_category">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                        <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{%elif template == 3%}
-<section class="change_search_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
-                    <span id="search_type_name">
-                        {% trans 'All Types' %}
-                    </span>,
-                    <span id="search_category_name">
-                        {% trans 'All Categories' %}
-                    </span>,
-                    <span id="search_sub_category_name">
-                        {% trans 'All Sub Categories' %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-            <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:5px; padding-bottom:5px; z-index:98; position:relative; display:none;">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row fullscreen d-flex">
-            <div class="col-lg-12 header-right" style="padding-top:50px; padding-bottom:50px; background-color:unset; border:unset;">
-                <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-10 col-md-9">
-                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                            <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" value="{{query}}"/>
-                        </div>
-                        <div class="col-lg-2 col-md-3">
-                            <span class="span-search-ticket">&nbsp;</span>
-                            <div class="input-container-search-ticket">
-                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="activity_advanced_search" style="display:none;">
-                        <div class="col-lg-6 mb-3">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select" id="default-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                            <option value="" selected="">{% trans 'All Countries' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select">
-                                        <div id="temp_activity_cities">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                <option value="" selected="">{% trans 'All Cities' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                            <option value="0" selected="">{% trans 'All Types' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <div id="temp_activity_sub_category">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-{%elif template == 4%}
-<section class="destinations-area change_search_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
-                    <span id="search_type_name">
-                        {% trans 'All Types' %}
-                    </span>,
-                    <span id="search_category_name">
-                        {% trans 'All Categories' %}
-                    </span>,
-                    <span id="search_sub_category_name">
-                        {% trans 'All Sub Categories' %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-            <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-10 col-md-9">
-                            <span class="span-search-ticket">{% trans 'Activity' %}</span>
-                            <div class="input-container-search-ticket">
-                                <i class="fas fa-umbrella-beach" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" value="{{query}}"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-3">
-                            <span class="span-search-ticket">&nbsp;</span>
-                            <div class="input-container-search-ticket">
-                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="activity_advanced_search" style="display:none;">
-                        <div class="col-lg-6 mb-3">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select" id="default-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                            <option value="" selected="">{% trans 'All Countries' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select">
-                                        <div id="temp_activity_cities">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                <option value="" selected="">{% trans 'All Cities' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                            <option value="0" selected="">{% trans 'All Types' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <div id="temp_activity_sub_category">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-{%elif template == 5%}
-<section class="destinations-area change_search_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
-                    <span id="search_type_name">
-                        {% trans 'All Types' %}
-                    </span>,
-                    <span id="search_category_name">
-                        {% trans 'All Categories' %}
-                    </span>,
-                    <span id="search_sub_category_name">
-                        {% trans 'All Sub Categories' %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-            <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:50px; padding-bottom:50px; background-color: black; z-index:98; position:relative; display:none">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-10 col-md-9">
-                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                            <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" value="{{query}}"/>
-                        </div>
-                        <div class="col-lg-2 col-md-3">
-                            <span class="span-search-ticket">&nbsp;</span>
-                            <div class="input-container-search-ticket">
-                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="activity_advanced_search" style="display:none;">
-                        <div class="col-lg-6 mb-3">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select" id="default-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                            <option value="" selected="">{% trans 'All Countries' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select">
-                                        <div id="temp_activity_cities">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                <option value="" selected="">{% trans 'All Cities' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                            <option value="0" selected="">{% trans 'All Types' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <div id="temp_activity_sub_category">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-{%elif template == 6%}
-<section class="destinations-area change_search_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
-                    <span id="search_type_name">
-                        {% trans 'All Types' %}
-                    </span>,
-                    <span id="search_category_name">
-                        {% trans 'All Categories' %}
-                    </span>,
-                    <span id="search_sub_category_name">
-                        {% trans 'All Sub Categories' %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-            <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <form action="{% url 'tt_website:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-9 col-md-8">
-                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                            <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" value="{{query}}" style="margin-bottom:0px;"/>
-                        </div>
-                        <div class="col-lg-3 col-md-4">
-                            <span class="span-search-ticket">&nbsp;</span>
-                            <div class="input-container-search-ticket">
-                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="activity_advanced_search" style="display:none;">
-                        <div class="col-lg-6 mb-3">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select" id="default-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                            <option value="" selected="">{% trans 'All Countries' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-select">
-                                        <div id="temp_activity_cities">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                <option value="" selected="">{% trans 'All Cities' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                            <option value="0" selected="">{% trans 'All Types' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="form-select">
-                                        <div id="temp_activity_sub_category">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-{%endif%}
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; position:relative; background:#f7f7f7;">
     <div class="container">
-        <div class="row" style="padding-bottom:10px;">
-            <div class="col-lg-12">
-                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
-                    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>
-                </button>
-                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
-                    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">{% trans 'Filter' %}</span>  </span>
-                </button>
-            </div>
-            <div class="col-lg-12" id="breadcrumbs_create">
+<!--        <div class="row" style="padding-bottom:10px;">-->
+<!--            <div class="col-lg-12">-->
+<!--                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">-->
+<!--                    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>-->
+<!--                </button>-->
+<!--                <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">-->
+<!--                    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">{% trans 'Filter' %}</span>  </span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="col-lg-12" id="breadcrumbs_create">-->
 
-            </div>
-        </div>
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="row">
             <div class="col-lg-3">
-                {% if username.co_user_login != default_user %}
-                <div class="row" id="info_user_search">
-                    <div class="col-lg-12">
-                        <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                            <span class="mb-2 mt-2" title="{{username.co_user_login}}" style="font-size:14px;font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px; display:inline-block; display:-webkit-inline-block;"><i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i> {{username.co_user_login}}</span>
-                            <br/><span id="balance_search" style="font-size:13px; font-weight:500;"></span>
-                            <div style="margin-top:10px;">
-                                <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                <div class="sticky_time_fs" id="sticky_time_fs_div">
+                    <div class="time_user_box mb-3">
+                        <span style="font-weight:600;"><i class="fas fa-stopwatch" style="font-size:17px;"></i> {% trans 'Session Time' %}
+                        <span class="count_time" id="session_time" style="float:right;"> </span></span>
+                        <div style="padding-top:10px;"></div>
+                        <span style="font-weight:600;"><i class="fas fa-clock" style="font-size:16px;"></i> {% trans 'Elapsed Time' %}
+                            <span class="count_time" id="elapse_time" style="float:right;"> </span>
+                        </span>
+                        {% if username.co_user_login != default_user %}
+                        <div style="display:flex;">
+                            <div class="row" style="padding-top:10px;">
+                                <div class="col-lg-12">
+                                    <span title="{{username.co_user_login}}" style="font-weight:600; cursor:pointer; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px; display:inline-block; display:-webkit-inline-block;">
+                                        <i class="fas fa-user" style="font-size:16px;"></i> {{username.co_user_login}}
+                                    </span><br/>
+                                    <div class="drop_inline">
+                                        <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                            <button type="button" class="btn-dropdown-txt" style="color:black">
+                                                Balance & Credit
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-txt" role="menu" style="padding:15px;">
+                                                <span style="float:right; font-size:20px; cursor:pointer;"><i class="fas fa-times" onclick='$(".dropdown-menu").removeClass("show");'></i></span><br/>
+                                                <div id="balance_search"></div>
+                                                <div id="credit_search"></div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        {% endif %}
+                        <button class="primary-btn-white-short" id="sort_pc_vr" style="width:100%; height:38px; display:none; text-align:left;" data-toggle="modal" data-target="#myModalSort">
+                            <i class="fas fa-sort"></i>
+                            {% trans 'Sort' %}
+                        </button>
+                        <button class="primary-btn-white-short" id="filter_pc_vr" style="width:100%; height:38px; display:none; text-align:left;" data-toggle="modal" data-target="#myModalFilter">
+                            <i class="fas fa-filter"></i>
+                            {% trans 'Filter' %}
+                        </button>
                     </div>
                 </div>
-                {% endif %}
 
-                <div style="background-color:white; padding:10px; margin-top:15px; border:1px solid #cdcdcd" id="session_timer">
-
-                </div>
-
-                <div class="modal fade" id="myModalFilter" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title"> Filter</i></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
-                                    <div class="col-lg-12">
-                                        <div id="filter2">
-
-                                        </div>
+                <div class="sorting-search-flight" id="sorting-search-flight">
+                    <div id="sorting-flight" style="margin-bottom:15px;">
+                        <div style="margin-bottom:15px;">
+                            <div class="sorting-box">
+                                <span style="font-weight: bold; margin-right:10px;">Sort by: </span>
+                                <div class="stripe_sorting">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_sorting">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                                <div class="stripe_sorting">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="myModalSort" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title"> Sort </i></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
-                                    <div class="col-lg-12">
-                                        <div id="sorting-flight2">
 
-                                        </div>
+                <div class="filter-search-flight" id="filter-search-flight" style="z-index:1;">
+                    <div class="filter_box" id="filter">
+                        <div class="place_div_left_right">
+                            <span style="font-weight:bold; font-size:14px;">
+                                <div class="stripe_div_small70">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
                                     </div>
                                 </div>
-                            </div>
+                            </span>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_div_small70">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
                         </div>
-                    </div>
-                </div>
-
-                <div class="filter-search-flight" id="filter-search-flight">
-                    <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="filter">
-
+                        <hr/>
+                        <div class="place_div_left_right">
+                            <span style="font-weight:bold; font-size:14px;">
+                                <div class="stripe_div_small70">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_checkbox">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="place_div_grid">
+                            <label>
+                                <div class="stripe_div_medium160">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_medium130">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_medium160">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <hr/>
+                        <div class="place_div_left_right">
+                            <span style="font-weight:bold; font-size:14px;">
+                                <div class="stripe_div_small70">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_checkbox">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="place_div_grid">
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small40">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small40">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <hr/>
+                        <div class="place_div_left_right">
+                            <span style="font-weight:bold; font-size:14px;">
+                                <div class="stripe_div_medium130">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_checkbox">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="place_div_grid">
+                            <label>
+                                <div class="stripe_div_small70">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small70">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small70">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small40">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <hr/>
+                        <div class="place_div_left_right">
+                            <span style="font-weight:bold; font-size:14px;">
+                                <div class="stripe_div_medium130">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_checkbox">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="place_div_grid">
+                            <label>
+                                <div class="stripe_div_small40">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <hr/>
+                        <div class="place_div_left_right">
+                            <span style="font-weight:bold; font-size:14px;">
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <label style="position:absolute; right:0px;">
+                                <div class="stripe_checkbox">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="place_div_grid">
+                            <label>
+                                <div class="stripe_div_small40">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label>
+                                <div class="stripe_div_small100">
+                                    <div class="div_stripe">
+                                        <div class="loading_stripe"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-9" style="z-index:1;">
-                <div class="row sorting-search-flight" id="sorting-search-flight">
-                    <div class="col-lg-12">
-                        <div id="sorting-flight" style="margin-bottom:15px; margin-top:15px;">
-
+                <div class="change_search_div" id="hotel_search_params">
+                    <div class="destinations-area change_search_n">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7 mb-1">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            <span style="text-transform: capitalize; font-size:13px;">{% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100%; display:inline-block; display:-webkit-inline-block;">
+                                        <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
+                                            <span id="search_country_name">
+                                                {% trans 'All Countries' %}
+                                            </span>,
+                                            <span id="search_city_name">
+                                                {% trans 'All Cities' %}
+                                            </span>
+                                        </span>
+                                        <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
+                                            <span id="search_type_name">
+                                                {% trans 'All Types' %}
+                                            </span>,
+                                            <span id="search_category_name">
+                                                {% trans 'All Categories' %}
+                                            </span>,
+                                            <span id="search_sub_category_name">
+                                                {% trans 'All Sub Categories' %}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5 txt-right-left">
+                                <button class="primary-btn-custom" type="button" onclick="go_to_change_search('section_change_search');">
+                                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="row" style="padding-top:10px;">
-                            <div class="col-lg-12" id="activity_result"></div>
-                        </div>
+<!--                        <div class="row" style="margin-bottom:15px;">-->
+<!--                            <div class="col-lg-12" id="activity_result">-->
 
-                        <div class="row" style="padding-top:10px;">
+<!--                            </div>-->
+<!--                        </div>-->
+
+                        <div class="row">
                             <div class="col-lg-12">
-                                <div id="pagination-container" style="margin-bottom:10px; display:none;"></div>
+                                <div id="pagination-container" style="display:none;">
+
+                                </div>
                             </div>
                         </div>
 
@@ -952,7 +695,7 @@
 
 
     $(document).ready(function () {
-        breadcrumb_create("activity", 2, 0);
+        //breadcrumb_create("activity", 2, 0);
         $('.js-example-basic-single').select2();
         get_activity_config('search');
 
