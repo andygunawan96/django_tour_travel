@@ -538,8 +538,10 @@ function get_activity_config(type, val){
             sub_category = {};
 
             var country_selection = document.getElementById('activity_countries');
+            var city_selection = document.getElementById('activity_cities');
             var type_selection = document.getElementById('activity_type');
             var category_selection = document.getElementById('activity_category');
+            var sub_category_selection = document.getElementById('activity_sub_category');
 
             for(i in msg.activity_locations){
                 for(j in msg.activity_locations[i].states)
@@ -687,6 +689,13 @@ function get_activity_config(type, val){
 
             country_selection.setAttribute("onchange", "auto_complete_activity('activity_countries');");
             category_selection.setAttribute("onchange", "auto_complete_activity('activity_category');");
+
+            //country_selection.setAttribute("onchange", "auto_complete_text_activity('activity_countries');");
+            city_selection.setAttribute("onchange", "auto_complete_text_activity('activity_cities');");
+            type_selection.setAttribute("onchange", "auto_complete_text_activity('activity_type');");
+            //category_selection.setAttribute("onchange", "auto_complete_text_activity('activity_category');");
+            sub_category_selection.setAttribute("onchange", "auto_complete_text_activity('activity_sub_category');");
+
             if(type == 'search')
             {
                 if (parsed_country)
@@ -712,12 +721,12 @@ function activity_change_page(page_direction){
     document.getElementById('activity_filter_name').value = '';
     document.getElementById('price-from').value = low_price_slider;
     document.getElementById('price-to').value = high_price_slider;
-    document.getElementById("img-sort-down-name").style.display = "block";
-    document.getElementById("img-sort-up-name").style.display = "none";
-    document.getElementById("img-sort-down-price").style.display = "block";
-    document.getElementById("img-sort-up-price").style.display = "none";
-    document.getElementById("img-sort-down-score").style.display = "block";
-    document.getElementById("img-sort-up-score").style.display = "none";
+//    document.getElementById("img-sort-down-name").style.display = "block";
+//    document.getElementById("img-sort-up-name").style.display = "none";
+//    document.getElementById("img-sort-down-price").style.display = "block";
+//    document.getElementById("img-sort-up-price").style.display = "none";
+//    document.getElementById("img-sort-down-score").style.display = "block";
+//    document.getElementById("img-sort-up-score").style.display = "none";
     sorting_value = '';
 
     var act_page_btns = document.getElementsByClassName("activity-page-btn");
@@ -725,6 +734,15 @@ function activity_change_page(page_direction){
         act_page_btns[i].disabled = true;
     }
     document.getElementById("activity_search_page_input_submit").disabled = true;
+    document.getElementById("activity_search_page_input_submit2").disabled = true;
+
+    $('#sort_by_span').text('---Sort by---');
+    $("input[name='radio_sorting']").each(function(){
+        $(this).prop('checked', false);
+    });
+    $("input[name='radio_sorting2']").each(function(){
+        $(this).prop('checked', false);
+    });
 
     if(page_direction == 'prev')
     {
@@ -734,11 +752,19 @@ function activity_change_page(page_direction){
     {
         activity_page++;
     }
-    else
-    {
-        if(document.getElementById("activity_search_page_input").value)
-        {
-            activity_page = document.getElementById("activity_search_page_input").value;
+    else{
+        if(page_direction == 'custom'){
+            if(document.getElementById("activity_search_page_input").value)
+            {
+                activity_page = document.getElementById("activity_search_page_input").value;
+                document.getElementById("activity_search_page_input2").value = activity_page;
+            }
+        }else{
+            if(document.getElementById("activity_search_page_input2").value)
+            {
+                activity_page = document.getElementById("activity_search_page_input2").value;
+                document.getElementById("activity_search_page_input").value = activity_page;
+            }
         }
     }
     activity_search(activity_page);
@@ -747,6 +773,7 @@ function activity_change_page(page_direction){
 function activity_search(activity_search_page=1){
     getToken();
     activity_request['page'] = activity_search_page;
+
     //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
@@ -798,7 +825,7 @@ function activity_search(activity_search_page=1){
                    }
 
                    text+=`
-                   <div class="col-lg-6 col-md-6 activity_box" style="min-height:unset;">
+                   <div class="col-lg-12 activity_box" style="min-height:unset; margin-bottom:5px;">
                        <form action='/activity/detail/`+activity_data[i].uuid+`/`+signature+`' method=POST id='myForm`+activity_data[i].sequence+`'>
                             <div id='csrf`+activity_data[i].sequence+`'></div>
                             <input type='hidden' value='`+JSON.stringify(activity_data[i]).replace(/[']/g, /["]/g)+`'/>
@@ -814,167 +841,92 @@ function activity_search(activity_search_page=1){
                             }
                             temp_arr_loc = get_unique_list_data(temp_arr_loc);
 
-                            if(template == 1){
-                                text+=`
-                                <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
-                                    <div class="single-destination relative">`;
-                                        if(img_src){
-                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
-                                        }else{
-                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
-                                        }
-                                        text+=`
-                                            <div class="overlay overlay-bg"></div>
-                                        </div>
-                                        <div class="card card-effect-promotion" style="border:unset;">
-                                            <div class="card-body">
-                                                <div class="row details">
-                                                    <div class="col-lg-12" style="text-align:left;">`;
-                                                        //text+=`<span style="font-weight:500; margin-bottom:5px; padding:0px 10px; background: `+color+`; color: `+text_color+`;">TYPE ACTIVITY</span>`;
-                                                        text+=`<h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top:5px;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>
-                                                        <div class="row">
-                                                            <div class="col-lg-6" style="text-align:left;">`;
-                                                            if(activity_data[i].reviewCount != 0){
-                                                                text+=`<span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+`)</span><br/>`;
-                                                            }else{
-                                                                text+=`<span style="font-size:13px;"><i style="color:#FFC801 !important;" class="fas fa-star"></i> No Rating</span><br/>`;
-                                                            }
-                                                        text+=`
-                                                            </div>
-                                                            <div class="col-lg-6" style="text-align:right;">
-                                                                <span style="font-size:12px; font-weight:600; cursor:pointer;"> <i class="fas fa-tags"></i>`;
-                                                                text+=`<span id="pop_ctg`+i+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_ctg.length+` Category</span>`;
-                                                                text+=`
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12" style="height:30px;">
-                                                                <span style="font-size:12px; font-weight:600; cursor:pointer;"> <i class="fas fa-map-marker-alt"></i>`;
-                                                                for(ct in temp_arr_loc){
-                                                                    if(ct == 0){
-                                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
-                                                                    }else{
-                                                                        text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
-                                                                    }
-                                                                }
-                                                                text+=`
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        `;
-                                                    text+=`
-                                                    </div>
-                                                    <div class="col-lg-12">`;
-                                                    if(activity_data[i].activity_price > 0)
-                                                    {
-                                                        text+=`<span style="float:left; font-size:16px;font-weight:bold;">`+activity_data[i].currency_code+` `+getrupiah(activity_data[i].activity_price)+`  </span>`;
-                                                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
-                                                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                                    try{
-                                                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == activity_data[i].currency_code){
-                                                                            price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                                                            if(price_convert%1 == 0)
-                                                                                price_convert = parseInt(price_convert);
-                                                                            text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
-                                                                        }
-                                                                    }catch(err){
-                                                                        console.log(err);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    else{
-                                                        text+=`<span style="float:left; font-size:16px;font-weight:bold;">No Estimated Price</span>`;
-                                                    }
-
-                                                    text+=`
-                                                        <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                            }else{
-                                if(template == 5){
-                                    text+=`<div class="single-post-area" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
-                                }else{
-                                    text+=`<div class="single-post-area" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
-                                }
-                                text+=`
-                                    <div class="single-destination avail-sd relative">`;
-                                        if(img_src){
-                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
-                                        }else{
-                                            text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')">`;
-                                        }
-                                        if(template != 5 && template != 6){
-                                            text+=`<div class="overlay overlay-bg"></div>`;
-                                        }
-                                        text+=`
-                                        </div>
-                                        <div class="card card-effect-promotion" style="border:unset;">
-                                            <div class="card-body" style="padding:10px; border:unset;">
-                                                <div class="row details">
-                                                    <div class="col-lg-12" style="text-align:left; height:90px;">
-                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>
-                                                        <div class="col-lg-12" style="padding:0px;">`;
-                                                            if(activity_data[i].reviewCount != 0){
-                                                                text+=`<span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+` reviews)</span><br/>`;
-                                                            }else{
-                                                                text+=`<span style="font-size:13px;"><i style="color:#FFC801 !important;" class="fas fa-star"></i> No Rating</span><br/>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                        <span style="font-size:12px; font-weight:600; cursor:pointer;"> <i class="fas fa-map-marker-alt"></i>`;
-                                                        for(ct in temp_arr_loc){
-                                                            if(ct == 0){
-                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
-                                                            }else{
-                                                                text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
-                                                            }
-                                                        }
-                                                        text+=`</span><br/>`;
-                                                    text+=`
-                                                    </div>
-                                                    <div class="col-lg-12">`;
-                                                    if(activity_data[i].activity_price > 0)
-                                                    {
-                                                        text+=`<span style="float:left; font-size:16px;font-weight:bold;">`+activity_data[i].currency_code+` `+getrupiah(activity_data[i].activity_price)+`  </span>`;
-                                                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
-                                                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                                    try{
-                                                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == activity_data[i].currency_code){
-                                                                            price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                                                            if(price_convert%1 == 0)
-                                                                                price_convert = parseInt(price_convert);
-                                                                            text+=`<br/><span style="float:left; font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span>`;
-                                                                        }
-                                                                    }catch(err){
-                                                                        console.log(err);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    else{
-                                                        text+=`<span style="float:left; font-size:16px;font-weight:bold;">No Estimated Price</span>`;
-                                                    }
-
-                                                    text+=`
-                                                        <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                            }
                             text+=`
+                            <div class="single-recent-blog-post item div_box_default" style="padding:0px 15px;">
+                                <div class="single-destination relative">
+                                    <div class="row">`;
+                                        if(img_src){
+                                            text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: url('`+img_src+`'), url('/static/tt_website/images/no_found/no-image-activity.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')"></div>`;
+                                        }else{
+                                            text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_data[i].sequence+`')"></div>`;
+                                        }
+                                        text+=`
+                                        <div class="col-lg-9 col-md-8">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <div style="padding-top:15px">
+                                                        <h5 style="padding-bottom:5px;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8" style="text-align:left;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12" style="text-align:left; margin-bottom:5px;">`;
+                                                            if(activity_data[i].reviewCount != 0){
+                                                                text+=`<span class="span-activity-desc" style="font-size:14px; font-weight:bold; padding:2px 5px; border:2px solid `+color+`; color:`+color+`; border-radius:5px;">`+activity_data[i].reviewAverageScore+`/5</span><span><i style="color:#FFC801 !important; padding-left:5px; font-size:16px;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+`)</span><br/>`;
+                                                            }else{
+                                                                text+=`<span class="span-activity-desc" style="font-size:14px; font-weight:bold; padding:2px 5px; border:2px solid `+color+`; color:`+color+`; border-radius:5px;">No rating</span><span><i style="color:#FFC801 !important; padding-left:5px; font-size:16px;" class="fas fa-star"></i></span><br/>`;
+                                                            }
+                                                        text+=`
+                                                        </div>`;
+//                                                        text+=`
+//                                                        <div class="col-lg-6" style="text-align:right;">
+//                                                            <span style="font-size:14px; font-weight:600; cursor:pointer;"> <i class="fas fa-tags"></i>
+//                                                            <span id="pop_ctg`+i+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_ctg.length+` Category</span>
+//                                                            </span>
+//                                                        </div>`;
+
+                                                        text+=`
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <span style="font-size:14px; font-weight:600; cursor:pointer;"><i class="fas fa-map-marker-alt" style="font-size:16px;"></i>`;
+                                                            for(ct in temp_arr_loc){
+                                                                if(ct == 0){
+                                                                    text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;"> `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`)</span>`;
+                                                                }else{
+                                                                    text+=`<span id="pop_loc`+i+``+ct+`" class="span-activity-desc" style="color:`+color+`; cursor:pointer;">, `+temp_arr_loc[ct].data_country+` (`+temp_arr_loc[ct].count+`) </span>`;
+                                                                }
+                                                            }
+                                                            text+=`
+                                                            </span>
+                                                        </div>`;
+                                                        text+=`
+                                                        <div class="col-lg-12">
+                                                            <span style="font-size:13px; cursor:pointer;">
+                                                                <span class="span-activity-desc"> <i class="fas fa-tags" style="padding-right:5px;"></i>`;
+                                                                    for(j in activity_data[i].categories){
+                                                                        text+=activity_data[i].categories[j].category_name;
+                                                                        if(j > 0 && j != activity_data[i].categories.length-1){
+                                                                            text+=` | `;
+                                                                        }
+                                                                    }
+                                                                text+=`
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4" style="text-align:right;">`;
+                                                if(activity_data[i].activity_price > 0){
+                                                    text+=`<span style="font-size:15px;font-weight:bold; color:`+color+`;">`+activity_data[i].currency_code+` `+getrupiah(activity_data[i].activity_price)+`  </span>`;
+                                                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
+                                                        if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                                            text+=`<br/><span class="span_link" id="estimated_popup_activity`+i+`" style="color:`+color+` !important; font-size:13px;">Estimated <i class="fas fa-coins"></i></span>`;
+                                                        }
+                                                    }
+                                                }
+                                                else{
+                                                    text+=`<span style="font-size:14px;font-weight:bold;">No Estimated Price</span>`;
+                                                }
+
+                                                text+=`
+                                                    <br/><button style="width:100%; margin-top:10px; margin-bottom:15px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                        </form>
                    </div>`;
                }
@@ -1015,16 +967,12 @@ function activity_search(activity_search_page=1){
                document.getElementById('activity_ticket').innerHTML += text;
 
                for(i in activity_data){
+
                     temp_arr_loc = [];
-                    temp_arr_ctg = [];
                     for(j in activity_data[i].locations){
                         temp_arr_loc.push(activity_data[i].locations[j].country_name);
                     }
-                    for(j in activity_data[i].categories){
-                        temp_arr_ctg.push(activity_data[i].categories[j].category_name);
-                    }
                     temp_arr_loc = get_unique_list_data(temp_arr_loc);
-
                     for(ct in temp_arr_loc){
                         content_pop_loc = '';
 
@@ -1059,78 +1007,158 @@ function activity_search(activity_search_page=1){
                         });
                     }
 
-                    content_pop_ctg = '';
-                    for(ct in temp_arr_ctg){
-                        content_pop_ctg+=`
-                        <span class="span-activity-desc" style="font-size:13px;">
-                            <i style="color:`+color+` !important;" class="fas fa-tags"></i>
-                            `+temp_arr_ctg[ct]+`
-                        </span><br/>`;
+//                    temp_arr_ctg = [];
+//                    for(j in activity_data[i].categories){
+//                        temp_arr_ctg.push(activity_data[i].categories[j].category_name);
+//                    }
+//                    content_pop_ctg = '';
+//                    for(ct in temp_arr_ctg){
+//                        content_pop_ctg+=`
+//                        <span class="span-activity-desc" style="font-size:13px;">
+//                            <i style="color:`+color+` !important;" class="fas fa-tags"></i>
+//                            `+temp_arr_ctg[ct]+`
+//                        </span><br/>`;
+//                    }
+//                    new jBox('Tooltip', {
+//                        attach: '#pop_ctg'+i,
+//                        target: '#pop_ctg'+i,
+//                        theme: 'TooltipBorder',
+//                        trigger: 'click',
+//                        adjustTracker: true,
+//                        closeOnClick: 'body',
+//                        closeButton: 'box',
+//                        animation: 'move',
+//                        position: {
+//                          x: 'left',
+//                          y: 'top'
+//                        },
+//                        outside: 'y',
+//                        pointer: 'left:20',
+//                        offset: {
+//                          x: 25
+//                        },
+//                        content: content_pop_ctg,
+//                    });
+
+                    if(activity_data[i].activity_price > 0){
+                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_data[i].activity_price){
+                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                content_pop_estimated = '';
+                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                    try{
+                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == activity_data[i].currency_code){
+                                            price_convert = (Math.ceil(activity_data[i].activity_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            content_pop_estimated +=`<span style="font-size:16px;font-weight:bold;">Estimated `+k+` `+getrupiah(price_convert)+`</span><br/>`;
+                                        }
+                                    }catch(err){
+                                        console.log(err);
+                                    }
+                                }
+
+                                new jBox('Tooltip', {
+                                    attach: '#estimated_popup_activity'+i,
+                                    target: '#estimated_popup_activity'+i,
+                                    theme: 'TooltipBorder',
+                                    trigger: 'click',
+                                    adjustTracker: true,
+                                    closeOnClick: 'body',
+                                    closeButton: 'box',
+                                    animation: 'move',
+                                    position: {
+                                      x: 'left',
+                                      y: 'top'
+                                    },
+                                    outside: 'y',
+                                    pointer: 'left:20',
+                                    offset: {
+                                      x: 25
+                                    },
+                                    content: content_pop_estimated,
+                                });
+                            }
+                        }
                     }
-                    new jBox('Tooltip', {
-                        attach: '#pop_ctg'+i,
-                        target: '#pop_ctg'+i,
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'top'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: content_pop_ctg,
-                    });
+
+
                }
 
 //               document.getElementById("activity_result").innerHTML = '';
 //               text = '';
 //               var node = document.createElement("div");
 //               text+=`
-//               <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+//               <div class="div_box_default">
 //                   <span style="font-weight:bold; font-size:14px;"> Activity - `+activity_data.length+` results</span>
 //               </div>`;
 //               node.innerHTML = text;
 //               document.getElementById("activity_result").appendChild(node);
 //               node = document.createElement("div");
 
+
                var items = $(".activity_box");
                var numItems = items.length;
-               pagination_txt = ``;
-               if(activity_page > 1)
-               {
-                   pagination_txt += `
-                      <button class="primary-btn activity-page-btn" type="button" style="line-height:34px; float:left;" onclick="activity_change_page('prev')">Previous Page</button>
-                   `;
-               }
-               if (numItems >= 30)
-               {
-                    pagination_txt += `
-                       <button class="primary-btn activity-page-btn" type="button" style="line-height:34px; float:right;" onclick="activity_change_page('next')">Next Page</button>
-                    `;
-               }
 
-               document.getElementById("activity_result").innerHTML = `
-               <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
-                   <div class="row">
-                       <div class="col-lg-8"><span style="font-weight:bold; font-size:14px;"> Activity - Page `+activity_page+`</span></div>
-                       <div class="col-lg-4" style="text-align:right;">
-                           <span style="font-weight:bold; font-size:14px;"> Go To Page:</span>
-                           <input type="number" style="max-width:50px;" min="1" id="activity_search_page_input" name="activity_search_page_input" value="`+activity_page+`"/>
-                           <button class="primary-btn" style="width:40px; height:30px; padding:5px; line-height:0px;" id="activity_search_page_input_submit" type="button" onclick="activity_change_page('custom');">Go!</button>
-                       </div>
+//               document.getElementById("activity_result").innerHTML = `
+//                   <div class="row">
+//                       <div class="col-lg-12"><span style="font-weight:bold; font-size:14px;"> Activity - Page `+activity_page+`</span></div>
+//                   </div>
+//               </div>`;
+
+               pagination_txt = `
+               <div class="row">
+                   <div class="col-lg-6" style="text-align:left;">
+                       <span style="padding-right:15px; font-weight:bold; font-size:14px;">Page `+activity_page+`</span>`;
+                       if(activity_page > 1){
+                           pagination_txt += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" onclick="activity_change_page('prev')"><i class="fas fa-chevron-left"></i></button>`;
+                       }else{
+                           pagination_txt += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" disabled><i class="fas fa-chevron-left"></i></button>`;
+                       }
+
+                       if (numItems >= 30)
+                       {
+                            pagination_txt += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" onclick="activity_change_page('next')"><i class="fas fa-chevron-right"></i></button>`;
+                       }else{
+                            pagination_txt += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" disabled><i class="fas fa-chevron-right"></i></button>`;
+                       }
+
+                   pagination_txt+=`
                    </div>
-               </div>
-               `;
+                   <div class="col-lg-6" style="text-align:right;">
+                       <span style="padding-left:10px; font-weight:bold; font-size:14px;"> Go to Page</span>
+                       <input class="form-control" type="number" style="max-width:70px; display:inline-block; margin-bottom:0px !important;" min="1" id="activity_search_page_input" name="activity_search_page_input" value="`+activity_page+`"/>
+                       <button class="primary-btn" style="width:50px; padding:0px 5px; margin-bottom:0px;" id="activity_search_page_input_submit" type="button" onclick="activity_change_page('custom');">Go!</button>
+                   </div>
+               </div>`;
+
+               pagination_txt2 = `
+               <div class="row">
+                   <div class="col-lg-6" style="text-align:left;">
+                       <span style="padding-right:15px; font-weight:bold; font-size:14px;">Page `+activity_page+`</span>`;
+                       if(activity_page > 1){
+                           pagination_txt2 += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" onclick="activity_change_page('prev')"><i class="fas fa-chevron-left"></i></button>`;
+                       }else{
+                           pagination_txt2 += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" disabled><i class="fas fa-chevron-left"></i></button>`;
+                       }
+
+                       if (numItems >= 30)
+                       {
+                            pagination_txt2 += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" onclick="activity_change_page('next')"><i class="fas fa-chevron-right"></i></button>`;
+                       }else{
+                            pagination_txt2 += `<button class="primary-btn-white activity-page-btn" type="button" style="padding:0px 15px; border-radius:0px; margin-bottom:0px;" disabled><i class="fas fa-chevron-right"></i></button>`;
+                       }
+
+                       pagination_txt2+=`
+                   </div>
+                   <div class="col-lg-6" style="text-align:right;">
+                       <span style="padding-left:10px; font-weight:bold; font-size:14px;"> Go to Page</span>
+                       <input class="form-control" type="number" style="max-width:70px; display:inline-block; margin-bottom:0px !important;" min="1" id="activity_search_page_input2" name="activity_search_page_input2" value="`+activity_page+`"/>
+                       <button class="primary-btn" style="width:50px; padding:0px 5px; margin-bottom:0px;" id="activity_search_page_input_submit2" type="button" onclick="activity_change_page('custom2');">Go!</button>
+                   </div>
+               </div>`;
 
                document.getElementById('pagination-container').innerHTML = pagination_txt;
-               document.getElementById('pagination-container2').innerHTML = pagination_txt;
+               document.getElementById('pagination-container2').innerHTML = pagination_txt2;
                $('#pagination-container').show();
                $('#pagination-container2').show();
 
