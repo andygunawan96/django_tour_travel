@@ -4357,7 +4357,7 @@ function hotel_get_booking(data){
                 //cancellation policy
 
                 //refund
-                if(msg.result.response.checkin_date){
+                if(msg.result.response.is_agent || user_login.co_agent_frontend_security.includes('process_channel_booking') &&msg.result.response.checkin_date){
                     checkin_date = moment(msg.result.response.checkin_date);
                     now = moment();
                     if(checkin_date > now && msg.result.response.state == 'issued'){

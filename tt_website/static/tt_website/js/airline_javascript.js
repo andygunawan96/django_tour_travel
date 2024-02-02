@@ -5416,14 +5416,16 @@ function airline_pick_mc(type){
                                                          var total_price = 0;
                                                          if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
                                                             check = 0;
-                                                            for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
-                                                                try{
-                                                                    if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
-                                                                        check = 1;
-                                                                }catch(err){
-                                                                    console.log(err); // error kalau ada element yg tidak ada
+                                                            try{ // RECOMMENDATION BISA TIDAK KETEMU
+                                                                for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
+                                                                    try{
+                                                                        if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
+                                                                            check = 1;
+                                                                    }catch(err){
+                                                                        console.log(err); // error kalau ada element yg tidak ada
+                                                                    }
                                                                 }
-                                                            }
+                                                            }catch(err){console.log(err);}
                                                             if(check == 1){
                                                                 is_include_tax = true;
                                                                 if(j == airline_pick_list[i].segments.length - 1){
@@ -5712,14 +5714,16 @@ function airline_pick_mc(type){
                 var is_include_tax = false;
                 if(i == airline_pick_list.length - 1 && airline_recommendations_list.length != 0 && i != 0){
                     check = 0;
-                    for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
-                        try{
-                            if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
-                                check = 1;
-                        }catch(err){
-                            console.log(err); // error kalau ada element yg tidak ada
+                    try{ // RECOMMENDATION BISA TIDAK KETEMU
+                        for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs){
+                            try{
+                                if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
+                                    check = 1;
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                         }
-                    }
+                    }catch(err){console.log(err);}
                     if(check == 1){
                         is_include_tax = true;
                         if(j == airline_pick_list[i].segments.length - 1){

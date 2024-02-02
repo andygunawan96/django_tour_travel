@@ -1700,131 +1700,134 @@ function airline_signin(data,type=''){
     }
 
     $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
+        type: "POST",
+        url: "/webservice/airline",
+        headers:{
             'action': 'signin',
-       },
-       data: data_send,
-       success: function(msg) {
-       try{
-            if(msg.result.error_code == 0){
-                airline_signature = msg.result.response.signature;
-                signature = msg.result.response.signature;
-                if(data == '' && type == ''){
-                    airline_get_provider_list('search');
-                    if(is_reorder)
-                        re_order_set_pax_signature()
-                }else if(data != '' && type == ''){
-                    get_agent_currency_rate();
-                    get_airline_config('home');
-                    airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
-                }else if(data != '' && type == 'refund'){
-                    airline_get_provider_list('refund', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
-                }else if(data != '' && type == 'reorder'){
-                    search_reorder(); //re order
+        },
+        data: data_send,
+        success: function(msg) {
+            try{
+                if(msg.result.error_code == 0){
+                    airline_signature = msg.result.response.signature;
+                    signature = msg.result.response.signature;
+                    if(data == '' && type == ''){
+                        airline_get_provider_list('search');
+                        if(is_reorder)
+                            re_order_set_pax_signature()
+                    }else if(data != '' && type == ''){
+                        get_agent_currency_rate();
+                        get_airline_config('home');
+                        airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
+                    }else if(data != '' && type == 'refund'){
+                        airline_get_provider_list('refund', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
+                    }else if(data != '' && type == 'reorder'){
+                        if(type == 'reorder')
+                            please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                        re_order_set_passengers(type);
+
+                    }
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else if(msg.result.error_code == 1040){
+                    $('#myModalSignIn').modal('show');
+                    try{
+                        document.getElementById('keep_me_sign_in_div').hidden = true;
+                    }catch(err){}
+                    try{
+                        document.getElementById('forget_password_label').hidden = true;
+                    }catch(err){}
+                    try{
+                        setTimeout(() => {
+                          document.getElementById('email_otp_input1').select();
+                        }, 500);
+                    }catch(err){}
+    //                Swal.fire({
+    //                    type: 'warning',
+    //                    html: 'Input OTP'
+    //                });
+                    if(document.getElementById('otp_div')){
+                        document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
+                        document.getElementById('otp_information').hidden = false;
+                        document.getElementById('otp_type_div').hidden = false;
+                        document.getElementById('otp_div').hidden = false;
+                        document.getElementById('otp_time_limit').hidden = false;
+                        document.getElementById('username_div').hidden = true;
+                        document.getElementById('password_div').hidden = true;
+                        document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
+                        document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
+
+                        now = new Date().getTime();
+
+                        time_limit_otp = msg.result.error_msg.split(', ')[1];
+                        tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(tes).toDate();
+
+                        data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
+                        gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                        timezone = data_gmt.replace (/[^\d.]/g, '');
+                        timezone = timezone.split('')
+                        timezone = timezone.filter(item => item !== '0')
+                        time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+                        time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
+                        session_otp_time_limit();
+                    }
+                    $('.loading-button').prop('disabled', false);
+                    $('.loading-button').removeClass("running");
+                }else if(msg.result.error_code == 1041){
+                    Swal.fire({
+                        type: 'warning',
+                        html: msg.result.error_msg
+                    });
+                    $('.loading-button').prop('disabled', false);
+                    $('.loading-button').removeClass("running");
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                    $('.loader-rodextrip').fadeOut();
+                    try{
+                        $("#show_loading_booking_airline").hide();
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
+                    $("#waitingTransaction").modal('hide');
                 }
-            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-            }else if(msg.result.error_code == 1040){
-                $('#myModalSignIn').modal('show');
-                try{
-                    document.getElementById('keep_me_sign_in_div').hidden = true;
-                }catch(err){}
-                try{
-                    document.getElementById('forget_password_label').hidden = true;
-                }catch(err){}
-                try{
-                    setTimeout(() => {
-                      document.getElementById('email_otp_input1').select();
-                    }, 500);
-                }catch(err){}
-//                Swal.fire({
-//                    type: 'warning',
-//                    html: 'Input OTP'
-//                });
-                if(document.getElementById('otp_div')){
-                    document.getElementById('otp_information').innerHTML = 'An OTP has been sent, Please check your email!';
-                    document.getElementById('otp_information').hidden = false;
-                    document.getElementById('otp_type_div').hidden = false;
-                    document.getElementById('otp_div').hidden = false;
-                    document.getElementById('otp_time_limit').hidden = false;
-                    document.getElementById('username_div').hidden = true;
-                    document.getElementById('password_div').hidden = true;
-                    document.getElementById('signin_btn').onclick = function() {get_captcha('g-recaptcha-response','signin_product_otp');}
-                    document.getElementById("btn_otp_resend").onclick = function() {signin_product_otp(true);}
-
-                    now = new Date().getTime();
-
-                    time_limit_otp = msg.result.error_msg.split(', ')[1];
-                    tes = moment.utc(time_limit_otp).format('YYYY-MM-DD HH:mm:ss');
-                    localTime  = moment.utc(tes).toDate();
-
-                    data_gmt = moment(time_limit_otp)._d.toString().split(' ')[5];
-                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                    timezone = data_gmt.replace (/[^\d.]/g, '');
-                    timezone = timezone.split('')
-                    timezone = timezone.filter(item => item !== '0')
-                    time_limit_otp = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-                    time_limit_otp = parseInt((new Date(time_limit_otp.replace(/-/g, "/")).getTime() - now) / 1000);
-                    session_otp_time_limit();
-                }
-                $('.loading-button').prop('disabled', false);
-                $('.loading-button').removeClass("running");
-            }else if(msg.result.error_code == 1041){
+            }catch(err){
+                $("#barFlightSearch").hide();
+                $("#waitFlightSearch").hide();
+                $("#waitingTransaction").modal('hide');
                 Swal.fire({
-                    type: 'warning',
-                    html: msg.result.error_msg
-                });
-                $('.loading-button').prop('disabled', false);
-                $('.loading-button').removeClass("running");
-            }else{
-                Swal.fire({
-                    type: 'error',
-                    title: 'Oops!',
-                    html: msg.result.error_msg,
+                   type: 'error',
+                   title: 'Oops...',
+                   text: 'Something went wrong, please try again or check your internet connection',
                 })
                 $('.loader-rodextrip').fadeOut();
-                try{
-                    $("#show_loading_booking_airline").hide();
-                }catch(err){
-                    console.log(err); // error kalau ada element yg tidak ada
-                }
-                $("#waitingTransaction").modal('hide');
+                document.getElementById("airlines_error").innerHTML = '';
+                text = '';
+                text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                   <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your internet connection</span>
+                </div>`;
+                var node = document.createElement("div");
+                node.innerHTML = text;
+                document.getElementById("airlines_error").appendChild(node);
+                node = document.createElement("div");
             }
-       }catch(err){
-           $("#barFlightSearch").hide();
-           $("#waitFlightSearch").hide();
-           $("#waitingTransaction").modal('hide');
-           Swal.fire({
-               type: 'error',
-               title: 'Oops...',
-               text: 'Something went wrong, please try again or check your internet connection',
-           })
-           $('.loader-rodextrip').fadeOut();
-           document.getElementById("airlines_error").innerHTML = '';
-           text = '';
-           text += `
-           <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-               <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your internet connection</span>
-           </div>`;
-           var node = document.createElement("div");
-           node.innerHTML = text;
-           document.getElementById("airlines_error").appendChild(node);
-           node = document.createElement("div");
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline signin');
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
-          $('.loader-rodextrip').fadeOut();
-          try{
-            $("#show_loading_booking_airline").hide();
-          }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-          }
-       },timeout: 60000
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline signin');
+            $("#barFlightSearch").hide();
+            $("#waitFlightSearch").hide();
+            $('.loader-rodextrip').fadeOut();
+            try{
+                $("#show_loading_booking_airline").hide();
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        },timeout: 60000
     });
 
 }
@@ -8176,13 +8179,15 @@ function airline_reorder(){
             title: 'Oops!',
             html: 'Minimal Re-Order with 1 pax!',
         })
-    }else if(check_pax)
-        Swal.fire({
-            type: 'error',
-            title: 'Oops!',
-            html: 'Minimal Re-Order with 1 journey!',
-        })
-    else
+    }else if(check_pax){
+        airline_signin(airline_get_detail.result.response.order_number, 'reorder');
+        show_loading_reorder('airline');
+//        Swal.fire({
+//            type: 'error',
+//            title: 'Oops!',
+//            html: 'Minimal Re-Order with 1 journey!',
+//        })
+    }else
         Swal.fire({
             type: 'error',
             title: 'Oops!',
@@ -8191,7 +8196,6 @@ function airline_reorder(){
 }
 
 function search_reorder(){
-
     airline_request = {
         "origin":[],
         "destination":[],
@@ -8277,7 +8281,11 @@ function search_reorder(){
         airline_request['is_combo_price'] = "false"
     else
         airline_request['is_combo_price'] = "true"
-    re_order_set_airline_request();
+    if(airline_request.origin.length != 0){
+        re_order_set_airline_request();
+    }else{
+        window.location.href = '/airline';
+    }
 }
 
 function re_order_set_airline_request(type='reorder'){
@@ -8293,9 +8301,27 @@ function re_order_set_airline_request(type='reorder'){
        },
        success: function(resJson) {
             setTimeout(function(){
-                if(type == 'reorder')
-                    please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
-                re_order_set_passengers(type);
+                airline_send_request_count = 0;
+                try{
+                    airline_data_reorder = [];
+                    last_send = false;
+                    var counter = 0;
+                    for(i in provider_list_reorder){
+                        if(counter == Object.keys(provider_list_reorder).length-1)
+                            last_send = true;
+                        airline_search(i,provider_list_reorder[i],last_send=false, true);
+                    }
+                }catch(err){
+                    console.log(err);
+                    please_wait_custom('Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+                    $('.next-loading-reorder').removeClass("running");
+                    $('.next-loading-reorder').prop('disabled', false);
+                    $('.issued_booking_btn').prop('disabled', false);
+                    $('#button-sync-status').prop('disabled', false);
+                    setTimeout(function(){
+                        $("#waitingTransaction").modal('hide');
+                    }, 2000);
+                }
             }, 1000);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -8326,27 +8352,8 @@ function re_order_set_passengers(type){
        success: function(resJson) {
             if(type == 'reorder'){
                 please_wait_custom('Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website/images/gif/loading-dot-white.gif" style="height:50px; width:50px;"/>');
-                airline_send_request_count = 0;
-                try{
-                    airline_data_reorder = [];
-                    last_send = false;
-                    var counter = 0;
-                    for(i in provider_list_reorder){
-                        if(counter == Object.keys(provider_list_reorder).length-1)
-                            last_send = true;
-                        airline_search(i,provider_list_reorder[i],last_send=false, true);
-                    }
-                }catch(err){
-                    console.log(err);
-                    please_wait_custom('Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
-                    $('.next-loading-reorder').removeClass("running");
-                    $('.next-loading-reorder').prop('disabled', false);
-                    $('.issued_booking_btn').prop('disabled', false);
-                    $('#button-sync-status').prop('disabled', false);
-                    setTimeout(function(){
-                        $("#waitingTransaction").modal('hide');
-                    }, 2000);
-                }
+                search_reorder(); //re order
+
             }else{
                 //update pax
                 // goto page update pax
