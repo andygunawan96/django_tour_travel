@@ -8301,26 +8301,30 @@ function re_order_set_airline_request(type='reorder'){
        },
        success: function(resJson) {
             setTimeout(function(){
-                airline_send_request_count = 0;
-                try{
-                    airline_data_reorder = [];
-                    last_send = false;
-                    var counter = 0;
-                    for(i in provider_list_reorder){
-                        if(counter == Object.keys(provider_list_reorder).length-1)
-                            last_send = true;
-                        airline_search(i,provider_list_reorder[i],last_send=false, true);
+                if(type == 'reorder'){
+                    airline_send_request_count = 0;
+                    try{
+                        airline_data_reorder = [];
+                        last_send = false;
+                        var counter = 0;
+                        for(i in provider_list_reorder){
+                            if(counter == Object.keys(provider_list_reorder).length-1)
+                                last_send = true;
+                            airline_search(i,provider_list_reorder[i],last_send=false, true);
+                        }
+                    }catch(err){
+                        console.log(err);
+                        please_wait_custom('Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+                        $('.next-loading-reorder').removeClass("running");
+                        $('.next-loading-reorder').prop('disabled', false);
+                        $('.issued_booking_btn').prop('disabled', false);
+                        $('#button-sync-status').prop('disabled', false);
+                        setTimeout(function(){
+                            $("#waitingTransaction").modal('hide');
+                        }, 2000);
                     }
-                }catch(err){
-                    console.log(err);
-                    please_wait_custom('Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
-                    $('.next-loading-reorder').removeClass("running");
-                    $('.next-loading-reorder').prop('disabled', false);
-                    $('.issued_booking_btn').prop('disabled', false);
-                    $('#button-sync-status').prop('disabled', false);
-                    setTimeout(function(){
-                        $("#waitingTransaction").modal('hide');
-                    }, 2000);
+                }else{
+                    re_order_set_passengers(type);
                 }
             }, 1000);
        },
@@ -8347,7 +8351,8 @@ function re_order_set_passengers(type){
        data: {
           'signature': signature,
           'pax': JSON.stringify(passenger_list_copy),
-          'booker': JSON.stringify(airline_get_detail.result.response.booker)
+          'booker': JSON.stringify(airline_get_detail.result.response.booker),
+          'type': type
        },
        success: function(resJson) {
             if(type == 'reorder'){

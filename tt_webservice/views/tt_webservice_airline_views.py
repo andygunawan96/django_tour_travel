@@ -438,18 +438,20 @@ def re_order_set_passengers(request):
             'student': student,
         }
         ## UNTUK REORDER SAMPAI PASSENGER
-        # write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
-        # set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
+        if request.POST.get('type') == 'update_pax':
+            write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
+            set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
+            write_cache_file(request, '', 'airline_create_passengers', airline_create_passengers)
         ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
-        # write_cache_file(request, '', 'airline_create_passengers', airline_create_passengers)
-        if request.session.get('user_account'):
-            user_account = copy.deepcopy(request.session['user_account'])
-            user_account.update({
-                "co_customer_seq_id": data_booker['seq_id'],
-                "co_passenger_seq_id": data_pax_dict_list
-            })
-            set_session(request, 'user_account', user_account)
-        # set_session(request, 'airline_create_passengers',airline_create_passengers)
+        elif request.POST.get('type') == 'reorder':
+            if request.session.get('user_account'):
+                user_account = copy.deepcopy(request.session['user_account'])
+                user_account.update({
+                    "co_customer_seq_id": data_booker['seq_id'],
+                    "co_passenger_seq_id": data_pax_dict_list
+                })
+                set_session(request, 'user_account', user_account)
+            # set_session(request, 'airline_create_passengers',airline_create_passengers)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
@@ -561,7 +563,8 @@ def get_data_passenger_page(request):
         #                 res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
 
         file = read_cache_file(request, request.POST['signature'], 'airline_get_ff_availability')
-        res['ff_request'] = file['result']['response']['ff_availability_provider'] if file['result']['response'] else []
+        if file:
+            res['ff_request'] = file['result']['response']['ff_availability_provider'] if file['result']['response'] else []
         res = ERR.get_no_error_api(res)
         # res['ff_request'] = request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response'] else []
     except Exception as e:
