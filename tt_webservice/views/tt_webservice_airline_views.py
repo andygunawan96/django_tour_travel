@@ -369,6 +369,7 @@ def re_order_set_passengers(request):
             "nationality_name": data_booker['nationality_name'],
             "booker_seq_id": data_booker['seq_id']
         }
+        data_pax_dict_list = {}
         for pax in data_pax:
             if pax['gender'] == 'male':
                 if pax['pax_type'] in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
@@ -421,6 +422,11 @@ def re_order_set_passengers(request):
                 student.append(data_pax_dict)
             elif pax['pax_type'] == 'SEA':
                 seaman.append(data_pax_dict)
+
+            if pax['pax_type'] not in data_pax_dict_list:
+                data_pax_dict_list[pax['pax_type']] = []
+            data_pax_dict_list[pax['pax_type']].append(pax['seq_id'])
+
         airline_create_passengers = {
             'booker': booker,
             'adult': adult,
@@ -432,10 +438,17 @@ def re_order_set_passengers(request):
             'student': student,
         }
         ## UNTUK REORDER SAMPAI PASSENGER
-        write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
+        # write_cache_file(request, request.POST['signature'], 'airline_create_passengers', airline_create_passengers)
         # set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
         ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
-        write_cache_file(request, '', 'airline_create_passengers', airline_create_passengers)
+        # write_cache_file(request, '', 'airline_create_passengers', airline_create_passengers)
+        if request.session.get('user_account'):
+            user_account = copy.deepcopy(request.session['user_account'])
+            user_account.update({
+                "co_customer_seq_id": data_booker['seq_id'],
+                "co_passenger_seq_id": data_pax_dict_list
+            })
+            set_session(request, 'user_account', user_account)
         # set_session(request, 'airline_create_passengers',airline_create_passengers)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
