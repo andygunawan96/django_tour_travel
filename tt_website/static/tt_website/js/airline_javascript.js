@@ -3366,6 +3366,7 @@ function sort(){
                                                                                                 text+=`<span style="font-size:13px;"> - </span>`;
                                                                                                 text+=`<span style="font-size:13px;font-weight:bold;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
                                                                                             }
+                                                                                            text += `<br/>`;
                                                                                         }
 
                                                                                         text+=`
@@ -3405,7 +3406,7 @@ function sort(){
                                                                                                 text+=`<span style="font-size:13px;"> - </span>`;
                                                                                                 text+=`<span style="font-size:13px;font-weight:bold;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
                                                                                             }
-                                                                                            text += `<br/>`
+                                                                                            text += `<br/>`;
                                                                                         }
 
                                                                                         if(airline[i].segments[j].fares[k].description.length != 0){
@@ -3483,6 +3484,7 @@ function sort(){
                                                                                             text+=`<span style="font-size:13px;"> - </span>`;
                                                                                             text+=`<span style="font-size:13px;font-weight:bold;">`+airline[i].segments[j].fares[k].fare_basis_code.split(' - ')[1]+`</span>`;
                                                                                         }
+                                                                                        text += `<br/>`;
                                                                                     }
 
                                                                                     text+=`
