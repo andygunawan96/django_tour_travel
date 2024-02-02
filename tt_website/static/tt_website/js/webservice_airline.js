@@ -15406,7 +15406,7 @@ function render_ticket_reissue(){
                                                                                     }else{
                                                                                         text+=`<span id="`+id_price_segment+`" class="price_template">`+airline[i].currency+` `+getrupiah(total_price)+`</span>`;
                                                                                     }
-                                                                                    text+=`<b>/ seat left: `+airline[i].segments[j].fares[k].available_count`+</b>`;
+                                                                                    text+=`<b>/ seat left: `+airline[i].segments[j].fares[k].available_count+`+</b>`;
                                                                                     text+=`
                                                                                     </div>
                                                                                 </div>
@@ -16656,7 +16656,7 @@ function get_chosen_ticket(type='all'){
                                                              <i class="fas fa-check check_label100"></i>
                                                              <span style="font-weight:bold; font-size:15px;">`+airline_pick_list[i].segments[j].fares[k].class_of_service+` `+text_seat_name_pick+`</span><br/>`;
                                                             if(airline_pick_list[i].segments[j].fares[k].fare_name)
-                                                                text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span>`;
+                                                                text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span><br/>`;
                                                             if(airline_pick_list[i].segments[j].fares[k].fare_basis_code){
                                                                 text+=`<span style="font-size:13px;">`+airline_pick_list[i].segments[j].fares[k].fare_basis_code.split(' - ')[0]+`</span>`;
                                                                 if(airline_pick_list[i].segments[j].fares[k].fare_basis_code.split(' - ').length > 1){
