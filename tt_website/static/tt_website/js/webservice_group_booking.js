@@ -735,7 +735,7 @@ function group_booking_get_booking(order_number){
                                         <div class="col-lg-3" style="padding:15px;">
                                             <span>
                                                 <b>PNR</b><br>`;
-                                                if(msg.result.response.state == 'issued'){
+                                                if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued'){
                                                     text+=`<i>`+msg.result.response.pnr+`</i>`;
                                                 }else{
                                                     text+=`-`;

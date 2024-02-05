@@ -9282,7 +9282,7 @@ function airline_get_booking(data, sync=false){
                                             }
                                             //
                                             text_order_number+=`<tr>`;
-                                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                            if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued')
                                                 text_order_number+=`
                                                     <td>`+msg.result.response.provider_bookings[i].pnr+` `;
                                             else

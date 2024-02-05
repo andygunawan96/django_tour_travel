@@ -1559,8 +1559,13 @@ function get_booking_offline(data){
                                 if(i == 0 && msg.result.response.hold_date != 'Invalid date' && msg.result.response.state != 'issued'){
                                     $text += 'PLEASE MAKE PAYMENT BEFORE '+ msg.result.response.hold_date + `\n`;
                                 }
-                                text+=`<tr>
+                                text+=`<tr>`;
+                                if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued'){
+                                    text+=`
                                     <td>`+msg.result.response.lines[i].pnr+`</td>`;
+                                }else{
+                                    text+=`<td> - </td>`
+                                }
                                 if(msg.result.response.hold_date != 'Invalid date')
                                 text+=`
                                     <td>`+msg.result.response.hold_date+`</td>`;

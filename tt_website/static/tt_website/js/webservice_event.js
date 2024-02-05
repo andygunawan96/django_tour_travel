@@ -272,9 +272,12 @@ function event_get_booking(data){
                             </tr>`;
                             for(i in msg.result.response.providers){
                                 text+=`
-                                    <tr>
+                                    <tr>`;
+                                    if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued')
+                                        text+=`
                                         <td>`+msg.result.response.providers[i].pnr+`</td>`;
-
+                                    else
+                                        text+=`<td> - </td>`;
                                         if(msg.result.response.state == 'booked')
                                             text +=`
                                                 <td>`+msg.result.response.hold_date+`</td>`;
