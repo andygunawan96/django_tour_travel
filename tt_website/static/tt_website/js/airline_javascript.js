@@ -8075,8 +8075,10 @@ function check_passenger(adult, child, infant, type=''){
     for(j in airline_pick){
        for(k in airline_pick[j].journeys){
             for(l in airline_pick[j].journeys[k].carrier_code_list){
-                if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
-                    length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                if(airline_carriers.hasOwnProperty(airline_pick[j].journeys[k].carrier_code_list[l])){
+                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                }
             }
        }
     }
@@ -8556,8 +8558,10 @@ function check_passenger(adult, child, infant, type=''){
     for(j in airline_pick){
        for(k in airline_pick[j].journeys){
             for(l in airline_pick[j].journeys[k].carrier_code_list){
-                if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name)
-                    length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name;
+                if(airline_carriers.hasOwnProperty(airline_pick[j].journeys[k].carrier_code_list[l])){
+                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name)
+                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name;
+                }
             }
        }
     }
@@ -8908,8 +8912,10 @@ function check_passenger(adult, child, infant, type=''){
     for(j in airline_pick){
        for(k in airline_pick[j].journeys){
             for(l in airline_pick[j].journeys[k].carrier_code_list){
-                if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name)
-                    length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name;
+                if(airline_carriers.hasOwnProperty(airline_pick[j].journeys[k].carrier_code_list[l])){
+                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name)
+                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name;
+                }
             }
        }
     }
@@ -9210,8 +9216,10 @@ function check_passenger(adult, child, infant, type=''){
         for(j in airline_pick){
            for(k in airline_pick[j].journeys){
                 for(l in airline_pick[j].journeys[k].carrier_code_list){
-                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
-                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                    if(airline_carriers.hasOwnProperty(airline_pick[j].journeys[k].carrier_code_list[l])){
+                        if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                            length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                    }
                 }
            }
        }
@@ -9565,8 +9573,10 @@ function check_passenger(adult, child, infant, type=''){
         for(j in airline_pick){
            for(k in airline_pick[j].journeys){
                 for(l in airline_pick[j].journeys[k].carrier_code_list){
-                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
-                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                    if(airline_carriers.hasOwnProperty(airline_pick[j].journeys[k].carrier_code_list[l])){
+                        if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                            length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                    }
                 }
            }
        }
@@ -9920,8 +9930,10 @@ function check_passenger(adult, child, infant, type=''){
         for(j in airline_pick){
            for(k in airline_pick[j].journeys){
                 for(l in airline_pick[j].journeys[k].carrier_code_list){
-                    if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
-                        length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                    if(airline_carriers.hasOwnProperty(airline_pick[j].journeys[k].carrier_code_list[l])){
+                        if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                            length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                    }
                 }
            }
         }
