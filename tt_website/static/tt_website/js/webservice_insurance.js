@@ -2998,9 +2998,13 @@ function insurance_get_booking(data, sync=false){
                                     //pnr
                                     if(msg.result.response.provider_bookings[i].destination){
                                         text+=`
-                                        <b>PNR: </b>
-                                        <i>`+msg.result.response.provider_bookings[i].pnr+`</i><br/>`;
-                                        $text += 'Pnr: '+msg.result.response.provider_bookings[i].pnr+'\n';
+                                        <b>PNR: </b>`;
+                                        if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued'){
+                                            text+=`<i>`+msg.result.response.provider_bookings[i].pnr+`</i><br/>`;
+                                            $text += 'Pnr: '+msg.result.response.provider_bookings[i].pnr+'\n';
+                                        }else{
+                                            text+=`<i> - </i><br/>`;
+                                        }
                                     }
                                     //destination
                                     if(msg.result.response.provider_bookings[i].destination){

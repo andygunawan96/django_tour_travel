@@ -3417,7 +3417,7 @@ function hotel_get_booking(data){
                                 if(list_pnr.includes(msg.result.response.hotel_rooms[i].prov_issued_code) == false){
                                     text+=`
                                         <tr>`;
-                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                    if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued')
                                         text+=`
                                             <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
                                     else

@@ -1505,7 +1505,7 @@ function ppob_get_booking(data){
                                 </div>`;
                             //
                             text+=`<tr>`;
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                            if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued')
                                 text+=`
                                     <td>`+msg.result.response.provider_booking[i].pnr+`</td>`;
                             else
