@@ -4410,7 +4410,7 @@ function sort(){
         document.getElementById("airlines_result_ticket").innerHTML = '';
         text_co = `
         <div class="we_found_box">
-            <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` flights or try to change rbd to view more flight combinations.</span>
+            <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` flights or try to change class of service to view more flight combinations.</span>
             <label class="check_box_custom" style="float:right;">
                 <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
                 <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>

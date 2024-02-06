@@ -4111,7 +4111,6 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
     for(i in airline_data_filter[journey].segments){
         var is_include_tax = false;
         var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
-        radios[airline_data_filter[journey].segments[i].fare_pick].checked = true;
 //        for (var j = 0, length = radios.length; j < length; j++) {
 //            if (radios[j].checked) {
 //                // do whatever you want with the checked radio
@@ -4127,6 +4126,7 @@ function change_fare(journey, segment, fares, fare_code, print_breakdown=true){
 //        }
         //hitung ulang price & jika ada fare yg sudah terpilih
         if(airline_data_filter[journey].segments[i].hasOwnProperty('fare_pick')){
+            radios[airline_data_filter[journey].segments[i].fare_pick].checked = true;
             for(j in airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].service_charge_summary){
                 if(seat_left > airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].available_count)
                     seat_left = airline_data_filter[journey].segments[i].fares[airline_data_filter[journey].segments[i].fare_pick].available_count;
