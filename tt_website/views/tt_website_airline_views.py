@@ -658,21 +658,24 @@ def passenger(request, signature):
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
-                    if carrier[segment['carrier_code']]['is_adult_birth_date_required']:
-                        is_birthdate_required = True
+                    if carrier.get(segment['carrier_code']):
+                        if carrier[segment['carrier_code']]['is_adult_birth_date_required']:
+                            is_birthdate_required = True
                     if segment['carrier_code'] == 'GA':
                         is_garuda = True
                     for leg in segment['legs']:
                         if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
                             is_international = True
                             if carrier:
-                                if carrier[segment['carrier_code']]['required_identity_required_international']:
-                                    is_identity_required = True
+                                if carrier.get(segment['carrier_code']):
+                                    if carrier[segment['carrier_code']]['required_identity_required_international']:
+                                        is_identity_required = True
                             break
                         else:
                             if carrier:
-                                if carrier[segment['carrier_code']]['required_identity_required_domestic']:
-                                    is_identity_required = True
+                                if carrier.get(segment['carrier_code']):
+                                    if carrier[segment['carrier_code']]['required_identity_required_domestic']:
+                                        is_identity_required = True
                             break
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
