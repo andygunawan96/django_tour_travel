@@ -2614,17 +2614,21 @@ function hotel_issued(data){
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
-                            if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                                window.location.href = '/hotel/booking/' + btoa(data);
+                            if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectissued') && msg.result.response.state == 'issued'){
+                                window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectissued;
                             }else{
-                                //update ticket check lagi
-                                price_arr_repricing = {};
-                                pax_type_repricing = [];
-                                hotel_get_booking(data);
-                                document.getElementById('payment_acq').innerHTML = '';
-                                document.getElementById('payment_acq').hidden = true;
-                                document.getElementById("overlay-div-box").style.display = "none";
-                                hide_modal_waiting_transaction();
+                                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
+                                    window.location.href = '/hotel/booking/' + btoa(data);
+                                }else{
+                                    //update ticket check lagi
+                                    price_arr_repricing = {};
+                                    pax_type_repricing = [];
+                                    hotel_get_booking(data);
+                                    document.getElementById('payment_acq').innerHTML = '';
+                                    document.getElementById('payment_acq').hidden = true;
+                                    document.getElementById("overlay-div-box").style.display = "none";
+                                    hide_modal_waiting_transaction();
+                                }
                             }
                         }else if(msg.result.error_code == 1009){
                             price_arr_repricing = {};
@@ -3119,23 +3123,35 @@ function hotel_issued_booking(val){
                                         document.getElementById('order_number').value = msg.result.response.order_number;
                                         document.getElementById('hotel_issued').submit();
                                     }else{
-                                        document.getElementById('issued').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                                        document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
-                                        document.getElementById('issued').submit();
+                                        if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectissued')){
+                                            window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectissued;
+                                        }else{
+                                            document.getElementById('issued').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                                            document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
+                                            document.getElementById('issued').submit();
+                                        }
                                     }
                                 })
 
                             }
                             else
                             {
-                                document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
-                                document.getElementById('issued').submit();
+                                if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectissued')){
+                                    window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectissued;
+                                }else{
+                                    document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
+                                    document.getElementById('issued').submit();
+                                }
                             }
                         }else{
                             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                                 send_url_booking('hotel', btoa(msg.result.response.os_res_no), msg.result.response.order_number);
-                            document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
-                            document.getElementById('issued').submit();
+                            if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectissued')){
+                                window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectissued;
+                            }else{
+                                document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
+                                document.getElementById('issued').submit();
+                            }
                         }
         //                var form = document.getElementById('hotel_booking');
         //                var input = document.createElement('input');//prepare a new input DOM element

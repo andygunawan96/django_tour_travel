@@ -789,16 +789,24 @@ function train_create_booking(val, type=''){
             //                        document.getElementById('order_number').value = msg.result.response.order_number;
             //                        document.getElementById('train_issued').submit();
                                 }else{
-                                    document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                                    document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
-                                    document.getElementById('train_booking').submit();
+                                    if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectbook')){
+                                        window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectbook;
+                                    }else{
+                                        document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                                        document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
+                                        document.getElementById('train_booking').submit();
+                                    }
                                 }
                             }else{
                                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                                     send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                                document.getElementById('order_number').value = msg.result.response.order_number;
-                                document.getElementById('issued').action = '/train/booking/' + btoa(msg.result.response.order_number);
-                                document.getElementById('issued').submit();
+                                if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectissued')){
+                                    window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectissued;
+                                }else{
+                                    document.getElementById('order_number').value = msg.result.response.order_number;
+                                    document.getElementById('issued').action = '/train/booking/' + btoa(msg.result.response.order_number);
+                                    document.getElementById('issued').submit();
+                                }
                             }
                         }else{
                             document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
@@ -807,9 +815,13 @@ function train_create_booking(val, type=''){
                         }
                     }else if(type == 'reorder'){
                         //buat re order
-                        document.getElementById('train_booking_form').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('train_booking_form').action = '/train/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('train_booking_form').submit();
+                        if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectbook')){
+                            window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectbook;
+                        }else{
+                            document.getElementById('train_booking_form').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                            document.getElementById('train_booking_form').action = '/train/booking/' + btoa(msg.result.response.order_number);
+                            document.getElementById('train_booking_form').submit();
+                        }
                     }
                 }else{
                     Swal.fire({
@@ -2765,7 +2777,11 @@ function train_issued(data){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
-                                window.location.href = '/train/booking/' + btoa(data);
+                                if(msg.result.response.hasOwnProperty('webhook_request') && msg.result.response.webhook_request.hasOwnProperty('third_party_data') && msg.result.response.webhook_request.third_party_data.hasOwnProperty('urlredirectissued') && msg.result.response.state == 'issued'){
+                                    window.location.href = msg.result.response.webhook_request.third_party_data.urlredirectissued;
+                                }else{
+                                    window.location.href = '/train/booking/' + btoa(data);
+                                }
                             }else{
                                 //update ticket
                                 price_arr_repricing = {};
@@ -2898,12 +2914,12 @@ function train_issued(data){
 
 function train_request_issued(req_order_number){
     Swal.fire({
-      title: 'Are you sure want to Request Issued for this booking?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
+        title: 'Are you sure want to Request Issued for this booking?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
         show_loading();
