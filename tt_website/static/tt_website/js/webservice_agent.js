@@ -4288,7 +4288,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                         try{
                                             if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
                                                 $("#"+type+"_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
-                                                document.getElementById('adult_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                                document.getElementById(type+'_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
                                             }
                                         }catch(err){console.log(err)}
                                         index_ff++;
@@ -4306,10 +4306,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             console.log(err);
                         }
                         passenger_data_pick.push(passenger_data[sequence]);
-                        if(type.includes('Adult') || type.includes('adult'))
-                            passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult'+passenger_number;
-                        else
-                            passenger_data_pick[passenger_data_pick.length-1].sequence = 'child'+passenger_number;
+                        passenger_data_pick[passenger_data_pick.length-1].sequence = type+passenger_number;
                         document.getElementById(type+'_id'+passenger_number).value = passenger_data[sequence].seq_id;
 //                        auto_complete(type+'_nationality'+passenger_number);
 
