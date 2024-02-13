@@ -2024,7 +2024,8 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature,
             }
             data = {
-                'type': 'big_banner'
+                'type': 'big_banner',
+                'domain': request.POST['domain']
             }
             url_request = get_url_gateway('content')
             res = send_request_api(request, url_request, headers, data, 'POST')
@@ -2055,7 +2056,8 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature,
             }
             data = {
-                'type': 'small_banner'
+                'type': 'small_banner',
+                'domain': request.POST['domain']
             }
             url_request = get_url_gateway('content')
             res = send_request_api(request, url_request, headers, data, 'POST')
@@ -2086,7 +2088,8 @@ def get_new_cache(request, signature, type='all'):
                 "signature": signature,
             }
             data = {
-                'type': 'promotion'
+                'type': 'promotion',
+                'domain': request.POST['domain']
             }
             url_request = get_url_gateway('content')
             res = send_request_api(request, url_request, headers, data, 'POST')
