@@ -2257,7 +2257,7 @@ junction_font.load().then(function(loaded_face) {
                                 });
                             }
                         }
-                    }else if(error_log && get_otp_pin_cookie != 'hide'){
+                    }else if(error_log && get_otp_pin_cookie != 'hide' && document.URL.split('/')[document.URL.split('/').length-1] != 'page_setting'){
                         $( document ).ready(function() {
                             setTimeout(function(){
                                 Swal.fire({

@@ -447,7 +447,7 @@ def re_order_set_passengers(request):
             if request.session.get('user_account'):
                 user_account = copy.deepcopy(request.session['user_account'])
                 user_account.update({
-                    "co_customer_seq_id": data_booker['seq_id'],
+                    "booker_seq_id": data_booker['seq_id'],
                     "co_passenger_seq_id": data_pax_dict_list
                 })
                 set_session(request, 'user_account', user_account)
