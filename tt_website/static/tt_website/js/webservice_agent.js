@@ -11663,6 +11663,7 @@ function update_cache_version_func(type){
        },
        data: {
             'signature': signature,
+            'domain': window.location.href
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
