@@ -14,6 +14,7 @@ function update_banner(){
 
     var formData = new FormData($('#form_admin').get(0));
     formData.append('signature', signature)
+    formData.append('domain', window.url)
     getToken();
     $.ajax({
        type: "POST",
@@ -249,7 +250,8 @@ function get_banner(type,page){
        },
        data: {
             'type': type,
-            'signature': signature
+            'signature': signature,
+            'domain': window.url
        },
        success: function(msg) {
             if(msg.result.error_code == 0){
