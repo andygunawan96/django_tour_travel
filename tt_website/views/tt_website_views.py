@@ -372,6 +372,17 @@ def index(request):
                 # }
             except:
                 pass
+
+            ### CHECK CACHE REORDER ###
+            try:
+                user_account = copy.deepcopy(request.session['user_account'])
+                if user_account.get('booker_seq_id'):
+                    del user_account['booker_seq_id']
+                if user_account.get('co_passenger_seq_id'):
+                    del user_account['co_passenger_seq_id']
+                set_session(request, 'user_account', user_account)
+            except:
+                _logger.error('NO CACHE REORDER')
             try:
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),

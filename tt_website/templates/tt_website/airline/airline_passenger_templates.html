@@ -3043,7 +3043,11 @@
             });
       {% endfor %}
     });
-    {% if username.co_customer_seq_id %}
+    {% if username.booker_seq_id %}
+        setTimeout(() => {
+            get_automatic_booker('{{username.booker_seq_id}}');
+        }, 500);
+    {% elif username.co_customer_seq_id %}
         setTimeout(() => {
             get_automatic_booker('{{username.co_customer_seq_id}}');
         }, 500);

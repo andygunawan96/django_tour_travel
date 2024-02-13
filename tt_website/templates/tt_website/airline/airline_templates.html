@@ -3036,11 +3036,11 @@
         $('.js-example-basic-single').select2();
 
         try{
-          document.getElementById("country_id").value = 100;
-          document.getElementById("start").value = moment().format('YYYY-MM-DD');
-          document.getElementById("end").value = moment().subtract(-1, 'years').format('YYYY-MM-DD');
-          get_public_holiday(document.getElementById("start").value, document.getElementById("end").value);
-          new_get_public_holiday(document.getElementById("start").value, document.getElementById("end").value);
+            document.getElementById("country_id").value = 100;
+            document.getElementById("start").value = moment().format('YYYY-MM-DD');
+            document.getElementById("end").value = moment().subtract(-1, 'years').format('YYYY-MM-DD');
+            get_public_holiday(document.getElementById("start").value, document.getElementById("end").value);
+            new_get_public_holiday(document.getElementById("start").value, document.getElementById("end").value);
         }catch(err){
         }
 

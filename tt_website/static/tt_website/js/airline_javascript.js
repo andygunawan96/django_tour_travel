@@ -14430,6 +14430,25 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             $("#radio_airline_search").click();
         }
 
+
+        if(typeof(user_login) !== 'undefined'){
+            for(pax_type in user_login.co_passenger_seq_id){
+                if(pax_type == 'ADT'){
+                    cookie_airline['adult'] = user_login.co_passenger_seq_id[pax_type].length;
+                }else if(pax_type == 'CHD'){
+                    cookie_airline['child'] = user_login.co_passenger_seq_id[pax_type].length;
+                }else if(pax_type == 'INF'){
+                    cookie_airline['infant'] = user_login.co_passenger_seq_id[pax_type].length;
+                }else if(pax_type == 'SEA'){
+                    cookie_airline['seaman'] = user_login.co_passenger_seq_id[pax_type].length;
+                }else if(pax_type == 'STU'){
+                    cookie_airline['student'] = user_login.co_passenger_seq_id[pax_type].length;
+                }else if(pax_type == 'LBR'){
+                    cookie_airline['labour'] = user_login.co_passenger_seq_id[pax_type].length;
+                }
+            }
+        }
+
         // DATA FILL
         if(['OW','RT'].includes(cookie_airline['direction'])){
             document.getElementById('origin_id_flight').value = cookie_airline['origin'][0];
@@ -14499,11 +14518,11 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
                     setTimeout(function(){
                         add_multi_city('home');
                         document.getElementById('origin_id_flight'+parseInt(parseInt(x)+1)).value = cookie_airline['origin'][x];
+                        document.getElementById('destination_id_flight'+parseInt(parseInt(x)+1)).value = cookie_airline['destination'][x];
                         if(moment(cookie_airline['departure'][x]) > moment())
-                            document.getElementById('destination_id_flight'+parseInt(parseInt(x)+1)).value = cookie_airline['destination'][x];
+                            document.getElementById('airline_departure'+parseInt(parseInt(x)+1)).value = cookie_airline['departure'][x];
                         else
-                            document.getElementById('destination_id_flight'+parseInt(parseInt(x)+1)).value = moment().format('DD MMM YYYY');
-                        document.getElementById('airline_departure'+parseInt(parseInt(x)+1)).value = cookie_airline['departure'][x];
+                            document.getElementById('airline_departure'+parseInt(parseInt(x)+1)).value = moment().format('DD MMM YYYY');
                         document.getElementById('cabin_class_flight'+parseInt(parseInt(x)+1)).value = cookie_airline['cabin_class_list'][x];
                         $('#cabin_class_flight'+parseInt(parseInt(x)+1)).niceSelect('update');
                     }, 500);
@@ -14524,26 +14543,32 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
 
             if(cookie_airline['adult']){
                 document.getElementById('adult_flight1').value = cookie_airline['adult'];
+                document.getElementById('adult_flight').value = cookie_airline['adult'];
             }
 
             if(cookie_airline['child']){
                 document.getElementById('child_flight1').value = cookie_airline['child'];
+                document.getElementById('child_flight').value = cookie_airline['child'];
             }
 
             if(cookie_airline['infant']){
                 document.getElementById('infant_flight1').value = cookie_airline['infant'];
+                document.getElementById('infant_flight').value = cookie_airline['infant'];
             }
 
             if(cookie_airline.hasOwnProperty('student') && cookie_airline['student']){
                 document.getElementById('student_flight1').value = cookie_airline['student'];
+                document.getElementById('student_flight').value = cookie_airline['student'];
             }
 
             if(cookie_airline.hasOwnProperty('labour') && cookie_airline['labour']){
                 document.getElementById('student_flight1').value = cookie_airline['student'];
+                document.getElementById('student_flight').value = cookie_airline['student'];
             }
 
             if(cookie_airline.hasOwnProperty('seaman') && cookie_airline['seaman']){
                 document.getElementById('seaman_flight1').value = cookie_airline['seaman'];
+                document.getElementById('seaman_flight').value = cookie_airline['seaman'];
             }
             // MC
 //            for(i=3;i<=counter;i++){
@@ -14581,6 +14606,25 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
             setTimeout(function(){
                 auto_fill_airline_cookie(cookie_airline,page,max_try+1)
             }, 500);
+        else{
+            if(typeof(user_login) !== 'undefined'){
+                if(user_login.hasOwnProperty('co_passenger_seq_id')){
+                    if(user_login['co_passenger_seq_id'].hasOwnProperty('ADT'))
+                        document.getElementById('adult_flight').value = user_login['co_passenger_seq_id']['ADT'].length;
+                    if(user_login['co_passenger_seq_id'].hasOwnProperty('CHD'))
+                        document.getElementById('child_flight').value = user_login['co_passenger_seq_id']['CHD'].length;
+                    if(user_login['co_passenger_seq_id'].hasOwnProperty('INF'))
+                        document.getElementById('infant_flight').value = user_login['co_passenger_seq_id']['INF'].length;
+                    if(user_login['co_passenger_seq_id'].hasOwnProperty('SEA'))
+                        document.getElementById('seaman_flight').value = user_login['co_passenger_seq_id']['SEA'].length;
+                    if(user_login['co_passenger_seq_id'].hasOwnProperty('LBR'))
+                        document.getElementById('labour_flight').value = user_login['co_passenger_seq_id']['LBR'].length;
+                    if(user_login['co_passenger_seq_id'].hasOwnProperty('STU'))
+                        document.getElementById('student_flight').value = user_login['co_passenger_seq_id']['STU'].length;
+                }
+                plus_min_passenger_airline_btn();
+            }
+        }
     }
 }
 
