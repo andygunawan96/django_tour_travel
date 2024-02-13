@@ -560,7 +560,8 @@ def add_banner(request):
                         'filename': replace_metacharacter_file_name(img.name),
                         'file_reference': img.name,
                         'file': base64.b64encode(img.file.read()).decode('ascii'),
-                        'type': i
+                        'type': i,
+                        'domain': request.POST['domain']
                     })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -600,7 +601,8 @@ def get_banner(request):
             "signature": request.POST['signature'],
         }
         data = {
-            'type': request.POST['type']
+            'type': request.POST['type'],
+            'domain': request.POST['domain']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
