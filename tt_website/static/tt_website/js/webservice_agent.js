@@ -2428,7 +2428,7 @@ function get_automatic_booker(cust_code){
     });
 }
 
-function get_automatic_passenger(cust_code, pax_type, customer_number, product){
+function get_automatic_passenger(cust_code, pax_type, customer_number, product, identity=''){
     $.ajax({
         type: "POST",
         url: "/webservice/agent",
@@ -2459,7 +2459,7 @@ function get_automatic_passenger(cust_code, pax_type, customer_number, product){
                     else
                         pax_type_name = pax_type;
                     passenger_number = customer_number;
-                    pick_passenger(pax_type_name,0,product);
+                    pick_passenger(pax_type_name,0,product, identity);
                 }
             }
         },
@@ -3782,7 +3782,7 @@ function id_type_change(type, sequence){
     }
 }
 
-function pick_passenger(type, sequence, product){
+function pick_passenger(type, sequence, product, identity=''){
     var selection = null;
     var need_identity = null;
     try{
@@ -3801,8 +3801,10 @@ function pick_passenger(type, sequence, product){
     }catch(err){
         console.log(err); //error kalau tidak ada identities di backend
     }
-    if(choose_identity == null){
+    if(choose_identity == null && identity == ''){
         pick_passenger_copy(type, sequence, product, '');
+    }else if(identity != ''){
+        pick_passenger_copy(type, sequence, product, identity);
     }else{
         pick_passenger_copy(type, sequence, product, choose_identity.split(' - ')[0]);
     }
@@ -5356,6 +5358,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     var identity_check = true;
                     var new_identity = true;
                     if(typeof radios !== 'undefined'){
+                        identity_found = false
                         for(i in passenger_data[sequence].identities){
                             if(passenger_data[sequence].identities[i].identity_expdate){
                                 date1 = moment(passenger_data[sequence].identities[i].identity_expdate);
@@ -5365,6 +5368,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             for (var j = 0, length = radios.length; j < length; j++) {
                                 if(expired == null || expired < -1){
                                     if (radios[j].value == i && identity == '' || radios[j].value == i && identity == i) {
+                                        identity_found = true;
                                         new_identity = false;
                                         identity_check = false;
 
@@ -5502,6 +5506,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             date1 = null;
                             date2 = null;
                             expired = null;
+                            if(identity_found)
+                                break;
                         }
                         try{
                             change_identity_type(type+`_id_type`+passenger_number, false);
