@@ -852,7 +852,7 @@ function train_create_booking(val, type=''){
     }
 }
 
-function train_get_booking(data){
+function train_get_booking(data, sync=false){
     price_arr_repricing = {};
     get_vendor_balance('false');
     document.getElementById('cancel').hidden = true;
@@ -865,7 +865,8 @@ function train_get_booking(data){
        },
        data: {
             'order_number': data,
-            'signature': signature
+            'signature': signature,
+            'sync': sync
        },
        success: function(msg) {
         try{
@@ -1428,6 +1429,7 @@ function train_get_booking(data){
                         </div>`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state == 'booked'){
+                                document.getElementById('div_sync_status').hidden = false;
                                 text+=`
                                 <div class="div_box_default" style="margin-bottom:15px; padding: 15px 15px 0px 15px">
                                     <div class="row">

@@ -124,6 +124,11 @@
                 <div id="reorder_div" style="display:inline-block;">
 
                 </div>
+                <div id="div_sync_status" class="mr-1" style="display:inline-block;" hidden>
+                    <button type="button" class="primary-btn-white" id="button-sync-status" onclick="please_wait_transaction();train_get_booking('{{order_number}}',true)">
+                        <i class="fas fa-sync-alt"></i> Sync Status
+                    </button>
+                </div>
                 <div id="button_new_offline" style="display:inline-block;margin-left:5px;" hidden>
                     <button type="button" class="primary-btn-white" onclick="document.getElementById('offline_form').submit();">
                         <i class="fas fa-book-open"></i> Create Issued Offline

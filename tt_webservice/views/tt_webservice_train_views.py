@@ -697,8 +697,15 @@ def get_booking(request):
                 'country': country['country'],
                 'city': country['city']
             })
+        sync = False
+        try:
+            if request.POST['sync'] == 'true':
+                sync = True
+        except Exception as e:
+            _logger.error('get booking force sync params not found')
         data = {
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'force_sync': sync
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
