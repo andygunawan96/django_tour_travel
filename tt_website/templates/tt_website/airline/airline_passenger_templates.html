@@ -3057,7 +3057,10 @@
         {% for key, value in username.co_passenger_seq_id.items %}
             {% for pax in value %}
                 setTimeout(() => {
-                    get_automatic_passenger('{{pax}}', '{{key}}', '{{forloop.counter}}', 'airline');
+                    if('{{pax}}'.split(',').length == 1)
+                        get_automatic_passenger('{{pax}}', '{{key}}', '{{forloop.counter}}', 'airline');
+                    else
+                        get_automatic_passenger('{{pax}}'.split(',')[0], '{{key}}', '{{forloop.counter}}', 'airline', '{{pax}}'.split(',')[1]);
                 }, 1000);
             {% endfor %}
         {% endfor %}
