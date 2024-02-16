@@ -53,16 +53,30 @@
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-3">
+                <div class="row">
+                    <div class="col-lg-12" style="margin:auto;">
+                        <div style="display:inline-flex;">
+                            <div style="display:inline-block; margin-right:10px;">
+                                <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-activity.png" alt="Train Icon">
+                            </div>
+                            <div style="display:inline-block; margin:auto;">
+                                <span style="margin-top:15px; font-size:20px; font-weight:bold; border-bottom:2px solid #cdcdcd;">{% trans 'Please Review Your Booking' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <form method="POST" id="activity_booking">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12">
-                    <h3>{% trans 'Please Review Your Order' %}</h3>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
-                    <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <div class="row mb-3">
                         <div class="col-lg-12">
-                            <div id="activity_review_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                            <div id="activity_review_detail" class="div_box_default">
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                         <h4 class="mb-3">
@@ -86,41 +100,42 @@
                                 <br/>
                             </div>
                         </div>
-                    </div>
-
-                    {% if perBooking|length > 0 %}
-                    <div class="row" style="margin-top: 15px;">
-                        <div class="col-lg-12">
-                            <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:10px;">
-                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                        <h4 class="mb-3">
-                                            {% trans 'Additional Information' %}
-                                        </h4>
+                        {% if perBooking|length > 0 %}
+                        <div class="col-lg-12 mt-3">
+                            <div id="activity_review_perbooking">
+                                <div class="div_box_default" style="overflow-x: auto;">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3">
+                                                {% trans 'Additional Information' %}
+                                            </h4>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
+                                                <tr>
+                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                                    <th style="width:65%;">{% trans 'Information' %}</th>
+                                                    <th style="width:30%;">{% trans 'Value' %}</th>
+                                                </tr>
+                                                {% for perBook in perBooking %}
+                                                <tr>
+                                                    <td>{{forloop.counter}}</td>
+                                                    <td>{{perBook.name}}</td>
+                                                    <td>{{perBook.value}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
                                     </div>
-                                    <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
-                                        <tr>
-                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                            <th style="width:65%;">{% trans 'Information' %}</th>
-                                            <th style="width:30%;">{% trans 'Value' %}</th>
-                                        </tr>
-                                        {% for perBook in perBooking %}
-                                        <tr>
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{perBook.name}}</td>
-                                            <td>{{perBook.value}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </table>
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
-                    {% endif %}
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="activity_review_booker" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                            <div id="activity_review_booker" class="div_box_default mb-3">
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
                                         <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Contact Information' %}</h4>
@@ -128,49 +143,106 @@
                                 </div>
                                 {% if contact_person|length > 0 %}
                                 {% for con in contact_person %}
-                                <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                    {{forloop.counter}}. {{con.title}}. {{con.first_name}} {{con.last_name}}
-                                </h5>
-                                <b>Email: </b><i>{{con.email}}</i><br>
-                                <b>Phone: </b><i>{{con.mobile}}</i><br>
+                                <div style="display:inline-flex;">
+                                    <div>
+                                        {% if con.title == 'MR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">
+                                        {% elif con.title == 'MRS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">
+                                        {% elif con.title == 'MS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">
+                                        {% elif con.title == 'MSTR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">
+                                        {% elif con.title == 'MISS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">
+                                        {% endif %}
+                                    </div>
+                                    <div style="margin-left:10px;">
+                                        <h5>
+                                            {{con.title}}. {{con.first_name}} {{con.last_name}}
+                                        </h5>
+                                        <b>Email: </b><i>{{con.email}}</i>
+                                        <br><b>Phone: </b><i>{{con.mobile}}</i><br>
+                                    </div>
+                                </div>
                                 {% endfor %}
                                 {% else %}
-                                <h5>
-                                    {{booker.title}}. {{booker.first_name}} {{booker.last_name}}
-                                </h5>
-                                <b>Email: </b><i>{{booker.email}}</i><br>
-                                <b>Phone: </b><i>{{booker.mobile}}</i><br>
+                                <div style="display:inline-flex;">
+                                    <div>
+                                        {% if booker.title == 'MR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">
+                                        {% elif booker.title == 'MRS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">
+                                        {% elif booker.title == 'MS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">
+                                        {% elif booker.title == 'MSTR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">
+                                        {% elif booker.title == 'MISS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">
+                                        {% endif %}
+                                    </div>
+                                    <div style="margin-left:10px;">
+                                        <h5>
+                                            {{booker.title}}. {{booker.first_name}} {{booker.last_name}}
+                                        </h5>
+                                        <b>Email: </b><i>{{booker.email}}</i>
+                                        <br><b>Phone: </b><i>{{booker.mobile}}</i><br>
+                                    </div>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top: 15px;">
+                    <div class="row">
                         <div class="col-lg-12">
-                            <div id="activity_review_passenger" style="background-color: white; padding:15px; border: 1px solid #cdcdcd; overflow-x: auto;">
+                            <div id="activity_review_passenger" class="div_box_default">
                                 <div class="row">
-                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <div class="col-lg-12" style="border-bottom: 1px solid #cdcdcd;">
                                         <h4 class="mb-3"><i class="fas fa-users"></i> {% trans 'List of Guest(s)' %}</h4>
                                     </div>
                                 </div>
                                 <div class="row" id="list-of-passengers">
                                     {% for pax in all_pax %}
-                                    <div class="col-lg-12">
-                                        <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                            {% if pax.identity_first_name %}
-                                                {{forloop.counter}}. {{pax.title}}. {{pax.identity_first_name}} {{pax.identity_last_name}}
-                                            {% else %}
-                                                {{forloop.counter}}. {{pax.title}}. {{pax.first_name}} {{pax.last_name}}
-                                            {% endif %}
-                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                                <i class="fas fa-user"></i> {{pax.pax_type_str}}
-                                            </b>
-                                        </h5>
-                                        <b>Birth Date:</b> <i>{{pax.birth_date}}</i><br>
-                                        <b>Ticket:</b> <i>{{pax.sku_title}}</i><br>
-                                        {% if not forloop.last %}
-                                        <hr>
-                                        {% endif %}
+                                    <div class="col-lg-12" style="border-top:1px solid #cdcdcd;">
+                                        <div class="row">
+                                            <div class="col-lg-12" style="background: aliceblue;">
+                                                <h5 style="padding-top:10px;">
+                                                    Passenger #{{forloop.counter}}
+                                                </h5>
+                                                <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                                    <div>
+                                                        {% if pax.title == 'MR' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MRS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MSTR' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MISS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div style="margin-left:10px;">
+                                                        <h5>
+                                                            {% if pax.identity_first_name %}
+                                                                {{pax.title}}. {{pax.identity_first_name}} {{pax.identity_last_name}}
+                                                            {% else %}
+                                                                {{pax.title}}. {{pax.first_name}} {{pax.last_name}}
+                                                            {% endif %}
+                                                            <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">
+                                                                {{pax.pax_type_str}}
+                                                            </b>
+                                                        </h5>
+                                                        {% if pax.birth_date %}
+                                                        <b>Birth Date:</b> <i>{{pax.birth_date}}</i>
+                                                        {% endif %}
+                                                        <b>Ticket:</b> <i>{{pax.sku_title}}</i><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     {% endfor %}
                                 </div>
@@ -202,28 +274,34 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4" style="margin-top:10px;">
+                <div class="col-lg-4">
                     <div class="row">
-                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
-                            <h4> {% trans 'Price Detail' %} </h4>
-                            <hr/>
-                            <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
-                            {% if response.name != detail.name %}
+                        <div class="col-lg-12" id="activity_detail">
+                            <div class="div_box_default">
+                                <h4> {% trans 'Price Detail' %} </h4>
+                                <hr/>
+                                <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                {% if response.name != detail.name %}
                                 <br/><span id="product_type_title" style="font-size:13px; font-weight:500;">{{detail.name}}</span>
-                            {% endif %}
-                            <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;">{{visit_date}}</span>
-                            <br/><br/>
-                            <div class="row">
-                                <div class="col-lg-12" id="activity_detail_table">
+                                {% endif %}
+                                <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;">{{visit_date}}</span>
+                                <br/><br/>
+                                <div class="row">
+                                    <div class="col-lg-12" id="activity_detail_table">
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        {% include 'tt_website/voucher_code.html'  %}
-                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+                        <div class="col-lg-12">
+                            {% include 'tt_website/voucher_code.html'  %}
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="div_box_default" id="payment_acq" hidden>
 
+                            </div>
                         </div>
                     </div>
                 </div>

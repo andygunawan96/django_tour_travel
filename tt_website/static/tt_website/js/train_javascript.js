@@ -1346,7 +1346,7 @@ function train_detail(){
     $text = '';
     text+=`
     <div class="row" style:"background-color:white;">
-        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+        <div class="col-lg-12" style="border-bottom:1px solid #cdcdcd;">
             <h4 class="mb-3">Price Detail</h4>
         </div>
         <div class="col-lg-12">`;
@@ -3092,45 +3092,26 @@ function change_seat_map_from_selection(no){
 }
 
 function print_seat_map(val){
-    if(template == 1){
-        var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 2){
-        var text = '<div class="input-container-search-ticket"><select class="form-control" style="font-size:13px;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 3){
-        var text = '<div class="form-group"><select class="form-control" style="font-size:13px;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 4){
-        var text = '<div class="select-wrap"><span class="icon"><span class="icon-keyboard_arrow_down"></span></span><select class="form-control rounded" style="font-size:13px;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 5){
-        var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select class="form-control" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 6){
-        var text = '<div class="input-container-search-ticket"><div class="form-select"><select class="nice-select-default" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }
-    if(seat_map_response.length != 0){
-        for(i in seat_map_response){
-            if(parseInt(parseInt(i)+1) == seat_map_pick){
-                for(j in seat_map_response[i]){
-                    text += `<option value="`+j+`">`+seat_map_response[i][j].cabin_name+`</option>`;
+    var text = `
+    <div class="input-container-search-ticket">
+        <div class="form-select-2" id="default-select">
+            <select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">`;
+            if(seat_map_response.length != 0){
+                for(i in seat_map_response){
+                    if(parseInt(parseInt(i)+1) == seat_map_pick){
+                        for(j in seat_map_response[i]){
+                            text += `<option value="`+j+`">`+seat_map_response[i][j].cabin_name+`</option>`;
+                        }
+                        text += '</select>';
+                        break;
+                    }
                 }
-                text += '</select>';
-                break;
+                document.getElementById('train_seat_map').innerHTML = text;
+                $('#seat_map_wagon_pick').niceSelect();
             }
-        }
-        document.getElementById('train_seat_map').innerHTML = text;
-        $('#seat_map_wagon_pick').niceSelect();
-    }
-    if(template == 1){
-        text+=`</div></div>`;
-    }else if(template == 2){
-        text+=`</div>`;
-    }else if(template == 3){
-        text+=`</div>`;
-    }else if(template == 4){
-        text+=`</div>`;
-    }else if(template == 5){
-        text+=`</div>`;
-    }else if(template == 6){
-        text+=`</div></div>`;
-    }
+            text+=`
+        </div>
+    </div>`;
 
 
     text ='<div class="slideshow-container" style="margin-top:20px;">';
@@ -3208,7 +3189,7 @@ function print_seat_map(val){
                 document.getElementById('seat_map_wagon_pick').value = slideIndex[0] - 1;
                 $('#seat_map_wagon_pick').niceSelect('update');
             }
-            loadingTrain();
+            $('#loading-search-train').hide();
             break;
         }
     }

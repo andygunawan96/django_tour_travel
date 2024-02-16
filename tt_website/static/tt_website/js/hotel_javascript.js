@@ -1312,34 +1312,24 @@ function hotel_filter_render(){
     text = '';
     text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
     <hr/>`;
-    if(template == 1){
-        text+=`<div class="banner-right">`;
-    }else if(template == 2){
-        text+=`
-        <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-    }else if(template == 3){
-        text+=`<div class="header-right" style="background:unset; border:unset;">`;
-    }
     text+=`
-        <div class="form-wrap" style="padding:0px; text-align:left;">
-            <h6 class="filter_general" onclick="show_hide_general('hotelName');">Hotel Name <i class="fas fa-chevron-down" id="hotelName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelName_generalUp" style="float:right; display:block;"></i></h6>
-            <div id="hotelName_generalShow" style="display:inline-block; width:100%;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(1);"/>
+    <div class="form-wrap" style="padding:0px; text-align:left;">
+        <h6 class="filter_general" onclick="show_hide_general('hotelName');">Hotel Name <i class="fas fa-chevron-down" id="hotelName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelName_generalUp" style="float:right; display:block;"></i></h6>
+        <div id="hotelName_generalShow" style="display:inline-block; width:100%;">
+            <input type="text" style="margin-bottom:0px !important;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(1);"/>
+        </div>
+        <hr/>
+        <h6 class="filter_general" onclick="show_hide_general('hotelPrice');">Price Range <i class="fas fa-chevron-down" id="hotelPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelPrice_generalUp" style="float:right; display:block;"></i></h6>
+        <div id="hotelPrice_generalShow" style="display:inline-block;">
+            <div class="range-slider">
+                <input type="text" class="js-range-slider"/>
             </div>
-            <hr/>
-            <h6 class="filter_general" onclick="show_hide_general('hotelPrice');">Price Range <i class="fas fa-chevron-down" id="hotelPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelPrice_generalUp" style="float:right; display:block;"></i></h6>
-            <div id="hotelPrice_generalShow" style="display:inline-block;">
-                <div class="range-slider">
-                    <input type="text" class="js-range-slider"/>
+            <div class="row">
+                <div class="col-lg-6">
+                    <input type="text" style="margin-bottom:0px !important;" class="js-input-from form-control" id="price-from" value="`+low_price_slider+`" onblur="checking_price_slider(1,1);"/>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <input type="text" style="margin-bottom:unset;" class="js-input-from form-control" id="price-from" value="`+low_price_slider+`" onblur="checking_price_slider(1,1);"/>
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" style="margin-bottom:unset;" class="js-input-to form-control" id="price-to" value="`+high_price_slider+`" onblur="checking_price_slider(1,2);"/>
-                    </div>
+                <div class="col-lg-6">
+                    <input type="text" style="margin-bottom:0px !important;" class="js-input-to form-control" id="price-to" value="`+high_price_slider+`" onblur="checking_price_slider(1,2);"/>
                 </div>
             </div>
         </div>
@@ -1385,9 +1375,6 @@ function hotel_filter_render(){
             </label><br/>`;
     }
     text+=`</div>`;
-    if(template == 2){
-        text+=`</div>`;
-    }
     var node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -1436,21 +1423,10 @@ function hotel_filter_render(){
     text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
             <hr/>
             <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
-            if(template == 1){
-                text+=`<div class="banner-right">`;
-            }else if(template == 2){
-                text+=`
-                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-            }
             text+=`
-                <div class="form-wrap" style="padding:0px; text-align:left;">
-                    <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
-                </div>
+            <div class="form-wrap" style="padding:0px; text-align:left;">
+                <input type="text" style="margin-bottom:0px !important;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
             </div>`;
-            if(template == 2){
-                text+=`</div>`;
-            }
             text+=`
             <hr/>
             <h6 style="padding-bottom:10px;">Price Range</h6>
@@ -1462,10 +1438,10 @@ function hotel_filter_render(){
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <input type="text" style="margin-bottom:unset;" class="js-input-from2 form-control" id="price-from2" value="`+low_price_slider+`" onblur="checking_price_slider(2,1);"/>
+                                <input type="text" style="margin-bottom:0px !important;" class="js-input-from2 form-control" id="price-from2" value="`+low_price_slider+`" onblur="checking_price_slider(2,1);"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <input type="text" style="margin-bottom:unset;" class="js-input-to2 form-control" id="price-to2" value="`+high_price_slider+`" onblur="checking_price_slider(2,2);"/>
+                                <input type="text" style="margin-bottom:0px !important;" class="js-input-to2 form-control" id="price-to2" value="`+high_price_slider+`" onblur="checking_price_slider(2,2);"/>
                             </div>
                         </div>
                     </div>

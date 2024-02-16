@@ -273,7 +273,7 @@
                                 <div class="col-lg-6 col-md-6">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                        <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                         <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px;">1</i>
                                     </div>
                                     <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
@@ -283,7 +283,7 @@
                                 <div class="col-lg-6 col-md-6">
                                     <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                     <div class="input-container-search-ticket btn-group">
-                                        <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                        <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                         <ul class="dropdown-menu" role="menu" style="z-index:5;">
                                             <div class="container">
                                                 <div class="row">
