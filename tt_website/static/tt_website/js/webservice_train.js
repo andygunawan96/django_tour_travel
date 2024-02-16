@@ -2635,7 +2635,8 @@ function re_order_set_journey(){
             'action': 'choose_train_reorder',
        },
        data: {
-          "train_pick": JSON.stringify(journey)
+          "train_pick": JSON.stringify(journey),
+          'signature': signature
        },
        success: function(msg) {
             setTimeout(function(){

@@ -425,7 +425,7 @@ def re_order_set_passengers(request):
 
             if pax['pax_type'] not in data_pax_dict_list:
                 data_pax_dict_list[pax['pax_type']] = []
-            data_pax_dict_list[pax['pax_type']].append(pax['seq_id'])
+            data_pax_dict_list[pax['pax_type']].append("%s,%s" % (pax['seq_id'], pax['identity_type']))
 
         airline_create_passengers = {
             'booker': booker,
