@@ -764,12 +764,13 @@ def get_booking(request):
                         if check == 2:
                             break
             for pax in res['result']['response']['passengers']:
-                pax.update({
-                    'birth_date': '%s %s %s' % (
-                        pax['birth_date'].split(' ')[0].split('-')[2],
-                        month[pax['birth_date'].split(' ')[0].split('-')[1]],
-                        pax['birth_date'].split(' ')[0].split('-')[0])
-                })
+                if pax.get('birth_date'):
+                    pax.update({
+                        'birth_date': '%s %s %s' % (
+                            pax['birth_date'].split(' ')[0].split('-')[2],
+                            month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                            pax['birth_date'].split(' ')[0].split('-')[0])
+                    })
                 if pax.get('nationality_code'):
                     if country.get(pax['nationality_code']):
                         pax['nationality_name'] = country[pax['nationality_code']]
