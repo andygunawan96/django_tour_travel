@@ -3297,6 +3297,17 @@ function next_focus_element(product, from){
                 $('#hotel_id_nationality_wizard_id').select2('open');
             }, 200);
         }
+    }else if(product == 'activity'){
+        if(from == 'country'){
+            setTimeout(function(){
+                $("#show_country_city").click();
+            }, 200);
+        }
+        if(from == 'type'){
+            setTimeout(function(){
+                $("#show_type_category").click();
+            }, 200);
+        }
     }else if(product == 'train'){
         if(from == 'route'){
             setTimeout(function(){

@@ -670,21 +670,15 @@ function get_activity_config(type, val){
             }
             if(country_txt != ''){
                 document.getElementById('activity_countries').innerHTML = country_txt;
-                if(template == 1 || template == 2 || template == 5){
-                    $('#activity_countries').niceSelect('update');
-                }
+                $('#activity_countries').niceSelect('update');
             }
             if(type_txt != ''){
                 type_selection.innerHTML = type_txt;
-                if(template == 1 || template == 2 || template == 5){
-                    $('#activity_type').niceSelect('update');
-                }
+                $('#activity_type').niceSelect('update');
             }
             if(category_txt != ''){
                 category_selection.innerHTML = category_txt;
-                if(template == 1 || template == 2 || template == 5){
-                    $('#activity_category').niceSelect('update');
-                }
+                $('#activity_category').niceSelect('update');
             }
 
             country_selection.setAttribute("onchange", "auto_complete_activity('activity_countries');");
@@ -1222,17 +1216,16 @@ function activity_get_detail(activity_uuid){
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-activity active" style="width:unset; z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
-                               <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
-                           </label>
-                       `;
-                       }
-                       else {
+                           <label class="btn btn-activity active" style="width:unset; text-align:left; padding:5px 15px 5px 10px; margin-right:15px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                               <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/>
+                               <span>`+activity_type[i].name+`</span>
+                           </label>`;
+                       }else {
                            temp += `
-                           <label class="btn btn-activity" style="width:unset; z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
-                               <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
-                           </label>
-                       `;
+                           <label class="btn btn-activity" style="width:unset; text-align:left; padding: 5px 15px 5px 10px; margin-right:15px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                               <input type="radio" class="activity" name="product_type" autocomplete="off"/>
+                               <span>`+activity_type[i].name+`</span>
+                           </label>`;
                        }
                        counti++;
                    }
@@ -1247,513 +1240,106 @@ function activity_get_detail(activity_uuid){
                    }
 
                    activity_desc_bar_txt = ``;
-                   if (template == 1)
-                   {
-                        activity_desc_bar_txt += `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
-                                            if (activity_data.itinerary != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                                `;
-                                            }
-                                         activity_desc_bar_txt += `
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">`;
-                                            if (activity_data.description != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.description+`</p>`;
-                                            }
-                                            if (activity_data.highlights != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.highlights+`</p>`;
-                                            }
-                                            if (activity_data.additionalInfo != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.additionalInfo+`</p>`;
-                                            }
-                                            if (activity_data.priceIncludes != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceIncludes+`</p>`;
-                                            }
-                                            if (activity_data.priceExcludes != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceExcludes+`</p>`;
-                                            }
-                                        activity_desc_bar_txt += `
-                                             </div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.warnings != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.warnings+`</p>`;
-                                                }
-                                                if (activity_data.safety != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
-                                                }
-                                             activity_desc_bar_txt += `</div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.voucher_validity != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucher_validity+`</p>`;
-                                                }
-                                                if (activity_data.voucherUse != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherUse+`</p>`;
-                                                }
-                                                if (activity_data.voucherRedemptionAddress != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                    <p style="padding:0 15px; text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
-                                                }
-                                                if (activity_data.voucherRequiresPrinting != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.itinerary != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                    <p style="padding:0 15px; text-align:justify">`+activity_data.itinerary+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                        </div>
-                                    </div>`;
-                   }
-                   else if (template == 2)
-                   {
-                        activity_desc_bar_txt += `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
-                                            if (activity_data.itinerary != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                                `;
-                                            }
-                                         activity_desc_bar_txt += `
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">`;
-                                            if (activity_data.description != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.description+`</p>`;
-                                            }
-                                            if (activity_data.highlights != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.highlights+`</p>`;
-                                            }
-                                            if (activity_data.additionalInfo != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.additionalInfo+`</p>`;
-                                            }
-                                            if (activity_data.priceIncludes != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceIncludes+`</p>`;
-                                            }
-                                            if (activity_data.priceExcludes != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                <p style="padding:0 15px;text-align:justify">`+activity_data.priceExcludes+`</p>`;
-                                            }
-                                        activity_desc_bar_txt += `
-                                             </div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.warnings != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.warnings+`</p>`;
-                                                }
-                                                if (activity_data.safety != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
-                                                }
-                                             activity_desc_bar_txt += `</div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.voucher_validity != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucher_validity+`</p>`;
-                                                }
-                                                if (activity_data.voucherUse != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherUse+`</p>`;
-                                                }
-                                                if (activity_data.voucherRedemptionAddress != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                    <p style="padding:0 15px; text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
-                                                }
-                                                if (activity_data.voucherRequiresPrinting != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.itinerary != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                    <p style="padding:0 15px; text-align:justify">`+activity_data.itinerary+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                        </div>
-                                    </div>`;
-                   }
-                   else if (template == 3)
-                   {
-                        activity_desc_bar_txt += `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
-                                            if (activity_data.itinerary != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                                `;
-                                            }
+                   activity_desc_bar_txt += `
+                   <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
+                        <ul class="create_tabs" style="background:white;">
+                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
+                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
+                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
+                            if (activity_data.itinerary != '')
+                            {
+                                activity_desc_bar_txt += `
+                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
+                                `;
+                            }
+                         activity_desc_bar_txt += `
+                        </ul>
+                   </div>
+                   <div class="row">
+                        <div class="col-lg-12">
+                            <div id="detail" class="create_tab-content current" style="border-top:1px solid #cdcdcd; padding:15px 15px 0px 15px;">`;
+                            if (activity_data.description != '')
+                            {
+                                activity_desc_bar_txt += `
+                                <h4 style="margin-bottom:10px;">Description</h4>
+                                <p style="text-align:justify">`+activity_data.description+`</p>`;
+                            }
+                            if (activity_data.highlights != '')
+                            {
+                                activity_desc_bar_txt += `
+                                <h4 style="margin-bottom:10px;">Highlights</h4>
+                                <p style="text-align:justify">`+activity_data.highlights+`</p>`;
+                            }
+                            if (activity_data.additionalInfo != '')
+                            {
+                                activity_desc_bar_txt += `
+                                <h4 style="margin-bottom:10px;">Additional Info</h4>
+                                <p style="text-align:justify">`+activity_data.additionalInfo+`</p>`;
+                            }
+                            if (activity_data.priceIncludes != '')
+                            {
+                                activity_desc_bar_txt += `
+                                <h4 style="margin-bottom:10px;">Price Includes</h4>
+                                <p style="text-align:justify">`+activity_data.priceIncludes+`</p>`;
+                            }
+                            if (activity_data.priceExcludes != '')
+                            {
+                                activity_desc_bar_txt += `
+                                <h4 style="margin-bottom:10px;">Price Excludes</h4>
+                                <p style="text-align:justify">`+activity_data.priceExcludes+`</p>`;
+                            }
+
+                            activity_desc_bar_txt += `
+                            </div>
+                            <div id="rules" class="create_tab-content" style="border-top:1px solid #cdcdcd; padding:15px 15px 0px 15px;">`;
+                                if (activity_data.warnings != '')
+                                {
                                     activity_desc_bar_txt += `
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.description != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.description+`</p>`;
-                                                }
-                                                if (activity_data.highlights != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.highlights+`</p>`;
-                                                }
-                                                if (activity_data.additionalInfo != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.additionalInfo+`</p>`;
-                                                }
-                                                if (activity_data.priceIncludes != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.priceIncludes+`</p>`;
-                                                }
-                                                if (activity_data.priceExcludes != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.priceExcludes+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.warnings != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.warnings+`</p>`;
-                                                }
-                                                if (activity_data.safety != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.voucher_validity != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucher_validity+`</p>`;
-                                                }
-                                                if (activity_data.voucherUse != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherUse+`</p>`;
-                                                }
-                                                if (activity_data.voucherRedemptionAddress != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                    <p style="padding:0 15px; text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
-                                                }
-                                                if (activity_data.voucherRequiresPrinting != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.itinerary != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                    <p style="padding:0 15px; text-align:justify">`+activity_data.itinerary+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                        </div>
-                                    </div>`;
-                   }
-                   else if (template == 4)
-                   {
-                        activity_desc_bar_txt += `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
-                                            if (activity_data.itinerary != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                                `;
-                                            }
-                                        activity_desc_bar_txt += `
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.description != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.description+`</p>`;
-                                                }
-                                                if (activity_data.highlights != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.highlights+`</p>`;
-                                                }
-                                                if (activity_data.additionalInfo != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.additionalInfo+`</p>`;
-                                                }
-                                                if (activity_data.priceIncludes != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.priceIncludes+`</p>`;
-                                                }
-                                                if (activity_data.priceExcludes != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.priceExcludes+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.warnings != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.warnings+`</p>`;
-                                                }
-                                                if (activity_data.safety != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.voucher_validity != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucher_validity+`</p>`;
-                                                }
-                                                if (activity_data.voucherUse != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherUse+`</p>`;
-                                                }
-                                                if (activity_data.voucherRedemptionAddress != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                    <p style="padding:0 15px; text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
-                                                }
-                                                if (activity_data.voucherRequiresPrinting != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.itinerary != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                    <p style="padding:0 15px; text-align:justify">`+activity_data.itinerary+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                        </div>
-                                    </div>`;
-                   }
-                   else
-                   {
-                        activity_desc_bar_txt += `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                                        <ul class="create_tabs" style="background:white;">
-                                            <li class="create_tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
-                                            <li class="create_tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
-                                            <li class="create_tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>`;
-                                            if (activity_data.itinerary != '')
-                                            {
-                                                activity_desc_bar_txt += `
-                                                <li class="create_tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
-                                                `;
-                                            }
-                                        activity_desc_bar_txt += `
-                                        </ul>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="detail" class="create_tab-content current" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.description != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.description+`</p>`;
-                                                }
-                                                if (activity_data.highlights != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.highlights+`</p>`;
-                                                }
-                                                if (activity_data.additionalInfo != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.additionalInfo+`</p>`;
-                                                }
-                                                if (activity_data.priceIncludes != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.priceIncludes+`</p>`;
-                                                }
-                                                if (activity_data.priceExcludes != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.priceExcludes+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="rules" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.warnings != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.warnings+`</p>`;
-                                                }
-                                                if (activity_data.safety != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.safety+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="vouchers" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.voucher_validity != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucher_validity+`</p>`;
-                                                }
-                                                if (activity_data.voucherUse != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherUse+`</p>`;
-                                                }
-                                                if (activity_data.voucherRedemptionAddress != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
-                                                    <p style="padding:0 15px; text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
-                                                }
-                                                if (activity_data.voucherRequiresPrinting != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
-                                                    <p style="padding:0 15px;text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                            <div id="price_itinerary" class="create_tab-content" style="border-top:2px solid #cdcdcd;">`;
-                                                if (activity_data.itinerary != '')
-                                                {
-                                                    activity_desc_bar_txt += `
-                                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
-                                                    <p style="padding:0 15px; text-align:justify">`+activity_data.itinerary+`</p>`;
-                                                }
-                                            activity_desc_bar_txt += `</div>
-                                        </div>
-                                    </div>`;
-                   }
+                                    <h4 style="margin-bottom:10px;">Warnings</h4>
+                                    <p style="text-align:justify">`+activity_data.warnings+`</p>`;
+                                }
+                                if (activity_data.safety != '')
+                                {
+                                    activity_desc_bar_txt += `
+                                    <h4 style="margin-bottom:10px;">Safety</h4>
+                                    <p style="text-align:justify">`+activity_data.safety+`</p>`;
+                                }
+                             activity_desc_bar_txt += `</div>
+                            <div id="vouchers" class="create_tab-content" style="border-top:1px solid #cdcdcd; padding:15px 15px 0px 15px;">`;
+                                if (activity_data.voucher_validity != '')
+                                {
+                                    activity_desc_bar_txt += `
+                                    <h4 style="margin-bottom:10px;">Validity</h4>
+                                    <p style="text-align:justify">`+activity_data.voucher_validity+`</p>`;
+                                }
+                                if (activity_data.voucherUse != '')
+                                {
+                                    activity_desc_bar_txt += `
+                                    <h4 style="margin-bottom:10px;">Voucher Use</h4>
+                                    <p style="text-align:justify">`+activity_data.voucherUse+`</p>`;
+                                }
+                                if (activity_data.voucherRedemptionAddress != '')
+                                {
+                                    activity_desc_bar_txt += `
+                                    <h4 style="margin-bottom:10px;">Voucher Address</h4>
+                                    <p style="text-align:justify;">`+activity_data.voucherRedemptionAddress+`</p>`;
+                                }
+                                if (activity_data.voucherRequiresPrinting != '')
+                                {
+                                    activity_desc_bar_txt += `
+                                    <h4 style="margin-bottom:10px;">Voucher Print</h4>
+                                    <p style="text-align:justify">`+activity_data.voucherRequiresPrinting+`</p>`;
+                                }
+                            activity_desc_bar_txt += `</div>
+                            <div id="price_itinerary" class="create_tab-content" style="border-top:1px solid #cdcdcd; padding:15px 15px 0px 15px;">`;
+                            if (activity_data.itinerary != ''){
+                                activity_desc_bar_txt += `
+                                <h4 style="margin-bottom:10px;">Itinerary</h4>
+                                <p style="text-align:justify">`+activity_data.itinerary+`</p>`;
+                            }
+                            activity_desc_bar_txt += `</div>
+                        </div>
+                   </div>`;
 
                    activity_media_txt = ``;
                    activity_media_thumb_txt = ``;
@@ -1761,49 +1347,59 @@ function activity_get_detail(activity_uuid){
                    {
                         if(activity_data.videos[i].url != '')
                         {
-                             activity_media_txt += `<div class="item" style="background: rgba(0,0,0,0.9);">
-                                                        <video controls id="video_activity" height="350px" width="100%">
-                                                            <source src="`+activity_data.videos[i].url+`" type="video/mp4">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    </div>`;
+                             activity_media_txt += `
+                             <div class="item">
+                                <video controls id="video_activity" height="350px" width="100%">
+                                    <source src="`+activity_data.videos[i].url+`" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>`;
 
-                             activity_media_thumb_txt += `<div class="item" style="text-align:center;">
-                                                              <div class="dark-img" style="cursor:pointer;">
-                                                                  <img class="img-fluid owl-current-click" alt="Activity" id="video_activity2" style="max-width:100%; height:75px;">
-                                                                  <span class="text-block-img" id="icon_video_activity" style="cursor:pointer; color:`+text_color+`; font-size:12px; text-align:center;"></span>
-                                                              </div>
-                                                          </div>`;
+                            activity_media_thumb_txt += `
+                            <div class="item" style="text-align:center;">
+                                 <div class="dark-img" style="cursor:pointer;">
+                                     <img class="img-fluid owl-current-click" alt="Activity" id="video_activity2" style="max-width:100%; height:75px;">
+                                     <span class="text-block-img" id="icon_video_activity" style="cursor:pointer; color:`+text_color+`; font-size:12px; text-align:center;"></span>
+                                 </div>
+                            </div>`;
                         }
                    }
                    for (i in activity_data.images)
                    {
                         if (activity_data.images[i].path)
                         {
-                            activity_media_txt += `<div class="item" style="background: rgba(0,0,0,0.9);">
-                                                        <img class="img-fluid" src="`+activity_data.images[i].url+``+activity_data.images[i].path+`" alt="Activity" style="display: block; width:100%; height:350px; object-fit: contain;">
-                                                   </div>`;
+                            activity_media_txt += `
+                            <div class="item">
+                                <img class="img-fluid" src="`+activity_data.images[i].url+``+activity_data.images[i].path+`" alt="Activity" style="display: block; width:100%; height:350px; object-fit: contain;">
+                            </div>`;
 
-                            activity_media_thumb_txt += `<div class="item" style="text-align:center; cursor:pointer;">
-                                                            <img class="img-fluid owl-current-click" alt="Activity" src="`+activity_data.images[i].url+``+activity_data.images[i].path+`" style="max-width:100%; height:75px;">
-                                                         </div>`;
+                            activity_media_thumb_txt += `
+                            <div class="item" style="text-align:center; cursor:pointer;">
+                                <img class="img-fluid owl-current-click" alt="Activity" src="`+activity_data.images[i].url+``+activity_data.images[i].path+`" style="max-width:100%; height:75px;">
+                            </div>`;
                         }
                    }
 
                    activity_carousel_txt = `
-                        <div class="owl-carousel-activity-img owl-theme">
-                            `+activity_media_txt+`
-                        </div>
-                        <div class="owl-carousel-activity owl-theme" style="padding-top:15px;">
-                            `+activity_media_thumb_txt+`
-                        </div>
-                   `;
+                   <div class="col-lg-12">
+                       <div class="owl-carousel-activity-img owl-theme" style="background:aliceblue; border-top:1px solid #cdcdcd; border-left:1px solid #cdcdcd; border-right:1px solid #cdcdcd; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                           `+activity_media_txt+`
+                       </div>
+                       <div class="owl-carousel-activity owl-theme" style="padding:15px; background:aliceblue; border-bottom:1px solid #cdcdcd; border-left:1px solid #cdcdcd; border-right:1px solid #cdcdcd; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+                           `+activity_media_thumb_txt+`
+                       </div>
+                   </div>`;
 
                    $('#ticket_type').html(temp);
                    document.getElementById('activity_uuid').value = activity_data.uuid;
                    document.getElementById('title_search').innerHTML += activity_data.name;
                    document.getElementById('main_activity_name').innerHTML = activity_data.name;
                    document.getElementById('product_title').innerHTML = activity_data.name;
+                   try{
+                       document.getElementById('product_title_pd').innerHTML = activity_data.name;
+                   }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                   }
                    document.getElementById('activity_avg_score').innerHTML += activity_data.reviewAverageScore + ` (` + activity_data.reviewCount + `)`;
                    document.getElementById('activity_locations').innerHTML += activity_location_txt;
                    document.getElementById('activity_desc_bar').innerHTML += activity_desc_bar_txt;
@@ -1866,7 +1462,7 @@ function activity_get_detail(activity_uuid){
                                 nav:true
                             },
                             1000:{
-                                items:8,
+                                items:7,
                                 nav:true,
                             }
                         }
@@ -2077,13 +1673,18 @@ function activity_get_price(val, bool){
         if(document.getElementById('product_title').innerHTML != activity_type[activity_type_pick].name)
         {
             document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
+            try{
+                document.getElementById('product_type_title_pd').innerHTML = activity_type[activity_type_pick].name;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+
             if(activity_type[activity_type_pick].description)
             {
                 document.getElementById('activity_type_desc').innerHTML = `
-                <div class="col-lg-12" style="margin-bottom:20px;">
-                `+activity_type[activity_type_pick].description+`
-                </div>
-                `;
+                <div class="col-lg-12" style="margin-bottom:15px;">
+                    <span>`+activity_type[activity_type_pick].description+`</span>
+                </div>`;
             }
         }
 
@@ -2092,82 +1693,26 @@ function activity_get_price(val, bool){
            for(i in activity_type[activity_type_pick].skus)
            {
                 low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
-                text+= `<div class="col-lg-3">
+                text+= `
+                <div class="col-lg-4">
                     <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
-                    <label>`+activity_type[activity_type_pick].skus[i].title+`</label>`;
-                    if(template == 1){
-                        text+=`
-                        <div class="input-container-search-ticket">
-                            <div class="form-select" style="margin-bottom:5px;">
-                                <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='reset_activity_table_detail()'>`;
-                                for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
-                                text+=`
-                                    <option>`+j+`</option>`;
-                                text+=`</select>
-                            </div>
-                        </div>`;
-                    }else if(template == 2){
-                        text+=`
-                        <div class="form-select" style="margin-bottom:5px;">
+                    <label>`+activity_type[activity_type_pick].skus[i].title+`</label>
+                    <div class="input-container-search-ticket">
+                        <div class="form-select-2" style="margin-bottom:5px;">
                             <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='reset_activity_table_detail()'>`;
                             for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
                             text+=`
                                 <option>`+j+`</option>`;
                             text+=`</select>
-                        </div>`;
+                        </div>
+                    </div>`;
 
-                    }else if(template == 3){
-                        text+=`
-                        <div class="form-group">
-                            <div class="default-select" style="margin-bottom:5px;">
-                                <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='reset_activity_table_detail()'>`;
-                                for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
-                                text+=`
-                                    <option>`+j+`</option>`;
-                                text+=`</select>
-                            </div>
-                        </div>`;
-                    }else if(template == 4){
-                        text+=`
-                        <div class="input-container-search-ticket">
-                            <div class="form-select" style="margin-bottom:5px;">
-                                <select class='nice-select-default rounded activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='reset_activity_table_detail()'>`;
-                                for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
-                                text+=`
-                                    <option>`+j+`</option>`;
-                                text+=`</select>
-                            </div>
-                        </div>`;
-                    }else if(template == 5){
-                        text+=`
-                        <div class="input-container-search-ticket">
-                            <div class="form-select" style="margin-bottom:5px;">
-                                <select class='nice-select-default rounded activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='reset_activity_table_detail()'>`;
-                                for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
-                                text+=`
-                                    <option>`+j+`</option>`;
-                                text+=`</select>
-                            </div>
-                        </div>`;
-                    }else if(template == 6){
-                        text+=`
-                        <div class="input-container-search-ticket">
-                            <div class="form-select" style="margin-bottom:5px;">
-                                <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='reset_activity_table_detail()'>`;
-                                for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
-                                text+=`
-                                    <option>`+j+`</option>`;
-                                text+=`</select>
-                            </div>
-                        </div>`;
+                    if(activity_type[activity_type_pick].skus[i].minAge != null){
+                        text+= `<small id="activity_age_range`+i+`" class="hidden">(`+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old)</small>
+                                <input type="hidden" id="`+low_sku_id+`_min_age" name="`+low_sku_id+`_min_age" value="`+activity_type[activity_type_pick].skus[i].minAge+`"/>
+                                <input type="hidden" id="`+low_sku_id+`_max_age" name="`+low_sku_id+`_max_age" value="`+activity_type[activity_type_pick].skus[i].maxAge+`"/>`;
                     }
-                if(activity_type[activity_type_pick].skus[i].minAge != null)
-                {
-                    text+= `<small id="activity_age_range`+i+`" class="hidden">(`+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old)</small>
-                            <input type="hidden" id="`+low_sku_id+`_min_age" name="`+low_sku_id+`_min_age" value="`+activity_type[activity_type_pick].skus[i].minAge+`"/>
-                            <input type="hidden" id="`+low_sku_id+`_max_age" name="`+low_sku_id+`_max_age" value="`+activity_type[activity_type_pick].skus[i].maxAge+`"/>`;
-                }
-                text+= `</div>`;
+                text+=`</div>`;
            }
            document.getElementById('pax').innerHTML = text;
            $('select').niceSelect();
@@ -2179,8 +1724,8 @@ function activity_get_price(val, bool){
                    activity_type[activity_type_pick].options.perBooking[i].name != 'Gender' &&
                    activity_type[activity_type_pick].options.perBooking[i].name != 'Nationality' &&
                    activity_type[activity_type_pick].options.perBooking[i].name != 'Date of birth'){
-                    text+=`<div class="col-lg-12" style="margin-bottom:10px;">`
-                    text+=`<span style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</span>`;
+                    text+=`<div class="col-lg-12" style="margin-top:15px;margin-bottom:10px;">`
+                    text+=`<span style='display:block; font-weight:bold'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</span>`;
                     if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
                         //selection button
                         text+=`
@@ -2274,13 +1819,10 @@ function activity_get_price(val, bool){
             text = '';
 
            if(activity_type[activity_type_pick].timeslots.length>0){
-               text += `<div class="col-xs-12">Timeslot</div>
+               text += `<div class="col-xs-12"><label>Timeslot</label></div>
                         <div class="col-xs-12">`;
-               if(template == 1 || template == 2 || template == 4 || template == 5 || template == 6){
-                    text+=`<div class="form-select">`;
-               }else if(template == 3){
-                    text+=`<div class="default-select">`;
-               }
+                text+=`<div class="form-select-2">`;
+                text+=`<div class="default-select">`;
 
                if(template == 4){
                     text+=`<select class="nice-select-default rounded" style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
@@ -2317,35 +1859,35 @@ function activity_get_price(val, bool){
 
         voucher_text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
-           voucher_text+=`<h4 style="padding:0 15px;">Validity</h4>
-                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
+           voucher_text+=`<h4>Validity</h4>
+                <p>`+activity_type[activity_type_pick].voucher_validity+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherUse != ''){
-           voucher_text+=`<h4 style="padding:0 15px;">Voucher Use</h4>
-                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
+           voucher_text+=`<h4>Voucher Use</h4>
+                <p>`+activity_type[activity_type_pick].voucherUse+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRedemptionAddress != ''){
-           voucher_text+=`<h4 style="padding:0 15px;">Voucher Address</h4>
-                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
+           voucher_text+=`<h4>Voucher Address</h4>
+                <p>`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           voucher_text+=`<h4 style="padding:0 15px;">Voucher Type</h4>`;
+           voucher_text+=`<h4>Voucher Type</h4>`;
            if(activity_type[activity_type_pick].voucherRequiresPrinting)
            {
-                voucher_text+=`<p style="padding:0 15px;">Physical voucher is required. Please print the voucher before your visit!</p>`;
+                voucher_text+=`<p>Physical voucher is required. Please print the voucher before your visit!</p>`;
            }
            else
            {
-                voucher_text+=`<p style="padding:0 15px;">You can use either physical or electronic voucher.</p>`;
+                voucher_text+=`<p>You can use either physical or electronic voucher.</p>`;
            }
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
-           voucher_text+=`<h4 style="padding:0 15px;">Cancellation Policies</h4>
-                <p style="padding:0 15px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
+           voucher_text+=`<h4>Cancellation Policies</h4>
+                <p>`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
         }
         document.getElementById('vouchers').innerHTML = voucher_text;
         document.getElementById('date').innerHTML = `
-            <div class="col-lg-6 form-group departure_date">
+            <div class="col-lg-7 departure_date">
                 <label id="departure_date_activity_label" for="activity_date"><span style="color:red;">* </span><i class="fas fa-calendar-alt"></i> Visit Date</label>
                 <input id="activity_date" name="activity_date" onchange="reset_activity_table_detail();" class="form-control" style="margin-bottom:unset; background:white;" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
             </div>
@@ -2927,6 +2469,11 @@ function activity_issued_booking(order_number)
                    pax_type_repricing = [];
                    document.getElementById('activity_final_info').innerHTML = '';
                    document.getElementById('product_title').innerHTML = '';
+                   try{
+                       document.getElementById('product_title_pd').innerHTML = '';
+                   }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                   }
                    document.getElementById('product_visit_date').innerHTML = '';
                    document.getElementById('repricing_div').innerHTML = '';
                    document.getElementById('activity_detail_table').innerHTML = '';
@@ -3309,7 +2856,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb').classList.add("br-active");
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-success" role="alert">
                                 <h5>Your booking has been successfully Issued!</h5>
@@ -3332,7 +2879,11 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Booked`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Booked`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Booked`;
+                            document.getElementById('alert-state').innerHTML = `
+                            <div class="alert alert-success" role="alert">
+                                <h5>Your Order Has Been Booked!</h5>
+                            </div>`;
 
                            var check_error_msg_provider = 0;
                            var check_cancel = 1;
@@ -3361,7 +2912,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Rejected`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Rejected`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Rejected`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-danger" role="alert">
                                 <h5>Your booking has been Rejected!</h5>
@@ -3375,7 +2926,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Cancelled`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Cancelled`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-danger" role="alert">
                                 <h5>Your booking has been Cancelled!</h5>
@@ -3389,7 +2940,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-danger" role="alert">
                                 <h5>Your booking has been Expired!</h5>
@@ -3403,7 +2954,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-danger" role="alert">
                                 <h5>Your booking has been Failed (Issue)!</h5>
@@ -3417,7 +2968,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-danger" role="alert">
                                 <h5>Your booking has been Failed (Book)!</h5>
@@ -3431,7 +2982,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-danger" role="alert">
                                 <h5>Your booking has been Failed (Refunded)!</h5>
@@ -3443,7 +2994,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-success" role="alert">
                                 <h5>Your booking has been Refunded!</h5>
@@ -3455,7 +3006,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `Reissued`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Reissued`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Reissued`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-success" role="alert">
                                 <h5>Your booking has been Reissued!</h5>
@@ -3469,7 +3020,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-info" role="alert">
                                 <h5>Your booking has been Requested!</h5>
@@ -3483,7 +3034,7 @@ function activity_get_booking(data){
                             document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
                             document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                             document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
-                            document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
+                            //document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
                             document.getElementById('alert-state').innerHTML = `
                             <div class="alert alert-success" role="alert">
                                 <h5>Your booking has been Requested!</h5>
@@ -3493,114 +3044,123 @@ function activity_get_booking(data){
                         text = `
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div id="activity_booking_detail" style="border:1px solid #cdcdcd; padding:15px; background-color:white">
+                                        <div class="div_box_default mb-3" id="activity_booking_detail">
                                             <div class="row">
-                                                <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
-                                                    <h4>
-                                                        <i class="fas fa-scroll"></i> Order Number : `+msg.result.response.order_number+`
+                                                <div class="col-lg-12">
+                                                    <h4 style="margin-bottom:15px;">
+                                                        <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
                                                     </h4>
                                                 </div>
-                                            </div>
+                                                <div class="col-lg-12 mb-3">
+                                                    <table class="list-of-table" style="width:100%; background:white;">
+                                                        <tr>
+                                                            <th>PNR</th>`;
+                                                            if(msg.result.response.state == 'booked')
+                                                                text+=`<th>Hold Date</th>`;
+                                                        text+=`
+                                                            <th>Status</th>
+                                                        </tr>
+                                                        <tr>`;
+                                                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                                            text+=`
+                                                            <td>`+msg.result.response.pnr+`</td>`;
+                                                        else
+                                                            text+=`<td> - </td>`;
 
-                                             <table style="width:100%;">
-                                                <tr>
-                                                    <th>PNR</th>`;
-                                                    if(msg.result.response.state == 'booked')
-                                                        text+=`<th>Hold Date</th>`;
-                                                text+=`
-                                                    <th>Status</th>
-                                                </tr>
-                                                <tr>`;
-                                                if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued')
-                                                    text+=`
-                                                    <td>`+msg.result.response.pnr+`</td>`;
-                                                else
-                                                    text+=`<td> - </td>`;
+                                                        if(msg.result.response.state == 'booked'){
+                                                            text+=`<td>`+msg.result.response.hold_date+` `+gmt+timezone+`</td>`;
+                                                        }
 
-                                                if(msg.result.response.state == 'booked'){
-                                                    text+=`<td>`+msg.result.response.hold_date+` `+gmt+timezone+`</td>`;
-                                                }
-
-                                                text+=`
-                                                    <td>`;
-                                                if(conv_status == 'Expired'){
-                                                    text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
-                                                }
-                                                else if(conv_status == 'Booked'){
-                                                    text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
-                                                }
-                                                else if(conv_status == 'Issued'){
-                                                    text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
-                                                }
-                                                else{
-                                                    text+=`<span>`;
-                                                }
-                                                text+=`
-                                                        `+conv_status+`
-                                                    </span>
-                                                    </td>
-                                                </tr>
-                                             </table>
-
-                                            <hr/>`;
-
-                                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                                            text+=`
-                                            <div class="row mb-3">
-                                                <div class="col-lg-6">
-                                                    <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
-                                                </div>
-                                                <div class="col-lg-6">`;
-                                                    if(msg.result.response.customer_parent_name){
-                                                        text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
-                                                    }
-                                                text+=`
+                                                        text+=`
+                                                            <td>`;
+                                                            if(conv_status == 'Expired'){
+                                                                text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                                            }
+                                                            else if(conv_status == 'Booked'){
+                                                                text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                                            }
+                                                            else if(conv_status == 'Issued'){
+                                                                text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                                            }
+                                                            else{
+                                                                text+=`<span>`;
+                                                            }
+                                                            text+=`
+                                                                `+conv_status+`
+                                                            </span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
                                             </div>`;
-                                        }
-
-                                        text+=`
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <span>
-                                                    <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
-                                                </span>
-                                            </div>
-                                            <div class="col-lg-9 mb-3">
-                                                <span>
-                                                    <b>Booked Date </b><br/>`;
-                                                    if(msg.result.response.booked_date != ""){
-                                                        text+=`<i>`+msg.result.response.booked_date+`</i>`;
-                                                    }else{
-                                                        text+=`-`;
-                                                    }
+                                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                                                 text+=`
-                                                </span>
-                                            </div>
-                                        </div>`;
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                                            </div>
+                                                            <div class="col-lg-6">`;
+                                                                if(msg.result.response.customer_parent_name){
+                                                                    text+=`<b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>`;
+                                                                }
+                                                            text+=`
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
 
-                                        if(msg.result.response.state == 'issued'){
                                             text+=`
                                             <div class="row">
-                                                <div class="col-lg-3 mb-3">
-                                                    <span>
-                                                        <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
-                                                    </span>
-                                                </div>
-                                                <div class="col-lg-5 mb-3">
-                                                    <span>
-                                                        <b>Issued Date </b><br/>`;
-                                                        if(msg.result.response.issued_date != ""){
-                                                            text+=`<i>`+msg.result.response.issued_date+`</i>`;
-                                                        }else{
-                                                            text+=`-`;
-                                                        }
-                                                    text+=`
-                                                    </span>
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <span>
+                                                                <b>Booked by: </b><i>`+msg.result.response.booked_by+`</i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <span>
+                                                                <b>Booked Date: </b>`;
+                                                                if(msg.result.response.booked_date != ""){
+                                                                    text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                                                                }else{
+                                                                    text+=`-`;
+                                                                }
+                                                            text+=`
+                                                            </span><br/>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>`;
-                                        }
-                                        text += `
+
+                                            if(msg.result.response.state == 'issued'){
+                                                text+=`
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <span>
+                                                                <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <span>
+                                                                <b>Issued Date: </b>`;
+                                                                if(msg.result.response.issued_date != ""){
+                                                                    text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                                                }else{
+                                                                    text+=`-`;
+                                                                }
+                                                            text+=`
+                                                            </span><br/>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+
+                                            text += `
                                         </div>
                                     </div>
                                 </div>
@@ -3620,7 +3180,7 @@ function activity_get_booking(data){
                                 text += `
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div id="activity_booking_info" style="padding:15px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                                            <div class="div_box_default mb-3" id="activity_booking_info">
                                                <div class="row">
                                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                                        <h4 class="mb-3">
@@ -3637,16 +3197,17 @@ function activity_get_booking(data){
                                                     `+msg.result.response.provider_booking[i].activity_details[j].visit_date+`
                                                 </span>`;
 
-                                if (msg.result.response.provider_booking[i].activity_details[j].timeslot)
-                                {
-                                    act_timeslot = msg.result.response.provider_booking[i].activity_details[j].timeslot;
-                                    text += `<br/>
-                                    <span><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        `+msg.result.response.provider_booking[i].activity_details[j].timeslot+`
-                                    </span>`;
-                                }
+                                                if (msg.result.response.provider_booking[i].activity_details[j].timeslot)
+                                                {
+                                                    act_timeslot = msg.result.response.provider_booking[i].activity_details[j].timeslot;
+                                                    text += `<br/>
+                                                    <span><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                        `+msg.result.response.provider_booking[i].activity_details[j].timeslot+`
+                                                    </span>`;
+                                                }
 
-                               text += `<br/>
+                                                text += `
+                                                    <br/>
                                                 </div>
                                             </div>
                                         </div>
@@ -3657,63 +3218,76 @@ function activity_get_booking(data){
 
                        if(msg.result.response.booking_options.length > 0){
                             text += `
-                                <div class="row" style="margin-top: 15px;">
+                            <div class="row">
                                 <div class="col-lg-12">
-                                    <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                        <div style="padding:10px;">
-                                            <h4> Additional Information </h4>
-                                            <hr/>
-                                            <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
-                                                <tr>
-                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:65%;">Information</th>
-                                                    <th style="width:30%;">Value</th>
-                                                </tr>
-                            `;
-                            temp_seq = 1;
-                            for(i in msg.result.response.booking_options){
-                                text += `
-                                    <tr>
-                                        <td>`+temp_seq+`</td>
-                                        <td>`+msg.result.response.booking_options[i].name+`</td>
-                                        <td>`+msg.result.response.booking_options[i].description+`</td>
-                                    </tr>
-                                `;
-                                temp_seq += 1;
-                            }
-                            text += `
-                                </table>
-
-                                        </div>
+                                    <div class="div_box_default" id="activity_review_perbooking">
+                                        <h4> Additional Information </h4>
+                                        <hr/>
+                                        <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
+                                            <tr>
+                                                <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                                <th style="width:65%;">Information</th>
+                                                <th style="width:30%;">Value</th>
+                                            </tr>`;
+                                            temp_seq = 1;
+                                            for(i in msg.result.response.booking_options){
+                                                text += `
+                                                    <tr>
+                                                        <td>`+temp_seq+`</td>
+                                                        <td>`+msg.result.response.booking_options[i].name+`</td>
+                                                        <td>`+msg.result.response.booking_options[i].description+`</td>
+                                                    </tr>
+                                                `;
+                                                temp_seq += 1;
+                                            }
+                                            text += `
+                                        </table>
                                     </div>
                                 </div>
-                            </div>
-                            `;
+                            </div>`;
                        }
                        text += `
-                        <div class="row" style="margin-top: 15px;">
+                       <div class="row">
                             <div class="col-lg-12">
-                                <div id="activity_review_booker" style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                <div class="div_box_default" id="activity_review_booker">
                                     <div class="row">
                                         <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
                                             <h4 class="mb-3"><i class="fas fa-user"></i> Contact Information</h4>
                                         </div>
                                     </div>
-                                    <h4>
-                                        `+msg.result.response.contact.title+`. `+msg.result.response.contact.name+`
-                                    </h4>
-                                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br>
-                                    <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
+                                    <div style="display:inline-flex;">
+                                        <div>`;
+                                            if (msg.result.response.contact.title == 'MR'){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                            }else if (msg.result.response.contact.title == 'MRS'){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                            }else if (msg.result.response.contact.title == 'MS'){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                            }else if (msg.result.response.contact.title == 'MSTR'){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MRTR" class="picture_passenger_small">`;
+                                            }else if (msg.result.response.contact.title == 'MISS'){
+                                                text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                            }
+                                            text+=`
+                                        </div>
+                                        <div style="margin-left:10px;">
+                                            <h5>
+                                                `+msg.result.response.contact.title+`. `+msg.result.response.contact.name+`
+                                            </h5>
+                                            <b>Email: </b><i>`+msg.result.response.contact.email+`</i>
+                                            <br><b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>`;
+                       </div>`;
 
                        text += `
                        <div class="row" style="margin-top: 15px;">
                             <div class="col-lg-12">
-                                <div id="activity_review_passenger" style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                <div class="div_box_default" id="activity_review_passenger">
                                     <div class="row">
-                                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <div class="col-lg-12" style="border-bottom: 1px solid #cdcdcd;">
                                             <h4 class="mb-3"><i class="fas fa-users"></i> List of Guest(s)</h4>
                                         </div>
                                     </div>`;
@@ -3721,25 +3295,46 @@ function activity_get_booking(data){
                                    temp_pax_seq = 1
                                    for(i in msg.result.response.passengers){
                                         text+=`
-                                        <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                            `+temp_pax_seq+`. `+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].name+`
-                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                                <i class="fas fa-user"></i> `;
-                                                if(msg.result.response.passengers[i].pax_type == 'ADT'){
-                                                     text+=` Adult`;
-                                                }else if(msg.result.response.passengers[i].pax_type == 'CHD'){
-                                                     text+=` Child`;
-                                                }else if(msg.result.response.passengers[i].pax_type == 'INF'){
-                                                     text+=` Infant`;
-                                                }
-                                            text+=`
-                                            </b>
-                                        </h5>
-                                        <b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i><br>
-                                        <b>Ticket: </b><i>`+msg.result.response.passengers[i].sku_name+`</i><br>`;
-                                        if(parseInt(i) != (msg.result.response.passengers.length-1)){
-                                            text+=`<hr/>`;
-                                        }
+                                        <div class="row">
+                                            <div class="col-lg-12" style="background: aliceblue; border-top:1px solid #cdcdcd;">
+                                                <h5 style="padding-top:10px;">
+                                                    Passenger #`+temp_pax_seq+`
+                                                </h5>
+                                                <div style="display:inline-flex; margin-top:10px; margin-bottom:10px;">
+                                                    <div>`;
+                                                        if (msg.result.response.passengers[i].title == 'MR'){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">`;
+                                                        }else if (msg.result.response.passengers[i].title == 'MRS'){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">`;
+                                                        }else if (msg.result.response.passengers[i].title == 'MS'){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">`;
+                                                        }else if (msg.result.response.passengers[i].title == 'MSTR'){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MRTR" class="picture_passenger_small">`;
+                                                        }else if (msg.result.response.passengers[i].title == 'MISS'){
+                                                            text+=`<img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">`;
+                                                        }
+                                                        text+=`
+                                                    </div>
+                                                    <div style="margin-left:10px;">
+                                                        <h5>
+                                                            `+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].name+`
+                                                            <b style="margin-left:5px; background:white; font-size:13px; color:black; padding:0px 10px; display:unset; border: 1px solid #cdcdcd; border-radius:5px;">`;
+                                                                if(msg.result.response.passengers[i].pax_type == 'ADT'){
+                                                                     text+=` Adult`;
+                                                                }else if(msg.result.response.passengers[i].pax_type == 'CHD'){
+                                                                     text+=` Child`;
+                                                                }else if(msg.result.response.passengers[i].pax_type == 'INF'){
+                                                                     text+=` Infant`;
+                                                                }
+                                                            text+=`
+                                                            </b>
+                                                        </h5>
+                                                        <b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i><br>
+                                                        <b>Ticket: </b><i>`+msg.result.response.passengers[i].sku_name+`</i><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`;
                                         temp_pax_seq += 1;
                                     }
                                 text+=`
@@ -3872,8 +3467,20 @@ function activity_get_booking(data){
                     }
                     document.getElementById('activity_final_info').innerHTML = text;
                     document.getElementById('product_title').innerHTML = act_name;
-                    if(act_name != act_type_name)
+                    try{
+                        document.getElementById('product_title_pd').innerHTML = activity_data.name;
+                    }catch(err){
+                         console.log(err); // error kalau ada element yg tidak ada
+                    }
+
+                    if(act_name != act_type_name){
                         document.getElementById('product_type_title').innerHTML = act_type_name;
+                        try{
+                            document.getElementById('product_type_title_pd').innerHTML = act_type_name;
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
+                    }
                     price_text = '';
                     $test = 'Order Number: '+ msg.result.response.order_number + '\n';
                     $test += 'Booking Code: '+ msg.result.response.pnr+'\n';
@@ -4065,7 +3672,7 @@ function activity_get_booking(data){
                     }
                     price_text+= `
                      <hr style="padding:0px;">
-                     <div class="row">
+                     <div class="row" style="margin-bottom:15px;">
                           <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                <span style="font-weight:bold">Grand Total</span>
                           </div>
@@ -4137,8 +3744,12 @@ function activity_get_booking(data){
                                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
                                     <a href="mailto:?subject=This is the activity price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
                             }
-
-                        price_text+=`
+                            price_text+=`
+                            <div style="float:right">
+                                <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
                         </div>
                      </div>`;
 
@@ -4185,12 +3796,6 @@ function activity_get_booking(data){
                             </div>
                         </div>`;
                      }
-                     price_text+=`
-                     <div class="row" style="margin-top:10px; text-align:center;">
-                       <div class="col-xs-12">
-                            <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
-                       </div>
-                     </div>`;
 //                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                         price_text+=`
 //                         <div class="row" style="margin-top:10px; text-align:center;">
@@ -4642,6 +4247,11 @@ function cancel_reservation_activity(){
                 pax_type_repricing = [];
                 document.getElementById('activity_final_info').innerHTML = '';
                 document.getElementById('product_title').innerHTML = '';
+                try{
+                    document.getElementById('product_title_pd').innerHTML = activity_data.name;
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 document.getElementById('product_visit_date').innerHTML = '';
                 document.getElementById('repricing_div').innerHTML = '';
                 document.getElementById('activity_detail_table').innerHTML = '';
@@ -4660,6 +4270,11 @@ function cancel_reservation_activity(){
             pax_type_repricing = [];
             document.getElementById('activity_final_info').innerHTML = '';
             document.getElementById('product_title').innerHTML = '';
+            try{
+                document.getElementById('product_title_pd').innerHTML = activity_data.name;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             document.getElementById('product_visit_date').innerHTML = '';
             document.getElementById('repricing_div').innerHTML = '';
             document.getElementById('activity_detail_table').innerHTML = '';

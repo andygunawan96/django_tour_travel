@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn-white-cancel" style="margin-bottom:0px; margin-right:0px;" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                            <button type="button" class="primary-btn-white-cancel" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             {% endif %}
                                         </div>
@@ -383,7 +383,7 @@
                                                 </div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn-white-cancel" style="margin-bottom:0px; margin-right:0px;" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                                    <button type="button" class="primary-btn-white-cancel" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     {% endif %}
                                                     <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
@@ -818,7 +818,7 @@
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn-white-cancel" style="margin-bottom:0px; margin-right:0px;" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                                    <button type="button" class="primary-btn-white-cancel" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     {% endif %}
                                                 </div>
@@ -1202,7 +1202,7 @@
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn-white-cancel" style="margin-bottom:0px; margin-right:0px;" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                                    <button type="button" class="primary-btn-white-cancel" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     {% endif %}
                                                 </div>
@@ -1560,7 +1560,7 @@
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn-white-cancel" style="margin-bottom:0px; margin-right:0px;" id="student_clear{{forloop.counter}}" onclick="clear_passenger('Student', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                                    <button type="button" class="primary-btn-white-cancel" id="student_clear{{forloop.counter}}" onclick="clear_passenger('Student', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_student{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     {% endif %}
                                                 </div>
@@ -1945,7 +1945,7 @@
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn-white-cancel" style="margin-bottom:0px; margin-right:0px;" id="labour_clear{{forloop.counter}}" onclick="clear_passenger('Labour', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                                    <button type="button" class="primary-btn-white-cancel" id="labour_clear{{forloop.counter}}" onclick="clear_passenger('Labour', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_labour{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     {% endif %}
                                                 </div>
@@ -2329,7 +2329,7 @@
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn-white-cancel" style="margin-bottom:0px; margin-right:0px;" id="seaman_clear{{forloop.counter}}" onclick="clear_passenger('Seaman', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                                    <button type="button" class="primary-btn-white-cancel" id="seaman_clear{{forloop.counter}}" onclick="clear_passenger('Seaman', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_seaman{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     {% endif %}
                                                 </div>

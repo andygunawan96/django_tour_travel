@@ -137,7 +137,7 @@
                                     <div class="col-lg-6 mb-2">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                         <div class="input-container-search-ticket btn-group">
-                                            <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                            <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                 <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -171,7 +171,7 @@
                                     <div class="col-lg-6 mb-2">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
                                         <div class="input-container-search-ticket btn-group">
-                                            <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                            <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                 <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -216,9 +216,8 @@
                                 </div>
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                 <div class="row">
-                                    <br/>
                                     <div class="col-lg-12" style="text-align:left;">
-                                        <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                        <div class="div-dropdown-txt btn-group mt-3">
                                             <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
                                                 <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
@@ -293,7 +292,7 @@
                                 <div class="col-lg-6 mb-2">
                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                     <div class="input-container-search-ticket btn-group">
-                                        <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                        <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                             <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
                                         </button>
                                         <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -327,7 +326,7 @@
                                 <div class="col-lg-6 mb-2">
                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
                                     <div class="input-container-search-ticket btn-group">
-                                        <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                        <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                             <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
                                         </button>
                                         <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -372,9 +371,8 @@
                             </div>
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                             <div class="row">
-                                <br/>
                                 <div class="col-lg-12" style="text-align:left;">
-                                    <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                    <div class="div-dropdown-txt btn-group mt-3">
                                         <label class="check_box_custom cblabel">
                                             <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
                                             <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
@@ -455,7 +453,7 @@
                                     <div class="col-lg-6 mb-2">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                         <div class="input-container-search-ticket btn-group">
-                                            <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                            <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                 <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -489,7 +487,7 @@
                                     <div class="col-lg-6 mb-2">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
                                         <div class="input-container-search-ticket btn-group">
-                                            <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                            <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                 <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -534,9 +532,8 @@
                                 </div>
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                 <div class="row">
-                                    <br/>
                                     <div class="col-lg-12" style="text-align:left;">
-                                        <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                        <div class="div-dropdown-txt btn-group mt-3">
                                             <label class="check_box_custom cblabel">
                                                 <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
                                                 <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
@@ -616,7 +613,7 @@
                                                     <div class="col-lg-6 mb-2">
                                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                                         <div class="input-container-search-ticket btn-group">
-                                                            <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                            <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                                 <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
                                                             </button>
                                                             <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -650,7 +647,7 @@
                                                     <div class="col-lg-6 mb-2">
                                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
                                                         <div class="input-container-search-ticket btn-group">
-                                                            <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                            <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                                 <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
                                                             </button>
                                                             <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -697,9 +694,8 @@
                                         </div>
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <div class="row">
-                                            <br/>
                                             <div class="col-lg-12" style="text-align:left;">
-                                                <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                                <div class="div-dropdown-txt btn-group mt-3">
                                                     <label class="check_box_custom cblabel">
                                                         <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
                                                         <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
@@ -780,7 +776,7 @@
                                                 <div class="col-lg-6 mb-2">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                                     <div class="input-container-search-ticket btn-group">
-                                                        <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                        <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                             <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
                                                         </button>
                                                         <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -814,7 +810,7 @@
                                                 <div class="col-lg-6 mb-2">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
                                                     <div class="input-container-search-ticket btn-group">
-                                                        <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                        <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                             <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
                                                         </button>
                                                         <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -859,9 +855,8 @@
                                             </div>
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <div class="row">
-                                                <br/>
                                                 <div class="col-lg-12" style="text-align:left;">
-                                                    <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                                    <div class="div-dropdown-txt btn-group mt-3">
                                                         <label class="check_box_custom cblabel">
                                                             <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
                                                             <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
@@ -942,7 +937,7 @@
                                                 <div class="col-lg-6 mb-2">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                                     <div class="input-container-search-ticket btn-group">
-                                                        <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                        <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                             <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
                                                         </button>
                                                         <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -976,7 +971,7 @@
                                                 <div class="col-lg-6 mb-2">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
                                                     <div class="input-container-search-ticket btn-group">
-                                                        <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                        <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                             <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
                                                         </button>
                                                         <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -1021,9 +1016,8 @@
                                             </div>
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <div class="row">
-                                                <br/>
                                                 <div class="col-lg-12" style="text-align:left;">
-                                                    <div class="div-dropdown-txt btn-group mt-3" style="margin-left:15px;">
+                                                    <div class="div-dropdown-txt btn-group mt-3">
                                                         <label class="check_box_custom cblabel">
                                                             <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
                                                             <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
@@ -1106,7 +1100,7 @@
                                         <div class="col-lg-6 mb-2">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                <button id="show_country_city" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                     <span id="show_country_activity">All Countries</span>, <span id="show_city_activity">All Cities</span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -1140,7 +1134,7 @@
                                         <div class="col-lg-6 mb-2">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Category / Type' %} </span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                <button id="show_type_category" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
                                                     <span id="show_type_activity">All Category</span>, <span id="show_category_activity">All Categories</span>, <span id="show_sub_category_activity">All Sub Categories</span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
@@ -1183,6 +1177,46 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align:left;">
+                                            <div class="div-dropdown-txt btn-group mt-3">
+                                                <label class="check_box_custom cblabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">Activate Corporate Mode</span>
+                                                    <input type="checkbox" id="checkbox_corpor_mode_activity" name="checkbox_corpor_mode_activity" onclick="toggle_corpor_mode_div('activity');"/>
+                                                    <span class="check_box_span_custom cbspan"></span>
+                                                </label>
+                                                <span id="corpor_list_loading_activity" style="font-size:13px; color:{{text_color}}; padding:5px; display:none;"> <div class="ld ld-ring ld-cycle"></div></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12" id="div_corpor_mode_activity" style="display:none;">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <span class="span-search-ticket">Corporate</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="select-itms" style="width: 100%;">
+                                                            <input id="activity_corpor_select" name="activity_corpor_select" class="form-control" type="text" placeholder="{% trans 'Search Corporate Name' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('activity_corpor_select').select();">
+                                                            <input type="hidden" id="activity_corpor_select_post" name="activity_corpor_select_post"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <span class="span-search-ticket">Booker</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="activity_corbooker_select" name="activity_corbooker_select" class="form-control js-example-basic-single" style="width:100%;" onchange="set_corbooker_post_value('activity');">
+
+                                                            </select>
+                                                            <input type="hidden" id="activity_corbooker_select_post" name="activity_corbooker_select_post"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:center; padding-top:15px;padding-bottom:15px;">
                                             <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
