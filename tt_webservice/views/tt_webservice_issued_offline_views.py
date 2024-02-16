@@ -315,7 +315,7 @@ def update_contact(request):
         if len(contact) == 0:
 
             first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-            last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name')).replace(':', '').strip()
+            last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
             email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
             mobile = re.sub(r'\s', ' ', request.POST['booker_mobile']).replace(':', '').strip()
 
@@ -339,7 +339,7 @@ def update_contact(request):
         }
 
         first_name = re.sub(r'\s', ' ', request.POST['booker_first_name']).replace(':', '').strip()
-        last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name')).replace(':', '').strip()
+        last_name = re.sub(r'\s', ' ', request.POST.get('booker_last_name', '')).replace(':', '').strip()
         email = re.sub(r'\s', ' ', request.POST['booker_email']).replace(':', '').strip()
         mobile = re.sub(r'\s', ' ', request.POST['booker_mobile']).replace(':', '').strip()
 
