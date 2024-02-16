@@ -445,18 +445,17 @@ function activity_table_detail(){
                             <a href="mailto:?subject=This is the activity price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
                     }
 
-                text+=`
+                    text+=`
+                    <div style="float:right">
+                        <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
                 </div>
            </div>`;
            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                text+= print_commission(grand_commission,'show_commission', currency)
-           text+=`
 
-           <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-lg-12">
-                   <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
-               </div>
-           </div>`;
            //cenedit
 //           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //               text+=`
@@ -575,13 +574,14 @@ function activity_table_detail(){
 }
 
 function reset_activity_table_detail(){
-   document.getElementById('activity_detail_table').innerHTML = `
-   <center>
-       <button type="button" id="check_price_btn" class="btn-next primary-btn-ticket ld-ext-right" value="Check Price" onclick='activity_get_price_date();' style="width:100%;">
+   document.getElementById('activity_check_price').innerHTML = `
+   <div style="text-align:center; margin-top:15px;">
+       <button type="button" id="check_price_btn" class="btn-next primary-btn-ticket ld-ext-right" value="Check Price" onclick='activity_get_price_date();' style="width:200px; line-height:unset;">
             Check Price
        </button>
-   </center>
-   `;
+   </div>`;
+   document.getElementById('product_visit_date').innerHTML = '';
+   document.getElementById('activity_detail_table').innerHTML = '';
    document.getElementById('activity_detail_next_btn').innerHTML = '';
    document.getElementById('activity_detail_next_btn2').innerHTML = '';
 }
@@ -869,18 +869,24 @@ function activity_table_detail2(pagetype){
                             <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" alt="Telegram" src="/static/tt_website/images/logo/apps/telegram.png"/></a>
                             <a href="mailto:?subject=This is the activity price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" alt="Email" src="/static/tt_website/images/logo/apps/email.png"/></a>`;
                     }
-
                 text+=`
+                    <div style="float:right">
+                        <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
                 </div>
            </div>`;
            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                text+= print_commission(grand_commission,'show_commission', price_type.currency)
-           text+=`
-           <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
-                     <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
-               </div>
-           </div></div></div>`;
+//           text+=`
+//           <div class="row" style="margin-top:10px; text-align:center;">
+//               <div class="col-xs-12">
+//                     <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
+//               </div>
+//           </div>
+
+           text+=`</div></div>`;
 
            //cenedit
 //           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -2360,47 +2366,31 @@ function activity_filter_render(){
     text = '';
     text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
     <hr/>`;
-    if(template == 1){
-        text+=`<div class="banner-right">`;
-    }else if(template == 2){
-        text+=`
-        <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-    }else if(template == 3){
-        text+=`
-        <div class="header-right" style="background:unset; border:unset;">`;
-    }else if(template == 4 || template == 5 || template == 6){
-        text+=`
-        <div>`;
-    }
+
     text+=`
-        <div class="form-wrap" style="padding:0px; text-align:left;">
-            <h6 class="filter_general" onclick="show_hide_general('activityName');">Activity Name <i class="fas fa-chevron-down" id="activityName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityName_generalUp" style="float:right; display:block;"></i></h6>
-            <div id="activityName_generalShow" style="display:inline-block; width:100%;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(1);"/>
+    <div class="form-wrap" style="padding:0px; text-align:left;">
+        <h6 class="filter_general" onclick="show_hide_general('activityName');">Activity Name <i class="fas fa-chevron-down" id="activityName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityName_generalUp" style="float:right; display:block;"></i></h6>
+        <div id="activityName_generalShow" style="display:inline-block; width:100%;">
+            <input type="text" style="margin-bottom:0px !important;" class="form-control" id="activity_filter_name" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(1);"/>
+        </div>
+        <hr/>
+        <h6 class="filter_general" onclick="show_hide_general('activityPrice');">Price Range <i class="fas fa-chevron-down" id="activityPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityPrice_generalUp" style="float:right; display:block;"></i></h6>
+        <div id="activityPrice_generalShow" style="display:inline-block;">
+            <div class="range-slider">
+                <input type="text" class="js-range-slider"/>
             </div>
-            <hr/>
-            <h6 class="filter_general" onclick="show_hide_general('activityPrice');">Price Range <i class="fas fa-chevron-down" id="activityPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityPrice_generalUp" style="float:right; display:block;"></i></h6>
-            <div id="activityPrice_generalShow" style="display:inline-block;">
-                <div class="range-slider">
-                    <input type="text" class="js-range-slider"/>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <span>Min</span><br/>
+                    <input type="text" class="js-input-from form-control-custom" id="price-from" value="`+low_price_slider+`" onblur="checking_price_slider(1,1);"/>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <span>Min</span><br/>
-                        <input type="text" class="js-input-from form-control-custom" id="price-from" value="`+low_price_slider+`" onblur="checking_price_slider(1,1);"/>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <span>Max</span><br/>
-                        <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`" onblur="checking_price_slider(1,2);"/>
-                    </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <span>Max</span><br/>
+                    <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`" onblur="checking_price_slider(1,2);"/>
                 </div>
             </div>
         </div>
     </div>`;
-    if(template == 2){
-        text+=`</div>`;
-    }
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -2443,22 +2433,11 @@ function activity_filter_render(){
     text+= `<a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
             <br/>
             <h6 style="padding-bottom:10px;">Activity Name</h6>`;
-            if(template == 1){
-                text+=`<div class="banner-right">`;
-            }else if(template == 2){
-                text+=`
-                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-            }
             text+=`
-                <div class="form-wrap" style="padding:0px; text-align:left;">
-                    <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name2" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(2);"/>
-                </div>
+            <div class="form-wrap" style="padding:0px; text-align:left;">
+                <input type="text" style="margin-bottom:0px; !important" class="form-control" id="activity_filter_name2" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(2);"/>
             </div>`;
-            if(template == 2){
-                text+=`</div>`;
-            }
-    text+=`
+            text+=`
         <hr/>
         <h6>Price Range</h6><br/>
         <div class="banner-right">
