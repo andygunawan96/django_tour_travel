@@ -661,6 +661,8 @@ def passenger(request, signature):
                     if carrier.get(segment['carrier_code']):
                         if carrier[segment['carrier_code']]['is_adult_birth_date_required']:
                             is_birthdate_required = True
+                        if carrier[segment['carrier_code']].get('is_required_last_name'):
+                            is_need_last_name = True
                     if segment['carrier_code'] == 'GA':
                         is_garuda = True
                     for leg in segment['legs']:
