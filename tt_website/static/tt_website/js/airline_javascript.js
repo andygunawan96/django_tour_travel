@@ -6806,7 +6806,7 @@ function airline_detail(type){
                             $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].identity_first_name + ' ' + passengers['child'][x].identity_last_name;
                         else
                             $text += '• ' + passengers['child'][x].title + ' ' + passengers['child'][x].first_name + ' ' + passengers['child'][x].last_name;
-                        if(passengers['adult'][x].birth_date)
+                        if(passengers['child'][x].birth_date)
                             $text += ' (CHD ' +  passengers['child'][x].birth_date + ')';
                         if(passengers['child'][x].identity_type){
                             $text += '\n- ' + passengers['child'][x].identity_type.substr(0,1).toUpperCase() + passengers['child'][x].identity_type.substr(1,passengers['child'][x].identity_type.length).toLowerCase() + ': ';
