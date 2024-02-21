@@ -8553,7 +8553,7 @@ function check_passenger(adult, child, infant, type=''){
            }
        }
 
-       if(is_pre_riz_required){
+       if(is_pre_riz_required == 'true'){
            if(document.getElementById('adult_riz_text_'+i).value == ''){
                 error_log+= 'Please input Endorsement Box (RIZ) of adult passenger '+i+'!</br>\n';
                 document.getElementById('adult_riz_text_'+i).style['border-color'] = 'red';
@@ -8915,7 +8915,7 @@ function check_passenger(adult, child, infant, type=''){
            }
        }
 
-       if(is_pre_riz_required){
+       if(is_pre_riz_required == 'true'){
            if(document.getElementById('child_riz_text_'+i).value == ''){
                 error_log+= 'Please input Endorsement Box (RIZ) of child passenger '+i+'!</br>\n';
                 document.getElementById('child_riz_text_'+i).style['border-color'] = 'red';
@@ -9220,7 +9220,7 @@ function check_passenger(adult, child, infant, type=''){
                 list_identity_need_update.push('infant_'+i)
        }
 
-       if(is_pre_riz_required){
+       if(is_pre_riz_required == 'true'){
            if(document.getElementById('infant_riz_text_'+i).value == ''){
                 error_log+= 'Please input Endorsement Box (RIZ) of infant passenger '+i+'!</br>\n';
                 document.getElementById('infant_riz_text_'+i).style['border-color'] = 'red';
@@ -9592,7 +9592,7 @@ function check_passenger(adult, child, infant, type=''){
                }
            }
 
-           if(is_pre_riz_required){
+           if(is_pre_riz_required == 'true'){
                if(document.getElementById('student_riz_text_'+i).value == ''){
                     error_log+= 'Please input Endorsement Box (RIZ) of student passenger '+i+'!</br>\n';
                     document.getElementById('student_riz_text_'+i).style['border-color'] = 'red';
@@ -9957,7 +9957,7 @@ function check_passenger(adult, child, infant, type=''){
                    }
                }
            }
-           if(is_pre_riz_required){
+           if(is_pre_riz_required == 'true'){
                if(document.getElementById('seaman_riz_text_'+i).value == ''){
                     error_log+= 'Please input Endorsement Box (RIZ) of seaman passenger '+i+'!</br>\n';
                     document.getElementById('seaman_riz_text_'+i).style['border-color'] = 'red';
@@ -10322,7 +10322,7 @@ function check_passenger(adult, child, infant, type=''){
                    }
                }
            }
-           if(is_pre_riz_required){
+           if(is_pre_riz_required == 'true'){
                if(document.getElementById('labour_riz_text_'+i).value == ''){
                     error_log+= 'Please input Endorsement Box (RIZ) of labour passenger '+i+'!</br>\n';
                     document.getElementById('labour_riz_text_'+i).style['border-color'] = 'red';
