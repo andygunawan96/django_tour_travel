@@ -425,7 +425,7 @@ def re_order_set_passengers(request):
 
             if pax['pax_type'] not in data_pax_dict_list:
                 data_pax_dict_list[pax['pax_type']] = []
-            data_pax_dict_list[pax['pax_type']].append("%s,%s" % (pax['seq_id'], pax['identity_type']))
+            data_pax_dict_list[pax['pax_type']].append(data_pax_dict)
 
         airline_create_passengers = {
             'booker': booker,
@@ -448,7 +448,8 @@ def re_order_set_passengers(request):
                 user_account = copy.deepcopy(request.session['user_account'])
                 user_account.update({
                     "booker_seq_id": data_booker['seq_id'],
-                    "co_passenger_seq_id": data_pax_dict_list
+                    "co_passenger_seq_id": data_pax_dict_list,
+                    "is_delete_data_pax_reorder": True
                 })
                 set_session(request, 'user_account', user_account)
             # set_session(request, 'airline_create_passengers',airline_create_passengers)

@@ -374,13 +374,15 @@ def index(request):
                 pass
 
             ### CHECK CACHE REORDER ###
+            ###### SEMENTARA AUTO HAPUS UNTUK DATA REORDER DI PAGE HOME SAMPAI DAPAT BUTTON UNTUK DELETE ########
             try:
                 user_account = copy.deepcopy(request.session['user_account'])
-                if user_account.get('booker_seq_id'):
-                    del user_account['booker_seq_id']
-                if user_account.get('co_passenger_seq_id'):
-                    del user_account['co_passenger_seq_id']
-                set_session(request, 'user_account', user_account)
+                if user_account.get('is_delete_data_pax_reorder'):
+                    if user_account.get('booker_seq_id'):
+                        del user_account['booker_seq_id']
+                    if user_account.get('co_passenger_seq_id'):
+                        del user_account['co_passenger_seq_id']
+                    set_session(request, 'user_account', user_account)
             except:
                 _logger.error('NO CACHE REORDER')
             try:
