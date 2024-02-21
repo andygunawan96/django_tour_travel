@@ -299,7 +299,15 @@ def index(request):
                 pass
 
             try:
-                file = read_cache_file(request, '', 'hotel_request')
+                is_btc = False
+                if user_default.get('user_name') and request.session.get('user_account'):
+                    if user_default['user_name'] == request.session['user_account']['co_user_login']:
+                        is_btc = True
+
+                if is_btc:
+                    file = read_cache_file(request, '', 'hotel_request',time=300)
+                else:
+                    file = read_cache_file(request, '', 'hotel_request')
                 if file:
                     cache['hotel'] = {
                         'checkin': file['checkin_date'],
@@ -374,13 +382,15 @@ def index(request):
                 pass
 
             ### CHECK CACHE REORDER ###
+            ###### SEMENTARA AUTO HAPUS UNTUK DATA REORDER DI PAGE HOME SAMPAI DAPAT BUTTON UNTUK DELETE ########
             try:
                 user_account = copy.deepcopy(request.session['user_account'])
-                if user_account.get('booker_seq_id'):
-                    del user_account['booker_seq_id']
-                if user_account.get('co_passenger_seq_id'):
-                    del user_account['co_passenger_seq_id']
-                set_session(request, 'user_account', user_account)
+                if user_account.get('is_delete_data_pax_reorder'):
+                    if user_account.get('booker_seq_id'):
+                        del user_account['booker_seq_id']
+                    if user_account.get('co_passenger_seq_id'):
+                        del user_account['co_passenger_seq_id']
+                    set_session(request, 'user_account', user_account)
             except:
                 _logger.error('NO CACHE REORDER')
             try:

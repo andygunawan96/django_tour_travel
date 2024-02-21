@@ -655,6 +655,7 @@ def passenger(request, signature):
             _logger.error('ERROR read file get_list_provider_data\n' + str(e) + '\n' + traceback.format_exc())
 
         is_pre_riz = False
+        is_pre_riz_required = False
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
@@ -685,6 +686,10 @@ def passenger(request, signature):
                 if provider_data_dict[airline['provider']].get('is_pre_riz'):
                     if provider_data_dict[airline['provider']]['is_pre_riz']:
                         is_pre_riz = True
+                if provider_data_dict[airline['provider']].get('is_pre_riz_required'):
+                    if provider_data_dict[airline['provider']]['is_pre_riz_required']:
+                        is_pre_riz_required = True
+
 
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
@@ -773,7 +778,8 @@ def passenger(request, signature):
                 # 'time_limit': request.session['time_limit_%s' % signature],
                 'time_limit': time_limit,
                 'static_path_url_server': get_url_static_path(),
-                'is_pre_riz': is_pre_riz
+                'is_pre_riz': is_pre_riz,
+                'is_pre_riz_required': is_pre_riz_required
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],

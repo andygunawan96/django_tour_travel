@@ -3,9 +3,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from tools import util, ERR
 from tools.parser import *
+from dateutil.relativedelta import *
 from datetime import datetime
 from ..static.tt_webservice.url import *
-import json
+import json, copy
 import logging
 import traceback
 import base64
@@ -1937,7 +1938,96 @@ def get_currency(request):
     return res
 
 def get_user_login(request):
-    return request.session.get('user_account')
+    data_user_account = copy.deepcopy(request.session.get('user_account'))
+    if request.POST.get('url') and 'passenger' in request.POST['url']:
+        if data_user_account.get('co_passenger_seq_id'):
+            now = datetime.now()
+            for pax_type in data_user_account['co_passenger_seq_id']:
+                for idx, data_pax in enumerate(data_user_account['co_passenger_seq_id'][pax_type]):
+                    if 'train' in request.POST['url']:
+                        if data_pax.get('birth_date'):
+                            age = relativedelta(now, datetime.strptime(data_pax['birth_date'], '%Y-%m-%d')).years
+                            if age >= 3:
+                                if data_pax.get('gender', 'male') == 'male':
+                                    data_pax.update({
+                                        "title": 'MR'
+                                    })
+                                else:
+                                    if data_pax.get('marital_status', 'single') == 'single':
+                                        data_pax.update({
+                                            "title": 'MS'
+                                        })
+                                    else:
+                                        data_pax.update({
+                                            "title": 'MRS'
+                                        })
+                            else:
+                                if data_pax.get('gender', 'male') == 'male':
+                                    data_pax.update({
+                                        "title": 'MSTR'
+                                    })
+                                else:
+                                    data_pax.update({
+                                        "title": 'MISS'
+                                    })
+                        else:
+                            ## NO BIRTH DATE AUTO ADT
+                            if data_pax.get('gender', 'male') == 'male':
+                                data_pax.update({
+                                    "title": 'MR'
+                                })
+                            else:
+                                if data_pax.get('marital_status', 'single') == 'single':
+                                    data_pax.update({
+                                        "title": 'MS'
+                                    })
+                                else:
+                                    data_pax.update({
+                                        "title": 'MRS'
+                                    })
+                    else:
+                        ## OTHER PRODUCT
+                        if data_pax.get('birth_date'):
+                            age = relativedelta(now, datetime.strptime(data_pax['birth_date'], '%Y-%m-%d')).years
+                            if age >= 11:
+                                if data_pax.get('gender', 'male') == 'male':
+                                    data_pax.update({
+                                        "title": 'MR'
+                                    })
+                                else:
+                                    if data_pax.get('marital_status', 'single') == 'single':
+                                        data_pax.update({
+                                            "title": 'MS'
+                                        })
+                                    else:
+                                        data_pax.update({
+                                            "title": 'MRS'
+                                        })
+                            else:
+                                if data_pax.get('gender', 'male') == 'male':
+                                    data_pax.update({
+                                        "title": 'MSTR'
+                                    })
+                                else:
+                                    data_pax.update({
+                                        "title": 'MISS'
+                                    })
+                        else:
+                            ## NO BIRTH DATE AUTO ADT
+                            if data_pax.get('gender', 'male') == 'male':
+                                data_pax.update({
+                                    "title": 'MR'
+                                })
+                            else:
+                                if data_pax.get('marital_status', 'single') == 'single':
+                                    data_pax.update({
+                                        "title": 'MS'
+                                    })
+                                else:
+                                    data_pax.update({
+                                        "title": 'MRS'
+                                    })
+    return data_user_account
 
 def get_phone_code(request):
     res = {}
