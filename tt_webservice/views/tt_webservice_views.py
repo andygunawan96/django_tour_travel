@@ -227,15 +227,20 @@ def delete_all_cache_file(request):
     except Exception as e:
         _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
-def read_cache_file(request, signature, session_key, get_full_data=False):
+def read_cache_file(request, signature, session_key, get_full_data=False, time=False):
     try:
         file = open("%s/%s.txt" % (var_log_path(request, 'cache_session/%s' % request.session['user_account']['co_user_login']), ("%s_%s" % (signature, session_key))), "r")
         data = file.read()
         file.close()
+        date_time = datetime.now()
         if data:
             try:
                 res = json.loads(data)
                 if res.get('data'):
+                    if time:
+                        delta_time = date_time - parse_load_cache(res['datetime'])
+                        if time < delta_time.total_seconds() or time != 90911:  #### TIME 90911 ULTAH RODEX, TIME TIDAK TERPAKAI, CACHE SELAMANYA
+                            return False
                     if get_full_data:
                         return res
                     else:
