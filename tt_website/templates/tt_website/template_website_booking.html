@@ -2201,7 +2201,9 @@ junction_font.load().then(function(loaded_face) {
             headers:{
                 'action': 'get_user_login',
             },
-            data: {},
+            data: {
+                "url": window.location.href
+            },
             success: function(msg) {
                 user_login = msg;
                 if(user_login.hasOwnProperty('pricing_breakdown') && user_login.pricing_breakdown)

@@ -8552,6 +8552,15 @@ function check_passenger(adult, child, infant, type=''){
                }
            }
        }
+
+       if(is_pre_riz_required){
+           if(document.getElementById('adult_riz_text_'+i).value == ''){
+                error_log+= 'Please input Endorsement Box (RIZ) of adult passenger '+i+'!</br>\n';
+                document.getElementById('adult_riz_text_'+i).style['border-color'] = 'red';
+           }else{
+                document.getElementById('adult_riz_text_'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
     }
     //child
     length_name = 100;
@@ -8905,6 +8914,15 @@ function check_passenger(adult, child, infant, type=''){
                }
            }
        }
+
+       if(is_pre_riz_required){
+           if(document.getElementById('child_riz_text_'+i).value == ''){
+                error_log+= 'Please input Endorsement Box (RIZ) of child passenger '+i+'!</br>\n';
+                document.getElementById('child_riz_text_'+i).style['border-color'] = 'red';
+           }else{
+                document.getElementById('child_riz_text_'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
     }
 
     //infant
@@ -9200,6 +9218,15 @@ function check_passenger(adult, child, infant, type=''){
             }
             if(is_identity_required == 'true' && check_valid_identity_checked('infant', i) === true)
                 list_identity_need_update.push('infant_'+i)
+       }
+
+       if(is_pre_riz_required){
+           if(document.getElementById('infant_riz_text_'+i).value == ''){
+                error_log+= 'Please input Endorsement Box (RIZ) of infant passenger '+i+'!</br>\n';
+                document.getElementById('infant_riz_text_'+i).style['border-color'] = 'red';
+           }else{
+                document.getElementById('infant_riz_text_'+i).style['border-color'] = '#EFEFEF';
+           }
        }
    }
 //   if(error_log != ''){
@@ -9564,6 +9591,15 @@ function check_passenger(adult, child, infant, type=''){
                    }
                }
            }
+
+           if(is_pre_riz_required){
+               if(document.getElementById('student_riz_text_'+i).value == ''){
+                    error_log+= 'Please input Endorsement Box (RIZ) of student passenger '+i+'!</br>\n';
+                    document.getElementById('student_riz_text_'+i).style['border-color'] = 'red';
+               }else{
+                    document.getElementById('student_riz_text_'+i).style['border-color'] = '#EFEFEF';
+               }
+           }
        }
     }
 
@@ -9921,6 +9957,14 @@ function check_passenger(adult, child, infant, type=''){
                    }
                }
            }
+           if(is_pre_riz_required){
+               if(document.getElementById('seaman_riz_text_'+i).value == ''){
+                    error_log+= 'Please input Endorsement Box (RIZ) of seaman passenger '+i+'!</br>\n';
+                    document.getElementById('seaman_riz_text_'+i).style['border-color'] = 'red';
+               }else{
+                    document.getElementById('seaman_riz_text_'+i).style['border-color'] = '#EFEFEF';
+               }
+           }
        }
     }
 
@@ -10276,6 +10320,14 @@ function check_passenger(adult, child, infant, type=''){
                             }
                         }
                    }
+               }
+           }
+           if(is_pre_riz_required){
+               if(document.getElementById('labour_riz_text_'+i).value == ''){
+                    error_log+= 'Please input Endorsement Box (RIZ) of labour passenger '+i+'!</br>\n';
+                    document.getElementById('labour_riz_text_'+i).style['border-color'] = 'red';
+               }else{
+                    document.getElementById('labour_riz_text_'+i).style['border-color'] = '#EFEFEF';
                }
            }
        }

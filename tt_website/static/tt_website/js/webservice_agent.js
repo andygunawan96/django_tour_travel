@@ -6481,7 +6481,7 @@ function copy_booker(val,type,identity){
                         if(expired == null || expired < -1){
                             if (radios[j].value == data[0] && identity == '' || radios[j].value == data[0] && identity == data[0]) {
                                 if(data[0] != ''){
-                                    if(typeof data_booker !== 'undefined' && data_booker.identities.hasOwnProperty(identity) && data_booker.identities[identity].identity_images.length > 0){
+                                    if(typeof data_booker !== 'undefined' && data_booker.hasOwnProperty('identities') && data_booker.identities.hasOwnProperty(identity) && data_booker.identities[identity].identity_images.length > 0){
                                         text = '';
                                         //identity cenius (milih identity copy booker + muncul di formny) done
                                         text += `
