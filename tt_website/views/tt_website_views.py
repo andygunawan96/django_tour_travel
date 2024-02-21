@@ -299,7 +299,15 @@ def index(request):
                 pass
 
             try:
-                file = read_cache_file(request, '', 'hotel_request')
+                is_btc = False
+                if user_default.get('user_name') and request.session.get('user_account'):
+                    if user_default['user_name'] == request.session['user_account']['co_user_login']:
+                        is_btc = True
+
+                if is_btc:
+                    file = read_cache_file(request, '', 'hotel_request',time=300)
+                else:
+                    file = read_cache_file(request, '', 'hotel_request')
                 if file:
                     cache['hotel'] = {
                         'checkin': file['checkin_date'],
