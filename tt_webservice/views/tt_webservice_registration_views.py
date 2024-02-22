@@ -194,7 +194,7 @@ def register(request):
         if request.session.get('register_done_data') == data:
             check = 1
         else:
-            data['regis_doc'] = upload_image_agent_regis(data['regis_doc'], data['company']['name'], request.session.get('signature') or '')
+            data['regis_doc'] = upload_image_agent_regis(request, data['regis_doc'], data['company']['name'], request.session.get('signature') or '')
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if check == 0:
@@ -221,7 +221,7 @@ def register(request):
 
     return res
 
-def upload_image_agent_regis(data, name, signature):
+def upload_image_agent_regis(request, data, name, signature):
     try:
         imgData = []
 
@@ -245,6 +245,6 @@ def upload_image_agent_regis(data, name, signature):
     for img in imgData:
         data = img
         url_request = get_url_gateway('content')
-        res = send_request_api({}, url_request, headers, data, 'POST')
+        res = send_request_api(request, url_request, headers, data, 'POST')
         list_img.append([res['result']['response']['seq_id'], 4, img['agent_type']])
     return list_img
