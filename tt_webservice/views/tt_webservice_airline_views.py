@@ -4505,6 +4505,10 @@ def get_reschedule_availability_v2(request):
                                         })
                                         break
 
+                            for fare in segment['fares']:
+                                if fare['fare_basis_code'] in sqtf_fare_basis_code_list:
+                                    fare['fare_basis_code'] += ' - SQTF'
+
             _logger.info("SUCCESS get_reschedule_availability_v2 AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_reschedule_availability_v2 AIRLINE SIGNATURE " + request.POST['signature'])

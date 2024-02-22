@@ -323,6 +323,7 @@
                 data["timezone"] = timezone;
             }
             is_move_back_action_mode = true;
+            last_action = JSON.parse(JSON.stringify(action_mode));
             action_mode = 'change';
         }
 
@@ -342,6 +343,8 @@
                       document.getElementById('pin_otp_input1').select();
                     }, 500);
                 }catch(err){}
+                if(is_move_back_action_mode)
+                    action_mode = last_action;
             })
 
             setTimeout(function(){
@@ -379,9 +382,19 @@
                             title: 'Oops!',
                             html: '<span style="color: #ff9900;">'+temp_action+' Pin </span>' + msg.result.error_msg,
                         })
+                        try{
+                            var pin_otp_us = document.querySelectorAll('.pin-otp-input');
+                            for (i = 0; i < pin_otp_us.length; ++i) {
+                              pin_otp_us[i].value = "";
+                              pin_otp_us[i].removeAttribute("disabled");
+                            }
+                            setTimeout(() => {
+                              document.getElementById('pin_otp_input1').select();
+                            }, 500);
+                        }catch(err){}
                     }
                     if(is_move_back_action_mode)
-                        action_mode = 'change_by_otp';
+                        action_mode = last_action;
                     $('.loading-button').prop('disabled', false);
                     $('.loading-button').removeClass("running");
                 },
