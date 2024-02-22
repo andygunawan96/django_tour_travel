@@ -11728,24 +11728,25 @@ function auto_logout(msg){
             login_again = false;
         }
     }
-
-    Swal.fire({
-      title: error_logger,
-      type: 'warning',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-        if(keep_me_signin){
-            window.location = '/';
-        }else{
-            if (result.value) {
-                logout();
+    setTimeout(() => {
+        Swal.fire({
+          title: error_logger,
+          type: 'warning',
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+            if(keep_me_signin){
+                window.location = '/';
             }else{
-                logout();
+                if (result.value) {
+                    logout();
+                }else{
+                    logout();
+                }
             }
-        }
-    })
+        })
+    }, 1000);
 }
 
 function error_ajax(XMLHttpRequest, textStatus, errorThrown, str){
