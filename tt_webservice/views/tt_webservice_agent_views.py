@@ -1720,6 +1720,11 @@ def get_new_cache(request, signature, type='all'):
             write_cache(res, "get_holiday_cache", request, 'cache_web')
             # remove cache airline
             try:
+                path = "%s/%s" % (var_log_path(request, 'cache_web'), 'airline_permission_denied.txt')
+                os.remove(path)
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
+            try:
                 path = "%s/%s" % (var_log_path(request, 'cache_web'), 'get_list_provider.txt')
                 os.remove(path)
             except Exception as e:
