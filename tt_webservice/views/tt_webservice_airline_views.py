@@ -1385,6 +1385,37 @@ def search2(request):
             return error_response
         elif data.get('labour') and not provider_data['is_labour']:
             return error_response
+
+    ##### 23 FEB 2024 ######
+    ##### CHECK PERMISSION DENIED BEFORE SEND ######
+    file = read_cache("airline_permission_denied", 'cache_web', request, 86400)
+    if file:
+        file_cache_permission_denied = file
+    else:
+        file_cache_permission_denied = {}
+
+    if file_cache_permission_denied.get(request.POST['provider']):
+        is_carrier_can_be_search = False
+        is_origin_can_be_search = True
+        for carrier_code in carrier_code_list:
+            if carrier_code not in file_cache_permission_denied[request.POST['provider']]['carrier_codes']:
+                is_carrier_can_be_search = True
+        if journey_list[0]['origin'] in file_cache_permission_denied[request.POST['provider']]['origins']:
+            is_origin_can_be_search = False
+
+        if not is_origin_can_be_search and not is_carrier_can_be_search:
+            _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'] + ' PERMISSION DENIED')
+            return {
+                "result": {
+                    "error_code": 4004,
+                    "error_msg": "Permission denied, , %s" % request.POST['provider'],
+                    "response": "",
+                    "error_additional_msg": ""
+                }
+            }
+
+
+
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
@@ -1493,6 +1524,26 @@ def search2(request):
 
 
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
+        elif res['result']['error_code'] == 4004:
+
+            if not file_cache_permission_denied.get(request.POST['provider']):
+                file_cache_permission_denied[request.POST['provider']] = {
+                    "origins": [],
+                    "carrier_codes": []
+                }
+            origins = file_cache_permission_denied[request.POST['provider']]['origins']
+            carrier_codes = file_cache_permission_denied[request.POST['provider']]['carrier_codes']
+            for journey in journey_list:
+                origins.append(journey['origin'])
+            for carrier_code in carrier_code_list:
+                if carrier_code not in carrier_codes:
+                    carrier_codes.append(carrier_code)
+            file_cache_permission_denied[request.POST['provider']].update({
+                "origins": origins,
+                "carrier_codes": carrier_codes
+            })
+            write_cache(file_cache_permission_denied, 'airline_permission_denied', request)
+            _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
         else:
             _logger.error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
