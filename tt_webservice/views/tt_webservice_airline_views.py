@@ -1524,7 +1524,7 @@ def search2(request):
 
 
             _logger.error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
-        elif res['result']['error_code'] in [4004, 4005]:
+        elif res['result']['error_code'] in [4004, 4053]:
 
             if not file_cache_permission_denied.get(request.POST['provider']):
                 file_cache_permission_denied[request.POST['provider']] = {
