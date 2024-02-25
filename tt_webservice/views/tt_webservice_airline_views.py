@@ -1535,6 +1535,9 @@ def search2(request):
             carrier_codes = file_cache_permission_denied[request.POST['provider']]['carrier_codes']
             for journey in journey_list:
                 origins.append(journey['origin'])
+                break
+                ## temporary break, spy selalu 1st origin aja
+                ## starting city aja, karena masih salah jika multi city perlu debug lg. allow CGK, tetapi CGK bs ter ban. mgkn di RT/Multicity problem
             for carrier_code in carrier_code_list:
                 if carrier_code not in carrier_codes:
                     carrier_codes.append(carrier_code)
