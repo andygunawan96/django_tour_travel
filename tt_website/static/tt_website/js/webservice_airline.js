@@ -1294,7 +1294,8 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('adult_behaviors'+index).value = JSON.stringify(user_login.co_passenger_seq_id.ADT[idx].behaviors);
             document.getElementById('adult_first_name'+index).value = user_login.co_passenger_seq_id.ADT[idx].first_name;
             document.getElementById('adult_last_name'+index).value = user_login.co_passenger_seq_id.ADT[idx].last_name;
-            document.getElementById('adult_birth_date'+index).value = user_login.co_passenger_seq_id.ADT[idx].birth_date;
+            if(user_login.co_passenger_seq_id.ADT[idx].birth_date)
+                document.getElementById('adult_birth_date'+index).value = moment(user_login.co_passenger_seq_id.ADT[idx].birth_date, 'YYYY-MM-DD').format('DD MMM YYYY');
             if(user_login.co_passenger_seq_id.ADT[idx].identity_type != '' && user_login.co_passenger_seq_id.ADT[idx].hasOwnProperty('is_valid_identity') && user_login.co_passenger_seq_id.ADT[idx].is_valid_identity){
                 document.getElementById('adult_id_type'+index).value = user_login.co_passenger_seq_id.ADT[idx].identity_type;
                 document.getElementById('adult_passport_number'+index).value = user_login.co_passenger_seq_id.ADT[idx].identity_number;
@@ -1369,7 +1370,8 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('child_behaviors'+index).value = JSON.stringify(user_login.co_passenger_seq_id.CHD[i].behaviors);
             document.getElementById('child_first_name'+index).value = user_login.co_passenger_seq_id.CHD[i].first_name;
             document.getElementById('child_last_name'+index).value = user_login.co_passenger_seq_id.CHD[i].last_name;
-            document.getElementById('child_birth_date'+index).value = user_login.co_passenger_seq_id.CHD[i].birth_date;
+            if(user_login.co_passenger_seq_id.CHD[i].birth_date)
+                document.getElementById('child_birth_date'+index).value = moment(user_login.co_passenger_seq_id.CHD[i].birth_date, 'YYYY-MM-DD').format('DD MMM YYYY');
             if(user_login.co_passenger_seq_id.CHD[i].identity_type != '' && user_login.co_passenger_seq_id.CHD[i].is_valid_identity){
                 document.getElementById('child_id_type'+index).value = user_login.co_passenger_seq_id.CHD[i].identity_type;
                 document.getElementById('child_passport_number'+index).value = user_login.co_passenger_seq_id.CHD[i].identity_number;
@@ -1430,7 +1432,8 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('infant_behaviors'+index).value = JSON.stringify(user_login.co_passenger_seq_id.INF[i].behaviors);
             document.getElementById('infant_first_name'+index).value = user_login.co_passenger_seq_id.INF[i].first_name;
             document.getElementById('infant_last_name'+index).value = user_login.co_passenger_seq_id.INF[i].last_name;
-            document.getElementById('infant_birth_date'+index).value = user_login.co_passenger_seq_id.INF[i].birth_date;
+            if(user_login.co_passenger_seq_id.INF[i].birth_date)
+                document.getElementById('infant_birth_date'+index).value = moment(user_login.co_passenger_seq_id.INF[i].birth_date, 'YYYY-MM-DD').format('DD MMM YYYY');
             if(user_login.co_passenger_seq_id.INF[i].identity_type != '' && user_login.co_passenger_seq_id.INF[i].is_valid_identity){
                 document.getElementById('infant_id_type'+index).value = user_login.co_passenger_seq_id.INF[i].identity_type;
                 document.getElementById('infant_passport_number'+index).value = user_login.co_passenger_seq_id.INF[i].identity_number;
@@ -1518,7 +1521,9 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('student_behaviors'+index).value = JSON.stringify(user_login.co_passenger_seq_id.STU[idx].behaviors);
             document.getElementById('student_first_name'+index).value = user_login.co_passenger_seq_id.STU[idx].first_name;
             document.getElementById('student_last_name'+index).value = user_login.co_passenger_seq_id.STU[idx].last_name;
-            document.getElementById('student_birth_date'+index).value = user_login.co_passenger_seq_id.STU[idx].birth_date;
+
+            if(user_login.co_passenger_seq_id.STU[i].birth_date)
+                document.getElementById('student_birth_date'+index).value = moment(user_login.co_passenger_seq_id.STU[i].birth_date, 'YYYY-MM-DD').format('DD MMM YYYY');
             if(user_login.co_passenger_seq_id.STU[idx].identity_type != '' && user_login.co_passenger_seq_id.STU[idx].is_valid_identity){
                 document.getElementById('student_id_type'+index).value = user_login.co_passenger_seq_id.STU[idx].identity_type;
                 document.getElementById('student_passport_number'+index).value = user_login.co_passenger_seq_id.STU[idx].identity_number;
@@ -1621,7 +1626,10 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('seaman_behaviors'+index).value = JSON.stringify(user_login.co_passenger_seq_id.SEA[idx].behaviors);
             document.getElementById('seaman_first_name'+index).value = user_login.co_passenger_seq_id.SEA[idx].first_name;
             document.getElementById('seaman_last_name'+index).value = user_login.co_passenger_seq_id.SEA[idx].last_name;
-            document.getElementById('seaman_birth_date'+index).value = user_login.co_passenger_seq_id.SEA[idx].birth_date;
+
+            if(user_login.co_passenger_seq_id.SEA[i].birth_date)
+                document.getElementById('seaman_birth_date'+index).value = moment(user_login.co_passenger_seq_id.SEA[i].birth_date, 'YYYY-MM-DD').format('DD MMM YYYY');
+
             if(user_login.co_passenger_seq_id.SEA[idx].identity_type != '' && user_login.co_passenger_seq_id.SEA[idx].is_valid_identity){
                 document.getElementById('seaman_id_type'+index).value = user_login.co_passenger_seq_id.SEA[idx].identity_type;
                 document.getElementById('seaman_passport_number'+index).value = user_login.co_passenger_seq_id.SEA[idx].identity_number;
@@ -1724,7 +1732,10 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('labour_behaviors'+index).value = JSON.stringify(user_login.co_passenger_seq_id.LBR[idx].behaviors);
             document.getElementById('labour_first_name'+index).value = user_login.co_passenger_seq_id.LBR[idx].first_name;
             document.getElementById('labour_last_name'+index).value = user_login.co_passenger_seq_id.LBR[idx].last_name;
-            document.getElementById('labour_birth_date'+index).value = user_login.co_passenger_seq_id.LBR[idx].birth_date;
+
+            if(user_login.co_passenger_seq_id.LBR[i].birth_date)
+                document.getElementById('labour_birth_date'+index).value = moment(user_login.co_passenger_seq_id.LBR[i].birth_date, 'YYYY-MM-DD').format('DD MMM YYYY');
+
             if(user_login.co_passenger_seq_id.LBR[idx].identity_type != '' && user_login.co_passenger_seq_id.LBR[idx].is_valid_identity){
                 document.getElementById('labour_id_type'+index).value = user_login.co_passenger_seq_id.LBR[idx].identity_type;
                 document.getElementById('labour_passport_number'+index).value = user_login.co_passenger_seq_id.LBR[idx].identity_number;
