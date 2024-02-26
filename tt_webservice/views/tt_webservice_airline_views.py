@@ -446,6 +446,12 @@ def re_order_set_passengers(request):
         elif request.POST.get('type') == 'reorder':
             if request.session.get('user_account'):
                 user_account = copy.deepcopy(request.session['user_account'])
+                for pax_type in data_pax_dict_list:
+                    for data_pax in data_pax_dict_list[pax_type]:
+                        if data_pax.get('birth_date'):
+                            data_pax.update({
+                                "birth_date": datetime.strptime(data_pax['birth_date'], '%d %b %Y').strftime('%Y-%m-%d')
+                            })
                 user_account.update({
                     "booker_seq_id": data_booker['seq_id'],
                     "co_passenger_seq_id": data_pax_dict_list,
