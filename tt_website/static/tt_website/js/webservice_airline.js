@@ -14060,89 +14060,91 @@ function reroute_btn(){
 
         if(is_provider_can_reroute){
             for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-                if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
-                    text += `
-                    <div class="row">
-                        <div class="col-lg-12" id="delete_reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd; padding-top:15px; padding-bottom:15px; display:none;"></div>
-                        <div class="col-lg-12" id="reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd;">
-                            <div class="row">
-                               <div class="col-lg-12 mb-3" style="text-align:right;">
-                                    <label class="span_link" style="color:#e04022 !important" onclick="delete_reissue(`+i+`,`+j+`)">disable changes for this flight <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
-                               </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="row">`;
-                                        for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
-                                            //kasih silang kasih reset
-                                            text+=`
-                                            <div class="col-lg-12">
-                                                <div style="display:inline-flex;">
-                                                    <div style="display:inline-block;">`;
-                                                        try{
-                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                                        }catch(err){
-                                                            text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
-                                                        }
-                                                    text+=`
-                                                    </div>
-                                                    <div style="display:inline-block;">
-                                                        <span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</span><br>
-                                                    </div>
-                                                </div>
-                                            </div>`;
-                                        }
-                                    text+=`
-                                    </div>
+                try{
+                    if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
+                        text += `
+                        <div class="row">
+                            <div class="col-lg-12" id="delete_reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd; padding-top:15px; padding-bottom:15px; display:none;"></div>
+                            <div class="col-lg-12" id="reissue_`+i+`_journey`+j+`" style="border-bottom:1px solid #cdcdcd;">
+                                <div class="row">
+                                   <div class="col-lg-12 mb-3" style="text-align:right;">
+                                        <label class="span_link" style="color:#e04022 !important" onclick="delete_reissue(`+i+`,`+j+`)">disable changes for this flight <i class="fas fa-times" style="font-size:18px; color:red;"></i></label>
+                                   </div>
                                 </div>
-                                <div class="col-lg-9">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <span><i class="fas fa-plane-departure"></i> From</span>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <input id="origin_id_flight`+flight+`" name="origin_id_flight`+flight+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <span><i class="fas fa-plane-departure"></i> Destination</span>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <input id="destination_id_flight`+flight+`" name="destination_id_flight`+flight+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <span><i class="fas fa-calendar-alt"></i> Date</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" style="background:white; width:100%;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <span>Class</span>
-                                            <div class="form-select">
-                                                <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
-                                                    <option value="Y" selected="">Economy</option>`;
-                                                    if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
-                                                        text +=`<option value="W">Royal Green</option>`;
-                                                    else
-                                                        text +=`<option value="W">Premium Economy</option>`;
-                                                    text +=`
-                                                    <option value="C">Business</option>
-                                                    <option value="F">First Class</option>
-                                                </select>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="row">`;
+                                            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
+                                                //kasih silang kasih reset
+                                                text+=`
+                                                <div class="col-lg-12">
+                                                    <div style="display:inline-flex;">
+                                                        <div style="display:inline-block;">`;
+                                                            try{
+                                                                text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                            }catch(err){
+                                                                text+=`<img data-toggle="tooltip" class="airlines_provider_img" alt="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                                            }
+                                                        text+=`
+                                                        </div>
+                                                        <div style="display:inline-block;">
+                                                            <span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</span><br>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                        text+=`
                                         </div>
                                     </div>
+                                    <div class="col-lg-9">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <span><i class="fas fa-plane-departure"></i> From</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <input id="origin_id_flight`+flight+`" name="origin_id_flight`+flight+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <span><i class="fas fa-plane-departure"></i> Destination</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <input id="destination_id_flight`+flight+`" name="destination_id_flight`+flight+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight`+flight+`').select();" onclick="set_airline_search_value_to_false();">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span><i class="fas fa-calendar-alt"></i> Date</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" style="background:white; width:100%;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <span>Class</span>
+                                                <div class="form-select">
+                                                    <select id="cabin_class`+flight+`" name="cabin_class`+flight+`" class="nice-select-default reissued-class-airline">
+                                                        <option value="Y" selected="">Economy</option>`;
+                                                        if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
+                                                            text +=`<option value="W">Royal Green</option>`;
+                                                        else
+                                                            text +=`<option value="W">Premium Economy</option>`;
+                                                        text +=`
+                                                        <option value="C">Business</option>
+                                                        <option value="F">First Class</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>`;
-                    document.getElementById('reissue_'+i+'_journey'+j).innerHTML = text;
-                }
+                        </div>`;
+                        document.getElementById('reissue_'+i+'_journey'+j).innerHTML = text;
+                    }
+                }catch(err){console.log(err);}
                 flight++;
 
                 text = '';
@@ -14161,80 +14163,82 @@ function reroute_btn(){
             is_provider_can_reroute = true;
         if(is_provider_can_reroute){
             for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-                if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
-                    picker_multi[counter_airline-1].destroy();
-                    document.getElementById('airline_departure'+counter_airline).value = moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]);
-                    picker_multi[counter_airline-1] = new Lightpick({
-                        field: document.getElementById('airline_departure'+counter_airline),
-                        singleDate: true,
-                        startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
-                        minDate: moment(),
-                        maxDate: moment().subtract(-1, 'years'),
-                        idString: 'airline_departure'+counter_airline,
-                        onSelect: function(date){
-                            document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
-                            check_next_date_journey_reissue();
-                        }
-                    });
+                try{
+                    if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
+                        picker_multi[counter_airline-1].destroy();
+                        document.getElementById('airline_departure'+counter_airline).value = moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]);
+                        picker_multi[counter_airline-1] = new Lightpick({
+                            field: document.getElementById('airline_departure'+counter_airline),
+                            singleDate: true,
+                            startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+                            minDate: moment(),
+                            maxDate: moment().subtract(-1, 'years'),
+                            idString: 'airline_departure'+counter_airline,
+                            onSelect: function(date){
+                                document.getElementById(this._opts.idString).value = moment(date).format('DD MMM YYYY');
+                                check_next_date_journey_reissue();
+                            }
+                        });
 
-    //                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
-    //                      singleDatePicker: true,
-    //                      autoUpdateInput: true,
-    //                      autoApply: true,
-    //                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
-    //                      minDate: moment(),
-    //                      maxDate: moment().subtract(-1, 'years'),
-    //                      showDropdowns: true,
-    //                      opens: 'center',
-    //                      locale: {
-    //                          format: 'DD MMM YYYY',
-    //                      }
-    //                }, function(start, end, label) {
-    //    //                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
-    //                    document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
-    //                    check_next_date_journey_reissue();
-    //                });
+        //                $('input[id="airline_departure'+counter_airline+'"]').daterangepicker({
+        //                      singleDatePicker: true,
+        //                      autoUpdateInput: true,
+        //                      autoApply: true,
+        //                      startDate: moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]),
+        //                      minDate: moment(),
+        //                      maxDate: moment().subtract(-1, 'years'),
+        //                      showDropdowns: true,
+        //                      opens: 'center',
+        //                      locale: {
+        //                          format: 'DD MMM YYYY',
+        //                      }
+        //                }, function(start, end, label) {
+        //    //                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+        //                    document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
+        //                    check_next_date_journey_reissue();
+        //                });
 
-                    var airline_origin = new autoComplete({
-                        selector: '#origin_id_flight'+counter_airline,
-                        minChars: 1,
-                        cache: false,
-                        delay:0,
-                        source: function(term, suggest){
-                            if(term.split(' - ').length == 4)
+                        var airline_origin = new autoComplete({
+                            selector: '#origin_id_flight'+counter_airline,
+                            minChars: 1,
+                            cache: false,
+                            delay:0,
+                            source: function(term, suggest){
+                                if(term.split(' - ').length == 4)
+                                        term = ''
+                                if(term.length > 1)
+                                    suggest(airline_search_autocomplete(term));
+                            },
+                            onSelect: function(e, term, item){
+                                setTimeout(function(){
+                                    $("#destination_id_flight"+counter_airline).focus();
+                                }, 200);
+                                set_airline_search_value_to_true();
+                            }
+                        });
+                        document.getElementById('origin_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name;
+                        var airline_destination = new autoComplete({
+                            selector: '#destination_id_flight'+counter_airline,
+                            minChars: 0,
+                            cache: false,
+                            delay:0,
+                            source: function(term, suggest){
+                                if(term.split(' - ').length == 4)
                                     term = ''
-                            if(term.length > 1)
-                                suggest(airline_search_autocomplete(term));
-                        },
-                        onSelect: function(e, term, item){
-                            setTimeout(function(){
-                                $("#destination_id_flight"+counter_airline).focus();
-                            }, 200);
-                            set_airline_search_value_to_true();
-                        }
-                    });
-                    document.getElementById('origin_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name;
-                    var airline_destination = new autoComplete({
-                        selector: '#destination_id_flight'+counter_airline,
-                        minChars: 0,
-                        cache: false,
-                        delay:0,
-                        source: function(term, suggest){
-                            if(term.split(' - ').length == 4)
-                                term = ''
-                            if(term.length > 1)
-                                suggest(airline_search_autocomplete(term));
-                        },
-                        onSelect: function(e, term, item){
-                            setTimeout(function(){
-                                $("#airline_departure"+parseInt(counter_airline+1)).focus();
-                                $("#airline_departure_return").focus();
-                            }, 200);
-                            set_airline_search_value_to_true();
-                        }
-                    });
-                    document.getElementById('destination_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name;
-                }
+                                if(term.length > 1)
+                                    suggest(airline_search_autocomplete(term));
+                            },
+                            onSelect: function(e, term, item){
+                                setTimeout(function(){
+                                    $("#airline_departure"+parseInt(counter_airline+1)).focus();
+                                    $("#airline_departure_return").focus();
+                                }, 200);
+                                set_airline_search_value_to_true();
+                            }
+                        });
+                        document.getElementById('destination_id_flight'+counter_airline).value = airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_country+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name;
+                    }
+                }catch(err){console.log(err);}
                 counter_airline++;
             }
         }
