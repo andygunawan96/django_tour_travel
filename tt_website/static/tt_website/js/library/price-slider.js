@@ -2408,7 +2408,9 @@ function updateInputs (data) {
     if(checkUpdateInput == 0)
     {
         checkUpdateInput = checkUpdateInput + 1;
-        price_slider_true(1,0);
+        setTimeout(() => {
+            price_slider_true(1,0);
+        }, 1000);
     }
     else{
         document.getElementById('price-from2').value = from;
@@ -2422,8 +2424,9 @@ function updateInputs (data) {
              max: high_price_slider,
              step: step_slider
         });
-
-        price_slider_true(1,1);
+        setTimeout(() => {
+            price_slider_true(1,1);
+        }, 1000);
     }
     $inputFrom.prop("value", from);
     $inputTo.prop("value", to);
@@ -2439,7 +2442,9 @@ $inputFrom.on("input", function (e) {
     }
 
     price_update(1,1);
-    price_slider_true(1,1);
+    setTimeout(() => {
+        price_slider_true(1,1);
+    }, 1000);
 });
 
 $inputTo.on("input", function (e) {
@@ -2452,7 +2457,9 @@ $inputTo.on("input", function (e) {
     }
 
     price_update(1,2);
-    price_slider_true(1,1);
+    setTimeout(() => {
+        price_slider_true(1,1);
+    }, 1000);
 });
 
 
@@ -2492,7 +2499,9 @@ function updateInputs2 (data) {
     if(checkUpdateInput2 == 0)
     {
         checkUpdateInput2 = checkUpdateInput2 + 1;
-        price_slider_true(2,0);
+        setTimeout(() => {
+            price_slider_true(2,0);
+        }, 1000);
     }
     else{
         document.getElementById('price-from').value = from2;
@@ -2506,8 +2515,9 @@ function updateInputs2 (data) {
              max: high_price_slider,
              step: step_slider
         });
-
-        price_slider_true(2,1);
+        setTimeout(() => {
+            price_slider_true(2,1);
+        }, 1000);
     }
     $inputFrom2.prop("value", from2);
     $inputTo2.prop("value", to2);
@@ -2523,7 +2533,9 @@ $inputFrom2.on("input", function (e) {
     }
 
     price_update(2,1);
-    price_slider_true(2,1);
+    setTimeout(() => {
+        price_slider_true(2,1);
+    }, 1000);
 });
 
 $inputTo2.on("input", function (e) {
@@ -2536,7 +2548,9 @@ $inputTo2.on("input", function (e) {
     }
 
     price_update(2,1);
-    price_slider_true(2,1);
+    setTimeout(() => {
+        price_slider_true(2,1);
+    }, 1000);
 });
 
 

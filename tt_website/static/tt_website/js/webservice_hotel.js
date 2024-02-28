@@ -471,6 +471,7 @@ function hotel_get_current_search(){
                success: function(msg) {
                     if(msg.result.error_code == 0 && !is_hotel_search_done){
                         vendor = [];
+                        signature = msg.result.signature;
                         if(msg.result.response.hasOwnProperty('hotel_ids') && msg.result.response.hotel_ids.length > 0){
                             hotel_data = msg.result.response;
                             for(i in msg.result.response.hotel_ids){
