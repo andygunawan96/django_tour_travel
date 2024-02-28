@@ -381,7 +381,7 @@ function filtering(type){
             $minPrice = parseFloat(minPr);
             $maxPrice = parseFloat(maxPr);
             data.hotel_ids.forEach((obj)=> {
-                if (obj.prices.length > 0){
+                if (Object.keys(obj.prices).length > 0){
                     for (i in obj.prices) {
                         if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
                             temp_data.push(obj);
@@ -3265,6 +3265,7 @@ function price_slider_true(filter, type){
    $minPrice = parseFloat(from_price);
    $maxPrice = parseFloat(to_price);
    checking_price = 0;
+   hotel_pagination_number = 1;
    if($check_ps == 0 && filter == 2){
        if($check_load != 0){
            filtering('filter');
@@ -3611,7 +3612,9 @@ function reset_filter(){
     document.getElementById('price-to').value = high_price_slider;
     filter_name(1);
     price_update(1, 1);
-    price_slider_true(1, 1);
+    setTimeout(() => {
+        price_slider_true(1, 1);
+    }, 1000);
 
     for(i in rating_list){
         rating_list[i].status = false;

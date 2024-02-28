@@ -739,6 +739,7 @@ def get_current_search(request):
 
     sequence = 0
     counter = 0
+    res['result']['signature'] = signature
     for hotel in res['result']['response']['hotel_ids']:
         hotel.update({
             'sequence': sequence,
