@@ -2888,7 +2888,9 @@ function airline_get_provider_list(type, data=''){
                         is_wheelchair = 1;
                     if(provider_list_data[airline_pick[i].provider].hasOwnProperty('is_email_agent_to_vendor') && provider_list_data[airline_pick[i].provider].is_email_agent_to_vendor == false){
                         is_email_agent_to_vendor = 0;
-                        if(provider_list_data[airline_pick[i].provider].email)
+                        if(user_login.hasOwnProperty('co_agent_email'))
+                            default_email = user_login.co_agent_email
+                        else if(provider_list_data[airline_pick[i].provider].email)
                             default_email = provider_list_data[airline_pick[i].provider].email;
                     }
                 }
