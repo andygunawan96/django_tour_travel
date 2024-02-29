@@ -2028,9 +2028,10 @@ def get_new_cache(request, signature, type='all'):
                 "action": "get_banner",
                 "signature": signature,
             }
+            domain = get_domain_cache(request)
             data = {
                 'type': 'big_banner',
-                'domain': request.POST['domain']
+                'domain': domain
             }
             url_request = get_url_gateway('content')
             res = send_request_api(request, url_request, headers, data, 'POST')
@@ -2060,9 +2061,10 @@ def get_new_cache(request, signature, type='all'):
                 "action": "get_banner",
                 "signature": signature,
             }
+            domain = get_domain_cache(request)
             data = {
                 'type': 'small_banner',
-                'domain': request.POST['domain']
+                'domain': domain
             }
             url_request = get_url_gateway('content')
             res = send_request_api(request, url_request, headers, data, 'POST')
@@ -2092,9 +2094,10 @@ def get_new_cache(request, signature, type='all'):
                 "action": "get_banner",
                 "signature": signature,
             }
+            domain = get_domain_cache(request)
             data = {
                 'type': 'promotion',
-                'domain': request.POST['domain']
+                'domain': domain
             }
             url_request = get_url_gateway('content')
             res = send_request_api(request, url_request, headers, data, 'POST')
