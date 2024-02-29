@@ -959,7 +959,7 @@ function add_multi_city(type){
                             for(i in cabin_class){
                                 try{
                                     if(type == 'search'){
-                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0)
+                                        if(airline_request.cabin_class_list[counter_airline_search-1] == cabin_class[i].value || airline_request.cabin_class_list.length < counter_airline_search && i == 0 || airline_request.cabin_class_list[counter_airline_search-1] == '' && airline_request.cabin_class == cabin_class[i].value)
                                             text +=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                         else
                                             text +=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
@@ -1012,15 +1012,17 @@ function add_multi_city(type){
             if(counter_airline_search == 1)
                 min_date = moment().format('DD MMM YYYY');
             else
-                if(airline_request.departure[counter] != undefined)
-                    min_date = airline_request.departure[counter]
-                else
+                if($('input[name="airline_departure'+(counter_airline_search - 1)+'"]').val() !== 'undefined'){
                     min_date = $('input[name="airline_departure'+(counter_airline_search - 1)+'"]').val()
+                }else if(airline_request.departure[counter] != undefined)
+                    min_date = airline_request.departure[counter]
 
+
+            $('#cabin_class_flight'+counter_airline_search).niceSelect();
             picker_multi_city[counter_airline_search] = new Lightpick({
                 field: document.getElementById('airline_departure'+counter_airline_search),
                 singleDate: true,
-                startDate: airline_request.departure[counter_airline_search-1] ? airline_request.departure[counter_airline_search-1] : min_date,
+                startDate: min_date,
                 minDate: min_date,
                 maxDate: moment().subtract(-1, 'years'),
                 idNumber: counter_airline_search,

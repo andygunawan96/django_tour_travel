@@ -1582,7 +1582,7 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
                     text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
             }
         }
-        if(['close'].includes(payment_acq_booking.state) && is_agent){
+        if(['close'].includes(payment_acq_booking.state) && is_agent || ['close'].includes(payment_acq_booking.state) && user_login.co_agent_frontend_security.includes("process_channel_booking")){
             text += `<input class="primary-btn-white" style="width:100%;margin-top:15px;" type="button" onclick="cancel_payment_method('`+order_number+`','`+provider_type+`');" value="Cancel Payment">`;
         }else if(['close'].includes(payment_acq_booking.state)){
             if(window.location.href.includes('confirm_order') == false)
