@@ -2130,10 +2130,15 @@ document.addEventListener("DOMContentLoaded", function () {
     //$('head').append( '<meta property="og:title" content="{{name}}" />' );
     //$('head').append( '<meta property="og:type" content="website" />' );
     {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
-    document.getElementById('backend_btn').href = '#';
-    document.getElementById('backend_btn2').href = '#';
-    document.getElementById('backend_btn').onclick = function() {openInNewTab('{{backend_url}}')};
-    document.getElementById('backend_btn2').onclick = function() {openInNewTab('{{backend_url}}')};
+    if(document.getElementById('backend_btn')){
+        document.getElementById('backend_btn').href = '#';
+        document.getElementById('backend_btn').onclick = function() {openInNewTab('{{backend_url}}')};
+    }if(document.getElementById('backend_btn2')){
+        document.getElementById('backend_btn2').href = '#';
+        document.getElementById('backend_btn2').onclick = function() {openInNewTab('{{backend_url}}')};
+    }
+
+
     {% endif %}
     {% if username.co_user_login != '' %}
         get_highlight('header');

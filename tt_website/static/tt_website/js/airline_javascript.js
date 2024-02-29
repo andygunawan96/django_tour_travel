@@ -818,7 +818,9 @@ function add_multi_city(type){
             document.getElementById("mc_airline_paxs").innerHTML = text_paxs;
             plus_min_passenger_airline_btn();
             get_carrier_code_list(type, counter_airline_search);
-            airline_provider_list_mc.push(airline_provider_list);
+            if(typeof(airline_provider_list) !== 'undefined'){
+                airline_provider_list_mc.push(airline_provider_list);
+            }
             $('#cabin_class_flight_mc').niceSelect();
 
 //            $('#cabin_class_flight_mc').on('change', function() {
@@ -14594,6 +14596,17 @@ function auto_fill_airline_cookie(cookie_airline,page='home', max_try=0){
 
             document.getElementById('cabin_class_flight_mc').value = cookie_airline['cabin_class'];
 
+            if(document.getElementById('origin_id_flight') && cookie_airline.hasOwnProperty('origin') && cookie_airline['origin'].length >0){
+                document.getElementById('origin_id_flight').value = cookie_airline['origin'][0];
+            }
+
+            if(document.getElementById('destination_id_flight') && cookie_airline.hasOwnProperty('destination') && cookie_airline['destination'].length >0){
+                document.getElementById('destination_id_flight').value = cookie_airline['destination'][0];
+            }
+
+            if(document.getElementById('airline_departure') && cookie_airline.hasOwnProperty('departure') && cookie_airline['departure'].length >0){
+                document.getElementById('airline_departure').value = cookie_airline['departure'][0];
+            }
 
             if(cookie_airline['adult']){
                 document.getElementById('adult_flight1').value = cookie_airline['adult'];
