@@ -74,23 +74,24 @@
             </div>
             <div class="col-lg-3 mb-3">
                 <ul class="main_menu_tabs" id="identity">
-                    {% if "edit_appearance" in username.co_agent_frontend_security %}
+                    {% if is_copy_domain == False %}
+                        {% if "edit_appearance" in username.co_agent_frontend_security %}
                     <li class="main_menu_link current" id="tab-website-li" data-tab="tab-website">
                         <h5>
                             <i class="fas fa-globe-asia"></i> Website
                         </h5>
                     </li>
-                    {% endif %}
+                        {% endif %}
 
-                    {% if "edit_appearance" in username.co_agent_frontend_security or "create_page" in username.co_agent_frontend_security%}
+                        {% if "edit_appearance" in username.co_agent_frontend_security or "create_page" in username.co_agent_frontend_security%}
                     <li class="main_menu_link" id="tab-information-li" data-tab="tab-information">
                         <h5>
                             <i class="fas fa-info-circle"></i> Information
                         </h5>
                     </li>
-                    {% endif %}
+                        {% endif %}
 
-                    {% if "edit_appearance" in username.co_agent_frontend_security %}
+                        {% if "edit_appearance" in username.co_agent_frontend_security %}
                     <li class="main_menu_link" id="tab-product-li" data-tab="tab-product">
                         <h5>
                             <i class="fas fa-box"></i> Product
@@ -106,6 +107,7 @@
                             <i class="fas fa-home"></i> Backend Data
                         </h5>
                     </li>
+                        {% endif %}
                     {% endif %}
 
                     {% if "cache_version" in username.co_agent_frontend_security or "admin" in username.co_agent_frontend_security or "send_notification" in username.co_agent_frontend_security %}
@@ -120,7 +122,8 @@
             <div class="col-lg-9">
                 <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {% if "edit_appearance" in username.co_agent_frontend_security %}
+                    {% if is_copy_domain == False %}
+                        {% if "edit_appearance" in username.co_agent_frontend_security %}
                     <div id="tab-website" class="main_menu_content current">
                         <div class="row">
                             <div class="col-lg-12">
@@ -1071,9 +1074,9 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
+                        {% endif %}
 
-                    {% if "edit_appearance" in username.co_agent_frontend_security or "create_page" in username.co_agent_frontend_security%}
+                        {% if "edit_appearance" in username.co_agent_frontend_security or "create_page" in username.co_agent_frontend_security%}
                     <div id="tab-information" class="main_menu_content">
                         <div class="row">
                             <div class="col-lg-12">
@@ -1525,9 +1528,9 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
+                        {% endif %}
 
-                    {% if "edit_appearance" in username.co_agent_frontend_security %}
+                        {% if "edit_appearance" in username.co_agent_frontend_security %}
                     <div id="tab-product" class="main_menu_content">
                         <button type="button" class="accordion" data-tab="tab-product">
                             <div style="display:inline-flex">
@@ -2093,6 +2096,7 @@
                             </div>
                         </div>
                     </div>
+                        {% endif %}
                     {% endif %}
                     <div id="tab-system" class="main_menu_content">
                         {% if "cache_version" in username.co_agent_frontend_security %}
@@ -2130,6 +2134,7 @@
                             </div>
                         </div>
 
+                            {% if is_copy_domain == False %}
                         <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-database" style="padding-top:5px;font-size:18px;"></i>
@@ -2383,9 +2388,11 @@
                                 </div>
                             </div>
                         </div>
+                            {% endif %}
                         {% endif %}
 
-                        {% if "admin" in username.co_agent_frontend_security %}
+                        {% if is_copy_domain == False %}
+                            {% if "admin" in username.co_agent_frontend_security %}
                         <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-server" style="padding-top:5px;font-size:18px;"></i>
@@ -2425,9 +2432,9 @@
                                 </div>
                             </div>
                         </div>
-                        {% endif %}
+                            {% endif %}
 
-                        {% if "send_notification" in username.co_agent_frontend_security %}
+                            {% if "send_notification" in username.co_agent_frontend_security %}
                         <button type="button" class="accordion" data-tab="tab-system">
                             <div style="display:inline-flex">
                                 <i class="fas fa-envelope" style="padding-top:5px;font-size:18px;"></i>
@@ -2462,6 +2469,7 @@
                                 </div>
                             </div>
                         </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </form>
