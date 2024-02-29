@@ -1208,7 +1208,8 @@ def set_payment_partner(request):
                     if counter != 1:
                         title += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_payment_partner/" + filename
+            domain = get_domain_cache(request)
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + domain + "/image_payment_partner/" + filename
             write_cache(text, "".join(title.split(' ')), request, "payment_partner")
         #replace
         else:
@@ -1233,7 +1234,8 @@ def set_payment_partner(request):
                     if counter != 1:
                         title += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_payment_partner/" + filename
+            domain = get_domain_cache(request)
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + domain + "/image_payment_partner/" + filename
             write_cache(text, "".join(title.split(' ')), request, "payment_partner")
         #check image
         data = os.listdir(path)
@@ -1407,7 +1409,8 @@ def set_about_us(request):
                     if counter != 1:
                         sequence += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_about_us/" + filename
+            domain = get_domain_cache(request)
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + domain + "/image_about_us/" + filename
             write_cache(text, "".join(sequence.split(' ')), request, "about_us")
         #replace
         else:
@@ -1436,7 +1439,8 @@ def set_about_us(request):
                     if counter != 1:
                         sequence += str(counter)
                     break
-            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_about_us/" + filename
+            domain = get_domain_cache(request)
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + domain + "/image_about_us/" + filename
             write_cache(text, "".join(sequence.split(' ')), request, "about_us")
         #check image
         data = os.listdir(path)
@@ -1945,9 +1949,34 @@ def get_user_login(request):
             for pax_type in data_user_account['co_passenger_seq_id']:
                 for idx, data_pax in enumerate(data_user_account['co_passenger_seq_id'][pax_type]):
                     if 'train' in request.POST['url']:
-                        if data_pax.get('birth_date'):
-                            age = relativedelta(now, datetime.strptime(data_pax['birth_date'], '%Y-%m-%d')).years
-                            if age >= 3:
+                        if not data_pax.get('title'):
+                            if data_pax.get('birth_date'):
+                                age = relativedelta(now, datetime.strptime(data_pax['birth_date'], '%Y-%m-%d')).years
+                                if age >= 3:
+                                    if data_pax.get('gender', 'male') == 'male':
+                                        data_pax.update({
+                                            "title": 'MR'
+                                        })
+                                    else:
+                                        if data_pax.get('marital_status', 'single') == 'single':
+                                            data_pax.update({
+                                                "title": 'MS'
+                                            })
+                                        else:
+                                            data_pax.update({
+                                                "title": 'MRS'
+                                            })
+                                else:
+                                    if data_pax.get('gender', 'male') == 'male':
+                                        data_pax.update({
+                                            "title": 'MSTR'
+                                        })
+                                    else:
+                                        data_pax.update({
+                                            "title": 'MISS'
+                                        })
+                            else:
+                                ## NO BIRTH DATE AUTO ADT
                                 if data_pax.get('gender', 'male') == 'male':
                                     data_pax.update({
                                         "title": 'MR'
@@ -1961,35 +1990,36 @@ def get_user_login(request):
                                         data_pax.update({
                                             "title": 'MRS'
                                         })
-                            else:
-                                if data_pax.get('gender', 'male') == 'male':
-                                    data_pax.update({
-                                        "title": 'MSTR'
-                                    })
-                                else:
-                                    data_pax.update({
-                                        "title": 'MISS'
-                                    })
-                        else:
-                            ## NO BIRTH DATE AUTO ADT
-                            if data_pax.get('gender', 'male') == 'male':
-                                data_pax.update({
-                                    "title": 'MR'
-                                })
-                            else:
-                                if data_pax.get('marital_status', 'single') == 'single':
-                                    data_pax.update({
-                                        "title": 'MS'
-                                    })
-                                else:
-                                    data_pax.update({
-                                        "title": 'MRS'
-                                    })
                     else:
                         ## OTHER PRODUCT
-                        if data_pax.get('birth_date'):
-                            age = relativedelta(now, datetime.strptime(data_pax['birth_date'], '%Y-%m-%d')).years
-                            if age >= 11:
+                        if not data_pax.get('title'):
+                            if data_pax.get('birth_date'):
+                                age = relativedelta(now, datetime.strptime(data_pax['birth_date'], '%Y-%m-%d')).years
+                                if age >= 11:
+                                    if data_pax.get('gender', 'male') == 'male':
+                                        data_pax.update({
+                                            "title": 'MR'
+                                        })
+                                    else:
+                                        if data_pax.get('marital_status', 'single') == 'single':
+                                            data_pax.update({
+                                                "title": 'MS'
+                                            })
+                                        else:
+                                            data_pax.update({
+                                                "title": 'MRS'
+                                            })
+                                else:
+                                    if data_pax.get('gender', 'male') == 'male':
+                                        data_pax.update({
+                                            "title": 'MSTR'
+                                        })
+                                    else:
+                                        data_pax.update({
+                                            "title": 'MISS'
+                                        })
+                            else:
+                                ## NO BIRTH DATE AUTO ADT
                                 if data_pax.get('gender', 'male') == 'male':
                                     data_pax.update({
                                         "title": 'MR'
@@ -2003,30 +2033,6 @@ def get_user_login(request):
                                         data_pax.update({
                                             "title": 'MRS'
                                         })
-                            else:
-                                if data_pax.get('gender', 'male') == 'male':
-                                    data_pax.update({
-                                        "title": 'MSTR'
-                                    })
-                                else:
-                                    data_pax.update({
-                                        "title": 'MISS'
-                                    })
-                        else:
-                            ## NO BIRTH DATE AUTO ADT
-                            if data_pax.get('gender', 'male') == 'male':
-                                data_pax.update({
-                                    "title": 'MR'
-                                })
-                            else:
-                                if data_pax.get('marital_status', 'single') == 'single':
-                                    data_pax.update({
-                                        "title": 'MS'
-                                    })
-                                else:
-                                    data_pax.update({
-                                        "title": 'MRS'
-                                    })
     return data_user_account
 
 def get_phone_code(request):

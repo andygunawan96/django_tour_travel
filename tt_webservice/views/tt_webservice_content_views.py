@@ -552,7 +552,7 @@ def youtube_api_check(request):
 def add_banner(request):
     try:
         imgData = []
-
+        domain = get_domain_cache(request)
         for i in request.FILES:
             for img in request.FILES.getlist(i):
                 if i not in ['fileToUpload', 'fileBackgroundLogin', 'fileBackgroundHome', 'fileBackgroundSearch', 'filelogoicon', 'fileRegistrationBanner', 'image_carousel'] and 'live_chat' not in i:
@@ -561,7 +561,7 @@ def add_banner(request):
                         'file_reference': img.name,
                         'file': base64.b64encode(img.file.read()).decode('ascii'),
                         'type': i,
-                        'domain': request.POST['domain']
+                        'domain': domain
                     })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -600,9 +600,10 @@ def get_banner(request):
             "action": "get_banner",
             "signature": request.POST['signature'],
         }
+        domain = get_domain_cache(request)
         data = {
             'type': request.POST['type'],
-            'domain': request.POST['domain']
+            'domain': domain
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -1253,7 +1254,8 @@ def set_dynamic_page(request):
                 else:
                     title_duplicate_counter += 1
                     trimmed_title_name += str(title_duplicate_counter)
-            text = request.POST['active'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
+            domain = get_domain_cache(request)
+            text = request.POST['active'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + domain + "/image_dynamic/" + filename + '\n' + sequence
             write_cache(text, trimmed_title_name, request, 'page_dynamic')
         #replace page
         else:
@@ -1268,7 +1270,8 @@ def set_dynamic_page(request):
                             text.pop(0) ## image dynamic
                             text.pop(0) ## domain
                             filename = "/".join(text) ## image
-            text = request.POST['active'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + request.META['HTTP_HOST'].split(':')[0] + "/image_dynamic/" + filename + '\n' + sequence
+            domain = get_domain_cache(request)
+            text = request.POST['active'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + domain + "/image_dynamic/" + filename + '\n' + sequence
             write_cache(text, "%s" % request.POST['page_url'], request, 'page_dynamic')
         #check image
         data = os.listdir(path)

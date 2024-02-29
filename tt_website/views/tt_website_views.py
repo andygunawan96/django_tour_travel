@@ -494,6 +494,14 @@ def credential(request):
     })
     return render(request, MODEL_NAME + '/credential_templates.html', values)
 
+def _check_folder_exists(folder_path):
+    if not os.path.exists(folder_path):
+        try:
+            os.mkdir(folder_path)
+        except Exception as e:
+            _logger.error("Can't create folder %s, %s" % (str(e), traceback.format_exc()))
+            raise e
+
 def credential_b2c(request):
     values = get_data_template(request)
     javascript_version = get_javascript_version(request)
@@ -849,7 +857,8 @@ def admin(request):
                         if request.FILES['fileToUpload'].content_type in ['image/jpeg', 'image/png', 'image/png']:
                             file = request.FILES['fileToUpload']
                             filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                            domain = get_domain_cache(request)
+                            text += fs.base_url + domain + '/' + filename
                     elif data_cache.get('logo'):
                         text += data_cache['logo']
                     text += '\n'
@@ -879,7 +888,8 @@ def admin(request):
                         if request.FILES['fileBackgroundHome'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileBackgroundHome']
                             filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                            domain = get_domain_cache(request)
+                            text += fs.base_url + domain + '/' + filename
                     elif data_cache.get('background'):
                         text += data_cache['background']
                     text += '\n'
@@ -890,7 +900,8 @@ def admin(request):
                         if request.FILES['fileBackgroundLogin'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileBackgroundLogin']
                             filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                            domain = get_domain_cache(request)
+                            text += fs.base_url + domain + '/' + filename
                     elif data_cache.get('bg_login'):
                         text += data_cache['bg_login']
                     text += '\n'
@@ -901,7 +912,8 @@ def admin(request):
                         if request.FILES['fileBackgroundSearch'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileBackgroundSearch']
                             filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                            domain = get_domain_cache(request)
+                            text += fs.base_url + domain + '/' + filename
                     elif data_cache.get('bg_search'):
                         text += data_cache['bg_search']
                     text += '\n'
@@ -932,7 +944,8 @@ def admin(request):
                         if request.FILES['filelogoicon'].content_type in ['image/jpeg', 'image/png', 'image/png']:
                             file = request.FILES['filelogoicon']
                             filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                            domain = get_domain_cache(request)
+                            text += fs.base_url + domain + '/' + filename
                     elif data_cache.get('logo_icon'):
                         text += data_cache['logo_icon']
                     text += '\n'
@@ -943,7 +956,8 @@ def admin(request):
                         if request.FILES['fileRegistrationBanner'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileRegistrationBanner']
                             filename = fs.save(file.name, file)
-                            text += fs.base_url + request.META['HTTP_HOST'].split(':')[0] + '/' + filename
+                            domain = get_domain_cache(request)
+                            text += fs.base_url + domain + '/' + filename
                     elif data_cache.get('bg_regis'):
                         text += data_cache['bg_regis']
                     text += '\n'
@@ -1104,7 +1118,8 @@ def admin(request):
                                 if request.FILES['live_chat_image'+str(i)].content_type in ['image/jpeg', 'image/png']:
                                     file = request.FILES['live_chat_image'+str(i)]
                                     filename = fs_live_chat.save(file.name, file)
-                                    filename = fs_live_chat.base_url + request.META['HTTP_HOST'].split(':')[0] + "/live_chat/" + filename
+                                    domain = get_domain_cache(request)
+                                    filename = fs_live_chat.base_url + domain + "/live_chat/" + filename
                             except Exception as e:
                                 _logger.error('no image dynamic page')
 
@@ -1362,6 +1377,12 @@ def admin(request):
         phone_code = sorted(phone_code)
         values = get_data_template(request,'admin')
         values.update(get_credential(request, 'dict'))
+
+        is_copy_domain = False
+        domain = get_domain_cache(request)
+        if domain != request.META['HTTP_HOST'].split(':')[0]:
+            is_copy_domain = True
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
@@ -1380,7 +1401,8 @@ def admin(request):
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'signature': request.session['signature'],
-                'data_font': data_font
+                'data_font': data_font,
+                'is_copy_domain': is_copy_domain
             })
             values.update(get_airline_advance_pax_type(request))
         except Exception as e:
@@ -2810,6 +2832,23 @@ def replace_metacharacter_file_name(file_name, default_name=''):
     if not '.' in new_name:
         new_name = '%s.%s' % (new_name, file_name.split('.')[-1])
     return new_name
+
+def get_domain_cache(request):
+    try:
+        folder_path = "/var/log/django/%s/file_cache/cache_web/domain_copy" % (
+        request.META['HTTP_HOST'].split(':')[0])
+        file = open("%s.txt" % (folder_path), "r")
+        data_domain_cache = file.read()
+        file.close()
+        if data_domain_cache:
+            data_domain_cache = json.loads(data_domain_cache)
+            if data_domain_cache.get('data'):
+                if data_domain_cache['data'].get('domain'):
+                    return data_domain_cache['data']['domain']
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+    return request.META['HTTP_HOST'].split(':')[0]
+
 
 # @api_view(['GET'])
 # def testing(request):

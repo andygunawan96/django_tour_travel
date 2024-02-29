@@ -371,22 +371,11 @@ def re_order_set_passengers(request):
         }
         data_pax_dict_list = {}
         for pax in data_pax:
-            if pax['gender'] == 'male':
-                if pax['pax_type'] in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
-                    title = 'MR'
-                else:
-                    title = 'MSTR'
-            elif pax['gender'] == 'female' and pax['pax_type'] not in ['ADT', 'YCD', 'LBR', 'STU', 'SEA']:
-                title = 'MISS'
-            elif pax['gender'] == 'female' and data_booker['marital_status'] in ['','single']:
-                title = 'MS'
-            else:
-                title = 'MRS'
             data_pax_dict = {
                 "pax_type": pax['pax_type'],
                 "first_name": pax['cust_first_name'],
                 "last_name": pax['cust_last_name'],
-                "title": title,
+                "title": pax['title'],
                 "birth_date": pax['birth_date'],
                 "nationality_name": pax['nationality_name'],
                 "nationality_code": pax['nationality_code'],
