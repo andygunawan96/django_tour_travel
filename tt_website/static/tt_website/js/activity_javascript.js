@@ -2678,9 +2678,9 @@ function sort(activity_dat, check){
                             <div class="single-destination relative">
                                 <div class="row">`;
                                     if(img_src){
-                                        text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: url('`+img_src+`'), url('/static/tt_website/images/no_found/no-image-activity.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')"></div>`;
+                                        text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:175px; background: url('`+img_src+`'), url('/static/tt_website/images/no_found/no-image-activity.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')"></div>`;
                                     }else{
-                                        text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:170px; background: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')"></div>`;
+                                        text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:175px; background: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')"></div>`;
                                     }
                                     text+=`
                                     <div class="col-lg-9 col-md-8">
@@ -2738,20 +2738,20 @@ function sort(activity_dat, check){
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-lg-4 col-md-4" style="text-align:right;">`;
-                                            if(activity_dat[i].activity_price > 0){
-                                                text+=`<span style="font-size:15px;font-weight:bold; color:`+color+`;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`  </span>`;
-                                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_dat[i].activity_price){
-                                                    if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                                        text+=`<br/><span class="span_link" id="estimated_popup_activity`+i+`" style="color:`+color+` !important; font-size:13px;">Estimated <i class="fas fa-coins"></i></span>`;
+                                                if(activity_dat[i].activity_price > 0){
+                                                    text+=`<span style="font-size:15px;font-weight:bold; color:`+color+`;">`+activity_dat[i].currency_code+` `+getrupiah(activity_dat[i].activity_price)+`  </span>`;
+                                                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && activity_dat[i].activity_price){
+                                                        if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                                            text+=`<br/><span class="span_link" id="estimated_popup_activity`+i+`" style="color:`+color+` !important; font-size:13px;">Estimated <i class="fas fa-coins"></i></span>`;
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            else{
-                                                text+=`<span style="font-size:14px;font-weight:bold;">No Estimated Price</span>`;
-                                            }
-
-                                            text+=`
+                                                else{
+                                                    text+=`<span style="font-size:14px;font-weight:bold;">No Estimated Price</span>`;
+                                                }
+                                                text+=`
                                                 <br/><button style="width:100%; margin-top:10px; margin-bottom:15px;" type="button" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>
                                         </div>

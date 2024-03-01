@@ -364,7 +364,12 @@ function get_tour_config(type, val){
             tour_country = [];
             sub_category = {};
             var tour_search_template = msg.tour_search_template;
+
             var country_selection = document.getElementById('tour_countries');
+            var city_selection = document.getElementById('tour_cities');
+            var month_selection = document.getElementById('tour_dest_month');
+            var year_selection = document.getElementById('tour_dest_year');
+
             tour_type_list = [{
                 value:'All',
                 real_val: 'all',
@@ -466,19 +471,21 @@ function get_tour_config(type, val){
 
             country_selection.innerHTML = country_txt;
 
-            if(tour_search_template == 'country_search')
-            {
+            if(tour_search_template == 'country_search'){
                 $('input[type=radio][name=tour_countries]').on('change', function() {
                     $('#tour_search_form').submit();
                 });
             }
-            else
-            {
-                if(template == 1 || template == 2 || template == 5){
-                    $('#tour_countries').niceSelect('update');
-                }
+            else{
+                $('#tour_countries').niceSelect('update');
                 country_selection.setAttribute("onchange", "auto_complete_tour('tour_countries');");
+
+                //country_selection.setAttribute("onchange", "auto_complete_text_tour('tour_countries');");
+                city_selection.setAttribute("onchange", "auto_complete_text_tour('tour_cities');");
+                month_selection.setAttribute("onchange", "auto_complete_text_tour('tour_dest_month');");
+                year_selection.setAttribute("onchange", "auto_complete_text_tour('tour_dest_year');");
             }
+
 
             if(type == 'search')
             {
@@ -571,7 +578,7 @@ function tour_search(){
                text = '';
                var node = document.createElement("div");
                text+=`
-               <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+               <div class="div_box_default">
                    <span style="font-weight:bold; font-size:14px;"> Tour - `+tour_data.length+` results</span>
                </div>`;
                node.innerHTML = text;
@@ -583,16 +590,17 @@ function tour_search(){
                    content_pop_question = '';
                    content_pop_flight = '';
                    title_pop_date = '';
-                   content_pop_question+=`<b>`+tour_data[i].tour_type.name+`: </b>`+tour_data[i].tour_type.description;
+                   content_pop_question+=`<b>`+tour_data[i].tour_type.name+`</b><br/>`+tour_data[i].tour_type.description;
 
                     new jBox('Tooltip', {
                         attach: '#pop_question'+i,
-                        width: 280,
+                        maxWidth: 280,
                         closeOnMouseleave: true,
                         animation: 'zoomIn',
                         content: content_pop_question
                     });
 
+                    console.log(tour_data[i]);
                     if(tour_data[i].tour_line_amount != 0){
                         for (j in tour_data[i].tour_lines){
                             sch_count = parseInt(j)+1;
@@ -603,7 +611,7 @@ function tour_search(){
                                 content_pop_date += `<h6>Period - `+sch_count+`</h6>`;
                                 title_pop_date += 'Period Date';
                             }
-                            content_pop_date += `<span>`+tour_data[i].tour_lines[j].departure_date_str+` - `+tour_data[i].tour_lines[j].arrival_date_str+`</span><hr/>`;
+                            content_pop_date += `<span>`+tour_data[i].tour_lines[j].departure_date_str+` - `+tour_data[i].tour_lines[j].arrival_date_str+`</span><br/>`;
                         }
 
                         new jBox('Tooltip', {
@@ -624,19 +632,24 @@ function tour_search(){
                             offset: {
                               x: 25
                             },
-                            content: content_pop_date,
-                            onOpen: function () {
-                              this.source.addClass('active').html('Close');
-                            },
-                            onClose: function () {
-                              this.source.removeClass('active').html('See Date');
-                            }
+                            content: content_pop_date
                         });
                     }
 
                     if(tour_data[i].flight_carriers.length > 0){
                         for (j in tour_data[i].flight_carriers){
-                            content_pop_flight += `<span><img src="`+static_path_url_server+`/public/airline_logo/`+tour_data[i].flight_carriers[j].code+`.png"/> `+tour_data[i].flight_carriers[j].name+`</span><hr/>`;
+                            content_pop_flight += `
+                            <div style="display:inline-flex; margin-bottom:10px;">
+                                <div style="display:inline-block;">
+                                    <img class="airlines_provider_img_detail" alt="`+tour_data[i].flight_carriers[j].name+`" title="`+tour_data[i].flight_carriers[j].name+`" src="`+static_path_url_server+`/public/airline_logo/`+tour_data[i].flight_carriers[j].code+`.png"/>
+                                </div>
+                                <div style="display:inline-block;">
+                                    <div style="display:grid;">
+                                        <span>`+tour_data[i].flight_carriers[j].name+`</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>`;
                         }
 
                         new jBox('Tooltip', {
@@ -657,15 +670,48 @@ function tour_search(){
                             offset: {
                               x: 25
                             },
-                            content: content_pop_flight,
-                            onOpen: function () {
-                              this.source.addClass('active').html('Close');
-                            },
-                            onClose: function () {
-                              this.source.removeClass('active').html('<i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info');
-                            }
+                            content: content_pop_flight
                         });
                     }
+
+                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && tour_data[i].est_starting_price){
+                        if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                            content_pop_estimated = '';
+                            for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                try{
+                                    if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == tour_data[i].currency_code){
+                                        price_convert = (parseFloat(tour_data[i].est_starting_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                        if(price_convert%1 == 0)
+                                            price_convert = parseInt(price_convert);
+                                        content_pop_estimated+=`<span style="font-size:16px;font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>`;
+                                    }
+                                }catch(err){
+                                    console.log(err);
+                                }
+                            }
+                            new jBox('Tooltip', {
+                                attach: '#estimated_popup_tour'+i,
+                                target: '#estimated_popup_tour'+i,
+                                theme: 'TooltipBorder',
+                                trigger: 'click',
+                                adjustTracker: true,
+                                closeOnClick: 'body',
+                                closeButton: 'box',
+                                animation: 'move',
+                                position: {
+                                  x: 'left',
+                                  y: 'top'
+                                },
+                                outside: 'y',
+                                pointer: 'left:20',
+                                offset: {
+                                  x: 25
+                                },
+                                content: content_pop_estimated,
+                            });
+                        }
+                    }
+
                }
 
                if(msg.result.response.length != 0)
@@ -720,75 +766,100 @@ function tour_get_details(tour_code){
                 {
                     prod_date_text += selected_tour_date;
                 }
+
+                //herehere
                 country_text += `
-                <div style="display:flex; margin-top:4px; margin-bottom:4px;">
-                    <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
-                    if(tour_data.tour_type.is_open_date){
-                        country_text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_data.tour_type_str+`</span>`;
-                    }else{
-                        country_text+=tour_data.tour_type_str;
-                    }
+                <div class="row">
+                    <div class="col-lg-7">
+                        <span> <i class="fa fa-map-marker-alt" aria-hidden="true"></i>`;
+                        for (j in tour_data.country_names)
+                        {
+                            country_text += ` ` + tour_data.country_names[j];
+                            if(j != tour_data.country_names.length-1){
+                                country_text += ` |`;
+                            }
+                        }
+                        country_text += `</span>`;
+                        if (tour_data.duration)
+                        {
+                            country_text += `<br/><span><i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data.duration + ` Days</span>`;
+                        }
+                        content_pop_question+=`<b>`+tour_data.tour_type.name+`</b><br/>`+tour_data.tour_type.description;
+                        country_text += `
+                        <div style="margin-top:10px; margin-bottom:15px;">
+                            <span id="pop_question" style="border:1px solid #389514; color:#389514; font-weight:bold; padding:5px 10px; border-radius:5px; cursor:pointer;">
+                                `+tour_data.tour_type_str+` <i class="fas fa-question-circle" style="font-size:16px;"></i>
+                            </span>
+                        </div>
+                    </div>`;
 
-                content_pop_question+=`<b>`+tour_data.tour_type.name+`: </b>`+tour_data.tour_type.description;
+                    country_text += `
+                    <div class="col-lg-5" style="text-align:right; margin:auto;">
+                        <span style="font-size:14px; color:#616161;">Starting From</span><br/>
+                        <b style="color:`+color+`; font-size:16px;">`+tour_data.currency_code+` ` + getrupiah(tour_data.est_starting_price) + `</b><br/>
+                        <button type="button" class="primary-btn" onclick="go_to_room_div();">Book Now</button>
+                    </div>`;
 
-                country_text+=`
+                    country_text += `
+                    <div class="col-lg-6">
+                        <div class="div_box_default" style="background:aliceblue; margin-top:15px; height:170px; overflow:auto;">`;
+                        if (tour_data.description){
+                            country_text += `
+                            <h4>Description</h4>
+                            <div style="padding-top:15px; height:105px; display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; line-height: 1.8em; font-size:13px;">
+                                <span>`+tour_data.description+`</span>
+                            </div>`;
+                        }else{
+                            country_text += `
+                            <i class="fas fa-ban" style="color:red;"></i>
+                            <span style="font-weight:500; font-size:14px;">No description.</span>`;
+                        }
+                        country_text += `
+                        </div>
+                    </div>`;
+
+//                if (tour_data.child_sale_price > 0)
+//                {
+//                    country_text += `<span> | Child `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.child_sale_price) + `</b></span>`;
+//                }
+//                if (tour_data.infant_sale_price > 0)
+//                {
+//                    country_text += `<span> | Infant `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;">` + getrupiah(tour_data.infant_sale_price) + `</b></span>`;
+//                }
+
+                    country_text += `
+                    <div class="col-lg-6">
+                        <div class="div_box_default" style="background:aliceblue; margin-top:15px; height:170px; overflow:auto;">
+                            <h4>Accommodations</h4>
+                            <div style="padding-top:15px; height:105px; display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; line-height: 1.8em; font-size:13px;">`;
+                                idx = 1
+                                for (k in tour_data.hotel_names)
+                                {
+                                    country_text += `<span>` + String(idx) + `. ` + tour_data.hotel_names[k] + `</span>`;
+                                    idx += 1;
+                                }
+                                country_text += `
+                            </div>
+                        </div>
                     </div>
-                    <span id="pop_question" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>`;
-                    if (tour_data.duration)
-                    {
-                        country_text += `<span> | <i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data.duration + ` Days</span>`;
-                    }
-                country_text+=`</div>`;
-                country_text += `<span> <i class="fa fa-map-marker-alt" aria-hidden="true"></i>`;
-                for (j in tour_data.country_names)
-                {
-                    country_text += ` ` + tour_data.country_names[j];
-                    if(j != tour_data.country_names.length-1){
-                        country_text += ` |`;
-                    }
-                }
-                country_text += `</span>`;
+                </div>`;
 
-                country_text += `<div style="background:#dbdbdb; margin-bottom:5px; margin-top:5px; padding:10px;"><span><i class="fa fa-tag" aria-hidden="true"></i> Starting From `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.est_starting_price) + `</b></span>`;
-                if (tour_data.child_sale_price > 0)
-                {
-                    country_text += `<span> | Child `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.child_sale_price) + `</b></span>`;
-                }
-                if (tour_data.infant_sale_price > 0)
-                {
-                    country_text += `<span> | Infant `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;">` + getrupiah(tour_data.infant_sale_price) + `</b></span>`;
-                }
-
-                country_text += `</div>`;
-
-                if (tour_data.description)
-                {
-                    country_text += `<div style="max-height:100px; overflow:auto; padding:15px; margin-top:10px;margin-bottom:5px; border:1px solid #cdcdcd;"><span style="font-weight:600;">Description</span><br/>`;
-                    country_text += `<span>`+tour_data.description+`</span></div>`;
-                }else{
-                    country_text += ``;
-                }
-                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Accommodation(s) :</span>`;
-                idx = 1
-                for (k in tour_data.hotel_names)
-                {
-                    country_text += `<br/><span>` + String(idx) + `. ` + tour_data.hotel_names[k] + `</span>`;
-                    idx += 1;
-                }
                 if (tour_data.document_url)
                 {
-                    print_doc_text += `<div class="mb-3" style="text-align:right;">
-                                         <button class="primary-btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" onclick="window.location.href='`+tour_data.document_url+`'" target="_blank">
-                                             <i class="fa fa-print" aria-hidden="true"></i> Download Document
-                                         </button>
-                                     </div>`;
+                    print_doc_text += `
+                    <div class="mt-3 mb-3" style="text-align:left;">
+                         <button class="primary-btn btn-tour btn-chgsearch" style="border-radius:5px; border: 1px solid #ddd;" onclick="window.location.href='`+tour_data.document_url+`'" target="_blank">
+                             <i class="fa fa-print" aria-hidden="true"></i> Download Document
+                         </button>
+                     </div>`;
                 }
+
 
                 image_text += `<div class="owl-carousel-tour-img owl-theme">`;
                 for (j in tour_data.images_obj)
                 {
                     image_text +=`
-                    <div class="item" style="float:none; height:360px; display: flex; justify-content: center; align-items: center;">
+                    <div class="item" style="float:none; height:375px; display: flex; justify-content: center; align-items: center;">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <img class="img-fluid zoom-img" src="`+tour_data.images_obj[j].url+`" alt="Tour">
@@ -799,7 +870,7 @@ function tour_get_details(tour_code){
                 if (tour_data.images_obj.length == 0)
                 {
                     image_text += `
-                    <div class="item" style="float:none; height:360px; display: flex; justify-content: center; align-items: center;">
+                    <div class="item" style="float:none; height:375px; display: flex; justify-content: center; align-items: center;">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <img class="img-fluid zoom-img" src="`+static_path_url_server+`/public/tour_packages/not_found.png" alt="Not Found Tour">
@@ -810,100 +881,107 @@ function tour_get_details(tour_code){
                 image_text += `</div>`;
 
                 itinerary_text += `<div class="row">`;
-                for (it_idx in tour_data.itinerary_ids)
-                {
+                for (it_idx in tour_data.itinerary_ids){
                     itinerary_text += `
                     <div class="col-lg-12" style="margin-bottom:10px;">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h6 style="border:1px solid #cdcdcd; padding:10px; background:`+color+`; cursor:pointer; overflow-y: hidden; color:`+text_color+`" onclick="show_hide_itinerary_tour(`+it_idx+`)">
-                                    Day `+tour_data.itinerary_ids[it_idx].day+`</span>`;
-                                    if(tour_data.itinerary_ids[it_idx].name)
-                                        itinerary_text+=` - `+tour_data.itinerary_ids[it_idx].name;
-                                    itinerary_text += `
-                                    <i class="fas fa-chevron-up" id="itinerary_day`+it_idx+`_down" style="float:right; color:`+text_color+`; display:none;"></i>
-                                    <i class="fas fa-chevron-down" id="itinerary_day`+it_idx+`_up" style="float:right; color:`+text_color+`; display:inline-block;"></i>
-                                </h6>
-                            </div>
-                            <div class="col-lg-12" style="display:block;" id="div_itinerary_day`+it_idx+`">
-                                <div style="border-width:0px 1px 1px 1px; border-style: solid; border-color:#cdcdcd; padding:15px 15px 0px 15px;">
-                                    <div class="row row_itinerary_tour">`;
-                                    for(it_item in tour_data.itinerary_ids[it_idx].items)
-                                    {
-                                        itinerary_text += `<div class="col-lg-3">`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
-                                            itinerary_text += `<h5><i class="fas fa-angle-right" style="color:`+color+`;"></i> `+tour_data.itinerary_ids[it_idx].items[it_item].timeslot+`</h5>`;
-                                        }
-                                        itinerary_text += `</div>
-                                        <div class="col-lg-9" style="padding-bottom:15px;">`;
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].name)
-                                            itinerary_text += `
-                                            <h5>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</h5>`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].description){
-                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                                itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-size: 13px;">`;
-                                            else
-                                                itinerary_text += `<span style="font-size: 13px;">`;
-                                            if(tour_data.itinerary_ids[it_idx].items[it_item].description)
-                                                itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
-                                            else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                                itinerary_text += 'Description';
-                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                                itinerary_text += `</a><br/>`;
-                                            else
-                                                itinerary_text += `</span><br/>`;
-                                        }
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].image){
-                                            itinerary_text += `
-                                            <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</span>
-                                            <img id="image_itinerary`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
-                                        }
+                        <div class="div_box_default">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h6 style="overflow-y: hidden; cursor:pointer;" onclick="show_hide_itinerary_tour(`+it_idx+`)">
+                                        Day `+tour_data.itinerary_ids[it_idx].day+`</span>`;
+                                        if(tour_data.itinerary_ids[it_idx].name)
+                                            itinerary_text+=` - `+tour_data.itinerary_ids[it_idx].name;
+                                        itinerary_text += `
+                                        <i class="fas fa-chevron-up" id="itinerary_day`+it_idx+`_down" style="float:right; color:`+color+`; display:none;"></i>
+                                        <i class="fas fa-chevron-down" id="itinerary_day`+it_idx+`_up" style="float:right; color:`+color+`; display:inline-block;"></i>
+                                    </h6>
+                                </div>
+                                <div class="col-lg-12" style="display:block; border-top:1px solid #cdcdcd; margin-top:15px;" id="div_itinerary_day`+it_idx+`">
+                                    <div style="border-width:0px 1px 1px 1px; border-style: solid; border-color:#cdcdcd; padding:15px 15px 0px 15px;">
+                                        <div class="row row_itinerary_tour">`;
+                                        for(it_item in tour_data.itinerary_ids[it_idx].items)
+                                        {
+                                            itinerary_text += `<div class="col-lg-3">`;
+                                            if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
+                                                itinerary_text += `<h5><i class="fas fa-angle-right" style="color:`+color+`;"></i> `+tour_data.itinerary_ids[it_idx].items[it_item].timeslot+`</h5>`;
+                                            }
+                                            if (tour_data.itinerary_ids[it_idx].items[it_item].image){
+                                                itinerary_text += `
+                                                <img id="image_itinerary`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+                                            }
+                                            itinerary_text += `</div>
+                                            <div class="col-lg-9" style="padding-bottom:15px;">`;
+                                            if(tour_data.itinerary_ids[it_idx].items[it_item].name)
+                                                itinerary_text += `
+                                                <h5>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</h5>`;
+                                            if (tour_data.itinerary_ids[it_idx].items[it_item].description){
+                                                if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                    itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-size: 13px;">`;
+                                                else
+                                                    itinerary_text += `<span style="font-size: 13px;">`;
+                                                if(tour_data.itinerary_ids[it_idx].items[it_item].description)
+                                                    itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
+                                                else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                    itinerary_text += 'Description';
+                                                if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                    itinerary_text += `</a><br/>`;
+                                                else
+                                                    itinerary_text += `</span><br/>`;
+                                            }
+//                                            if (tour_data.itinerary_ids[it_idx].items[it_item].image){
+//                                                itinerary_text += `
+//                                                <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</span>
+//                                                <img id="image_itinerary`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+//                                            }
 
+                                            itinerary_text += `</div>`;
+                                        }
                                         itinerary_text += `</div>`;
-                                    }
-                                    itinerary_text += `
+
+//                                        itinerary_text += `
+//                                        <ul class="eventstep step_itinerary_tour" style="margin: 0px 15px 15px 15px;">`;
+//                                        for(it_item in tour_data.itinerary_ids[it_idx].items)
+//                                        {
+//                                            itinerary_text += `
+//                                            <li>
+//                                                <time>`;
+//                                                    if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
+//                                                        itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].timeslot;
+//                                                    }
+//                                            itinerary_text += `
+//                                                </time>
+//                                                <span>`;
+//                                            if(tour_data.itinerary_ids[it_idx].items[it_item].name)
+//                                                itinerary_text +=`
+//                                                <strong>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</strong>`;
+//                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+//                                                itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`">`;
+//                                            else
+//                                                itinerary_text += `<span>`;
+//                                            if (tour_data.itinerary_ids[it_idx].items[it_item].description){
+//                                                itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
+//                                            }else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+//                                                itinerary_text += 'Description'
+//                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+//                                                itinerary_text += `</a>`;
+//                                            else
+//                                                itinerary_text += `</span>`;
+//                                            if (tour_data.itinerary_ids[it_idx].items[it_item].image){
+//                                                itinerary_text += `
+//                                                <br/>
+//                                                <label id="show_image_itinerary2`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</label>
+//                                                <img id="image_itinerary2`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+//                                            }
+//
+//                                            itinerary_text += `
+//                                                </span>
+//                                            </li>`;
+//                                        }
+//                                        itinerary_text += `
+//                                        </ul>`;
+
+                                        itinerary_text += `
                                     </div>
-
-                                    <ul class="eventstep step_itinerary_tour" style="margin: 0px 15px 15px 15px;">`;
-                                    for(it_item in tour_data.itinerary_ids[it_idx].items)
-                                    {
-                                        itinerary_text += `
-                                        <li>
-                                            <time>`;
-                                                if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
-                                                    itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].timeslot;
-                                                }
-                                        itinerary_text += `
-                                            </time>
-                                            <span>`;
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].name)
-                                            itinerary_text +=`
-                                            <strong>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</strong>`;
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`">`;
-                                        else
-                                            itinerary_text += `<span>`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].description){
-                                            itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
-                                        }else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text += 'Description'
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text += `</a>`;
-                                        else
-                                            itinerary_text += `</span>`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].image){
-                                            itinerary_text += `
-                                            <br/>
-                                            <label id="show_image_itinerary2`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</label>
-                                            <img id="image_itinerary2`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
-                                        }
-
-                                        itinerary_text += `
-                                            </span>
-                                        </li>`;
-                                    }
-                                    itinerary_text += `
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -1091,10 +1169,10 @@ function tour_get_details(tour_code){
                     lazyLoad:true,
                     merge: false,
                     smartSpeed:500,
-                    autoplay: true,
+                    autoplay: false,
                     autoplayTimeout:6000,
                     autoplayHoverPause:false,
-                    navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+                    navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                     responsive:{
                         0:{
                             items:1,
@@ -1102,7 +1180,7 @@ function tour_get_details(tour_code){
                         },
                         600:{
                             items:1,
-                            nav:false
+                            nav:true
                         },
                         1000:{
                             items:1,
@@ -1164,82 +1242,106 @@ function tour_get_details_by_slug(tour_slug){
            var index = 0;
            var total_additional_price = 0;
            var total_additional_amount = 0;
-           data=[]
+           data=[];
            if(msg.result.error_code == 0){
-               tour_data = msg.result.response.selected_tour;
-               content_pop_question = '';
-                if (selected_tour_date)
-                {
+                tour_data = msg.result.response.selected_tour;
+                content_pop_question = '';
+                if (selected_tour_date){
                     prod_date_text += selected_tour_date;
                 }
+
+                //herehere
                 country_text += `
-                <div style="display:flex; margin-top:4px; margin-bottom:4px;">
-                    <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
-                    if(tour_data.tour_type.is_open_date){
-                        country_text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_data.tour_type_str+`</span>`;
-                    }else{
-                        country_text+=tour_data.tour_type_str;
-                    }
-                content_pop_question+=`<b>`+tour_data.tour_type.name+`: </b>`+tour_data.tour_type.description;
+                <div class="row">
+                    <div class="col-lg-7">
+                        <span> <i class="fa fa-map-marker-alt" aria-hidden="true"></i>`;
+                        for (j in tour_data.country_names)
+                        {
+                            country_text += ` ` + tour_data.country_names[j];
+                            if(j != tour_data.country_names.length-1){
+                                country_text += ` |`;
+                            }
+                        }
+                        country_text += `</span>`;
+                        if (tour_data.duration)
+                        {
+                            country_text += `<br/><span><i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data.duration + ` Days</span>`;
+                        }
+                        content_pop_question+=`<b>`+tour_data.tour_type.name+`</b><br/>`+tour_data.tour_type.description;
+                        country_text += `
+                        <div style="margin-top:10px; margin-bottom:15px;">
+                            <span id="pop_question" style="border:1px solid #389514; color:#389514; font-weight:bold; padding:5px 10px; border-radius:5px; cursor:pointer;">
+                                `+tour_data.tour_type_str+` <i class="fas fa-question-circle" style="font-size:16px;"></i>
+                            </span>
+                        </div>
+                    </div>`;
 
-                country_text+=`
+                    country_text += `
+                    <div class="col-lg-5" style="text-align:right; margin:auto;">
+                        <span style="font-size:14px; color:#616161;">Starting From</span><br/>
+                        <b style="color:`+color+`; font-size:16px;">`+tour_data.currency_code+` ` + getrupiah(tour_data.est_starting_price) + `</b><br/>
+                        <button type="button" class="primary-btn" onclick="go_to_package_div();">Book Now</button>
+                    </div>`;
+
+                    country_text += `
+                    <div class="col-lg-6">
+                        <div class="div_box_default" style="background:aliceblue; margin-top:15px; height:170px; overflow:auto;">`;
+                        if (tour_data.description){
+                            country_text += `
+                            <h4>Description</h4>
+                            <div style="padding-top:15px; height:105px; display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; line-height: 1.8em; font-size:13px;">
+                                <span>`+tour_data.description+`</span>
+                            </div>`;
+                        }else{
+                            country_text += `
+                            <i class="fas fa-ban" style="color:red;"></i>
+                            <span style="font-weight:500; font-size:14px;">No description.</span>`;
+                        }
+                        country_text += `
+                        </div>
+                    </div>`;
+
+//                if (tour_data.child_sale_price > 0)
+//                {
+//                    country_text += `<span> | Child `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.child_sale_price) + `</b></span>`;
+//                }
+//                if (tour_data.infant_sale_price > 0)
+//                {
+//                    country_text += `<span> | Infant `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;">` + getrupiah(tour_data.infant_sale_price) + `</b></span>`;
+//                }
+
+                    country_text += `
+                    <div class="col-lg-6">
+                        <div class="div_box_default" style="background:aliceblue; margin-top:15px; height:170px; overflow:auto;">
+                            <h4>Accommodations</h4>
+                            <div style="padding-top:15px; height:105px; display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; line-height: 1.8em; font-size:13px;">`;
+                                idx = 1
+                                for (k in tour_data.hotel_names)
+                                {
+                                    country_text += `<span>` + String(idx) + `. ` + tour_data.hotel_names[k] + `</span>`;
+                                    idx += 1;
+                                }
+                                country_text += `
+                            </div>
+                        </div>
                     </div>
-                    <span id="pop_question" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>`;
-                    if (tour_data.duration)
-                    {
-                        country_text += `<span> | <i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data.duration + ` Days</span>`;
-                    }
-                country_text+=`</div>`;
-                country_text += `<span> <i class="fa fa-map-marker-alt" aria-hidden="true"></i>`;
-                for (j in tour_data.country_names)
-                {
-                    country_text += ` ` + tour_data.country_names[j];
-                    if(j != tour_data.country_names.length-1){
-                        country_text += ` |`;
-                    }
-                }
-                country_text += `</span>`;
+                </div>`;
 
-                country_text += `<div style="background:#dbdbdb; margin-bottom:5px; margin-top:5px; padding:10px;"><span><i class="fa fa-tag" aria-hidden="true"></i> Starting From `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.est_starting_price) + `</b></span>`;
-                if (tour_data.child_sale_price > 0)
-                {
-                    country_text += `<span> | Child `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;"> ` + getrupiah(tour_data.child_sale_price) + `</b></span>`;
-                }
-                if (tour_data.infant_sale_price > 0)
-                {
-                    country_text += `<span> | Infant `+tour_data.currency_code+` <b style="color:`+color+`; font-size:14px;">` + getrupiah(tour_data.infant_sale_price) + `</b></span>`;
-                }
-
-                country_text += `</div>`;
-
-                if (tour_data.description)
-                {
-                    country_text += `<div style="max-height:100px; overflow:auto; padding:15px; margin-top:10px;margin-bottom:5px; border:1px solid #cdcdcd;"><span style="font-weight:600;">Description</span><br/>`;
-                    country_text += `<span>`+tour_data.description+`</span></div>`;
-                }else{
-                    country_text += ``;
-                }
-                country_text += `<span><i class="fa fa-hotel" aria-hidden="true"></i> Accommodation(s) :</span>`;
-                idx = 1
-                for (k in tour_data.hotel_names)
-                {
-                    country_text += `<br/><span>` + String(idx) + `. ` + tour_data.hotel_names[k] + `</span>`;
-                    idx += 1;
-                }
                 if (tour_data.document_url)
                 {
-                    print_doc_text += `<div class="mb-3" style="text-align:right;">
-                                         <button class="primary-btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" onclick="window.location.href='`+tour_data.document_url+`'" target="_blank">
-                                             <i class="fa fa-print" aria-hidden="true"></i> Download Document
-                                         </button>
-                                     </div>`;
+                    print_doc_text += `
+                    <div class="mt-3 mb-3" style="text-align:left;">
+                         <button class="primary-btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" onclick="window.location.href='`+tour_data.document_url+`'" target="_blank">
+                             <i class="fa fa-print" aria-hidden="true"></i> Download Document
+                         </button>
+                     </div>`;
                 }
 
                 image_text += `<div class="owl-carousel-tour-img owl-theme">`;
                 for (j in tour_data.images_obj)
                 {
                     image_text +=`
-                    <div class="item" style="float:none; height:360px; display: flex; justify-content: center; align-items: center;">
+                    <div class="item" style="float:none; height:375px; display: flex; justify-content: center; align-items: center;">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <img class="img-fluid zoom-img" src="`+tour_data.images_obj[j].url+`" alt="Tour">
@@ -1250,7 +1352,7 @@ function tour_get_details_by_slug(tour_slug){
                 if (tour_data.images_obj.length == 0)
                 {
                     image_text += `
-                    <div class="item" style="float:none; height:360px; display: flex; justify-content: center; align-items: center;">
+                    <div class="item" style="float:none; height:375px; display: flex; justify-content: center; align-items: center;">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <img class="img-fluid zoom-img" src="`+static_path_url_server+`/public/tour_packages/not_found.png" alt="Not Found Tour">
@@ -1261,100 +1363,115 @@ function tour_get_details_by_slug(tour_slug){
                 image_text += `</div>`;
 
                 itinerary_text += `<div class="row">`;
-                for (it_idx in tour_data.itinerary_ids)
-                {
+                for (it_idx in tour_data.itinerary_ids){
                     itinerary_text += `
-                    <div class="col-lg-12" style="margin-bottom:10px;">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h6 style="border:1px solid #cdcdcd; padding:10px; background:`+color+`; cursor:pointer; overflow-y: hidden; color:`+text_color+`" onclick="show_hide_itinerary_tour(`+it_idx+`)">
-                                    Day `+tour_data.itinerary_ids[it_idx].day+`</span>`;
-                                    if(tour_data.itinerary_ids[it_idx].name)
-                                        itinerary_text+=` - `+tour_data.itinerary_ids[it_idx].name;
-                                    itinerary_text += `
-                                    <i class="fas fa-chevron-up" id="itinerary_day`+it_idx+`_down" style="float:right; color:`+text_color+`; display:none;"></i>
-                                    <i class="fas fa-chevron-down" id="itinerary_day`+it_idx+`_up" style="float:right; color:`+text_color+`; display:inline-block;"></i>
-                                </h6>
-                            </div>
-                            <div class="col-lg-12" style="display:block;" id="div_itinerary_day`+it_idx+`">
-                                <div style="border-width:0px 1px 1px 1px; border-style: solid; border-color:#cdcdcd; padding:15px 15px 0px 15px;">
-                                    <div class="row row_itinerary_tour">`;
-                                    for(it_item in tour_data.itinerary_ids[it_idx].items)
-                                    {
-                                        itinerary_text += `<div class="col-lg-3">`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
-                                            itinerary_text += `<h5><i class="fas fa-angle-right" style="color:`+color+`;"></i> `+tour_data.itinerary_ids[it_idx].items[it_item].timeslot+`</h5>`;
-                                        }
-                                        itinerary_text += `</div>
-                                        <div class="col-lg-9" style="padding-bottom:15px;">`;
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].name)
-                                            itinerary_text += `
-                                            <h5>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</h5>`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].description){
-                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                                itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-size: 13px;">`;
-                                            else
+                    <div class="col-lg-12" style="margin-bottom:15px;">
+                        <div class="div_box_default">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h6 style="overflow-y: hidden; cursor:pointer;" onclick="show_hide_itinerary_tour(`+it_idx+`)">
+                                        Day `+tour_data.itinerary_ids[it_idx].day+`</span>`;
+                                        if(tour_data.itinerary_ids[it_idx].name)
+                                            itinerary_text+=` - `+tour_data.itinerary_ids[it_idx].name;
+                                        itinerary_text += `
+                                        <i class="fas fa-chevron-up" id="itinerary_day`+it_idx+`_down" style="float:right; color:`+color+`; display:none;"></i>
+                                        <i class="fas fa-chevron-down" id="itinerary_day`+it_idx+`_up" style="float:right; color:`+color+`; display:inline-block;"></i>
+                                    </h6>
+                                </div>
+                                <div class="col-lg-12" style="display:none; border-top:1px solid #cdcdcd; margin-top:15px;" id="div_itinerary_day`+it_idx+`">
+                                    <div style="padding:15px 15px 0px 15px;">`;
+                                        for(it_item in tour_data.itinerary_ids[it_idx].items)
+                                        {
+                                            itinerary_text += `<div class="row mb-3">`;
+                                            if (tour_data.itinerary_ids[it_idx].items[it_item].image){
+                                                itinerary_text += `<div class="col-lg-3 thumb relative" style="cursor:pointer; border-radius:5px; border:1px solid #cdcdcd; height:175px; background: url('`+tour_data.itinerary_ids[it_idx].items[it_item].image+`'), url('/static/tt_website/images/no_found/no-image-tour.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">`;
+                                            }else{
+                                                itinerary_text += `<div class="col-lg-3 thumb relative" style="cursor:pointer; border-radius:5px; border:1px solid #cdcdcd; height:175px; background: url('/static/tt_website/images/no_found/no-image-tour.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">`;
+                                            }
+                                            itinerary_text += `</div>
+                                            <div class="col-lg-9" style="padding-bottom:15px;">`;
+                                            if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
+                                                itinerary_text += `
+                                                <h4>
+                                                    `+tour_data.itinerary_ids[it_idx].items[it_item].timeslot+`
+                                                </h4>`;
+                                            }
+                                            itinerary_text += `<h5 style="margin-bottom:10px;">`;
+                                            if(tour_data.itinerary_ids[it_idx].items[it_item].name){
+                                                itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].name;
+                                            }
+                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink){
+                                                itinerary_text += `
+                                                <a style="width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-size: 13px;">
+                                                    <i class="fas fa-external-link-alt" style="color:`+color+`; padding-left:5px; font-size:18px;"><span style="font-size:13px;">open</span></i>
+                                                </a>`;
+                                            }
+                                            itinerary_text += `</h5>`;
+                                            if (tour_data.itinerary_ids[it_idx].items[it_item].description){
                                                 itinerary_text += `<span style="font-size: 13px;">`;
-                                            if(tour_data.itinerary_ids[it_idx].items[it_item].description)
-                                                itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
-                                            else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                                itinerary_text += 'Description';
-                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                                itinerary_text += `</a><br/>`;
-                                            else
-                                                itinerary_text += `</span><br/>`;
-                                        }
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].image){
-                                            itinerary_text += `
-                                            <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</span>
-                                            <img id="image_itinerary`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+                                                if(tour_data.itinerary_ids[it_idx].items[it_item].description)
+                                                    itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
+                                                else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                    itinerary_text += 'Description';
+                                                if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                    itinerary_text += `<br/>`;
+                                                else
+                                                    itinerary_text += `</span><br/>`;
+                                            }
+//                                            if (tour_data.itinerary_ids[it_idx].items[it_item].image){
+//                                                itinerary_text += `
+//                                                <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</span>
+//                                                <img id="image_itinerary`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+//                                            }
+
+                                            itinerary_text += `</div>
+                                            </div>`;
                                         }
 
-                                        itinerary_text += `</div>`;
-                                    }
-                                    itinerary_text += `
+//                                        itinerary_text += `
+//                                        <ul class="eventstep step_itinerary_tour" style="margin: 0px 15px 15px 15px;">`;
+//                                        for(it_item in tour_data.itinerary_ids[it_idx].items)
+//                                        {
+//                                            itinerary_text += `
+//                                            <li>
+//                                                <time>`;
+//                                                    if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
+//                                                        itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].timeslot;
+//                                                    }
+//                                            itinerary_text += `
+//                                                </time>
+//                                                <span>`;
+//                                            if(tour_data.itinerary_ids[it_idx].items[it_item].name)
+//                                                itinerary_text +=`
+//                                                <strong>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</strong>`;
+//                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+//                                                itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`">`;
+//                                            else
+//                                                itinerary_text += `<span>`;
+//                                            if (tour_data.itinerary_ids[it_idx].items[it_item].description){
+//                                                itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
+//                                            }else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+//                                                itinerary_text += 'Description'
+//                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+//                                                itinerary_text += `</a>`;
+//                                            else
+//                                                itinerary_text += `</span>`;
+//                                            if (tour_data.itinerary_ids[it_idx].items[it_item].image){
+//                                                itinerary_text += `
+//                                                <br/>
+//                                                <label id="show_image_itinerary2`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</label>
+//                                                <img id="image_itinerary2`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+//                                            }
+//
+//                                            itinerary_text += `
+//                                                </span>
+//                                            </li>`;
+//                                        }
+//                                        itinerary_text += `
+//                                        </ul>`;
+
+                                        itinerary_text += `
                                     </div>
-
-                                    <ul class="eventstep step_itinerary_tour" style="margin: 0px 15px 15px 15px;">`;
-                                    for(it_item in tour_data.itinerary_ids[it_idx].items)
-                                    {
-                                        itinerary_text += `
-                                        <li>
-                                            <time>`;
-                                                if (tour_data.itinerary_ids[it_idx].items[it_item].timeslot){
-                                                    itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].timeslot;
-                                                }
-                                        itinerary_text += `
-                                            </time>
-                                            <span>`;
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].name)
-                                            itinerary_text +=`
-                                            <strong>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</strong>`;
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`">`;
-                                        else
-                                            itinerary_text += `<span>`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].description){
-                                            itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
-                                        }else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text += 'Description'
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text += `</a>`;
-                                        else
-                                            itinerary_text += `</span>`;
-                                        if (tour_data.itinerary_ids[it_idx].items[it_item].image){
-                                            itinerary_text += `
-                                            <br/>
-                                            <label id="show_image_itinerary2`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</label>
-                                            <img id="image_itinerary2`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
-                                        }
-
-                                        itinerary_text += `
-                                            </span>
-                                        </li>`;
-                                    }
-                                    itinerary_text += `
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -1362,136 +1479,177 @@ function tour_get_details_by_slug(tour_slug){
                 }
                 itinerary_text += `</div>`;
 
-                flight_details_text += `<div class="row" style="margin:0px;">
-                                            <table class="table table-condensed" style="width:100%;">
-                                                <thead>
-                                                    <th>Airline</th>
-                                                    <th class="hidden-xs">Flight Number</th>
-                                                    <th colspan="2">Origin</th>
-                                                    <th colspan="2">Destination</th>
-                                                    <th class="hidden-xs">Transit Duration</th>
-                                                </thead>`;
-                for (k in tour_data.flight_segments)
-                {
+                for (k in tour_data.flight_segments){
                     flight_details_text += `
-                        <tr>
-                            <td class="hidden-xs">`;
-                    if (tour_data.flight_segments[k].carrier_code)
-                    {
-                        flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" alt="`+tour_data.flight_segments[k].carrier_id+`" title="`+tour_data.flight_segments[k].carrier_id+`" width="50" height="50"/>`;
-                    }
-
+                    <div class="row mt-2" style="border-top:1px solid #cdcdcd; padding-top:15px;">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 col-md-4">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2">
+                                    <div style="display:inline-flex;">
+                                        <div style="display:inline-block;">`;
+                                            if (tour_data.flight_segments[k].carrier_code)
+                                            {
+                                                flight_details_text += `<img class="airlines_provider_img" src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" alt="`+tour_data.flight_segments[k].carrier_id+`" title="`+tour_data.flight_segments[k].carrier_id+`"/>`;
+                                            }
 //                            flight_details_text += `</td><td class="hidden-sm hidden-md hidden-lg hidden-xl">`;
 //                            if (tour_data.flight_segments[k].carrier_code)
 //                            {
 //                                flight_details_text += `<img alt="" src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" width="40" height="40"/>`+tour_data.flight_segments[k].carrier_code;
 //                            }
-
-                    flight_details_text += `</td>`;
-
-                    flight_details_text += `
-                        <td class="hidden-xs">`+tour_data.flight_segments[k].carrier_number+`</td>
-                    `;
-                    flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].origin_id+`<br/>`+tour_data.flight_segments[k].departure_date_fmt;
-                    if(tour_data.flight_segments[k].origin_terminal)
-                    {
-                        flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].origin_terminal;
-                    }
-                    flight_details_text += `</td>`;
-
-                    flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k].arrival_date_fmt;
-                    if(tour_data.flight_segments[k].destination_terminal)
-                    {
-                        flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].destination_terminal;
-                    }
-                    flight_details_text += `</td>`;
-
-                    flight_details_text += `<td class="hidden-xs">`+tour_data.flight_segments[k].delay+`</td>
-                        </tr>
-                    `;
+                                        flight_details_text += `
+                                        </div>
+                                        <div style="display:inline-block;">
+                                            <div style="display:grid;">
+                                                <span style="font-size:12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;">
+                                                    `+tour_data.flight_segments[k].carrier_number+`
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <h6>`+tour_data.flight_segments[k].departure_date_fmt.split(' ')[1]+`</h6>
+                                    <span>`+tour_data.flight_segments[k].departure_date_fmt.split(' ')[0]+` </span><br>
+                                    <span style="font-weight:500;">`+tour_data.flight_segments[k].origin_id+`</span><br>`;
+                                    if(tour_data.flight_segments[k].origin_terminal)
+                                    {
+                                        flight_details_text += `<span>Terminal : ` + tour_data.flight_segments[k].origin_terminal+`</span>`;
+                                    }
+                                    flight_details_text += `
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div style="text-align:center; position: absolute; left:-15%;">
+                                        <span class="copy_transit" style="font-weight:500;">Transit</span>
+                                        <div style="display:inline-block;position:relative;width:100%;z-index:1;">
+                                            <img src="/static/tt_website/images/icon/symbol/airlines-01.png" alt="Airline" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                            <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                        </div>
+                                        `+tour_data.flight_segments[k].delay+`
+                                    </div>
+                                    <div style="text-align:right">
+                                        <h6 class="copy_time_arr">`+tour_data.flight_segments[k].arrival_date_fmt.split(' ')[1]+`</h6>
+                                        <span class="copy_date_arr">`+tour_data.flight_segments[k].arrival_date_fmt.split(' ')[0]+`</span><br>
+                                        <span class="copy_arrival" style="font-weight:500;">`+tour_data.flight_segments[k].destination_id+`</span><br>`;
+                                        if(tour_data.flight_segments[k].destination_terminal)
+                                        {
+                                            flight_details_text += `<span>Terminal : ` + tour_data.flight_segments[k].destination_terminal+`</span>`;
+                                        }
+                                        flight_details_text += `
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>`;
                 }
-                flight_details_text += `</table>
-                                     </div>`;
 
                 other_info_text += generate_other_info(tour_data.other_infos)
 
-                if (tour_data.tour_type.is_open_date)
-                {
-                    header_list_text = `
-                    <th style="width:20%;">Available From</th>
-                    <th style="width:20%;">Available Until</th>
-                    <th style="width:20%;">Quota</th>
-                    <th style="width:20%;">Status</th>
-                    <th style="width:20%;">Action</th>
-                    `;
-                }
-                else
-                {
-                    header_list_text = `
-                    <th style="width:20%;">Departure Date</th>
-                    <th style="width:20%;">Arrival Date</th>
-                    <th style="width:20%;">Quota</th>
-                    <th style="width:20%;">Status</th>
-                    <th style="width:20%;">Action</th>
-                    `;
-                }
+//                if (tour_data.tour_type.is_open_date)
+//                {
+//                    header_list_text = `
+//                    <th style="width:20%;">Available From</th>
+//                    <th style="width:20%;">Available Until</th>
+//                    <th style="width:20%;">Quota</th>
+//                    <th style="width:20%;">Status</th>
+//                    <th style="width:20%;">Action</th>
+//                    `;
+//                }
+//                else
+//                {
+//                    header_list_text = `
+//                    <th style="width:20%;">Departure Date</th>
+//                    <th style="width:20%;">Arrival Date</th>
+//                    <th style="width:20%;">Quota</th>
+//                    <th style="width:20%;">Status</th>
+//                    <th style="width:20%;">Action</th>
+//                    `;
+//                }
 
+                counter_n_package = 0;
                 for (n in tour_data.tour_lines)
                 {
+                    counter_n_package += 1;
                     date_list_text += `
-                    <tr>
-                        <td style="width:20%;">`+tour_data.tour_lines[n].departure_date_str+`</td>
-                        <td style="width:20%;">`+tour_data.tour_lines[n].arrival_date_str+`</td>
-                        <td style="width:20%;">`+tour_data.tour_lines[n].seat+`/`+tour_data.tour_lines[n].quota+` Available</td>
-                        <td style="width:20%;">`+tour_data.tour_lines[n].state_str+`</td>
-                        <td style="width:20%;">`;
-                        if(tour_data.tour_lines[n].seat <= 0 || (tour_data.tour_lines[n].state != 'open' && tour_data.tour_lines[n].state != 'definite')){
-                            date_list_text += `<button type="button" class="primary-btn-ticket btn-add-rooms" disabled>Select</button>`;
-                        }else{
-                            date_list_text += `<button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data.tour_lines[n].tour_line_code+`" onclick="select_tour_date(`+n+`)">Select</button>`;
-                        }
-                    date_list_text += `
-                        </td>
-                    </tr>
-                    `;
+                    <div class="div_box_default mb-3">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                <h5>Package #`+counter_n_package+`</h5>
+                            </div>
+                            <div class="col-lg-7">`;
+                                if (tour_data.tour_type.is_open_date){
+                                    date_list_text += `
+                                    <b>Available</b> <i>`+tour_data.tour_lines[n].departure_date_str+` - `+tour_data.tour_lines[n].arrival_date_str+`</i><br/>`;
+                                }else{
+                                    date_list_text += `
+                                    <b>Departure - Return</b> <i>`+tour_data.tour_lines[n].departure_date_str+` - `+tour_data.tour_lines[n].arrival_date_str+`</i><br/>`;
+                                }
+                                date_list_text += `
+                                <b>Quota</b> <i>`+tour_data.tour_lines[n].seat+`/`+tour_data.tour_lines[n].quota+` Available</i><br/>
+                                <b>Status</b> <i>`+tour_data.tour_lines[n].state_str+`</i>
+                            </div>
+                            <div class="col-lg-5" style="text-align:right;">`;
+                                if(tour_data.tour_lines[n].seat <= 0 || (tour_data.tour_lines[n].state != 'open' && tour_data.tour_lines[n].state != 'definite')){
+                                    date_list_text += `<button type="button" class="primary-btn btn-add-rooms" disabled>Select</button>`;
+                                }else{
+                                    date_list_text += `<button type="button" class="primary-btn btn-add-rooms" value="`+tour_data.tour_lines[n].tour_line_code+`" onclick="select_tour_date(`+n+`)">Select</button>`;
+                                }
+                                date_list_text +=`
+                            </div>
+                        </div>
+                    </div>`;
                 }
 
+                counter_n_hotel = 0;
                 for (n in tour_data.accommodations){
-                    room_list_text += `<div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; padding: 15px;">
-                        <b>Hotel: `+tour_data.accommodations[n].hotel+`</b> <br/>
-                        Room: `+tour_data.accommodations[n].name+` `+tour_data.accommodations[n].bed_type+` <br/>
-                        Description: `+tour_data.accommodations[n].description+` <br/>
-                        <div class="row" style="padding:0px 15px;">
-                            <div class="col-xs-6" style="padding:0px;">
-                                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_up" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-up"></i></span>
-                                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail_modal`+n+`_down" onclick="show_hide_div('pricing_detail_modal`+n+`');">See Price Detail <i class="fas fa-chevron-down"></i></span>
+                    counter_n_hotel += 1;
+                    room_list_text += `
+                    <div class="div_box_default mb-3">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                <h5>Hotel #`+counter_n_hotel+`</h5>
                             </div>
-                            <div class="col-xs-6" style="padding:0px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket btn-add-rooms" style="line-height:26px;" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
-                            </div>
-                            <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
-                                <div class="row">`;
-                                for (prc in tour_data.accommodations[n].pricing){
-                                    room_list_text += `
-                                    <div class="col-lg-12" style="margin-top:10px; border:1px solid #cdcdcd;">
-                                        <span style="font-weight:bold;">Min: `+tour_data.accommodations[n].pricing[prc].min_pax+` guest </span>`;
+                            <div class="col-lg-7">
+                                <h6>`+tour_data.accommodations[n].hotel+`</h6>
+                                <b>Room</b> <i>`+tour_data.accommodations[n].name+` `+tour_data.accommodations[n].bed_type+`</i><br/>
+                                <b>Description</b> <i>`+tour_data.accommodations[n].description+`</i>
+                            </div>`;
 
-                                    if(tour_data.accommodations[n].pricing[prc].is_infant_included == false){
-                                        room_list_text+=`<span>(*excluding infant).</span>`;
-                                    }else{
-                                        room_list_text+=`<span>(*including infant).</span>`;
-                                    }
+//                                    room_list_text += `
+//                                    <div class="col-lg-12" style="display:none;" id="pricing_detail_modal`+n+`_div">
+//                                        <div class="row">`;
+//                                        for (prc in tour_data.accommodations[n].pricing){
+//                                            room_list_text += `
+//                                            <div class="col-lg-12" style="margin-top:10px; border:1px solid #cdcdcd;">
+//                                                <span style="font-weight:bold;">Min: `+tour_data.accommodations[n].pricing[prc].min_pax+` guest </span>`;
+//
+//                                            if(tour_data.accommodations[n].pricing[prc].is_infant_included == false){
+//                                                room_list_text+=`<span>(*excluding infant).</span>`;
+//                                            }else{
+//                                                room_list_text+=`<span>(*including infant).</span>`;
+//                                            }
+//
+//                                            room_list_text+=`
+//                                                <br/>
+//                                                <span>Pricing (/guest): </span>
+//                                                Adult: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].adult_price)+`</span>,
+//                                                Child: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].child_price)+`</span>,
+//                                                Infant: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].infant_price)+`</span>
+//                                            </div>`;
+//                                        }
+//                                        room_list_text+=`
+//                                        </div>
+//                                    </div>`;
 
-                                    room_list_text+=`
-                                        <br/>
-                                        <span>Pricing (/guest): </span>
-                                        Adult: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].adult_price)+`</span>,
-                                        Child: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].child_price)+`</span>,
-                                        Infant: <span style="color:`+color+`;font-weight:bold;">`+tour_data.accommodations[n].pricing[prc].currency_id+` `+getrupiah(tour_data.accommodations[n].pricing[prc].infant_price)+`</span>
-                                    </div>`;
-                                }
                             room_list_text+=`
-                                </div>
+                            <div class="col-lg-5" style="text-align:right;">
+                                <button type="button" class="primary-btn btn-add-rooms" value="`+tour_data.accommodations[n].room_code+`" data-dismiss="modal" onclick="add_tour_room(`+n+`)">Add</button>
                             </div>
                         </div>
                     </div>`;
@@ -1520,12 +1678,12 @@ function tour_get_details_by_slug(tour_slug){
                document.getElementById('itinerary').innerHTML += itinerary_text;
                document.getElementById('other_info').innerHTML += other_info_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
-               document.getElementById('tour_available_header_list').innerHTML += header_list_text;
+//               document.getElementById('tour_available_header_list').innerHTML += header_list_text;
                document.getElementById('tour_available_date_list').innerHTML += date_list_text;
 
                new jBox('Tooltip', {
                    attach: '#pop_question',
-                   width: 280,
+                   maxWidth: 280,
                    closeOnMouseleave: true,
                    animation: 'zoomIn',
                    content: content_pop_question
@@ -1542,10 +1700,10 @@ function tour_get_details_by_slug(tour_slug){
                     lazyLoad:true,
                     merge: false,
                     smartSpeed:500,
-                    autoplay: true,
+                    autoplay: false,
                     autoplayTimeout:6000,
                     autoplayHoverPause:false,
-                    navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+                    navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                     responsive:{
                         0:{
                             items:1,
@@ -1553,7 +1711,7 @@ function tour_get_details_by_slug(tour_slug){
                         },
                         600:{
                             items:1,
-                            nav:false
+                            nav:true
                         },
                         1000:{
                             items:1,
@@ -3663,8 +3821,7 @@ function table_price_update(msg,type){
         {
             if(['fare', 'roc'].includes(price_data[i].charge_code))
             {
-                if(price_data[i].pax_type == 'ADT')
-                {
+                if(price_data[i].pax_type == 'ADT'){
                     if(price_data[i].pax_count != 0){
                         if(price_data[i].hasOwnProperty('currency') && !currency)
                             currency = price_data[i].currency;
@@ -3686,8 +3843,7 @@ function table_price_update(msg,type){
                         total_charge += price_data[i].total;
                     }
                 }
-                else if(price_data[i].pax_type == 'CHD')
-                {
+                else if(price_data[i].pax_type == 'CHD'){
                     if(price_data[i].pax_count != 0){
                         if(price_data[i].hasOwnProperty('currency') && !currency)
                             currency = price_data[i].currency;
@@ -3709,8 +3865,7 @@ function table_price_update(msg,type){
                         total_charge += price_data[i].total;
                     }
                 }
-                else if(price_data[i].pax_type == 'INF')
-                {
+                else if(price_data[i].pax_type == 'INF'){
                     if(price_data[i].pax_count != 0){
                         if(price_data[i].hasOwnProperty('currency') && !currency)
                             currency = price_data[i].currency;
@@ -3742,31 +3897,22 @@ function table_price_update(msg,type){
 
                     if(i == 0){
                         price_txt2 +=`
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                        <div class="col-lg-12" style="text-align:left;">
                             <span style="font-size:13px; font-weight:bold;">Charge</span>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-
                         </div>`;
                     }
                     if(typeof upsell_price_dict !== 'undefined' && price_data[i].pax_type in upsell_price_dict && price_data[i].charge_type == 'FARE' && price_data[i].charge_code == 'fare.flight')
                         price_txt2 += `
-                        <div class="col-lg-12" style="text-align:left;">
-                            <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` </span>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                            <b>`+price_data[i].pax_count+`x</b> `+price_data[i].description+` <br/>@ `+currency+` `+getrupiah(price_data[i].amount + (upsell_price_dict[price_data[i].pax_type]/price_data[i].pax_count))+`
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                            @ `+currency+` `+getrupiah(price_data[i].amount + (upsell_price_dict[price_data[i].pax_type]/price_data[i].pax_count))+`
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
                             <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(price_data[i].total + upsell_price_dict[price_data[i].pax_type])+`</span>
                         </div>`;
                     else
                         price_txt2 += `
-                        <div class="col-lg-12" style="text-align:left;">
-                            <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+`</span>
-                        </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                            @ `+currency+` `+getrupiah(price_data[i].amount)+`
+                            <b>`+price_data[i].pax_count+`x</b> `+price_data[i].description+` <br/>@ `+currency+` `+getrupiah(price_data[i].amount)+`
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
                             <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(price_data[i].total)+`</span>
@@ -3805,9 +3951,6 @@ function table_price_update(msg,type){
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
             <span style="font-size:13px; font-weight:bold;" id="total_charge_pd"></span>
         </div>
-        <div class="col-lg-12">
-            <hr/>
-        </div>
     </div>`;
     price_txt2 += `<div class="row">
     <div class="col-lg-12">
@@ -3817,7 +3960,7 @@ function table_price_update(msg,type){
     for(var j=0; j<room_amount; j++)
     {
         sub_total_count = 0;
-        price_txt2 += `<div class="row"><div class="col-xs-12"><span style="font-weight: bold; color:`+color+`;">Room #`+String(j+1)+`</span></div></div>`;
+        price_txt2 += `<div class="row"><div class="col-xs-12"><span style="font-weight: bold;">Room #`+String(j+1)+`</span></div></div>`;
         temp_copy2 += '\nRoom ' + String(j+1) + '\n';
         found_room_price = false;
         for(var k=0; k<room_prices.length; k++)
@@ -3827,11 +3970,8 @@ function table_price_update(msg,type){
                 found_room_price = true;
                 price_txt2 += `
                 <div class="row">
-                    <div class="col-lg-12" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">`+room_prices[k].pax_count+`x `+room_prices[k].description+`</span>
-                    </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
-                        @ `+currency+` `+getrupiah(room_prices[k].amount)+`
+                        <b>`+room_prices[k].pax_count+`x</b> `+room_prices[k].description+` <br/>@ `+currency+` `+getrupiah(room_prices[k].amount)+`
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
                         <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(room_prices[k].total)+`</span>
@@ -3905,8 +4045,8 @@ function table_price_update(msg,type){
 //    }
     price_txt += `
                    <div class="row">
-                        <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                        <div class="col-xs-4" style="text-align: right;"><span id="total_price" style="font-weight:bold;`;
+                        <div class="col-xs-6"><span style="font-weight:bold; font-size:16px;">Grand Total</span></div>
+                        <div class="col-xs-6" style="text-align: right;"><span id="total_price" style="font-size:16px; font-weight:bold;`;
 //                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
 //                        price_txt+= "cursor:pointer;";
 //                    }
@@ -3957,18 +4097,17 @@ function table_price_update(msg,type){
                                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
                                     <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
                             }
-
-                        price_txt+=`
+                            price_txt+=`
+                            <div style="float:right">
+                                <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
                         </div>
                    </div>`;
                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                        price_txt+= print_commission(grand_commission,'show_commission', currency)
-                   price_txt+=`
-                   <div class="row" style="margin-top:10px; text-align:center;">
-                       <div class="col-lg-12">
-                           <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
-                       </div>
-                   </div>`;
+
 //                   if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                       price_txt+=`
 //                       <div class="row" style="margin-top:10px; text-align:center;">

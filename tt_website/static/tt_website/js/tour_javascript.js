@@ -198,13 +198,7 @@ function read_other_info_dict(data, current_list_type){
     var temp_txt2 = '';
     if (data.message){
         if (current_list_type != 'none'){
-            if(template == 1){
-                temp_txt2 += '<li>';
-            }else if(template == 2){
-                temp_txt2 += '<li style="list-style:unset;">'
-            }else if(template == 3){
-                temp_txt2 += '<li style="list-style:unset;">'
-            }
+            temp_txt2 += '<li>';
         }
 
         for (i in data.message){
@@ -473,7 +467,248 @@ function set_tour_arrival_date(){
 function add_tour_room(key_accomodation){
     room_data = tour_data.accommodations[key_accomodation];
     console.log(room_data);
-    $('#tour_room_input').append(render_room_tour_field(parseInt(room_amount) + 1, room_data, key_accomodation));
+    //$('#tour_room_input').append(render_room_tour_field(parseInt(room_amount) + 1, room_data, key_accomodation));
+    idx = parseInt(room_amount) + 1;
+    var node = document.createElement("div");
+
+    var room_lib = {
+        'double': 'Double/Twin',
+        'triple': 'Triple',
+        'quad': 'Quad'
+    }
+    var template_txt = '';
+    var see_price_txt = '';
+    template_txt += `
+    <div class="row"></div>
+        <div id="room_field_`+idx+`" style="padding-bottom:15px;">
+            <div class="banner-right">
+                <div class="form-wrap" style="padding:0px !important; text-align:left;">
+                <input type="hidden" id="room_code_`+idx+`" name="room_code_`+idx+`" value="`+room_data.room_code+`"/>`;
+                template_txt += `
+                <div style="padding:15px; border:1px solid #cdcdcd; border-radius:5px;">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-bottom:15px; padding-bottom:15px; border-bottom:1px solid #cdcdcd">`;
+                            if (room_data.hotel){
+                                template_txt += `<h5>`;
+                                if(tour_data.tour_type.is_can_choose_hotel){
+                                    template_txt += ' #' +  idx + ' ';
+                                }
+                                template_txt += room_data.hotel+`</h5>`;
+                                if (room_data.star != 0){
+                                    for (let i_star = 0; i_star < room_data.star; i_star++) {
+                                        template_txt += `<i class="fas fa-star" style="color:#FFC44D; font-size:16px;"></i>`;
+                                    }
+                                }else{
+                                    template_txt +=` Unrated`;
+                                }
+                                if(room_data.address != ''){
+                                    template_txt += `<br/><i class="fas fa-map-marker-alt"></i> <span>`+room_data.address+`</span>`;
+                                }
+                                template_txt += `
+                                <h6 style="margin-top:10px;"><span>Room`;
+                                template_txt += ' </span> - ' + room_data.name;
+                                if(room_data.bed_type != 'none'){
+                                    template_txt += ' (' + room_lib[room_data.bed_type] + ')';
+                                }
+                                template_txt += '</h6>';
+                            }
+                            else{
+                                template_txt += '<h6 style="margin-top:10px;"><span>' +  room_data.name +  '</span></h6>';
+                            }
+                            template_txt += `<span>`+room_data.description +`</span>
+                        </div>
+                        <div class="col-lg-12" onclick="room_choose_sh(`+idx+`);" style="cursor:pointer;">
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <h6>
+                                        <span id="room_choose_adult`+idx+`">1 Adult</span>
+                                        <span id="room_choose_child`+idx+`"></span>
+                                        <span id="room_choose_infant`+idx+`"></span>
+                                    </h6>`;
+                                    if (room_data.bed_type=="double" || room_data.bed_type=="none"){
+                                        template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>No Request</span></span>`;
+                                    }else{
+                                        template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span style="color:#f23548">Can't Request <i class="fas fa-times"></i></span></span>`;
+                                    }
+                                template_txt+=`
+                                </div>
+                                <div class="col-xs-4" style="text-align:right;">`;
+                                    if(idx == 1){
+                                        template_txt+=`
+                                        <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:none; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
+                                        <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:block; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
+                                    }else{
+                                        template_txt+=`
+                                        <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:block; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
+                                        <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:none; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
+                                    }
+                                    template_txt+=`
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">`;
+                            if(idx == 1){
+                                template_txt += `<div class="row" style="margin-top:15px;" id="room_choose_div`+idx+`">`;
+                            }else{
+                                template_txt += `<div class="row" style="margin-top:15px; display:none;" id="room_choose_div`+idx+`">`;
+                            }
+                                template_txt += `
+                                <div class="col-lg-12" style="border-top:1px solid #cdcdcd; padding-top:15px;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <span>Adult</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select" id="default-select" style="margin-bottom:5px;">
+                                                    <select class="adult_tour_room" id="adult_tour_room_`+idx+`" name="adult_tour_room_`+idx+`" data-index="`+idx+`" data-pax-limit="`+room_data.pax_limit+`" onchange="render_child_infant_selection(this); room_chose_render(this,`+idx+`,1);">`;
+                                                    for (var i=1; i<=parseInt(room_data.adult_limit); i++){
+                                                        if (i == 1){
+                                                            template_txt += `<option selected value="`+i+`">`+i+`</option>`;
+                                                        }
+                                                        else{
+                                                            template_txt += `<option value="`+i+`">`+i+`</option>`;
+                                                        }
+                                                    }
+                                                    template_txt += `
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small id="tour_child_age_range`+i+`" class="hidden">(12-120 years old)</small>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <span>Child</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select" style="margin-bottom:5px;">
+                                                    <select class="child_tour_room" id="child_tour_room_`+idx+`" name="child_tour_room_`+idx+`" data-index="`+idx+`" onchange="reset_tour_table_detail(); room_chose_render(this,`+idx+`,2)">`;
+                                                    for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
+                                                    {
+                                                        if (i == 0){
+                                                            template_txt += `<option selected value="`+i+`">`+i+`</option>`;
+                                                        }
+                                                        else{
+                                                            template_txt += `<option value="`+i+`">`+i+`</option>`;
+                                                        }
+                                                    }
+                                                    template_txt += `
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small id="tour_child_age_range`+i+`" class="hidden">(2-11 years old)</small>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <span>Infant</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select" style="margin-bottom:5px;">
+                                                    <select class="infant_tour_room" id="infant_tour_room_`+idx+`" name="infant_tour_room_`+idx+`" data-index="`+idx+`" onchange="reset_tour_table_detail(); room_chose_render(this,`+idx+`,3)">
+                                                        <option selected value="0">0</option>
+                                                        <option value="1">1</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small id="tour_child_age_range`+i+`" class="hidden">(0-1 years old)</small>
+                                        </div>
+
+                                        <div class="col-xs-12" style="margin-top:15px; margin-bottom:15px;">
+                                            <span style="color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+idx+`">See Price Detail <i class="fas fa-chevron-down"></i></span>
+                                        </div>`;
+
+                                        see_price_txt += `
+                                        <div class="row">
+                                            <div class="col-lg-12" id="pricing_detail`+idx+`_div">
+                                                <div class="row">`;
+                                                for(pri in room_data.pricing){
+                                                    if(parseInt(pri) == 0){
+                                                        see_price_txt += `<div class="col-lg-12" style="padding-top:5px; padding-bottom:10px;">`;
+                                                    }else{
+                                                        see_price_txt += `<div class="col-lg-12" style="border-top:1px solid #cdcdcd; padding-top:10px; padding-bottom:10px;">`;
+                                                    }
+
+                                                        see_price_txt += `<i class="fas fa-user"></i> <b>Min:</b> <i>`+room_data.pricing[pri].min_pax+` guest </i>`;
+                                                        if(room_data.pricing[pri].is_infant_included == false){
+                                                            see_price_txt+=`<span>(*excluding infant)</span>`;
+                                                        }else{
+                                                            see_price_txt+=`<span>(*including infant)</span>`;
+                                                        }
+
+                                                        see_price_txt+=`
+                                                        <br/>
+                                                        <b>Pricing per guest </b><br/>
+                                                        <b>Adult: </b> <i>`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].adult_price)+`</i><br/>
+                                                        <b>Child: </b> <i>`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].child_price)+`</i><br/>
+                                                        <b>Infant: </b> <i>`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].infant_price)+`</i>
+                                                    </div>`;
+                                                }
+                                                see_price_txt+=`
+                                                </div>
+                                            </div>
+                                        </div>`;
+
+                                        template_txt += `
+                                        <div class="col-lg-12">
+                                            <span style="font-size:14px; font-weight:600;">Note:</span><br/>
+                                            <span>Minimum: <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> and Maximum: <span style="font-size:12px;color:`+color+`;font-weight:500;">`+room_data.pax_limit+` Guest</span>.</span><br/>
+                                            <ul style="list-style-type: disc; padding-inline-start:10px;">
+                                                <li style="list-style: unset;">
+                                                    If the selected accommodation accepts adults and children, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
+                                                </li>
+                                                <li style="list-style: unset;">
+                                                    If the selected accommodation accepts adults only, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected accommodation might get an additional Single Supplement fee.
+                                                </li>
+                                            </ul>
+                                        </div>`;
+
+                                        if (room_data.bed_type=="double" || room_data.bed_type=="none"){
+                                            template_txt += `
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                <span style="font-size:14px; font-weight:600;">Special Request</span><br/>
+                                                <textarea class="form-control" rows="3" cols="100%" id="notes_`+idx+`" name="notes_`+idx+`" placeholder="Special Request" onkeyup="room_chose_render(this,`+idx+`,4)" style="margin-bottom:0px; resize:none; height:unset;"></textarea>
+                                                <small style="color: #787878; margin-left: 2px;">Ex: king size bed, twin bed, non smoking room, etc.</small>
+                                            </div>`;
+                                        }else{
+                                            template_txt += `
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                <span style="font-size:14px; font-weight:600; margin-bottom:0px;">Special Request</span><br/>
+                                                <input type="text" class="form-control hide" id="notes_`+idx+`" name="notes_`+idx+`" placeholder="Special Request" value=" "/>
+                                            </div>`;
+                                        }
+                                        template_txt+=`
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="accomodation_index_' + idx + '" name="accomodation_index_' + idx + '" value="' + key_accomodation + '"/>
+            </div>
+        </div>
+    </div>`;
+
+    node.innerHTML = template_txt;
+    document.getElementById("tour_room_input").appendChild(node);
+    node = document.createElement("div");
+
+    new jBox('Tooltip', {
+        attach: '#pricing_detail'+idx,
+        target: '#pricing_detail'+idx,
+        theme: 'TooltipBorder',
+        trigger: 'click',
+        width: 280,
+        maxHeight: 200,
+        adjustTracker: true,
+        closeOnClick: 'body',
+        closeButton: 'box',
+        animation: 'move',
+        position: {
+          x: 'left',
+          y: 'top'
+        },
+        outside: 'y',
+        pointer: 'left:20',
+        offset: {
+          x: 25
+        },
+        content: see_price_txt
+    });
+
     room_amount += 1;
     document.getElementById("total-price-container").classList.remove("hide");
     $('select').niceSelect();
@@ -481,209 +716,202 @@ function add_tour_room(key_accomodation){
     reset_tour_table_detail();
 }
 
-function render_room_tour_field(idx, room_data, key_accomodation) {
-    var room_lib = {
-        'double': 'Double/Twin',
-        'triple': 'Triple',
-        'quad': 'Quad'
-    }
-    var template_txt = '';
-        template_txt += '<div id="room_field_' + idx + '" style="margin-bottom:20px; padding:15px; border: 1px solid #cdcdcd;"><div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">';
-        template_txt += '<input type="hidden" id="room_code_' + idx + '" name="room_code_' + idx + '" value="'+ room_data.room_code + '"/>';
-        if (room_data.hotel)
-        {
-            template_txt += '<h6 style="margin: 0px; padding-bottom:5px;"><i class="fa fa-building" style="font-size:18px;"></i> ' + room_data.hotel;
-            if (room_data.star != 0){
-                template_txt +=` ( <i class="fas fa-star" style="color:#FFC44D;"></i>` + room_data.star + `)</h6>`;
-            }else{
-                template_txt +=` ( Unrated )</h6>`;
-            }
-            if(room_data.address != ''){
-                template_txt += `<span>`+room_data.address+`</span>`;
-            }
-            template_txt += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ' Star) - ' + room_data.address + '"><span style="color:'+color+';">Room';
-            if(tour_data.tour_type.is_can_choose_hotel){
-                template_txt += ' #' +  idx;
-            }
-            template_txt += ' </span> - ' + room_data.name;
-            if(room_data.bed_type != 'none'){
-                template_txt += ' (' + room_lib[room_data.bed_type] + ')';
-            }
-            template_txt += '</h6>';
-        }
-        else
-        {
-            template_txt += '<h6><span style="color:'+color+';">' +  room_data.name +  '</span></h6>';
-        }
-        template_txt += '<span style="font-size:12px;">' + room_data.description +'</span><br/>';
-
-        template_txt+=`
-        <div class="row" onclick="room_choose_sh(`+idx+`);" style="cursor:pointer;padding:15px 0px; margin:0px; border:1px solid `+color+`;">
-            <div class="col-xs-8">
-                <h6>
-                    <span id="room_choose_adult`+idx+`">1 Adult</span>
-                    <span id="room_choose_child`+idx+`"></span>
-                    <span id="room_choose_infant`+idx+`"></span>
-                </h6>`;
-                if (room_data.bed_type=="double" || room_data.bed_type=="none"){
-                    template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>No Request</span></span>`;
-                }else{
-                    template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span style="color:#f23548">Can't Request <i class="fas fa-times"></i></span></span>`;
-                }
-            template_txt+=`
-            </div>
-            <div class="col-xs-4" style="text-align:right;">`;
-                if(idx == 1){
-                    template_txt+=`
-                    <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:none; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
-                    <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:block; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
-                }else{
-                    template_txt+=`
-                    <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:block; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
-                    <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:none; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
-                }
-        template_txt+=`
-            </div>
-        </div>`;
-
-        if(idx == 1){
-            template_txt += `<div class="row" style="margin-top:15px;" id="room_choose_div`+idx+`">`;
-        }else{
-            template_txt += `<div class="row" style="margin-top:15px; display:none;" id="room_choose_div`+idx+`">`;
-        }
-        template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template_txt += '<span>Adult</span>';
-        if(template == 1){
-            template_txt += '<div class="input-container-search-ticket btn-group">';
-        }
-        if(template == 3){
-            template_txt += '<div class="default-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this); room_chose_render(this,'+idx+',1);">';
-        }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this); room_chose_render(this,'+idx+',1);">';
-        }else{
-            template_txt += '<div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this); room_chose_render(this,'+idx+',1);">';
-        }
-        for (var i=1; i<=parseInt(room_data.adult_limit); i++)
-        {
-            if (i == 1) {template_txt += '<option selected value="' + i + '">' + i + '</option>';}
-            else {template_txt += '<option value="' + i + '">' + i + '</option>';}
-        }
-        template_txt += '</select></div>';
-        if(template == 1){
-            template_txt += '</div>';
-        }
-        template_txt += '<small id="tour_child_age_range' + i + '" class="hidden">(12-120 years old)</small>';
-        template_txt += '</div>';
-        template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template_txt += '<span>Child</span>';
-        if(template == 1){
-            template_txt += '<div class="input-container-search-ticket btn-group">';
-        }
-        if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
-        }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
-        }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
-        }
-
-        for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
-        {
-            if (i == 0) {template_txt += '<option selected value="' + i + '">' + i + '</option>';}
-            else {template_txt += '<option value="' + i + '">' + i + '</option>';}
-        }
-        template_txt += '</select></div>';
-        if(template == 1){
-            template_txt += '</div>';
-        }
-        template_txt += '<small id="tour_child_age_range' + i + '" class="hidden">(2-11 years old)</small>';
-        template_txt += '</div>';
-        template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template_txt += '<span>Infant</span>';
-        if(template == 1){
-            template_txt += '<div class="input-container-search-ticket btn-group">';
-        }
-        if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
-        }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
-        }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
-        }
-
-        template_txt += '<option selected value="0">0</option>';
-        template_txt += '<option value="1">1</option>';
-        template_txt += '</select></div>';
-        if(template == 1){
-            template_txt += '</div>';
-        }
-        template_txt += '<small id="tour_child_age_range' + i + '" class="hidden">(0-1 years old)</small>';
-        template_txt += '</div>';
-
-        console.log(room_data);
-        template_txt +=`
-        <div class="row" style="padding:15px;">
-            <div class="col-xs-12">
-                <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+idx+`_up" onclick="show_hide_div('pricing_detail`+idx+`_div');">See Price Detail <i class="fas fa-chevron-up"></i></span>
-                <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+idx+`_down" onclick="show_hide_div('pricing_detail`+idx+`_div');">See Price Detail <i class="fas fa-chevron-down"></i></span>
-            </div>
-            <div class="col-lg-12" style="display:block;" id="pricing_detail`+idx+`_div">
-                <div class="row" style="padding:0px 15px;">`;
-                for (pri in room_data.pricing){
-                    template_txt += `
-                    <div class="col-lg-12" style="margin-top:10px; border:1px solid #cdcdcd;">
-                        <span style="font-weight:bold;">Min: `+room_data.pricing[pri].min_pax+` guest </span>`;
-
-                    if(room_data.pricing[pri].is_infant_included == false){
-                        template_txt+=`<span>(*excluding infant).</span>`;
-                    }else{
-                        template_txt+=`<span>(*including infant).</span>`;
-                    }
-
-                    template_txt+=`
-                        <br/>
-                        <span>Pricing (/guest): </span>
-                        Adult: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].adult_price)+`</span>,
-                        Child: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].child_price)+`</span>,
-                        Infant: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].infant_price)+`</span>
-                    </div>`;
-                }
-            template_txt+=`
-                </div>
-            </div>
-        </div>`;
-        if (room_data.bed_type=="double" || room_data.bed_type=="none")
-        {
-            template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
-            template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" onkeyup="room_chose_render(this,'+idx+',4)" style="margin-bottom:5px; resize:none; height:unset;"></textarea>';
-            template_txt += '<small style="color: #787878; margin-left: 2px;">Ex: king size bed, twin bed, non smoking room, etc.</small>';
-            template_txt += '</div>';
-        }
-        else
-        {
-            template_txt += '<input type="text" class="form-control hide" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" value=" "/>';
-        }
-
-        template_txt += `
-        <div class="col-lg-12">
-            <span style="font-size:14px; font-weight:600;">Note:</span><br/>
-            <span>Minimum: <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> and Maximum: <span style="font-size:12px;color:`+color+`;font-weight:500;">`+room_data.pax_limit+` Guest</span>.</span><br/>
-            <ul style="list-style-type: disc; margin: 0 15px;">
-                <li style="list-style: unset;">
-                    If the selected accommodation accepts adults and children, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
-                </li>
-                <li style="list-style: unset;">
-                    If the selected accommodation accepts adults only, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected accommodation might get an additional Single Supplement fee.
-                </li>
-            </ul>
-        </div>`;
-
-        template_txt += '</div>';
-        template_txt += '<input type="hidden" id="accomodation_index_' + idx + '" name="accomodation_index_' + idx + '" value="' + key_accomodation + '"/>';
-        template_txt += '</div></div>';
-        template_txt += '</div>';
-    return template_txt;
-}
+//function render_room_tour_field(idx, room_data, key_accomodation) {
+//    var room_lib = {
+//        'double': 'Double/Twin',
+//        'triple': 'Triple',
+//        'quad': 'Quad'
+//    }
+//    var template_txt = '';
+//    template_txt += `
+//        <div class="row" style="border-top:1px solid #cdcdcd; padding-top:15px;"></div>
+//        <div id="room_field_`+idx+`" style="padding-bottom:15px;">
+//            <div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">
+//                <input type="hidden" id="room_code_`+idx+`" name="room_code_`+idx+`" value="`+room_data.room_code+`"/>`;
+//                if (room_data.hotel){
+//                    template_txt += `<h5>`;
+//                    if(tour_data.tour_type.is_can_choose_hotel){
+//                        template_txt += ' #' +  idx + ' ';
+//                    }
+//                    template_txt += room_data.hotel+`</h5>`;
+//                    if (room_data.star != 0){
+//                        template_txt +=` <i class="fas fa-star" style="color:#FFC44D;"></i>` +room_data.star;
+//                    }else{
+//                        template_txt +=` Unrated`;
+//                    }
+//                    if(room_data.address != ''){
+//                        template_txt += `<i class="fas fa-map-marker-alt"></i> <span>`+room_data.address+`</span>`;
+//                    }
+//                    template_txt += `
+//                    <h6 style="margin-top:10px;"><span>Room`;
+//                    template_txt += ' </span> - ' + room_data.name;
+//                    if(room_data.bed_type != 'none'){
+//                        template_txt += ' (' + room_lib[room_data.bed_type] + ')';
+//                    }
+//                    template_txt += '</h6>';
+//                }
+//                else
+//                {
+//                    template_txt += '<h6 style="margin-top:10px;"><span>' +  room_data.name +  '</span></h6>';
+//                }
+//        template_txt += `<span>` + room_data.description +`</span><br/>`;
+//
+//        template_txt+=`
+//        <div style="padding:15px; border:1px solid #cdcdcd; border-radius:5px;">
+//            <div class="row" style="margin-bottom:15px;">
+//                <div class="col-lg-12" onclick="room_choose_sh(`+idx+`);" style="cursor:pointer;">
+//                    <div class="row">
+//                        <div class="col-xs-8">
+//                            <h6>
+//                                <span id="room_choose_adult`+idx+`">1 Adult</span>
+//                                <span id="room_choose_child`+idx+`"></span>
+//                                <span id="room_choose_infant`+idx+`"></span>
+//                            </h6>`;
+//                            if (room_data.bed_type=="double" || room_data.bed_type=="none"){
+//                                template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span>No Request</span></span>`;
+//                            }else{
+//                                template_txt+=`<span id="room_choose_special`+idx+`">Special Request: <span style="color:#f23548">Can't Request <i class="fas fa-times"></i></span></span>`;
+//                            }
+//                        template_txt+=`
+//                        </div>
+//                        <div class="col-xs-4" style="text-align:right;">`;
+//                            if(idx == 1){
+//                                template_txt+=`
+//                                <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:none; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
+//                                <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:block; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
+//                            }else{
+//                                template_txt+=`
+//                                <h6 class="center_vh" id="room_choose_open`+idx+`" style="display:block; color:`+color+`;">Open <i class="fas fa-caret-down"></i></h6>
+//                                <h6 class="center_vh" id="room_choose_close`+idx+`" style="display:none; color:`+color+`;">Close <i class="fas fa-caret-up"></i></h6>`;
+//                            }
+//                            template_txt+=`
+//                        </div>
+//                        <div class="col-lg-12" style="border-top:1px solid #cdcdcd; margin-top:15px;">`;
+//                            if(idx == 1){
+//                                template_txt += `<div class="row" style="margin-top:15px;" id="room_choose_div`+idx+`">`;
+//                            }else{
+//                                template_txt += `<div class="row" style="margin-top:15px; display:none;" id="room_choose_div`+idx+`">`;
+//                            }
+//                                template_txt += `
+//                                <div class="col-lg-4 col-md-4 col-sm-4">
+//                                    <span>Adult</span>
+//                                    <div class="input-container-search-ticket btn-group">
+//                                        <div class="form-select" id="default-select" style="margin-bottom:5px;">
+//                                            <select class="adult_tour_room" id="adult_tour_room_`+idx+`" name="adult_tour_room_`+idx+`" data-index="`+idx+`" data-pax-limit="`+room_data.pax_limit+`" onchange="render_child_infant_selection(this); room_chose_render(this,`+idx+`,1);">`;
+//                                            for (var i=1; i<=parseInt(room_data.adult_limit); i++){
+//                                                if (i == 1){
+//                                                    template_txt += `<option selected value="`+i+`">`+i+`</option>`;
+//                                                }
+//                                                else{
+//                                                    template_txt += `<option value="`+i+`">`+i+`</option>`;
+//                                                }
+//                                            }
+//                                            template_txt += `
+//                                            </select>
+//                                        </div>
+//                                    </div>
+//                                    <small id="tour_child_age_range`+i+`" class="hidden">(12-120 years old)</small>
+//                                </div>
+//                                <div class="col-lg-4 col-md-4 col-sm-4">
+//                                    <span>Child</span>
+//                                    <div class="input-container-search-ticket btn-group">
+//                                        <div class="form-select" style="margin-bottom:5px;">
+//                                            <select class="child_tour_room" id="child_tour_room_`+idx+`" name="child_tour_room_`+idx+`" data-index="`+idx+`" onchange="reset_tour_table_detail(); room_chose_render(this,`+idx+`,2)">`;
+//                                            for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
+//                                            {
+//                                                if (i == 0){
+//                                                    template_txt += `<option selected value="`+i+`">`+i+`</option>`;
+//                                                }
+//                                                else{
+//                                                    template_txt += `<option value="`+i+`">`+i+`</option>`;
+//                                                }
+//                                            }
+//                                            template_txt += `
+//                                            </select>
+//                                        </div>
+//                                    </div>
+//                                    <small id="tour_child_age_range`+i+`" class="hidden">(2-11 years old)</small>
+//                                </div>
+//                                <div class="col-lg-4 col-md-4 col-sm-4">
+//                                    <span>Infant</span>
+//                                    <div class="input-container-search-ticket btn-group">
+//                                        <div class="form-select" style="margin-bottom:5px;">
+//                                            <select class="infant_tour_room" id="infant_tour_room_`+idx+`" name="infant_tour_room_`+idx+`" data-index="`+idx+`" onchange="reset_tour_table_detail(); room_chose_render(this,`+idx+`,3)">
+//                                                <option selected value="0">0</option>
+//                                                <option value="1">1</option>
+//                                            </select>
+//                                        </div>
+//                                    </div>
+//                                    <small id="tour_child_age_range`+i+`" class="hidden">(0-1 years old)</small>
+//                                </div>
+//                            </div>
+//                        </div>
+//                    </div>
+//                </div>
+//            </div>
+//            <div class="row">
+//                <div class="col-xs-12">
+//                    <span style="display:inline-block; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+idx+`_up" onclick="show_hide_div('pricing_detail`+idx+`_div');">See Price Detail <i class="fas fa-chevron-up"></i></span>
+//                    <span style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" id="pricing_detail`+idx+`_down" onclick="show_hide_div('pricing_detail`+idx+`_div');">See Price Detail <i class="fas fa-chevron-down"></i></span>
+//                </div>
+//                <div class="col-lg-12" style="display:block;" id="pricing_detail`+idx+`_div">
+//                    <div class="row" style="padding:0px 15px;">`;
+//                    for (pri in room_data.pricing){
+//                        template_txt += `
+//                        <div class="col-lg-12" style="margin-top:10px; border:1px solid #cdcdcd;">
+//                            <span style="font-weight:bold;">Min: `+room_data.pricing[pri].min_pax+` guest </span>`;
+//
+//                        if(room_data.pricing[pri].is_infant_included == false){
+//                            template_txt+=`<span>(*excluding infant).</span>`;
+//                        }else{
+//                            template_txt+=`<span>(*including infant).</span>`;
+//                        }
+//
+//                        template_txt+=`
+//                            <br/>
+//                            <span>Pricing (/guest): </span>
+//                            Adult: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].adult_price)+`</span>,
+//                            Child: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].child_price)+`</span>,
+//                            Infant: <span style="color:`+color+`;font-weight:bold;">`+room_data.pricing[pri].currency_id+` `+getrupiah(room_data.pricing[pri].infant_price)+`</span>
+//                        </div>`;
+//                    }
+//                template_txt+=`
+//                    </div>
+//                </div>
+//            </div>
+//        </div>`;
+//        if (room_data.bed_type=="double" || room_data.bed_type=="none")
+//        {
+//            template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
+//            template_txt += '<textarea class="form-control" rows="3" cols="100%" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" onkeyup="room_chose_render(this,'+idx+',4)" style="margin-bottom:5px; resize:none; height:unset;"></textarea>';
+//            template_txt += '<small style="color: #787878; margin-left: 2px;">Ex: king size bed, twin bed, non smoking room, etc.</small>';
+//            template_txt += '</div>';
+//        }
+//        else
+//        {
+//            template_txt += '<input type="text" class="form-control hide" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Special Request" value=" "/>';
+//        }
+//
+//        template_txt += `
+//        <div class="col-lg-12">
+//            <span style="font-size:14px; font-weight:600;">Note:</span><br/>
+//            <span>Minimum: <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> and Maximum: <span style="font-size:12px;color:`+color+`;font-weight:500;">`+room_data.pax_limit+` Guest</span>.</span><br/>
+//            <ul style="list-style-type: disc; padding-inline-start:10px;">
+//                <li style="list-style: unset;">
+//                    If the selected accommodation accepts adults and children, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then there will be a child that is counted as an adult price until it reaches the minimum number of adults.
+//                </li>
+//                <li style="list-style: unset;">
+//                    If the selected accommodation accepts adults only, but the amount of inputted adult is less than the minimum number of adults ( < <span style="font-size:12px;font-weight:500;color:`+color+`">`+room_data.pax_minimum+` Adult</span> ), then that selected accommodation might get an additional Single Supplement fee.
+//                </li>
+//            </ul>
+//        </div>`;
+//
+//        template_txt += '</div>';
+//        template_txt += '<input type="hidden" id="accomodation_index_' + idx + '" name="accomodation_index_' + idx + '" value="' + key_accomodation + '"/>';
+//        template_txt += '</div></div>';
+//        template_txt += '</div>';
+//    return template_txt;
+//}
 
 function delete_tour_room(){
     var temp = '#room_field_' + String(room_amount);
@@ -1425,61 +1653,53 @@ function print_payment_rules(payment)
 
 function tour_filter_render(){
 
+//    var node = document.createElement("div");
+//    text = '';
+//    text+= `
+//    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+//    <hr/>
+//    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>`;
+//
+//    node = document.createElement("div");
+//    node.innerHTML = text;
+//    document.getElementById("session_timer").appendChild(node);
+//    node = document.createElement("div");
+
+    document.getElementById("filter").innerHTML = '';
     var node = document.createElement("div");
     text = '';
     text+= `
-    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
-    <hr/>
-    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>`;
-
-    node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("session_timer").appendChild(node);
-    node = document.createElement("div");
-
-    var node = document.createElement("div");
-    text = '';
-    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
-            <hr/>`;
-
-            if(template == 1){
-                text+=`<div class="banner-right">`;
-            }else if(template == 2){
-                text+=`
-                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-            }else if(template == 3){
-                text+=`<div class="header-right" style="background:unset; border:unset;">`;
+    <h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+    <hr/>`;
+    text+=`
+    <div class="banner-right">
+        <div class="form-wrap" style="padding:0px; text-align:left;">
+            <h6 class="filter_general" onclick="show_hide_general('tourName');">Tour Name <i class="fas fa-chevron-down" id="tourName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourName_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="tourName_generalShow" style="display:inline-block; width:100%;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(1);"/>
+            </div>
+            <hr/>
+            <h6 class="filter_general" onclick="show_hide_general('tourType');">Tour Type <i class="fas fa-chevron-down" id="tourType_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourType_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="tourType_generalShow" style="display:inline-block;">`;
+            for(i in tour_type_list){
+                if(i == 0)
+                    text += `
+                    <label class="check_box_custom">
+                        <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
+                        <input type="checkbox" id="checkbox_tour_type`+i+`" onclick="change_filter('tour_type',`+i+`);" checked/>
+                        <span class="check_box_span_custom"></span>
+                    </label><br/>`;
+                else
+                    text += `
+                    <label class="check_box_custom">
+                        <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
+                        <input type="checkbox" id="checkbox_tour_type`+i+`" onclick="change_filter('tour_type',`+i+`);">
+                        <span class="check_box_span_custom"></span>
+                    </label><br/>`;
             }
-            text+=`
-                <div class="form-wrap" style="padding:0px; text-align:left;">
-                    <h6 class="filter_general" onclick="show_hide_general('tourName');">Tour Name <i class="fas fa-chevron-down" id="tourName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourName_generalUp" style="float:right; display:block;"></i></h6>
-                    <div id="tourName_generalShow" style="display:inline-block; width:100%;">
-                        <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(1);"/>
-                    </div>
-                    <hr/>
-                    <h6 class="filter_general" onclick="show_hide_general('tourType');">Tour Type <i class="fas fa-chevron-down" id="tourType_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourType_generalUp" style="float:right; display:block;"></i></h6>
-                    <div id="tourType_generalShow" style="display:inline-block;">`;
-    for(i in tour_type_list){
-        if(i == 0)
             text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
-                <input type="checkbox" id="checkbox_tour_type`+i+`" onclick="change_filter('tour_type',`+i+`);" checked/>
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
-                <input type="checkbox" id="checkbox_tour_type`+i+`" onclick="change_filter('tour_type',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-    }
-    text += `</div>`;
-    if(template == 2){
-        text+=`</div>`;
-    }
+        </div>
+    </div>`;
     node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -1508,16 +1728,40 @@ function tour_filter_render(){
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
 
+    document.getElementById("sorting-flight").innerHTML = '';
     text='';
-    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
+    text+=`
+    <div style="margin-bottom:10px;">
+        <h6 style="display: inline;">Sort by</h6>
+    </div>
+    <div class="drop_inline" style="width:100%;">
+        <div class="dropdown-toggle remove-arrow-dt div-dropdown-txt primary-btn-white" data-toggle="dropdown" style="width:100%; line-height:unset; padding:10px">
+            <span type="button" style=" cursor:pointer; margin-bottom:0px !important; text-align:left;">
+                <span id="sort_by_span">---Sort by---</span>
+            </span>
+            <ul class="dropdown-menu" role="menu" style="padding:15px;">`;
+            for(i in sorting_list){
+                text+=`
+                <label class="radio-button-custom">
+                    <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                    <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`', '`+i+`');" value="`+sorting_list[i].value+`">
+                    <span class="checkmark-radio"></span>
+                </label></br>`;
+            }
+            text+=`
+            </ul>
+        </div>
+    </div>`;
 
-    for(i in sorting_list2){
-        text+=`
-        <button class="primary-btn-sorting" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list2[i].value.toLowerCase()+`');" value="`+sorting_list2[i].value+`">
-            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
-            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
-        </button>`;
-    }
+//    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
+//    for(i in sorting_list2){
+//        text+=`
+//        <button class="primary-btn-sorting" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list2[i].value.toLowerCase()+`');" value="`+sorting_list2[i].value+`">
+//            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
+//            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
+//        </button>`;
+//    }
+
     node = document.createElement("div");
     node.className = 'sorting-box';
     node.innerHTML = text;
@@ -1526,28 +1770,16 @@ function tour_filter_render(){
 
     var node2 = document.createElement("div");
     text = '';
-    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
-            <h6 style="padding-bottom:10px;">Tour Name</h6>`;
-
-            if(template == 1){
-                text+=`<div class="banner-right">`;
-            }else if(template == 2){
-                text+=`
-                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-            }
-            text+=`
-                <div class="form-wrap" style="padding:0px; text-align:left;">
-                    <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name2" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(2);"/>
-                </div>
-            </div>`;
-
-            if(template == 2){
-                text+=`</div>`;
-            }
-            text+=`
-            <hr/>
-            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+    text+= `
+    <h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+    <h6 style="padding-bottom:10px;">Tour Name</h6>
+    <div class="banner-right">
+        <div class="form-wrap" style="padding:0px; text-align:left;">
+            <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name2" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+        </div>
+    </div>
+    <hr/>
+    <h6 style="padding-bottom:10px;">Tour Type</h6>`;
     for(i in tour_type_list){
         if(i == 0)
             text += `
@@ -1596,57 +1828,59 @@ function tour_filter_render(){
             <hr/>`;
 
     for(i in sorting_list){
-
-            text+=`
-            <label class="radio-button-custom">
-                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
-                <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
-                <span class="checkmark-radio"></span>
-            </label></br>`;
-
+        text+=`
+        <label class="radio-button-custom">
+            <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+            <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting2" onclick="sort_button('`+sorting_list[i].value+`', '`+i+`');" value="`+sorting_list[i].value+`">
+            <span class="checkmark-radio"></span>
+        </label></br>`;
     }
     node2 = document.createElement("div");
     node2.innerHTML = text;
     document.getElementById("sorting-flight2").appendChild(node2);
 }
 
-function sort_button(value){
+function sort_button(value, id){
+//    if(value == 'name'){
+//       if(sorting_value == '' || sorting_value == 'Name A-Z'){
+//           sorting_value = 'Name Z-A';
+//           document.getElementById("img-sort-down-name").style.display = "none";
+//           document.getElementById("img-sort-up-name").style.display = "block";
+//       }else{
+//           sorting_value = 'Name A-Z';
+//           document.getElementById("img-sort-down-name").style.display = "block";
+//           document.getElementById("img-sort-up-name").style.display = "none";
+//       }
+//   }else if(value == 'price'){
+//       if(sorting_value == '' || sorting_value == 'Lowest Price'){
+//           sorting_value = 'Highest Price';
+//           document.getElementById("img-sort-down-price").style.display = "none";
+//           document.getElementById("img-sort-up-price").style.display = "block";
+//       }else{
+//           sorting_value = 'Lowest Price';
+//           document.getElementById("img-sort-down-price").style.display = "block";
+//           document.getElementById("img-sort-up-price").style.display = "none";
+//       }
+//
+//   }else if(value == 'duration'){
+//       if(sorting_value == '' || sorting_value == 'Shortest Duration'){
+//           sorting_value = 'Longest Duration';
+//           document.getElementById("img-sort-down-duration").style.display = "none";
+//           document.getElementById("img-sort-up-duration").style.display = "block";
+//       }else{
+//           sorting_value = 'Shortest Duration';
+//           document.getElementById("img-sort-down-duration").style.display = "block";
+//           document.getElementById("img-sort-up-duration").style.display = "none";
+//       }
+//   }else{
+//       sorting_value = value;
+//   }
 
-    if(value == 'name'){
-       if(sorting_value == '' || sorting_value == 'Name A-Z'){
-           sorting_value = 'Name Z-A';
-           document.getElementById("img-sort-down-name").style.display = "none";
-           document.getElementById("img-sort-up-name").style.display = "block";
-       }else{
-           sorting_value = 'Name A-Z';
-           document.getElementById("img-sort-down-name").style.display = "block";
-           document.getElementById("img-sort-up-name").style.display = "none";
-       }
-   }else if(value == 'price'){
-       if(sorting_value == '' || sorting_value == 'Lowest Price'){
-           sorting_value = 'Highest Price';
-           document.getElementById("img-sort-down-price").style.display = "none";
-           document.getElementById("img-sort-up-price").style.display = "block";
-       }else{
-           sorting_value = 'Lowest Price';
-           document.getElementById("img-sort-down-price").style.display = "block";
-           document.getElementById("img-sort-up-price").style.display = "none";
-       }
-
-   }else if(value == 'duration'){
-       if(sorting_value == '' || sorting_value == 'Shortest Duration'){
-           sorting_value = 'Longest Duration';
-           document.getElementById("img-sort-down-duration").style.display = "none";
-           document.getElementById("img-sort-up-duration").style.display = "block";
-       }else{
-           sorting_value = 'Shortest Duration';
-           document.getElementById("img-sort-down-duration").style.display = "block";
-           document.getElementById("img-sort-up-duration").style.display = "none";
-       }
-   }else{
-       sorting_value = value;
-   }
-   filtering('filter', 1);
+    sorting_value = value;
+    $('#sort_by_span').text(value);
+    document.getElementById('radio_sorting'+id).checked = true;
+    document.getElementById('radio_sorting2'+id).checked = true;
+    filtering('filter', 1);
 }
 
 function filter_name(name_numb){
@@ -1704,20 +1938,20 @@ function filtering(type, exist_check){
    data = tour_data;
 
    if (searched_name){
-            data.forEach((obj)=> {
-                var test = 1;
-                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
-                    if (obj.name.toLowerCase().includes( search_str ) == false){
-                        test = 0;
-                    }
-                });
-                if(test == 1){
-                    temp_data.push(obj);
+        data.forEach((obj)=> {
+            var test = 1;
+            searched_name.toLowerCase().split(" ").forEach((search_str)=> {
+                if (obj.name.toLowerCase().includes( search_str ) == false){
+                    test = 0;
                 }
             });
-            data = temp_data;
-            tour_filter = data;
-            temp_data = [];
+            if(test == 1){
+                temp_data.push(obj);
+            }
+        });
+        data = temp_data;
+        tour_filter = data;
+        temp_data = [];
    }
 
    if(type == 'filter'){
@@ -1780,7 +2014,7 @@ function sort(tour_dat, exist_check){
         if(sorting_value != ''){
             sorting = sorting_value;
         }
-        console.log(sorting);
+
         for(var i = 0; i < tour_dat.length-1; i++) {
             for(var j = i+1; j < tour_dat.length; j++) {
                 if(sorting == '' || sorting == 'Name A-Z'){
@@ -1797,13 +2031,13 @@ function sort(tour_dat, exist_check){
                         tour_dat[j] = temp;
                     }
                 }else if(sorting == 'Lowest Price'){
-                    if(tour_dat[i].adult_sale_price > tour_dat[j].adult_sale_price){
+                    if(tour_dat[i].est_starting_price > tour_dat[j].est_starting_price){
                         var temp = tour_dat[i];
                         tour_dat[i] = tour_dat[j];
                         tour_dat[j] = temp;
                     }
                 }else if(sorting == 'Highest Price'){
-                    if(tour_dat[i].adult_sale_price < tour_dat[j].adult_sale_price){
+                    if(tour_dat[i].est_starting_price < tour_dat[j].est_starting_price){
                         var temp = tour_dat[i];
                         tour_dat[i] = tour_dat[j];
                         tour_dat[j] = temp;
@@ -1841,361 +2075,77 @@ function sort(tour_dat, exist_check){
                    img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                }
                text+=`
-                   <div class="col-lg-4 col-md-6">
+                   <div class="col-lg-12">
                         <form action='/tour/detail/`+tour_dat[i].tour_slug+`' method='POST' id='tour_select_form`+tour_dat[i].tour_code+`'>
                             <div id='csrf`+tour_dat[i].tour_code+`'></div>
                             <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
                             <input id='uuid`+tour_dat[i].tour_code+`' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
-                            <input id='sequence`+tour_dat[i].tour_code+`' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>`;
-                            if(template == 1){
-                                text+=`
-                                    <div class="single-recent-blog-post item" style="cursor:unset;">
-                                        <div class="single-destination avail-sd relative mb-2">`;
-                                            if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }
-                                            text+=`
-                                                <div class="overlay overlay-bg"></div>
-                                            </div>
-                                            <div class="card card-effect-promotion">
-                                                <div class="card-body">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
-                                                            <h6 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                            <span style="font-size:13px;font-weight:500;"><i class="fas fa-clock" style="padding:0px 5px;font-size:16px;"></i>`+tour_dat[i].duration+` Days</span>`;
-                                                            text+=`<br/>`;
+                            <input id='sequence`+tour_dat[i].tour_code+`' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>
+                            <div class="single-recent-blog-post item div_box_default" style="padding:0px 15px;">
+                                <div class="single-destination relative">
+                                    <div class="row">`;
+                                        if(img_src){
+                                            text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:175px; background: url('`+img_src+`'), url('/static/tt_website/images/no_found/no-image-tour.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')"></div>`;
+                                        }else{
+                                            text+=`<div class="col-lg-3 col-md-4 thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:175px; background: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')"></div>`;
+                                        }
+                                        text+=`
+                                        <div class="col-lg-9 col-md-8">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <div style="padding-top:15px">
+                                                        <h5 style="padding-bottom:10px;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-8 col-md-8" style="text-align:left;">
+                                                    <div class="row" style="margin-bottom:5px;">
+                                                        <div class="col-lg-12" style="text-align:left;">
+                                                            <span style="font-size:13px;font-weight:500;"><i class="fas fa-clock" style="padding-right:5px;font-size:16px;"></i>`+tour_dat[i].duration+` days</span>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(!tour_dat[i].tour_type.is_open_date){
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
+                                                                    text+=`<i class="fas fa-calendar-alt" style="padding-left:10px;font-size:16px;"></i> <span id="pop_date`+i+`" style="font-size:13px;font-weight:bold; color:`+color+`; cursor:pointer;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
                                                                 }else{
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
+                                                                    text+=`<i class="fas fa-calendar-alt" style="padding-left:10px;font-size:16px;"></i> <span id="pop_date`+i+`" style="font-size:13px;font-weight:bold; color:`+color+`; cursor:pointer;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
                                                                 }
-                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
                                                             }
-                                                        text+=`
-                                                            <div style="display:flex;">
-                                                                <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                                if(tour_dat[i].tour_type.is_open_date){
-                                                                    text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
-                                                                }else{
-                                                                    text+=tour_dat[i].tour_type_str;
-                                                                }
                                                             text+=`
-                                                                </div>
-                                                                <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                            </div>`;
-                                                            if(tour_dat[i].flight_carriers.length > 0)
-                                                            {
-                                                                text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px;">
+                                                        <div class="col-lg-12">`;
+                                                            if(tour_dat[i].flight_carriers.length > 0){
+                                                                text+=`<i class="fas fa-plane" style="font-size:16px;"></i> <span id="pop_flight`+i+`" style="font-size:13px; font-weight:bold; color:`+color+`; cursor:pointer;">Flight Info</span>`;
                                                             }
-                                                        text+=`</div>
-                                                        <div class="col-lg-12 mb-2">
-                                                            <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
-                                                        </div>`;
-                                                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && tour_dat[i].est_starting_price){
-                                                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                                                    try{
-                                                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == tour_dat[i].currency_code){
-                                                                            price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                                                            if(price_convert%1 == 0)
-                                                                                price_convert = parseInt(price_convert);
-                                                                            text+=`
-                                                                                <div class="col-lg-12">
-                                                                                    <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                                                </div>`;
-                                                                        }
-                                                                    }catch(err){
-                                                                        console.log(err);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                        text+=`
-                                                        <div class="col-lg-12">
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
+                                                            text+=`
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:5px;">
+                                                        <div class="col-lg-12">`;
+                                                            text+=`
+                                                            <span id="pop_question`+i+`" style="border:1px solid `+color+`; color:`+color+`; font-weight:bold; padding:5px 10px; border-radius:5px; cursor:pointer;">
+                                                                `+tour_dat[i].tour_type_str+` <i class="fas fa-question-circle" style="font-size:16px;"></i>
+                                                            </span>`;
+                                                            text+=`
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-
-                            }else if(template == 2){
-                                text+=`
-                                    <div class="single-post-area mb-30" style="transform:unset;">
-                                        <div class="single-destination avail-sd relative" style="border:unset;">`;
-                                            if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }
-                                            text+=`
-                                                <div class="overlay overlay-bg"></div>
-                                            </div>
-                                            <div class="card card-effect-promotion" style="border:unset;">
-                                                <div class="card-body" style="padding:10px; border:unset;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
-                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_dat[i].tour_line_amount != 0){
-                                                                if(!tour_dat[i].tour_type.is_open_date){
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
-                                                                }else{
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
-                                                                }
-                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                        <div class="col-lg-12 mb-2">
-                                                        <div style="display:flex;">
-                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type.is_open_date){
-                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
-                                                            }else{
-                                                                text+=tour_dat[i].tour_type_str;
-                                                            }
-                                                        text+=`
-                                                            </div>
-                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>`;
-                                                        if(tour_dat[i].flight_carriers.length > 0)
-                                                        {
-                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
+                                                <div class="col-lg-4 col-md-4" style="text-align:right;">
+                                                    <span style="font-size:13px; color:#616161;">Starting From</span><br/>
+                                                    <span style="font-size:15px;font-weight:bold; color:`+color+`;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span>`;
+                                                    if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && tour_dat[i].est_starting_price){
+                                                        if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                                            text+=`<br/><span class="span_link" id="estimated_popup_tour`+i+`" style="color:`+color+` !important; font-size:13px;">Estimated <i class="fas fa-coins"></i></span>`;
                                                         }
-                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
-                                                        </div>
-                                                    </div>
+                                                    }
+                                                    text+=`
+                                                    <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%; margin-top:5px; margin-bottom:15px;">BOOK</button><br/>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>`;
-                            }else if(template == 3){
-                                text+=`
-                                    <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">`;
-                                            if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }
-                                            text+=`
-                                                <div class="overlay overlay-bg"></div>
-                                            </div>
-                                            <div class="card card-effect-promotion" style="border:unset;">
-                                                <div class="card-body" style="padding:10px; border:unset;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
-                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_dat[i].tour_line_amount != 0){
-                                                                if(!tour_dat[i].tour_type.is_open_date){
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
-                                                                }else{
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
-                                                                }
-                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                        <div class="col-lg-12 mb-2">
-                                                        <div style="display:flex;">
-                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type.is_open_date){
-                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
-                                                            }else{
-                                                                text+=tour_dat[i].tour_type_str;
-                                                            }
-                                                        text+=`
-                                                            </div>
-                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>`;
-                                                        if(tour_dat[i].flight_carriers.length > 0)
-                                                        {
-                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
-                                                        }
-                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                            }else if(template == 4){
-                                text+=`
-                                    <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative">`;
-                                            if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }
-                                            text+=`
-                                                <div class="overlay overlay-bg"></div>
-                                            </div>
-                                            <div class="card card-effect-promotion" style="border:unset;">
-                                                <div class="card-body" style="padding:10px; border:unset;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
-                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_dat[i].tour_line_amount != 0){
-                                                                if(!tour_dat[i].tour_type.is_open_date){
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
-                                                                }else{
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
-                                                                }
-                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                        <div class="col-lg-12 mb-2">
-                                                        <div style="display:flex;">
-                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type.is_open_date){
-                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
-                                                            }else{
-                                                                text+=tour_dat[i].tour_type_str;
-                                                            }
-                                                        text+=`
-                                                            </div>
-                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>`;
-                                                        if(tour_dat[i].flight_carriers.length > 0)
-                                                        {
-                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
-                                                        }
-                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                            }else if(template == 5){
-                                text+=`
-                                    <div class="single-post-area mb-30">
-                                        <div class="single-destination avail-sd relative" style="border:1px solid #cdcdcd;">`;
-                                            if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }
-                                            text+=`
-                                            </div>
-                                            <div class="card card-effect-promotion" style="border:unset;">
-                                                <div class="card-body" style="padding:10px; border:unset;">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
-                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_dat[i].tour_line_amount != 0){
-                                                                if(!tour_dat[i].tour_type.is_open_date){
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
-                                                                }else{
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
-                                                                }
-                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                        <div class="col-lg-12 mb-2">
-                                                        <div style="display:flex;">
-                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type.is_open_date){
-                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
-                                                            }else{
-                                                                text+=tour_dat[i].tour_type_str;
-                                                            }
-                                                        text+=`
-                                                            </div>
-                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>`;
-                                                        if(tour_dat[i].flight_carriers.length > 0)
-                                                        {
-                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
-                                                        }
-                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                            }
-                            else if(template == 6){
-                                text+=`
-                                    <div class="single-recent-blog-post item" style="cursor:unset;">
-                                        <div class="single-destination avail-sd relative mb-2">`;
-                                            if(img_src){
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }else{
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
-                                            }
-                                            text+=`
-                                            </div>
-                                            <div class="card card-effect-promotion">
-                                                <div class="card-body">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:170px;">
-                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
-                                                            if(tour_dat[i].tour_line_amount != 0){
-                                                                if(!tour_dat[i].tour_type.is_open_date){
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
-                                                                }else{
-                                                                    text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Period</span>`;
-                                                                }
-                                                                text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                        <div class="col-lg-12 mb-2">
-                                                        <div style="display:flex;">
-                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type.is_open_date){
-                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
-                                                            }else{
-                                                                text+=tour_dat[i].tour_type_str;
-                                                            }
-                                                        text+=`
-                                                            </div>
-                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>`;
-                                                        if(tour_dat[i].flight_carriers.length > 0)
-                                                        {
-                                                            text+=`<span id="pop_flight`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;"><i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info</span>`;
-                                                        }
-                                                        text+=`<span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
-                                                            <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">`+tour_dat[i].currency_code+` `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_dat[i].tour_code+`')" style="width:100%;">BOOK</button><br/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-
-                            }
-                            text+=`
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                    `;
@@ -2219,7 +2169,7 @@ function sort(tour_dat, exist_check){
        text = '';
        var node = document.createElement("div");
        text+=`
-       <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+       <div class="div_box_default">
            <span style="font-weight:bold; font-size:14px;"> Tour - `+tour_dat.length+` results</span>
        </div>`;
        node.innerHTML = text;
@@ -2232,11 +2182,11 @@ function sort(tour_dat, exist_check){
            content_pop_question = '';
            content_pop_flight = '';
            title_pop_date = '';
-           content_pop_question+=`<b>`+tour_dat[i].tour_type.name+`: </b>`+tour_dat[i].tour_type.description;
 
+            content_pop_question+=`<b>`+tour_dat[i].tour_type.name+`</b><br/>`+tour_dat[i].tour_type.description;
             new jBox('Tooltip', {
                 attach: '#pop_question'+i,
-                width: 280,
+                maxWidth: 280,
                 closeOnMouseleave: true,
                 animation: 'zoomIn',
                 content: content_pop_question
@@ -2252,7 +2202,7 @@ function sort(tour_dat, exist_check){
                         content_pop_date += `<h6>Period - `+sch_count+`</h6>`;
                         title_pop_date += 'Period Date';
                     }
-                    content_pop_date += `<span>`+tour_dat[i].tour_lines[j].departure_date_str+` - `+tour_dat[i].tour_lines[j].arrival_date_str+`</span><hr/>`;
+                    content_pop_date += `<span>`+tour_dat[i].tour_lines[j].departure_date_str+` - `+tour_dat[i].tour_lines[j].arrival_date_str+`</span><br/>`;
                 }
 
                 new jBox('Tooltip', {
@@ -2273,19 +2223,24 @@ function sort(tour_dat, exist_check){
                     offset: {
                       x: 25
                     },
-                    content: content_pop_date,
-                    onOpen: function () {
-                      this.source.addClass('active').html('Close');
-                    },
-                    onClose: function () {
-                      this.source.removeClass('active').html('See Date');
-                    }
+                    content: content_pop_date
                 });
             }
 
             if(tour_dat[i].flight_carriers.length > 0){
                 for (j in tour_dat[i].flight_carriers){
-                    content_pop_flight += `<span><img src="`+static_path_url_server+`/public/airline_logo/`+tour_dat[i].flight_carriers[j].code+`.png"/> `+tour_dat[i].flight_carriers[j].name+`</span><hr/>`;
+                    content_pop_flight += `
+                    <div style="display:inline-flex; margin-bottom:10px;">
+                        <div style="display:inline-block;">
+                            <img class="airlines_provider_img_detail" alt="`+tour_dat[i].flight_carriers[j].name+`" title="`+tour_dat[i].flight_carriers[j].name+`" src="`+static_path_url_server+`/public/airline_logo/`+tour_dat[i].flight_carriers[j].code+`.png"/>
+                        </div>
+                        <div style="display:inline-block;">
+                            <div style="display:grid;">
+                                <span>`+tour_dat[i].flight_carriers[j].name+`</span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>`;
                 }
 
                 new jBox('Tooltip', {
@@ -2306,15 +2261,48 @@ function sort(tour_dat, exist_check){
                     offset: {
                       x: 25
                     },
-                    content: content_pop_flight,
-                    onOpen: function () {
-                      this.source.addClass('active').html('Close');
-                    },
-                    onClose: function () {
-                      this.source.removeClass('active').html('<i class="fas fa-plane" style="padding:0px 5px;font-size:16px;"></i>Flight Info');
-                    }
+                    content: content_pop_flight
                 });
             }
+
+            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && tour_dat[i].est_starting_price){
+                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                    content_pop_estimated = '';
+                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                        try{
+                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == tour_dat[i].currency_code){
+                                price_convert = (parseFloat(tour_dat[i].est_starting_price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                if(price_convert%1 == 0)
+                                    price_convert = parseInt(price_convert);
+                                content_pop_estimated+=`<span style="font-size:14px;font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>`;
+                            }
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                    new jBox('Tooltip', {
+                        attach: '#estimated_popup_tour'+i,
+                        target: '#estimated_popup_tour'+i,
+                        theme: 'TooltipBorder',
+                        trigger: 'click',
+                        adjustTracker: true,
+                        closeOnClick: 'body',
+                        closeButton: 'box',
+                        animation: 'move',
+                        position: {
+                          x: 'left',
+                          y: 'top'
+                        },
+                        outside: 'y',
+                        pointer: 'left:20',
+                        offset: {
+                          x: 25
+                        },
+                        content: content_pop_estimated,
+                    });
+                }
+            }
+
        }
     }
 }
@@ -2330,13 +2318,13 @@ function auto_complete_tour(type, current_opt=0){
     {
         tour_set_city(temp_obj_id, current_opt);
     }
+    auto_complete_text_tour(type);
 }
 
 function tour_set_city(country_id, current_city_id=0){
     var text = `<option value="0" selected="">All Cities</option>`;
     var country = {};
     for(i in tour_country){
-       console.log(parseInt(country_id));
        if(tour_country[i].id == parseInt(country_id)){
            country = tour_country[i];
            break;
@@ -2612,4 +2600,30 @@ function room_chose_render(data_ren, id, type_ren){
             r_choose_special.innerHTML = `Special Request: <span>No Request</span>`;
        }
     }
+}
+
+function auto_complete_text_tour(type){
+    sel_objs_act = $('#'+type).select2('data');
+    if (type == 'tour_countries'){
+        document.getElementById('show_country_tour').innerHTML = sel_objs_act[0].text;
+        if(sel_objs_act[0].text == 'All Countries'){
+            document.getElementById('show_city_tour').innerHTML = 'All Cities';
+        }
+    }
+    else if (type == 'tour_cities'){
+        document.getElementById('show_city_tour').innerHTML = sel_objs_act[0].text;
+    }
+    else if (type == 'tour_dest_month'){
+        document.getElementById('show_month_tour').innerHTML = sel_objs_act[0].text;
+    }
+    else if (type == 'tour_dest_year'){
+        document.getElementById('show_year_tour').innerHTML = sel_objs_act[0].text;
+    }
+}
+
+function go_to_package_div(){
+    $('html, body').animate({
+        scrollTop: $("#div-product-tour").offset().top - 50
+    }, 100);
+    active_sticky_tour("product");
 }

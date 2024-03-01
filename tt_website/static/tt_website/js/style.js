@@ -3075,32 +3075,32 @@ function show_hide_itinerary_tour(index){
     if (itinerary_down.style.display === "none") {
         itinerary_up.style.display = "none";
         itinerary_down.style.display = "inline-block";
-        itinerary_div.style.display = "none";
+        itinerary_div.style.display = "block";
     }
     else {
         itinerary_up.style.display = "inline-block";
         itinerary_down.style.display = "none";
-        itinerary_div.style.display = "block";
+        itinerary_div.style.display = "none";
     }
 }
 
 function showImageItinerary(index, idx){
     var show_image = document.getElementById('show_image_itinerary'+index+idx);
-    var show_image2 = document.getElementById('show_image_itinerary2'+index+idx);
+    //var show_image2 = document.getElementById('show_image_itinerary2'+index+idx);
     var image_itinerary = document.getElementById('image_itinerary'+index+idx);
-    var image_itinerary2 = document.getElementById('image_itinerary2'+index+idx);
+    //var image_itinerary2 = document.getElementById('image_itinerary2'+index+idx);
 
     if (image_itinerary.style.display === "none") {
         show_image.innerHTML = "Hide image";
-        show_image2.innerHTML = "Hide image";
+        //show_image2.innerHTML = "Hide image";
         image_itinerary.style.display = "block";
-        image_itinerary2.style.display = "block";
+        //image_itinerary2.style.display = "block";
     }
     else {
         show_image.innerHTML = "Show image";
-        show_image2.innerHTML = "Show image";
+        //show_image2.innerHTML = "Show image";
         image_itinerary.style.display = "none";
-        image_itinerary2.style.display = "none";
+        //image_itinerary2.style.display = "none";
     }
 }
 
@@ -3300,12 +3300,23 @@ function next_focus_element(product, from){
     }else if(product == 'activity'){
         if(from == 'country'){
             setTimeout(function(){
-                $("#show_country_city").click();
+                $("#show_country_city_activity").click();
             }, 200);
         }
         if(from == 'type'){
             setTimeout(function(){
                 $("#show_type_category").click();
+            }, 200);
+        }
+    }else if(product == 'tour'){
+        if(from == 'country'){
+            setTimeout(function(){
+                $("#show_country_city_tour").click();
+            }, 200);
+        }
+        if(from == 'time'){
+            setTimeout(function(){
+                $("#show_month_year_tour").click();
             }, 200);
         }
     }else if(product == 'train'){
