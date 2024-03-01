@@ -1398,6 +1398,8 @@
     position: relative;
     min-height: 1px;
     float: left;
+    border:1px solid #cdcdcd;
+    border-radius: 5px;
     -webkit-backface-visibility: hidden;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none; }
