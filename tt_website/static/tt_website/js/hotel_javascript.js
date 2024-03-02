@@ -4293,7 +4293,7 @@ function update_special_request_show_text(id){
 function go_to_room_div(){
     $('html, body').animate({
         scrollTop: $("div.div-select-room-hotel").offset().top - 50
-    }, 500);
+    }, 100);
     active_sticky_hotel("select");
 }
 

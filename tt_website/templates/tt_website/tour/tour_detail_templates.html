@@ -35,21 +35,12 @@
         }
     }
 
-    ul.tabs{
-        border:1px solid #cdcdcd;
-    }
-    ul.create_tabs{
-        border:1px solid #cdcdcd;
-    }
-    {%if template == 2%}
-    ul.tabs li{
-        background:unset;
-        color:unset;
-    }
-    {% endif %}
-
     .owl-theme .owl-nav{
         margin-top: 0px;
+    }
+
+    li{
+        list-style-type: unset;
     }
 </style>
 
@@ -60,207 +51,34 @@
 {% include 'tt_website/plugin_passenger.html' %}
 {% include 'tt_website/header.html' %}
 
-{%if template == 1%}
-<section class="destinations-area change_search_bg">
-    <div id="hotel_search_params" class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Tour Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Tours' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
-                    <span id="search_month_name">
-                        {% if not dest_month or dest_month == '00' %}
-                        {% trans 'All Months' %}
-                        {% else %}
-                        {% for month_data in dest_month_data %}
-                        {% if month_data.value == dest_month %}
-                        {{month_data.string}}
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </span>,
-                    <span id="search_year_name">
-                        {% if not dest_year or dest_year == '0000' %}
-                        {% trans 'All Years' %}
-                        {% else %}
-                        {{dest_year}}
-                        {% endif %}
-                    </span>
-                </span>
-                <br/>
-            </div>
 
-            <div class="col-lg-6 col-md-6" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:91; position:relative; display:none">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12" style="padding:0;">
-                <div class="banner-right">
-                    <form action="{% url 'tt_website:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}" style="margin-bottom:0px;"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket">&nbsp;</span>
-                                <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="tour_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
-                                                <option value="0" selected="">{% trans 'All Countries' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                        <div class="form-select">
-                                            <div id="temp_tour_cities">
-                                                <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                    <option value="0" selected="">{% trans 'All Cities' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-12 search_type">
-                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                    {% for month_data in dest_month_data %}
-                                                    {% if month_data.value == dest_month %}
-                                                    <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                                    {% else %}
-                                                    <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                        <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
-
-                        <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{% elif template == 2 %}
-<section class="change_search_bg">
+<section class="change-search-area-pcw" id="section_change_search_ns" style="display:none; padding-top:30px;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Tour Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Tours' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
-                    <span id="search_month_name">
-                        {% if not dest_month or dest_month == '00' %}
-                        {% trans 'All Months' %}
-                        {% else %}
-                        {% for month_data in dest_month_data %}
-                        {% if month_data.value == dest_month %}
-                        {{month_data.string}}
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </span>,
-                    <span id="search_year_name">
-                        {% if not dest_year or dest_year == '0000' %}
-                        {% trans 'All Years' %}
-                        {% else %}
-                        {{dest_year}}
-                        {% endif %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-
-            <div class="col-lg-6 col-md-6" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:90; position:relative; display:none;">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row">
             <div class="col-lg-12">
-                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
+                <div id="div-search-overlay">
+                    <div style="background:{{color}}; padding: 5px 10px; box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                        <div class="row">
+                            <div class="col-xs-9" style="margin:auto;">
+                                <h5 style="color:{{text_color}};">{% trans 'Change Search' %}</h5>
+                            </div>
+                            <div class="col-xs-3" style="margin:auto; text-align:right;">
+                                <i class="fas fa-times" onclick="go_to_change_search('section_change_search_ns');" style="font-size:20px; color:{{text_color}}; cursor:pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="change_search_box_bg">
                         <form action="{% url 'tt_website:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                    <span style="color:{{text_color}};"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
+                                <div class="col-lg-9 col-md-8 col-sm-7">
+                                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
+                                        <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}" style="margin-bottom:0px;"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                                    <span style="color:{{text_color}};">&nbsp;</span>
+                                <div class="col-lg-3 col-md-4 col-sm-5">
+                                    <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
                                         <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
@@ -268,70 +86,92 @@
                                 </div>
                             </div>
                             <div class="row" id="tour_advanced_search" style="display:none;">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mb-2">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
-                                                    <option value="0" selected="">{% trans 'All Countries' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="form-select">
-                                                <div id="temp_tour_cities">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                        <option value="0" selected="">{% trans 'All Cities' %}</option>
-                                                    </select>
-                                                </div>
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_country_city_tour" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
+                                                    <span id="show_country_tour">All Countries</span>, <span id="show_city_tour">All Cities</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-select">
+                                                                <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
+                                                                    <option value="0" selected="">{% trans 'All Countries' %}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-select">
+                                                                <div id="temp_tour_cities">
+                                                                    <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
+                                                                        <option value="0" selected="">{% trans 'All Cities' %}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('tour','time');">Done</button>
+                                                        </div>
+                                                    </div>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-lg-6">
                                     <div class="row">
-                                        <div class="col-lg-12 search_type">
-                                            <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                    {% for month_data in dest_month_data %}
-                                                    {% if month_data.value == dest_month %}
-                                                    <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                                    {% else %}
-                                                    <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                        <div class="col-lg-12">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_month_year_tour" style="text-align:left; cursor:pointer;" type="button" class="form-control remove-arrow-dt dropdown-toggle" data-toggle="dropdown">
+                                                    <span id="show_month_tour">All Month</span>, <span id="show_year_tour">All Year</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" style="z-index:5; padding:15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 search_type">
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                                        {% for month_data in dest_month_data %}
+                                                                        {% if month_data.value == dest_month %}
+                                                                        <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
+                                                                        {% else %}
+                                                                        <option value="{{month_data.value}}">{{month_data.string}}</option>
+                                                                        {% endif %}
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
+                                                            <div class="form-select">
+                                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
 
-                                                </select>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('tour','time');">Done</button>
+                                                        </div>
+                                                    </div>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <br/>
-                            <center>
-                                <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    {% trans 'Search' %}
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </center>
+
+                            <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                {% trans 'Search' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -339,794 +179,184 @@
         </div>
     </div>
 </section>
-{% elif template == 3 %}
-<section class="change_search_bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Tour Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Tours' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
-                    <span id="search_month_name">
-                        {% if not dest_month or dest_month == '00' %}
-                        {% trans 'All Months' %}
-                        {% else %}
-                        {% for month_data in dest_month_data %}
-                        {% if month_data.value == dest_month %}
-                        {{month_data.string}}
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </span>,
-                    <span id="search_year_name">
-                        {% if not dest_year or dest_year == '0000' %}
-                        {% trans 'All Years' %}
-                        {% else %}
-                        {{dest_year}}
-                        {% endif %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-
-            <div class="col-lg-6 col-md-6" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:5px; padding-bottom:5px; z-index:100; position:relative; display:none;">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row fullscreen d-flex">
-            <div class="col-lg-12 header-right" style="padding-top:50px; padding-bottom:50px; background-color:unset; border:unset;">
-                <form action="{% url 'tt_website:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                            <span style="color:{{text_color}};"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
-                            <div class="input-container-search-ticket">
-                                <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                            <span style="color:{{text_color}};">&nbsp;</span>
-                            <div class="input-container-search-ticket">
-                                <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="tour_advanced_search" style="display:none;">
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
-                                            <option value="0" selected="">{% trans 'All Countries' %}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div class="form-select">
-                                        <div id="temp_tour_cities">
-                                            <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                <option value="0" selected="">{% trans 'All Cities' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12 search_type">
-                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                            {% for month_data in dest_month_data %}
-                                            {% if month_data.value == dest_month %}
-                                            <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                            {% else %}
-                                            <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-{% elif template == 4 %}
-<section class="destinations-area change_search_bg">
-    <div id="hotel_search_params" class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Tour Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Tours' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
-                    <span id="search_month_name">
-                        {% if not dest_month or dest_month == '00' %}
-                        {% trans 'All Months' %}
-                        {% else %}
-                        {% for month_data in dest_month_data %}
-                        {% if month_data.value == dest_month %}
-                        {{month_data.string}}
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </span>,
-                    <span id="search_year_name">
-                        {% if not dest_year or dest_year == '0000' %}
-                        {% trans 'All Years' %}
-                        {% else %}
-                        {{dest_year}}
-                        {% endif %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-
-            <div class="col-lg-6 col-md-6" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:30px; background-color: black; z-index:91; position:relative; display:none">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="banner-right">
-                    <form action="{% url 'tt_website:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket">&nbsp;</span>
-                                <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="tour_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
-                                                <option value="0" selected="">{% trans 'All Countries' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-select">
-                                            <div id="temp_tour_cities">
-                                                <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                    <option value="0" selected="">{% trans 'All Cities' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                {% for month_data in dest_month_data %}
-                                                {% if month_data.value == dest_month %}
-                                                <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                                {% else %}
-                                                <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                                {% endif %}
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
-                        <center>
-                            <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                {% trans 'Search' %}
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </center>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{% elif template == 5 %}
-<section class="destinations-area change_search_bg">
-    <div id="hotel_search_params" class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Tour Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Tours' %}{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
-                    <span id="search_month_name">
-                        {% if not dest_month or dest_month == '00' %}
-                        {% trans 'All Months' %}
-                        {% else %}
-                        {% for month_data in dest_month_data %}
-                        {% if month_data.value == dest_month %}
-                        {{month_data.string}}
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </span>,
-                    <span id="search_year_name">
-                        {% if not dest_year or dest_year == '0000' %}
-                        {% trans 'All Years' %}
-                        {% else %}
-                        {{dest_year}}
-                        {% endif %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-
-            <div class="col-lg-6 col-md-6" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:91; position:relative; display:none">
-    <div class="overlay overlay-bg"></div>
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <form action="{% url 'tt_website:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket">&nbsp;</span>
-                                <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="tour_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
-                                                <option value="0" selected="">{% trans 'All Countries' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="form-select">
-                                            <div id="temp_tour_cities">
-                                                <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                    <option value="0" selected="">{% trans 'All Cities' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                    {% for month_data in dest_month_data %}
-                                                    {% if month_data.value == dest_month %}
-                                                    <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                                    {% else %}
-                                                    <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
-                        <center>
-                            <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                {% trans 'Search' %}
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </center>
-                    </form>
-            </div>
-        </div>
-    </div>
-</section>
-{% elif template == 6 %}
-<section class="destinations-area change_search_bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Tour Search' %}: {% if query %}{{query}}{% else %}All Tours{% endif %}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
-                    <span id="search_country_name">
-                        {% trans 'All Countries' %}
-                    </span>,
-                    <span id="search_city_name">
-                        {% trans 'All Cities' %}
-                    </span>
-                </span>
-                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
-                    <span id="search_month_name">
-                        {% if not dest_month or dest_month == '00' %}
-                        {% trans 'All Months' %}
-                        {% else %}
-                        {% for month_data in dest_month_data %}
-                        {% if month_data.value == dest_month %}
-                        {{month_data.string}}
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </span>,
-                    <span id="search_year_name">
-                        {% if not dest_year or dest_year == '0000' %}
-                        {% trans 'All Years' %}
-                        {% else %}
-                        {{dest_year}}
-                        {% endif %}
-                    </span>
-                </span>
-                <br/>
-            </div>
-
-            <div class="col-lg-6 col-md-6" style="text-align:right;">
-                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:96; position:relative; display:none;">
-    <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="banner-right">
-                    <form action="{% url 'tt_website:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8">
-                                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}" style="margin-bottom:0px;"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4">
-                                <span class="span-search-ticket">&nbsp;</span>
-                                <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="tour_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
-                                                <option value="0" selected="">{% trans 'All Countries' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-select">
-                                            <div id="temp_tour_cities">
-                                                <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                    <option value="0" selected="">{% trans 'All Cities' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                    {% for month_data in dest_month_data %}
-                                                    {% if month_data.value == dest_month %}
-                                                    <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                                    {% else %}
-                                                    <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
-                        <center>
-                            <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                {% trans 'Search' %}
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </center>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{%endif%}
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background: #f7f7f7;">
     <div class="container">
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12" id="breadcrumbs_create">-->
+
+<!--            </div>-->
+<!--        </div>-->
         <div class="row">
-            <div class="col-lg-12" id="breadcrumbs_create">
-
-            </div>
-        </div>
-        <div class="row" style="padding-top:15px; padding-bottom:15px;">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
-            </div>
-        </div>
-
-
-        {% if template == 1%}
-        <div class="row full_tour_details">
             <div class="col-lg-12">
-        {% elif template == 2 %}
-        <div class="row full_tour_details hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-            <div class="col-lg-12 hotel-search-form" style="background-color:unset; padding:15px; box-shadow:unset;">
-        {% elif template == 3 %}
-        <div class="row full_tour_details">
-            <div class="col-lg-12 header-right" style="background:unset; border:unset;">
-        {%endif%}
-                {% csrf_token %}
-                <div class="row" style="position:sticky;top: -1px;z-index: 89;">
-                    <div class="col-lg-12">
-                        <div class="box-sticky-hotel" style="margin-bottom:unset;">
-                            {% if username.co_user_login != default_user %}
-                            <div id="info_user_search" style="padding: 15px 15px 0px 15px; top:0px; display:flex; border-bottom:1px solid #cdcdcd; background:white;" hidden>
-                                <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:15px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span><br/>
-                                <a id="balance_search" style="display:flex; font-size:13px; font-weight:500;"></a><br/>
-                                <span id="credit_search" style="font-size:13px; font-weight:500; padding-left:15px;"></span>
+                <div class="change_search_div_ns">
+                    <div class="destinations-area change_search_n">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Tour Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Tours' %}{% endif %}</span><br/>
+                                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
+                                    <span id="search_country_name">
+                                        {% trans 'All Countries' %}
+                                    </span>,
+                                    <span id="search_city_name">
+                                        {% trans 'All Cities' %}
+                                    </span>
+                                </span>
+                                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
+                                    <span id="search_month_name">
+                                        {% if not dest_month or dest_month == '00' %}
+                                        {% trans 'All Months' %}
+                                        {% else %}
+                                        {% for month_data in dest_month_data %}
+                                        {% if month_data.value == dest_month %}
+                                        {{month_data.string}}
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
+                                    </span>,
+                                    <span id="search_year_name">
+                                        {% if not dest_year or dest_year == '0000' %}
+                                        {% trans 'All Years' %}
+                                        {% else %}
+                                        {{dest_year}}
+                                        {% endif %}
+                                    </span>
+                                </span>
+                                <br/>
                             </div>
-                            {% endif %}
-
-                            <button class="content-tour primary-btn-sticky-hotel" type="button" id="description-tour">{% trans 'Description' %}</button>
-                            <button class="content-tour primary-btn-sticky-hotel" type="button" id="product-tour">{% trans 'Book Now' %}</button>
+                            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                                <button class="primary-btn-custom" type="button" onclick="go_to_change_search('section_change_search_ns');">
+                                    <span id="change_search_text"><i class="fas fa-search" style="font-size:18px;"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div style="display:flex; border-top:1px solid #cdcdcd; margin-top:5px; padding-top:10px;">
+                            <div style="display:inline-block; padding-right:15px;">
+                                <span style="font-weight:600; padding-right:5px;">
+                                    <i class="fas fa-stopwatch" style="font-size:17px;"></i> {% trans 'Session Time' %}
+                                </span>
+                                <span class="count_time" id="session_time" style="float:right;"> </span>
+                            </div>
+                            <div style="display:inline-block;">
+                                <span style="font-weight:600; padding-right:5px;"><i class="fas fa-clock" style="font-size:16px;"></i> {% trans 'Elapsed Time' %}</span>
+                                <span class="count_time" id="elapse_time" style="float:right;"> </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row" id="div-description-tour" style="padding:15px;">
-                    <div class="col-lg-12" style="width:100%; background-color:white; padding:20px 20px {% if template == 1 %}0px{% else %} 20px{% endif %} 20px; border: 1px solid #ddd;">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 mb-3">
-                                <div id="tour_carousel">
+            </div>
+        </div>
 
-                                </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div id="country_list_tour">
-                                            <h4 id="main_tour_name" style="font-size:22px; color:black;"></h4>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div id="print_doc_btn_div" style="margin-top: 15px;">
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+        <div class="row full_tour_details">
+            <div class="col-lg-12">
+                {% csrf_token %}
+                <div class="row" style="position:sticky;top: -1px;z-index: 24;">
+                    <div class="col-lg-12">
+                        <div class="box-sticky-hotel div_box_default" style="padding:0px;">
+<!--                    <button class="primary-btn-sticky-hotel" type="button" onclick="location.href='{% url 'tt_website:activity_search'%}';" style="border-right:1px solid #cdcdcd; background:aliceblue; font-weight:bold;">-->
+<!--                        <i class="fas fa-chevron-left"></i> Result-->
+<!--                    </button>-->
+                            <button class="content-tour primary-btn-sticky-hotel" type="button" id="description-tour">{% trans 'Overview' %}</button>
+                            <button class="content-tour primary-btn-sticky-hotel" type="button" id="product-tour">{% trans 'Package' %}</button>
                         </div>
                     </div>
-
-                    <div class="col-lg-12" style="padding:0px;">
-                        {%if template == 1%}
-                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                            <ul class="create_tabs" id="tour_detail_tabs">
-                                <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
-                            </ul>
-                        </div>
-                        <div style="border:1px solid #cdcdcd; background:white; padding:15px;">
-                            <div id="tab-itinerary" class="create_tab-content current" style="padding:0px 0px 10px 0px;">
-                                <div id="itinerary">
+                </div>
+                <div class="row" id="div-description-tour">
+                    <div class="col-lg-12">
+                        <div class="div_box_default">
+                            <div class="row">
+                                <div class="col-lg-4 mb-3" id="tour_carousel">
 
                                 </div>
-                            </div>
-                            <div id="tab-flight" class="create_tab-content" style="padding:20px 0px 10px 0px;">
-                                <div id="flight_details" style="overflow: scroll;">
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-lg-12" id="country_list_tour">
+                                            <h4 id="main_tour_name" style="font-size:22px; color:black; margin-bottom: 5px;"></h4>
+                                        </div>
+                                        <div class="col-lg-12" style="text-align:left;" id="print_doc_btn_div">
 
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="tab-other" class="create_tab-content" style="padding:20px 0px 10px 0px;">
-                                <div id="other_info">
+                                <div class="col-lg-12">
+                                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white; margin-bottom:15px;">
+                                        <ul class="create_tabs" id="tour_detail_tabs">
+                                            <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
+                                            <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
+                                            <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div id="tab-itinerary" class="create_tab-content current" style="padding:0px 0px 10px 0px;">
+                                            <div id="itinerary">
 
-                                </div>
-                            </div>
-                        </div>
-                        {% elif template == 2%}
-                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                            <ul class="tabs" style="background:white;">
-                                <li class="tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                <li class="tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                <li class="tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
-                            </ul>
-                        </div>
-                        <div style="border:1px solid #cdcdcd; background:white;">
-                            <div id="tab-itinerary" class="tab-content current">
-                                <div id="itinerary">
+                                            </div>
+                                        </div>
+                                        <div id="tab-flight" class="create_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div id="flight_details">
 
-                                </div>
-                            </div>
-                            <div id="tab-flight" class="tab-content">
-                                <div id="flight_details" style="overflow: scroll;">
+                                            </div>
+                                        </div>
+                                        <div id="tab-other" class="create_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div class="div_box_default" id="other_info">
 
-                                </div>
-                            </div>
-                            <div id="tab-other" class="tab-content">
-                                <div id="other_info">
-
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        {% elif template == 3%}
-                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                            <ul class="create_tabs" style="background:white;">
-                                <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
-                            </ul>
-                        </div>
-                        <div style="border:1px solid #cdcdcd; background:white;">
-                            <div id="tab-itinerary" class="create_tab-content current">
-                                <div id="itinerary">
-
-                                </div>
-                            </div>
-                            <div id="tab-flight" class="create_tab-content">
-                                <div id="flight_details" style="overflow: scroll;">
-
-                                </div>
-                            </div>
-                            <div id="tab-other" class="create_tab-content">
-                                <div id="other_info">
-
-                                </div>
-                            </div>
-                        </div>
-                        {% elif template == 4%}
-                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                            <ul class="create_tabs" style="background:white;">
-                                <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
-                            </ul>
-                        </div>
-                        <div style="border:1px solid #cdcdcd; background:white;">
-                            <div id="tab-itinerary" class="create_tab-content current">
-                                <div id="itinerary">
-
-                                </div>
-                            </div>
-                            <div id="tab-flight" class="create_tab-content">
-                                <div id="flight_details" style="overflow: scroll;">
-
-                                </div>
-                            </div>
-                            <div id="tab-other" class="create_tab-content">
-                                <div id="other_info">
-
-                                </div>
-                            </div>
-                        </div>
-                        {% elif template == 5%}
-                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                            <ul class="create_tabs" style="background:white;">
-                                <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
-                            </ul>
-                        </div>
-                        <div style="border:1px solid #cdcdcd; background:white;">
-                            <div id="tab-itinerary" class="create_tab-content current">
-                                <div id="itinerary">
-
-                                </div>
-                            </div>
-                            <div id="tab-flight" class="create_tab-content">
-                                <div id="flight_details" style="overflow: scroll;">
-
-                                </div>
-                            </div>
-                            <div id="tab-other" class="create_tab-content">
-                                <div id="other_info">
-
-                                </div>
-                            </div>
-                        </div>
-                        {% elif template == 6%}
-                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white; border:1px solid #cdcdcd;">
-                            <ul class="create_tabs" id="tour_detail_tabs">
-                                <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
-                            </ul>
-                        </div>
-                        <div style="border:1px solid #cdcdcd; background:white; padding:15px;">
-                            <div id="tab-itinerary" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
-                                <div id="itinerary">
-
-                                </div>
-                            </div>
-                            <div id="tab-flight" class="create_tab-content" style="padding:20px 0px 10px 0px;">
-                                <div id="flight_details" style="overflow: scroll;">
-
-                                </div>
-                            </div>
-                            <div id="tab-other" class="create_tab-content" style="padding:20px 0px 10px 0px;">
-                                <div id="other_info">
-
-                                </div>
-                            </div>
-                        </div>
-                        {%endif%}
                     </div>
                 </div>
 
                 <div class="row" id="div-product-tour" style="margin-top:20px;">
+                    <div class="col-lg-12">
+                        {% if username.co_user_login != default_user %}
+                        <div class="sticky_ru_fs" id="sticky_time_fs_div" style="display:none;">
+                            <div class="time_user_box mb-3">
+                                <div style="display:flex; margin-top:7px;">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                                <span title="{{username.co_user_login}}" style="font-weight:600; cursor:pointer; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px; display:inline-block; display:-webkit-inline-block;">
+                                                    <i class="fas fa-user" style="font-size:16px;"></i> {{username.co_user_login}}
+                                                </span><br/>
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                    <button type="button" class="btn-dropdown-txt" style="color:black">
+                                                        Balance & Credit
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu" style="padding:15px;">
+                                                        <span style="float:right; font-size:20px; cursor:pointer;"><i class="fas fa-times" onclick='$(".dropdown-menu").removeClass("show");'></i></span><br/>
+                                                        <div id="balance_search"></div>
+                                                        <div id="credit_search"></div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
                     <div class="col-lg-12" id="book_now">
-                        <div class="col-lg-12" style="background-color: {{color}}; width:100%; height: 37px; padding-top:7px;"><i class="fa fa-shopping-cart" aria-hidden="true" title="details" style="font-size: 18px; color:{{text_color}};"></i><span class="hidden-xs" style="color:{{text_color}};"> {% trans 'Book Now' %}</span></div>
-                        <div style="width:100%; height: inherit; background-color:white; border:1px solid #cdcdcd; padding: 15px;">
-                            <form method='POST' action="/tour/passenger/{{signature}}" id="go_to_pax" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <input type="hidden" id="tour_data" name="tour_data"/>
-                                <div class="row">
-                                    <div class="col-lg-7" style="margin-bottom:15px; padding-top:10px;">
+                        <form method='POST' action="/tour/passenger/{{signature}}" id="go_to_pax" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" id="tour_data" name="tour_data"/>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="div_box_default">
                                         <h4 class="mb-2">{% trans 'Select Tour Package' %}</h4>
                                         <input type="hidden" id="tour_line_code" name="tour_line_code" value=""/>
                                         <div class="row">
-                                            <div class="col-lg-7 mb-2">
+                                            <div class="col-lg-8 mb-2">
                                                 <input type="text" id="tour_line_display" name="tour_line_display" class="form-control mb-3" style="margin-bottom:5px !important;" disabled/>
                                             </div>
-                                            <div class="col-lg-5">
-                                                <button id="btnChangeDate" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#ChangeDateModal"><i class="fas fa-calendar-alt"></i> {% trans 'Choose Package' %}</button>
+                                            <div class="col-lg-4">
+                                                <button id="btnChangeDate" class="primary-btn btn-block space" type="button" data-toggle="modal" data-target="#ChangeDateModal">{% trans 'Choose Package' %}</button>
                                             </div>
                                         </div>
                                         <h4 class="mt-3 mb-2 open_tour_date" style="display:none;">{% trans 'Tour Date' %}</h4>
@@ -1147,12 +377,12 @@
                                         </div>
                                         <br/>
                                         <div id="tour_room_input_show" style="display:none;">
-                                            <h4 class="mb-3">{% trans 'Accommodations' %}</h4>
+                                            <h4 style="margin-bottom:15px;">{% trans 'Accommodations' %}</h4>
                                             <input type="hidden" id="room_amount" name="room_amount"/>
-                                            <div class="row mb-3">
+                                            <div class="row">
                                                 <div class="col-lg-12">
-                                                    <button id="btnShowRooms" class="primary-btn-ticket space" type="button" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
-                                                    <button id="btnDeleteRooms" class="primary-btn-ticket space" type="button" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
+                                                    <button id="btnDeleteRooms" class="primary-btn-white-cancel space" type="button" style="margin-bottom:15px;" onclick="delete_tour_room()"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
+                                                    <button id="btnShowRooms" class="primary-btn-ticket space" type="button" style="margin-bottom:15px;" data-toggle="modal" data-target="#TourRoomsModal"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                                                 </div>
                                             </div>
                                             <div id="tour_room_input">
@@ -1160,48 +390,48 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5" id="total-price-container" style="margin-top:10px;">
-                                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="tour_detail">
-                                            <h4> {% trans 'Price Detail' %} </h4>
-                                            <hr/>
-                                            <span id="product_title" style="font-weight: bold;"></span>
-                                            <br/><span id="product_date" style="font-size:13px; font-weight:500;"></span>
-                                            <br/><br/>
-                                            <center>
-                                                <h6 id="add_room_first">Please choose package, select departure date and adjust accommodation first</h6>
-                                            </center>
-                                            <div id="loading-price-tour" style="margin-bottom:20px; display:none;">
-                                                <div class="col-lg-12">
-                                                    <div class="sk-circle">
-                                                        <div class="sk-circle1 sk-child"></div>
-                                                        <div class="sk-circle2 sk-child"></div>
-                                                        <div class="sk-circle3 sk-child"></div>
-                                                        <div class="sk-circle4 sk-child"></div>
-                                                        <div class="sk-circle5 sk-child"></div>
-                                                        <div class="sk-circle6 sk-child"></div>
-                                                        <div class="sk-circle7 sk-child"></div>
-                                                        <div class="sk-circle8 sk-child"></div>
-                                                        <div class="sk-circle9 sk-child"></div>
-                                                        <div class="sk-circle10 sk-child"></div>
-                                                        <div class="sk-circle11 sk-child"></div>
-                                                        <div class="sk-circle12 sk-child"></div>
-                                                    </div>
-                                                    <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+                                </div>
+                                <div class="col-lg-4" id="total-price-container">
+                                    <div class="div_box_default" id="tour_detail">
+                                        <h4> {% trans 'Price Detail' %} </h4>
+                                        <hr/>
+                                        <span id="product_title" style="font-weight: bold;"></span>
+                                        <br/><span id="product_date" style="font-size:13px; font-weight:500;"></span>
+                                        <br/><br/>
+                                        <center>
+                                            <h6 id="add_room_first">Please choose package, select departure date and adjust accommodation first</h6>
+                                        </center>
+                                        <div id="loading-price-tour" style="margin-bottom:20px; display:none;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
                                                 </div>
-                                            </div>
-                                            <div id="tour_detail_table">
-
+                                                <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
                                             </div>
                                         </div>
-                                        <br/>
-                                        <div id="tour_detail_next_btn">
+                                        <div id="tour_detail_table">
 
                                         </div>
                                     </div>
+                                    <br/>
+                                    <div id="tour_detail_next_btn">
+
+                                    </div>
                                 </div>
-                                <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
-                            </form>
-                        </div>
+                            </div>
+                            <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+                        </form>
                     </div>
                 </div>
             </div>
@@ -1218,9 +448,11 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="modal-body" style="height:350px; padding: 0px 15px 15px 15px; overflow: auto;">
-                                        <div class="row" id="tour_hotel_room_list" style="padding:15px;">
+                                    <div class="modal-body" style="max-height:350px; overflow: auto;">
+                                        <div class="row">
+                                            <div class="col-lg-12" id="tour_hotel_room_list">
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1234,22 +466,13 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">{% trans 'Available Package(s)' %}</h5>
+                            <h5 class="modal-title">{% trans 'Available Packages' %}</h5>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="max-height:350px; overflow: auto;">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="modal-body" style="height:350px; padding: 0px 15px 15px 15px; overflow-y: scroll;">
-                                        <table class="table table-striped" style="height: 325px !important; font-size:11px; table-layout: auto;">
-                                            <thead id="tour_available_header_list">
+                                <div class="col-lg-12" id="tour_available_date_list">
 
-                                            </thead>
-                                            <tbody id="tour_available_date_list" style="display: table-footer-group !important;">
-
-                                            </tbody>
-                                        </table>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1272,7 +495,7 @@
         console.log(err);
     }
     $(document).ready(function () {
-        breadcrumb_create("tour", 3, 0);
+        //breadcrumb_create("tour", 3, 0);
 
         modal_special_date = new jBox('Modal', {
           attach: '#show_additional_charge',
@@ -1303,9 +526,6 @@
             document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
-                {% if username.co_user_login != default_user %}
-                document.getElementById("info_user_search").hidden = false;
-                {% endif %}
                 if ($(window).width() >= 992){
                    if(document.getElementById("balance_search") && document.getElementById("balance"))
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
@@ -1315,10 +535,6 @@
                    else if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
                 }
-            }else{
-                {% if username.co_user_login != default_user %}
-                document.getElementById("info_user_search").hidden = true;
-                {% endif %}
             }
         });
 
@@ -1365,15 +581,13 @@
             }
         });
 
+
       $(window).scroll(function() {
-        if($(this).scrollTop()>=$('#div-description-tour').position().top+190 && $(this).scrollTop()<$('#div-product-tour').position().top+190){
+        if($(this).scrollTop()>=$('#div-description-tour').position().top-95 && $(this).scrollTop()<$('#div-product-tour').position().top-95){
             active_sticky_tour("description");
         }
-        else if($(this).scrollTop()>=$('#div-product-tour').position().top+190){
+        else if($(this).scrollTop()>=$('#div-product-tour').position().top-95){
             active_sticky_tour("product");
-        }
-        else if($(this).scrollTop() < $('#div-description-tour').position().top+190){
-            $(".content-tour").removeClass("sticky-tour-active");
         }
       });
     });

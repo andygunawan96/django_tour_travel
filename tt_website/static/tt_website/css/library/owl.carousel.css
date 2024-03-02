@@ -259,13 +259,13 @@
     margin:0px;
     font: inherit; }
 
-  /*
+
   .owl-carousel-suggest .owl-nav .owl-prev {
     position: absolute;
-    left: 0px;
+    left: -10px;
     display: flex;
     background-color:white;
-    bottom: 0px;
+    bottom: 40%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -274,10 +274,12 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
-  */
+
+  /*
   .owl-carousel-suggest .owl-nav .owl-prev {
     margin-right: 5px !important;
   }
+  */
 
   .owl-carousel-suggest .owl-nav button.owl-prev {
     background: none;
@@ -286,13 +288,13 @@
     padding: 0 !important;
     font: inherit; }
 
-  /*
+
   .owl-carousel-suggest .owl-nav .owl-next {
     position: absolute;
-    right: -20px;
+    right: -10px;
     display: flex;
     background-color:white;
-    top: 0%;
+    top: 40%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -301,10 +303,12 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
-  */
+
+  /*
   .owl-carousel-suggest .owl-nav .owl-next {
     margin-left: 5px !important;
   }
+  */
 
   .owl-carousel-suggest .owl-nav button.owl-next {
     background: none;
@@ -1372,6 +1376,9 @@
 .owl-carousel-tour-img {
   display: none;
   width: 100%;
+  border:1px solid #cdcdcd;
+  border-radius: 5px;
+  background: aliceblue;
   -webkit-tap-highlight-color: transparent;
   /* position relative and z-index fix webkit rendering fonts issue */
   position: relative;
@@ -1406,6 +1413,7 @@
     position: relative;
     min-height: 1px;
     float: left;
+    margin-bottom: 15px;
     -webkit-backface-visibility: hidden;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none; }
@@ -1433,10 +1441,10 @@
     margin:0px;
     font: inherit; }
 
-  /*
+
   .owl-carousel-tour-img .owl-nav .owl-prev {
     position: absolute;
-    left: -20px;
+    left: 0px;
     display: flex;
     background-color:white;
     top: 40%;
@@ -1448,10 +1456,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
-  */
+  /*
   .owl-carousel-tour-img .owl-nav button.owl-prev {
     margin-right:5px;
   }
+  */
 
   .owl-carousel-tour-img .owl-nav button.owl-prev {
     background: none;
@@ -1460,10 +1469,10 @@
     padding: 0 !important;
     font: inherit; }
 
-  /*
+
   .owl-carousel-tour-img .owl-nav .owl-next {
     position: absolute;
-    right: -20px;
+    right: 0px;
     display: flex;
     background-color:white;
     top: 40%;
@@ -1475,10 +1484,12 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
-  */
+
+  /*
   .owl-carousel-tour-img .owl-nav button.owl-next {
     margin-left:5px;
   }
+  */
 
   .owl-carousel-tour-img .owl-nav button.owl-next {
     background: none;
