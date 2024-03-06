@@ -20453,8 +20453,10 @@ function assign_seats_after_sales_v2(){
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
-                    $('#show_loading_booking_airline').hide();
-                    hide_modal_waiting_transaction();
+                    setTimeout(function(){
+                        $('#show_loading_booking_airline').hide();
+                        hide_modal_waiting_transaction();
+                    }, 500);
                 }else{
                     if(typeof(is_process_repricing) !== 'undefined')
                         update_service_charge('request_new');
@@ -20495,8 +20497,10 @@ function sell_ssrs_after_sales_v2(){
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
-                    $('#show_loading_booking_airline').hide();
-                    hide_modal_waiting_transaction();
+                    setTimeout(function(){
+                        $('#show_loading_booking_airline').hide();
+                        hide_modal_waiting_transaction();
+                    }, 500);
                 }else{
                     if(typeof(is_process_repricing) !== 'undefined')
                         update_service_charge('request_new');

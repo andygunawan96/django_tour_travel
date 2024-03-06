@@ -749,7 +749,15 @@ def seat_map(request):
     return res
 
 def get_seat_map_cache(request):
-    return request.session['bus_seat_map' + request.POST['signature']]
+    file = read_cache_file(request, request.POST['signature'], 'bus_seat_map')
+    if file:
+        return file
+    return {
+        "result": {
+            "error_code": 500,
+            "response": ""
+        }
+    }
 
 def issued(request):
     # nanti ganti ke get_ssr_availability

@@ -39,6 +39,7 @@ function table_reservation(data, mode_view, restart=false){
                 }
 
                 text+=`
+                <th><div style="width:80px;">Passenger List</div></th>
                 <th><div style="width:150px;">Agent Name</div></th>
                 <th><div style="width:170px;">Booked</div></th>
                 <th><div style="width:170px;">Issued</div></th>
@@ -124,6 +125,13 @@ function table_reservation(data, mode_view, restart=false){
                     else
                         text+= `<td>-</td>`;
                     text+=`<td>`+data[i].total_pax+`</b></td>`;
+                    text+=`<td>`;
+                    if(data[i].hasOwnProperty('passenger_list')){
+                        for(j in data[i].passenger_list){
+                            text += data[i].passenger_list[j];
+                        }
+                    }
+                    text += `</td>`;
                     text+= `<td>`+data[i].agent_name+`</td>`;
 
                     text+= `<td>`;
