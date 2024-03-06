@@ -12355,8 +12355,10 @@ function checkboxCopy(){
         if(selectAllCheckbox.checked==true){
             var count_copy = 0;
             for(x in airline_data_filter){
-                if(counter_search == airline_data_filter[x].airline_pick_sequence){
-                    count_copy++;
+                if(airline_data_filter[x].hasOwnProperty('can_book')){
+                    if(counter_search == airline_data_filter[x].airline_pick_sequence && airline_data_filter[x].can_book){
+                        count_copy++;
+                    }
                 }
             }
         }else{
@@ -12417,21 +12419,23 @@ function check_passport_expired_six_month(id){
 }
 
 function check_all_result(){
-   var selectAllCheckbox = document.getElementById("check_all_copy");
-   if(selectAllCheckbox.checked==true){
+    var selectAllCheckbox = document.getElementById("check_all_copy");
+    if(selectAllCheckbox.checked==true){
         var checkboxes = document.getElementsByClassName("copy_result");
         for(var i=0, n=checkboxes.length;i<n;i++) {
-        checkboxes[i].checked = true;
-        $('#choose-airline-copy').hide();
+            if(document.getElementById('departjourney'+i).value != 'Sold Out'){
+                checkboxes[i].checked = true;
+                $('#choose-airline-copy').hide();
+            }
+        }
+    }else {
+        var checkboxes = document.getElementsByClassName("copy_result");
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = false;
+            $('#choose-airline-copy').show();
+        }
     }
-   }else {
-    var checkboxes = document.getElementsByClassName("copy_result");
-    for(var i=0, n=checkboxes.length;i<n;i++) {
-        checkboxes[i].checked = false;
-        $('#choose-airline-copy').show();
-    }
-   }
-   checkboxCopy();
+    checkboxCopy();
 }
 
 function get_checked_copy_result(){
@@ -12486,7 +12490,7 @@ function get_checked_copy_result(){
 
                     text+=`
                     <div class="col-xs-6" style="text-align:right;">
-                        <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+airline_number+`);"><i class="fas fa-times-circle" style="color:red; font-size:18px;"></i> Delete</span>
+                        <!--<span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+airline_number+`);"><i class="fas fa-times-circle" style="color:red; font-size:18px;"></i> Delete</span>-->
                     </div>
                     <div class="col-lg-12">
                         <hr/>
@@ -12956,12 +12960,12 @@ function get_checked_copy_result(){
 
 function delete_checked_copy_result(id){
     $("#div_list"+id).remove();
-    $("#copy_result"+id).prop("checked", false);
-    checkboxCopyBox(id)
-    var count_copy = $(".copy_result:checked").length;
 
     var selectAllCheckbox = document.getElementById("check_all_copy");
     if(!selectAllCheckbox.checked){
+        $("#copy_result"+id).prop("checked", false);
+        checkboxCopyBox(id)
+        var count_copy = $(".copy_result:checked").length;
         if (count_copy == 0){
             $('#choose-airline-copy').show();
             $("#share_result").remove();
