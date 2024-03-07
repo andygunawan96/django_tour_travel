@@ -656,6 +656,11 @@ def passenger(request, signature):
 
         is_pre_riz = False
         is_pre_riz_required = False
+
+        file = read_cache_file(request, signature, 'airline_get_price_request')
+        if file:
+            airline_get_price_request = file
+
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
@@ -688,7 +693,11 @@ def passenger(request, signature):
                         is_pre_riz = True
                 if provider_data_dict[airline['provider']].get('is_pre_riz_required'):
                     if provider_data_dict[airline['provider']]['is_pre_riz_required']:
-                        is_pre_riz_required = True
+                        if is_garuda and not is_pre_riz_required:
+                            for promo_code in airline_get_price_request['promo_codes']:
+                                if promo_code['carrier_code'] == 'GA' and 'nkri' in promo_code['promo_code'].lower():
+                                    is_pre_riz_required = True
+                                    break
 
 
         for airline in airline_price_provider_temp:
