@@ -40,18 +40,31 @@
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-3">
+                <div class="row">
+                    <div class="col-lg-12" style="margin:auto;">
+                        <div style="display:inline-flex;">
+                            <div style="display:inline-block; margin-right:10px;">
+                                <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-tour.png" alt="Tour Icon">
+                            </div>
+                            <div style="display:inline-block;">
+                                <span style="margin-top:15px; font-size:20px; font-weight:bold; border-bottom:2px solid #cdcdcd;">{% trans 'Please Review Your Booking' %}</span><br>
+                                <span style="margin-top:15px; font-size:16px; font-weight:bold;">{% trans 'Prices may changes at any time' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <form method="POST" id="tour_booking">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12">
-                    <h3>{% trans 'Please Review Your Booking' %}</h3>
-                    <h4>{% trans 'Prices may changes at any time' %}</h4>
-                    <br/>
-                </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="tour_review_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                            <div id="tour_review_detail" class="div_box_default">
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
                                         <h4 class="mb-3">
@@ -66,49 +79,42 @@
                                 </span>
                                 <br/>
                                 <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{tour_data.duration}} {% trans 'Days' %}</span>
-                                <br/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 15px;">
-                        <div class="col-lg-12">
-                            <input type="hidden" id="room_amount" value="{{room_amount}}"/>
-                            <div id="tour_review_rooms" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
-                                <div class="row">
-                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                                        <h4 class="mb-3">
-                                            <img src="{{ static_path }}images/icon/product/b-hotel.png" alt="undefined" style="width:20px; height:20px;">
-                                            {% trans 'Accommodation(s)' %}
-                                        </h4>
+                                <input type="hidden" id="room_amount" value="{{room_amount}}"/>
+                                <div id="tour_review_rooms" class="div_box_default" style="margin-top:15px; background:aliceblue;">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="margin-bottom:10px;">
+                                            <h5>
+                                                <img src="{{ static_path }}images/icon/product/b-hotel.png" alt="undefined" style="width:20px; height:20px;">
+                                                {% trans 'Accommodations' %}
+                                            </h5>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {% for room in room_list %}
-                                <input type="hidden" id="room_sequence{{forloop.counter}}" value="{{forloop.counter}}"/>
-                                <input type="hidden" id="room_code_{{forloop.counter}}" value="{{room.room_code}}"/>
-                                <input type="hidden" id="adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
-                                <input type="hidden" id="child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
-                                <input type="hidden" id="infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
-                                <input type="hidden" id="ori_adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
-                                <input type="hidden" id="ori_child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
-                                <input type="hidden" id="ori_infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
-                                <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                    {{forloop.counter}}. {{room.name}}
-                                </h5>
-                                {% if room.bed_type != 'none' %}<b>Type: </b><i>{{room.bed_type}}</i><br>{% endif %}
-                                {% if room.hotel %}<b>Hotel: </b><i>{{room.hotel}}</i><br>{% endif %}
-                                <b>Description: </b><i>{% if room.description %}{{room.description}}{% else %} - {% endif %}</i><br>
-                                <b>Notes: </b><i>{% if room.notes %}{{room.notes}}{% else %} - {% endif %}</i><br>
-                                {% if not forloop.last %}
-                                <hr>
-                                {% endif %}
-                                {% endfor %}
+                                    {% for room in room_list %}
+                                    <input type="hidden" id="room_sequence{{forloop.counter}}" value="{{forloop.counter}}"/>
+                                    <input type="hidden" id="room_code_{{forloop.counter}}" value="{{room.room_code}}"/>
+                                    <input type="hidden" id="adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
+                                    <input type="hidden" id="child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
+                                    <input type="hidden" id="infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
+                                    <input type="hidden" id="ori_adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
+                                    <input type="hidden" id="ori_child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
+                                    <input type="hidden" id="ori_infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
+                                    <h6>#{{forloop.counter}} {{room.name}}</h6>
+                                    {% if room.bed_type != 'none' %}<b>Type: </b><i>{{room.bed_type}}</i><br>{% endif %}
+                                    {% if room.hotel %}<b>Hotel: </b><i>{{room.hotel}}</i><br>{% endif %}
+                                    <b>Description: </b><i>{% if room.description %}{{room.description}}{% else %} - {% endif %}</i><br>
+                                    <b>Notes: </b><i>{% if room.notes %}{{room.notes}}{% else %} - {% endif %}</i><br>
+                                    {% if not forloop.last %}
+                                    <hr>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 15px;">
+                    <div class="row mt-3">
                         <div class="col-lg-12">
-                            <div id="activity_review_booker" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                            <div id="activity_review_booker" class="div_box_default">
                                 <div class="row">
                                     <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
                                         <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Contact Information' %}</h4>
@@ -116,96 +122,132 @@
                                 </div>
                                 {% if contact_person|length > 0 %}
                                 {% for con in contact_person %}
-                                <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                    {{forloop.counter}}. {{con.title}}. {{con.first_name}} {{con.last_name}}
-                                </h5>
-                                <b>Email: </b><i>{{con.email}}</i><br>
-                                <b>Phone: </b><i>{{con.mobile}}</i><br>
+                                <div style="display:inline-flex;">
+                                    <div>
+                                        {% if con.title == 'MR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">
+                                        {% elif con.title == 'MRS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">
+                                        {% elif con.title == 'MS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">
+                                        {% elif con.title == 'MSTR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">
+                                        {% elif con.title == 'MISS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">
+                                        {% endif %}
+                                    </div>
+                                    <div style="margin-left:10px;">
+                                        <h5>
+                                            {{con.title}}. {{con.first_name}} {{con.last_name}}
+                                        </h5>
+                                        <b>Email: </b><i>{{con.email}}</i><br>
+                                        <b>Phone: </b><i>{{con.mobile}}</i><br>
+                                    </div>
+                                </div>
                                 {% endfor %}
                                 {% else %}
-                                <h4>
-                                    {{booker.title}}. {{booker.first_name}} {{booker.last_name}}
-                                </h4>
-                                <b>Email: </b><i>{{booker.email}}</i><br>
-                                <b>Phone: </b><i>{{booker.mobile}}</i><br>
+                                <div style="display:inline-flex;">
+                                    <div>
+                                        {% if booker.title == 'MR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">
+                                        {% elif booker.title == 'MRS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">
+                                        {% elif booker.title == 'MS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">
+                                        {% elif booker.title == 'MSTR' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">
+                                        {% elif booker.title == 'MISS' %}
+                                        <img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">
+                                        {% endif %}
+                                    </div>
+                                    <div style="margin-left:10px;">
+                                        <h5>
+                                            {{booker.title}}. {{booker.first_name}} {{booker.last_name}}
+                                        </h5>
+                                        <b>Email: </b><i>{{booker.email}}</i><br>
+                                        <b>Phone: </b><i>{{booker.mobile}}</i><br>
+                                    </div>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 15px;">
+                    <div class="row mt-3">
                         <div class="col-lg-12">
                             <input type="hidden" id="total_pax_all" value="{{total_pax_all}}"/>
-                            <div id="tour_review_passengers" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                            <div id="tour_review_passengers" class="div_box_default">
                                 <div class="row">
-                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                                        <h4 class="mb-3"><i class="fas fa-users"></i> {% trans 'List of Guest(s)' %}</h4>
+                                    <div class="col-lg-12" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-users"></i> {% trans 'List of Guests' %}</h4>
                                     </div>
                                 </div>
                                 {% for pax in all_pax %}
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <h5 class="single_border_custom_left" style="padding-left:5px;">
-                                            {% if pax.identity_first_name %}
-                                                {{forloop.counter}}. {{pax.title}}. {{pax.identity_first_name}} {{pax.identity_last_name}}
-                                            {% else %}
-                                                {{forloop.counter}}. {{pax.title}}. {{pax.first_name}} {{pax.last_name}}
-                                            {% endif %}
-                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
-                                                <i class="fas fa-user"></i> {{pax.pax_type_str}}
-                                            </b>
-                                        </h5>
-                                    </div>
-                                    <div class="col-lg-6" style="margin-bottom:10px;">
-                                        <b>Birth Date: </b><i>{{pax.birth_date}}</i><br>
-                                        {% if pax.identity_number %}
-                                        <b>Passport: </b><i>{{pax.identity_number}}</i><br>
-                                        {% endif %}
-                                        {% if pax.identity_expdate %}
-                                        <b>Expired Date: </b><i>{{pax.identity_expdate}}</i><br>
-                                        {% endif %}
-                                        <input type="hidden" id="pax_sequence{{forloop.counter}}" value="{{pax.sequence}}"/>
-                                        <input type="hidden" id="temp_pax_id{{forloop.counter}}" value="{{pax.temp_pax_id}}"/>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        {%if template == 1%}
-                                        <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px">
-                                            <div class="form-select" id="default-select">
-                                        {%elif template == 2%}
-                                        <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
-                                            <div class="form-select" id="default-select">
-                                        {%elif template == 3%}
-                                        <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
-                                            <div class="default-select" id="default-select">
-                                        {%elif template == 4%}
-                                        <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
-                                            <div class="form-select" id="default-select">
-                                        {%elif template == 5%}
-                                        <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
-                                            <div class="form-select" id="default-select">
-                                        {%elif template == 6%}
-                                        <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
-                                            <div class="form-select" id="default-select">
-                                                {%endif%}
-                                                <select {% if template == 4 %} class="nice-select-default rounded" {% endif %} id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});" data-live-search="true">
-                                                    <option value="0">{% trans 'Please select an accommodation!' %}</option>
-                                                    {% for room in room_list %}
-                                                    {% if pax.pax_type == 'ADT' and room.adult > 0 %}
-                                                    <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
-                                                    {% elif pax.pax_type == 'CHD' and room.child > 0 %}
-                                                    <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
-                                                    {% elif pax.pax_type == 'INF' and room.infant > 0 %}
-                                                    <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
+                                    <div class="col-lg-12" style="padding-top:15px; background:aliceblue;">
+                                        <div class="row">
+                                            <div class="col-lg-12" style="margin-bottom:10px;">
+                                                <h5>
+                                                    Passenger #{{forloop.counter}}
+                                                </h5>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div style="display:inline-flex;">
+                                                    <div>
+                                                        {% if pax.title == 'MR' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mr.png" alt="User MR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MRS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mrs.png" alt="User MRS" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_ms.png" alt="User MS" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MSTR' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_mistr.png" alt="User MSTR" class="picture_passenger_small">
+                                                        {% elif pax.title == 'MISS' %}
+                                                        <img src="/static/tt_website/images/icon/symbol/user_miss.png" alt="User MISS" class="picture_passenger_small">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div style="margin-left:10px;">
+                                                        <h5>
+                                                            {% if pax.identity_first_name %}
+                                                            {{pax.title}}. {{pax.identity_first_name}} {{pax.identity_last_name}}
+                                                            {% else %}
+                                                            {{pax.title}}. {{pax.first_name}} {{pax.last_name}}
+                                                            {% endif %}
+                                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                                                <i class="fas fa-user"></i> {{pax.pax_type_str}}
+                                                            </b>
+                                                        </h5>
+                                                        <b>Birth Date: </b><i>{{pax.birth_date}}</i><br>
+                                                        {% if pax.identity_number %}
+                                                        <b>Passport: </b><i>{{pax.identity_number}}</i><br>
+                                                        {% endif %}
+                                                        {% if pax.identity_expdate %}
+                                                        <b>Expired Date: </b><i>{{pax.identity_expdate}}</i><br>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="pax_sequence{{forloop.counter}}" value="{{pax.sequence}}"/>
+                                                <input type="hidden" id="temp_pax_id{{forloop.counter}}" value="{{pax.temp_pax_id}}"/>
+                                                <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px">
+                                                    <div class="form-select" id="default-select">
+                                                        <select class="nice-select-default rounded" id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});" data-live-search="true">
+                                                            <option value="0">{% trans 'Please select an accommodation!' %}</option>
+                                                            {% for room in room_list %}
+                                                            {% if pax.pax_type == 'ADT' and room.adult > 0 %}
+                                                            <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
+                                                            {% elif pax.pax_type == 'CHD' and room.child > 0 %}
+                                                            <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
+                                                            {% elif pax.pax_type == 'INF' and room.infant > 0 %}
+                                                            <option value="{{forloop.counter}}">{% trans 'Accommodation' %} {{forloop.counter}} ; {{room.name}}{%if room.bed_type != 'none' %}/{{room.bed_type}}{% endif %} ; {%if room.hotel %}{{room.hotel}}{% endif %}</option>
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="pax_type{{forloop.counter}}" value="{{pax.pax_type}}"/>
                                             </div>
                                         </div>
-                                        <input type="hidden" id="pax_type{{forloop.counter}}" value="{{pax.pax_type}}"/>
                                     </div>
                                 </div>
-                                {% if not forloop.last %}
-                                <hr>
-                                {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -261,39 +303,43 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
                     <div class="row">
-                        <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="tour_detail">
-                            <div class="row">
-                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                                    <h4 class="mb-3">{% trans 'Price Detail' %}</h4>
-                                </div>
-                            </div>
-                            <span id="product_title" style="font-weight: bold;">{{tour_data.name}}</span>
-                            <br/><span id="product_date" style="font-size:13px; font-weight:500;">{{departure_date}} - {{arrival_date}}</span>
-                            <br/><br/>
-                            <div id="loading-price-tour" style="margin-bottom:20px;">
-                                <div class="col-lg-12">
-                                    <div class="sk-circle">
-                                        <div class="sk-circle1 sk-child"></div>
-                                        <div class="sk-circle2 sk-child"></div>
-                                        <div class="sk-circle3 sk-child"></div>
-                                        <div class="sk-circle4 sk-child"></div>
-                                        <div class="sk-circle5 sk-child"></div>
-                                        <div class="sk-circle6 sk-child"></div>
-                                        <div class="sk-circle7 sk-child"></div>
-                                        <div class="sk-circle8 sk-child"></div>
-                                        <div class="sk-circle9 sk-child"></div>
-                                        <div class="sk-circle10 sk-child"></div>
-                                        <div class="sk-circle11 sk-child"></div>
-                                        <div class="sk-circle12 sk-child"></div>
+                        <div class="col-lg-12" id="tour_detail">
+                            <div class="div_box_default">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3">{% trans 'Price Detail' %}</h4>
                                     </div>
-                                    <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
                                 </div>
-                            </div>
-                            <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
+                                <span id="product_title" style="font-weight: bold;">{{tour_data.name}}</span>
+                                <br/><span id="product_date" style="font-size:13px; font-weight:500;">{{departure_date}} - {{arrival_date}}</span>
+                                <br/><br/>
+                                <div id="loading-price-tour" style="margin-bottom:20px;">
+                                    <div class="col-lg-12">
+                                        <div class="sk-circle">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
+                                    </div>
+                                </div>
+                                <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
 
+                                </div>
                             </div>
                         </div>
-                        {% include 'tt_website/voucher_code.html'  %}
+                        <div class="col-lg-12">
+                            {% include 'tt_website/voucher_code.html'  %}
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px;" id="payment_acq" hidden>
