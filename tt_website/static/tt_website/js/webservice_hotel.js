@@ -714,6 +714,7 @@ function hotel_search(){
 //                    })
                 }
            }catch(err){
+                console.log(err);
                 $('#loading-search-hotel').hide();
                 Swal.fire({
                   type: 'error',
