@@ -474,6 +474,7 @@ function hotel_get_current_search(){
                         signature = msg.result.signature;
                         if(msg.result.response.hasOwnProperty('hotel_ids') && msg.result.response.hotel_ids.length > 0){
                             hotel_data = msg.result.response;
+                            low_price_slider = 0;
                             for(i in msg.result.response.hotel_ids){
                                 check = 0;
         //                                        if(vendor.length != 0){
@@ -494,10 +495,7 @@ function hotel_get_current_search(){
         //                                        }
                                for(j in msg.result.response.hotel_ids[i].prices){
                                    if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
-                                       high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
-                                   }
-                                   if(low_price_slider > msg.result.response.hotel_ids[i].prices[j].price){
-                                       low_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                                       high_price_slider = Math.ceil(msg.result.response.hotel_ids[i].prices[j].price);
                                    }
                                }
                             }
@@ -629,6 +627,7 @@ function hotel_search(){
                     hotel_set_signature(msg.result.signature)
                     hotel_data = msg.result.response;
                     vendor = [];
+                    low_price_slider = 0;
                     for(i in msg.result.response.hotel_ids){
                         check = 0;
 //                                        if(vendor.length != 0){
@@ -649,10 +648,7 @@ function hotel_search(){
 //                                        }
                        for(j in msg.result.response.hotel_ids[i].prices){
                            if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
-                               high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
-                           }
-                           if(low_price_slider > msg.result.response.hotel_ids[i].prices[j].price){
-                               low_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                               high_price_slider = Math.ceil(msg.result.response.hotel_ids[i].prices[j].price);
                            }
                        }
                     }
@@ -718,6 +714,7 @@ function hotel_search(){
 //                    })
                 }
            }catch(err){
+                console.log(err);
                 $('#loading-search-hotel').hide();
                 Swal.fire({
                   type: 'error',

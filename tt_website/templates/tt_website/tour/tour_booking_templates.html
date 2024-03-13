@@ -34,37 +34,55 @@
         <form method="POST" id="tour_booking" action="">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-5">
-                    {% if username.co_user_login != default_user %}
-                    <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="go_back_to_reservation()"> <i class="fas fa-arrow-left"></i> Back to Reservation</button>
-                    {% endif %}
-                    <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
-                        <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+                <div class="col-md-12 mb-4">
+                    <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" id="button-home" onclick="window.location.href='/'" hidden>
+                        <i class="fas fa-home"></i> {% trans 'Home' %}
                     </button>
-                    <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="go_back_to_reservation()"> <i class="fas fa-arrow-left"></i></button>
-                    <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                    <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" id="button-home-mb" onclick="window.location.href='/'" hidden>
                         <i class="fas fa-home"></i>
                     </button>
+                    {% if username.co_user_login != default_user %}
+                    <button type="button" class="primary-btn-white mb-2 mr-1" onclick="go_back_to_reservation()"> <i class="fas fa-scroll"></i> My Reservation</button>
+                    {% endif %}
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7" style="text-align:right;">
+
+                <div class="col-md-12">
+                    <div class="mb-2">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin:auto;">
+                                <div style="display:inline-flex;">
+                                    <div style="display:inline-block; margin-right:10px;">
+                                        <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-tour.png" alt="Tour Icon">
+                                    </div>
+                                    <div style="display:inline-block;">
+                                        <span style="margin-top:15px; font-size:20px; font-weight:bold; border-bottom:2px solid #cdcdcd;">{% trans 'Please Review Your Booking' %}</span><br>
+                                        <span style="margin-top:15px; font-size:16px; font-weight:bold;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="alert-state">
+
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <button type="button" class="primary-btn-white mb-2 mr-1" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                        <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
+                    </button>
                     <div id="button_new_offline" style="display:inline-block;margin-left:5px;" hidden>
                         <button type="button" class="primary-btn-white" onclick="document.getElementById('offline_form').submit();">
                             <i class="fas fa-book-open"></i> Create Issued Offline
                         </button>
                     </div>
-                    <button type="button" class="primary-btn-white mb-2" id="button-new-reservation" style="font-size:13px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
-                        <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
-                    </button>
                 </div>
 
-                <div class="col-lg-12 mt-3">
-                    <h3 id="order_state"></h3>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
+<!--                <div class="col-lg-12 mt-3">-->
+<!--                    <h3 id="order_state"></h3>-->
+<!--                </div>-->
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-bottom:15px;">
                     <div class="row">
-                        <div class="col-lg-12" id="alert-state">
-
-                        </div>
                         <div class="col-lg-12" id="tour_final_info">
                             <div id="loading-search-tour" style="margin-bottom:20px;">
                                 <div class="col-lg-12">
@@ -88,24 +106,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4" style="margin-top:10px;">
+                <div class="col-lg-4 col-md-4">
                     <div class="row">
-                        <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="tour_detail">
-                            <div class="row">
-                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
-                                    <h4 class="mb-3">{% trans 'Price Detail' %}</h4>
+                        <div class="col-lg-12" id="tour_detail" style="margin-bottom:15px;">
+                            <div class="div_box_default">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3">{% trans 'Price Detail' %}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <span id="product_title" style="font-weight: bold;"></span>
-                            <br/><span id="product_type_title"></span>
-                            <br/><br/>
-                            <div class="row">
-                                <div class="col-lg-12" id="tour_detail_table">
+                                <span id="product_title" style="font-weight: bold;"></span>
+                                <br/><span id="product_type_title"></span>
+                                <br/><br/>
+                                <div class="row">
+                                    <div class="col-lg-12" id="tour_detail_table">
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-12" id="tour_booking_print">
+
+                        </div>
+                        <div class="col-lg-12">
                         {% include 'tt_website/voucher_code.html'  %}
+                        </div>
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
                         <button id="final_issued_btn" class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
                             {% trans 'Issued Booking' %}

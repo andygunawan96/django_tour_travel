@@ -125,17 +125,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-12" id="activity_booking_print" style="margin-top:15px;">
+
+                        </div>
                         <div class="col-lg-12" id="voucher_div">
                             {% include 'tt_website/voucher_code.html'  %}
                         </div>
 
-                        <div class="col-lg-12 alert alert-danger" style="border:1px solid #cdcdcd;margin-top:15px;" id="cancel" hidden>
+                        <div class="col-lg-12" style="margin-top:15px;" id="cancel" hidden>
 
                         </div>
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                        <button id="final_issued_btn" class="next-loading primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
-                            {% trans 'Issued Booking' %}
-                        </button>
+                        <div class="col-lg-12">
+                            <button id="final_issued_btn" class="next-loading primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
+                                <i class="fas fa-check"></i> {% trans 'Issued Booking' %}
+                            </button>
+                        </div>
                         {% endif %}
                     </div>
                     <div class="row">
