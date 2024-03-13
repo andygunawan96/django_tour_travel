@@ -18785,12 +18785,12 @@ function airline_get_booking_refund(data){
                             </div>`;
                         for(j in msg.result.response.provider_bookings[i].journeys){
                             if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel_per_journey == true || j==0){
-                                    pnr_list_checkbox[msg.result.response.provider_bookings[i].pnr+'_'+j] = {
-                                        'checkbox': [],
-                                        'per_pax': provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel_per_pax,
-                                        'per_seg': provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel_per_journey,
-                                        'pnr_checkbox': 'pnr_'+i+'_'+j
-                                    };
+                                pnr_list_checkbox[msg.result.response.provider_bookings[i].pnr+'_'+j] = {
+                                    'checkbox': [],
+                                    'per_pax': provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel_per_pax,
+                                    'per_seg': provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel_per_journey,
+                                    'pnr_checkbox': 'pnr_'+i+'_'+j
+                                };
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
                                 if(moment().format('YYYY-MM-DD HH:mm:ss') < moment(msg.result.response.provider_bookings[i].journeys[j].departure_date).format('YYYY-MM-DD HH:mm:ss'))
                                 {

@@ -6110,6 +6110,35 @@ function copy_data(){
 //    document.body.removeChild(el);
 }
 
+function simplified_copy_data(){
+    //
+
+    const el = document.createElement('textarea');
+    el.value = $simplified_text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+//    const el = document.createElement('textarea');
+//    el.innerHTML = $text;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
+}
+
 function share_data(){
 //    const el = document.createElement('textarea');
 //    el.value = $text;
@@ -12465,6 +12494,7 @@ function get_checked_copy_result(){
 
 //    $text= value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n\n'; // pak adi yg minta
     $text = '';
+    $simplified_text = '';
     var airline_number = 0;
     node = document.createElement("div");
     //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
@@ -12472,11 +12502,13 @@ function get_checked_copy_result(){
     var selectAllCheckbox = document.getElementById("check_all_copy");
     if(selectAllCheckbox.checked==true){
         for(x in airline_data_filter){
-            if(counter_search == airline_data_filter[x].airline_pick_sequence){
-                if(airline_number != 0)
+            if(counter_search == airline_data_filter[x].airline_pick_sequence && airline_data_filter[x].can_book){
+                if(airline_number != 0){
                     $text += '_____________________________________\n\n'; // pak adi yg minta pembatas per option
+                }
                 airline_number = airline_number + 1;
                 $text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
+                $simplified_text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
                 if(airline_number == 1){
                     text+=`<div class="row pb-3" id="div_list`+airline_number+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
                 }else{
@@ -12499,7 +12531,6 @@ function get_checked_copy_result(){
                     for(y in airline_data_filter[x].segments){
                         if(airline_data_filter[x].segments[y].transit_duration){
                             text+=`<br/><span style="font-weight:500;">`;
-                            transit_duration_text = 'Transit Duration';
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[0] != '0')
                                transit_duration_text+= airline_data_filter[x].segments[y].transit_duration.split(':')[0] + 'd ';
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[1] != '0')
@@ -12507,10 +12538,12 @@ function get_checked_copy_result(){
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[2] != '0')
                                transit_duration_text+= airline_data_filter[x].segments[y].transit_duration.split(':')[2] + 'm ';
                             text+=transit_duration_text + ` </span><br/><br/>`;
-                            $text += '• '+transit_duration_text+' \n';
+                            $text += '• Transit Duration'+transit_duration_text+' \n';
+                            $simplified_text += '\n' + y + ' stop, ' + transit_duration_text + '\n';
                         }
-                        if(y != 0)
+                        if(y != 0){
                             $text += '\n\n';
+                        }
 
                         co_y = parseInt(y) + 1;
                         text+=`<h5 style="padding-bottom:5px;"><i class="fas fa-angle-right"></i> Flight-`+co_y+`</h5>`;
@@ -12518,10 +12551,13 @@ function get_checked_copy_result(){
                         text_carrier = ''
                         try{
                             text_carrier += airline_carriers[0][airline_data_filter[x].segments[y].carrier_code].name;
+                            $simplified_text += airline_carriers[0][airline_data_filter[x].segments[y].carrier_code].name;
                         }catch(err){
                             text_carrier += airline_data_filter[x].segments[y].carrier_code;
+                            $simplified_text += airline_data_filter[x].segments[y].carrier_code;
                         }
                         text_carrier += ' ' + airline_data_filter[x].segments[y].carrier_name;
+                        $simplified_text += ' ' + airline_data_filter[x].segments[y].carrier_name;
                         if(airline_data_filter[x].segments[y].carrier_code != airline_data_filter[x].segments[y].operating_airline_code){
                             try{
                                 text_carrier += ' [' + airline_carriers[0][airline_data_filter[x].segments[y].operating_airline_code].name + ']';
@@ -12533,6 +12569,12 @@ function get_checked_copy_result(){
                         text+=` </span>`;
                         $text += '› '+ text_carrier +' ';
 
+                        // SIMPLIFIED COPY
+                        $simplified_text += airline_data_filter[x].segments[y].departure_date.split(' - ')[0].split(',')[1] + ' ' + airline_data_filter[x].segments[y].origin_name + ' (' + airline_data_filter[x].segments[y].origin + ') ' + airline_data_filter[x].segments[y].departure_date.split(' - ')[1]
+                        $simplified_text += ' - ' + airline_data_filter[x].segments[y].destination_name + ' (' + airline_data_filter[x].segments[y].destination + ') ' + airline_data_filter[x].segments[y].arrival_date.split(' - ')[1]
+                        if(airline_data_filter[x].segments[y].hasOwnProperty('fare_pick') && airline_data_filter[x].segments[y].fare_pick && airline_data_filter[x].segments[y].fares.length > airline_data_filter[x].segments[y].fare_pick){
+                            $simplified_text += ' [' + airline_data_filter[x].segments[y].fares[airline_data_filter[x].segments[y].fare_pick].class_of_service + ']';
+                        }
                         for(z in airline_data_filter[x].segments[y].legs){
                             text+=`
                                 <div class="row">
@@ -12628,13 +12670,21 @@ function get_checked_copy_result(){
                         text += transit_duration_text + '</b><br/>';
                         $text += '• Transit Duration   : '+transit_duration_text+' \n';
                     }
+
+                    if(airline_data_filter[x].segments.length == 1){
+                        $simplified_text += ' 0 stop';
+                    }
+
+
                     $text+='--------------------\n';
                     if(airline_data_filter[x].total_price != 0){
                         text+=`<span class="price_template" style="float:right;">`+ airline_data_filter[x].currency + ' ' + getrupiah(airline_data_filter[x].total_price)+`</span><br/>`;
                         $text += 'Price: ' + airline_data_filter[x].currency + ' ' + getrupiah(airline_data_filter[x].total_price)+'\n';
+                        $simplified_text += ' ' + airline_data_filter[x].currency + ' ' + getrupiah(airline_data_filter[x].total_price) + '\n\n';
                     }else{
                         text+=`<span class="price_template" style="float:right;">Choose to view price</span><br/>`;
                         $text += 'Price: Choose to view price\n';
+                        $simplified_text +=' Choose to view price\n\n';
                     }
 
                     $text+='====================\n';
@@ -12928,6 +12978,9 @@ function get_checked_copy_result(){
         <div style="float:right;" id="copy_result">
             <button class="primary-btn-white" style="width:150px;" type="button" onclick="copy_data();">
                 <i class="fas fa-copy"></i> Copy
+            </button>
+            <button class="primary-btn-white" style="width:150px;" type="button" onclick="simplified_copy_data();">
+                <i class="fas fa-copy"></i> Simplified Copy
             </button>
         </div>
     </div>`;
