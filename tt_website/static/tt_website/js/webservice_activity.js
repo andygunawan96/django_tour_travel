@@ -2902,7 +2902,11 @@ function activity_get_booking(data){
                             }
                             if(check_cancel){
                                 document.getElementById('cancel').hidden = false;
-                                document.getElementById('cancel').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                                document.getElementById('cancel').innerHTML = `
+                                <button class="issued_booking_btn primary-btn-white-cancel" type="button" style="margin-bottom:0px; margin-right:0px; width: 100%;" onclick="cancel_btn();">
+                                    <i class="fas fa-times" style="padding-left:5px; font-size:16px;"></i>
+                                    Cancel Booking
+                                </button>`;
                            }
                         }
                         else if(msg.result.response.state == 'rejected'){
@@ -3139,24 +3143,22 @@ function activity_get_booking(data){
 
                                             if(msg.result.response.state == 'issued'){
                                                 text+=`
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <span>
-                                                                <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <span>
-                                                                <b>Issued Date: </b>`;
-                                                                if(msg.result.response.issued_date != ""){
-                                                                    text+=`<i>`+msg.result.response.issued_date+`</i>`;
-                                                                }else{
-                                                                    text+=`-`;
-                                                                }
-                                                            text+=`
-                                                            </span><br/>
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <span>
+                                                            <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <span>
+                                                            <b>Issued Date: </b>`;
+                                                            if(msg.result.response.issued_date != ""){
+                                                                text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                                            }else{
+                                                                text+=`-`;
+                                                            }
+                                                        text+=`
+                                                        </span><br/>
                                                     </div>
                                                 </div>`;
                                             }
@@ -3289,7 +3291,7 @@ function activity_get_booking(data){
                                 <div class="div_box_default" id="activity_review_passenger">
                                     <div class="row">
                                         <div class="col-lg-12" style="border-bottom: 1px solid #cdcdcd;">
-                                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Guest(s)</h4>
+                                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Guests</h4>
                                         </div>
                                     </div>`;
 
@@ -3341,51 +3343,49 @@ function activity_get_booking(data){
                                 text+=`
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-top: 20px;">
-                            <div class="col-lg-6" id="voucher" style="padding-bottom:10px;">`;
+                        </div>`;
+
+                        text_print = `
+                        <div class="div_box_default">
+                            <h4 class="mb-3">Print</h4>
+                            <div class="row">
+                                <div class="col-lg-12" id="voucher" style="padding-bottom:10px;">`;
                                if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                                    if(msg.result.response.state == 'issued'){
-                                        if (msg.result.response.voucher_url.length > 0)
-                                        {
-                                            text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="print_activity_ticket();" style="width:100%;">
-                                                        Print Voucher
-                                                        <div class="ld ld-ring ld-cycle"></div>
-                                                     </button>`;
-                                        }
-                                        else
-                                        {
-                                            text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.order_number+`');" style="width:100%;">
-                                                        Print Voucher
-                                                        <div class="ld ld-ring ld-cycle"></div>
-                                                    </button>`;
-                                        }
-                                   }
-                                   else if(msg.result.response.state == 'booked')
-                                   {
-                                        text+=`
-                                            <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','activity');">
-                                                Print Form
+                                        if (msg.result.response.voucher_url.length > 0){
+                                            text_print += `
+                                            <button class="primary-btn-white hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="print_activity_ticket();" style="text-align:left; width:100%;">
+                                                <i class="fas fa-print"></i> Print Voucher
                                                 <div class="ld ld-ring ld-cycle"></div>
                                             </button>`;
+                                        }
+                                        else{
+                                            text_print += `
+                                            <button class="primary-btn-white hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.order_number+`');" style="text-align:left; width:100%;">
+                                                <i class="fas fa-print"></i> Print Voucher
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>`;
+                                        }
+                                   }
+                                   else if(msg.result.response.state == 'booked'){
+                                        text_print +=`
+                                        <button type="button" id="button-print-print" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','activity');">
+                                            <i class="fas fa-print"></i> Print Form
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>`;
                                    }
                                }
-                       text += `
-                            </div>
-                            <div class="col-lg-6" style="padding-bottom:10px;">`;
 
-                           if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid' || msg.result.response.state == 'issued')
-                           {
-                                text+=`
-                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                                // modal invoice
-                                text+=`
+                               if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid' || msg.result.response.state == 'issued'){
+                                    text_print +=`
+                                    <button type="button" class="primary-btn-white" class="issued-booking-train ld-ext-right" data-toggle="modal" data-target="#printInvoice" style="text-align:left;">
+                                        <i class="fas fa-print"></i> Print Invoice
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>`;
+                                    // modal invoice
+                                    text_print +=`
                                     <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
-
                                           <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -3416,27 +3416,27 @@ function activity_get_booking(data){
                                                     </div>
 
                                                     <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                                                <span class="control-label" for="Name">Included Passengers</span>
-                                                                <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
-                                                                for (resv_pax in act_get_booking.result.response.passengers)
-                                                                {
-                                                                    text += `
-                                                                    <tr>
-                                                                        <td>
-                                                                            <span id="resv_pax_value`+resv_pax+`">`+act_get_booking.result.response.passengers[resv_pax].name+`, `+act_get_booking.result.response.passengers[resv_pax].title+`</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <label class="check_box_custom cblabel">
-                                                                                <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
-                                                                                <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>`;
-                                                                }
-                                                   text += `</table></div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                            <span class="control-label" for="Name">Included Passengers</span>
+                                                            <table class="table list-of-reservation" style="border: 1px solid; width:100%;">`;
+                                                            for (resv_pax in act_get_booking.result.response.passengers){
+                                                                text_print += `
+                                                                <tr>
+                                                                    <td>
+                                                                        <span id="resv_pax_value`+resv_pax+`">`+act_get_booking.result.response.passengers[resv_pax].name+`, `+act_get_booking.result.response.passengers[resv_pax].title+`</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="check_box_custom cblabel">
+                                                                            <input type="checkbox" id="resv_pax_checkbox`+resv_pax+`" name="resv_pax_checkbox`+i+`" checked />
+                                                                            <span class="check_box_span_custom cbspan" style="background:#cdcdcd;"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>`;
+                                                            }
+                                                            text_print += `
+                                                            </table>
                                                         </div>
-
+                                                    </div>
                                                     <br/>
                                                     <div style="text-align:right;">
                                                         <span>Don't want to edit? just submit</span>
@@ -3452,21 +3452,23 @@ function activity_get_booking(data){
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                `;
-                           }
-                           else if(msg.result.response.state == 'booked'){
-                                text+=`
-                                    <button type="button" id="button-print-itin-price" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','activity');">
-                                        Print Form (Price)
+                                    </div>`;
+                               }
+                               else if(msg.result.response.state == 'booked'){
+                                    text_print+=`
+                                    <button type="button" id="button-print-itin-price" class="primary-btn-white ld-ext-right" style="text-align:left; width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary_price','activity');">
+                                        <i class="fas fa-print"></i> Print Form (Price)
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
-                           }
-                           text += `
-                           </div>
+                               }
+
+                               text_print += `
+                               </div>
+                            </div>
                         </div>`;
                     }
                     document.getElementById('activity_final_info').innerHTML = text;
+                    document.getElementById('activity_booking_print').innerHTML = text_print;
                     document.getElementById('product_title').innerHTML = act_name;
                     try{
                         document.getElementById('product_title_pd').innerHTML = activity_data.name;
@@ -3712,9 +3714,11 @@ function activity_get_booking(data){
                      }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
                         for(k in msg.result.response.estimated_currency.other_currency){
                             price_text+=`
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
-                                        </div>`;
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                </div>
+                            </div>`;
                         }
                      }
                      if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -3725,34 +3729,6 @@ function activity_get_booking(data){
                         $('#repricing_type').niceSelect('update');
                         reset_repricing();
                      }
-                     if(msg.result.response.state == 'booked')
-                     price_text+=`<div class="row">
-                        <div class="col-lg-12" style="padding-bottom:10px;">
-                            <hr/>
-                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-                            share_data();
-                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                            if (isMobile) {
-                                price_text+=`
-                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                                    <a href="mailto:?subject=This is the activity price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                            }else{
-                                price_text+=`
-                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                                    <a href="mailto:?subject=This is the activity price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                            }
-                            price_text+=`
-                            <div style="float:right">
-                                <button class="btn_standard_sm" type="button" onclick="copy_data();">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-                     </div>`;
 
                      if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes('b2c_limitation') && !user_login.co_agent_frontend_security.includes("corp_limitation")){
                         price_text+=`
@@ -3797,6 +3773,36 @@ function activity_get_booking(data){
                             </div>
                         </div>`;
                      }
+
+                     if(msg.result.response.state == 'booked')
+                         price_text+=`
+                         <div class="row">
+                            <div class="col-lg-12" style="padding-bottom:10px;">
+                                <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
+                                share_data();
+                                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                                if (isMobile) {
+                                    price_text+=`
+                                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                        <a href="mailto:?subject=This is the activity price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                                }else{
+                                    price_text+=`
+                                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                        <a href="mailto:?subject=This is the activity price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                                }
+                                price_text+=`
+                                <div style="float:right">
+                                    <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                         </div>`;
+
 //                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                         price_text+=`
 //                         <div class="row" style="margin-top:10px; text-align:center;">
