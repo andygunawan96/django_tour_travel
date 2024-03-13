@@ -6831,6 +6831,7 @@ function airline_detail(type){
                                 }
                             }
                         }
+                        $text += '\n';
                     }
                 }
                 if(passengers.hasOwnProperty('child')){
@@ -6882,6 +6883,7 @@ function airline_detail(type){
                                 }
                             }
                         }
+                        $text += '\n';
                     }
                 }
                 if(passengers.hasOwnProperty('infant')){
@@ -6894,6 +6896,7 @@ function airline_detail(type){
                             $text += ' (INF ' +  passengers['infant'][x].birth_date + ')';
                         if(passengers['infant'][x].identity_type)
                             $text += '\n- ' + passengers['infant'][x].identity_type + ': ' + passengers['infant'][x].identity_number + ' ';
+                        $text += '\n';
                     }
                 }
 
@@ -6946,6 +6949,7 @@ function airline_detail(type){
                                 }
                             }
                         }
+                        $text += '\n';
                     }
                 }
 
@@ -6998,6 +7002,7 @@ function airline_detail(type){
                                 }
                             }
                         }
+                        $text += '\n';
                     }
                 }
 
@@ -7050,6 +7055,7 @@ function airline_detail(type){
                                 }
                             }
                         }
+                        $text += '\n'
                     }
                 }
                 $text += '\n\n';
@@ -11340,7 +11346,6 @@ function get_airline_review(){
                                     }else{
                                         text+=`<span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name+` (`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+airline_pick[i].price_itinerary[j].segments[k].carrier_number+`)</span><br/>`;
                                     }
-                                    $text += airline_carriers[airline_pick[i].price_itinerary[j].segments[k].carrier_code].name + ' (' + airline_pick[i].price_itinerary[j].segments[k].carrier_code + ' ' + airline_pick[i].price_itinerary[j].segments[k].carrier_number + ') ';
                                 }catch(err){
                                     // carrier tidak ketemu di dict
                                     if(airline_pick[i].price_itinerary[j].segments[k].carrier_code != airline_pick[i].price_itinerary[j].segments[k].operating_airline_code && airline_pick[i].price_itinerary[j].segments[k].operating_airline_code != ''){
@@ -11348,7 +11353,6 @@ function get_airline_review(){
                                     }else{
                                         text+=`<span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+` (`+airline_pick[i].price_itinerary[j].segments[k].carrier_code+airline_pick[i].price_itinerary[j].segments[k].carrier_number+`)</span><br/>`;
                                     }
-                                    $text += airline_pick[i].price_itinerary[j].segments[k].carrier_code + ' (' + airline_pick[i].price_itinerary[j].segments[k].carrier_code + ' ' + airline_pick[i].price_itinerary[j].segments[k].carrier_number + ') ';
                                 }
 //                            <div style="display:inline-block;">
 //                                <span style="margin-top:15px; font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].carrier_name+`</span><br>
@@ -12531,6 +12535,7 @@ function get_checked_copy_result(){
                     for(y in airline_data_filter[x].segments){
                         if(airline_data_filter[x].segments[y].transit_duration){
                             text+=`<br/><span style="font-weight:500;">`;
+                            transit_duration_text = '';
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[0] != '0')
                                transit_duration_text+= airline_data_filter[x].segments[y].transit_duration.split(':')[0] + 'd ';
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[1] != '0')
@@ -12538,7 +12543,7 @@ function get_checked_copy_result(){
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[2] != '0')
                                transit_duration_text+= airline_data_filter[x].segments[y].transit_duration.split(':')[2] + 'm ';
                             text+=transit_duration_text + ` </span><br/><br/>`;
-                            $text += '• Transit Duration'+transit_duration_text+' \n';
+                            $text += '• Transit Duration   :'+transit_duration_text+' \n';
                             $simplified_text += '\n' + y + ' stop, ' + transit_duration_text + '\n';
                         }
                         if(y != 0){
@@ -12659,16 +12664,16 @@ function get_checked_copy_result(){
                         }
 
                         text+=`<b>• Duration: `;
-                        transit_duration_text = '';
+                        duration_text = '';
                         if(airline_data_filter[x].segments[y].elapsed_time.split(':')[0] != '0')
-                           transit_duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[0] + 'd ';
+                           duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[0] + 'd ';
                         if(airline_data_filter[x].segments[y].elapsed_time.split(':')[1] != '0')
-                           transit_duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[1] + 'h ';
+                           duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[1] + 'h ';
                         if(airline_data_filter[x].segments[y].elapsed_time.split(':')[2] != '0')
-                           transit_duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[2] + 'm ';
+                           duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[2] + 'm ';
 
-                        text += transit_duration_text + '</b><br/>';
-                        $text += '• Transit Duration   : '+transit_duration_text+' \n';
+                        text += duration_text + '</b><br/>';
+                        $text += '• Duration   : '+duration_text+' \n';
                     }
 
                     if(airline_data_filter[x].segments.length == 1){
