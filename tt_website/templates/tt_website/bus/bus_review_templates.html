@@ -259,7 +259,7 @@
                 </div>
             </div>
         </form>
-        <form method="POST" id="bus_seat_map" action="{% url 'tt_website:bus_seat_map'%}">
+        <form method="POST" id="bus_seat_map" action="/bus/seat_map/{{signature}}">
             {% csrf_token %}
             <input type="hidden" id="passenger_input" name="passenger_input"/>
             <input type="hidden" id="seat_map_request_input" name="seat_map_request_input"/>
@@ -281,7 +281,7 @@
 </section>
 {% include 'tt_website/footer.html' %}
 <script>
-    bus_review_page();
+
     function goto_seat_map(){
         document.getElementById('bus_seat_map').innerHTML += `{% csrf_token %}`;
         document.getElementById('bus_seat_map').submit();
@@ -289,6 +289,7 @@
     //get_payment_acq('Issued','{{passenger.booker.booker_seq_id}}', '', 'billing',signature,'bus_review');
     $( document ).ready(function() {
         breadcrumb_create("bus", 4, 0);
+        bus_review_page();
     });
     function bus_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;

@@ -2150,45 +2150,28 @@ function check_passenger(adult, infant){
 }
 
 function print_seat_map(val){
-    if(template == 1){
-        var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 2){
-        var text = '<div class="input-container-search-ticket"><select class="form-control" style="font-size:13px;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 3){
-        var text = '<div class="input-container-search-ticket"><select class="form-control" style="font-size:13px; width:100%;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 4){
-        var text = '<div class="input-container-search-ticket"><select class="nice-select-default" style="width:100%;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 5){
-        var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select class="form-control" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }else if(template == 6){
-        var text = '<div class="input-container-search-ticket"><div class="form-select"><select class="form-control nice-select-default" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
-    }
-    if(seat_map_response.length != 0){
-        for(i in seat_map_response){
-            if(parseInt(parseInt(i)+1) == seat_map_pick){
-                for(j in seat_map_response[i]){
-                    text += `<option value="`+j+`">`+seat_map_response[i][j].cabin_name+`</option>`;
+    var text = `
+    <div class="input-container-search-ticket">
+        <div class="form-select-2" id="default-select">
+            <select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">`;
+            if(seat_map_response.length != 0){
+                for(i in seat_map_response){
+                    if(parseInt(parseInt(i)+1) == seat_map_pick){
+                        for(j in seat_map_response[i]){
+                            text += `<option value="`+j+`">`+seat_map_response[i][j].cabin_name+`</option>`;
+                        }
+                        text += '</select>';
+                        break;
+                    }
                 }
-                text += '</select>';
-                break;
+                document.getElementById('bus_seat_map').innerHTML = text;
+                try{
+                    $('#seat_map_wagon_pick').niceSelect();
+                }catch(err){console.log(err);}
             }
-        }
-        document.getElementById('bus_seat_map').innerHTML = text;
-    }
-    if(template == 1){
-        text+=`</div></div>`;
-        $('#seat_map_wagon_pick').niceSelect();
-    }else if(template == 2){
-        text+=`</div>`;
-    }else if(template == 3){
-        text+=`</div>`;
-    }else if(template == 4){
-        text+=`</div>`;
-    }else if(template == 5){
-        text+=`</div>`;
-    }else if(template == 6){
-        text+=`</div>`;
-    }
+            text+=`
+        </div>
+    </div>`;
 
 
     text ='<div class="slideshow-container" style="margin-top:20px;">';
@@ -2243,7 +2226,7 @@ function print_seat_map(val){
                                 if(seat_map_response[i][j].seat_rows[k].seats[l].availability == -1){
                                   text+=`<button type="button" style="width:`+percent+`%;background-color:transparent;border:transparent; margin:5px;" disabled>`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 1){
-                                  text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`','`+seat_map_response[i][j].seat_rows[k].seats[l].column+`','`+seat_map_response[i][j].seat_rows[k].seats[l].seat_code+`')">`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
+                                  text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`', '`+seat_map_response[i][j].seat_rows[k].seats[l].column+`',`+seat_map_response[i][j].seat_rows[k].seats[l].seat_code+`)">`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 0){
                                   text+=`<button class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');">`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`</button>`;
                                 }
@@ -2262,11 +2245,11 @@ function print_seat_map(val){
             if(val == 0)
                 showSlides(1, 0);
             else{
+                showSlides(slideIndex[0], 0);
                 document.getElementById('seat_map_wagon_pick').value = slideIndex[0] - 1;
                 $('#seat_map_wagon_pick').niceSelect('update');
-                showSlides(slideIndex[0], 0);
             }
-            loadingTrain();
+            $('#loading-search-train').hide();
             break;
         }
     }

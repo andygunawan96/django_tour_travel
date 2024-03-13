@@ -10035,6 +10035,29 @@ function airline_get_booking(data, sync=false){
                                 text += `<div style="margin-top:10px;"></div>`;
                             }
 
+                            if(msg.result.response.provider_bookings[i].hasOwnProperty('rules') && msg.result.response.provider_bookings[i].rules.length){
+                                text += `<br/>
+                                <span id="span-tac-up`+i+`" class="carrier_code_template" style="display:block; cursor:pointer; padding-bottom:15px; background:white; font-weight:bold;" onclick="show_hide_tac(`+i+`);"> Show Term and Condition <i class="fas fa-chevron-down" style="float:right;"></i></span>
+                                <span id="span-tac-down`+i+`" class="carrier_code_template" style="display:none; cursor:pointer; padding-bottom:15px; background:white; font-weight:bold;" onclick="show_hide_tac(`+i+`);"> Hide Term and Condition <i class="fas fa-chevron-up" style="float:right;"></i></span>
+                                <div id="div-tac`+i+`" style="display:none; padding-top:15px; padding-bottom:15px; background:white;">`;
+                                for(j in msg.result.response.provider_bookings[i].rules){
+                                    text += `<span style="font-weight:bold;">`+msg.result.response.provider_bookings[i].rules[j].name+`</span><br/>`;
+                                    for(k in msg.result.response.provider_bookings[i].rules[j].description){
+                                        text += `
+                                                <div class="row">
+                                                    <div class="col-lg-1 col-xs-1 col-md-1">
+                                                        <i class="fas fa-circle" style="font-size:9px;margin-left:15px;"></i>
+                                                    </div>
+                                                    <div class="col-lg-11 col-xs-11 col-md-11" style="padding:0">
+                                                        <span style="font-weight:400;"> `+msg.result.response.provider_bookings[i].rules[j].description[k]+`</span><br/>
+                                                    </div>
+                                                </div>`;
+                                    }
+                                }
+                                text += `
+                                </div>`;
+                            }
+
                             try{
                                 //prevent error kalau provider tidak ada
 //                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
@@ -20453,8 +20476,10 @@ function assign_seats_after_sales_v2(){
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
-                    $('#show_loading_booking_airline').hide();
-                    hide_modal_waiting_transaction();
+                    setTimeout(function(){
+                        $('#show_loading_booking_airline').hide();
+                        hide_modal_waiting_transaction();
+                    }, 500);
                 }else{
                     if(typeof(is_process_repricing) !== 'undefined')
                         update_service_charge('request_new');
@@ -20495,8 +20520,10 @@ function sell_ssrs_after_sales_v2(){
            if(msg.result.error_code == 0){
                 if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
-                    $('#show_loading_booking_airline').hide();
-                    hide_modal_waiting_transaction();
+                    setTimeout(function(){
+                        $('#show_loading_booking_airline').hide();
+                        hide_modal_waiting_transaction();
+                    }, 500);
                 }else{
                     if(typeof(is_process_repricing) !== 'undefined')
                         update_service_charge('request_new');

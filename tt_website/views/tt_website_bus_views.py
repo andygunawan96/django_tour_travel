@@ -231,9 +231,16 @@ def passenger(request, signature= ''):
                 time_limit = int(request.POST['time_limit_input'])
                 write_cache_file(request, signature, 'time_limit', time_limit)
 
+            # try:
+            #     set_session(request, 'bus_pick', json.loads(request.POST['response']))
+            #     set_session(request, 'bus_signature', request.POST['signature'])
+            # except Exception as e:
+            #     _logger.error('Data POST for bus_pick, bus_signature not found use cache')
+            #     _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+
             try:
-                set_session(request, 'bus_pick', json.loads(request.POST['response']))
-                set_session(request, 'bus_signature', request.POST['signature'])
+                write_cache_file(request, signature, 'bus_pick', json.loads(request.POST['response']))
+                write_cache_file(request, signature, 'bus_signature', signature)
             except Exception as e:
                 _logger.error('Data POST for bus_pick, bus_signature not found use cache')
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
@@ -257,7 +264,7 @@ def passenger(request, signature= ''):
 
             is_need_identity = False
 
-            file = read_cache_file(request, signature, 'bus_request')
+            file = read_cache_file(request, signature, 'bus_pick')
             if file:
                 bus_pick = file
                 for rec in bus_pick:
