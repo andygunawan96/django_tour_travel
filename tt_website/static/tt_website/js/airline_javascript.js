@@ -12531,6 +12531,7 @@ function get_checked_copy_result(){
                     for(y in airline_data_filter[x].segments){
                         if(airline_data_filter[x].segments[y].transit_duration){
                             text+=`<br/><span style="font-weight:500;">`;
+                            transit_duration_text = '';
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[0] != '0')
                                transit_duration_text+= airline_data_filter[x].segments[y].transit_duration.split(':')[0] + 'd ';
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[1] != '0')
@@ -12538,7 +12539,7 @@ function get_checked_copy_result(){
                             if(airline_data_filter[x].segments[y].transit_duration.split(':')[2] != '0')
                                transit_duration_text+= airline_data_filter[x].segments[y].transit_duration.split(':')[2] + 'm ';
                             text+=transit_duration_text + ` </span><br/><br/>`;
-                            $text += '• Transit Duration'+transit_duration_text+' \n';
+                            $text += '• Transit Duration   :'+transit_duration_text+' \n';
                             $simplified_text += '\n' + y + ' stop, ' + transit_duration_text + '\n';
                         }
                         if(y != 0){
@@ -12659,16 +12660,16 @@ function get_checked_copy_result(){
                         }
 
                         text+=`<b>• Duration: `;
-                        transit_duration_text = '';
+                        duration_text = '';
                         if(airline_data_filter[x].segments[y].elapsed_time.split(':')[0] != '0')
-                           transit_duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[0] + 'd ';
+                           duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[0] + 'd ';
                         if(airline_data_filter[x].segments[y].elapsed_time.split(':')[1] != '0')
-                           transit_duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[1] + 'h ';
+                           duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[1] + 'h ';
                         if(airline_data_filter[x].segments[y].elapsed_time.split(':')[2] != '0')
-                           transit_duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[2] + 'm ';
+                           duration_text+= airline_data_filter[x].segments[y].elapsed_time.split(':')[2] + 'm ';
 
-                        text += transit_duration_text + '</b><br/>';
-                        $text += '• Transit Duration   : '+transit_duration_text+' \n';
+                        text += duration_text + '</b><br/>';
+                        $text += '• Duration   : '+duration_text+' \n';
                     }
 
                     if(airline_data_filter[x].segments.length == 1){
