@@ -2439,9 +2439,9 @@ function sort(){
         }
         //SORT AVAILABLE
         for(var i = airline.length-1; i >= 0; i--) {
-            if(airline[i].can_book == false && airline_pick_list.length == 0 || airline[i].can_book_check_arrival_on_next_departure == false && airline_pick_list.length > 0 || airline[i].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
+            if(airline[i].can_book == false && airline_pick_list.length == 0 || airline[i].can_book_check_arrival_on_next_departure == false && airline_pick_list.length > 0 || airline[i].available_count < parseInt(airline_request.adult + airline_request.child)){
                 for(j=i;j<airline.length-1;j++){
-                    if(airline[j+1].can_book == false && airline_pick_list.length == 0 || airline[j+1].can_book_check_arrival_on_next_departure == false && airline_pick_list.length > 0 || airline[j+1].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
+                    if(airline[j+1].can_book == false && airline_pick_list.length == 0 || airline[j+1].can_book_check_arrival_on_next_departure == false && airline_pick_list.length > 0 || airline[j+1].available_count < parseInt(airline_request.adult + airline_request.child)){
                         break;
                     }else{
                         temp = airline[j];
@@ -6065,7 +6065,7 @@ function getrupiah(price){
                 priceshow+=temp.charAt(idrupiah);
             }
             if(temp.split('.').length == 2){
-                for(idrupiah=pj;idrupiah<pj+3;x++){
+                for(idrupiah=pj;idrupiah<pj+3;idrupiah++){
                     priceshow+=temp.charAt(idrupiah);
                 }
             }
