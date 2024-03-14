@@ -14580,7 +14580,8 @@ function check_next_date_journey_reissue(){
             else
                 select_date = moment($('input[id="airline_departure'+counter_airline+'"]').val());
 
-            picker_multi[counter_airline-1].destroy();
+            if(picker_multi[counter_airline-1])
+                picker_multi[counter_airline-1].destroy();
             if(document.getElementById("airline_departure"+counter_airline)){
                 document.getElementById('airline_departure'+counter_airline).value = select_date;
                 picker_multi[counter_airline-1] = new Lightpick({

@@ -497,7 +497,7 @@ function getrupiah(price){
                 priceshow+=temp.charAt(idrupiah);
             }
             if(temp.split('.').length == 2){
-                for(idrupiah=pj;idrupiah<pj+3;x++){
+                for(idrupiah=pj;idrupiah<pj+3;idrupiah++){
                     priceshow+=temp.charAt(idrupiah);
                 }
             }
