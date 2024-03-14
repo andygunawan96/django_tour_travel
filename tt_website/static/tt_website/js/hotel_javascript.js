@@ -124,15 +124,15 @@ function getrupiah(price){
             temp = temp.split('-')[temp.split('-').length-1];
             var pj = temp.split('.')[0].toString().length;
             var priceshow="";
-            for(x=0;x<pj;x++){
-                if((pj-x)%3==0 && x!=0){
+            for(idrupiah=0;idrupiah<pj;idrupiah++){
+                if((pj-idrupiah)%3==0 && idrupiah!=0){
                     priceshow+=",";
                 }
-                priceshow+=temp.charAt(x);
+                priceshow+=temp.charAt(idrupiah);
             }
             if(temp.split('.').length == 2){
-                for(x=pj;x<pj+3;x++){
-                    priceshow+=temp.charAt(x);
+                for(idrupiah=pj;idrupiah<pj+3;x++){
+                    priceshow+=temp.charAt(idrupiah);
                 }
             }
             if(positif == false)
