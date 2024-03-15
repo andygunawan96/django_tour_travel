@@ -9678,6 +9678,18 @@ function airline_get_booking(data, sync=false){
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="row">`;
+                                for(i in msg.result.response.provider_bookings){
+                                    if(msg.result.response.provider_bookings[i].hasOwnProperty('duplicates_backend') && msg.result.response.provider_bookings[i].duplicates_backend){
+                                        text_order_number+=`
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <b>Duplicate Booking: </b><i>`+msg.result.response.provider_bookings[i].duplicates_backend+`</i>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                                }
                                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                                     text_order_number+=`
                                     <div class="col-lg-12">
@@ -16055,7 +16067,7 @@ function render_ticket_reissue(){
                                                 for(l in airline[i].segments[j].fares[k].service_charge_summary)
                                                     if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                         for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                                            if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                            if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'TAX' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'FARE' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'ROC')
                                                                 total_price_choose+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
                                                         break;
                                                 }
@@ -16066,7 +16078,7 @@ function render_ticket_reissue(){
                                             for(l in airline[i].segments[j].fares[k].service_charge_summary)
                                                 if(!['CHD', 'INF'].includes(airline[i].segments[j].fares[k].service_charge_summary[l].pax_type)){
                                                     for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                                        if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                        if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'TAX' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'FARE' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_type == 'ROC')
                                                             total_price_choose+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
                                                     break;
                                             }
