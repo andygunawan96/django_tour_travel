@@ -370,10 +370,10 @@ function filtering(type){
         else{
             var minPr = 0;
             var maxPr = 0;
-            if($check_type_ps == 1){
+            if($check_type_ps == 1 || $check_type_ps == 0 && parseFloat(document.getElementById('price-to').value)){
                 minPr = parseFloat(document.getElementById('price-from').value);
                 maxPr = parseFloat(document.getElementById('price-to').value);
-            }else if($check_type_ps == 2){
+            }else if($check_type_ps == 2 || $check_type_ps == 0 && parseFloat(document.getElementById('price-to2').value)){
                 minPr = parseFloat(document.getElementById('price-from2').value);
                 maxPr = parseFloat(document.getElementById('price-to2').value);
             }
