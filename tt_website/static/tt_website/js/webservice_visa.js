@@ -335,72 +335,28 @@ function search_visa(){
                     node = document.createElement("div");
 
                     text= `
-                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px;" id="journey`+i+`">`;
-                    text+=`
+                        <div class="div_box_default mb-3" id="journey`+i+`">
                             <div class="row">
-                                <div class="col-lg-12 mb-3">
-                                    <h4>`+msg.result.response.list_of_visa[i].name+`</h4>
-                                </div>
-                                <div class="col-lg-9 mb-3">
-                                    <div class="row" style="padding-left:15px; padding-right:15px;">
-                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
-                                            Pax Type
-                                        </div>
-                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
-                                            `+msg.result.response.list_of_visa[i].pax_type[1]+`
-                                        </div>
-                                    </div>
-                                    <div class="row" style="padding-left:15px; padding-right:15px;">
-                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
-                                            Visa Type
-                                        </div>
-                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
-                                            `+msg.result.response.list_of_visa[i].visa_type[1]+`
-                                        </div>
-                                    </div>
-                                    <div class="row" style="padding-left:15px; padding-right:15px;">
-                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
-                                            Entry Type
-                                        </div>
-                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
-                                            `+msg.result.response.list_of_visa[i].entry_type[1]+`
-                                        </div>
-                                    </div>
-                                    <div class="row" style="padding-left:15px; padding-right:15px;">
-                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
-                                            Regular Type
-                                        </div>
-                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
-                                            `+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)
+                                <div class="col-lg-9">
+                                    <h4 style="margin-bottom:10px;">`+msg.result.response.list_of_visa[i].name+`</h4>
+                                    <div style="border:1px solid #cdcdcd; background:aliceblue; border-radius:5px; padding:15px; margin-bottom:10px;">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                <b>Pax Type</b><br/><i>`+msg.result.response.list_of_visa[i].pax_type[1]+`</i>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                <b>Visa Type</b><br/><i>`+msg.result.response.list_of_visa[i].visa_type[1]+`</i>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                <b>Entry Type</b><br/><i>`+msg.result.response.list_of_visa[i].entry_type[1]+`</i>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                                <b>Regular Type</b><br/><i>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Days</i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <h6>Input Qty</h6>`;
-                                    if(template == 1){
-                                        text+=`<div class="banner-right">`;
-                                    }else if(template == 2){
-                                        text+=`
-                                        <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                                            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-                                    }else{
-                                        text+=`<div>`;
-                                    }
-
-                                    if(template == 1 || template == 2){
-                                        text+=`<div class="form-wrap" style="padding:0px;">`;
-                                    }else{
-                                        text+=`<div class="form-wrap">`;
-                                    }
-
-                                    text+=`
-                                            <input style="margin-bottom:unset;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+counter_visa+`" name="qty_pax_`+counter_visa+`"/>
-                                        </div>
-                                    </div>`;
-                                    if(template == 2){
-                                        text+=`</div>`;
-                                    }
-                                text+=`<br/>`;
+                                <div class="col-lg-3" style="text-align:right;">`;
                                     price = 0;
                                     currency = '';
                                     for(j in msg.result.response.list_of_visa[i].service_charge_summary){
@@ -412,38 +368,29 @@ function search_visa(){
                                         }
                                     }
                                     text+=`
-                                    <div style="text-align:right;">
-                                        <span id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+currency+` `+getrupiah(price)+`</span>
-                                    </div>
+                                    <h5 id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px; font-weight: bold; color:`+color+`; margin-bottom:13px;">`+currency+` `+getrupiah(price)+`</h5>
+                                    <input style="margin-bottom:10px !important;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+counter_visa+`" name="qty_pax_`+counter_visa+`"/>
+                                    <input type="number" value="0" id="qty_check_pax_`+counter_visa+`" name="qty_check_pax_`+counter_visa+`" hidden/>
+                                    <button type="button" class="primary-btn" style="height:43px;" id="qty_button_pax_`+counter_visa+`" onclick="add_update_cart(`+counter_visa+`)">Add <i class="fas fa-shopping-cart"></i></button>
                                 </div>
-                                <div class="col-lg-12" style="margin-top:5px;">
-                                    <div class="row">
-                                        <div class="col-lg-12" style="text-align:left;">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:none;" id="visa_details_up`+counter_visa+`" onclick="show_visa_details(`+counter_visa+`);"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                    <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:block;" id="visa_details_down`+counter_visa+`" onclick="show_visa_details(`+counter_visa+`);"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:none;" id="attach_details_up`+counter_visa+`" onclick="show_attachment_details(`+counter_visa+`);"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                    <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:block;" id="attach_details_down`+counter_visa+`" onclick="show_attachment_details(`+counter_visa+`);"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="col-lg-12">
+                                    <div style="display:flex;">
+                                        <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:none;" id="visa_details_up`+counter_visa+`" onclick="show_visa_details(`+counter_visa+`);"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                        <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:block;" id="visa_details_down`+counter_visa+`" onclick="show_visa_details(`+counter_visa+`);"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                        <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:none; padding-left:10px;" id="attach_details_up`+counter_visa+`" onclick="show_attachment_details(`+counter_visa+`);"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                        <span style="text-align:left; cursor:pointer; color:`+color+`; font-weight: bold; display:block; padding-left:10px;" id="attach_details_down`+counter_visa+`" onclick="show_attachment_details(`+counter_visa+`);"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
-                            <div id="detail_visa`+counter_visa+`" style="margin-top:15px; display: none;">
-                                <hr/>
-                                <div id="journey0segment0" style="background-color:white;">
+                            <div id="detail_visa`+counter_visa+`" style="margin-top:15px; border:1px solid #cdcdcd; border-radius:5px; padding:15px; margin-bottom:10px; display: none;">
+                                <div id="journey0segment0">
                                     <h6>Consulate Address</h6>
-                                    <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>`;
+                                    <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><br>`;
                                     if(msg.result.response.list_of_visa[i].notes != '')
-                                    text+=`
-                                    <h6>Visa Required</h6>`;
-                                    for(j in msg.result.response.list_of_visa[i].notes){
-                                        text+=`<span>`+msg.result.response.list_of_visa[i].notes[j]+`</span><br/>`;
-                                    }
+                                        text+=`<h6 style="margin-top:10px;">Visa Required</h6>`;
+                                        for(j in msg.result.response.list_of_visa[i].notes){
+                                            text+=`<span>`+msg.result.response.list_of_visa[i].notes[j]+`</span><br/>`;
+                                        }
 //                                    if(msg.result.response.list_of_visa[i].requirements.length > 0)
 //                                    text+=`
 //                                    <h6>Visa Required</h6>`;
@@ -460,12 +407,15 @@ function search_visa(){
                                     text+=`
                                 </div>
                             </div>
-                            <div id="detail_attachment`+counter_visa+`" style="margin-top:15px; display: none;">
-                                <hr/>
+                            <div id="detail_attachment`+counter_visa+`" style="margin-top:15px; border:1px solid #cdcdcd; border-radius:5px; padding:15px; margin-bottom:10px; display: none;">
                                 <div id="attachment">
                                     <h6 class="mb-1">Attachment</h6>`;
-                                    for(j in msg.result.response.list_of_visa[i].attachments){
-                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" target="_blank" style="padding-right:10px; color:`+color+`; font-size:14px; font-weight:500;" download><i class="fas fa-file-download"></i> `+msg.result.response.list_of_visa[i].attachments[j].name+`</a><br/>`;
+                                    if(msg.result.response.list_of_visa[i].attachments.length != 0){
+                                        for(j in msg.result.response.list_of_visa[i].attachments){
+                                            text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" target="_blank" style="padding-right:10px; color:`+color+`; font-size:14px; font-weight:500;" download><i class="fas fa-file-download"></i> `+msg.result.response.list_of_visa[i].attachments[j].name+`</a><br/>`;
+                                        }
+                                    }else{
+                                        text+=`-`;
                                     }
                                     text+=`
                                 </div>
@@ -482,7 +432,7 @@ function search_visa(){
                             quantity = 20;
                         }
                         this.value = quantity;
-                        update_table_new('search');
+                        //update_table_new('search');
                         if (event.which == 13) {
                             event.preventDefault();
                         }
@@ -499,6 +449,40 @@ function search_visa(){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa search');
        },timeout: 180000
     });
+}
+
+function add_update_cart(id){
+    var quantity_val = document.getElementById("qty_pax_"+id).value; //ganti button
+    var quantity_default_check = parseInt(document.getElementById("qty_check_pax_"+id).value); //default ada 0 atau 1
+    var notif_badge = parseInt(document.getElementById("input-badge-notif").value); //total cart
+
+    if(quantity_val <= 0){
+        document.getElementById('qty_button_pax_'+id).innerHTML = `Add <i class="fas fa-shopping-cart"></i>`;
+        if(quantity_default_check != 0){
+            notif_badge -= 1;
+            $("#button_cart_visa").addClass("animated bounceIn");
+            setTimeout(function(){
+                $("#button_cart_visa").removeClass("animated bounceIn");
+            }, 200);
+        }
+        document.getElementById("input-badge-notif").value = notif_badge;
+        document.getElementById('badge-visa-notif').innerHTML = notif_badge;
+        document.getElementById("qty_check_pax_"+id).value = 0;
+    }else{
+        document.getElementById('qty_button_pax_'+id).innerHTML = `Update <i class="fas fa-shopping-cart"></i>`;
+        if(quantity_default_check == 0){
+            notif_badge += 1;
+            document.getElementById("input-badge-notif").value = notif_badge;
+            document.getElementById('badge-visa-notif').innerHTML = notif_badge;
+            document.getElementById("qty_check_pax_"+id).value = 1;
+        }
+        $("#button_cart_visa").addClass("animated bounceIn");
+        setTimeout(function(){
+            $("#button_cart_visa").removeClass("animated bounceIn");
+        }, 200);
+    }
+
+    update_table_new('search');
 }
 
 function get_availability(){
