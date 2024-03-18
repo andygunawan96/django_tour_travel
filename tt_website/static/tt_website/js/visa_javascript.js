@@ -97,224 +97,247 @@ function set_commission_price_visa(){
 
 function update_table_new(type){
     text = '';
+    text_next = '';
+    text_estimated='';
+    text_btn_share='';
     $text = '';
     var check_price_detail = 0;
     if(type == 'search'){
         check_visa = 0;
-        text += `<div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
-        <div class="row">
-            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
-                <h4 class="mb-3"> Price Detail `+visa_request.destination+`</h4>
-            </div>
-        </div>`;
-        price = 0;
-        commission = 0;
-        count_i = 0;
-        for(i in visa){
-            if(moment(visa_request.departure) >= moment().subtract(visa[i].type.duration*-1,'days'))
-                check_visa = 1;
-            pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
-            if(isNaN(pax_count)){
-                pax_count = 0;
-            }
-
-            currency = '';
-            price_perpax = 0;
-            for(j in visa[i].service_charge_summary){
-                for(k in visa[i].service_charge_summary[j].service_charges){
-                    if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
-                        price_perpax += visa[i].service_charge_summary[j].service_charges[k].amount;
-                    if(currency == '')
-                        currency = visa[i].service_charge_summary[j].service_charges[k].currency;
-                }
-            }
-
-            if(pax_count != 0){
-                count_price_detail[i] = 1;
-                text+=`
-                <div class="row">
-                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+pax_count+` `+visa[i].pax_type[1]+` <br/> `+visa[i].visa_type[1]+`, `+visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
-                    </div>
-                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*pax_count)+`</span>
-                    </div>
-                    <div class="col-lg-12">
-                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                    </div>
-                </div>`;
-                count_i = count_i+1;
-                $text += count_i + '. ';
-                $text += 'Visa '+ country +'\n';
-                $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
-                $text += 'Consulate Address :\n';
-                $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
-                if(visa[i].notes.length != 0){
-                    $text += 'Visa Requirement:\n';
-
-                    for(j in visa[i].notes){
-                        $text += visa[i].notes[j] + '\n';
-//                        if(visa[i].requirements[j].description){
-//                            if(visa[i].requirements[j].description != "-"){
-//                                $text += ': ' + visa[i].requirements[j].description;
-//                            }
-//                        }
-//                        $text += ;
-                    }
-                    $text += '\n';
-                }
-            }
-            else{
-                count_price_detail[i] = 0;
-            }
-            try{
-                for(j in visa[i].service_charge_summary){
-                    for(k in visa[i].service_charge_summary[j].service_charges){
-                        if(visa[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
-                            commission += pax_count * (visa[i].service_charge_summary[j].service_charges[k].amount * -1);
-                        else
-                            price += pax_count * visa[i].service_charge_summary[j].service_charges[k].amount;
-                    }
-                }
-            }catch(err){
-
-            }
-        }
-
-        for(i in count_price_detail){
-            if(count_price_detail[i] == 1){
-                check_price_detail = 1;
-                break;
-            }
-            else{
-                check_price_detail = 0;
-            }
-        }
-
-        if(check_price_detail == 0){
-            text+=`<div class="row">
-                <div class="col-lg-12">
-                    <h6>Please choose your visa first!<h6>
+        text += `
+        <div class="div_box_default">
+            <div class="row">
+                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                    <h4 class="mb-3">`+visa_request.destination+`</h4>
                 </div>
             </div>`;
-        }
-        else{
-            $text += 'Price\n';
+            price = 0;
+            commission = 0;
+            count_i = 0;
             for(i in visa){
+                if(moment(visa_request.departure) >= moment().subtract(visa[i].type.duration*-1,'days'))
+                    check_visa = 1;
                 pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
                 if(isNaN(pax_count)){
                     pax_count = 0;
                 }
-                price_perpax = 0;
+
                 currency = '';
+                price_perpax = 0;
                 for(j in visa[i].service_charge_summary){
                     for(k in visa[i].service_charge_summary[j].service_charges){
-                        if(currency == '')
-                            currency = visa[i].service_charge_summary[j].service_charges[k].currency
                         if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
                             price_perpax += visa[i].service_charge_summary[j].service_charges[k].amount;
+                        if(currency == '')
+                            currency = visa[i].service_charge_summary[j].service_charges[k].currency;
                     }
                 }
-                if(pax_count != 0){
-                    $text += pax_count + ' ' + visa[i].pax_type[1] + ' ' + visa[i].visa_type[1] + ',' + visa[i].entry_type[1];
-                    $text += ' @'+ currency + ' ' +getrupiah(price_perpax);
-                    $text += '\n';
-                }
-            }
 
-            text+=`
-                <div class="row" style="padding-bottom:15px;">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <h6>Grand Total</h6>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                        <h6 id="total_price"`;
-                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
-                    text+= `style="cursor:pointer;"`;
+                if(pax_count != 0){
+                    count_price_detail[i] = 1;
+                    if(i != 0){
+                        text+=`<div style="border-top:1px solid #cdcdcd; padding-top:15px; margin-top:15px;"></div>`;
+                    }
+
+                    text+=`
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align:left;">
+                            <h6>➤ `+visa[i].visa_type[1]+`, `+visa[i].entry_type[1]+`</h6>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;"><b>`+pax_count+`x</b> `+visa[i].pax_type[1]+` `+currency+` @ `+getrupiah(price_perpax)+`</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*pax_count)+`</span>
+                        </div>
+                    </div>`;
+                    count_i = count_i+1;
+                    $text += count_i + '. ';
+                    $text += 'Visa '+ country +'\n';
+                    $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
+                    $text += 'Consulate Address :\n';
+                    $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
+                    if(visa[i].notes.length != 0){
+                        $text += 'Visa Requirement:\n';
+
+                        for(j in visa[i].notes){
+                            $text += visa[i].notes[j] + '\n';
+    //                        if(visa[i].requirements[j].description){
+    //                            if(visa[i].requirements[j].description != "-"){
+    //                                $text += ': ' + visa[i].requirements[j].description;
+    //                            }
+    //                        }
+    //                        $text += ;
+                        }
+                        $text += '\n';
+                    }
                 }
-                text+= `>`+currency+` `+getrupiah(price);
-                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
-                    text += `<i class="fas fa-caret-down"></i>`;
+                else{
+                    count_price_detail[i] = 0;
                 }
-                text+=`</h6>
-                    </div>
-                </div>`;
-            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
-                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                        try{
-                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
-                                price_convert = (price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                if(price_convert%1 == 0)
-                                    price_convert = parseInt(price_convert);
-                                text+=`
-                                    <div class="row" style="margin-bottom:15px;">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                            <h6> Estimated `+k+` `+price_convert+`</h6>
-                                        </div>
-                                    </div>`;
-                            }
-                        }catch(err){
-                            console.log(err);
+                try{
+                    for(j in visa[i].service_charge_summary){
+                        for(k in visa[i].service_charge_summary[j].service_charges){
+                            if(visa[i].service_charge_summary[j].service_charges[k].charge_type == 'RAC')
+                                commission += pax_count * (visa[i].service_charge_summary[j].service_charges[k].amount * -1);
+                            else
+                                price += pax_count * visa[i].service_charge_summary[j].service_charges[k].amount;
                         }
                     }
+                }catch(err){
+
                 }
             }
-            $text += '\n';
-            $text += 'Grand Total: '+currency + ' '+getrupiah(price);
-            try{
-                display = document.getElementById('show_commission').style.display;
-            }catch(err){
-                display = 'none';
-            }
-            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-                text+= print_commission(commission,'show_commission', currency)
-            text+=`
-                <div class="row">
-                    <div class="col-lg-12" style="padding-bottom:15px;">
-                        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
-                    share_data();
-                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                    if (isMobile) {
-                        text+=`
-                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                            <a href="mailto:?subject=This is the visa price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                    } else {
-                        text+=`
-                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                            <a href="mailto:?subject=This is the visa price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-                    }
-                    text +=`</div>
 
-                </div>`;
-                text+=`
-                <div class="row" style="margin-top:10px; text-align:center;">
-                   <div class="col-lg-12">
-                        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
-                   </div>
-                </div>`;
-//                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-//                text+=`
-//                <div class="row" style="margin-top:10px; text-align:center;">
-//                   <div class="col-lg-12">
-//                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
-//                   </div>
-//                </div>`;
-                if(agent_security.includes('book_reservation') == true && check_visa == 1 && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                    text+=
-                `<div class="row" style="margin-top:10px; text-align:center;">
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <button id="visa_btn_search" class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_availability();" type="button" value="Next">
-                            Get Price
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
+            for(i in count_price_detail){
+                if(count_price_detail[i] == 1){
+                    check_price_detail = 1;
+                    break;
+                }
+                else{
+                    check_price_detail = 0;
+                }
+            }
+
+            if(check_price_detail == 0){
+                text+=`<div class="row">
+                    <div class="col-lg-12">
+                        <h6>Please choose your visa first!<h6>
                     </div>
                 </div>`;
+            }
+            else{
+                $text += 'Price\n';
+                for(i in visa){
+                    pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
+                    if(isNaN(pax_count)){
+                        pax_count = 0;
+                    }
+                    price_perpax = 0;
+                    currency = '';
+                    for(j in visa[i].service_charge_summary){
+                        for(k in visa[i].service_charge_summary[j].service_charges){
+                            if(currency == '')
+                                currency = visa[i].service_charge_summary[j].service_charges[k].currency
+                            if(visa[i].service_charge_summary[j].service_charges[k].charge_type != 'RAC')
+                                price_perpax += visa[i].service_charge_summary[j].service_charges[k].amount;
+                        }
+                    }
+                    if(pax_count != 0){
+                        $text += pax_count + ' ' + visa[i].pax_type[1] + ' ' + visa[i].visa_type[1] + ',' + visa[i].entry_type[1];
+                        $text += ' @'+ currency + ' ' +getrupiah(price_perpax);
+                        $text += '\n';
+                    }
                 }
+
+                text_next+=`
+                <div class="row">
+                    <div class="col-lg-5">
+                        <b style="font-size:16px; padding-right:10px;">Grand Total </b><br>
+                        <h6 id="total_price"`;
+                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
+                            text_next+= `style="cursor:pointer;"`;
+                        }
+                        text_next+= `>`+currency+` `+getrupiah(price);
+                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
+                            text += `<i class="fas fa-caret-down"></i>`;
+                        }
+
+                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && price){
+                            if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                text_next+=`<span class="span_link" id="estimated_popup" style="padding-left:10px; color:`+color+` !important;">Estimated <i class="fas fa-coins"></i></span>`;
+
+                                for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                    try{
+                                        if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == currency){
+                                            price_convert = (price/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                            if(price_convert%1 == 0)
+                                                price_convert = parseInt(price_convert);
+                                            text_estimated+=`
+                                            <div class="row" style="margin-bottom:15px;">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
+                                                    <h6> Estimated `+k+` `+price_convert+`</h6>
+                                                </div>
+                                            </div>`;
+                                        }
+                                    }catch(err){
+                                        console.log(err);
+                                    }
+                                }
+                            }
+                        }
+                        text_next+=`
+                        </h6>
+                    </div>
+                    <div class="col-lg-7">`;
+                        $text += '\n';
+                        $text += 'Grand Total: '+currency + ' '+getrupiah(price);
+                        try{
+                            display = document.getElementById('show_commission').style.display;
+                        }catch(err){
+                            display = 'none';
+                        }
+                        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                            text_next+= print_commission(commission,'show_commission', currency)
+                        text_next+=`
+                    </div>
+                    <div class="col-lg-4">
+                        <button class="primary-btn-white" style="width:100%; margin-bottom:0px;" type="button" id="btn_share_popup">
+                            <i class="fas fa-share-alt"></i> Share / Copy
+                        </button>
+                    </div>`;
+
+                    text_btn_share+=`
+                    <div class="row">
+                        <div class="col-lg-12" style="padding-bottom:15px;">
+                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
+                            share_data();
+                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                            if (isMobile) {
+                                text_btn_share+=`
+                                <a class="share-btn-popup whatsapp" href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                <a class="share-btn-popup line" href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                <a class="share-btn-popup telegram" href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                <a class="share-btn-popup email" href="mailto:?subject=This is the visa price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            } else {
+                                text_btn_share+=`
+                                <a class="share-btn-popup whatsapp" href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
+                                <a class="share-btn-popup line" href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
+                                <a class="share-btn-popup telegram" href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
+                                <a class="share-btn-popup email" href="mailto:?subject=This is the visa price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                            }
+                            text_btn_share +=`
+                        </div>
+                    </div>`;
+                    text_btn_share+=`
+                    <div class="row" style="margin-top:10px; text-align:center;">
+                       <div class="col-lg-12">
+                            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
+                       </div>
+                    </div>`;
+    //                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    //                text_next+=`
+    //                <div class="row" style="margin-top:10px; text-align:center;">
+    //                   <div class="col-lg-12">
+    //                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br>
+    //                   </div>
+    //                </div>`;
+                    text_next+=`
+                    <div class="col-lg-8">`;
+                    if(agent_security.includes('book_reservation') == true && check_visa == 1 && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                        text_next+=`
+                        <div class="row" style="text-align:center;">
+                            <div class="col-lg-12" style="padding-bottom:10px;">
+                                <button id="visa_btn_search" class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_availability();" type="button" value="Next">
+                                    Get Price
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                        </div>`;
+                    }
+                    text_next+=`
+                    </div>
+                </div>`;
             text+=`</div>`;
             if(check_visa == 0){
                 Swal.fire({
@@ -1102,6 +1125,53 @@ function update_table_new(type){
         add_repricing();
     }
     document.getElementById('detail').innerHTML = text;
+
+    if(type == 'search'){
+        document.getElementById('visa_detail_next').innerHTML = text_next;
+        new jBox('Tooltip', {
+            attach: '#estimated_popup',
+            target: '#estimated_popup',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            maxHeight: 300,
+            position: {
+              x: 'left',
+              y: 'top'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: text_estimated
+        });
+
+        new jBox('Tooltip', {
+            attach: '#btn_share_popup',
+            target: '#btn_share_popup',
+            theme: 'TooltipBorder',
+            trigger: 'click',
+            adjustTracker: true,
+            closeOnClick: 'body',
+            closeButton: 'box',
+            animation: 'move',
+            maxHeight: 300,
+            position: {
+              x: 'left',
+              y: 'top'
+            },
+            outside: 'y',
+            pointer: 'left:20',
+            offset: {
+              x: 25
+            },
+            content: text_btn_share
+        });
+    }
 
     if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
         var price_breakdown = {};

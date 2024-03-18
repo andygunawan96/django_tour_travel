@@ -2987,6 +2987,10 @@ function checkboxCopyBox(id, co_hotel){
     } else {
         document.getElementById("check_all_copy").checked = false;
     }
+    $("#button_copy_hotel").addClass("animated bounceIn");
+    setTimeout(function(){
+        $("#button_copy_hotel").removeClass("animated bounceIn");
+    }, 200);
     checkboxCopy();
 }
 
@@ -3005,6 +3009,10 @@ function check_all_result(){
         $('#choose-hotel-copy').show();
     }
    }
+    $("#button_copy_hotel").addClass("animated bounceIn");
+    setTimeout(function(){
+        $("#button_copy_hotel").removeClass("animated bounceIn");
+    }, 200);
    checkboxCopy();
 }
 
