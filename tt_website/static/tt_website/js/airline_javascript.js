@@ -12595,7 +12595,8 @@ function check_all_result(){
     if(selectAllCheckbox.checked==true){
         var checkboxes = document.getElementsByClassName("copy_result");
         for(var i=0, n=checkboxes.length;i<n;i++) {
-            if(document.getElementById('departjourney'+i).value != 'Sold Out'){
+            id_checkbox = checkboxes[i].id.replace('copy_result','');
+            if(document.getElementById('departjourney'+id_checkbox).value != 'Sold Out'){
                 checkboxes[i].checked = true;
                 $('#choose-airline-copy').hide();
             }
