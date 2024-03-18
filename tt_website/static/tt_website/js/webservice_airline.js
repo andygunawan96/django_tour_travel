@@ -5831,7 +5831,7 @@ function draw_get_price_itinerary(){
                                                                             if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
                                                                                 for(m in family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
                                                                                     if(!['CHD', 'INF'].includes(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type)){
-                                                                                        total_price_fare = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price;
+                                                                                        total_price_fare = family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_price / family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                                                                                         if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax)
                                                                                             is_include_tax = true;
                                                                                         if(family_provider_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges && currency == ''){
@@ -9684,7 +9684,7 @@ function airline_get_booking(data, sync=false){
                                         <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <b>Duplicate Booking: </b><i>`+msg.result.response.provider_bookings[i].duplicates_backend+`</i>
+                                                    <b style="color:red;font-size:16px;">Duplicate Booking: </b><i style="color:red;font-size:16px;">`+msg.result.response.provider_bookings[i].duplicates_backend+`</i>
                                                 </div>
                                             </div>
                                         </div>`;
