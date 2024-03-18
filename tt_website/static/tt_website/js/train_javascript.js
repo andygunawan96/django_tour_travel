@@ -3217,6 +3217,10 @@ function checkboxCopyBox(id){
     } else {
         document.getElementById("check_all_copy").checked = false;
     }
+    $("#button_copy_train").addClass("animated bounceIn");
+    setTimeout(function(){
+        $("#button_copy_train").removeClass("animated bounceIn");
+    }, 200);
     checkboxCopy();
 }
 
@@ -3235,6 +3239,10 @@ function check_all_result(){
         $('#choose-train-copy').show();
     }
    }
+    $("#button_copy_train").addClass("animated bounceIn");
+    setTimeout(function(){
+        $("#button_copy_train").removeClass("animated bounceIn");
+    }, 200);
    checkboxCopy();
 }
 
@@ -3295,13 +3303,13 @@ function get_checked_copy_result(){
 
         text+=`
             <div class="col-lg-9">
-                <h5 class="single_border_custom_left" style="padding-left:5px;">Option-`+train_number+`</h5>
+                <h5><i class="fas fa-train"></i> Option-`+train_number+`</h5>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_train+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
             </div>
             <div class="col-lg-12">
-                <hr/>
+                <br/>
             </div>
             <div class="col-lg-12">
                 <h5 style="margin-bottom:5px;">`+name_train+`</h5>
@@ -3318,7 +3326,7 @@ function get_checked_copy_result(){
                 text+=`<span>`+seat_train+`</span><br/>`;
             }
             text+=`
-                <span class="price_template" style="float:right;">`+price_train+`</span>
+                <span class="price_template" style="float:right; margin-top:15px;">`+price_train+`</span>
             </div>
         </div>`;
     });

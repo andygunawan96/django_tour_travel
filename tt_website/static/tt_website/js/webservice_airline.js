@@ -6019,10 +6019,10 @@ text_detail_next +=`
         <div class="col-lg-12">
             <div style="padding:7px 0px 15px 0px;">
             <button class="copy-btn-popup" type="button" onclick="copy_data();">
-                <i class="fas fa-copy"></i> Copy
+                <i class="fas fa-copy"></i> Standard Copy
             </button><br/>
             <button class="copy-btn-popup" type="button" onclick="simplified_copy_data();">
-                <i class="fas fa-copy"></i> Simplified Copy
+                <i class="fas fa-copy"></i> Simple Copy
             </button>`;
 
             share_data();
@@ -11153,6 +11153,7 @@ function airline_get_booking(data, sync=false){
                 total_price_provider = [];
                 commission = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+                text_copy_drop = '';
                 text_detail=`
                 <div class="div_box_default">
                     <div class="row">
@@ -11567,20 +11568,45 @@ function airline_get_booking(data, sync=false){
                             }
                             text_detail+=`
                             <div style="float:right">
-                                <button style="float:right;" class="btn_standard_sm" type="button" onclick="copy_data();">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button><br/><br/>
-                                <button class="btn_standard_sm" type="button" onclick="simplified_copy_data();">
-                                    <i class="fas fa-copy"></i> Simplified Copy
+                                <button class="btn_standard_sm" type="button" id="copy_btn_dropdown">
+                                    <i class="fas fa-copy"></i> Copy <i class="fas fa-chevron-down" style="font-size:14px;"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>`;
+
+                text_copy_drop =`
+                <div id="copy_result">
+                    <button class="btn_standard_sm" type="button" onclick="copy_data();" style="text-align:left; width:100%; margin-bottom:15px;">
+                        <i class="fas fa-copy"></i> Standard Copy
+                    </button><br/>
+                    <button class="btn_standard_sm" type="button" onclick="simplified_copy_data();" style="text-align:left; width:100%">
+                        <i class="fas fa-copy"></i> Simple Copy
+                    </button>
+                </div>`;
+
                 }catch(err){
                     console.log(err); // error kalau ada element yg tidak ada
                 }
                 document.getElementById('airline_detail').innerHTML = text_detail;
+                new jBox('Tooltip', {
+                    attach: '#copy_btn_dropdown',
+                    target: '#copy_btn_dropdown',
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    width: 200,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    position: {
+                      x: 'center',
+                      y: 'bottom'
+                    },
+                    content: text_copy_drop
+                });
+
                 if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
                     try{
                         render_voucher(price.currency,msg.result.response.voucher_discount, msg.result.response.state)
@@ -15539,7 +15565,8 @@ function render_ticket_reissue(){
                                                                <ul class="StepProgress">
                                                                    <li class="StepProgress-item is-done">
                                                                        <div class="bold">
-                                                                           <span class="copy_legs_date_depart">`+airline[i].segments[j].legs[k].departure_date.split(' - ')[0]+` - `+airline[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</span>
+                                                                           <span class="copy_legs_time_depart" style="font-weight:600; font-size:16px;">`+airline[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</span><br/>
+                                                                           <span class="copy_legs_date_depart">`+airline[i].segments[j].legs[k].departure_date.split(' - ')[0]+`</span>
                                                                        </div>
                                                                        <div>
                                                                            <span style="font-weight:500;" class="copy_legs_depart">`+airline[i].segments[j].legs[k].origin_city+` - `+airline[i].segments[j].legs[k].origin_name+` (`+airline[i].segments[j].legs[k].origin+`)</span></br>`;
