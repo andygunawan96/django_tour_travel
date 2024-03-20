@@ -10079,6 +10079,7 @@ function airline_get_booking(data, sync=false){
                                         }
                                     }
                                 }
+                                $simplified_text += '\n';
                             }
 
                             if(msg.result.response.provider_bookings[i].hasOwnProperty('duplicates') && msg.result.response.provider_bookings[i].duplicates.length){
