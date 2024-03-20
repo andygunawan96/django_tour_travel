@@ -3003,7 +3003,6 @@ function sort(){
                                                <div class="row" id="journey`+i+`segment`+j+`" style="padding:15px;">
                                                    <div class="col-lg-3 mb-2">
                                                        <div style="display:inline-flex;">`;
-                                                       console.log(airline_carriers[0]);
                                                        try{
                                                            if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code && airline[i].segments[j].operating_airline_code != ''){
                                                                text+=`

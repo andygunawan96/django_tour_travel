@@ -672,13 +672,14 @@ def passenger(request, signature):
                     if segment['carrier_code'] == 'GA':
                         is_garuda = True
                     for leg in segment['legs']:
-                        if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
-                            is_international = True
-                            if carrier:
-                                if carrier.get(segment['carrier_code']):
-                                    if carrier[segment['carrier_code']]['required_identity_required_international']:
-                                        is_identity_required = True
-                            break
+                        if leg.get('origin_country') and leg.get('destination_country'):
+                            if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
+                                is_international = True
+                                if carrier:
+                                    if carrier.get(segment['carrier_code']):
+                                        if carrier[segment['carrier_code']]['required_identity_required_international']:
+                                            is_identity_required = True
+                                break
                         else:
                             if carrier:
                                 if carrier.get(segment['carrier_code']):
@@ -702,24 +703,54 @@ def passenger(request, signature):
 
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
-                if journey['origin_country'] == 'United States' or journey['destination_country'] == 'United States':
-                    is_need_valid_identity = True
-                if journey['origin_city'] == 'Dubai' or journey['destination_city'] == 'Dubai' or journey['origin_country'] == 'Saudi Arabia' or journey['destination_country'] == 'Saudi Arabia':
-                    is_need_last_name = True
+                if journey.get('origin_country'):
+                    if journey['origin_country'] == 'United States':
+                        is_need_valid_identity = True
+                if not is_need_valid_identity and journey.get('destination_country'):
+                    if journey['destination_country'] == 'United States':
+                        is_need_valid_identity = True
+                if journey.get('origin_city'):
+                    if journey['origin_city'] == 'Dubai':
+                        is_need_last_name = True
+                if not is_need_last_name and journey.get('origin_country'):
+                    if journey['origin_country'] == 'Saudi Arabia':
+                        is_need_last_name = True
+                if not is_need_last_name and journey.get('destination_city'):
+                    if journey['origin_country'] == 'Saudi Arabia':
+                        is_need_last_name = True
+                if not is_need_last_name and journey.get('destination_country'):
+                    if journey['destination_country'] == 'Saudi Arabia':
+                        is_need_last_name = True
                 if is_need_valid_identity and is_need_last_name:
                     break
                 for segment in journey['segments']:
-                    if segment['origin_country'] == 'United States' or segment['destination_country'] == 'United States':
-                        is_need_valid_identity = True
-                    if segment['origin_city'] == 'Dubai' or segment['destination_city'] == 'Dubai' or segment['origin_city'] == 'Saudi Arabia' or segment['destination_city'] == 'Saudi Arabia':
-                        is_need_last_name = True
+                    if segment.get('origin_country'):
+                        if segment['origin_country'] == 'United States':
+                            is_need_valid_identity = True
+                    if not is_need_valid_identity and segment.get('destination_country'):
+                        if segment['destination_country'] == 'United States':
+                            is_need_valid_identity = True
+                    if segment.get('origin_city'):
+                        if segment['origin_city'] == 'Dubai' or segment['origin_city'] == 'Saudi Arabia':
+                            is_need_last_name = True
+                    if not is_need_last_name and segment.get('destination_city'):
+                        if segment['destination_city'] == 'Dubai' or segment['destination_city'] == 'Saudi Arabia':
+                            is_need_last_name = True
                     if is_need_valid_identity and is_need_last_name:
                         break
                     for leg in segment['legs']:
-                        if leg['origin_country'] == 'United States' or leg['destination_country'] == 'United States':
-                            is_need_valid_identity = True
-                        if leg['origin_city'] == 'Dubai' or leg['destination_city'] == 'Dubai' or leg['origin_city'] == 'Saudi Arabia' or leg['destination_city'] == 'Saudi Arabia':
-                            is_need_last_name = True
+                        if leg.get('origin_country'):
+                            if leg['origin_country'] == 'United States':
+                                is_need_valid_identity = True
+                        if leg.get('destination_country'):
+                            if leg['destination_country'] == 'United States':
+                                is_need_valid_identity = True
+                        if leg.get('origin_city'):
+                            if leg['origin_city'] == 'Dubai' or leg['origin_city'] == 'Saudi Arabia':
+                                is_need_last_name = True
+                        if leg.get('destination_city'):
+                            if leg['destination_city'] == 'Dubai' or leg['destination_city'] == 'Saudi Arabia':
+                                is_need_last_name = True
                         if is_need_valid_identity and is_need_last_name:
                             break
                     if is_need_valid_identity and is_need_last_name:
