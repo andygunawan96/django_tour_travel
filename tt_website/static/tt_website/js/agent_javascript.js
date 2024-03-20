@@ -128,7 +128,7 @@ function table_reservation(data, mode_view, restart=false){
                     text+=`<td>`;
                     if(data[i].hasOwnProperty('passenger_list')){
                         for(j in data[i].passenger_list){
-                            text += data[i].passenger_list[j];
+                            text += data[i].passenger_list[j] + '<br/>';
                         }
                     }
                     text += `</td>`;
