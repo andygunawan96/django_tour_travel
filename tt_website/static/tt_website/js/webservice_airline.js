@@ -10411,7 +10411,7 @@ function airline_get_booking(data, sync=false){
                             for(ff_counter in msg.result.response.passengers[pax].frequent_flyers){
                                 if(ff_request != '')
                                     ff_request += '<br/>';
-                                ff_request += '<b>' + msg.result.response.passengers[pax].frequent_flyers[ff_counter].ff_name + ':</b> '+ msg.result.response.passengers[pax].frequent_flyers[ff_counter].ff_number;
+                                ff_request += '<b>' + msg.result.response.passengers[pax].frequent_flyers[ff_counter].ff_name + ':</b><i> '+ msg.result.response.passengers[pax].frequent_flyers[ff_counter].ff_number + '</i>';
                             }
                             if(ff_request)
                                 ff_request += '<br/>';
@@ -10480,7 +10480,12 @@ function airline_get_booking(data, sync=false){
                                                 }
                                                 text+=`
                                                 <b>Ticket Number:</b> <i>`+ticket+`</i><br/>
-                                                `+ff_request+`
+                                                `+ff_request;
+                                            if(msg.result.response.passengers[pax].hasOwnProperty('description') && msg.result.response.passengers[pax].description){
+                                                text+=`
+                                                <b>Description:</b> <i>`+msg.result.response.passengers[pax].description+`</i><br/>`;
+                                            }
+                                            text+=`
                                             </div>
                                         </div>
                                     </div>

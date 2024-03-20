@@ -846,6 +846,9 @@ def admin(request):
                             elif idx == 26:
                                 if line != '':
                                     data_cache['tour_search_template'] = line.split('\n')[0]
+                            elif idx == 27:
+                                if line != '':
+                                    data_cache['hover_color'] = line.split('\n')[0]
 
 
                     text = ''
@@ -1031,6 +1034,12 @@ def admin(request):
                         text += request.POST['tour_search_template']
                     elif data_cache.get('tour_search_template'):
                         text += data_cache['tour_search_template']
+                    text += '\n'
+
+                    if 'hover_color' in request.POST:
+                        text += request.POST['hover_color']
+                    elif data_cache.get('hover_color'):
+                        text += data_cache['hover_color']
                     text += '\n'
 
                     ### KALAU ADA CACHE BARU MAU MASUK DATA CACHE TEMPLATE TAMBAH DI ATAS SINI ###
@@ -1998,6 +2007,7 @@ def get_data_template(request, type='home', provider_type = []):
     else:
         background = '/static/tt_website/images/background/default/def_bg_home.jpg'
     color = '#205B95'
+    hover_color = '#366796'
     airline_country = []
     phone_code = []
     website_name = 'Orbis'
@@ -2464,8 +2474,13 @@ def get_data_template(request, type='home', provider_type = []):
                 elif idx == 26:
                     if line != '':
                         tour_search_template = line.split('\n')[0]
+                elif idx == 27:
+                    if line != '':
+                        hover_color = line.split('\n')[0]
             if color == '':
                 color = '#205B95'
+            if color != '#205B95' and hover_color == '':
+                hover_color = color
             if len(background.split('\n')) > 1:
                 background = background.split('\n')[0]
     except Exception as e:
@@ -2511,6 +2526,7 @@ def get_data_template(request, type='home', provider_type = []):
         'template': template,
         'tour_search_template': tour_search_template,
         'color': color,
+        'hover_color': hover_color,
         'name': website_name,
         'background': background,
         # 'tawk_chat': tawk_chat,
