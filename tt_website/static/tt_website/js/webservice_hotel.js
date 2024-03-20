@@ -4520,7 +4520,7 @@ function get_checked_copy_result_room(){
         }
 
         text+=`
-        <div class="row" id="div_list`+id_room+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+        <div class="row" id="div_list`+id_room+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
 
         text+=`
             <div class="col-lg-9">

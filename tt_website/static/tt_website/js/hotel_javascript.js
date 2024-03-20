@@ -3049,9 +3049,9 @@ function get_checked_copy_result(){
         $text += 'Price start from: '+price_hotel+'\n \n';
 
             if(hotel_number == 1){
-                text+=`<div class="row pb-3" id="div_list`+id_hotel+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;"">`;
+                text+=`<div class="row pb-3" id="div_list`+id_hotel+`" style="padding-top:15px; margin-bottom:15px; background:white;"">`;
             }else{
-                text+=`<div class="row pt-3 pb-3" id="div_list`+id_hotel+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+                text+=`<div class="row pt-3 pb-3" id="div_list`+id_hotel+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
             }
             text+=`
                 <div class="col-lg-9">
