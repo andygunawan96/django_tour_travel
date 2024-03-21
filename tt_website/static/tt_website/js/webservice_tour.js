@@ -2373,16 +2373,14 @@ function update_service_charge(type){
                     break;
                 }
             list_price = []
-            if(document.getElementById(tr_get_booking.result.response.passengers[i].name+'_repricing').innerHTML != '-'){
-                list_price.push({
-                    'amount': parseInt(document.getElementById(tr_get_booking.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
-                    'currency_code': currency
-                });
-                upsell.push({
-                    'sequence': tr_get_booking.result.response.passengers[i].sequence,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
-                });
-            }
+            list_price.push({
+                'amount': parseInt(document.getElementById(tr_get_booking.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
+                'currency_code': currency
+            });
+            upsell.push({
+                'sequence': tr_get_booking.result.response.passengers[i].sequence,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
         }
         repricing_order_number = tour_order_number;
     }else{
@@ -2400,19 +2398,17 @@ function update_service_charge(type){
             if(all_pax[i].pax_type in upsell_price_dict == false)
                 upsell_price_dict[all_pax[i].pax_type] = 0;
             list_price = [];
-            if(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '0'){
-                list_price.push({
-                    'amount': parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join('')),
-                    'currency_code': currency
-                });
-                upsell_price_dict[all_pax[i].pax_type] += parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join(''));
-                upsell.push({
-                    'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price)),
-                    'pax_type': all_pax[i].pax_type
-                });
-                list_price = [];
-            }
+            list_price.push({
+                'amount': parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join('')),
+                'currency_code': currency
+            });
+            upsell_price_dict[all_pax[i].pax_type] += parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join(''));
+            upsell.push({
+                'sequence': counter_pax,
+                'pricing': JSON.parse(JSON.stringify(list_price)),
+                'pax_type': all_pax[i].pax_type
+            });
+            list_price = [];
             counter_pax++;
         }
     }

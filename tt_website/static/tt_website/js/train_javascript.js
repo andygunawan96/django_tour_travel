@@ -1575,11 +1575,11 @@ function train_detail(){
                         if(price_convert%1 == 0)
                             price_convert = parseInt(price_convert);
                         text+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-12 col-xs-12" style="text-align:right;">
-                                    <span style="font-size:13px;"><b> Estimated `+k+` `+price_convert+`</b></span>
-                                </div>
-                            </div>`;
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-12 col-xs-12" style="text-align:right;">
+                                <span style="font-size:13px;"><b> Estimated `+k+` `+price_convert+`</b></span>
+                            </div>
+                        </div>`;
                     }
                 }catch(err){
                     console.log(err);
@@ -2582,11 +2582,11 @@ function sort(value){
                 total_train_count++;
 
                 if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
-                    response+=`<div class="sorting-box mb-3">`;
+                    response+=`<div class="div_box_default mb-3">`;
                     ticket_count++;
                 }
     //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
-    //                response+=`<div class="sorting-box-b">`;
+    //                response+=`<div class="div_default_box">`;
                 else{
                     response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
                 }
@@ -2690,7 +2690,11 @@ function sort(value){
                                                         if(price_convert%1 == 0)
                                                             price_convert = parseInt(price_convert);
                                                         response+=`
-                                                            <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>`;
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-xs-12" style="text-align:right;">
+                                                                <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;">Estimated `+k+` `+price_convert+`</span>
+                                                            </div>
+                                                        </div>`;
                                                     }
                                                 }catch(err){
                                                     console.log(err);
@@ -2700,9 +2704,9 @@ function sort(value){
                                     }
 
                                     if(data_filter[i].available_count<50)
-                                        response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
+                                        response+=`<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
                                     else if(data_filter[i].available_count<=1 )
-                                        response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
+                                        response+=`<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
 
                                     if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                         response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px;" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
@@ -2744,7 +2748,7 @@ function sort(value){
     <div class="we_found_box div_box_default">
         <span style="font-weight:bold; font-size:14px;"> We found `+total_train_count+` train</span>
         <label class="check_box_custom" style="float:right;">
-            <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+            <span class="span-search-ticket" style="color:black;"> Select All to Copy</span>
             <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
             <span class="check_box_span_custom"></span>
         </label>
@@ -3296,9 +3300,9 @@ function get_checked_copy_result(){
         $text+='====================\n\n';
 
         if(train_number == 1){
-            text+=`<div class="row pb-3" id="div_list`+id_train+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+            text+=`<div class="row pb-3" id="div_list`+id_train+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
         }else{
-            text+=`<div class="row pt-3 pb-3" id="div_list`+id_train+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+            text+=`<div class="row pt-3 pb-3" id="div_list`+id_train+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
         }
 
         text+=`

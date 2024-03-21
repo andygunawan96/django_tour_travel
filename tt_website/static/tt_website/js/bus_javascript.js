@@ -154,6 +154,57 @@ function change_date_next_prev(counter){
     else
         flight_date = moment(bus_request.departure[counter-1]);
     var date_format = 'DD MMM YYYY';
+
+    document.getElementById('change_date_search').innerHTML = `
+    <div class="owl-carousel owl-theme">
+        <div class="item" id="prev_date_2">
+
+        </div>
+        <div class="item" id="prev_date_1">
+
+        </div>
+        <div class="item" id="now_date">
+
+        </div>
+        <div class="item" id="next_date_1">
+
+        </div>
+        <div class="item" id="next_date_2">
+
+        </div>
+    </div>`;
+
+    $('.owl-carousel').owlCarousel({
+        loop:false,
+        nav: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: false,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:5000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:5,
+                nav:true
+            },
+            480:{
+                items:5,
+                nav:true
+            },
+            768:{
+                items:5,
+                nav:true
+            },
+            961:{
+                items:5,
+                nav:true
+            }
+        }
+    });
+
     document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
     document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" style="padding:15px;" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
     document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" style="padding:15px;" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
@@ -496,10 +547,10 @@ function sort(value){
     ticket_count = parseInt(data_filter.length);
     document.getElementById("bus_result").innerHTML = '';
     text_co = `
-    <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-top:-2px; margin-bottom:10px; padding:10px;">
+    <div class="we_found_box div_box_default">
         <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` bus</span>
         <label class="check_box_custom" style="float:right;">
-            <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+            <span class="span-search-ticket" style="color:black;"> Select All to Copy</span>
             <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
             <span class="check_box_span_custom"></span>
         </label>
@@ -508,138 +559,128 @@ function sort(value){
     node_co.innerHTML = text_co;
     document.getElementById("bus_result").appendChild(node_co);
 
+    document.getElementById("bus_ticket_loading").innerHTML = '';
     var response = '';
     var ticket_print = false;
     for(i in data_filter){
         if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
             ticket_print = true;
             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
-                response+=`<div class="sorting-box-b">`;
+                response+=`<div class="div_box_default">`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
-//                response+=`<div class="sorting-box-b">`;
+//                response+=`<div class="div_box_default">`;
             else
                 response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
                 <span class="copy_bus" hidden>`+i+`</span>`;
             response+=`
                 <div class="row">
-                    <div class="col-lg-12">`;
-                       if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
-                           response+=`
-                           <label class="check_box_custom" style="float:right;">
-                               <span class="span-search-ticket"></span>
-                               <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`);"/>
-                               <span class="check_box_span_custom"></span>
-                           </label>
-                           <span class="id_copy_result" hidden>`+i+`</span>`;
-                           if(counter_bus_provider > 1){
-                                response +=`<br/><label style="float:right;margin-right: 5px;">`+data_filter[i].provider+`</label>`;
-                            }
-                       }
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-3">`;
+                    if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
+                        response+=`
+                        <label class="check_box_custom" style="float:right;">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`);"/>
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden>`+i+`</span>`;
+                        if(counter_bus_provider > 1){
+                            response +=`<br/><label style="float:right;margin-right: 5px;">`+data_filter[i].provider+`</label>`;
+                        }
+                    }
                     response+=`
                     </div>
-                    <div class="col-lg-12">
-                        <h4 class="copy_bus_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
-                    </div>
-                    <div class="col-lg-4 col-xs-6">
-                        <table style="width:100%">
-                            <tr>
-                                <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
-                                <td style="padding-left:15px;">
-                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:30px; height:30px;"/>
-                                </td>
-                                <td style="height:30px;padding:0 15px;width:100%">
-                                    <div style="display:inline-block;position:relative;width:100%">
-                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                        <div style="height:30px;min-width:20px;position:relative;width:0%"/>
+                    <div class="col-lg-9 col-md-8" style="padding-top:5px;">
+                        <h5 class="copy_bus_name">`+data_filter[i].carrier_name+` (`+data_filter[i].carrier_number+`)</h5>
+                        <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</span>
+                        <div class="row" style="padding-top:10px;">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <h6 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h6>
+                                <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
+                                <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin+`</span><br/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div style="text-align:center; position: absolute; left:-10%;">
+                                    <div style="display:inline-block;position:relative;width:100%;z-index:1;">
+                                        <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;"/>
+                                        <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                        <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                     </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
-                        <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+`</span>
-
-                    </div>
-                    <div class="col-lg-4 col-xs-6 mb-1" style="padding:0;">
-                        <table style="width:100%; margin-bottom:6px;">
-                            <tr>
-                                <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
-                                <td></td>
-                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                            </tr>
-                        </table>
-                        <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
-                        <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+`</span>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
+                                    <span class="copy_duration" style="font-weight:500;">`;
+                                    response+= data_filter[i].elapsed_time.split(':')[0] + 'h ';
+                                    response+= data_filter[i].elapsed_time.split(':')[1] + 'm ';
+                                    response+=`
+                                </div>
+                                <div style="text-align:right">
+                                    <h6 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h6>
+                                    <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
+                                    <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination+`</span><br/>
+                                </div>
                             </div>
                         </div>
-                        <div style="text-align:right; margin-top:20px; margin-bottom:10px;">`;
-                        check = 0;
-                        for(j in journeys){
-                            if(journeys[j].sequence == data_filter[i].sequence){
-                                response+=`
-                            <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price)+`</span><br/>
-                            <input class="primary-btn-custom-un" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`);"  id="bus_choose`+i+`" disabled value="Chosen">`;
-                                check = 1;
+                    </div>
+                    <div class="col-lg-3 col-md-4" style="padding-top:5px;">
+                        <div style="text-align:right;">`;
+                            check = 0;
+                            for(j in journeys){
+                                if(journeys[j].sequence == data_filter[i].sequence){
+                                    response+=`
+                                    <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price)+`</span><br/>
+                                    <input class="primary-btn-custom-un" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`);"  id="bus_choose`+i+`" disabled value="Chosen">`;
+                                    check = 1;
+                                }
                             }
-                        }
-                        if(check == 0){
-                            response+=`
-                                <span id="bus_price_`+i+`" class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:`;
-                            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true || data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
-                                response+= color+';';
-                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
-                                response+= '#505050;'
-                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-                                response+='cursor:pointer;';
-                            response+=`">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price);
-                            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-                                response+=`<i class="fas fa-caret-down price_template"></i>`;
-                            response+=`</span><br/>`;
-                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
-                                if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
-                                    for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
-                                        try{
-                                            if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == data_filter[i].currency){
-                                                price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
-                                                if(price_convert%1 == 0)
-                                                    price_convert = parseInt(price_convert);
-                                                response+=`
-                                                    <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>`;
+                            if(check == 0){
+                                response+=`
+                                    <span id="bus_price_`+i+`" class="copy_price" style="font-size:16px; font-weight: bold; color:`;
+                                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true || data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
+                                    response+= color+';';
+                                else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
+                                    response+= '#505050;'
+                                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    response+='cursor:pointer;';
+                                response+=`">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price);
+                                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                                    response+=`<i class="fas fa-caret-down price_template" style="padding-left:5px;"></i>`;
+                                response+=`</span>`;
+
+                                if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && data_filter[i].price){
+                                    if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
+                                        for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
+                                            try{
+                                                if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == data_filter[i].currency){
+                                                    price_convert = (parseFloat(data_filter[i].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                                    if(price_convert%1 == 0)
+                                                        price_convert = parseInt(price_convert);
+                                                    response+=`
+                                                        <span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span>`;
+                                                }
+                                            }catch(err){
+                                                console.log(err);
                                             }
-                                        }catch(err){
-                                            console.log(err);
                                         }
                                     }
                                 }
+
+                                if(data_filter[i].available_count<50)
+                                    response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> `+data_filter[i].available_count+` seat(s) left</span>`;
+                                else if(data_filter[i].available_count<=1 )
+                                    response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> `+data_filter[i].available_count+` seat(s) left</span>`;
+
+                                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
+                                    response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px;" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`)"  id="bus_choose`+i+`" value="Choose">`;
+                                else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
+                                    response+=`<input class="disabled-btn" style="width:100%; margin-top:10px;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="bus_choose`+i+`" value="Choose">`;
+                                else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
+                                    response+=`<input class="disabled" style="width:100%; margin-top:10px;" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="bus_choose`+i+`" value="Choose">`;
+                                else if(data_filter[i].available_count < parseInt(passengers.adult))
+                                    response+=`<input class="disabled-btn" style="width:100%; margin-top:10px;" type="button" id="bus_choose`+i+`" value="Not Available" disabled>`
+                                else if(data_filter[i].available_count <= 0)
+                                    response+=`<input class="disabled-btn" style="width:100%; margin-top:10px;" type="button" id="bus_choose`+i+`" value="Sold" disabled>`
                             }
-                            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
-                                response+=`
-                                <input class="primary-btn-custom" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`)"  id="bus_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
-                                response+=`
-                                <input class="disabled-btn" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="bus_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
-                                response+=`
-                                <input class="disabled" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="bus_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count < parseInt(passengers.adult))
-                                response+=`
-                                <input class="disabled-btn" type="button" id="bus_choose`+i+`" value="Not Available" disabled>`
-                            else if(data_filter[i].available_count <= 0)
-                                response+=`
-                                <input class="disabled-btn" type="button" id="bus_choose`+i+`" value="Sold" disabled>`
-                        }
-                    if(data_filter[i].available_count<50)
-                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
-                    else if(data_filter[i].available_count<=1 )
-                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
-                    response+=`</div>
+                        response+=`
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -647,14 +688,13 @@ function sort(value){
     }
     if(ticket_print == false){
         response +=`
-                    <div style="padding:5px; margin:10px;">
-                        <div style="text-align:center">
-                            <img src="/static/tt_website/images/no_found/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
-                            <br/><br/>
-                            <h6>NO BUS AVAILABLE</h6>
-                        </div>
-                    </div>
-                `;
+        <div style="padding:5px; margin:10px;">
+            <div style="text-align:center">
+                <img src="/static/tt_website/images/no_found/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                <br/><br/>
+                <h6>NO BUS AVAILABLE</h6>
+            </div>
+        </div>`;
     }
     bus_data_filter = data_filter;
     document.getElementById('bus_ticket').innerHTML = response;
@@ -740,7 +780,7 @@ function choose_bus(data,key){
     var x = document.getElementById("show-cart");
     document.getElementById("badge-copy-notif").innerHTML = 0;
     document.getElementById("badge-copy-notif2").innerHTML = 0;
-    $('#button_copy_bus').hide();
+//    $('#button_copy_bus').hide();
 
     //ini manual
     change_date_next_prev(1);
@@ -798,7 +838,7 @@ function change_bus(val){
     document.getElementById("badge-bus-notif2").innerHTML = "0";
     document.getElementById("badge-copy-notif").innerHTML = 0;
     document.getElementById("badge-copy-notif2").innerHTML = 0;
-    $('#button_copy_bus').hide();
+//    $('#button_copy_bus').hide();
     change_date_next_prev(val);
     bus_ticket_pick();
     filtering('filter');
@@ -808,56 +848,54 @@ function bus_ticket_pick(){
     response = '';
     for(i in journeys){
         response+=`
-        <div style="background-color:`+color+`; padding:10px;">
-            <h6 style="color:`+text_color+`;">`;
-        if(journeys[i].bus_sequence == "0")
-            response += 'Departure';
-        else
-            response += 'Return';
-            response +=`</h6>
-        </div>
-        <div class="sorting-box-b">`;
-        response += `
+        <div style="background-color:white; box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px; border-radius:5px; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px">
             <div class="row">
-                <div class="col-lg-12">
-                    <h4>`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)  - `+journeys[i].cabin_class[1]+`</h4>
+                <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd; padding-bottom:10px;">
+                    <span style="font-size:14px; font-weight:bold;">
+                        <img style="width:auto; height:25px; border-radius:7px; background:white;" src="/static/tt_website/images/icon/product/c-train.png" alt="Train Icon"> `;
+                        if(journeys[i].bus_sequence == "0")
+                            response += 'Departure';
+                        else
+                            response += 'Return';
+                        response +=`
+                    </span>
                 </div>
-                <div class="col-lg-4 col-xs-6">
-                    <table style="width:100%">
-                        <tr>
-                            <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
-                            <td style="padding-left:15px;">
-                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:30px; height:30px;"/>
-                            </td>
-                            <td style="height:30px;padding:0 15px;width:100%">
-                                <div style="display:inline-block;position:relative;width:100%">
-                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                    <div style="height:30px;min-width:20px;position:relative;width:0%"/>
+            </div>
+            <div class="row">
+                <div class="col-lg-9 col-md-8" style="padding-top:5px;">
+                    <h5>`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)</h5>
+                    <span style="font-weight:500; font-size:14px;">`+journeys[i].cabin_class[1]+` (`+journeys[i].class_of_service+`)</span>
+                    <div class="row" style="padding-top:10px;">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <h6>`+journeys[i].departure_date[1]+`</h6>
+                            <span>`+journeys[i].departure_date[0]+`</span><br/>
+                            <span style="font-weight:500;">`+journeys[i].origin+`</span><br/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div style="text-align:center; position: absolute; left:-10%;">
+                                <div style="display:inline-block;position:relative;width:100%;z-index:1;">
+                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;"/>
+                                    <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                    <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                 </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <span>`+journeys[i].departure_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].origin_name+`</span>
+                                <span style="font-weight:500;">`;
+                                response+= journeys[i].elapsed_time.split(':')[0] + 'h ';
+                                response+= journeys[i].elapsed_time.split(':')[1] + 'm ';
+                                response+=`
+                            </div>
+                            <div style="text-align:right">
+                                <h6>`+journeys[i].arrival_date[1]+`</h6>
+                                <span>`+journeys[i].arrival_date[0]+`</span><br/>
+                                <span style="font-weight:500;">`+journeys[i].destination+`</span><br/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-xs-6" style="padding:0;">
-                    <table style="width:100%; margin-bottom:6px;">
-                        <tr>
-                            <td><h5>`+journeys[i].arrival_date[1]+`</h5></td>
-                            <td></td>
-                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                        </tr>
-                    </table>
-                    <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
-                </div>
-
-                <div class="col-lg-4">
-                    <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
+                <div class="col-lg-3 col-md-4" style="padding-top:5px;">
+                    <div style="text-align:right;">`;
                     check = 0;
                     response+=`
-                        <span id="bus_pick_price_`+i+` style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;`;
+                        <span id="bus_pick_price_`+i+`" style="font-size:16px; margin-right:10px; font-weight: bold; color:`+color+`;`;
                         if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                             response+='cursor:pointer;';
                         response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
@@ -872,7 +910,6 @@ function bus_ticket_pick(){
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
                                             response+=`
-                                                <br/>
                                                 <span style="font-size:16px; font-weight:bold;"> Estimated `+k+` `+price_convert+`</span>`;
                                         }
                                     }catch(err){
@@ -881,13 +918,14 @@ function bus_ticket_pick(){
                                 }
                             }
                         }
+                        if(journeys[i].available_count<50)
+                            response+=`<br/><span style="font-size:13px; float:right; color:`+color+`"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> `+journeys[i].available_count+` seat(s) left</span>`;
+                        else if(journeys[i].available_count<=1 )
+                            response+=`<br/><span style="font-size:13px; float:right; color:`+color+`"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> `+journeys[i].available_count+` seat(s) left</span>`;
+
                         response+=`
-                        <input class="primary-btn-custom" type="button" onclick="change_bus(`+i+`)"  id="bus_choose`+i+`" value="Change">`;
-                if(journeys[i].available_count<50)
-                    response+=`<br/><span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
-                else if(journeys[i].available_count<=1 )
-                    response+=`<br/><span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
-                response+=`</div>
+                        <input class="primary-btn-gr" style="width:100%; margin-top:10px;" type="button" onclick="change_bus(`+i+`)"  id="bus_choose`+i+`" value="Change">`;
+                    response+=`</div>
                 </div>
             </div>
         </div>`;
@@ -2366,12 +2404,12 @@ function getrupiah(price){
 
 function checkboxCopy(){
     var count_copy = $(".copy_result:checked").length;
-    if(count_copy == 0){
-        $('#button_copy_bus').hide();
-    }
-    else{
-        $('#button_copy_bus').show();
-    }
+//    if(count_copy == 0){
+//        $('#button_copy_bus').hide();
+//    }
+//    else{
+//        $('#button_copy_bus').show();
+//    }
     document.getElementById("badge-copy-notif").innerHTML = count_copy;
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }
@@ -2386,6 +2424,10 @@ function checkboxCopyBox(id){
     } else {
         document.getElementById("check_all_copy").checked = false;
     }
+    $("#button_copy_bus").addClass("animated bounceIn");
+    setTimeout(function(){
+        $("#button_copy_bus").removeClass("animated bounceIn");
+    }, 200);
     checkboxCopy();
 }
 
@@ -2404,6 +2446,10 @@ function check_all_result(){
         $('#choose-bus-copy').show();
     }
    }
+    $("#button_copy_bus").addClass("animated bounceIn");
+    setTimeout(function(){
+        $("#button_copy_bus").removeClass("animated bounceIn");
+    }, 200);
    checkboxCopy();
 }
 
@@ -2433,6 +2479,7 @@ function get_checked_copy_result(){
     $(".copy_result:checked").each(function(obj) {
         var parent_bus = $(this).parent().parent().parent().parent();
         var name_bus = parent_bus.find('.copy_bus_name').html();
+        var cabin_bus = parent_bus.find('.copy_cabin_class').html();
         var time_depart = parent_bus.find('.copy_time_depart').html();
         var date_depart = parent_bus.find('.copy_date_depart').html();
         var departure_bus = parent_bus.find('.copy_departure').html();
@@ -2445,7 +2492,7 @@ function get_checked_copy_result(){
         var id_bus = parent_bus.find('.id_copy_result').html();
         bus_number = bus_number + 1;
         $text += 'Option-'+bus_number+'\n';
-        $text += ''+name_bus+ '\n';
+        $text += ''+name_bus+'\n'+cabin_bus+'\n';
         $text += '\n‣ Departure:\n';
         $text += departure_bus+', '+date_depart+' '+time_depart;
         $text += '\n\n‣ Arrival:\n';
@@ -2457,34 +2504,37 @@ function get_checked_copy_result(){
         $text+='====================\n\n';
 
         if(bus_number == 1){
-            text+=`<div class="row pb-3" id="div_list`+id_bus+`" style="border-bottom:1px solid #cdcdcd;">`;
+            text+=`<div class="row pb-3" id="div_list`+id_bus+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
         }else{
-            text+=`<div class="row pt-3 pb-3" id="div_list`+id_bus+`" style="border-bottom:1px solid #cdcdcd;">`;
+            text+=`<div class="row pt-3 pb-3" id="div_list`+id_bus+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
         }
 
         text+=`
             <div class="col-lg-9">
-                <h5 class="single_border_custom_left" style="padding-left:5px;">Option-`+bus_number+`</h5>
-                <h5>`+name_bus+`</h5>
+                <h5><i class="fas fa-train"></i> Option-`+bus_number+`</h5>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_bus+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
             </div>
-            <div class="col-lg-6" style="text-align:left;">
-                <h6>Departure</h6>
-                <span>`+departure_bus+`, `+date_depart+` `+time_depart+` </span>
+            <div class="col-lg-12">
+                <br/>
             </div>
-            <div class="col-lg-6" style="text-align:right;">
-                <h6>Arrival</h6>
-                <span>`+arrival_bus+`, `+date_arr+` `+time_arr+` </span><br/>
+            <div class="col-lg-12">
+                <h5 style="margin-bottom:5px;">`+name_bus+`</h5>
+                <span style="font-weight:500; font-size:14px;">`+cabin_bus+`</span>
             </div>
-
+            <div class="col-xs-6" style="text-align:left;">
+                <b>Departure</b><br/><span>`+departure_bus+`, `+date_depart+` `+time_depart+` </span>
+            </div>
+            <div class="col-xs-6" style="text-align:right;">
+                <b>Return</b><br/><span>`+arrival_bus+`, `+date_arr+` `+time_arr+` </span>
+            </div>
             <div class="col-lg-12" style="text-align:right;">`;
             if(seat_bus){
                 text+=`<span>`+seat_bus+`</span><br/>`;
             }
             text+=`
-                <h6 style="color:`+color+`;">Price: `+price_bus+`</h6>
+                <span class="price_template" style="float:right; margin-top:15px;">`+price_bus+`</span>
             </div>
         </div>`;
     });
@@ -2654,6 +2704,11 @@ function from_seat_goto_review_booking(){
 }
 
 function bus_filter_render(){
+    document.getElementById("sorting-bus").innerHTML = '';
+    document.getElementById("sorting-bus2").innerHTML = '';
+    document.getElementById("filter").innerHTML = '';
+    document.getElementById("filter2").innerHTML = '';
+
     text = '';
     text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
             <hr/>
@@ -2705,16 +2760,39 @@ function bus_filter_render(){
     document.getElementById("filter").appendChild(node);
     node = document.createElement("div");
 
-    text='';
-    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
 
-    for(i in sorting_list2){
-        text+=`
-        <button class="primary-btn-sorting" id="radio_sorting2`+i+`" name="radio_sorting2" onclick="sorting_button('`+sorting_list2[i].value.toLowerCase()+`')" value="`+sorting_list2[i].value+`">
-            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
-            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
-        </button>`;
-    }
+    text='';
+    text+=`
+    <div style="margin-bottom:10px;">
+        <h6 style="display: inline;">Sort by</h6>
+    </div>
+    <div class="drop_inline" style="width:100%;">
+        <div class="dropdown-toggle remove-arrow-dt div-dropdown-txt primary-btn-white" data-toggle="dropdown" style="width:100%; line-height:unset; padding:10px">
+            <span type="button" style=" cursor:pointer; margin-bottom:0px !important; text-align:left;">
+                <span id="sort_by_span">---Sort by---</span>
+            </span>
+            <ul class="dropdown-menu" role="menu" style="padding:15px;">`;
+            for(i in sorting_list){
+                text+=`
+                <label class="radio-button-custom">
+                    <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                    <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sorting_button('`+sorting_list[i].value+`', '`+i+`');" value="`+sorting_list[i].value+`">
+                    <span class="checkmark-radio"></span>
+                </label></br>`;
+            }
+            text+=`
+            </ul>
+        </div>
+    </div>`;
+
+//    for(i in sorting_list2){
+//        text+=`
+//        <button class="primary-btn-sorting" id="radio_sorting2`+i+`" name="radio_sorting2" onclick="sorting_button('`+sorting_list2[i].value.toLowerCase()+`')" value="`+sorting_list2[i].value+`">
+//            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
+//            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
+//        </button>`;
+//    }
+
     node = document.createElement("div");
     node.className = 'sorting-box';
     node.innerHTML = text;
@@ -2953,7 +3031,7 @@ function change_date_shortcut(val){
         document.getElementById("badge-bus-notif2").innerHTML = "0";
         document.getElementById("badge-copy-notif").innerHTML = 0;
         document.getElementById("badge-copy-notif2").innerHTML = 0;
-        $('#button_copy_bus').hide();
+//        $('#button_copy_bus').hide();
         bus_signin('');
         bus_ticket_pick();
         //send_request_search();
