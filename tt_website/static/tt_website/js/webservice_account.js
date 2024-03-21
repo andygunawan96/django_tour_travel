@@ -2231,10 +2231,13 @@ function transaction_history_click_search(){
 }
 
 function render_notification(){
-    document.getElementById('notification_detail').innerHTML = '';
+    document.getElementById('notification_detail').innerHTML = `
+    <div id="notification_detail_data"></div>
+    `;
 
     check_notif = 0;
-
+    start_notif = 0;
+    end_notif = 0;
 //    $("#loading-search-notification").show();
     if(document.getElementById('provider_notification').innerHTML == ''){
         document.getElementById('provider_notification').innerHTML = '';
@@ -2316,10 +2319,22 @@ function render_notification(){
         document.getElementById('provider_notification').innerHTML = text_provider;
     }
 
+    render_notification_data(false);
+}
 
-
+function render_notification_data(next_data=false){
+    if(!next_data){
+        check_notif = 0;
+        start_notif = 0;
+        end_notif = 20;
+    }else{
+        start_notif = JSON.parse(JSON.stringify(end_notif));
+        end_notif += 20;
+    }
     value_provider_notif = $("input[name='provider_notification_radio']:checked").val();
     text = '';
+    end_data_print = false;
+    total_print = 0
     for(i in render_data_notification){
 
         print_provider = false;
@@ -2353,136 +2368,159 @@ function render_notification(){
         }
 
         if(print_notif && print_provider){
-            check_notif++;
-            url_goto = '';
-            if(render_data_notification[i].provider_type == 'airline'){
-                url_goto = '/airline/booking/';
-            }else if(render_data_notification[i].provider_type == 'train'){
-                url_goto = '/train/booking/';
-            }else if(render_data_notification[i].provider_type == 'activity'){
-                url_goto = '/activity/booking/';
-            }else if(render_data_notification[i].provider_type == 'hotel'){
-                url_goto = '/hotel/booking/';
-            }else if(render_data_notification[i].provider_type == 'visa'){
-                url_goto = '/visa/booking/';
-            }else if(render_data_notification[i].provider_type == 'tour'){
-                url_goto = '/tour/booking/';
-            }else if(render_data_notification[i].provider_type == 'offline'){
-                url_goto = '/issued_offline/booking/';
-            }else if(render_data_notification[i].provider_type == 'passport'){
-                url_goto = '/passport/booking/';
-            }else if(render_data_notification[i].provider_type == 'ppob'){
-                url_goto = '/ppob/booking/';
-            }else if(render_data_notification[i].provider_type == 'event'){
-                url_goto = '/event/booking/';
-            }else if(render_data_notification[i].provider_type == 'periksain' || render_data_notification[i].provider_type == 'phc'){
-                url_goto = '/medical/booking/';
-            }else if(render_data_notification[i].provider_type == 'medical'){
-                url_goto = '/medical_global/booking/';
-            }else if(render_data_notification[i].provider_type == 'bus'){
-                url_goto = '/bus/booking/';
-            }else if(render_data_notification[i].provider_type == 'swabexpress'){
-                url_goto = '/swab_express/booking/';
-            }else if(render_data_notification[i].provider_type == 'labpintar'){
-                url_goto = '/lab_pintar/booking/';
-            }else if(render_data_notification[i].provider_type == 'mitrakeluarga'){
-                url_goto = '/mitrakeluarga/booking/';
-            }else if(render_data_notification[i].provider_type == 'insurance'){
-                url_goto = '/insurance/booking/';
-            }else if(render_data_notification[i].provider_type == 'groupbooking'){
-                url_goto = '/groupbooking/booking/';
-            }
-            text+=`
-            <div class="col-lg-12" style="cursor:pointer;">
-                <div class="row">
-                    <div class="col-xs-10" style="cursor:pointer;">
-                        <form action="`+url_goto+btoa(render_data_notification[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">
-                            <div class="row">
-                                <div class="col-xs-12">`;
-                                    if(render_data_notification[i].is_read == false){
-                                        text+=`<span style="font-weight:700; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name;
-                                        if(render_data_notification[i].pnr)
-                                            text+=` - `+render_data_notification[i].pnr+`</span>`;
-                                    }else{
-                                        text+=`<span style="font-weight:400; color:#808080; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name;
-                                        if(render_data_notification[i].pnr)
-                                            text+=` - `+render_data_notification[i].pnr+`</span>`;
-                                    }
-                                    text+=`<br/>`;
-                                    if(render_data_notification[i].is_read == false){
-                                        text+=`<span style="font-size:13px; text-transform: capitalize;">`+render_data_notification[i].provider_type+`</span>`;
-                                    }else{
-                                        text+=`<span style="color:#808080; font-size:13px; text-transform: capitalize;">`+render_data_notification[i].provider_type+`</span>`;
-                                    }
-                                text+=`
+            if(start_notif <= total_print && end_notif > total_print){
+                check_notif++;
+                url_goto = '';
+                if(render_data_notification[i].provider_type == 'airline'){
+                    url_goto = '/airline/booking/';
+                }else if(render_data_notification[i].provider_type == 'train'){
+                    url_goto = '/train/booking/';
+                }else if(render_data_notification[i].provider_type == 'activity'){
+                    url_goto = '/activity/booking/';
+                }else if(render_data_notification[i].provider_type == 'hotel'){
+                    url_goto = '/hotel/booking/';
+                }else if(render_data_notification[i].provider_type == 'visa'){
+                    url_goto = '/visa/booking/';
+                }else if(render_data_notification[i].provider_type == 'tour'){
+                    url_goto = '/tour/booking/';
+                }else if(render_data_notification[i].provider_type == 'offline'){
+                    url_goto = '/issued_offline/booking/';
+                }else if(render_data_notification[i].provider_type == 'passport'){
+                    url_goto = '/passport/booking/';
+                }else if(render_data_notification[i].provider_type == 'ppob'){
+                    url_goto = '/ppob/booking/';
+                }else if(render_data_notification[i].provider_type == 'event'){
+                    url_goto = '/event/booking/';
+                }else if(render_data_notification[i].provider_type == 'periksain' || render_data_notification[i].provider_type == 'phc'){
+                    url_goto = '/medical/booking/';
+                }else if(render_data_notification[i].provider_type == 'medical'){
+                    url_goto = '/medical_global/booking/';
+                }else if(render_data_notification[i].provider_type == 'bus'){
+                    url_goto = '/bus/booking/';
+                }else if(render_data_notification[i].provider_type == 'swabexpress'){
+                    url_goto = '/swab_express/booking/';
+                }else if(render_data_notification[i].provider_type == 'labpintar'){
+                    url_goto = '/lab_pintar/booking/';
+                }else if(render_data_notification[i].provider_type == 'mitrakeluarga'){
+                    url_goto = '/mitrakeluarga/booking/';
+                }else if(render_data_notification[i].provider_type == 'insurance'){
+                    url_goto = '/insurance/booking/';
+                }else if(render_data_notification[i].provider_type == 'groupbooking'){
+                    url_goto = '/groupbooking/booking/';
+                }
+                var node = document.createElement("div");
+                text_notif=`
+                <div class="col-lg-12" style="cursor:pointer;">
+                    <div class="row">
+                        <div class="col-xs-10" style="cursor:pointer;">
+                            <form action="`+url_goto+btoa(render_data_notification[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">
+                                <div class="row">
+                                    <div class="col-xs-12">`;
+                                        if(render_data_notification[i].is_read == false){
+                                            text_notif+=`<span style="font-weight:700; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name;
+                                            if(render_data_notification[i].pnr)
+                                                text+=` - `+render_data_notification[i].pnr+`</span>`;
+                                        }else{
+                                            text_notif+=`<span style="font-weight:400; color:#808080; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name;
+                                            if(render_data_notification[i].pnr)
+                                                text_notif+=` - `+render_data_notification[i].pnr+`</span>`;
+                                        }
+                                        text_notif+=`<br/>`;
+                                        if(render_data_notification[i].is_read == false){
+                                            text_notif+=`<span style="font-size:13px; text-transform: capitalize;">`+render_data_notification[i].provider_type+`</span>`;
+                                        }else{
+                                            text_notif+=`<span style="color:#808080; font-size:13px; text-transform: capitalize;">`+render_data_notification[i].provider_type+`</span>`;
+                                        }
+                                    text_notif+=`
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <span `;
+                                        if(render_data_notification[i].is_read)
+                                            text_notif+= `style="color:#808080;"`;
+                                        text_notif+=`>`+render_data_notification[i].description.msg.replaceAll('\n','<br/>');
+                                        if(render_data_notification[i].description.datetime != ''){
+                                            tes = moment.utc(render_data_notification[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
+                                            localTime  = moment.utc(tes).toDate();
+                                            render_data_notification[i].description.datetime = moment(localTime).format('DD MMM YYYY HH:mm');
+                                            text_notif += ' before ' + render_data_notification[i].description.datetime;
+                                        }
+                                        text_notif+=`</span>`;
+                                    text_notif+=`
+                                    </div>
                                 </div>
-                                <div class="col-xs-12">
-                                    <span `;
-                                    if(render_data_notification[i].is_read)
-                                        text+= `style="color:#808080;"`;
-                                    text+=`>`+render_data_notification[i].description.msg.replaceAll('\n','<br/>');
-                                    if(render_data_notification[i].description.datetime != ''){
-                                        tes = moment.utc(render_data_notification[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
-                                        localTime  = moment.utc(tes).toDate();
-                                        render_data_notification[i].description.datetime = moment(localTime).format('DD MMM YYYY HH:mm');
-                                        text += ' before ' + render_data_notification[i].description.datetime;
-                                    }
-                                    text+=`</span>`;
-                                text+=`
-                                </div>
-                            </div>
-                            <input type="hidden" id="order_number_notif`+check_notif+`" name="order_number_notif`+check_notif+`" value="`+render_data_notification[i].name+`">
-                            <input type="hidden" id="desc_notif`+check_notif+`" name="desc_notif`+check_notif+`" value="`+render_data_notification[i].description+`">
-                        </form>
-                    </div>
-                    <div class="col-xs-2" style="text-align:right; cursor:pointer;">`;
-                        if(render_data_notification[i].is_read == false)
-                            text += `<i class="fas fa-circle" style="color:`+color+`; font-size:16px;"></i>`;
-                    text+=`
-                    </div>
-                    <div class="col-lg-12 mb-1"></div>
-                    <div class="col-xs-12" style="text-align:right;" id="snooze_div_datetime`+check_notif+`">`;
-                    if(render_data_notification[i].snooze_days > 0){
+                                <input type="hidden" id="order_number_notif`+check_notif+`" name="order_number_notif`+check_notif+`" value="`+render_data_notification[i].name+`">
+                                <input type="hidden" id="desc_notif`+check_notif+`" name="desc_notif`+check_notif+`" value="`+render_data_notification[i].description+`">
+                            </form>
+                        </div>
+                        <div class="col-xs-2" style="text-align:right; cursor:pointer;">`;
+                            if(render_data_notification[i].is_read == false)
+                                text += `<i class="fas fa-circle" style="color:`+color+`; font-size:16px;"></i>`;
+                        text_notif+=`
+                        </div>
+                        <div class="col-lg-12 mb-1"></div>
+                        <div class="col-xs-12" style="text-align:right;" id="snooze_div_datetime`+check_notif+`">`;
+                        if(render_data_notification[i].snooze_days > 0){
+                            text_notif+=`
+                            <i><i class="fas fa-clock" style="color:#808080; font-size:16px;"></i> Snooze until <i style="color:`+color+`;">`+moment(render_data_notification[i].create_date).subtract(render_data_notification[i].snooze_days * -1, 'days').format('DD MMMM YYYY')+`</i></i>`;
+                        }
                         text+=`
-                        <i><i class="fas fa-clock" style="color:#808080; font-size:16px;"></i> Snooze until <i style="color:`+color+`;">`+moment(render_data_notification[i].create_date).subtract(render_data_notification[i].snooze_days * -1, 'days').format('DD MMMM YYYY')+`</i></i>`;
-                    }
-                    text+=`
-                    </div>
-                    <div class="col-xs-12" style="text-align:right; font-weight:500;" id="notif_button_span`+check_notif+`">`;
-                    if(render_data_notification[i].snooze_days == 0 && render_data_notification[i].last_snooze_date){
-                        text+=`
-                        <span class="notification-hover" onclick="show_snooze(`+check_notif+`,'`+render_data_notification[i].last_snooze_date+`','`+render_data_notification[i].create_date+`',`+i+`)">
-                            Snooze
-                            <i class="fas fa-bell" style="font-size:14px;"></i>
-                        </span>`;
-                    }
-                    else if(render_data_notification[i].snooze_days != 0){
-                        text+=`
-                        <span class="notification-hover" style="font-size:14px; padding-right:10px; color:#DC143C;" onclick="set_unsnooze_notification(`+check_notif+`,'`+render_data_notification[i].last_snooze_date+`','`+render_data_notification[i].create_date+`',`+i+`)">
-                            Cancel
-                            <i class="fas fa-times" style="font-size:14px;"></i>
-                        </span>`;
-                        text+=`
-                        <span class="notification-hover" style="font-size:14px;" onclick="show_snooze(`+check_notif+`,'`+render_data_notification[i].last_snooze_date+`','`+render_data_notification[i].create_date+`',`+i+`)">
-                            Edit
-                            <i class="fas fa-pen" style="font-size:14px;"></i>
-                        </span>`;
-                    }
-                    text+=`
-                    </div>`;
+                        </div>
+                        <div class="col-xs-12" style="text-align:right; font-weight:500;" id="notif_button_span`+check_notif+`">`;
+                        if(render_data_notification[i].snooze_days == 0 && render_data_notification[i].last_snooze_date){
+                            text_notif+=`
+                            <span class="notification-hover" onclick="show_snooze(`+check_notif+`,'`+render_data_notification[i].last_snooze_date+`','`+render_data_notification[i].create_date+`',`+i+`)">
+                                Snooze
+                                <i class="fas fa-bell" style="font-size:14px;"></i>
+                            </span>`;
+                        }
+                        else if(render_data_notification[i].snooze_days != 0){
+                            text_notif+=`
+                            <span class="notification-hover" style="font-size:14px; padding-right:10px; color:#DC143C;" onclick="set_unsnooze_notification(`+check_notif+`,'`+render_data_notification[i].last_snooze_date+`','`+render_data_notification[i].create_date+`',`+i+`)">
+                                Cancel
+                                <i class="fas fa-times" style="font-size:14px;"></i>
+                            </span>`;
+                            text_notif+=`
+                            <span class="notification-hover" style="font-size:14px;" onclick="show_snooze(`+check_notif+`,'`+render_data_notification[i].last_snooze_date+`','`+render_data_notification[i].create_date+`',`+i+`)">
+                                Edit
+                                <i class="fas fa-pen" style="font-size:14px;"></i>
+                            </span>`;
+                        }
+                        text_notif+=`
+                        </div>`;
 
-                    text += `
+                        text_notif += `
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-12">
-                    <hr/>
-                </div>
-            </div>`;
-        //                              document.getElementById('notification_detail2').innerHTML += text;
+                    <div class="col-lg-12">
+                        <hr/>
+                    </div>
+                </div>`;
+            //                              document.getElementById('notification_detail2').innerHTML += text;
+
+                node.innerHTML = text_notif;
+                document.getElementById("notification_detail_data").appendChild(node);
+            }
+            total_print++;
+            if(check_notif == end_notif)
+                break
+        }
+        if(i == render_data_notification.length - 1)
+            end_data_print = true;
+    }
+    if(!end_data_print){
+        if(!document.getElementById('notification_detail').innerHTML.includes('Load More Data')){
+            var node = document.createElement("div");
+            node.innerHTML = `
+            <div class="col-lg-12" style="text-align:center; cursor:pointer;" onclick="render_notification_data(true);">
+                <button type="button" class="primary-btn" style="width:100%;">Load More Data</button><br>
+                <i class="fas fa-angle-down animated fadeInDown infinite" style="font-size:30px;"></i>
+            </div>
+            `;
+            document.getElementById('notification_detail').appendChild(node);
         }
     }
-    if(text){
-        document.getElementById('notification_detail').innerHTML += text;
+    if(check_notif){
+//        document.getElementById('notification_detail').innerHTML += text;
         //document.getElementById('notif_pc_badge').innerHTML += `<span class="icon-button__badge"></span>`;
         document.getElementById('notif_mb_badge').innerHTML += `<span class="icon-button__badge"></span>`;
 
