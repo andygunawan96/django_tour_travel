@@ -327,7 +327,13 @@ def replace_metacharacter_file_name(file_name, default_name=''):
 
 def get_domain_cache(request):
     try:
-        folder_path = "/var/log/django/%s/file_cache/cache_web/domain_copy.txt" % (request.META['HTTP_HOST'].split(':')[0])
+        if hasattr(request, 'META'):
+            folder_path = "/var/log/django/%s/file_cache/cache_web/domain_copy.txt" % (request.META['HTTP_HOST'].split(':')[0])
+        elif hasattr(request, 'stream'):
+            folder_path = "/var/log/django/%s/file_cache/cache_web/domain_copy.txt" % (request.stream.META['HTTP_HOST'].split(':')[0])
+        else:
+            folder_path = ''
+            _logger.error("Folder path not found")
         if os.path.isfile(folder_path):
             file = open("%s" % (folder_path), "r")
             data_domain_cache = file.read()

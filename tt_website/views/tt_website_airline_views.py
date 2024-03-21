@@ -476,21 +476,6 @@ def search(request):
             promo_codes = []
             use_osi_code_backend = False
 
-            ##POST
-            try:
-                promo_code_list_data_input = request.POST.get('promo_code_counter_list')
-                for promo_code_data_input in json.loads(promo_code_list_data_input):
-                    promo_codes.append({
-                        'carrier_code': promo_code_data_input['carrier_code'],
-                        'promo_code': promo_code_data_input['promo_code']
-                    })
-
-                if request.POST.get('checkbox_osi_code_backend_airline') == 'on' or request.POST.get('checkbox_add_promotion_code_airline') == 'on' or request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'search':
-                    use_osi_code_backend = True
-            except Exception as e:
-                _logger.error('Data POST for promo code not found use cache')
-                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
-
             ##GET
             try:
                 promo_code_list_data_input = request.GET.get('promo_code_counter_list')
