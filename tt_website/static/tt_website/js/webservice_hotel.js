@@ -4686,16 +4686,14 @@ function update_service_charge(type){
             break;
         }
         list_price = []
-        if(document.getElementById('Reservation_repricing').innerHTML != '-'){
-            list_price.push({
-                'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
-                'currency_code': currency
-            });
-            upsell.push({
-                'sequence': 0,
-                'pricing': JSON.parse(JSON.stringify(list_price))
-            });
-        }
+        list_price.push({
+            'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
+            'currency_code': currency
+        });
+        upsell.push({
+            'sequence': 0,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
         repricing_order_number = hotel_get_detail.result.response.order_number;
     }else{
         upsell_price = 0;
@@ -4704,17 +4702,15 @@ function update_service_charge(type){
         currency = hotel_price.currency;
         for(i in adult){
             list_price = []
-            if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
-                list_price.push({
-                    'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
-                    'currency_code': currency
-                });
-                upsell_price += parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join(''));
-                upsell.push({
-                    'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
-                });
-            }
+            list_price.push({
+                'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
+                'currency_code': currency
+            });
+            upsell_price += parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join(''));
+            upsell.push({
+                'sequence': counter_pax,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
             counter_pax++;
             break; //upsell per reservasi
         }

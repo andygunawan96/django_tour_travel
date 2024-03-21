@@ -1520,13 +1520,11 @@ function update_service_charge(type){
             if(i != 'booker' && i != 'contact'){
                 for(j in list){
                     for(k in passenger[i]){
-                        if(passenger[i][k].first_name+passenger[i][k].last_name == document.getElementById('selection_pax'+j).value){
-                            list_price.push({
-                                'amount': list[j],
-                                'currency_code': currency
-                            });
-                            upsell_price += list[j];
-                        }
+                        list_price.push({
+                            'amount': list[j],
+                            'currency_code': currency
+                        });
+                        upsell_price += list[j];
                     }
                 }
                 counter_pax++;
