@@ -307,7 +307,6 @@
     </div>
 </section>
 
-<!--edit train-->
 <section id="section_change_search" class="change-search-area-pcw" style="display:none;">
     <div class="container">
         <div class="row">
@@ -799,7 +798,7 @@
                 </div>
 
                 <div id="train_ticket_loading">
-                    <div class="sorting-box-b">
+                    <div class="div_box_default mb-3">
                         <div class="row">
                             <div class="col-xs-10">
                                 <div class="stripe_div_small70">
@@ -954,7 +953,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sorting-box-b">
+                    <div class="div_box_default mb-3">
                         <div class="row">
                             <div class="col-xs-10">
                                 <div class="stripe_div_small70">
@@ -1109,7 +1108,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sorting-box-b">
+                    <div class="div_box_default mb-3">
                         <div class="row">
                             <div class="col-xs-10">
                                 <div class="stripe_div_small70">
@@ -1421,9 +1420,6 @@
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
-                   {% if username.co_user_login != default_user %}
-                    document.getElementById("info_user_search").style.display = "block";
-                   {% endif %}
                    if(document.getElementById("balance_search") && document.getElementById("balance"))
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
 
@@ -1431,15 +1427,7 @@
                        document.getElementById("credit_search").innerHTML = document.getElementById("customer_parent_balance").innerHTML;
                    else if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-                }else{
-                   {% if username.co_user_login != default_user %}
-                   document.getElementById("info_user_search").style.display = "none";
-                   {% endif %}
                 }
-            }else{
-                {% if username.co_user_login != default_user %}
-                document.getElementById("info_user_search").style.display = "none";
-                {% endif %}
             }
         });
     });

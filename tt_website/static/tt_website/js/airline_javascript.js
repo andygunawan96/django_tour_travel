@@ -3050,7 +3050,7 @@ function sort(){
                                                        text+=`
                                                        </div>
                                                    </div>
-                                                   <div class="col-lg-6">`;
+                                                   <div class="col-lg-6 mb-2">`;
                                                        for(k in airline[i].segments[j].legs){
                                                            text+=`
                                                            <div class="row">
@@ -12700,9 +12700,9 @@ function get_checked_copy_result(){
                 $text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
                 $simplified_text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
                 if(airline_number == 1){
-                    text+=`<div class="row pb-3" id="div_list`+airline_number+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+                    text+=`<div class="row pb-3" id="div_list`+airline_number+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
                 }else{
-                    text+=`<div class="row pt-3 pb-3" id="div_list`+airline_number+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+                    text+=`<div class="row pt-3 pb-3" id="div_list`+airline_number+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
                 }
                 text+=`
                     <div class="col-xs-6">
@@ -12906,9 +12906,9 @@ function get_checked_copy_result(){
             $simplified_text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
 
             if(airline_number == 1){
-                text+=`<div class="row pb-3" id="div_list`+id_airline+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+                text+=`<div class="row pb-3" id="div_list`+id_airline+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
             }else{
-                text+=`<div class="row pt-3 pb-3" id="div_list`+id_airline+`" style="padding-top:15px; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; margin-bottom:15px; background:white;">`;
+                text+=`<div class="row pt-3 pb-3" id="div_list`+id_airline+`" style="padding-top:15px; margin-bottom:15px; background:white;">`;
             }
             text+=`
                 <div class="col-xs-6">
@@ -13172,7 +13172,7 @@ function get_checked_copy_result(){
                         parent_segments.find('.copy_transit_details').each(function(obj) {
                             if($(this).html() != undefined || $(this).html() != ''){
                                 if($(this).html() != "0"){
-                                    $simplified_text += '\n stop #'+check_stop+', '+$(this).html()+'\n';
+                                    $simplified_text += '\nstop #'+check_stop+', '+$(this).html()+'\n';
                                 }
                             }
                         });
@@ -13237,15 +13237,15 @@ function get_checked_copy_result(){
                                });
                            }
                            if(k_temp == value_legs.length){
-                               parent_legs.find('.copy_legs_date_arr').each(function(obj) {
-                                   if($(this).html() != undefined){
-                                       $simplified_text += ' - '+$(this).html().split(', ')[1]+' ';
-                                   }
-                               });
+//                               parent_legs.find('.copy_legs_date_arr').each(function(obj) {
+//                                   if($(this).html() != undefined){
+//                                       $simplified_text += ' - '+$(this).html().split(', ')[1]+' ';
+//                                   }
+//                               });
 
                                parent_legs.find('.copy_legs_arr').each(function(obj) {
                                    if($(this).html() != undefined){
-                                       $simplified_text += ''+$(this).html().split(' - ')[1]+' ';
+                                       $simplified_text += ' - '+$(this).html().split(' - ')[1]+' ';
                                    }
                                });
 

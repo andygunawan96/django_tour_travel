@@ -5231,6 +5231,12 @@ ul.progress_tabs li.current .image-rounded-icon{
   .filter-search-train{
     display: block;
   }
+  .filter-search-bus{
+    display: block;
+  }
+  .filter-search-bus{
+    display: block;
+  }
   .sorting-search-train2{
     display: block;
   }
@@ -5344,6 +5350,9 @@ ul.progress_tabs li.current .image-rounded-icon{
     display: block;
   }
   .filter-search-train{
+    display: none;
+  }
+  .filter-search-bus{
     display: none;
   }
   .sorting-search-train2{
@@ -5821,6 +5830,9 @@ ul.progress_tabs li.current .image-rounded-icon{
   #filter-search-train {
     display:block !important;
   }
+  #filter-search-bus {
+    display:block !important;
+  }
   #sorting-search-train {
     display:block !important;
   }
@@ -5873,6 +5885,9 @@ ul.progress_tabs li.current .image-rounded-icon{
     display:none !important;
   }
   #filter-search-train {
+    display:none !important;
+  }
+  #filter-search-bus {
     display:none !important;
   }
   #sorting-search-train {
