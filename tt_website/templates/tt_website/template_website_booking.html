@@ -2335,6 +2335,15 @@ junction_font.load().then(function(loaded_face) {
     user_login = {
         "co_user_login": '{{username.co_user_login}}'
     }
+
+    function go_to_home(){
+        if('{{home_url}}' == '/' || '{{home_url}}' == ''){
+            window.location.href = '';
+        }else{
+            openInNewTab('{{home_url}}');
+        }
+    }
+
     {% if username %}
     get_user_login();
     {% endif %}

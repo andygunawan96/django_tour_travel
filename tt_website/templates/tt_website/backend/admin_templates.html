@@ -2244,8 +2244,8 @@
                             <div style="display:inline-flex">
                                 <i class="fas fa-database" style="padding-top:5px;font-size:18px;"></i>
                                 <h6 style="padding-left:10px;">
-                                    Backend<br/>
-                                    <span style="font-weight:500; font-size:12px;">URL database.</span>
+                                    URL<br/>
+                                    <span style="font-weight:500; font-size:12px;">URL redirect.</span>
                                 </h6>
                             </div>
                         </button>
@@ -2275,11 +2275,17 @@
                                 </div>-->
                                 <div class="col-lg-12 mt-3 mb-3">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h6 style="margin-bottom:10px;">URL</h6>
+                                        <div class="col-lg-6">
+                                            <h6 style="margin-bottom:10px;">Backend URL</h6>
                                         </div>
-                                        <div class="col-lg-12" style="text-align:center;">
+                                        <div class="col-lg-6">
+                                            <h6 style="margin-bottom:10px;">Default Home URL</h6>
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:center;">
                                             <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:center;">
+                                            <input type="text" class="form-control" name="home_url" id="home_url" placeholder="Home URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Home URL '" value="{{home_url}}">
                                         </div>
                                         <div class="col-lg-12 mb-3">
                                             <button type="button" class="primary-btn update_banner_btn" onclick="update_banner();">Save Change <i class="fas fa-save"></i></button>
