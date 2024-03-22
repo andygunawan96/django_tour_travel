@@ -565,11 +565,14 @@ function sort(value){
     for(i in data_filter){
         if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
             ticket_print = true;
-            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
-                response+=`<div class="div_box_default">`;
+            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
+                response+=`<div class="div_box_default"`;
+                if(i != 0)
+                    response += ` style="margin-top:15px;"`;
+                response+=`>`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
 //                response+=`<div class="div_box_default">`;
-            else
+            }else
                 response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
                 <span class="copy_bus" hidden>`+i+`</span>`;
@@ -593,12 +596,12 @@ function sort(value){
                     </div>
                     <div class="col-lg-9 col-md-8" style="padding-top:5px;">
                         <h5 class="copy_bus_name">`+data_filter[i].carrier_name+` (`+data_filter[i].carrier_number+`)</h5>
-                        <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</span>
+                        <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+data_filter[i].cabin_class+` (`+data_filter[i].class_of_service+`)</span>
                         <div class="row" style="padding-top:10px;">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <h6 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h6>
                                 <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
-                                <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin+`</span><br/>
+                                <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+`</span><br/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div style="text-align:center; position: absolute; left:-10%;">
@@ -615,7 +618,7 @@ function sort(value){
                                 <div style="text-align:right">
                                     <h6 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h6>
                                     <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
-                                    <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination+`</span><br/>
+                                    <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+`</span><br/>
                                 </div>
                             </div>
                         </div>
@@ -869,7 +872,7 @@ function bus_ticket_pick(){
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <h6>`+journeys[i].departure_date[1]+`</h6>
                             <span>`+journeys[i].departure_date[0]+`</span><br/>
-                            <span style="font-weight:500;">`+journeys[i].origin+`</span><br/>
+                            <span style="font-weight:500;">`+journeys[i].origin_name+`</span><br/>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div style="text-align:center; position: absolute; left:-10%;">
@@ -886,7 +889,7 @@ function bus_ticket_pick(){
                             <div style="text-align:right">
                                 <h6>`+journeys[i].arrival_date[1]+`</h6>
                                 <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                                <span style="font-weight:500;">`+journeys[i].destination+`</span><br/>
+                                <span style="font-weight:500;">`+journeys[i].destination_name+`</span><br/>
                             </div>
                         </div>
                     </div>
@@ -1100,6 +1103,21 @@ function bus_get_detail(){
                     <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
                 </div>
             </div>
+        </div>
+        <div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
+        if(journeys[i].hasOwnProperty('facilities')){
+            bus_detail_text+=`
+                <span id="span-facilities-up`+i+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_facilities(`+i+`);"> Show Facilities <i class="fas fa-chevron-down"></i></span>
+                <span id="span-facilities-down`+i+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_facilities(`+i+`);"> Hide Facilites <i class="fas fa-chevron-up"></i></span>
+                <div id="div-facilities`+i+`" style="display:none; max-height:175px; overflow-y: auto; padding:15px;">`;
+            for(k in journeys[i].facilities){
+                bus_detail_text += `<span style="font-weight:bold;">`+journeys[i].facilities[k].replace('_',' ')+`</span><br/>`;
+            }
+            bus_detail_text+=`</div>`;
+        }else{
+            bus_detail_text += 'No fare rules';
+        }
+        bus_detail_text+=`
         </div>
         <div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
         if(journeys[i].hasOwnProperty('rules')){
