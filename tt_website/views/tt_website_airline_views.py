@@ -665,12 +665,12 @@ def passenger(request, signature):
                                         if carrier[segment['carrier_code']]['required_identity_required_international']:
                                             is_identity_required = True
                                 break
-                        else:
-                            if carrier:
-                                if carrier.get(segment['carrier_code']):
-                                    if carrier[segment['carrier_code']]['required_identity_required_domestic']:
-                                        is_identity_required = True
-                            break
+                            else:
+                                if carrier:
+                                    if carrier.get(segment['carrier_code']):
+                                        if carrier[segment['carrier_code']]['required_identity_required_domestic']:
+                                            is_identity_required = True
+                                break
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
             if provider_data_dict:
