@@ -313,7 +313,7 @@ def review(request, signature=''):
             values = get_data_template(request)
             try:
                 if request.META.get('HTTP_REFERER'):
-                    if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'seat_map':
+                    if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 2] == 'seat_map':
                         pax_request_seat = request.POST.get('paxs')
                         if pax_request_seat:
                             pax_request_seat = json.loads(pax_request_seat)

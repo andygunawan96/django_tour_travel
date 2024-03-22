@@ -334,10 +334,15 @@ def search(request):
                 bus_request['departure'][idx].split(' ')[2],
                 month[bus_request['departure'][idx].split(' ')[1]],
                 bus_request['departure'][idx].split(' ')[0])
-
+            ## POINT
+            # journey_list.append({
+            #     'origin': bus_key_name[bus_request['origin'][idx]],
+            #     'destination': bus_key_name[bus_request['destination'][idx]],
+            #     'departure_date': departure_date
+            # })
             journey_list.append({
-                'origin': bus_key_name[bus_request['origin'][idx]],
-                'destination': bus_key_name[bus_request['destination'][idx]],
+                'origin': bus_request['origin'][idx].split(' - ')[0],
+                'destination': bus_request['destination'][idx].split(' - ')[0],
                 'departure_date': departure_date
             })
 

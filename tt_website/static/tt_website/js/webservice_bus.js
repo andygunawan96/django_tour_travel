@@ -420,10 +420,15 @@ function get_bus_config(){
             'signature': signature
        },
        success: function(msg) {
-        for(i in msg.station){
-            msg.station[i]['name_show'] = msg.station[i].city+' - '+ msg.station[i].name;
-        }
-        new_bus_destination = msg.station;
+            for(i in msg.station){
+                msg.station[i]['name_show'] = msg.station[i].city+' - '+ msg.station[i].name;
+            }
+            for(i in msg.city){
+                msg.city[i]['name_show'] = i + ' - ' + msg.city[i].name;
+            }
+
+            new_bus_station = msg.station;
+            new_bus_destination = msg.city;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
         error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
@@ -1242,8 +1247,9 @@ function bus_get_booking(data, sync=false){
                                 for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
                                     if(msg.result.response.passengers[pax].name == msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
                                         ticket.push({
-                                            'journey': msg.result.response.provider_bookings[i].journeys[j].origin + ' - ' + msg.result.response.provider_bookings[i].journeys[j].destination,
-                                            'seat': msg.result.response.provider_bookings[i].journeys[j].seats[k].seat
+                                            'journey': msg.result.response.provider_bookings[i].journeys[j].origin_name + ' - ' + msg.result.response.provider_bookings[i].journeys[j].destination_name,
+                                            'seat': msg.result.response.provider_bookings[i].journeys[j].seats[k].seat,
+                                            'wagon': msg.result.response.provider_bookings[i].journeys[j].seats[k].wagon
                                         })
                                         break;
                                     }
@@ -1283,8 +1289,8 @@ function bus_get_booking(data, sync=false){
                             <i>`;
                             for(i in ticket)
                                 if(ticket[i].seat){
-                                    if(ticket[i].seat.split(',').length == 2)
-                                       text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                                    if(ticket[i].seat && ticket[i].wagon)
+                                       text += ticket[i].journey+`<br/>`+ticket[i].wagon + ' - ' + ticket[i].seat +`<br/>`;
                                 }
                             text+=`
                             </i>`;
