@@ -2631,6 +2631,23 @@ function show_hide_tac(id){
     }
 }
 
+function show_hide_facilities(id){
+    var span_facilities_up = document.getElementById("span-facilities-up"+id);
+    var span_facilities_down = document.getElementById("span-facilities-down"+id);
+    var div_facilities = document.getElementById("div-facilities"+id);
+
+    if (span_facilities_up.style.display === "none") {
+        span_facilities_down.style.display = "none";
+        div_facilities.style.display = "none";
+        span_facilities_up.style.display = "block";
+    }
+    else {
+        span_facilities_down.style.display = "block";
+        div_facilities.style.display = "block";
+        span_facilities_up.style.display = "none";
+    }
+}
+
 function show_hide_subtotal(id){
     var span_subtotal_up = document.getElementById("span-subtotal-up"+id);
     var span_subtotal_down = document.getElementById("span-subtotal-down"+id);
