@@ -8437,18 +8437,21 @@ function check_passenger(adult, child, infant, type=''){
         }
         if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
             if(document.getElementById('adult_first_name'+i).value == '')
-               error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
+                error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
             else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
-               error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+                error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
             document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
         }
-        if(is_need_last_name == 'true' && document.getElementById('adult_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('adult_last_name'+i).value) == false){
-            if(document.getElementById('adult_last_name'+i).value == '')
-               error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
+        // REQUIRED LAST NAME UNTUK DUBAI
+        if(is_need_last_name == 'true' && document.getElementById('adult_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('adult_last_name'+i).value) == false || is_need_last_name == 'true' && document.getElementById('adult_first_name'+i).value == document.getElementById('adult_last_name'+i).value){
+            if(document.getElementById('adult_last_name'+i).value == document.getElementById('adult_first_name'+i).value)
+                error_log+= 'Minimum 3 words for adult passenger '+i+'!</br>\n';
+            else if(document.getElementById('adult_last_name'+i).value == '')
+                error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
             else if(check_word(document.getElementById('adult_last_name'+i).value) == false)
-               error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
+                error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
             document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';

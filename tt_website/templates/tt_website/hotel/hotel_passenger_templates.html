@@ -1258,13 +1258,18 @@
         setTimeout(() => {
             get_automatic_booker('{{username.co_customer_seq_id}}');
         }, 500);
+
+    {% elif username.co_customer_seq_id %}
+        setTimeout(() => {
+            get_automatic_booker('{{username.co_customer_seq_id}}');
+        }, 500);
     {% endif %}
     {% if username.co_passenger_seq_id %}
         setTimeout(() => {
         {% for key, value in username.co_passenger_seq_id.items %}
             {% for pax in value %}
                 setTimeout(() => {
-                    get_automatic_passenger('{{username.co_customer_seq_id}}', '{{key}}', '{{forloop.counter}}', 'activity');
+                    get_automatic_passenger('{{pax.seq_id}}', '{{key}}', '{{forloop.counter}}', 'hotel');
                 }, 1000);
             {% endfor %}
         {% endfor %}
