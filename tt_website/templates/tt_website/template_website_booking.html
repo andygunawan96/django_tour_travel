@@ -2338,7 +2338,7 @@ junction_font.load().then(function(loaded_face) {
 
     function go_to_home(){
         if('{{home_url}}' == '/' || '{{home_url}}' == ''){
-            window.location.href = '';
+            window.location.href = '/';
         }else{
             openInNewTab('{{home_url}}');
         }
