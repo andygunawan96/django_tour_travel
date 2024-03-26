@@ -530,8 +530,8 @@
     //get_peripherals("top_up_rupiah", "get_top_up_rupiah");
     //get_peripherals("average_rupiah", "get_average_rupiah");
     $( document ).ready(function() {
-        $('#get_report_startdate').val(moment().startOf('month').format('YYYY-MM-DD'));
-        $('#get_report_enddate').val(moment().endOf('month').format('YYYY-MM-DD'));
+        $('#get_report_startdate').val(moment().format('YYYY-MM-DD'));
+        $('#get_report_enddate').val(moment().format('YYYY-MM-DD'));
         get_report_overall();
 
         $('#first').on('click', function(){
