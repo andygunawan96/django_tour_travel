@@ -12215,6 +12215,39 @@ function get_airline_review_after_sales(){
                         "fee_name": passengers_ssr[pax].ssr_list[i].name
                     })
                 }
+
+                for(i in passengers_ssr[pax].seat_list){
+                    is_seat_found = false;
+                    for(j in airline_get_detail.provider_bookings){
+                        for(k in airline_get_detail.provider_bookings[j].journeys){
+                            for(l in airline_get_detail.provider_bookings[j].journeys[k].segments){
+                                if(airline_get_detail.provider_bookings[j].journeys[k].segments[l].origin + '-' + airline_get_detail.provider_bookings[j].journeys[k].segments[l].destination == passengers_ssr[pax].seat_list[i].segment_code && passengers_ssr[pax].seat_list[i].seat_pick != ''){
+                                    is_seat_found = true;
+                                    if(fee_dict.hasOwnProperty(airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code) == false){
+                                        fee_dict[airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code] = {
+                                            "fees": []
+                                        }
+                                    }
+                                    fee_dict[airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code].origin = airline_get_detail.provider_bookings[j].journeys[k].segments[l].origin;
+                                    fee_dict[airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code].destination = airline_get_detail.provider_bookings[j].journeys[k].segments[l].destination;
+                                    fee_dict[airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code].departure_date = airline_get_detail.provider_bookings[j].journeys[k].segments[l].departure_date;
+                                    fee_dict[airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code].pnr = airline_get_detail.provider_bookings[j].pnr;
+                                    fee_dict[airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code].is_replace_ssr = true;
+
+                                    fee_dict[airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code].fees.push({
+                                        "fee_category": 'seat',
+                                        "fee_name": passengers_ssr[pax].seat_list[i].seat_pick
+                                    })
+                                    break;
+                                }
+                            }
+                            if(is_seat_found)
+                                break;
+                        }
+                        if(is_seat_found)
+                            break;
+                    }
+                }
                 passengers_ssr[pax].fee_dict = fee_dict;
             }
         }catch(err){
