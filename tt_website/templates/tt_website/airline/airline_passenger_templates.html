@@ -702,7 +702,7 @@
                                                 </div>
 
                                                 {% for ff in ff_request %}
-                                                {% if 'program_name' in ff %}
+                                                {% if 'program_name' in ff and 'error_code' not in ff %}
                                                 <div class="col-lg-6" id="adult_ff_program_{{counter}}_{{forloop.counter}}">
                                                     <label style="color:white" id="adult_ff_required_{{counter}}_{{forloop.counter}}">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
@@ -1127,7 +1127,7 @@
                                                 </div>
 
                                                 {% for ff in ff_request %}
-                                                {% if 'program_name' in ff %}
+                                                {% if 'program_name' in ff and 'error_code' not in ff %}
                                                 <div class="col-lg-6" id="student_ff_program_{{counter}}_{{forloop.counter}}">
                                                     <label style="color:white" id="student_ff_required_{{counter}}_{{forloop.counter}}">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
@@ -1512,7 +1512,7 @@
                                                 </div>
 
                                                 {% for ff in ff_request %}
-                                                {% if 'program_name' in ff %}
+                                                {% if 'program_name' in ff and 'error_code' not in ff %}
                                                 <div class="col-lg-6" id="labour_ff_program_{{counter}}_{{forloop.counter}}">
                                                     <label style="color:white" id="labour_ff_required_{{counter}}_{{forloop.counter}}">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
@@ -1898,7 +1898,7 @@
                                                 </div>
 
                                                 {% for ff in ff_request %}
-                                                {% if 'program_name' in ff %}
+                                                {% if 'program_name' in ff and 'error_code' not in ff %}
                                                 <div class="col-lg-6" id="seaman_ff_program_{{counter}}_{{forloop.counter}}">
                                                     <label style="color:white" id="seaman_ff_required_{{counter}}_{{forloop.counter}}">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
@@ -2283,7 +2283,7 @@
                                                 </div>
 
                                                 {% for ff in ff_request %}
-                                                {% if 'program_name' in ff %}
+                                                {% if 'program_name' in ff and 'error_code' not in ff %}
                                                 <div class="col-lg-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
                                                     <label style="color:white" id="child_ff_required_{{counter}}_{{forloop.counter}}">*</label>
                                                     <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
