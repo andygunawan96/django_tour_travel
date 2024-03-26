@@ -23,8 +23,8 @@ $(document).ready(function(){
             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
         },
         "alwaysShowCalendars": true,
-        "startDate": moment().startOf('month'),
-        "endDate": moment().endOf('month'),
+        "startDate": moment(),
+        "endDate": moment(),
         "maxDate": moment().endOf('month'),
         "opens": "center",
         locale: {
@@ -121,8 +121,8 @@ function get_report_overall(){
             'provider_type': "overall",
             'provider': '',
             'type': "overall",
-            'start_date': moment().startOf('month').format('YYYY-MM-DD'),
-            'end_date': moment().endOf('month').format('YYYY-MM-DD'),
+            'start_date': moment().format('YYYY-MM-DD'),
+            'end_date': moment().format('YYYY-MM-DD'),
             'currency': document.getElementById('currency').value
         },
         success: function(result){
