@@ -2454,6 +2454,29 @@ function show_flight_details(key){
     }
 }
 
+function show_train_details(key){
+    var flight = document.getElementById('detail_departjourney'+key);
+    var flight_down_pc = document.getElementById('train_details_down_pc'+key);
+    var flight_up_pc = document.getElementById('train_details_up_pc'+key);
+    var flight_down = document.getElementById('train_details_down'+key);
+    var flight_up = document.getElementById('train_details_up'+key);
+
+    if (flight.style.display === "none") {
+        flight_up.style.display = "block";
+        flight_down.style.display = "none";
+        flight_up_pc.style.display = "block";
+        flight_down_pc.style.display = "none";
+        flight.style.display = "block";
+    }
+    else {
+        flight_up.style.display = "none";
+        flight_down.style.display = "block";
+        flight_up_pc.style.display = "none";
+        flight_down_pc.style.display = "block";
+        flight.style.display = "none";
+    }
+}
+
 function show_flight_details2(key){
     var journey = document.getElementById('journey_pick'+key);
     var flight = document.getElementById('detail_departjourney_pick'+key);
