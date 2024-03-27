@@ -3375,14 +3375,14 @@ function get_checked_copy_result(){
         var id_train = parent_train.find('.id_copy_result').html();
         train_number = train_number + 1;
         $text += 'Option-'+train_number+'\n';
-        $text += ''+name_train+'\n'+cabin_train+'\n';
+        $text += ''+name_train+'\n';
         $text += departure_train+', '+date_depart+' '+time_depart;
         $text += ' → ';
         $text += arrival_train+', '+date_arr+' '+time_arr+'\n';
         if(seat_train){
             $text += seat_train+'\n';
         }
-        $text += price_train+'\n';
+        $text += 'Start from ' + price_train+'\n';
         $text+='====================\n\n';
 
         if(train_number == 1){
@@ -3403,7 +3403,6 @@ function get_checked_copy_result(){
             </div>
             <div class="col-lg-12">
                 <h5 style="margin-bottom:5px;">`+name_train+`</h5>
-                <span style="font-weight:500; font-size:14px;">`+cabin_train+`</span>
             </div>
             <div class="col-xs-6" style="text-align:left;">
                 <b>Departure</b><br/><span>`+departure_train+`, `+date_depart+` `+time_depart+` </span>
