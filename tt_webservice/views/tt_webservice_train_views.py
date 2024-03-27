@@ -502,6 +502,7 @@ def search(request):
     try:
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
+                new_journeys = []
                 for journey in journey_list['journeys']:
                     journey.update({
                         'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date']+':00')),
@@ -521,6 +522,50 @@ def search(request):
                             check = check + 1
                         if check == 2:
                             break
+
+                    is_journey_found = False
+                    for new_journey in new_journeys:
+                        if journey['journey_code'] == new_journey['journey_code'] and journey['carrier_number'] == new_journey['carrier_number'] and journey['carrier_name'] == new_journey['carrier_name']:
+                            is_journey_found = True
+                            is_cabin_class_found = False
+                            for new_fare in new_journey['new_fares']:
+                                if new_fare['cabin_class'] == journey['cabin_class']:
+                                    is_cabin_class_found = True
+                                    new_fare['fares'].append(copy.deepcopy(journey['fares'][0]))
+                                    if new_fare['fares'][-1]['service_charge_summary']:
+                                        new_fare['fares'][-1].update({
+                                            "total_price": journey['fares'][-1]['service_charge_summary'][-1]['total_price'],
+                                            "available_count": journey['available_count'],
+                                            "class_of_service": journey['class_of_service']
+                                        })
+                            new_journey['fares'].append(journey['fares'][0])
+                            if not is_cabin_class_found:
+                                new_journey['new_fares'].append({
+                                    "cabin_class": journey['cabin_class'],
+                                    "fares": copy.deepcopy(journey['fares'])
+                                })
+                                if new_journey['new_fares'][-1]['fares'][-1]['service_charge_summary']:
+                                    new_journey['new_fares'][-1]['fares'][-1].update({
+                                        "total_price": journey['fares'][-1]['service_charge_summary'][-1]['total_price'],
+                                        "available_count": journey['available_count'],
+                                        "class_of_service": journey['class_of_service']
+                                    })
+                    if not is_journey_found:
+                        new_journeys.append(journey)
+                        new_journeys[-1]['new_fares'] = []
+                        new_journeys[-1]['new_fares'].append({
+                            "cabin_class": journey['cabin_class'],
+                            "fares": copy.deepcopy(journey['fares'])
+                        })
+                        if new_journeys[-1]['new_fares'][-1]['fares'][-1]['service_charge_summary']:
+                            new_journeys[-1]['new_fares'][-1]['fares'][-1].update({
+                                "total_price": new_journeys[-1]['new_fares'][-1]['fares'][-1]['service_charge_summary'][-1]['total_price'],
+                                "available_count": journey['available_count'],
+                                "class_of_service": journey['class_of_service']
+                            })
+                journey_list.update({
+                    "new_journeys": new_journeys
+                })
             _logger.info("SUCCESS search_train SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR search_train SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

@@ -868,7 +868,19 @@ def admin(request):
 
                     # DATA CACHE TEMPLATE
                     if 'template' in request.POST:
-                        text += request.POST['template']
+                        add_data_template = False
+                        if request.POST['template'] in ['1','2','3','4','5','6','7']:
+                            add_data_template = True
+                        ## CUSTOM TEMPLATE ##
+                        file_template_list = read_cache("custom_template", 'cache_web', request, 90911)
+                        if file_template_list:
+                            for template in file_template_list:
+                                if request.POST['template'] == template['code']:
+                                    add_data_template = True
+                        if add_data_template:
+                            text += request.POST['template']
+                        elif data_cache.get('template'):
+                            text += data_cache['template']
                     elif data_cache.get('template'):
                         text += data_cache['template']
                     text += '\n'
@@ -1349,10 +1361,24 @@ def admin(request):
                         data_cache['font'] = file
                     text = {}
                     if 'font' in request.POST:
-                        text.update({
-                            'name': request.POST.get('font').split('.')[0],
-                            'font': request.POST.get('font'),
-                        })
+                        add_data_font = False
+                        if request.POST['font'] in ['AlteHaasGroteskRegular.ttf', 'Bitter-Regular.ttf', 'FiraSans-Regular.ttf', 'Lato-Regular.ttf', 'LiberationSans-Regular.ttf', 'OpenSans-Regular.ttf', 'PT_Serif-Web-Regular.ttf', 'SourceSansPro-Regular.ttf', 'TIMESS.ttf', 'WorkSans.ttf']:
+                            add_data_font = True
+
+                        ## CUSTOM FONT ##
+                        file_font_list = read_cache("custom_font", 'cache_web', request, 90911)
+                        if file_font_list:
+                            for font_data in file_font_list:
+                                if request.POST['font'] == font_data['font']:
+                                    add_data_font = True
+
+                        if add_data_font:
+                            text.update({
+                                'name': request.POST.get('font').split('.')[0],
+                                'font': request.POST.get('font'),
+                            })
+                        elif data_cache.get('font'):
+                            text = data_cache['font']
                     elif data_cache.get('font'):
                         text = data_cache['font']
                     if text != {}:
@@ -1385,12 +1411,79 @@ def admin(request):
         directory.pop()
         directory = '/'.join(directory)
         directory += '/tt_website/static/tt_website/custom_font/'
-        data_font = []
-        for font in os.listdir(directory):
-            data_font.append({
-                'name': font.split('.')[0],
-                'font': font
-            })
+
+        ## TEMPLATE WEB ##
+        data_list_template = [
+            {
+                "name": 'Template 1',
+                "code": '1'
+            },{
+                "name": 'Template 2',
+                "code": '2'
+            },{
+                "name": 'Template 3',
+                "code": '3'
+            },{
+                "name": 'Template 4',
+                "code": '4'
+            },{
+                "name": 'Template 5',
+                "code": '5'
+            },{
+                "name": 'Template 6',
+                "code": '6'
+            }
+        ]
+
+        ## CUSTOM TEMPLATE ##
+        file_template_list = read_cache("custom_template", 'cache_web', request, 90911)
+        if file_template_list:
+            for template in file_template_list:
+                data_list_template.append(template)
+
+
+
+        ## TEST FONT ##
+        data_font = [
+            {
+                'name': 'AlteHaasGroteskRegular',
+                'font': 'AlteHaasGroteskRegular.ttf'
+            },{
+                'name': 'Bitter-Regular',
+                'font': 'Bitter-Regular.ttf'
+            },{
+                'name': 'FiraSans-Regular',
+                'font': 'FiraSans-Regular.ttf'
+            },{
+                'name': 'Lato-Regular',
+                'font': 'Lato-Regular.ttf'
+            },{
+                'name': 'LiberationSans-Regular',
+                'font': 'LiberationSans-Regular.ttf'
+            },{
+                'name': 'OpenSans-Regular',
+                'font': 'OpenSans-Regular.ttf'
+            },{
+                'name': 'PT_Serif-Web-Regular',
+                'font': 'PT_Serif-Web-Regular.ttf'
+            },{
+                'name': 'SourceSansPro-Regular',
+                'font': 'SourceSansPro-Regular.ttf'
+            },{
+                'name': 'TIMESS',
+                'font': 'TIMESS.ttf'
+            },{
+                'name': 'WorkSans',
+                'font': 'WorkSans.ttf'
+            }
+        ]
+
+        ## CUSTOM FONT ##
+        file_template_list = read_cache("custom_font", 'cache_web', request, 90911)
+        if file_template_list:
+            for template in file_template_list:
+                data_font.append(template)
+
         response = get_cache_data(request)
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
@@ -1425,7 +1518,8 @@ def admin(request):
                 'javascript_version': javascript_version,
                 'signature': request.session['signature'],
                 'data_font': data_font,
-                'is_copy_domain': is_copy_domain
+                'is_copy_domain': is_copy_domain,
+                'data_list_template': data_list_template
             })
             values.update(get_airline_advance_pax_type(request))
         except Exception as e:
