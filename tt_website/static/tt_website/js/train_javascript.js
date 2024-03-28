@@ -2595,7 +2595,7 @@ function sort(value){
                 response += `
                     <span class="copy_train" hidden>`+i+`</span>`;
                 response+=`
-                    <div class="row">
+                    <div class="row" onclick="show_train_details(`+i+`);" style="cursor:pointer;">
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">`;
                         if(data_filter[i].hasOwnProperty('search_banner')){
                            for(banner_counter in data_filter[i].search_banner){
