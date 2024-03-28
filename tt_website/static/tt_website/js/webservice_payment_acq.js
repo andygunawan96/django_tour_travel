@@ -170,7 +170,6 @@ function render_payment(){
             }
             payment_counter++;
             set_payment_method_ho();
-            set_payment(val_render,type_render);
         //            focus_box('payment_acq');
         //            document.getElementById('payment_acq').hidden = false;
         }else{
@@ -235,7 +234,9 @@ function set_payment_method_ho(){
                     <div class="col-xs-6" style="text-align:right;">
                         <span style="font-size:14px; font-weight:bold;">`+payment_ho[0].currency+` `+getrupiah(payment_ho[0].total_amount)+`</span><br>
                     </div>
-                </div>
+                </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
+                    text+=`
                 <div class="row mt-3" id="show_commission_payment_acq_ho" style="display: none;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
@@ -253,6 +254,7 @@ function set_payment_method_ho(){
                 <div class="mt-3">
                     <input class="primary-btn-white" id="show_commission_payment_acq_ho_button" style="width:100%;" type="button" onclick="show_commission_payment_acq();" value="Show YPM">
                 </div>`;
+        }
     }
     if(document.getElementById('payment_method_ho_detail'))
         document.getElementById('payment_method_ho_detail').innerHTML = text;
@@ -262,6 +264,27 @@ function set_payment_method_ho(){
         else
             document.getElementById('payment_method_ho_break_div').style.display = 'block';
     }catch(err){console.log(err)}
+
+
+    for(i in payment_acq2){
+        print = '';
+        if(i == 'va')
+            print = 'Virtual Account';
+        else{
+            if(document.getElementById('payment_ho_id').value == 'credit_limit' && i == 'payment_gateway'){
+
+            }else{
+                data_temp = i.split('_').join(' ')
+                print = data_temp.charAt(0).toUpperCase() + data_temp.slice(1).toLowerCase();
+            }
+        }
+        if(print)
+            text+=`<option value="`+i+`">`+print+`</option>`;
+    }
+    document.getElementById('payment_via').innerHTML = text
+    $('#payment_via').niceSelect('update');
+
+    set_payment(val_render,type_render);
 }
 
 function show_commission_payment_acq(){
@@ -280,10 +303,11 @@ function show_commission_payment_acq(){
 function set_payment(val, type){
     payment_method = document.getElementById('payment_via').value;
     text = ''
+
     for(i in payment_acq2[payment_method]){
 //        <span style="font-size:14px;">`+payment_acq.result.response.acquirers[payment_method][i].name+`</span>
-        if(payment_method == 'credit_limit')
-        text+=`
+        if(payment_method == 'credit_limit'){
+            text+=`
 
         <label class="radio-button-custom" style="margin-top:15px;">
             <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br></span>
@@ -291,7 +315,7 @@ function set_payment(val, type){
             <span class="checkmark-radio"></span>
         </label>
         <br/>`;
-        else{
+        }else{
             if(payment_method != 'payment_gateway' || payment_acq2[payment_method][i].show_device_type != 'mobile'){
                 text+=`
                 <label class="radio-button-custom" style="margin-top:15px;">
