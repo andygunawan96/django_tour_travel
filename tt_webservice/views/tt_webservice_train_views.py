@@ -499,6 +499,7 @@ def search(request):
 
     url_request = get_url_gateway('booking/train')
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
+    sort_by_list = ['K','B','E']
     try:
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
@@ -563,6 +564,15 @@ def search(request):
                                 "available_count": journey['available_count'],
                                 "class_of_service": journey['class_of_service']
                             })
+                ## SORT CABIN CLASS
+                for new_journey in new_journeys:
+                    new_fares_data_list = []
+                    for cabin_class in sort_by_list:
+                        for new_fare in new_journey['new_fares']:
+                            if new_fare['cabin_class'] == cabin_class:
+                                new_fares_data_list.append(new_fare)
+                    new_journey['new_fares'] = new_fares_data_list
+
                 journey_list.update({
                     "new_journeys": new_journeys
                 })
