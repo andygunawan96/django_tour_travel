@@ -499,7 +499,7 @@ def search(request):
 
     url_request = get_url_gateway('booking/train')
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
-    sort_by_list = ['K','E','B']
+    sort_by_list = ['K','B','E']
     try:
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
