@@ -20318,61 +20318,64 @@ function split_booking_request(){
     });
     if(passengers.length == 0){
         Swal.fire({
-          type: 'error',
-          title: 'Oops!',
-          html: 'Please pick passenger!',
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please pick passenger!',
         })
     }else if(passengers.length == airline_get_detail.result.response.passengers.length){
         Swal.fire({
-          type: 'error',
-          title: 'Oops!',
-          html: "Can't split all passenger!",
+            type: 'error',
+            title: 'Oops!',
+            html: "Can't split all passenger!",
         })
     }else{
         Swal.fire({
-          title: 'Are you sure want to Split Booking?',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes'
+            title: 'Are you sure want to Split Booking?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
         }).then((result) => {
-          if (result.value) {
-            show_loading();
-            please_wait_transaction();
-            $.ajax({
-               type: "POST",
-               url: "/webservice/airline",
-               headers:{
-                    'action': 'split_booking_v2',
-               },
-               data: {
-                    "passengers":JSON.stringify(passengers),
-                    'signature': signature,
-                    "booking": JSON.stringify(airline_get_detail)
-               },
-               success: function(msg) {
-                   if(msg.result.error_code == 0)
-                        window.location.href = '/airline/booking/' + btoa(msg.result.response.order_number);
-                   else{
-                        airline_get_booking(airline_get_detail.result.response.order_number);
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: msg.result.error_msg,
-                        })
-                   }
-                   hide_modal_waiting_transaction();
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline update booking');
-                    window.location = '/airline/booking/'+btoa(order_number);
-                    $('.loader-rodextrip').fadeOut();
-                    $('.btn-next').removeClass('running');
-                    $('.btn-next').prop('disabled', false);
-               },timeout: 300000
-            });
-          }
+            if (result.value) {
+                setTimeout(() => {
+                    show_loading();
+                    please_wait_transaction();
+                    $("#myModalSplitBooking").modal('hide');
+                }, 500);
+                $.ajax({
+                    type: "POST",
+                    url: "/webservice/airline",
+                    headers:{
+                        'action': 'split_booking_v2',
+                    },
+                    data: {
+                        "passengers":JSON.stringify(passengers),
+                        'signature': signature,
+                        "booking": JSON.stringify(airline_get_detail)
+                    },
+                    success: function(msg) {
+                        if(msg.result.error_code == 0)
+                            window.location.href = '/airline/booking/' + btoa(msg.result.response.order_number);
+                        else{
+                            airline_get_booking(airline_get_detail.result.response.order_number);
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops!',
+                                html: msg.result.error_msg,
+                            })
+                        }
+                        hide_modal_waiting_transaction();
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline update booking');
+                        window.location = '/airline/booking/'+btoa(order_number);
+                        $('.loader-rodextrip').fadeOut();
+                        $('.btn-next').removeClass('running');
+                        $('.btn-next').prop('disabled', false);
+                    },timeout: 300000
+                });
+            }
         })
     }
 }
