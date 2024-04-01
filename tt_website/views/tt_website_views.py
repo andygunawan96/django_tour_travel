@@ -1362,7 +1362,10 @@ def admin(request):
                     text = {}
                     if 'font' in request.POST:
                         add_data_font = False
-                        if request.POST['font'] in ['AlteHaasGroteskRegular.ttf', 'Bitter-Regular.ttf', 'FiraSans-Regular.ttf', 'Lato-Regular.ttf', 'LiberationSans-Regular.ttf', 'OpenSans-Regular.ttf', 'PT_Serif-Web-Regular.ttf', 'SourceSansPro-Regular.ttf', 'TIMESS.ttf', 'WorkSans.ttf']:
+                        if request.POST['font'] in ['AlteHaasGroteskRegular.ttf', 'Bitter-Regular.ttf',
+                                                    'FiraSans-Regular.ttf', 'Lato-Regular.ttf', 'LiberationSans-Regular.ttf',
+                                                    'OpenSans-Regular.ttf', 'PT_Serif-Web-Regular.ttf', 'SourceSansPro-Regular.ttf',
+                                                    'TIMESS.ttf', 'WorkSans.ttf', 'calibri.ttf']:
                             add_data_font = True
 
                         ## CUSTOM FONT ##
@@ -1475,6 +1478,9 @@ def admin(request):
             },{
                 'name': 'WorkSans',
                 'font': 'WorkSans.ttf'
+            },{
+                'name': 'calibri',
+                'font': 'calibri.ttf'
             }
         ]
 
