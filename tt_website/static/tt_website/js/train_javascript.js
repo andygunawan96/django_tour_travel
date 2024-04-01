@@ -639,7 +639,7 @@ function choose_train(data_key,sequence, fare_key=0){
 //        document.getElementById("show-cart").style.display = "block";
 //    journeys.push(train_data[key]);
     journeys.push(data[data_key]);
-    journeys[sequence]['fare_pick'] = fare_key;
+    journeys[journeys.length-1]['fare_pick'] = fare_key;
     if(journeys.length < train_request.departure.length){
         if(train_request.direction == 'RT'){
             document.getElementById('show_origin_destination').innerHTML = `<span title="`+train_request.destination[0]+` > `+train_request.origin[0]+`"><span class="copy_span"> `+train_request.destination[0].split(' - ')[1]+` (`+train_request.destination[0].split(' - ')[0]+`) </span><i class="fas fa-arrows-alt-h"></i><span class="copy_span"> `+train_request.origin[0].split(' - ')[1]+` (`+train_request.origin[0].split(' - ')[0]+`)</span></span>`;
