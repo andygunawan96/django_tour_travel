@@ -1,4 +1,5 @@
 var train_data = [];
+var train_new_data_journey = [];
 var train_data_filter = '';
 var train_cookie = '';
 var train_sid = '';
@@ -612,6 +613,9 @@ function datasearch2(train){
     var counter = train_data.length;
     data = [];
     data = train_data;
+    var counter_new_journey = train_new_data_journey.length
+    data_new_journey = [];
+    data_new_journey = train_new_data_journey;
     for(i in train.schedules){
         for(j in train.schedules[i].journeys){
            train.schedules[i].journeys[j].sequence = counter;
@@ -649,9 +653,126 @@ function datasearch2(train){
            }
            data.push(train.schedules[i].journeys[j]);
            counter++;
-       }
+        }
+
+        for(j in train.schedules[i].new_journeys){
+            for(k in train.schedules[i].new_journeys[j].new_fares) {
+                // SORT BY PRICE
+                for(var x = 0; x < train.schedules[i].new_journeys[j].new_fares[k].fares.length-1; x++) {
+                    for(var y = x+1; y < train.schedules[i].new_journeys[j].new_fares[k].fares.length; y++) {
+                        if (train.schedules[i].new_journeys[j].new_fares[k].fares[x].total_price > train.schedules[i].new_journeys[j].new_fares[k].fares[y].total_price){
+                            temp = train.schedules[i].new_journeys[j].new_fares[k].fares[x];
+                            train.schedules[i].new_journeys[j].new_fares[k].fares[x] = train.schedules[i].new_journeys[j].new_fares[k].fares[y];
+                            train.schedules[i].new_journeys[j].new_fares[k].fares[y] = temp;
+                        }
+                    }
+                }
+                //SORT AVAILABLE
+                for(var x = train.schedules[i].new_journeys[j].new_fares[k].fares.length-1; x >= 0; x--) {
+                    for(y=x;y<train.schedules[i].new_journeys[j].new_fares[k].fares.length-1;y++){
+                        if(train.schedules[i].new_journeys[j].new_fares[k].fares[y+1].available_count < parseInt(train_request['adult']) && !train.schedules[i].new_journeys[j].can_book_check_arrival_on_next_departure && !train.schedules[i].new_journeys[j].can_book_hours){
+
+                        }else if(train.schedules[i].new_journeys[j].new_fares[k].fares[y].available_count < parseInt(train_request['adult']) || train.schedules[i].new_journeys[j].new_fares[k].fares[y].total_price > train.schedules[i].new_journeys[j].new_fares[k].fares[y+1].total_price){
+                            temp = train.schedules[i].new_journeys[j].new_fares[k].fares[y];
+                            train.schedules[i].new_journeys[j].new_fares[k].fares[y] = train.schedules[i].new_journeys[j].new_fares[k].fares[y+1];
+                            train.schedules[i].new_journeys[j].new_fares[k].fares[y+1] = temp
+                        }
+                    }
+                }
+            }
+            // create fares to show
+            train.schedules[i].new_journeys[j].show_fares = [];
+            // AVAILABLE
+            for(k in train.schedules[i].new_journeys[j].new_fares) {
+                for(l in train.schedules[i].new_journeys[j].new_fares[k].fares){
+                    if(train.schedules[i].new_journeys[j].new_fares[k].fares[l].available_count >= parseInt(train_request['adult'])){
+                        without_discount_price = 0
+                        for(m in train.schedules[i].new_journeys[j].new_fares[k].fares[l].service_charge_summary){
+                            for(n in train.schedules[i].new_journeys[j].new_fares[k].fares[l].service_charge_summary[m].service_charges){
+                                if(train.schedules[i].new_journeys[j].new_fares[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'disc' && train.schedules[i].new_journeys[j].new_fares[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac'){
+                                    without_discount_price += train.schedules[i].new_journeys[j].new_fares[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                                }
+                            }
+                        }
+
+                        train.schedules[i].new_journeys[j].show_fares.push({
+                            "cabin_class": train.schedules[i].new_journeys[j].new_fares[k].cabin_class,
+                            "available_count": train.schedules[i].new_journeys[j].new_fares[k].fares[l].available_count,
+                            "class_of_service": train.schedules[i].new_journeys[j].new_fares[k].fares[l].class_of_service,
+                            "fare_code": train.schedules[i].new_journeys[j].new_fares[k].fares[l].fare_code,
+                            "total_price": train.schedules[i].new_journeys[j].new_fares[k].fares[l].total_price,
+                            "without_discount_price": JSON.parse(JSON.stringify(without_discount_price)),
+                            "service_charge_summary": train.schedules[i].new_journeys[j].new_fares[k].fares[l].service_charge_summary
+                        })
+                    }
+                }
+            }
+            // SOLD OUT
+            for(k in train.schedules[i].new_journeys[j].new_fares) {
+                for(l in train.schedules[i].new_journeys[j].new_fares[k].fares){
+                    if(train.schedules[i].new_journeys[j].new_fares[k].fares[l].available_count < parseInt(train_request['adult'])){
+                        train.schedules[i].new_journeys[j].show_fares.push({
+                            "cabin_class": train.schedules[i].new_journeys[j].new_fares[k].cabin_class,
+                            "available_count": train.schedules[i].new_journeys[j].new_fares[k].fares[l].available_count,
+                            "class_of_service": train.schedules[i].new_journeys[j].new_fares[k].fares[l].class_of_service,
+                            "fare_code": train.schedules[i].new_journeys[j].new_fares[k].fares[l].fare_code,
+                            "total_price": train.schedules[i].new_journeys[j].new_fares[k].fares[l].total_price,
+                            "service_charge_summary": train.schedules[i].new_journeys[j].new_fares[k].fares[l].service_charge_summary,
+                            "without_discount_price": train.schedules[i].new_journeys[j].new_fares[k].fares[l].without_discount_price
+                        })
+                    }
+                }
+            }
+
+
+
+            train.schedules[i].new_journeys[j].sequence = counter_new_journey;
+            train.schedules[i].new_journeys[j].train_sequence = i;
+            price = 0;
+            currency = '';
+
+            for(k in train.schedules[i].new_journeys[j].show_fares){
+                if(train.schedules[i].new_journeys[j].show_fares[k].cabin_class == 'E')
+                    train.schedules[i].new_journeys[j].show_fares[k].cabin_class = ['E', 'Executive']
+                else if(train.schedules[i].new_journeys[j].show_fares[k].cabin_class == 'K')
+                    train.schedules[i].new_journeys[j].show_fares[k].cabin_class = ['K', 'Economy']
+                else if(train.schedules[i].new_journeys[j].show_fares[k].cabin_class == 'B')
+                    train.schedules[i].new_journeys[j].show_fares[k].cabin_class = ['B', 'Business']
+
+                if(k == 0 || !train.schedules[i].new_journeys[j].hasOwnProperty('price')){
+                    for(l in train.schedules[i].new_journeys[j].show_fares[k].service_charge_summary){
+                        train.schedules[i].new_journeys[j].price = 0;
+                        train.schedules[i].new_journeys[j].without_discount_price = 0;
+                        train.schedules[i].new_journeys[j].available_count = train.schedules[i].new_journeys[j].show_fares[k].available_count;
+                        train.schedules[i].new_journeys[j].class_of_service = train.schedules[i].new_journeys[j].show_fares[k].class_of_service;
+                        train.schedules[i].new_journeys[j].cabin_class = train.schedules[i].new_journeys[j].show_fares[k].cabin_class;
+
+                        for(m in train.schedules[i].new_journeys[j].show_fares[k].service_charge_summary[l].service_charges){
+                            if(train.schedules[i].new_journeys[j].show_fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac'){
+                                if(train.schedules[i].new_journeys[j].hasOwnProperty('currency') == false)
+                                    train.schedules[i].new_journeys[j].currency = train.schedules[i].new_journeys[j].show_fares[k].service_charge_summary[l].service_charges[m].currency;
+                                if(train.schedules[i].new_journeys[j].show_fares[k].service_charge_summary[l].service_charges[m].charge_code != 'disc'){
+                                    train.schedules[i].new_journeys[j].without_discount_price += train.schedules[i].new_journeys[j].show_fares[k].service_charge_summary[l].service_charges[m].amount;
+                                }
+                                train.schedules[i].new_journeys[j].price += train.schedules[i].new_journeys[j].show_fares[k].service_charge_summary[l].service_charges[m].amount;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            date = moment(train.schedules[i].new_journeys[j].departure_date,'DD MMM YYYY - HH:mm').format('YYYY-MM-DD HH:mm');
+            train.schedules[i].new_journeys[j].can_book_hours = check_elapse_time_hours(date);
+            train.schedules[i].new_journeys[j].can_book_check_arrival_on_next_departure = true;
+            train.schedules[i].new_journeys[j].departure_date = train.schedules[i].new_journeys[j].departure_date.split(' - ');
+            train.schedules[i].new_journeys[j].arrival_date = train.schedules[i].new_journeys[j].arrival_date.split(' - ');
+
+            data_new_journey.push(train.schedules[i].new_journeys[j]);
+            counter_new_journey++;
+        }
     }
     train_data = data;
+    train_new_data = data_new_journey;
     filtering('filter');
 }
 
@@ -3481,12 +3602,13 @@ function upload_image(){
 }
 
 function reset_train_filter(){
-    for(i in cabin_list){
-        document.getElementById('checkbox_cabin'+i).checked = false;
-        if(document.getElementById('checkbox_cabin2'+i))
-            document.getElementById('checkbox_cabin2'+i).checked = false;
-        cabin_list[i].status = false;
-    }for(i in departure_list){
+//    for(i in cabin_list){
+//        document.getElementById('checkbox_cabin'+i).checked = false;
+//        if(document.getElementById('checkbox_cabin2'+i))
+//            document.getElementById('checkbox_cabin2'+i).checked = false;
+//        cabin_list[i].status = false;
+//    }
+    for(i in departure_list){
         if(i == 0){
             document.getElementById('checkbox_departure_time'+i).checked = true;
             if(document.getElementById('checkbox_departure_time2'+i))

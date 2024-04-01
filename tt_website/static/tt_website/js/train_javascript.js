@@ -75,18 +75,18 @@ var arrival_list = [
     }
 ]
 
-var cabin_list = [
-    {
-        value:'Economy',
-        status: false
-    },{
-        value:'Business',
-        status: false
-    },{
-        value:'Executive',
-        status: false
-    }
-]
+//var cabin_list = [
+//    {
+//        value:'Economy',
+//        status: false
+//    },{
+//        value:'Business',
+//        status: false
+//    },{
+//        value:'Executive',
+//        status: false
+//    }
+//]
 
 
 //function train_check_search(){
@@ -286,17 +286,18 @@ function train_filter_render(){
     document.getElementById("filter").appendChild(node);
     node = document.createElement("div");
 
-    text = `<hr/>
-    <h6 class="filter_general" onclick="show_hide_general('trainClass');">Class <i class="fas fa-chevron-down" id="trainClass_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainClass_generalUp" style="float:right; display:block;"></i></h6>
-    <div id="trainClass_generalShow" style="display:inline-block;">`;
-    for(i in cabin_list){
-        text+=`
-        <label class="check_box_custom">
-            <span class="span-search-ticket" style="color:black;">`+cabin_list[i].value+`</span>
-            <input type="checkbox" id="checkbox_cabin`+i+`" onclick="change_filter('cabin',`+i+`)"/>
-            <span class="check_box_span_custom"></span>
-        </label><br/>`;
-    }
+    text = `<hr/>`;
+//    text +=`
+//    <h6 class="filter_general" onclick="show_hide_general('trainClass');">Class <i class="fas fa-chevron-down" id="trainClass_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainClass_generalUp" style="float:right; display:block;"></i></h6>
+//    <div id="trainClass_generalShow" style="display:inline-block;">`;
+//    for(i in cabin_list){
+//        text+=`
+//        <label class="check_box_custom">
+//            <span class="span-search-ticket" style="color:black;">`+cabin_list[i].value+`</span>
+//            <input type="checkbox" id="checkbox_cabin`+i+`" onclick="change_filter('cabin',`+i+`)"/>
+//            <span class="check_box_span_custom"></span>
+//        </label><br/>`;
+//    }
 
     var node = document.createElement("div");
     node.innerHTML = text;
@@ -389,16 +390,17 @@ function train_filter_render(){
     document.getElementById("filter2").appendChild(node2);
     node2 = document.createElement("div");
 
-    text = `<hr/>
-    <h6 style="padding-bottom:10px;">Class</h6>`;
-    for(i in cabin_list){
-        text+=`
-        <label class="check_box_custom">
-            <span class="span-search-ticket" style="color:black;">`+cabin_list[i].value+`</span>
-            <input type="checkbox" id="checkbox_cabin2`+i+`" onclick="change_filter('cabin',`+i+`)"/>
-            <span class="check_box_span_custom"></span>
-        </label><br/>`;
-    }
+    text = `<hr/>`;
+//    text+=`
+//    <h6 style="padding-bottom:10px;">Class</h6>`;
+//    for(i in cabin_list){
+//        text+=`
+//        <label class="check_box_custom">
+//            <span class="span-search-ticket" style="color:black;">`+cabin_list[i].value+`</span>
+//            <input type="checkbox" id="checkbox_cabin2`+i+`" onclick="change_filter('cabin',`+i+`)"/>
+//            <span class="check_box_span_custom"></span>
+//        </label><br/>`;
+//    }
 
     var node2 = document.createElement("div");
     node2.innerHTML = text;
@@ -477,11 +479,13 @@ function change_filter(type, value){
             arrival_list[value].status = !arrival_list[value].status;
         document.getElementById("checkbox_arrival_time"+value).checked = arrival_list[value].status;
         document.getElementById("checkbox_arrival_time2"+value).checked = arrival_list[value].status;
-    }else if(type == 'cabin'){
-        cabin_list[value].status = !cabin_list[value].status;
-        document.getElementById("checkbox_cabin"+value).checked = cabin_list[value].status;
-        document.getElementById("checkbox_cabin2"+value).checked = cabin_list[value].status;
-    }else if(type == 'price'){
+    }
+//    else if(type == 'cabin'){
+//        cabin_list[value].status = !cabin_list[value].status;
+//        document.getElementById("checkbox_cabin"+value).checked = cabin_list[value].status;
+//        document.getElementById("checkbox_cabin2"+value).checked = cabin_list[value].status;
+//    }
+    else if(type == 'price'){
         //still no
     }else if(type == 'transit'){
 //        transit_list
@@ -614,7 +618,7 @@ function getrupiah(price){
     }
 }
 
-function choose_train(data,key){
+function choose_train(data_key,sequence, fare_key=0){
     var x = document.getElementById("show-cart");
     document.getElementById("badge-copy-notif").innerHTML = 0;
     document.getElementById("badge-copy-notif2").innerHTML = 0;
@@ -633,7 +637,9 @@ function choose_train(data,key){
     $('#choose-ticket-train').hide();
     $('#loading-search-train-choose').show();
 //        document.getElementById("show-cart").style.display = "block";
-    journeys.push(train_data[key]);
+//    journeys.push(train_data[key]);
+    journeys.push(data[data_key]);
+    journeys[sequence]['fare_pick'] = fare_key;
     if(journeys.length < train_request.departure.length){
         if(train_request.direction == 'RT'){
             document.getElementById('show_origin_destination').innerHTML = `<span title="`+train_request.destination[0]+` > `+train_request.origin[0]+`"><span class="copy_span"> `+train_request.destination[0].split(' - ')[1]+` (`+train_request.destination[0].split(' - ')[0]+`) </span><i class="fas fa-arrows-alt-h"></i><span class="copy_span"> `+train_request.origin[0].split(' - ')[1]+` (`+train_request.origin[0].split(' - ')[0]+`)</span></span>`;
@@ -648,10 +654,10 @@ function choose_train(data,key){
         reset_train_filter();
         filtering('filter');
     }else if(journeys.length == train_request.departure.length){
-        document.getElementById('train_choose'+data).value = 'Chosen';
-        document.getElementById('train_choose'+data).classList.remove("primary-btn-custom");
-        document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
-        document.getElementById('train_choose'+data).disabled = true;
+//        document.getElementById('train_choose'+data).value = 'Chosen';
+//        document.getElementById('train_choose'+data).classList.remove("primary-btn-custom");
+//        document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
+//        document.getElementById('train_choose'+data).disabled = true;
         train_get_detail();
         document.getElementById('train_ticket').innerHTML = '';
         if(train_request.direction == 'RT'){
@@ -659,22 +665,22 @@ function choose_train(data,key){
             document.getElementById('train_div_box_choose').hidden = true;
         }
     }else{
-        for(i in train_data){
-            try{
-                document.getElementById('train_choose'+train_data[i].sequence).value = 'Choose';
-                document.getElementById('train_choose'+train_data[i].sequence).classList.remove("primary-btn-custom-un");
-                document.getElementById('train_choose'+train_data[i].sequence).classList.add("primary-btn-custom");
-                document.getElementById('train_choose'+train_data[i].sequence).disabled = false;
-            }catch(err){
-                console.log(err);
-            }
-        }
+//        for(i in train_data){
+//            try{
+//                document.getElementById('train_choose'+train_data[i].sequence).value = 'Choose';
+//                document.getElementById('train_choose'+train_data[i].sequence).classList.remove("primary-btn-custom-un");
+//                document.getElementById('train_choose'+train_data[i].sequence).classList.add("primary-btn-custom");
+//                document.getElementById('train_choose'+train_data[i].sequence).disabled = false;
+//            }catch(err){
+//                console.log(err);
+//            }
+//        }
         journeys.pop(journeys.length-2);
 
-        document.getElementById('train_choose'+data).value = 'Chosen';
-        document.getElementById('train_choose'+data).classList.remove("primary-btn-custom");
-        document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
-        document.getElementById('train_choose'+data).disabled = true;
+//        document.getElementById('train_choose'+data).value = 'Chosen';
+//        document.getElementById('train_choose'+data).classList.remove("primary-btn-custom");
+//        document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
+//        document.getElementById('train_choose'+data).disabled = true;
         train_get_detail();
         document.getElementById('train_ticket').innerHTML = '';
     }
@@ -772,7 +778,7 @@ function train_get_detail(){
 //    </div>`;
     for(i in journeys){
         $text +=
-            journeys[i].carrier_name+`- `+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
+            journeys[i].carrier_name+`- `+journeys[i].carrier_number+`(`+journeys[i].show_fares[journeys[i].fare_pick].cabin_class[1]+`)\n`+
             journeys[i].origin_name+` (`+journeys[i].origin+`) - `+journeys[i].destination_name+` (`+journeys[i].destination+`) `+journeys[i].departure_date[0] + ` ` + journeys[i].departure_date[1];
         if(journeys[i].arrival_date[0] == journeys[i].departure_date[0]){
             $text +=` - `+journeys[i].arrival_date[1]+`\n\n`;
@@ -828,7 +834,7 @@ function train_get_detail(){
         //                }
                     train_detail_text += `
                         <h5>`+journeys[i].carrier_name+` - `+journeys[i].carrier_number+`</h5>
-                        <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+journeys[i].cabin_class[1]+` (`+journeys[i].class_of_service+`)</span>
+                        <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+journeys[i].show_fares[journeys[i].fare_pick].cabin_class[1]+` (`+journeys[i].show_fares[journeys[i].fare_pick].class_of_service+`)</span>
                     </div>
                     <div class="col-lg-12">
                         <div class="row" style="padding-top:10px;">
@@ -861,33 +867,33 @@ function train_get_detail(){
                     sub_total_count = 0;
                     tax = 0;
                     if(parseInt(passengers.adult) > 0){
-                        total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
+                        total_commission += journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[0].total_commission*-1;
                         for(j in journeys[i].fares[0].service_charge_summary){
                             price = {
                                 'fare': 0,
                                 'tax': 0,
                                 'disc': 0
                             };
-                            for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
+                            for(k in journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges){
                                 if(k == 0)
-                                    price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
-                                if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_type == 'FARE')
-                                    price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
-                                else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_type == 'DISC')
-                                    price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
-                                else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_type == 'ROC')
-                                    price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                                    price['currency'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].currency;
+                                if(journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type == 'FARE')
+                                    price[journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
+                                else if(journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type == 'DISC')
+                                    price[journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].total;
+                                else if(journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type == 'ROC')
+                                    price['tax'] += journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].service_charges[k].total;
                             }
                             total_tax += price['tax'];
                             tax += price['tax'];
                             total_discount += price['disc'];
 
-                            if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
+                            if(journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].pax_type == 'ADT')
                                 total_price += price['fare'] * parseInt(passengers.adult);
                             else
                                 total_price += price['fare'] * parseInt(passengers.infant);
 
-                            if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
+                            if(journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
                                 train_detail_text+=`
                                 <div class="col-lg-6 col-xs-6" style="text-align:left;">
                                     <span style="font-size:13px;">`+passengers.adult+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'])+`</span>
@@ -1105,24 +1111,24 @@ function train_get_detail(){
             var currency_breakdown = '';
             for(j in journeys[i].fares){
                 price_breakdown = {};
-                for(k in journeys[i].fares[j].service_charge_summary){
-                    price_breakdown['FARE'] = journeys[i].fares[j].service_charge_summary[k].base_fare;
-                    price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax;
+                for(k in journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary){
+                    price_breakdown['FARE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_fare;
+                    price_breakdown['TAX'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_tax;
                     price_breakdown['BREAKDOWN'] = 0;
-                    price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_upsell;
+                    price_breakdown['CONVENIENCE FEE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_upsell;
                     if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-                        price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
-                    price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
-                    price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
-                    price_breakdown['VAT'] = journeys[i].fares[j].service_charge_summary[k].base_vat_ho;
-                    price_breakdown['OTT'] = journeys[i].fares[j].service_charge_summary[k].base_price_ott;
-                    price_breakdown['TOTAL PRICE'] = journeys[i].fares[j].service_charge_summary[k].base_price;
-                    price_breakdown['NTA AGENT'] = journeys[i].fares[j].service_charge_summary[k].base_nta;
+                        price_breakdown['COMMISSION'] = (journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_commission_vendor * -1);
+                    price_breakdown['NTA TRAIN'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_nta_vendor;
+                    price_breakdown['SERVICE FEE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_fee_ho;
+                    price_breakdown['VAT'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_vat_ho;
+                    price_breakdown['OTT'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_price_ott;
+                    price_breakdown['TOTAL PRICE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_price;
+                    price_breakdown['NTA AGENT'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_nta;
                     if(user_login.co_agent_frontend_security.includes('agent_ho'))
-                        price_breakdown['COMMISSION HO'] = journeys[i].fares[j].service_charge_summary[k].base_commission_ho * -1;
+                        price_breakdown['COMMISSION HO'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_commission_ho * -1;
                     if(currency_breakdown == ''){
-                        for(l in journeys[i].fares[j].service_charge_summary[k].service_charges){
-                            currency_breakdown = journeys[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                        for(l in journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].service_charges){
+                            currency_breakdown = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].service_charges[l].currency;
                             break;
                         }
                     }
@@ -1166,24 +1172,22 @@ function train_get_detail(){
 
 
             price_breakdown = {};
-            for(j in journeys[i].fares){
-                for(k in journeys[i].fares[j].service_charge_summary){
-                    price_breakdown['FARE'] = journeys[i].fares[j].service_charge_summary[k].base_fare;
-                    price_breakdown['TAX'] = journeys[i].fares[j].service_charge_summary[k].base_tax;
-                    price_breakdown['BREAKDOWN'] = 0;
-                    price_breakdown['CONVENIENCE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_upsell;
-                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-                        price_breakdown['COMMISSION'] = (journeys[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
-                    price_breakdown['NTA TRAIN'] = journeys[i].fares[j].service_charge_summary[k].base_nta_vendor;
-                    price_breakdown['SERVICE FEE'] = journeys[i].fares[j].service_charge_summary[k].base_fee_ho;
-                    price_breakdown['VAT'] = journeys[i].fares[j].service_charge_summary[k].base_vat_ho;
-                    price_breakdown['OTT'] = journeys[i].fares[j].service_charge_summary[k].base_price_ott;
-                    price_breakdown['TOTAL PRICE'] = journeys[i].fares[j].service_charge_summary[k].base_price;
-                    price_breakdown['NTA AGENT'] = journeys[i].fares[j].service_charge_summary[k].base_nta;
-                    if(user_login.co_agent_frontend_security.includes('agent_ho'))
-                        price_breakdown['COMMISSION HO'] = journeys[i].fares[j].service_charge_summary[k].base_commission_ho * -1;
-                    break;
-                }
+            for(k in journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary){
+                price_breakdown['FARE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_fare;
+                price_breakdown['TAX'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_tax;
+                price_breakdown['BREAKDOWN'] = 0;
+                price_breakdown['CONVENIENCE FEE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_upsell;
+                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                    price_breakdown['COMMISSION'] = (journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_commission_vendor * -1);
+                price_breakdown['NTA TRAIN'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_nta_vendor;
+                price_breakdown['SERVICE FEE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_fee_ho;
+                price_breakdown['VAT'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_vat_ho;
+                price_breakdown['OTT'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_price_ott;
+                price_breakdown['TOTAL PRICE'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_price;
+                price_breakdown['NTA AGENT'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_nta;
+                if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                    price_breakdown['COMMISSION HO'] = journeys[i].show_fares[journeys[i].fare_pick].service_charge_summary[k].base_commission_ho * -1;
+                break;
             }
             var breakdown_text = '';
             for(j in price_breakdown){
@@ -1386,7 +1390,7 @@ function train_detail(){
                             `+train_data[i].carrier_name+` `+train_data[i].carrier_number+`
                         </h5>
                         <span>
-                            `+train_data[i].cabin_class[1]+` (`+train_data[i].class_of_service+`)
+                            `+train_data[i].show_fares[train_data[i].fare_pick].cabin_class[1]+` (`+train_data[i].show_fares[train_data[i].fare_pick].class_of_service+`)
                         </span>
                         <div class="row" style="padding-top:10px;">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -1443,18 +1447,17 @@ function train_detail(){
             'tax': 0,
             'currency': ''
         };
-        for(j in train_data[i].fares){
-            for(k in train_data[i].fares[j].service_charge_summary){
-                for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
-                    if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type == 'FARE')
-                        price['fare'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
-                    else if(['TAX', 'ROC'].includes(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type))
-                        price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
-                    else if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_type == 'RAC' && train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code == 'rac')
-                        total_commission += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total * -1;
-                    if(!price['currency'])
-                        price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                }
+        for(j in train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary){
+            for(k in train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges){
+                if(train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type == 'FARE')
+                    price['fare'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
+                else if(['TAX', 'ROC'].includes(train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type))
+                    price['tax'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].total;
+                else if(train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type == 'RAC' && train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].charge_code == 'rac')
+                    total_commission += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].total * -1;
+                if(!price['currency'])
+                    price['currency'] = train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[k].currency;
+            }
 //                for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
 //                    if(l == 0)
 //                        price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
@@ -1462,32 +1465,31 @@ function train_detail(){
 //                }
 //                total_tax += train_data[i].fares[j].service_charge_summary[k].total_tax + train_data[i].fares[j].service_charge_summary[k].total_upsell;
 //                total_commission += train_data[i].fares[j].service_charge_summary[k].total_commission*-1;
-                total_tax += price['tax'];
-                if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
-                    total_price += price['fare'] * parseInt(adult);
-                else
-                    total_price += price['fare'] * parseInt(infant);
-                if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT' && parseInt(adult) > 0){
-                    if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('adult')){
-                        text+=`
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(adult)+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'] + (upsell_price_dict['adult']/parseInt(adult)))+`</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare'] * parseInt(adult)) + upsell_price_dict['adult'])+`</span>
-                            </div>`;
-                        $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (total_tax/adult) + (upsell_price_dict['adult']/parseInt(adult)))+`\n`;
-                        total_commission += upsell_price_dict['adult']
-                    }else{
-                        text+=`
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(adult)+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
-                            </div>`;
-                        $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (total_tax/adult))+`\n`;
-                    }
+            total_tax += price['tax'];
+            if(train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].pax_type == 'ADT')
+                total_price += price['fare'] * parseInt(adult);
+            else
+                total_price += price['fare'] * parseInt(infant);
+            if(train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].pax_type == 'ADT' && parseInt(adult) > 0){
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('adult')){
+                    text+=`
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;">`+parseInt(adult)+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'] + (upsell_price_dict['adult']/parseInt(adult)))+`</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare'] * parseInt(adult)) + upsell_price_dict['adult'])+`</span>
+                        </div>`;
+                    $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (total_tax/adult) + (upsell_price_dict['adult']/parseInt(adult)))+`\n`;
+                    total_commission += upsell_price_dict['adult']
+                }else{
+                    text+=`
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;">`+parseInt(adult)+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
+                        </div>`;
+                    $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (total_tax/adult))+`\n`;
                 }
             }
         }
@@ -1663,55 +1665,53 @@ function train_detail(){
     var currency_breakdown = '';
     for(i in train_data){
         if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
-            for(j in train_data[i].fares){
-                for(k in train_data[i].fares[j].service_charge_summary){
-                    if(!price_breakdown.hasOwnProperty('FARE'))
-                        price_breakdown['FARE'] = 0;
-                    if(!price_breakdown.hasOwnProperty('TAX'))
-                        price_breakdown['TAX'] = 0;
-                    if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
-                        price_breakdown['BREAKDOWN'] = 0;
-                    if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
-                        price_breakdown['CONVENIENCE FEE'] = 0;
-                    if(!price_breakdown.hasOwnProperty('COMMISSION'))
-                        price_breakdown['COMMISSION'] = 0;
-                    if(!price_breakdown.hasOwnProperty('NTA TRAIN'))
-                        price_breakdown['NTA TRAIN'] = 0;
-                    if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
-                        price_breakdown['SERVICE FEE'] = 0;
-                    if(!price_breakdown.hasOwnProperty('VAT'))
-                        price_breakdown['VAT'] = 0;
-                    if(!price_breakdown.hasOwnProperty('OTT'))
-                        price_breakdown['OTT'] = 0;
-                    if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
-                        price_breakdown['TOTAL PRICE'] = 0;
-                    if(!price_breakdown.hasOwnProperty('NTA AGENT'))
-                        price_breakdown['NTA AGENT'] = 0;
-                    if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
-                        price_breakdown['COMMISSION HO'] = 0;
-                    price_breakdown['FARE'] += train_data[i].fares[j].service_charge_summary[k].base_fare;
-                    price_breakdown['TAX'] += train_data[i].fares[j].service_charge_summary[k].base_tax;
+            for(j in train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary){
+                if(!price_breakdown.hasOwnProperty('FARE'))
+                    price_breakdown['FARE'] = 0;
+                if(!price_breakdown.hasOwnProperty('TAX'))
+                    price_breakdown['TAX'] = 0;
+                if(!price_breakdown.hasOwnProperty('BREAKDOWN'))
                     price_breakdown['BREAKDOWN'] = 0;
-                    price_breakdown['CONVENIENCE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_upsell;
-                    if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-                        price_breakdown['COMMISSION'] += (train_data[i].fares[j].service_charge_summary[k].base_commission_vendor * -1);
-                    price_breakdown['NTA TRAIN'] += train_data[i].fares[j].service_charge_summary[k].base_nta_vendor;
-                    price_breakdown['SERVICE FEE'] += train_data[i].fares[j].service_charge_summary[k].base_fee_ho;
-                    price_breakdown['VAT'] += train_data[i].fares[j].service_charge_summary[k].base_vat_ho;
-                    price_breakdown['OTT'] += train_data[i].fares[j].service_charge_summary[k].base_price_ott;
-                    price_breakdown['TOTAL PRICE'] += train_data[i].fares[j].service_charge_summary[k].base_price;
-                    price_breakdown['NTA AGENT'] += train_data[i].fares[j].service_charge_summary[k].base_nta;
-                    if(user_login.co_agent_frontend_security.includes('agent_ho'))
-                        price_breakdown['COMMISSION HO'] += train_data[i].fares[j].service_charge_summary[k].base_commission_ho * -1;
+                if(!price_breakdown.hasOwnProperty('CONVENIENCE FEE'))
+                    price_breakdown['CONVENIENCE FEE'] = 0;
+                if(!price_breakdown.hasOwnProperty('COMMISSION'))
+                    price_breakdown['COMMISSION'] = 0;
+                if(!price_breakdown.hasOwnProperty('NTA TRAIN'))
+                    price_breakdown['NTA TRAIN'] = 0;
+                if(!price_breakdown.hasOwnProperty('SERVICE FEE'))
+                    price_breakdown['SERVICE FEE'] = 0;
+                if(!price_breakdown.hasOwnProperty('VAT'))
+                    price_breakdown['VAT'] = 0;
+                if(!price_breakdown.hasOwnProperty('OTT'))
+                    price_breakdown['OTT'] = 0;
+                if(!price_breakdown.hasOwnProperty('TOTAL PRICE'))
+                    price_breakdown['TOTAL PRICE'] = 0;
+                if(!price_breakdown.hasOwnProperty('NTA AGENT'))
+                    price_breakdown['NTA AGENT'] = 0;
+                if(!price_breakdown.hasOwnProperty('COMMISSION HO'))
+                    price_breakdown['COMMISSION HO'] = 0;
+                price_breakdown['FARE'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_fare;
+                price_breakdown['TAX'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_tax;
+                price_breakdown['BREAKDOWN'] = 0;
+                price_breakdown['CONVENIENCE FEE'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_upsell;
+                if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                    price_breakdown['COMMISSION'] += (train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_commission_vendor * -1);
+                price_breakdown['NTA TRAIN'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_nta_vendor;
+                price_breakdown['SERVICE FEE'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_fee_ho;
+                price_breakdown['VAT'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_vat_ho;
+                price_breakdown['OTT'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_price_ott;
+                price_breakdown['TOTAL PRICE'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_price;
+                price_breakdown['NTA AGENT'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_nta;
+                if(user_login.co_agent_frontend_security.includes('agent_ho'))
+                    price_breakdown['COMMISSION HO'] += train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].base_commission_ho * -1;
 
-                    if(currency_breakdown == ''){
-                        for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
-                            currency_breakdown = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                            break;
-                        }
+                if(currency_breakdown == ''){
+                    for(l in train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges){
+                        currency_breakdown = train_data[i].show_fares[train_data[i].fare_pick].service_charge_summary[j].service_charges[l].currency;
+                        break;
                     }
-                    break;
                 }
+                break;
             }
         }
         if(train_data[i].hasOwnProperty('search_banner')){
@@ -2435,29 +2435,31 @@ function time_check(data){
 function filtering(type){
 
     data = train_data;
+    //new
+    data = train_new_data;
     if(type == 'filter'){
-        check_cabin = 0;
+//        check_cabin = 0;
         var temp_data = [];
-        for(i in cabin_list)
-            if(cabin_list[i].status == true)
-                check_cabin = 1;
-
-        data = time_check(data);
-        if(check_cabin == 1){
-            data.forEach((obj)=> {
-                check = 0;
-                cabin_list.forEach((obj1)=> {
-                    if(obj.cabin_class[1] == obj1.value && obj1.status==true){
-                        check = 1;
-                    }
-                });
-                if(check != 0){
-                    temp_data.push(obj);
-                }
-            });
-            data = temp_data;
-            temp_data = [];
-        }
+//        for(i in cabin_list)
+//            if(cabin_list[i].status == true)
+//                check_cabin = 1;
+//
+//        data = time_check(data);
+//        if(check_cabin == 1){
+//            data.forEach((obj)=> {
+//                check = 0;
+//                cabin_list.forEach((obj1)=> {
+//                    if(obj.cabin_class[1] == obj1.value && obj1.status==true){
+//                        check = 1;
+//                    }
+//                });
+//                if(check != 0){
+//                    temp_data.push(obj);
+//                }
+//            });
+//            data = temp_data;
+//            temp_data = [];
+//        }
         //filter arrival departure
         if(journeys.length > 0){
             copy_data_list = JSON.parse(JSON.stringify(data));
@@ -2593,7 +2595,7 @@ function sort(value){
                 response += `
                     <span class="copy_train" hidden>`+i+`</span>`;
                 response+=`
-                    <div class="row">
+                    <div class="row" onclick="show_train_details(`+i+`);" style="cursor:pointer;">
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">`;
                         if(data_filter[i].hasOwnProperty('search_banner')){
                            for(banner_counter in data_filter[i].search_banner){
@@ -2626,7 +2628,6 @@ function sort(value){
                         </div>
                         <div class="col-lg-9 col-md-8" style="padding-top:5px;">
                             <h5 class="copy_train_name">`+data_filter[i].carrier_name+` (`+data_filter[i].carrier_number+`)</h5>
-                            <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</span>
                             <div class="row" style="padding-top:10px;">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <h6 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h6>
@@ -2672,6 +2673,7 @@ function sort(value){
                                     }
                                 }
                                 if(check == 0){
+                                    response += `<span class="basic_fare_field" style="font-size:14px; color:#929292;">Start From</span><br/>`;
                                     if(data_filter[i].price != data_filter[i].without_discount_price)
                                         response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
                                     response += `<span class="copy_price" id="train_price_`+i+`" style="font-size:16px; font-weight: bold; color:`+color+`;`;
@@ -2708,19 +2710,103 @@ function sort(value){
                                     else if(data_filter[i].available_count<=1 )
                                         response+=`<img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
 
-                                    if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
-                                        response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px;" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
-                                    else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_hours == false)
-                                        response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px; background:#E5E5E5; color:`+color+`;border:1px solid black;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
-                                    else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
-                                        response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px;" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
-                                    else if(data_filter[i].available_count < parseInt(passengers.adult))
-                                        response+=`<input class="disabled-btn" style="width:100%; margin-top:10px;" type="button" id="train_choose`+i+`" value="Not Available" disabled>`
-                                    else if(data_filter[i].available_count <= 0)
-                                        response+=`<input class="disabled-btn" style="width:100%; margin-top:10px;" type="button" id="train_choose`+i+`" value="Sold" disabled>`
-
                                 }
                                 response+=`
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row show_fd">
+                        <div class="col-lg-12">
+                           <a id="detail_button_journey_pc0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_train_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
+                               <span class="detail-link" style="font-weight: bold; display:none;" id="train_details_up_pc`+i+`"> Choose Class <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                               <span class="detail-link" style="font-weight: bold; display:block;" id="train_details_down_pc`+i+`"> Choose Class <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                           </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3 show_fd_mbl">
+                        <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_train_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
+                            <span class="detail-link" style="font-weight: bold; display:none;" id="train_details_up`+i+`"> Choose Class <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                            <span class="detail-link" style="font-weight: bold; display:block;" id="train_details_down`+i+`"> Choose Class <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-12" style="padding:5px;">
+                        <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none; background: #f7f7f7; padding-top:10px; margin-top:10px;">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h6 style="margin-bottom:5px; margin-top:10px;"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> Class of Service</h6>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div style="display:flex; overflow:auto;">`;
+                                        for(j in data_filter[i].show_fares){
+                                            if(data_filter[i].show_fares[j].available_count < parseInt(passengers.adult)){
+                                                response += `
+                                                <label class="radio-label100" style="color:#cdcdcd !important; cursor:not-allowed;">
+                                                    <input onclick="" id="journey`+i+`new_fare`+j+`fare" name="journey`+i+`new_fare`+j+`fare" type="radio" value="`+data_filter[i].show_fares[j].fare_code+`" disabled/>
+                                                    <div class="div_label100" style="background:white !important; cursor: not-allowed; color: #cdcdcd;">
+                                                        <span style="font-weight:bold; font-size:15px;">`+data_filter[i].show_fares[j].class_of_service+` `+data_filter[i].show_fares[j].cabin_class[1]+`</span><br/>`;
+
+                                                        response+=`
+                                                        <div class="center_vh">
+                                                            <img src="/static/tt_website/images/no_found/sold-out.png"/>
+                                                        </div>
+                                                        <div style="margin-bottom:10px;"></div>
+                                                        <div style="width:100%; text-align:left; left: 10px; bottom: 10px; position: absolute; margin-top:15px;">
+                                                            <span class="price_template" style="color:#cdcdcd;">SOLD OUT</span><br/>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                `;
+                                            }
+                                            else if(data_filter[i].can_book_hours == false || data_filter[i].can_book_check_arrival_on_next_departure == false){
+                                                response+=`
+                                                <label class="radio-label100">
+                                                    <input onclick="choose_train(`+i+`,`+data_filter[i].sequence+`,`+j+`);" id="journey`+i+`new_fare`+j+`fare" name="journey`+i+`new_fare`+j+`fare" type="radio" value="`+data_filter[i].show_fares[j].fare_code+`" disabled/>
+                                                    <div class="div_label100">
+                                                        <i class="fas fa-check check_label100"></i>
+                                                        <span style="font-weight:bold; font-size:15px;">`+data_filter[i].show_fares[j].class_of_service+` (`+data_filter[i].show_fares[j].cabin_class[1]+`)</span><br/>`;
+
+                                                        id_price_segment = `journey`+i+`segment`+j+`fare`;
+
+                                                        if(data_filter[i].show_fares[j].total_price != data_filter[i].show_fares[j].without_discount_price)
+                                                            response += `
+                                                        <span class="basic_fare_field cross_price" style="font-size:13px; color:#929292;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].show_fares[j].without_discount_price)+`</span><br/>`;
+                                                        response+=`
+                                                        <span id="`+id_price_segment+`" class="price_template">`+data_filter[i].currency+` `+getrupiah(data_filter[i].show_fares[j].total_price)+`</span>`;
+                                                        if(data_filter[i].show_fares[j].available_count < 50)
+                                                            response+=`
+                                                            <b>/ seat left: `+data_filter[i].show_fares[j].available_count+`</b>`;
+                                                        response+=`
+                                                    </div>
+                                                 </label>`;
+                                            }
+                                            else{
+                                                response+=`
+                                                <label class="radio-label100">
+                                                    <input onclick="choose_train(`+i+`,`+data_filter[i].sequence+`,`+j+`);" id="journey`+i+`new_fare`+j+`fare" name="journey`+i+`new_fare`+j+`fare" type="radio" value="`+data_filter[i].show_fares[j].fare_code+`"/>
+                                                    <div class="div_label100">
+                                                        <i class="fas fa-check check_label100"></i>
+                                                        <span style="font-weight:bold; font-size:15px;">`+data_filter[i].show_fares[j].class_of_service+` (`+data_filter[i].show_fares[j].cabin_class[1]+`)</span><br/>`;
+
+                                                        id_price_segment = `journey`+i+`segment`+j+`fare`;
+                                                        if(data_filter[i].show_fares[j].total_price != data_filter[i].show_fares[j].without_discount_price)
+                                                            response += `
+                                                            <span class="basic_fare_field cross_price" style="font-size:13px; color:#929292;">`+data_filter[i].currency+` `+getrupiah(data_filter[i].show_fares[j].without_discount_price)+`</span><br/>`;
+                                                        response+=`<span id="`+id_price_segment+`" class="price_template">`+data_filter[i].currency+` `+getrupiah(data_filter[i].show_fares[j].total_price)+`</span>`;
+                                                        if(data_filter[i].show_fares[j].available_count < 50)
+                                                            response+=`
+                                                            <b>/ seat left: `+data_filter[i].show_fares[j].available_count+`</b>`;
+                                                        response+=`
+                                                    </div>
+                                                 </label>`;
+                                            }
+                                        }
+
+                    response+=`
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2883,7 +2969,7 @@ function train_ticket_pick(){
                 </div>
                 <div class="col-lg-9 col-md-8" style="padding-bottom:10px;">
                     <h5 class="copy_train_name">`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)</h5>
-                    <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+journeys[i].cabin_class[1]+` (`+journeys[i].class_of_service+`)</span>
+                    <span class="copy_cabin_class" style="font-weight:500; font-size:14px;">`+journeys[i].show_fares[journeys[i].fare_pick].cabin_class[1]+` (`+journeys[i].show_fares[journeys[i].fare_pick].class_of_service+`)</span>
                     <div class="row" style="padding-top:10px;">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <h6 class="copy_time_depart">`+journeys[i].departure_date[1]+`</h6>
@@ -2917,22 +3003,22 @@ function train_ticket_pick(){
                 <div class="col-lg-3 col-md-4" style="padding-bottom:10px;">
                     <div style="text-align:right;">`;
                         check = 0;
-                        if(journeys[i].price != journeys[i].without_discount_price){
-                            response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+journeys[i].currency+` `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
+                        if(journeys[i].show_fares[journeys[i].fare_pick].total_price != journeys[i].show_fares[journeys[i].fare_pick].without_discount_price){
+                            response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+journeys[i].currency+` `+getrupiah(journeys[i].show_fares[journeys[i].fare_pick].without_discount_price)+`</span><br/>`
                         }
                         response+=`
                             <span id="train_pick_price_`+i+`" style="font-size:16px; margin-bottom:10px; font-weight: bold; color:`+color+`;`;
 //                    if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
 //                        response+='cursor:pointer;';
-                        response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].price)+`</span>`;
+                        response+=`">`+journeys[i].currency+` `+getrupiah(journeys[i].show_fares[journeys[i].fare_pick].total_price)+`</span>`;
 //                        if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
 //                            response+=`<i class="fas fa-caret-down price_template"></i>`;
-                        if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].price){
+                            if(typeof(currency_rate_data) !== 'undefined' && currency_rate_data.result.is_show && journeys[i].show_fares[journeys[i].fare_pick].total_price){
                             if(user_login.hasOwnProperty('co_ho_seq_id') && currency_rate_data.result.response.agent.hasOwnProperty(user_login.co_ho_seq_id)){ // buat o3
                                 for(k in currency_rate_data.result.response.agent[user_login.co_ho_seq_id]){
                                     try{
                                         if(currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].base_currency == journeys[i].currency){
-                                            price_convert = (parseFloat(journeys[i].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
+                                            price_convert = (parseFloat(journeys[i].show_fares[journeys[i].fare_pick].price)/currency_rate_data.result.response.agent[user_login.co_ho_seq_id][k].rate).toFixed(2);
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
                                             response+=`
@@ -2946,9 +3032,9 @@ function train_ticket_pick(){
                             }
                         }
                         if(journeys[i].available_count<50)
-                            response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
+                            response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].show_fares[journeys[i].fare_pick].available_count+` seat(s) left</span>`;
                         else if(journeys[i].available_count<=1 )
-                            response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
+                            response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].show_fares[journeys[i].fare_pick].available_count+` seat(s) left</span>`;
 
                         response+=`<br/><input class="primary-btn-custom mt-2" type="button" style="width:100%;" onclick="change_train(`+i+`)"  id="train_choose`+i+`" value="Change">`;
                         response+=`
@@ -3289,14 +3375,14 @@ function get_checked_copy_result(){
         var id_train = parent_train.find('.id_copy_result').html();
         train_number = train_number + 1;
         $text += 'Option-'+train_number+'\n';
-        $text += ''+name_train+'\n'+cabin_train+'\n';
+        $text += ''+name_train+'\n';
         $text += departure_train+', '+date_depart+' '+time_depart;
         $text += ' → ';
         $text += arrival_train+', '+date_arr+' '+time_arr+'\n';
         if(seat_train){
             $text += seat_train+'\n';
         }
-        $text += price_train+'\n';
+        $text += 'Start from ' + price_train+'\n';
         $text+='====================\n\n';
 
         if(train_number == 1){
@@ -3317,7 +3403,6 @@ function get_checked_copy_result(){
             </div>
             <div class="col-lg-12">
                 <h5 style="margin-bottom:5px;">`+name_train+`</h5>
-                <span style="font-weight:500; font-size:14px;">`+cabin_train+`</span>
             </div>
             <div class="col-xs-6" style="text-align:left;">
                 <b>Departure</b><br/><span>`+departure_train+`, `+date_depart+` `+time_depart+` </span>

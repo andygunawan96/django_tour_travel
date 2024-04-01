@@ -528,7 +528,7 @@ def review(request, signature):
                     for journey in train_pick:
                         journeys.append({
                             'journey_code': journey['journey_code'],
-                            'fare_code': journey['fares'][0]['fare_code']
+                            'fare_code': journey['show_fares'][journey['fare_pick']]['fare_code']
                         })
                         schedules.append({
                             'journeys': journeys,

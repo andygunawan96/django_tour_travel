@@ -8447,6 +8447,8 @@ function check_passenger(adult, child, infant, type=''){
         // REQUIRED LAST NAME UNTUK DUBAI
         if(is_need_last_name == 'true' && document.getElementById('adult_last_name'+i).value == '' || is_need_last_name == 'true' && check_word(document.getElementById('adult_last_name'+i).value) == false || is_need_last_name == 'true' && document.getElementById('adult_first_name'+i).value == document.getElementById('adult_last_name'+i).value){
             if(document.getElementById('adult_last_name'+i).value == document.getElementById('adult_first_name'+i).value)
+                error_log+= "First name and last name can't be same for adult passenger '+i+'!</br>\n";
+            else if((document.getElementById('adult_first_name'+i).value + ' ' + document.getElementById('adult_last_name'+i).value).split(' ').length <= 2)
                 error_log+= 'Minimum 3 words for adult passenger '+i+'!</br>\n';
             else if(document.getElementById('adult_last_name'+i).value == '')
                 error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
