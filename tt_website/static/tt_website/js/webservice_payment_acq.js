@@ -170,6 +170,7 @@ function render_payment(){
             }
             payment_counter++;
             set_payment_method_ho();
+            set_payment(val_render,type_render);
         //            focus_box('payment_acq');
         //            document.getElementById('payment_acq').hidden = false;
         }else{
