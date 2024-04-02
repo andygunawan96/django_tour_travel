@@ -229,9 +229,15 @@ function group_booking_get_config(page=false){
                             <input type="radio"`;
                             if(msg.result.response.provider_type[i].code == 'airline')
                                 text+=` checked="checked"`;
-                        text+=`name="radio_group_booking_type" value="`+msg.result.response.provider_type[i].code+`">
-                            <img style="width:auto; height:70px; border-radius:7px; padding:15px; background:white;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon">
-                            <div style="width:100px; text-align:center;"><span class="title_prd">`+msg.result.response.provider_type[i].name+`</span></div>
+                            text+=`name="radio_group_booking_type" value="`+msg.result.response.provider_type[i].code+`">
+                            <div style="text-align:center; display:inline-flex;">
+                                <div style="display:inline-block; margin-right:10px;">
+                                    <img style="width:auto; height:35px; border-radius:7px; padding:5px; background:white;" src="/static/tt_website/images/icon/product/c-airline.png" alt="Airline Icon">
+                                </div>
+                                <div style="display:inline-block; margin:auto;">
+                                    <span class="title_prd">`+msg.result.response.provider_type[i].name+`</span>
+                                </div>
+                            </div>
                         </label>`;
                     }
                     text += `</div></div>`;

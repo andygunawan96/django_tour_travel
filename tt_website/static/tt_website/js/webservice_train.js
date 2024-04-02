@@ -1063,145 +1063,137 @@ function train_get_booking(data, sync=false){
                     <div class="div_box_default">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h4 style="margin-bottom:15px;">
-                                            <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
-                                        </h4>
-                                    </div>
-                                    <div class="col-lg-12 mb-3">
-                                        <table class="list-of-table" style="width:100%; background:white;">
-                                            <tr>
-                                                <th>PNR</th>`;
-                                                if(msg.result.response.state == 'booked')
-                                                    text+=`<th>Hold Date</th>`;
-                                                text+=`
-                                                <th>Status</th>
-                                            </tr>`;
-                                            for(i in msg.result.response.provider_bookings){
-                                                //datetime utc to local
-                                                if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.state != 'issued')
-                                                    text += `<div class="alert alert-danger">
-                                                        `+msg.result.response.provider_bookings[i].error_msg+`
-                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
-                                                    </div>`;
-                                                if(msg.result.response.provider_bookings[i].hold_date != false || msg.result.response.provider_bookings[i].hold_date != ''){
-                                                    tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
-                                                    var localTime  = moment.utc(tes).toDate();
-                                                    data_gmt = moment(msg.result.response.provider_bookings[i].hold_date)._d.toString().split(' ')[5];
-                                                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                                                    timezone = data_gmt.replace (/[^\d.]/g, '');
-                                                    timezone = timezone.split('')
-                                                    timezone = timezone.filter(item => item !== '0')
-                                                    msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
-                                                }
-                                                //
-                                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                                    $text += msg.result.response.provider_bookings[i].pnr;
-                                                else
-                                                    $text += '-';
-                                                if(msg.result.response.state == 'booked')
-                                                    $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
-                                                else
-                                                    $text += '\n';
-                                                text+=`<tr>`;
-                                                if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued')
-                                                text+=`
-                                                    <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
-                                                else
-                                                    text+=`<td> - </td>`;
-                                                if(msg.result.response.state == 'booked')
-                                                    text+=`<td>`+msg.result.response.hold_date+`</td>`;
-                                                text+=`
-                                                    <td id='pnr'>`;
-                                                if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
-                                                    msg.result.response.provider_bookings[i].state_description == 'Booking Failed' ||
-                                                    msg.result.response.provider_bookings[i].state_description == 'Cancelled'){
-                                                    text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
-                                                }
-                                                else if(msg.result.response.provider_bookings[i].state_description == 'Booked'){
-                                                    text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
-                                                }
-                                                else if(msg.result.response.provider_bookings[i].state_description == 'Issued'){
-                                                    text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
-                                                }
-                                                else{
-                                                    text+=`<span>`;
-                                                }
-                                                text+=`
-                                                        `+msg.result.response.provider_bookings[i].state_description+`
-                                                    </span>
-                                                    </td>
-                                                </tr>`;
-                                            }
-                                            $text +='\n';
+                                <h4 style="margin-bottom:15px;">
+                                    <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                                </h4>
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <table class="list-of-table" style="width:100%; background:white;">
+                                    <tr>
+                                        <th>PNR</th>`;
+                                        if(msg.result.response.state == 'booked')
+                                            text+=`<th>Hold Date</th>`;
                                         text+=`
-                                        </table>
-                                    </div>
-                                </div>
+                                        <th>Status</th>
+                                    </tr>`;
+                                    for(i in msg.result.response.provider_bookings){
+                                        //datetime utc to local
+                                        if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.state != 'issued')
+                                            text += `<div class="alert alert-danger">
+                                                `+msg.result.response.provider_bookings[i].error_msg+`
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
+                                            </div>`;
+                                        if(msg.result.response.provider_bookings[i].hold_date != false || msg.result.response.provider_bookings[i].hold_date != ''){
+                                            tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
+                                            var localTime  = moment.utc(tes).toDate();
+                                            data_gmt = moment(msg.result.response.provider_bookings[i].hold_date)._d.toString().split(' ')[5];
+                                            gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                                            timezone = data_gmt.replace (/[^\d.]/g, '');
+                                            timezone = timezone.split('')
+                                            timezone = timezone.filter(item => item !== '0')
+                                            msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                                        }
+                                        //
+                                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                            $text += msg.result.response.provider_bookings[i].pnr;
+                                        else
+                                            $text += '-';
+                                        if(msg.result.response.state == 'booked')
+                                            $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
+                                        else
+                                            $text += '\n';
+                                        text+=`<tr>`;
+                                        if(user_login.hasOwnProperty('co_is_agent_btc') && !user_login.co_is_agent_btc || msg.result.response.state == 'issued')
+                                        text+=`
+                                            <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
+                                        else
+                                            text+=`<td> - </td>`;
+                                        if(msg.result.response.state == 'booked')
+                                            text+=`<td>`+msg.result.response.hold_date+`</td>`;
+                                        text+=`
+                                            <td id='pnr'>`;
+                                        if(msg.result.response.provider_bookings[i].state_description == 'Expired' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'Booking Failed' ||
+                                            msg.result.response.provider_bookings[i].state_description == 'Cancelled'){
+                                            text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else if(msg.result.response.provider_bookings[i].state_description == 'Booked'){
+                                            text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else if(msg.result.response.provider_bookings[i].state_description == 'Issued'){
+                                            text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                        }
+                                        else{
+                                            text+=`<span>`;
+                                        }
+                                        text+=`
+                                                `+msg.result.response.provider_bookings[i].state_description+`
+                                            </span>
+                                            </td>
+                                        </tr>`;
+                                    }
+                                    $text +='\n';
+                                text+=`
+                                </table>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="row">`;
-                                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                                                text+=`
-                                                <div class="col-lg-6">
-                                                    <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
-                                                </div>`;
-                                                if(msg.result.response.customer_parent_name){
-                                                    text+=`
-                                                    <div class="col-lg-6">
-                                                        <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                                                    </div>`;
-                                                }
-                                            }
+                                <div class="row">`;
+                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                        text+=`
+                                        <div class="col-lg-6">
+                                            <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                                        </div>`;
+                                        if(msg.result.response.customer_parent_name){
                                             text+=`
-                                        </div>
+                                            <div class="col-lg-6">
+                                                <b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>
+                                            </div>`;
+                                        }
+                                    }
+                                    text+=`
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <span>
+                                            <b>Booked by: </b><i>`+msg.result.response.booked_by+`</i>
+                                        </span>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <span>
-                                                    <b>Booked by: </b><i>`+msg.result.response.booked_by+`</i>
-                                                </span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <span>
-                                                    <b>Booked Date: </b>
-                                                    <i>`;
-                                                    if(msg.result.response.booked_date != ""){
-                                                        text+=``+msg.result.response.booked_date+``;
-                                                    }else{
-                                                        text+=`-`
-                                                    }
-                                                    text+=`</i>
-                                                </span><br>
-                                            </div>
-                                        </div>
+                                    <div class="col-lg-6">
+                                        <span>
+                                            <b>Booked Date: </b>
+                                            <i>`;
+                                            if(msg.result.response.booked_date != ""){
+                                                text+=``+msg.result.response.booked_date+``;
+                                            }else{
+                                                text+=`-`
+                                            }
+                                            text+=`</i>
+                                        </span><br>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <span>
-                                                    <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
-                                                </span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <span>
-                                                    <b>Issued Date: </b>
-                                                    <i>`;
-                                                    if(msg.result.response.issued_date != ""){
-                                                        text+=``+msg.result.response.issued_date+``;
-                                                    }else{
-                                                        text+=`-`
-                                                    }
-                                                    text+=`</i>
-                                                </span><br>
-                                            </div>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <span>
+                                            <b>Issued by: </b><i>`+msg.result.response.issued_by+`</i>
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <span>
+                                            <b>Issued Date: </b>
+                                            <i>`;
+                                            if(msg.result.response.issued_date != ""){
+                                                text+=``+msg.result.response.issued_date+``;
+                                            }else{
+                                                text+=`-`
+                                            }
+                                            text+=`</i>
+                                        </span><br>
                                     </div>
                                 </div>
                             </div>
@@ -1423,8 +1415,7 @@ function train_get_booking(data, sync=false){
                                     <h4 style="margin-bottom:10px;">
                                         <i class="fas fa-users"></i>
                                         Passengers
-                                    </h4>`;
-                                    text+=`
+                                    </h4>
                                 </div>
                             </div>
                             <div class="row">`;
@@ -1761,7 +1752,7 @@ function train_get_booking(data, sync=false){
                 commission = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'CSC'];
                 text_detail=`
-                <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                <div class="div_box_default mb-3">
                     <div class="row">
                         <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
                             <h4 class="mb-3">Price Detail</h4>
@@ -1984,11 +1975,11 @@ function train_get_booking(data, sync=false){
                                             if(price_convert%1 == 0)
                                                 price_convert = parseInt(price_convert);
                                             text_detail+=`
-                                                <div class="row">
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
-                                                    </div>
-                                                </div>`;
+                                            <div class="row">
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px; font-weight:bold;" id="total_price_`+k+`"> Estimated `+k+` `+price_convert+`</span><br/>
+                                                </div>
+                                            </div>`;
                                         }
                                     }catch(err){
                                         console.log(err);
@@ -1999,17 +1990,19 @@ function train_get_booking(data, sync=false){
                     }else if(msg.result.response.hasOwnProperty('estimated_currency') && msg.result.response.estimated_currency.hasOwnProperty('other_currency') && Object.keys(msg.result.response.estimated_currency.other_currency).length > 0){
                         for(k in msg.result.response.estimated_currency.other_currency){
                             text_detail+=`
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
-                                        </div>`;
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:bold;" id="total_price_`+msg.result.response.estimated_currency.other_currency[k].currency+`"> Estimated `+msg.result.response.estimated_currency.other_currency[k].currency+` `+getrupiah(msg.result.response.estimated_currency.other_currency[k].amount)+`</span><br/>
+                                </div>
+                            </div>`;
                         }
                     }
 
 
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-top:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_price.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     }else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_booker.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-top:10px;"><img src="/static/tt_website/images/icon/symbol/upsell_booker.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
                         $('#repricing_type').niceSelect('update');
                         reset_repricing();
@@ -2017,7 +2010,7 @@ function train_get_booking(data, sync=false){
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <hr/>
-                        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+                        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
                         share_data();
                         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                         if (isMobile) {
@@ -2034,7 +2027,12 @@ function train_get_booking(data, sync=false){
                                 <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
                         }
 
-                    text_detail+=`
+                        text_detail+=`
+                            <div style="float:right">
+                                <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
                         </div>
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && user_login.co_agent_frontend_security.includes('see_commission')){
@@ -2081,13 +2079,7 @@ function train_get_booking(data, sync=false){
                         </div>`;
                     }
 
-                    text_detail+=`<center>
-
-                    <div style="padding-bottom:10px;">
-                        <center>
-                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                        </center>
-                    </div>`;
+                    text_detail+=`<center>`;
 //                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //                        text_detail+=`
 //                        <div style="margin-bottom:5px;">

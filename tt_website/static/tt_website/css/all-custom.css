@@ -728,6 +728,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
     color: black;
     background: white;
     border:1px solid #cdcdcd;
+    border-radius: 5px;
     padding: 5px 10px;
     margin-top: 5px;
 }
@@ -1833,7 +1834,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
 }
 .primary-btn:hover{
   background: #205B95;
-  opacity: 0.9;
+  opacity: 1;
 }
 .primary-btn:disabled {
   cursor:not-allowed;
@@ -5526,10 +5527,10 @@ ul.progress_tabs li.current .image-rounded-icon{
     .owl-carousel-banner.owl-drag .owl-item{
         min-height:80px !important;
     }
+
     .owl-carousel-banner .owl-stage-outer{
         min-height:80px !important;
     }
-
 
     .owl-carousel-banner .owl-item img{
         max-height: 130px !important;
@@ -5583,17 +5584,17 @@ ul.progress_tabs li.current .image-rounded-icon{
 /*MAX MIN WIDTH*/
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .big_banner_home{
-        height:300px !important;
+        height:320px !important;
     }
 
 
     .owl-carousel-banner.owl-drag .owl-item{
         min-height:250px !important;
     }
+
     .owl-carousel-banner .owl-stage-outer{
         min-height:250px !important;
     }
-
 
     .owl-carousel-banner .owl-item img{
         max-height:350px !important;
@@ -5632,17 +5633,17 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 991px) and (min-width: 768px) {
     .big_banner_home{
-        height:230px !important;
+        height:270px !important;
     }
 
 
     .owl-carousel-banner.owl-drag .owl-item{
         min-height:180px !important;
     }
+
     .owl-carousel-banner .owl-stage-outer{
         min-height:180px !important;
     }
-
 
     .owl-carousel-banner .owl-item img{
         max-height:280px !important;
@@ -5688,17 +5689,16 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 767px) and (min-width: 576px) {
     .big_banner_home{
-        height:170px !important;
+        height:210px !important;
     }
-
 
     .owl-carousel-banner.owl-drag .owl-item{
         min-height:120px !important;
     }
+
     .owl-carousel-banner .owl-stage-outer{
         min-height:120px !important;
     }
-
 
     .owl-carousel-banner .owl-item img{
         max-height:225px !important;
@@ -5750,17 +5750,16 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 @media (max-width: 575px) and (min-width: 426px) {
     .big_banner_home{
-        height:170px !important;
+        height:180px !important;
     }
-
 
     .owl-carousel-banner.owl-drag .owl-item{
         min-height:120px !important;
     }
+
     .owl-carousel-banner .owl-stage-outer{
         min-height:120px !important;
     }
-
 
     .owl-carousel-banner .owl-item img{
         max-height:170px !important;

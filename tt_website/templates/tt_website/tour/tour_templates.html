@@ -94,35 +94,26 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.code == "tour" %}
-<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+<section class="pt-4 pb-4" style="background:#ffffff; position:relative; z-index:999;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div id="overlay-search-box" onclick="off_overlay()"></div>
+            <div class="col-lg-12 mb-1">
                 <div style="display:inline-flex;">
                     <div style="display:inline-block; margin-right:10px;">
                         <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-tour.png" alt="Tour Icon">
                     </div>
-                    <div style="display:inline-block;">
-                        <span class="title_cst_sub" style="margin-top:15px; font-size:22px; font-weight:bold; border-bottom:2px solid #cdcdcd;">
+                    <div style="display:inline-block; margin:auto;">
+                        <span style="margin-top:15px; font-size:22px; font-weight:700;">
                             {% if username.co_user_login != default_user %}
                             {{greeting_login.greeting}} <span style="color:{{color}};">{{greeting_login.website_name}}</span>
                             {% else %}
                             {{greeting_b2c}}
                             {% endif %}
                         </span><br>
-                        <span style="font-size:18px; font-weight:bold;">
-                            {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                        </span>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-<section class="pt-4 pb-4" style="background:#ffffff;">
-    <div class="container">
-        <div class="row">
-            <div id="overlay-search-box" onclick="off_overlay()"></div>
             <div class="col-lg-12" id="div-search-overlay">
                 {% if template == 1 %}
                 <div class="banner-right">
@@ -169,8 +160,8 @@
                                         </div>
                                         <div class="col-lg-3 col-md-3">
                                             <div class="input-container-search-ticket">
-                                                <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                <button type="button" class="form-control btn_w_hover" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                <button type="button" class="form-control btn_w_hover" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -317,8 +308,8 @@
                                         </div>
                                         <div class="col-lg-3 col-md-3">
                                             <div class="input-container-search-ticket">
-                                                <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                <button type="button" class="form-control btn_w_hover" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                <button type="button" class="form-control btn_w_hover" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -472,8 +463,8 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                            <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                            <button type="button" class="form-control btn_w_hover" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                            <button type="button" class="form-control btn_w_hover" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -623,8 +614,8 @@
                                                     </div>
                                                     <div class="col-lg-3 col-md-3">
                                                         <div class="input-container-search-ticket">
-                                                            <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                            <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                            <button type="button" class="form-control btn_w_hover" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                            <button type="button" class="form-control btn_w_hover" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -776,8 +767,8 @@
                                                 </div>
                                                 <div class="col-lg-3 col-md-3">
                                                     <div class="input-container-search-ticket">
-                                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                        <button type="button" class="form-control btn_w_hover" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                        <button type="button" class="form-control btn_w_hover" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -927,8 +918,8 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="input-container-search-ticket">
-                                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                        <button type="button" class="form-control btn_w_hover" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                        <button type="button" class="form-control btn_w_hover" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1080,8 +1071,8 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
+                                                <button type="button" class="form-control btn_w_hover" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                                <button type="button" class="form-control btn_w_hover" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:{{text_color}}; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                             </div>
                                         </div>
                                     </div>

@@ -565,14 +565,11 @@ function sort(value){
     for(i in data_filter){
         if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
             ticket_print = true;
-            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
-                response+=`<div class="div_box_default"`;
-                if(i != 0)
-                    response += ` style="margin-top:15px;"`;
-                response+=`>`;
+            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
+                response+=`<div class="div_box_default mb-3">`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
 //                response+=`<div class="div_box_default">`;
-            }else
+            else
                 response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
                 <span class="copy_bus" hidden>`+i+`</span>`;
@@ -606,7 +603,7 @@ function sort(value){
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div style="text-align:center; position: absolute; left:-10%;">
                                     <div style="display:inline-block;position:relative;width:100%;z-index:1;">
-                                        <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;"/>
+                                        <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;"/>
                                         <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                         <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                     </div>
@@ -614,6 +611,7 @@ function sort(value){
                                     response+= data_filter[i].elapsed_time.split(':')[0] + 'h ';
                                     response+= data_filter[i].elapsed_time.split(':')[1] + 'm ';
                                     response+=`
+                                    </span>
                                 </div>
                                 <div style="text-align:right">
                                     <h6 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h6>
@@ -636,14 +634,15 @@ function sort(value){
                             }
                             if(check == 0){
                                 response+=`
-                                    <span id="bus_price_`+i+`" class="copy_price" style="font-size:16px; font-weight: bold; color:`;
+                                    <span id="bus_price_`+i+`" style="font-size:16px; font-weight: bold; color:`;
                                 if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true || data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
                                     response+= color+';';
                                 else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                     response+= '#505050;'
                                 if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                     response+='cursor:pointer;';
-                                response+=`">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price);
+                                response+=`">`;
+                                response+=`<span class="copy_price">`+data_filter[i].currency+` `+getrupiah(data_filter[i].price)+`</span>`;
                                 if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
                                     response+=`<i class="fas fa-caret-down price_template" style="padding-left:5px;"></i>`;
                                 response+=`</span>`;
@@ -667,9 +666,9 @@ function sort(value){
                                 }
 
                                 if(data_filter[i].available_count<50)
-                                    response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> `+data_filter[i].available_count+` seat(s) left</span>`;
+                                    response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
                                 else if(data_filter[i].available_count<=1 )
-                                    response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`"><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> `+data_filter[i].available_count+` seat(s) left</span>`;
+                                    response+=`<br/><img src="/static/tt_website/images/icon/symbol/seat.png" style="height:16px; width:auto;"> <span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
 
                                 if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                     response+=`<input class="primary-btn-custom" style="width:100%; margin-top:10px;" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`)"  id="bus_choose`+i+`" value="Choose">`;
@@ -855,7 +854,7 @@ function bus_ticket_pick(){
             <div class="row">
                 <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd; padding-bottom:10px;">
                     <span style="font-size:14px; font-weight:bold;">
-                        <img style="width:auto; height:25px; border-radius:7px; background:white;" src="/static/tt_website/images/icon/product/c-train.png" alt="Train Icon"> `;
+                        <img style="width:auto; height:25px; border-radius:7px; background:white;" src="/static/tt_website/images/icon/product/c-bus.png" alt="Bus Icon"> `;
                         if(journeys[i].bus_sequence == "0")
                             response += 'Departure';
                         else
@@ -866,7 +865,7 @@ function bus_ticket_pick(){
             </div>
             <div class="row">
                 <div class="col-lg-9 col-md-8" style="padding-top:5px;">
-                    <h5>`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)</h5>
+                    <h5>`+journeys[i].carrier_name+` (`+journeys[i].carrier_number+`)</h5>
                     <span style="font-weight:500; font-size:14px;">`+journeys[i].cabin_class[1]+` (`+journeys[i].class_of_service+`)</span>
                     <div class="row" style="padding-top:10px;">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -877,7 +876,7 @@ function bus_ticket_pick(){
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div style="text-align:center; position: absolute; left:-10%;">
                                 <div style="display:inline-block;position:relative;width:100%;z-index:1;">
-                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Train" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;"/>
+                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;"/>
                                     <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                     <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
                                 </div>
@@ -885,6 +884,7 @@ function bus_ticket_pick(){
                                 response+= journeys[i].elapsed_time.split(':')[0] + 'h ';
                                 response+= journeys[i].elapsed_time.split(':')[1] + 'm ';
                                 response+=`
+                                </span>
                             </div>
                             <div style="text-align:right">
                                 <h6>`+journeys[i].arrival_date[1]+`</h6>
@@ -1018,6 +1018,8 @@ function bus_get_detail(){
     $("#myModalTicketBus").modal('show');
     $('#loading-search-bus-choose').show();
     bus_detail_text = '';
+    bus_detail_footer = '';
+    bus_share = '';
     total_price = 0;
     total_commission = 0;
     total_tax = 0;
@@ -1037,7 +1039,7 @@ function bus_get_detail(){
     count_fare = 0;
     for(i in journeys){
         $text +=
-            journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
+            journeys[i].carrier_name+` (`+journeys[i].carrier_number+`)\n`+journeys[i].cabin_class[1]+` (`+journeys[i].class_of_service+`)\n\n`+
             journeys[i].origin_name+` - `+journeys[i].destination_name+`\n`+journeys[i].departure_date[0] + ` ` + journeys[i].departure_date[1];
         if(journeys[i].arrival_date[0] == journeys[i].departure_date[0]){
             $text +=` - `+journeys[i].arrival_date[1]+`\n\n`;
@@ -1046,253 +1048,300 @@ function bus_get_detail(){
             $text +=` - `+journeys[i].arrival_date[0] + ' ' + journeys[i].arrival_date[1] +`\n\n`;
         }
 
-        bus_detail_text += `<h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`;padding:10px 15px; display:block;" id="bus_title_up`+i+`" onclick="show_hide_bus(`+i+`);">`;
-        if(i == 0){
-            bus_detail_text += `Departure`;
-        }else{
-            bus_detail_text += `Return`;
-        }
-        bus_detail_text += `<i class="fas fa-caret-up" style="float:right; font-size:18px;"></i></h6>`;
-        bus_detail_text += `<h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`;padding:10px 15px; display:none;" id="bus_title_down`+i+`" onclick="show_hide_bus(`+i+`);">`;
-        if(i == 0){
-            bus_detail_text += `Departure`;
-        }else{
-            bus_detail_text += `Return`;
-        }
-        bus_detail_text += `<i class="fas fa-caret-down" style="float:right; font-size:18px;"></i></h6>`;
-
         bus_detail_text += `
-        <div class="col-lg-12" id="bus_div_sh`+i+`" style="border:1px solid #cdcdcd; background:white; padding:10px 15px; display:block;">
-            <div class="row">
-                <div class="col-lg-12">`;
-    //                if(i != 0){
-    //                    bus_detail_text += `<hr/>`;
-    //                }
+        <div style="background-color:white; box-shadow: rgb(3 18 26 / 15%) 4px -1px 10px -4px, rgb(3 18 26 / 15%) -4px -1px 10px -4px; border-radius:5px; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px 15px 0px 15px;">
+            <h5 style="cursor:pointer; border-bottom:1px solid #cdcdcd; padding-bottom:5px; display:block;" id="bus_title_up`+i+`" onclick="show_hide_bus(`+i+`);">
+                <img style="width:auto; height:25px; border-radius:7px; background:white;" src="/static/tt_website/images/icon/product/c-bus.png" alt="Bus Icon">`;
+                if(i == 0){
+                    bus_detail_text += ` Departure`;
+                }else{
+                    bus_detail_text += ` Return`;
+                }
+                bus_detail_text += `<i class="fas fa-chevron-up" style="float:right; font-size:18px;">
+                </i>
+            </h5>
+            <h5 style="cursor:pointer; border-bottom:1px solid #cdcdcd; padding-bottom:5px; display:none;" id="bus_title_down`+i+`" onclick="show_hide_bus(`+i+`);">
+                <img style="width:auto; height:25px; border-radius:7px; background:white;" src="/static/tt_website/images/icon/product/c-bus.png" alt="Bus Icon">`;
+                if(i == 0){
+                    bus_detail_text += ` Departure`;
+                }else{
+                    bus_detail_text += ` Return`;
+                }
                 bus_detail_text += `
-                    <h6>`+journeys[i].carrier_name+` - `+journeys[i].carrier_number+`</h6>
-                </div>
-                <div class="col-lg-6 col-xs-6">
-                    <table style="width:100%">
-                        <tr>
-                            <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
-                            <td style="padding-left:15px;">
-                                <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:30px; height:30px;">
-                            </td>
-                            <td style="height:30px;padding:0 15px;width:100%">
-                                <div style="display:inline-block;position:relative;width:100%">
-                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                    <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <span>`+journeys[i].departure_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].origin_name+`</span>
-                </div>
+                <i class="fas fa-chevron-down" style="float:right; font-size:18px;"></i>
+            </h5>`;
 
-                <div class="col-lg-6 col-xs-6">
-                    <table style="width:100%; margin-bottom:6px;">
-                        <tr>
-                            <td><h6>`+journeys[i].arrival_date[1]+`</h6></td>
-                            <td></td>
-                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                        </tr>
-                    </table>
-                    <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                    <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
-                </div>
-            </div>
-        </div>
-        <div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
-        if(journeys[i].hasOwnProperty('facilities')){
-            bus_detail_text+=`
-                <span id="span-facilities-up`+i+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_facilities(`+i+`);"> Show Facilities <i class="fas fa-chevron-down"></i></span>
-                <span id="span-facilities-down`+i+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_facilities(`+i+`);"> Hide Facilites <i class="fas fa-chevron-up"></i></span>
-                <div id="div-facilities`+i+`" style="display:none; max-height:175px; overflow-y: auto; padding:15px;">`;
-            for(k in journeys[i].facilities){
-                bus_detail_text += `<span style="font-weight:bold;">`+journeys[i].facilities[k].replace('_',' ')+`</span><br/>`;
-            }
-            bus_detail_text+=`</div>`;
-        }else{
-            bus_detail_text += 'No fare rules';
-        }
-        bus_detail_text+=`
-        </div>
-        <div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
-        if(journeys[i].hasOwnProperty('rules')){
-            bus_detail_text+=`
-                <span id="span-tac-up`+i+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+i+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                <span id="span-tac-down`+i+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+i+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
-                <div id="div-tac`+i+`" style="display:none; max-height:175px; overflow-y: auto; padding:15px;">`;
-            for(k in journeys[i].rules){
-                bus_detail_text += `<span style="font-weight:bold;">`+journeys[i].rules[k].name+`</span><br/>`;
-
-                bus_detail_text += `<div class="row">
-                                <div class="col-lg-1 col-xs-1 col-md-1">
-                                    <i class="fas fa-circle" style="font-size:9px;margin-left:15px;"></i>
+            bus_detail_text += `
+            <div class="row">
+                <div class="col-lg-12" id="bus_div_sh`+i+`" style="display:block; padding-top:15px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>`+journeys[i].carrier_name+` (`+journeys[i].carrier_number+`)</h5>
+                            <span style="font-weight:500; font-size:14px;">`+journeys[i].cabin_class[1]+` (`+journeys[i].class_of_service+`)</span>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row" style="padding-top:10px;">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <h6 class="copy_time_depart">`+journeys[i].departure_date[1]+`</h6>
+                                    <span class="copy_date_depart">`+journeys[i].departure_date[0]+`</span><br>
+                                    <span class="copy_departure" style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
                                 </div>
-                                <div class="col-lg-11 col-xs-11 col-md-11" style="padding:0">
-                                    `+journeys[i].rules[k].description+`
-                                </div>
-                              </div>`;
-            }
-            bus_detail_text+=`</div>`;
-        }else{
-            bus_detail_text += 'No fare rules';
-        }
-        total_discount = 0;
-        bus_detail_text+=`
-        </div>
-        <div class="mb-3" style="padding:15px; border:1px solid #cdcdcd; background:white;">
-            <div class="row">`;
-                if(parseInt(passengers.adult) > 0){
-                    total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
-                    total_tax += journeys[i].fares[0].service_charge_summary[0].total_tax;
-                    for(j in journeys[i].fares[0].service_charge_summary){
-                        price = {
-                            'fare': 0,
-                            'tax': 0,
-                            'disc': 0,
-                        };
-                        for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
-                            if(k == 0)
-                                price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
-
-                            if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'fare')
-                                price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
-                            else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'disc')
-                                price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
-                            else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'rac')
-                                price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
-                        }
-                        total_discount += price['disc'];
-                        if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
-                            total_price += price['fare'] * parseInt(passengers.adult);
-                        else
-                            total_price += price['fare'] * parseInt(passengers.infant);
-                        if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
-                            bus_detail_text+=`
-                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                                </div>
-                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare']) * parseInt(passengers.adult))+`</span>
-                                </div>`;
-                            if(price['tax'] != 0)
-                                bus_detail_text+=`
-                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px;">Adult Tax `+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div style="text-align:center; position: absolute; left:-10%;">
+                                        <div style="display:inline-block;position:relative;width:100%;z-index:1;">
+                                            <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                            <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                        </div>
+                                        <span class="copy_duration" style="font-weight:500;">`;
+                                        bus_detail_text += journeys[i].elapsed_time.split(':')[0] + 'h ';
+                                        bus_detail_text+= journeys[i].elapsed_time.split(':')[1] + 'm ';
+                                        bus_detail_text += `
+                                        </span>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
-                                    </div>`;
-                            $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah((passengers.adult * price['fare']) + (price['tax']/passengers.adult))+`\n`;
-                        }
-                        else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
-                            bus_detail_text+=`
-                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant x `+price['currency']+` `+getrupiah(0)+`</span>
+                                    <div style="text-align:right">
+                                        <h6 class="copy_time_arr">`+journeys[i].arrival_date[1]+`</h6>
+                                        <span class="copy_date_arr">`+journeys[i].arrival_date[0]+`</span><br>
+                                        <span class="copy_arrival" style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
+                                    </div>
                                 </div>
-                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0)+`</span>
-                                </div>`;
-                            $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
-                        }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="margin-top:10px; margin-bottom:15px;">`;
+                if(journeys[i].hasOwnProperty('facilities')){
+                    bus_detail_text+=`
+                        <span id="span-facilities-up`+i+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_facilities(`+i+`);"> Show Facilities <i class="fas fa-chevron-down"></i></span>
+                        <span id="span-facilities-down`+i+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_facilities(`+i+`);"> Hide Facilites <i class="fas fa-chevron-up"></i></span>
+                        <div id="div-facilities`+i+`" style="display:none; max-height:175px; overflow-y: auto; padding:15px;">`;
+                    for(k in journeys[i].facilities){
+                        bus_detail_text += `<span style="font-weight:bold;">`+journeys[i].facilities[k].replace('_',' ')+`</span><br/>`;
                     }
+                    bus_detail_text+=`</div>`;
+                }else{
+                    bus_detail_text += 'No facility';
                 }
 
+                if(journeys[i].hasOwnProperty('rules')){
+                    bus_detail_text+=`
+                        <span id="span-tac-up`+i+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+i+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                        <span id="span-tac-down`+i+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+i+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                        <div id="div-tac`+i+`" style="display:none; max-height:175px; overflow-y: auto; padding:15px;">`;
+                    for(k in journeys[i].rules){
+                        bus_detail_text += `<span style="font-weight:bold;">`+journeys[i].rules[k].name+`</span><br/>`;
+
+                        bus_detail_text += `
+                        <div class="row">
+                            <div class="col-lg-1 col-xs-1 col-md-1">
+                                <i class="fas fa-circle" style="font-size:9px;margin-left:15px;"></i>
+                            </div>
+                            <div class="col-lg-11 col-xs-11 col-md-11" style="padding:0">
+                                `+journeys[i].rules[k].description+`
+                            </div>
+                        </div>`;
+                    }
+                    bus_detail_text+=`</div>`;
+                }
+                else{
+                    bus_detail_text += '<h6>No fare rules</h6>';
+                }
+                total_discount = 0;
                 bus_detail_text+=`
+                </div>
+                <div class="col-lg-12 mb-3" style="padding-top:15px; border-top:1px solid #cdcdcd;">
+                    <div class="row">`;
+                        sub_total_count = 0;
+                        if(parseInt(passengers.adult) > 0){
+                            total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
+                            total_tax += journeys[i].fares[0].service_charge_summary[0].total_tax;
+                            for(j in journeys[i].fares[0].service_charge_summary){
+                                price = {
+                                    'fare': 0,
+                                    'tax': 0,
+                                    'disc': 0,
+                                };
+                                for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
+                                    if(k == 0)
+                                        price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
+
+                                    if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'fare')
+                                        price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
+                                    else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'disc')
+                                        price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                                    else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'rac')
+                                        price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                                }
+                                total_discount += price['disc'];
+                                if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
+                                    total_price += price['fare'] * parseInt(passengers.adult);
+                                else
+                                    total_price += price['fare'] * parseInt(passengers.infant);
+                                if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
+                                    bus_detail_text+=`
+                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px;"><b>`+parseInt(passengers.adult)+`x</b> Adult Fare @ `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                    </div>
+                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare']) * parseInt(passengers.adult))+`</span>
+                                    </div>`;
+                                    sub_total_count += price['fare'] * parseInt(passengers.adult);
+                                    if(price['tax'] != 0){
+                                        bus_detail_text+=`
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px;">Adult Tax `+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                        </div>`;
+                                        sub_total_count += price['tax'];
+                                    }
+                                    $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah((passengers.adult * price['fare']) + (price['tax']/passengers.adult))+`\n`;
+                                }
+                                else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
+                                    bus_detail_text+=`
+                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px;"><b>`+parseInt(passengers.adult)+`x</b> Infant @ `+price['currency']+` `+getrupiah(0)+`</span>
+                                    </div>
+                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0)+`</span>
+                                    </div>`;
+                                    $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
+                                    sub_total_count += 0;
+                                }
+                            }
+                        }
+                        bus_detail_text+=`
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:bold;">Subtotal</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px; font-weight:bold;">`+price['currency']+` `+getrupiah(sub_total_count)+`</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>`;
     }
 
-    bus_detail_text+=`<div class="mb-3" style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
     try{
         if(total_discount != 0){
-            bus_detail_text += `<div class="row" style="margin-bottom:5px;">`;
-            bus_detail_text += `<div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <label>Discount</label><br/>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">`;
-            if(price['currency'] == 'IDR')
-                bus_detail_text += `
-                <label>`+price['currency']+` `+getrupiah(total_discount)+`</label><br/>`;
-            else
-                bus_detail_text += `
-                <label>`+price['currency']+` `+total_discount+`</label><br/>`;
-            bus_detail_text += `</div>
+            bus_detail_footer += `
+            <div class="row" style="margin-bottom:5px;">
+                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                    <label>Discount</label>
+                </div>
+                <div class="col-lg-6 col-xs-6" style="text-align:right;">`;
+                    if(price['currency'] == 'IDR')
+                        bus_detail_footer += `
+                        <label>`+price['currency']+` `+getrupiah(total_discount)+`</label>`;
+                    else
+                        bus_detail_footer += `
+                        <label>`+price['currency']+` `+total_discount+`</label>`;
+                    bus_detail_footer += `
+                </div>
             </div>`;
             $text += '‣ Discount: '+price['currency']+' ' +getrupiah(total_discount*-1) + '\n';
         }
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
-    bus_detail_text += `
-        <div class="row" style="margin-bottom:5px;">
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;font-weight:bold;"><b>Total</b></span><br>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span id="total_price" style="font-size:13px;font-weight:bold;`;
-            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
-                bus_detail_text+= "cursor:pointer;";
-            }
-            bus_detail_text +=`"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b>`;
-            if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
-                bus_detail_text+= ` <i class="fas fa-caret-down"></i>`;
-            }
-            bus_detail_text+=`</span><br>
-            </div>
 
-            <div class="col-lg-12" style="padding-bottom:10px;">
-            <hr/>
-            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+    bus_detail_footer += `
+    <div class="row">
+        <div class="col-lg-5" style="margin:auto;">
+            <b style="font-size:16px; padding-right:10px;">Grand Total </b><br>
+            <span id="total_price" style="font-size:16px;font-weight:bold; padding-right:10px;cursor:pointer;">`;
+                bus_detail_footer +=`<b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b>`;
+                if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
+                    bus_detail_footer+= ` <i class="fas fa-caret-down"></i>`;
+                }
+                bus_detail_footer+=`
+            </span>
+        </div>
+        <div class="col-lg-7" style="margin:auto;">`;
+            if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
+                bus_detail_footer+= print_commission(total_commission,'show_commission', price.currency)
+            bus_detail_footer+=`
+        </div>
+    </div>`;
 
+    bus_share += `
+    <div class="row" style="margin-bottom:5px;">
+        <div class="col-lg-12" style="padding-bottom:10px;">
+            <button class="copy-btn-popup" type="button" onclick="copy_data();">
+                <i class="fas fa-copy"></i> Copy
+            </button>`;
             $text += '‣ Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
             share_data();
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
-                bus_detail_text+=`
-                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                    <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
-            } else {
-                bus_detail_text+=`
-                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>
-                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
-                    <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
+                bus_share+=`
+                <a class="share-btn-popup whatsapp" href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/> Whatsapp</a>
+                <a class="share-btn-popup line" href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/> Line</a>
+                <a class="share-btn-popup telegram" href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/> Telegram</a>
+                <a class="share-btn-popup email" href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/> Email</a>`;
+            }else {
+                bus_share+=`
+                <a class="share-btn-popup whatsapp" href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/> Whatsapp</a>
+                <a class="share-btn-popup line" href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/> Line</a>
+                <a class="share-btn-popup telegram" href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/> Telegram</a>
+                <a class="share-btn-popup email" href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/> Email</a>`;
             }
-        bus_detail_text +=`
-            </div>
-        </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation"))
-            bus_detail_text+= print_commission(total_commission,'show_commission', price.currency)
-        bus_detail_text+=`
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
-//            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-//                bus_detail_text+=`
-//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>`;
-            bus_detail_text += `</div>`;
-            if(agent_security.includes('book_reservation') == true)
-            bus_detail_text+=`
-            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                <button class="primary-btn-ticket next-loading next-search-bus ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
-                    Next
-                    <i class="fas fa-angle-right"></i>
-                    <div class="ld ld-ring ld-cycle"></div>
-                </button>
-            </div>`;
-            bus_detail_text+=`
+            bus_share +=`
         </div>
     </div>`;
+
+
+    bus_detail_footer+=`
+    <div class="row">
+        <div class="col-lg-4">
+            <button class="primary-btn-white" style="width:100%; margin-bottom:15px;" type="button" id="btn_share_popup">
+                <i class="fas fa-share-alt"></i> Share / Copy
+            </button>
+        </div>`;
+//        <div class="col-lg-8">`;
+//            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                bus_detail_footer+=`
+//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>`;
+//        bus_detail_footer += `</div>`;
+        if(agent_security.includes('book_reservation') == true)
+        bus_detail_footer+=`
+        <div class="col-lg-8" style="padding-bottom:5px;">
+            <button class="primary-btn-ticket next-loading next-search-bus ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
+                Next
+                <i class="fas fa-angle-right"></i>
+                <div class="ld ld-ring ld-cycle"></div>
+            </button>
+        </div>`;
+        bus_detail_footer+=`
+    </div>`;
+
     document.getElementById('bus_detail').innerHTML = bus_detail_text;
+    document.getElementById('bus_footer_detail').innerHTML = bus_detail_footer;
+
+    new jBox('Tooltip', {
+        attach: '#btn_share_popup',
+        target: '#btn_share_popup',
+        theme: 'TooltipBorder',
+        trigger: 'click',
+        adjustTracker: true,
+        closeOnClick: 'body',
+        closeButton: 'box',
+        animation: 'move',
+        maxHeight: 300,
+        position: {
+          x: 'left',
+          y: 'top'
+        },
+        outside: 'y',
+        pointer: 'left:20',
+        offset: {
+          x: 25
+        },
+        content: bus_share
+    });
+
 
     for(i in journeys){
         if(is_show_breakdown_price && !user_login.co_agent_frontend_security.includes("corp_limitation") && !user_login.co_agent_frontend_security.includes("b2c_limitation")){
@@ -1521,7 +1570,7 @@ function bus_detail(){
 
     for(i in bus_data){
         $text +=
-        bus_data[i].carrier_name+`-`+bus_data[i].carrier_number+`(`+bus_data[i].cabin_class[1]+`)\n`+
+        bus_data[i].carrier_name+` (`+bus_data[i].carrier_number+`)\n`+bus_data[i].cabin_class[1]+` (`+bus_data[i].class_of_service+`)\n\n`+
         bus_data[i].origin_name+` - `+bus_data[i].destination_name+`\n`;
         $text += bus_data[i].departure_date[0]+' ' + bus_data[i].departure_date[1]+ ` - `;
         if(bus_data[i].departure_date[0] != bus_data[i].arrival_date[0])
@@ -1533,7 +1582,7 @@ function bus_detail(){
             <div class="col-lg-12">`;
 
             text += `
-            <h6 style="cursor:pointer; display:block;" id="bus_title_up`+i+`" onclick="show_hide_bus(`+i+`);">`;
+            <h5 style="cursor:pointer; display:block;" id="bus_title_up`+i+`" onclick="show_hide_bus(`+i+`);">`;
             if(i == 0){
                 text += `Departure`;
             }else{
@@ -1541,8 +1590,8 @@ function bus_detail(){
             }
             text += `
             <i class="fas fa-chevron-up" style="color:`+color+`; float:right; font-size:18px;"></i>
-            </h6>
-            <h6 style="cursor:pointer; display:none;" id="bus_title_down`+i+`" onclick="show_hide_bus(`+i+`);">`;
+            </h5>
+            <h5 style="cursor:pointer; display:none;" id="bus_title_down`+i+`" onclick="show_hide_bus(`+i+`);">`;
             if(i == 0){
                 text += `Departure`;
             }else{
@@ -1550,41 +1599,42 @@ function bus_detail(){
             }
             text += `
             <i class="fas fa-chevron-down" style="float:right; color:`+color+`; font-size:18px;"></i>
-            </h6>
+            </h5>
             </div>
 
             <div class="col-lg-12" id="bus_div_sh`+i+`" style="padding:10px 15px; display:block;">
                 <div class="row">
-                    <div class="col-lg-6 col-xs-6">
-                        <table style="width:100%">
-                            <tr>
-                                <td><h6>`+bus_data[i].departure_date[1]+`</h6></td>
-                                <td style="padding-left:15px;">
-                                    <img src="/static/tt_website/images/icon/symbol/bus-01.png" style="width:30px; height:30px;">
-                                </td>
-                                <td style="height:30px;padding:0 15px;width:100%">
-                                    <div style="display:inline-block;position:relative;width:100%">
-                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                        <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <span>`+bus_data[i].departure_date[0]+`</span><br/>
-                        <span style="font-weight:500;">`+bus_data[i].origin_name+`</span>
+                    <div class="col-lg-12">
+                        <h5>`+bus_data[i].carrier_name+` (`+bus_data[i].carrier_number+`)</h5>
+                        <span style="font-weight:500; font-size:14px;">`+bus_data[i].cabin_class[1]+` (`+bus_data[i].class_of_service+`)</span>
                     </div>
-
-                    <div class="col-lg-6 col-xs-6">
-                        <table style="width:100%; margin-bottom:6px;">
-                            <tr>
-                                <td><h6>`+bus_data[i].arrival_date[1]+`</h6></td>
-                                <td></td>
-                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                            </tr>
-                        </table>
-                        <span>`+bus_data[i].arrival_date[0]+`</span><br/>
-                        <span style="font-weight:500;">`+bus_data[i].destination_name+`</span>
+                    <div class="col-lg-12">
+                        <div class="row" style="padding-top:10px;">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <h6 class="copy_time_depart">`+bus_data[i].departure_date[1]+`</h6>
+                                <span class="copy_date_depart">`+bus_data[i].departure_date[0]+`</span><br>
+                                <span class="copy_departure" style="font-weight:500;">`+bus_data[i].origin_name+` (`+bus_data[i].origin+`)</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div style="text-align:center; position: absolute; left:-10%;">
+                                    <div style="display:inline-block;position:relative;width:100%;z-index:1;">
+                                        <img src="/static/tt_website/images/icon/symbol/bus-01.png" alt="Bus" style="width:20px; height:20px; margin-top:5px; position:relative; z-index:99;">
+                                        <div class="show_pc" style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                        <div class="show_pc origin-code-snippet" style="background-color:#d4d4d4;right:0px"></div>
+                                    </div>
+                                    <span class="copy_duration" style="font-weight:500;">`;
+                                    text += bus_data[i].elapsed_time.split(':')[0] + 'h ';
+                                    text += bus_data[i].elapsed_time.split(':')[1] + 'm ';
+                                    text += `
+                                    </span>
+                                </div>
+                                <div style="text-align:right">
+                                    <h6 class="copy_time_arr">`+bus_data[i].arrival_date[1]+`</h6>
+                                    <span class="copy_date_arr">`+bus_data[i].arrival_date[0]+`</span><br>
+                                    <span class="copy_arrival" style="font-weight:500;">`+bus_data[i].destination_name+` (`+bus_data[i].destination+`)</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1782,7 +1832,7 @@ function bus_detail(){
     text+=`
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
-            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
             share_data();
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
@@ -1798,21 +1848,26 @@ function bus_detail(){
                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
                     <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
             }
-    text+=`
+            text+=`
+            <div style="float:right">
+                <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12" style="padding-bottom:10px;">
-            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
-        </div>`;
-//        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-//            text+=`
-//            <div class="col-lg-12" style="padding-bottom:5px;">
-//                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>
-//            </div>`;
-        text+=`
     </div>`;
+
+//    <div class="row">
+//        <div class="col-lg-12" style="padding-bottom:10px;">
+//            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+//        </div>`;
+////        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+////            text+=`
+////            <div class="col-lg-12" style="padding-bottom:5px;">
+////                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>
+////            </div>`;
+//        text+=`
+//    </div>`;
 
     document.getElementById('bus_detail').innerHTML = text;
 
@@ -2493,7 +2548,8 @@ function get_checked_copy_result(){
     var bus_number = 0;
     node = document.createElement("div");
     //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
-    text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
+    text+=`
+    <div class="col-lg-12">`;
     $(".copy_result:checked").each(function(obj) {
         var parent_bus = $(this).parent().parent().parent().parent();
         var name_bus = parent_bus.find('.copy_bus_name').html();
@@ -2529,7 +2585,7 @@ function get_checked_copy_result(){
 
         text+=`
             <div class="col-lg-9">
-                <h5><i class="fas fa-train"></i> Option-`+bus_number+`</h5>
+                <h5><i class="fas fa-bus"></i> Option-`+bus_number+`</h5>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_bus+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
@@ -2557,55 +2613,60 @@ function get_checked_copy_result(){
         </div>`;
     });
     text+=`
-    </div>
+    </div>`;
+
+    text_footer =`
     <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
         share_data();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
-            text+=`
+            text_footer+=`
                 <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>`;
             if(bus_number < 11){
-                text+=`
+                text_footer+=`
                     <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>`;
             }
             else{
-                text+=`
+                text_footer+=`
                 <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line-gray.png" alt="Line Disable"/></a>
                 <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram-gray.png" alt="Telegram Disable"/></a>`;
             }
-            text+=`
+            text_footer+=`
                 <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
         } else {
-            text+=`
+            text_footer+=`
                 <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/></a>`;
             if(bus_number < 11){
-                text+=`
+                text_footer+=`
                     <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/></a>
                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>`;
             }
             else{
-                text+=`
+                text_footer+=`
                 <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/line-gray.png" alt="Line Disable"/></a>
                 <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram-gray.png" alt="Telegram Disable"/></a>`;
             }
-            text+=`
+            text_footer+=`
                 <a href="mailto:?subject=This is the bus price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
         }
         if(bus_number > 10){
-            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 bus</span>`;
+            text_footer+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 bus</span>`;
         }
-    text+=`
-    </div>
-    <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+        text_footer+=`
+        <div style="float:right">
+            <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                <i class="fas fa-copy"></i> Copy
+            </button>
+        </div>
     </div>`;
 
     node.innerHTML = text;
     node.className = "row";
     document.getElementById("show-list-copy-bus").appendChild(node);
 
+    document.getElementById("footer_list_copy").innerHTML = text_footer;
 //    if(hotel_number > 10){
 //        document.getElementById("mobile_line").style.display = "none";
 //        document.getElementById("mobile_telegram").style.cursor = "not-allowed";

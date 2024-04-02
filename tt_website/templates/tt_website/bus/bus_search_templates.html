@@ -28,6 +28,17 @@
         'adult': {{bus_request.adult}},
     }
 </script>
+<style>
+    {% if template == 4 or template == 5 %}
+        .dropdown-menu-txt{
+            top: 30px !important;
+        }
+    {% else %}
+        .dropdown-menu-txt{
+            top: 5px !important;
+        }
+    {% endif %}
+</style>
 {%if bus_request.direction == 'OW'%}
 <title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'One Way' %} {% trans 'From' %} {{bus_request.origin.0}} {% trans 'To' %} {{bus_request.destination.0}}</title>
 {% endif %}
@@ -138,92 +149,106 @@
                     </div>
                     <div class="change_search_box_bg">
                         <form action="{% url 'tt_website:bus_search'%}" method="POST" class="form-wrap" id="bus_searchForm" onsubmit="return search_bus_validation()">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
-                                <label class="radio-button-custom" style="margin-bottom:0px;">
-                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                    <input type="radio" {% if bus_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_bus_type" value="oneway">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                                <label class="radio-button-custom" style="margin-bottom:0px;">
-                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                    <input type="radio" {% if bus_request.direction == 'RT' %}checked="checked" {% endif %} name="radio_bus_type" value="roundtrip">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 bus-from">
-                                        <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
-                                        <div class="input-container-search-ticket">
-                                            <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.origin}}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:left;">
+                                    <div style="display: inline-block">
+                                        <div class="drop_inline">
+                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                <button type="button" class="btn-dropdown-txt">
+                                                    <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                    <div id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                        <label class="radio-button-custom">
+                                                            <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                            <input type="radio" {% if bus_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_bus_type" value="oneway">
+                                                            <span class="checkmark-radio"></span>
+                                                        </label>
+                                                        <label class="radio-button-custom">
+                                                            <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                            <input type="radio" {% if bus_request.direction == 'RT' %}checked="checked" {% endif %} name="radio_bus_type" value="roundtrip">
+                                                            <span class="checkmark-radio"></span>
+                                                        </label>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="drop_inline">
+                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                    <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" min="1" value="{{bus_request.adult}}" readonly>
+                                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <hr/>
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 bus-to" style="z-index:5;">
-                                        <div class="image-change-route-vertical">
-                                            <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 bus-from">
+                                            <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input id="bus_origin" name="bus_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_origin').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.origin}}">
+                                            </div>
                                         </div>
-                                        <div class="image-change-route-horizontal">
-                                            <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                        </div>
-                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
-                                        <div class="input-container-search-ticket">
-                                            <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.destination}}">
+                                        <div class="col-lg-6 col-md-6 bus-to" style="z-index:5;">
+                                            <div class="image-change-route-vertical">
+                                                <h4><a href="javascript:bus_switch();" style="z-index:5;" id="bus_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <div class="image-change-route-horizontal">
+                                                <h4><a class="horizontal-arrow" href="javascript:bus_switch();" style="z-index:5; color:{{text_color}} !important;" id="bus_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="{{bus_request.destination}}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6" id="bus_date_search">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                <div class="col-lg-4" id="bus_date_search">
+                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" min="1" value="{{bus_request.adult}}" readonly>
-                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
 
-                        <input type="hidden" id="bus_response" name="response"/>
+                            <input type="hidden" id="bus_response" name="response"/>
 
-                        <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="bus_check_search_values();" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </form>
+                            <button class="primary-btn ld-ext-right" id="btn-search-bus" type="button" onclick="bus_check_search_values();" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                {% trans 'Search' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -483,13 +508,13 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                            <span style="text-transform: capitalize; font-size:12px;"> <span class="copy_span">{% if bus_request.direction == 'OW' %} {% trans 'One Way' %} {% elif bus_request.direction == 'RT' %} {% trans 'Round Trip' %} {% endif %}</span> - </span>
-                                            <span style="text-transform: capitalize; font-size:12px;" title="{{bus_request.origin}} > {{bus_request.destination}}"><span class="copy_span">{{bus_request.origin.0}}</span> {% if bus_request.direction == 'OW' %} <i class="fas fa-arrow-right"></i> {% elif bus_request.direction == 'RT' %} <i class="fas fa-arrows-alt-h"></i> {%endif%}<span class="copy_span">{{bus_request.destination.0}}</span></span>
+                                            <span style="font-weight:bold; text-transform: capitalize; border-right:2px solid #cdcdcd; padding-right:2px;"> <span class="copy_span">{% if bus_request.direction == 'OW' %} {% trans 'One Way' %} {% elif bus_request.direction == 'RT' %} {% trans 'Round Trip' %} {% endif %}</span></span>
+                                            <span style="text-transform: capitalize; font-weight:bold; padding-left:5px;" title="{{bus_request.origin}} > {{bus_request.destination}}"><span class="copy_span">{{bus_request.origin.0}}</span> {% if bus_request.direction == 'OW' %} <i class="fas fa-arrow-right"></i> {% elif bus_request.direction == 'RT' %} <i class="fas fa-arrows-alt-h"></i> {%endif%}<span class="copy_span">{{bus_request.destination.0}}</span></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12" id="date_bus">
-                                        <span class="copy_span" style="text-transform: capitalize; font-size:13px;">{{bus_request.departure.0}} {% if bus_request.departure|length > 1%} - {{bus_request.departure.1}} {% endif%} </span>
-                                        <span style="text-transform: capitalize; font-size:12px; margin-left:5px;"><i class="fas fa-users"></i> <span class="copy_span">{% if bus_request.adult != 0 %} {{bus_request.adult}} {% trans 'Adult' %} {% endif %} {% if bus_request.infant != 0 %}, {{bus_request.infant}} {% trans 'Infant' %} {% endif %}</span></span>
+                                        <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-calendar-alt"></i> {{bus_request.departure.0}} {% if bus_request.departure|length > 1%} - {{bus_request.departure.1}} {% endif%} </span>
+                                        <span style="text-transform: capitalize; font-size:13px; margin-left:5px;"><i class="fas fa-users"></i> <span class="copy_span">{% if bus_request.adult != 0 %} {{bus_request.adult}} {% trans 'Adult' %} {% endif %} {% if bus_request.infant != 0 %}, {{bus_request.infant}} {% trans 'Infant' %} {% endif %}</span></span>
                                     </div>
                                 </div>
                             </div>
@@ -1070,32 +1095,37 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-body">
-                <div class="row" id="choose-ticket-bus">
-                    <div class="col-lg-12">
-                        <h6>{% trans 'Please choose your ticket first!' %}</h6>
+            <form action="/bus/passenger" method="POST" id="bus_passenger">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row" id="choose-ticket-bus">
+                        <div class="col-lg-12">
+                            <h6>{% trans 'Please choose your ticket first!' %}</h6>
+                        </div>
                     </div>
-                </div>
-                <div class="row" id="loading-search-bus-choose" style="display:none;">
-                    <div class="col-lg-12">
-                        <div class="center-div">
-                            <div>
-                                <img src="{{static_path}}images/gif/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
+                    <div class="row" id="loading-search-bus-choose" style="display:none;">
+                        <div class="col-lg-12">
+                            <div class="center-div">
+                                <div>
+                                    <img src="{{static_path}}images/gif/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
+                                </div>
+                            </div>
+                            <div style="text-align:center">
+                                <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
                             </div>
                         </div>
-                        <div style="text-align:center">
-                            <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
-                        </div>
                     </div>
-                </div>
 
-                <form action="/bus/passenger" method="POST" id="bus_passenger">
-                    {% csrf_token %}
                     <div id="bus_detail">
 
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-lg-12" style="padding:0px;" id="bus_footer_detail">
+
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -1124,6 +1154,11 @@
 
                 </div>
                 <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+            </div>
+            <div class="modal-footer" style="display:unset;">
+                <div class="row" id="footer_list_copy">
+
+                </div>
             </div>
         </div>
     </div>

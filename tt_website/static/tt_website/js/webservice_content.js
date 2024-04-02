@@ -572,26 +572,28 @@ function get_banner(type,page){
                     }
                     else{
                         if(type == 'big_banner'){
-                            $('.owl-carousel-banner').owlCarousel({
-                                loop:false,
-                                nav: true,
-                                rewind: false,
-                                margin: 20,
-                                responsiveClass:true,
-                                dots: false,
-                                lazyLoad:true,
-                                lazyLoadEager:true,
-                                merge: true,
-                                smartSpeed:500,
-                                center: true,
-                                autoHeight: false,
-                                autoWidth: false,
-                                autoplay: true,
-                                autoplayTimeout:10000,
-                                autoplayHoverPause:false,
-                                items:1,
-                                navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
-                            });
+                            setTimeout(function(){
+                                $('.owl-carousel-banner').owlCarousel({
+                                    loop:false,
+                                    nav: true,
+                                    rewind: false,
+                                    margin: 20,
+                                    responsiveClass:true,
+                                    dots: false,
+                                    lazyLoad:true,
+                                    lazyLoadEager:true,
+                                    merge: true,
+                                    smartSpeed:500,
+                                    center: true,
+                                    autoHeight: false,
+                                    autoWidth: false,
+                                    autoplay: true,
+                                    autoplayTimeout:10000,
+                                    autoplayHoverPause:false,
+                                    items:1,
+                                    navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                                });
+                            }, 500);
                         }
                         if(type == 'small_banner'){
                             $('.owl-carousel-suggest').owlCarousel({

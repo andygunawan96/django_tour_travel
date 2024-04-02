@@ -2811,24 +2811,35 @@ ul.tabs{
     min-height:570px;
     max-height:700px;
 }
-@media only screen and (max-width: 390px) {
+
+@media only screen and (max-width: 425px) {
     .banner-area-div{
-        min-height:340px;
+        min-height:310px !important;
+        max-height:310px !important;
     }
 }
-@media (min-height: 391px) and (max-width: 767px){
+@media only screen and (min-height: 426px) and (max-width: 575px){
     .banner-area-div{
-        min-height:390px;
+        min-height:320px !important;
+        max-height:320px !important;
+    }
+}
+@media only screen and (min-height: 576px) and (max-width: 767px){
+    .banner-area-div{
+        min-height:380px !important;
+        max-height:380px !important;
     }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .banner-area-div{
-        min-height:440px;
+        min-height:440px !important;
+        max-height:440px !important;
     }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .banner-area-div{
-        min-height:520px;
+        min-height:520px !important;
+        max-height:520px !important;
     }
 }
 

@@ -35,6 +35,16 @@
             padding-top:10px;
         }
     }
+
+    {% if template == 4 or template == 5 %}
+        .dropdown-menu-txt{
+            top: 30px !important;
+        }
+    {% else %}
+        .dropdown-menu-txt{
+            top: 5px !important;
+        }
+    {% endif %}
 </style>
 
 {% for rec in provider_types_sequence %}
@@ -82,35 +92,26 @@
 {% if username.co_user_login != '' %}
 {% for rec in provider_types_sequence %}
 {% if "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.code == "bus" %}
-<section class="pt-3 pb-3" style="background:#f7f7f7; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+<section class="pt-4 pb-4" style="background:#ffffff; position:relative; z-index:999;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div id="overlay-search-box" onclick="off_overlay()"></div>
+            <div class="col-lg-12 mb-1">
                 <div style="display:inline-flex;">
                     <div style="display:inline-block; margin-right:10px;">
-                        <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-bus.png" alt="Airlines Icon">
+                        <img style="width:auto; height:40px;" src="/static/tt_website/images/icon/product/c-bus.png" alt="Bus Icon">
                     </div>
-                    <div style="display:inline-block;">
-                        <span class="title_cst_sub" style="margin-top:15px; font-size:22px; font-weight:bold; border-bottom:2px solid #cdcdcd;">
+                    <div style="display:inline-block; margin:auto;">
+                        <span style="margin-top:15px; font-size:22px; font-weight:700;">
                             {% if username.co_user_login != default_user %}
                             {{greeting_login.greeting}} <span style="color:{{color}};">{{greeting_login.website_name}}</span>
                             {% else %}
                             {{greeting_b2c}}
                             {% endif %}
                         </span><br>
-                        <span style="font-size:18px; font-weight:bold;">
-                            {% if rec.display %}{{rec.display}}{% else %}{{rec.name}}{%endif%}
-                        </span>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-<section class="pt-4 pb-4" style="background:#ffffff;">
-    <div class="container">
-        <div class="row">
-            <div id="overlay-search-box" onclick="off_overlay()"></div>
             <div class="col-lg-12" id="div-search-overlay">
                 {% if template == 1 %}
                 <div class="banner-right">
@@ -120,19 +121,67 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:15px;">
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                            <input type="radio" name="radio_bus_type" value="roundtrip">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <div style="display: inline-block">
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                    <button type="button" class="btn-dropdown-txt">
+                                                        <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                        <div id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label><br/>
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                                <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                    <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                        <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-6">
+
+                                    <div class="col-lg-8">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 bus-from">
                                                 <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
@@ -154,63 +203,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-6" id="bus_date_search">
+                                    <div class="col-lg-4" id="bus_date_search">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6">
-                                        <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                        <div class="input-container-search-ticket btn-group">
-                                            <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <div class="row" style="padding:10px;">
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                            <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                    </div>
-                                                </div>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -236,21 +232,66 @@
                                 <form action="{% url 'tt_website:bus_search'%}" method="POST" id="bus_searchForm" onsubmit="return search_bus_validation()">
                                     {% csrf_token %}
                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
-                                    <div class="row">
-                                        <div class="col-lg-12" id="radio_bus_search" style="margin-bottom:15px;">
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; font-weight:700; color:{{text_color}}">{% trans 'One Way' %}</span>
-                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                                <span class="checkmark-radio crspan"></span>
-                                            </label>
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; font-weight:700; color:{{text_color}}">{% trans 'Round Trip' %}</span>
-                                                <input type="radio" name="radio_bus_type" value="roundtrip">
-                                                <span class="checkmark-radio crspan"></span>
-                                            </label>
+                                    <div class="row justify-content-between align-items-end">
+                                        <div class="col-lg-12" style="text-align:left;">
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                    <button type="button" class="btn-dropdown-txt">
+                                                        <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                        <div id="radio_bus_search" style="width:fit-content;">
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label><br/>
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                                <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                    <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                        <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-8">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 bus-from">
                                                     <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
@@ -272,62 +313,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6" id="bus_date_search">
+                                        <div class="col-lg-4" id="bus_date_search">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = '{% trans 'Departure Date' %} '" autocomplete="off" readonly style="background:white !important;"/>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6">
-                                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                            <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                            <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
-                                                <div class="row" style="padding:10px;">
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" class="form-control" style="padding: 5px !important;border: none;background: none;text-align: center;width: 25px;height: 30px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" class="form-control" style="padding: 5px !important;border: none;background: none;text-align: center;width: 25px;height: 30px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                            <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                    </div>
-                                                </div>
-                                            </ul>
                                         </div>
                                     </div>
                                     <input type="hidden" id="bus_response" name="response"/>
@@ -359,18 +349,66 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
-                                        <label class="radio-button-custom crlabel">
-                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                            <input type="radio" name="radio_bus_type" value="roundtrip">
-                                            <span class="checkmark-radio crspan"></span>
-                                        </label>
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <div style="display: inline-block">
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                    <button type="button" class="btn-dropdown-txt">
+                                                        <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                        <div id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label><br/>
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                                <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="drop_inline">
+                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                    <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                        <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div class="col-lg-6 col-md-6">
                                         <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
                                         <div class="form-group">
@@ -385,63 +423,10 @@
                                             <input id="bus_destination" name="bus_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;outline:0" autocomplete="off" value="" onfocus="document.getElementById('bus_destination').select();" onclick="set_bus_search_value_to_false();" value="GMR - Gambir">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6" id="bus_date_search">
+                                    <div class="col-lg-12" id="bus_date_search">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                         <div class="form-group">
                                             <input type="text" style="background:white;" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                        <div class="form-group btn-group" style="width:100%;">
-                                            <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                            <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
-                                                <div class="row" style="padding:10px;">
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                            <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <hr/>
-                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                    </div>
-                                                </div>
-                                            </ul>
                                         </div>
                                     </div>
                                     <input type="hidden" id="bus_response" name="response"/>
@@ -472,19 +457,67 @@
                                                 {% csrf_token %}
                                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                                 <div class="row">
-                                                    <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:15px;">
-                                                        <label class="radio-button-custom crlabel">
-                                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                                            <span class="checkmark-radio crspan"></span>
-                                                        </label>
-                                                        <label class="radio-button-custom crlabel">
-                                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                            <input type="radio" name="radio_bus_type" value="roundtrip">
-                                                            <span class="checkmark-radio crspan"></span>
-                                                        </label>
+                                                    <div class="col-lg-12" style="text-align:left;">
+                                                        <div style="display: inline-block">
+                                                            <div class="drop_inline">
+                                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                                    <button type="button" class="btn-dropdown-txt">
+                                                                        <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                                        <div id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                                            <label class="radio-button-custom">
+                                                                                <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                                                <span class="checkmark-radio"></span>
+                                                                            </label><br/>
+                                                                            <label class="radio-button-custom">
+                                                                                <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                                                <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                                                <span class="checkmark-radio"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="drop_inline">
+                                                                <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                                    <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                                        <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                                        <div class="row" style="padding:10px;">
+                                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                                <div style="float:left;">
+                                                                                    <label>
+                                                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                                        <i class="fas fa-minus"></i>
+                                                                                    </button>
+                                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                                        <i class="fas fa-plus"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-lg-12" style="text-align:right;">
+                                                                                <hr/>
+                                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-lg-12">
+
+                                                    <div class="col-lg-8">
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 bus-from">
                                                                 <span class="span-search-ticket">{% trans 'From' %}</span>
@@ -504,65 +537,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6" id="bus_date_search">
+                                                    <div class="col-lg-4" id="bus_date_search">
                                                         <span class="span-search-ticket">{% trans 'Departure' %}</span>
                                                         <div class="input-container-search-ticket">
                                                             <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                             <input type="text" style="background:white;" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <span class="span-search-ticket">{% trans 'Passenger' %}</span>
-                                                        <div class="input-container-search-ticket btn-group">
-                                                            <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                            <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                            <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
-                                                                <div class="row" style="padding:10px;">
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                        <div style="float:left;">
-                                                                            <label>
-                                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                            <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                                <i class="fas fa-minus"></i>
-                                                                            </button>
-                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                                            <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                                <i class="fas fa-plus"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                        <div style="float:left;">
-                                                                            <label>
-                                                                                <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                            <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                                <i class="fas fa-minus"></i>
-                                                                            </button>
-                                                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                                            <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                                <i class="fas fa-plus"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-12" style="text-align:right;">
-                                                                        <hr/>
-                                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                                    </div>
-                                                                </div>
-                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -595,19 +574,67 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:15px;">
-                                                    <label class="radio-button-custom crlabel">
-                                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                        <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                                        <span class="checkmark-radio crspan"></span>
-                                                    </label>
-                                                    <label class="radio-button-custom crlabel">
-                                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                        <input type="radio" name="radio_bus_type" value="roundtrip">
-                                                        <span class="checkmark-radio crspan"></span>
-                                                    </label>
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <div style="display: inline-block">
+                                                        <div class="drop_inline">
+                                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                                <button type="button" class="btn-dropdown-txt">
+                                                                    <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                                    <div id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                                        <label class="radio-button-custom">
+                                                                            <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                                            <span class="checkmark-radio"></span>
+                                                                        </label><br/>
+                                                                        <label class="radio-button-custom">
+                                                                            <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                                            <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                                            <span class="checkmark-radio"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="drop_inline">
+                                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                                <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                                    <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                                    <div class="row" style="padding:10px;">
+                                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                            <div style="float:left;">
+                                                                                <label>
+                                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                                    <i class="fas fa-minus"></i>
+                                                                                </button>
+                                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                                    <i class="fas fa-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-lg-12" style="text-align:right;">
+                                                                            <hr/>
+                                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-6">
+
+                                                <div class="col-lg-8">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 bus-from">
                                                             <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
@@ -630,67 +657,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-6" id="bus_date_search">
+                                                <div class="col-lg-4" id="bus_date_search">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-6">
-                                                    <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                                    <div class="input-container-search-ticket btn-group">
-                                                        <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                        <ul class="dropdown-menu" style="overflow:unset;" role="menu">
-                                                            <div class="row" style="padding:10px;">
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                    <div style="float:left;">
-                                                                        <label>
-                                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                            <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                                        <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                    <div style="float:left;">
-                                                                        <label>
-                                                                            <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                            <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                                        <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12" style="text-align:right;">
-                                                                    <hr/>
-                                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                                </div>
-                                                            </div>
-                                                        </ul>
-                                                    </div>
-                                                </div>
                                             </div>
-                                            <br/>
 
                                             <input type="hidden" id="bus_response" name="response"/>
                                             <center>
@@ -719,19 +692,67 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:15px;">
-                                                    <label class="radio-button-custom crlabel">
-                                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                        <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                                        <span class="checkmark-radio crspan"></span>
-                                                    </label>
-                                                    <label class="radio-button-custom crlabel">
-                                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                        <input type="radio" name="radio_bus_type" value="roundtrip">
-                                                        <span class="checkmark-radio crspan"></span>
-                                                    </label>
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <div style="display: inline-block">
+                                                        <div class="drop_inline">
+                                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                                <button type="button" class="btn-dropdown-txt">
+                                                                    <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                                    <div id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                                        <label class="radio-button-custom">
+                                                                            <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                                            <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                                            <span class="checkmark-radio"></span>
+                                                                        </label><br/>
+                                                                        <label class="radio-button-custom">
+                                                                            <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                                            <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                                            <span class="checkmark-radio"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="drop_inline">
+                                                            <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                                <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                                    <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                                    <div class="row" style="padding:10px;">
+                                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                            <div style="float:left;">
+                                                                                <label>
+                                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                                    <i class="fas fa-minus"></i>
+                                                                                </button>
+                                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                                    <i class="fas fa-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-lg-12" style="text-align:right;">
+                                                                            <hr/>
+                                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-12">
+
+                                                <div class="col-lg-8">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
@@ -753,63 +774,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6" id="bus_date_search">
+                                                <div class="col-lg-4" id="bus_date_search">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                     <div class="form-group">
                                                         <input type="text" style="background:white;" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6">
-                                                    <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                                    <div class="form-group btn-group" style="width:100%;">
-                                                        <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                        <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
-                                                            <div class="row" style="padding:10px;">
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                    <div style="float:left;">
-                                                                        <label>
-                                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                            <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                                        <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                                    <div style="float:left;">
-                                                                        <label>
-                                                                            <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                        <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                            <i class="fas fa-minus"></i>
-                                                                        </button>
-                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                                        <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12" style="text-align:right;">
-                                                                    <hr/>
-                                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                                </div>
-                                                            </div>
-                                                        </ul>
                                                     </div>
                                                 </div>
                                                 <input type="hidden" id="bus_response" name="response"/>
@@ -844,19 +812,67 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_bus'>
                                     <div class="row">
-                                        <div class="col-lg-12" id="radio_bus_search" style="text-align:left;margin-bottom:15px;">
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
-                                                <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
-                                                <span class="checkmark-radio crspan"></span>
-                                            </label>
-                                            <label class="radio-button-custom crlabel">
-                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Round Trip' %}</span>
-                                                <input type="radio" name="radio_bus_type" value="roundtrip">
-                                                <span class="checkmark-radio crspan"></span>
-                                            </label>
+                                        <div class="col-lg-12" style="text-align:left;">
+                                            <div style="display: inline-block">
+                                                <div class="drop_inline">
+                                                    <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                        <button type="button" class="btn-dropdown-txt">
+                                                            <i class="fas fa-location-arrow"></i> <span id="span_radio_train_type">One Way</span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                            <div id="radio_bus_search" style="text-align:left;margin-bottom:10px;">
+                                                                <label class="radio-button-custom">
+                                                                    <span style="font-size:13px;">{% trans 'One Way' %}</span>
+                                                                    <input type="radio" checked="checked" name="radio_bus_type" value="oneway">
+                                                                    <span class="checkmark-radio"></span>
+                                                                </label><br/>
+                                                                <label class="radio-button-custom">
+                                                                    <span style="font-size:13px;">{% trans 'Round Trip' %}</span>
+                                                                    <input type="radio" name="radio_bus_type" value="roundtrip">
+                                                                    <span class="checkmark-radio"></span>
+                                                                </label>
+                                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="drop_inline">
+                                                    <div class="dropdown-toggle div-dropdown-txt btn-group" data-toggle="dropdown">
+                                                        <button type="button" class="btn-dropdown-txt" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                            <i class="fas fa-users"></i> <span id="show_total_pax_bus">1 Passengers</span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-txt" role="menu">
+                                                            <div class="row" style="padding:10px;">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                    <div style="float:left;">
+                                                                        <label>
+                                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                        <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
+                                                                        <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12" style="text-align:right;">
+                                                                    <hr/>
+                                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
+                                                                </div>
+                                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12">
+
+                                        <div class="col-lg-8">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6">
                                                     <span class="span-search-ticket"><i class="fas fa-bus"></i> {% trans 'From' %}</span>
@@ -878,63 +894,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6" id="bus_date_search">
+                                        <div class="col-lg-4" id="bus_date_search">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                             <div class="form-group">
                                                 <input type="text" style="background:white;" class="form-control" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                            <div class="form-group btn-group" style="width:100%;">
-                                                <button id="show_total_pax_bus" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                                <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
-                                                    <div class="row" style="padding:10px;">
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} 3+)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-bus" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_adult" name="bus_adult" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-bus" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">{% trans 'Infant' %}<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">({% trans 'Age' %} < 3)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-infant-bus btn-custom-circle" id="left-minus-infant-bus" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="bus_infant" name="bus_infant" value="0" readonly>
-                                                                <button type="button" class="right-plus-infant-bus btn-custom-circle" id="right-plus-infant-bus" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="text-align:right;">
-                                                            <hr/>
-                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('bus','passenger');">Done</button>
-                                                        </div>
-                                                    </div>
-                                                </ul>
                                             </div>
                                         </div>
                                         <input type="hidden" id="bus_response" name="response"/>
@@ -1228,6 +1191,17 @@
                 {% endif %}
             }catch(err){
                 document.getElementById('bus_destination').value = '{{bus_destination}}';
+            }
+
+            var now = moment().format('DD MMM YYYY');
+            try{
+                {% if cache.bus.departure %}
+                    bus_date = '{{cache.bus.departure}}';
+                {% else %}
+                    bus_date = now;
+                {% endif %}
+            }catch(err){
+                bus_date = now;
             }
 
             var picker_bus_departure = new Lightpick({
