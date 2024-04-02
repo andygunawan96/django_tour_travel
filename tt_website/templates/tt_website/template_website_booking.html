@@ -739,6 +739,10 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{text_color}} !important;
         }
         .primary-btn:hover {
+            background: {{hover_color}} !important;
+            color: {{text_color}} !important;
+        }
+        .primary-btn:hover {
             background: {{color}};
         }
         .primary-btn-white:hover{
@@ -1352,8 +1356,10 @@ Licence URI: http://www.os-templates.com/template-terms
         .nav-menu ul li:hover > a {
             color: {{color}};
         }
-        .banner-right .form-wrap .form-control:focus {
+        .btn_w_hover:focus {
             border: 1px solid {{color}};
+            background: {{hover_color}} !important;
+            color: {{text_color}};
         }
         .single-footer-widget ul li a:hover {
             color: {{color}};

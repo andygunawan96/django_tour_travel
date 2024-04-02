@@ -11556,7 +11556,7 @@ function airline_get_booking(data, sync=false){
                     text_detail+=`
                     <div class="row">
                         <div class="col-lg-12" style="text-align:left;">
-                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
                             share_data();
                             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                             if (isMobile) {
@@ -17875,7 +17875,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
     <div class="col-lg-12" style="padding-bottom:10px;">
     <hr/>
-    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
     share_data();
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
@@ -19271,7 +19271,7 @@ function airline_get_booking_refund(data){
 //                text_detail+=`<div class="row">
 //                <div class="col-lg-12" style="padding-bottom:10px;">
 //                    <hr/>
-//                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+//                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
 //                    share_data();
 //                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 //                    if (isMobile) {

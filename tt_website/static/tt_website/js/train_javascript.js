@@ -973,13 +973,13 @@ function train_get_detail(){
                         <a class="share-btn-popup whatsapp" href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/> Whatsapp</a>
                         <a class="share-btn-popup line" href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/> Line</a>
                         <a class="share-btn-popup telegram" href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/> Telegram</a>
-                        <a class="share-btn-popup facebook" href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/> Email</a>`;
+                        <a class="share-btn-popup email" href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/> Email</a>`;
                 } else {
                     train_share+=`
                         <a class="share-btn-popup whatsapp" href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/whatsapp.png" alt="Whatsapp"/> Whatsapp</a>
                         <a class="share-btn-popup line" href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/line.png" alt="Line"/> Line</a>
                         <a class="share-btn-popup telegram" href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/> Telegram</a>
-                        <a class="share-btn-popup facebook" href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/> Email</a>`;
+                        <a class="share-btn-popup email" href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" target="_blank"><img style="height:20px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/> Email</a>`;
                 }
                 train_share +=`
                 </div>
@@ -1628,7 +1628,7 @@ function train_detail(){
     text+=`
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
-            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
+            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share this on:</span><br/>`;
             share_data();
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
@@ -1644,21 +1644,26 @@ function train_detail(){
                     <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/telegram.png" alt="Telegram"/></a>
                     <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website/images/logo/apps/email.png" alt="Email"/></a>`;
             }
-    text+=`
+            text+=`
+            <div style="float:right">
+                <button class="btn_standard_sm" type="button" onclick="copy_data();">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
         </div>
-    </div>
+    </div>`;
 
-    <div class="row">
-        <div class="col-lg-12" style="padding-bottom:10px;">
-            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
-        </div>`;
+//    <div class="row">
+//        <div class="col-lg-12" style="padding-bottom:10px;">
+//            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+//        </div>`;
 //        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
 //            text+=`
 //            <div class="col-lg-12" style="padding-bottom:5px;">
 //                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show YPM"><br/>
 //            </div>`;
-        text+=`
-    </div>`;
+//        text+=`
+//    </div>`;
 
     document.getElementById('train_detail').innerHTML = text;
     var price_breakdown = {};

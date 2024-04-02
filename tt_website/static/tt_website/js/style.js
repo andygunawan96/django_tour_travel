@@ -553,7 +553,7 @@ $(document).ready(function(){
 
 
     var quantity_adult_bus = parseInt($('#bus_adult').val());
-    $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
+    $('#show_total_pax_bus').text(quantity_adult_bus + " Passengers");
 
     $('.right-plus-adult-bus').click(function(e){
         // Stop acting like a button
@@ -566,7 +566,7 @@ $(document).ready(function(){
             $('#bus_adult').val(quantity + 1);
             quantity_adult_bus = quantity + 1;
 
-            $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
+            $('#show_total_pax_bus').text(quantity_adult_bus + " Passengers");
         }
 
         if (quantity_adult_bus == 4){
@@ -589,7 +589,7 @@ $(document).ready(function(){
             $('#bus_adult').val(quantity - 1);
             quantity_adult_bus = quantity - 1;
 
-            $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
+            $('#show_total_pax_bus').text(quantity_adult_bus + " Passengers");
         }
 
         if (quantity_adult_bus == 1){
