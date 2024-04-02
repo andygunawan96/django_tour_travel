@@ -170,7 +170,6 @@ function render_payment(){
             }
             payment_counter++;
             set_payment_method_ho();
-            set_payment(val_render,type_render);
         //            focus_box('payment_acq');
         //            document.getElementById('payment_acq').hidden = false;
         }else{
@@ -267,23 +266,25 @@ function set_payment_method_ho(){
     }catch(err){console.log(err)}
 
 
-    for(i in payment_acq2){
-        print = '';
-        if(i == 'va')
-            print = 'Virtual Account';
-        else{
-            if(document.getElementById('payment_ho_id').value == 'credit_limit' && i == 'payment_gateway'){
+    if(document.getElementById('payment_ho_id')){
+        for(i in payment_acq2){
+            print = '';
+            if(i == 'va')
+                print = 'Virtual Account';
+            else{
+                if(document.getElementById('payment_ho_id').value == 'credit_limit' && i == 'payment_gateway'){
 
-            }else{
-                data_temp = i.split('_').join(' ')
-                print = data_temp.charAt(0).toUpperCase() + data_temp.slice(1).toLowerCase();
+                }else{
+                    data_temp = i.split('_').join(' ')
+                    print = data_temp.charAt(0).toUpperCase() + data_temp.slice(1).toLowerCase();
+                }
             }
+            if(print)
+                text+=`<option value="`+i+`">`+print+`</option>`;
         }
-        if(print)
-            text+=`<option value="`+i+`">`+print+`</option>`;
+        document.getElementById('payment_via').innerHTML = text
+        $('#payment_via').niceSelect('update');
     }
-    document.getElementById('payment_via').innerHTML = text
-    $('#payment_via').niceSelect('update');
 
     set_payment(val_render,type_render);
 }
